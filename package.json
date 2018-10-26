@@ -10,6 +10,8 @@
     "lodash": "^4.17.11",
     "react": "16.6.0-alpha.8af6728",
     "react-native": "0.57.3",
+    "react-native-calendars": "^1.21.0",
+    "react-native-linear-gradient": "^2.4.2",
     "react-navigation": "^2.18.1",
     "react-redux": "^5.0.7",
     "redux": "^4.0.1",

@@ -11,6 +11,7 @@ import {
 } from "react-native";
 
 import { SafeAreaView } from 'react-navigation';
+import LinearGradient from 'react-native-linear-gradient';
 import Button from "../button";
 import Connect from '@stores';
 const { width, height } = Dimensions.get("window");
@@ -18,7 +19,7 @@ const { width, height } = Dimensions.get("window");
 class Header extends Component {
 
 	static defaultProps = {
-		headercolor: "#FFF",
+		headercolor: "transparent",
 		// reading: false
 	};
 
@@ -93,7 +94,11 @@ class Header extends Component {
 		// const Opacity = this.props.reading === true ? { opacity: this.state.fadeAnim } : null;
 		// this.props.center ? this.showCenter() : this.hideCenter()
 		return (
-			<View style={[style.container, { backgroundColor: this.props.headercolor }]}>
+			<LinearGradient
+				colors={['#4A89E8', '#8FBCFF']}
+				start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+				// style={[style.container, { backgroundColor: this.props.headercolor }]}
+				>
 				{/* <View style={[style.container,{backgroundColor: this.props.headercolor	}]}> */}
 				<View style={style.wrapper}>
 					<View>
@@ -135,7 +140,7 @@ class Header extends Component {
 						}
 					</View>
 				</View>
-			</View>
+			</LinearGradient>
 			// </View> 
 		);
 	}
