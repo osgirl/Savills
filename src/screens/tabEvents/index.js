@@ -6,8 +6,9 @@ import IC_MENU from "@resources/icons/icon_tabbar_active.png";
 
 import LinearGradient from 'react-native-linear-gradient';
 import { Calendar } from "../../components/calendars";
+import Layout from './layout';
 
-export default class TabEvent extends Component {
+export default class TabEvent extends Layout {
 
     constructor(props) {
         super(props);
@@ -49,7 +50,7 @@ export default class TabEvent extends Component {
                         elevation: 2
                     },
                     text: {
-                        color: 'black',
+                        color: '#4A89E8',
                         fontWeight: 'bold'
                     },
                 }
@@ -57,47 +58,4 @@ export default class TabEvent extends Component {
         })
         return markedDateMap;
     }
-
-
-    render() {
-        let dataSelected = this.mapObjectSelected();
-        return (
-            <View style={styles.container}>
-                <ScrollView>
-                    <LinearGradient
-                        colors={['#4A89E8', '#8FBCFF']}
-                        start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                        style={styles.linearGradient}>
-                        <Calendar
-                            minDate={'2017-05-10'}
-                            maxDate={'2020-01-01'}
-                            onDayPress={this.onDayPress}
-                            style={styles.calendar}
-                            backgroundColor={'transparent'}
-                            markingType={'custom'}
-                            markedDates={dataSelected}
-                            theme={{
-                                todayTextColor: '#343D4D',
-                                arrowColor: '#FFF',
-                                selectedDayBackgroundColor: '#fff',
-                                monthTextColor: '#FFF',
-                                textSectionTitleColor: '#FFF',
-                                textDayHeaderFontSize: 15,
-                                selectedDayTextColor: '#4A89E8',
-                            }}
-                        />
-                    </LinearGradient>
-                </ScrollView>
-            </View>
-        );
-    }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    }
-});

@@ -19,7 +19,7 @@ export const textDayHeaderFontFamily = 'System';
 
 export const textMonthFontWeight = '900';
 
-export const textDayFontSize = 15;
+export const textDayFontSize = 16;
 export const textMonthFontSize = 16;
 export const textDayHeaderFontSize = 13;
 

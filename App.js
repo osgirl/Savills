@@ -21,6 +21,7 @@ Object.keys(Screens).forEach(name => {
 const Stack = createStackNavigator(stacks, {
 	initialRouteName: "Launcher",
 	navigationOptions: ({ navigation }) => ({
+		
 		header: null,
 		gesturesEnabled: false,
 
@@ -40,8 +41,11 @@ const DrawerNavigator = createDrawerNavigator({
 	}
 }, {
 		contentComponent: Screens.Drawer,
-		drawerWidth: Resolution.scaleWidth(600)
-	}
+		drawerWidth: Resolution.scaleWidth(600),
+		navigationOptions: {
+			// drawerLockMode: 'locked-closed',
+		}
+	},
 );
 
 export default class App extends Component {
