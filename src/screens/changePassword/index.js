@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Connect from '@stores';
-import layout from './layout';
+import Layout from './layout';
 
 import Header from '@components/header'
 import IC_BACK from "@resources/icons/back-dark.png";
 
-class SelectApartment extends layout {
+class ChangePassword extends Layout {
 
     static navigationOptions = ({ navigation }) => ({
         header: <Header
@@ -22,4 +22,5 @@ class SelectApartment extends layout {
 
 }
 
-export default Connect(SelectApartment);
+export default Connect(ChangePassword);
+

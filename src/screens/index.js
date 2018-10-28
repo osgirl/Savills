@@ -4,6 +4,8 @@ import Launcher from './launcher';
 import Login from './login';
 import SelectProject from "./selectProject";
 import SelectApartment from "./selectApartment";
+import ForgotPassword from "./forgotPassword";
+import ChangePassword from "./changePassword";
 import Events from './events';
 
 
@@ -14,6 +16,8 @@ export {
     Login,
     SelectProject,
     SelectApartment,
+    ForgotPassword,
+    ChangePassword,
     Events
 
 }

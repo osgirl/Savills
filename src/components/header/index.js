@@ -19,87 +19,25 @@ const { width, height } = Dimensions.get("window");
 class Header extends Component {
 
 	static defaultProps = {
-		headercolor: "transparent",
+		headercolor: "#FFF",
 		// reading: false
 	};
 
 	constructor(props) {
 		super(props);
-		// this.state = {
-		// 	fadeAnim: new Animated.Value(1),
-		// 	fadeAnimCenter: new Animated.Value(0)
-		// };
-		// this.barsShown = true;
 	}
 
-	// componentDidMount() {
-	// 	setTimeout(() => {
-	// 		if (this.props.shown) {
-	// 			this.show();
-	// 		} else {
-	// 			this.hide();
-	// 		}
-	// 	}, 1000);
-	// }
-
-	// componentDidUpdate(prevProps, prevState) {
-	// 	if (prevProps.shown !== this.props.shown) {
-	// 		if (this.props.shown) {
-	// 			this.show();
-	// 		} else {
-	// 			this.hide();
-	// 		}
-	// 	}
-	// }
-
-	// show() {
-	// 	const timing = Animated.timing;
-	// 	timing(this.state.fadeAnim, {
-	// 		toValue: 1,
-	// 		duration: 200
-	// 	}).start();
-	// 	this.barsShown = true;
-	// }
-
-	// hide() {
-	// 	const timing = Animated.timing;
-	// 	timing(this.state.fadeAnim, {
-	// 		toValue: 0,
-	// 		duration: 200
-	// 	}).start();
-	// 	this.barsShown = false;
-	// }
-
-	// showCenter() {
-	// 	Animated.timing(
-	// 		this.state.fadeAnimCenter,
-	// 		{
-	// 			toValue: 1,
-	// 			duration: 5000,
-	// 		}
-	// 	).start();
-	// }
-
-	// hideCenter() {
-	// 	Animated.timing(
-	// 		this.state.fadeAnimCenter,
-	// 		{
-	// 			toValue: 0,
-	// 			duration: 5000,
-	// 		}
-	// 	).start();
-	// }
-
-	render() {
-		// const Opacity = this.props.reading === true ? { opacity: this.state.fadeAnim } : null;
-		// this.props.center ? this.showCenter() : this.hideCenter()
+	renderContent() {
+		let fixHeader = this.props.headercolor === 'transparent' && !this.props.LinearGradient ? true : false;
 		return (
-			<LinearGradient
-				colors={['#4A89E8', '#8FBCFF']}
-				start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-				// style={[style.container, { backgroundColor: this.props.headercolor }]}
-				>
-				{/* <View style={[style.container,{backgroundColor: this.props.headercolor	}]}> */}
+			<View
+				style={[style.container,
+				{
+					backgroundColor: this.props.headercolor,
+					position: fixHeader ? 'absolute' : 'relative',
+					top: fixHeader && Platform.OS === "ios" ? 20 : 0
+				}]}>
+
 				<View style={style.wrapper}>
 					<View>
 						{
@@ -140,9 +78,26 @@ class Header extends Component {
 						}
 					</View>
 				</View>
-			</LinearGradient>
-			// </View> 
-		);
+			</View>
+		)
+	}
+
+	render() {
+		if (this.props.LinearGradient) {
+			return (
+				<LinearGradient
+					colors={['#4A89E8', '#8FBCFF']}
+					start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+				>
+					{this.renderContent()}
+				</LinearGradient>
+			);
+		} else {
+			return (
+				this.renderContent()
+			);
+		}
+
 	}
 
 	renderTitle() {
@@ -161,8 +116,7 @@ class Header extends Component {
 
 const style = StyleSheet.create({
 	container: {
-		// height: Platform.OS === "ios" ? 80 : 60,
-		// height: Platform.OS === "ios" ? 80 : 60,
+		height: Platform.OS === "ios" ? 80 : 60,
 		justifyContent: 'center',
 	},
 	wrapper: {
