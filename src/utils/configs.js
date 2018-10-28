@@ -5,8 +5,8 @@ const configs = {
     VERSION: "1.0.0",
     // API: '',
     Platform: Platform.OS,
-    DEFAULT_WIDTH: 750,
-    DEFAULT_HEIGHT: 1334,
+    DEFAULT_WIDTH: 375,
+    DEFAULT_HEIGHT: 666,
     colorMain: '#ED0677',
     Shadow: {
         borderColor: "#ccc",

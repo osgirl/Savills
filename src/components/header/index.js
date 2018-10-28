@@ -12,7 +12,7 @@ import {
 
 import { SafeAreaView } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
-import Button from "../button";
+import ButtonCustom from "../buttonCustom";
 import Connect from '@stores';
 const { width, height } = Dimensions.get("window");
 
@@ -104,7 +104,7 @@ class Header extends Component {
 					<View>
 						{
 							this.props.leftIcon &&
-							<Button
+							<ButtonCustom
 								background={this.props.headercolor}
 								haveMargin={false}
 								onPress={this.props.leftAction || null}
@@ -122,14 +122,14 @@ class Header extends Component {
 							this.props.rightIcon ?
 								<View style={{ flexDirection: 'row' }}>
 									{
-										this.props.rightIconL ? <Button
+										this.props.rightIconL ? <ButtonCustom
 											background={this.props.headercolor}
 											haveMargin={false}
 											onPress={this.props.rightActionL || null}
 											icon={this.props.rightIconL} /> : null
 									}
 
-									<Button
+									<ButtonCustom
 										background={this.props.headercolor}
 										haveMargin={false}
 										onPress={this.props.rightAction || null}

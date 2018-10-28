@@ -11,9 +11,6 @@ import {
     Image
 } from "react-native";
 
-import { SafeAreaView } from 'react-navigation';
-import LinearGradient from 'react-native-linear-gradient';
-import Button from "../button";
 import Connect from '@stores';
 const { width, height } = Dimensions.get("window");
 import Resolution from "../../utils/resolution";
