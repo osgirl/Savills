@@ -35,25 +35,25 @@ const Stack = createStackNavigator(stacks, {
 	}),
 });
 
-const DrawerNavigator = createDrawerNavigator({
-	Events: {
-		screen: Stack
-	}
-}, {
-		contentComponent: Screens.Drawer,
-		drawerWidth: Resolution.scaleWidth(600),
-		navigationOptions: {
-			// drawerLockMode: 'locked-closed',
-		}
-	},
-);
+// const DrawerNavigator = createDrawerNavigator({
+// 	Events: {
+// 		screen: Stack
+// 	}
+// }, {
+// 		contentComponent: Screens.Drawer,
+// 		drawerWidth: Resolution.scaleWidth(600),
+// 		navigationOptions: {
+// 			// drawerLockMode: 'locked-closed',
+// 		}
+// 	},
+// );
 
 export default class App extends Component {
 
 	render() {
 		return (
 			<Provider store={Stores}>
-				<DrawerNavigator />
+				<Stack />
 			</Provider>
 		)
 	}
