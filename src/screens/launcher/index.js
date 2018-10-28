@@ -5,7 +5,7 @@ class Launcher extends layout {
 
     componentWillMount() {
         setTimeout(() => {
-            this.props.navigation.navigate('Events')
+            this.props.navigation.navigate('Login')
         }, 100)
     }
 

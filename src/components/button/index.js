@@ -74,6 +74,16 @@ export default class Button extends Component {
                         {this.renderContentIcon()}
                     </View>
                 );
+            case 'text':
+                return (
+                    <View style={style.contentContainer}>
+                        {
+                            this.props.icon !== '' && this.props.text !== '' &&
+                            <View style={style.separator} />
+                        }
+                        {this.renderContentText()}
+                    </View>
+                );
         }
     }
 
