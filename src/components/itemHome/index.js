@@ -9,13 +9,14 @@ import {
 } from "react-native";
 
 import Resolution from "@utils/resolution";
-export default class ItemProjectApartment extends Component {
+import Utils from "../../utils";
+export default class ItemHome extends Component {
 
     render() {
         const item = this.props.item;
         return (
             <View style={Styles.container}>
-                <Image source={this.props.image} />
+                <Image source={Utils.mapItemHome(item.key)} />
                 <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10 }}>{item.title}</Text>
             </View>
         );
@@ -27,9 +28,10 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        width: Resolution.scaleWidth(136),
-        height: Resolution.scaleHeight(136),
+        width: Resolution.scaleWidth(157),
+        height: Resolution.scaleHeight(157),
         backgroundColor: '#FFFFFF',
+        margin: 10,
 
         shadowColor: '#4A89E8',
         shadowOpacity: 0.2,

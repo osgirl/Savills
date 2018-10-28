@@ -6,6 +6,7 @@ import SelectProject from "./selectProject";
 import SelectApartment from "./selectApartment";
 import ForgotPassword from "./forgotPassword";
 import ChangePassword from "./changePassword";
+import Home from "./home";
 import Events from './events';
 
 
@@ -18,6 +19,7 @@ export {
     SelectApartment,
     ForgotPassword,
     ChangePassword,
+    Home,
     Events
 
 }
