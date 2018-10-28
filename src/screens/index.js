@@ -1,14 +1,19 @@
-import MainTab from "./mainTab";
+// import MainTab from "./mainTab";
 import Launcher from './launcher';
-import Drawer from './drawer';
+// import Drawer from './drawer';
 import Login from './login';
+import SelectProject from "./selectProject";
+import SelectApartment from "./selectApartment";
 import Events from './events';
 
+
 export {
-    MainTab,
+    // MainTab,
     Launcher,
-    Drawer,
+    // Drawer,
     Login,
+    SelectProject,
+    SelectApartment,
     Events
-    
+
 }
