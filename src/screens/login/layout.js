@@ -31,6 +31,7 @@ export default class extends Component {
                         color={'#4A89E8'}
                         onPress={() => { }}
                         text="language"
+                        fontFamily={'OpenSans-Regular'}
                     />
                 </View>
                 <View style={{ marginTop: 105 }}>
@@ -59,7 +60,7 @@ export default class extends Component {
                             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                             style={Style.btnLogin}
                         >
-                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13 }}>Login</Text>
+                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'OpenSans-SemiBold' }}>Login</Text>
                         </LinearGradient>
                     </Button>
 

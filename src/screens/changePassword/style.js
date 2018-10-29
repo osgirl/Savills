@@ -14,7 +14,8 @@ const style = StyleSheet.create({
         fontSize: 15,
         color: '#505E75',
         textAlign: 'center',
-        marginHorizontal: 60
+        marginHorizontal: 60,
+        fontFamily: 'OpenSans-Bold'
     },
     btnLanguage: {
         position: 'absolute', top: Platform.OS !== 'ios' ? 20 : 40, right: 20

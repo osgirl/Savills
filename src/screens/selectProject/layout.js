@@ -16,9 +16,9 @@ import Style from "./style";
 
 let DATA = [
     { id: 1, title: 'TheSun Avinue' },
-    { id: 1, title: 'TheSun Avinue' },
-    { id: 1, title: 'TheSun Avinue' },
-    { id: 1, title: 'TheSun Avinue' }
+    { id: 2, title: 'TheSun Avinue' },
+    { id: 3, title: 'TheSun Avinue' },
+    { id: 4, title: 'TheSun Avinue' }
 ]
 
 export default class extends Component {
@@ -30,7 +30,7 @@ export default class extends Component {
                 resizeMode={'contain'}
                 style={Style.container}
             >
-                <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123 }}>
+                <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123, fontFamily: 'OpenSans-Bold' }}>
                     Choose Your Project
                 </Text>
                 <View style={Style.viewBottom}>

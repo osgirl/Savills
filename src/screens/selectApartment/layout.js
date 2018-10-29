@@ -16,12 +16,12 @@ import Style from "./style";
 
 let DATA = [
     { id: 1, title: 'T1-A03-01' },
-    { id: 1, title: 'T1-A03-01' },
-    { id: 1, title: 'T1-A03-01' },
-    { id: 1, title: 'T1-A03-01' },
-    { id: 1, title: 'T1-A03-01' },
-    { id: 1, title: 'T1-A03-01' },
-    { id: 1, title: 'T1-A03-01' }
+    { id: 2, title: 'T1-A03-01' },
+    { id: 3, title: 'T1-A03-01' },
+    { id: 4, title: 'T1-A03-01' },
+    { id: 5, title: 'T1-A03-01' },
+    { id: 6, title: 'T1-A03-01' },
+    { id: 7, title: 'T1-A03-01' }
 ]
 
 export default class extends Component {
@@ -33,7 +33,7 @@ export default class extends Component {
                 resizeMode={'contain'}
                 style={Style.container}
             >
-                <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123 }}>
+                <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123, fontFamily: 'Opensans-Bold' }}>
                     Choose Your apartment
                 </Text>
                 <View style={Style.viewBottom}>

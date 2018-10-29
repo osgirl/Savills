@@ -68,7 +68,7 @@ export default class Layout extends Component {
         Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
         this.setState({
             items: newItems
-        });
+        }); 
         // }, 1000);
         // console.log(`Load Items for ${day.year}-${day.month}`);
          console.log('____',this.state.item);

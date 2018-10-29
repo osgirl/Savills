@@ -49,7 +49,7 @@ export default class extends Component {
                             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                             style={Style.btnSave}
                         >
-                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13 }}>Send</Text>
+                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'OpenSans-SemiBold' }}>Send</Text>
                         </LinearGradient>
                     </Button>
                 </View>

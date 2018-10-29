@@ -17,7 +17,7 @@ export default class ItemHome extends Component {
         return (
             <View style={Styles.container}>
                 <Image source={Utils.mapItemHome(item.key)} />
-                <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10 }}>{item.title}</Text>
+                <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.title}</Text>
             </View>
         );
     }

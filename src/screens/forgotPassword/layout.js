@@ -37,7 +37,7 @@ export default class extends Component {
                             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                             style={Style.btnSent}
                         >
-                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13 }}>Send</Text>
+                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'Opensans-SemiBold' }}>Send</Text>
                         </LinearGradient>
                     </Button>
                 </View>

@@ -17,7 +17,8 @@ export default class Button extends Component {
         text: "",
         haveMargin: true,
         icon: "",
-        display: 'icon'
+        display: 'icon',
+        fontFamily: 'OpenSans-SemiBold'
     };
 
     static propTypes = {
@@ -33,7 +34,7 @@ export default class Button extends Component {
 
     renderContentText() {
         return (this.props.text !== '') &&
-            <Text style={[style.text, { color: this.props.color, fontSize: this.props.fontSize }]}>{this.props.text}</Text>
+            <Text style={[style.text, { color: this.props.color, fontSize: this.props.fontSize, fontFamily: this.props.fontFamily }]}>{this.props.text}</Text>
     }
 
     renderContentIcon() {

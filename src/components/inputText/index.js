@@ -75,10 +75,9 @@ const Styles = StyleSheet.create({
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                shadowColor: '#796EFF',
+                shadowColor: '#4A89E8',
                 shadowOffset: { width: 0, height: 3, },
                 shadowOpacity: 0.2,
-                marginVertical: 20,
                 shadowRadius: 10,
 
             } : {
@@ -89,7 +88,7 @@ const Styles = StyleSheet.create({
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 // elevation: 3,
-                // shadowColor: '#796EFF',
+                // shadowColor: '#4A89E8',
                 // shadowOffset: { width: 0, height: 3, },
                 // shadowOpacity: 0.1,
                 // shadowRadius: 10,
