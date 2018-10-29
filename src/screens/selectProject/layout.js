@@ -35,7 +35,7 @@ export default class extends Component {
                 </Text>
                 <View style={Style.viewBottom}>
                     <FlatList
-                        data={this.props.account.tenantLocal && this.props.account.tenantLocal}
+                        data={this.props.account.tenant && this.props.account.tenant}
                         horizontal
                         contentContainerStyle={{ paddingVertical: 5 }}
                         keyExtractor={(item) => item.tenantId + ''}

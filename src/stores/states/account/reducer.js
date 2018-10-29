@@ -105,7 +105,6 @@ export default createReducer(INIT_STATE, {
     },
 
     [Types.LINKEDACCOUNTAUTHEN_SUCCESS]: (state, action) => {
-        console.log('LINKEDACCOUNTAUTHEN_SUCCESS____', action)
         try {
             return {
                 ...state,
@@ -124,6 +123,16 @@ export default createReducer(INIT_STATE, {
             linkedAccountAuthenticate: {},
         };
     },
+
+
+    // !   SET_IS_GETACCESSTOKEN_API
+    [Types.SET_IS_GETACCESSTOKEN_API]: (state, action) => {
+        return {
+            ...state,
+            isGetAccessTokenAPI: action.payload
+        };
+    },
+
 
     // !SET = Get ACCESSTOKEN
     [Types.SET_ACCESSTOKEN_SUCCESS]: (state, action) => {

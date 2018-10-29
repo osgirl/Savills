@@ -11,7 +11,8 @@ class Login extends layout {
             isModalLanguage: false,
             selectedItem: 1,
             username: '',
-            password: ''
+            password: '',
+            flag: true
         }
     }
 
@@ -19,33 +20,49 @@ class Login extends layout {
         // console.log('____', this.props)
     }
 
-    componentWillReceiveProps(nextProps) {
+    async componentWillReceiveProps(nextProps) {
         if (nextProps.account.accessToken && nextProps.account.accessToken.length > 0 && !nextProps.account.isGetAccessToken) {
-            this.props.actions.account.setAccessTokenLocal(nextProps.account.accessToken);
-            this.props.actions.account.getTenant(nextProps.account.accessToken);
+            await this.props.actions.account.setAccessTokenLocal(nextProps.account.accessToken);
+            await this.props.actions.account.getTenant(nextProps.account.accessToken);
         }
         if (_.isEmpty(this.props.account.tenantLocal) && nextProps.account.tenant && nextProps.account.tenant.length > 0 && !nextProps.account.isGetTenant) {
             let tenantList = nextProps.account.tenant;
             if (tenantList && tenantList.length === 1) {
-                this.props.actions.account.setTenantLocal(tenantList[0]);
-                this.props.actions.account.switchToUserAccount(this.props.account.accessToken, tenantList[0].tenantId, tenantList[0].id);
-                this._gotoChooseApartment();
+                await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, tenantList[0].tenantId, tenantList[0].id);
             } else {
-                this.props.actions.account.setTenantLocal(tenantList);
-                this._gotoChooseProject();
+                await this._gotoChooseProject();
             }
-
-            // if (tenantList && tenantList.length > 0 && tenantList.length === 1) {
-
-            // } else {
-            //     let accessToken = this.props.account.accessToken;
-            //     tenantList.map(item => {
-            //         let tenantID = item.tenantId;
-            //         let userID = item.id;
-            //         this.props.actions.account.switchToUserAccount(accessToken, tenantID, userID);
-            //     })
-            // }
         }
+
+
+        if (_.isEmpty(nextProps.account.linkedAccountAuthenticate) && !nextProps.account.isGetSwichToUserAccount) {
+            let accessToken = this.props.account.accessToken;
+            let Token = nextProps.account.switchAccount.switchAccountToken;
+            await this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
+        }
+
+        if (!_.isEmpty(nextProps.account.linkedAccountAuthenticate) && !nextProps.account.isGetAccessTokenAPI) {
+            await this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.accessToken);
+            await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.accessToken);
+            await this.props.actions.account.setIsAccessTokenAPI();
+        }
+
+        if (nextProps.units.statusGetUnit === 100 && this.state.flag) {
+            if (nextProps.units.listUnits.items && nextProps.units.listUnits.items.length === 1) {
+                await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.items[0]);
+                await this.props.navigation.navigate('Home');
+            } else {
+                this._gotoChooseApartment(this.props.account.tenantLocal);
+            }
+            this.setState({ flag: false })
+        }
+
+
+
+
+
+
+
     }
 
     _login(username, password) {
@@ -60,8 +77,12 @@ class Login extends layout {
         this.props.navigation.navigate('SelectProject');
     }
 
-    _gotoChooseApartment() {
-        this.props.navigation.navigate('SelectApartment');
+    _gotoChooseApartment(project) {
+        this.props.navigation.navigate('SelectApartment', { project: project, isLogin: true });
+    }
+
+    _gotoForgotPassword() {
+        this.props.navigation.navigate('ForgotPassword');
     }
 
 

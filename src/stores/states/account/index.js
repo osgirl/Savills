@@ -11,4 +11,5 @@ export default keymirror({
     GET_ACCESSTOKEN_API: null,
     SET_TENNANT_LOCAL: null,
     GET_TENNANT_LOCAL: null,
+    SET_IS_GETACCESSTOKEN_API: null
 }, "ACCOUNT_");

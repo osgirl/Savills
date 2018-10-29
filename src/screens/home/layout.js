@@ -3,7 +3,8 @@ import {
     View,
     Text,
     Image,
-    FlatList
+    FlatList,
+    Animated
 } from 'react-native';
 
 import ItemHome from "@components/itemHome";
@@ -26,6 +27,27 @@ let DATA = [
 
 export default class extends Component {
 
+    handleScroll = (event) => {
+        Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            {
+                listener: event => {
+                    if (event.nativeEvent.contentOffset.y > 70) {
+                        if (!this.showCenter) {
+                            this.showCenter = true
+                            this.props.navigation.setParams({ isHidenHeaderHome: true })
+                        }
+                    } else {
+                        if (this.showCenter) {
+                            this.showCenter = false
+                            this.props.navigation.setParams({ isHidenHeaderHome: false });
+                        }
+                    }
+                }
+            }
+        )(event)
+    }
+
     render() {
         return (
             <View style={Style.container}>
@@ -40,6 +62,7 @@ export default class extends Component {
                                 item={item}
                             />
                         }}
+                        onScroll={this.handleScroll}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
                         ItemSeparatorComponent={() => <View style={{ width: 20 }} />}

@@ -1,19 +1,26 @@
 import Connect from '@stores';
 import layout from './layout';
 
+import _ from "lodash";
+
 class Launcher extends layout {
 
-    componentWillMount() {
-        this.props.navigation.navigate('Login');
-    }
+    async componentDidMount() {
+        Promise.all([
+            await this.props.actions.account.getAccessTokenLocal(),
+            await this.props.actions.account.getTenantLocal(),
+            await this.props.actions.account.getAccessApiTokenLocal(),
+            await this.props.actions.units.getUnitLocal()
+        ]);
 
-    async componentDidMount(){
-        await this.props.actions.account.getAccessTokenLocal();
-        await this.props.actions.account.getTenantLocal();
-        
-        // if (this.props.account.accessToken && this.props.account.tenantLocal) {
-            
-        // }
+        if (this.props.account.accessToken.length > 0
+            && this.props.account.accessTokenAPI.length > 0
+            && !_.isEmpty(this.props.account.tenantLocal)
+            && !_.isEmpty(this.props.units.unitActive)) {
+            this.props.navigation.navigate('Home');
+        } else {
+            this.props.navigation.navigate('Login');
+        }
     }
 
 }

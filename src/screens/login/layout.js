@@ -126,7 +126,7 @@ export default class extends Component {
                             fontSize={12}
                             haveMargin={false}
                             color={'#BABFC8'}
-                            onPress={() => { }}
+                            onPress={() => this._gotoForgotPassword()}
                             text="Forgot Password?"
                         />
                     </View>

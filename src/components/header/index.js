@@ -39,17 +39,22 @@ class Header extends Component {
 				}]}>
 
 				<View style={style.wrapper}>
-					<View>
-						{
-							this.props.leftIcon &&
-							<ButtonCustom
-								background={this.props.headercolor}
-								haveMargin={false}
-								onPress={this.props.leftAction || null}
-								icon={this.props.leftIcon}
-							/>
-						}
-					</View>
+					{
+						this.props.customViewLeft ?
+							this.props.renderViewLeft :
+							<View>
+								{
+									this.props.leftIcon &&
+									<ButtonCustom
+										background={this.props.headercolor}
+										haveMargin={false}
+										onPress={this.props.leftAction || null}
+										icon={this.props.leftIcon}
+									/>
+								}
+							</View>
+					}
+
 					<View>
 						{this.props.center && typeof this.props.center !== 'string'
 							? this.props.center()

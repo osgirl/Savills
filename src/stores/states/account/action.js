@@ -51,6 +51,13 @@ export function linkedAccountAuthenticate(accessToken = '', switchAccountToken =
     }
 }
 
+export function setIsAccessTokenAPI(bool = true) {
+    return {
+        type: Types.SET_IS_GETACCESSTOKEN_API,
+        payload: bool
+    }
+}
+
 // ! set accessToken
 export function setAccessTokenLocal(data) {
     return {
