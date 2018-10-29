@@ -4,9 +4,16 @@ import layout from './layout';
 class Launcher extends layout {
 
     componentWillMount() {
-        setTimeout(() => {
-            this.props.navigation.navigate('Home')
-        }, 100)
+        this.props.navigation.navigate('Login');
+    }
+
+    async componentDidMount(){
+        await this.props.actions.account.getAccessTokenLocal();
+        await this.props.actions.account.getTenantLocal();
+        
+        // if (this.props.account.accessToken && this.props.account.tenantLocal) {
+            
+        // }
     }
 
 }

@@ -3,6 +3,8 @@ import {
     Platform
 } from 'react-native';
 
+import Resolution from "../../utils/resolution";
+
 const style = StyleSheet.create({
     container: {
         flex: 1,
@@ -22,6 +24,18 @@ const style = StyleSheet.create({
     btnLogin: {
         alignItems: 'center',
         borderRadius: 33
+    },
+    modalContent: {
+        backgroundColor: "white",
+        marginBottom: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        height: Resolution.scaleHeight(180),
+        borderRadius: 8
+    },
+    errorTextinput: {
+        borderWidth: 1,
+        borderColor: '#D75A4A'
     }
 })
 

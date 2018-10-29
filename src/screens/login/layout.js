@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    Image
+    Image,
+    Dimensions
 } from 'react-native';
 
 import ButtonCustom from "@components/buttonCustom";
 import Button from "@components/button";
 import InputText from "@components/inputText";
 import LinearGradient from 'react-native-linear-gradient';
+import Picker from 'react-native-wheel-picker';
+import Modal from "react-native-modal";
 import Resolution from "@utils/resolution";
 
 import IC_EMAIL from "@resources/icons/ID.png";
@@ -18,18 +21,62 @@ import IMG_LOGIN from "../../resources/image/imgLogin.png";
 
 import Style from "./style";
 
+const { width } = Dimensions.get('window');
+
+let DATA_LANGUAGE = [
+    { id: 1, title: 'Vietnamese' },
+    { id: 2, title: 'English' }
+]
+var PickerItem = Picker.Item;
 export default class extends Component {
+
+    onPickerSelect(index) {
+        try {
+            alert(index)
+            this.setState({
+                selectedItem: index,
+            })
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    renderModalContent() {
+        return (
+            <View>
+                <View style={Style.modalContent}>
+                    <Text style={{ fontSize: 13, fontFamily: 'OpenSans-Bold', marginTop: 20 }}>Select Language</Text>
+                    <Picker
+                        style={{ width: width - 20, flex: 1, justifyContent: 'center', }}
+                        selectedValue={this.state.selectedItem}
+                        itemStyle={{ color: "#333333", fontSize: 20, fontWeight: 'bold' }}
+                        onValueChange={(index) => this.onPickerSelect(index)}>
+                        {
+                            DATA_LANGUAGE.map((item, index) => (
+                                <PickerItem
+                                    label={item.title}
+                                    value={index}
+                                    key={"id_" + index}
+                                />
+                            ))
+                        }
+                    </Picker>
+                </View>
+            </View>
+        )
+    };
 
     render() {
         return (
             <View style={Style.container}>
-                <View style={Style.btnLanguage}>
+                <View style={[Style.btnLanguage]}>
                     <ButtonCustom
                         background={'transparent'}
                         display='text'
                         haveMargin={false}
                         color={'#4A89E8'}
-                        onPress={() => { }}
+                        onPress={() => this._toggleModalLanguage()}
                         text="language"
                         fontFamily={'OpenSans-Regular'}
                     />
@@ -42,18 +89,26 @@ export default class extends Component {
                 </View>
                 <View>
                     <InputText
-                        placeholder={'Email'}
+                        placeholder={'Username or Email'}
                         iconLeft={IC_EMAIL}
+                        onChange={(data) => {
+                            this.setState({ username: data })
+                        }}
+                        style={this.props.account.error ? Style.errorTextinput : null}
                     />
                     <InputText
                         placeholder={'Password'}
                         iconLeft={IC_PASS}
                         secureTextEntry
-                        style={{ marginVertical: 20 }}
+                        marginVertical={20}
+                        style={this.props.account.error ? Style.errorTextinput : null}
+                        onChange={(data) => {
+                            this.setState({ password: data })
+                        }}
                     />
 
                     <Button
-                        onPress={() => { }}
+                        onPress={() => this._login(this.state.username, this.state.password)}
                     >
                         <LinearGradient
                             colors={['#4A89E8', '#8FBCFF']}
@@ -76,6 +131,16 @@ export default class extends Component {
                         />
                     </View>
                 </View>
+                <Modal
+                    onBackdropPress={() => this._toggleModalLanguage()}
+                    isVisible={this.state.isModalLanguage}
+                    style={{
+                        justifyContent: "flex-end",
+                        margin: 20,
+                    }}
+                >
+                    {this.renderModalContent()}
+                </Modal>
             </View>
         );
     }

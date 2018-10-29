@@ -12,10 +12,18 @@ export default class {
         if (action.token) {
             request.headers['Authorization'] = "Bearer " + action.token;
         }
-        if ((method == "POST" || method == "DELETE" || method == "PUT") && action.body) {
-            request['body'] = JSON.stringify(action.body);
+        let url = action.api;
+        if (action.payload) {
+            if (method === "GET") {
+                url += "?" + querystring.stringify(action.payload);
+            } else {
+                request['body'] = JSON.stringify(action.payload);
+            }
         }
-        let response = await fetch(action.api, request);
-        return await response.json();
+        // console.log(url,request,action);
+        let response = await fetch(url, request);
+        let json = await response.json();
+
+        return json;
     }
 }

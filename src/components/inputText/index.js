@@ -33,6 +33,7 @@ class InputText extends Component {
                     width : width - 120,
                     marginTop: this.props.margintop,
                     marginHorizontal: this.props.marginHorizontal,
+                    marginVertical: this.props.marginVertical
                 }]}>
                 <TextInput
                     underlineColorAndroid={'transparent'}

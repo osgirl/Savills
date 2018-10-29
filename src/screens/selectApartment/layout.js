@@ -10,6 +10,8 @@ import {
 import IMG_BG from "@resources/image/ChooseApartment.png";
 import ItemProjectApartment from "../../components/itemProjectApartment";
 
+import _ from "lodash";
+
 import IC_APARTMENT from "@resources/icons/Apartment.png";
 
 import Style from "./style";
@@ -19,12 +21,25 @@ let DATA = [
     { id: 2, title: 'T1-A03-01' },
     { id: 3, title: 'T1-A03-01' },
     { id: 4, title: 'T1-A03-01' },
-    { id: 5, title: 'T1-A03-01' },
-    { id: 6, title: 'T1-A03-01' },
-    { id: 7, title: 'T1-A03-01' }
 ]
 
 export default class extends Component {
+
+    componentWillMount() {
+        const { project } = this.props.navigation.state.params;
+        let accessToken = this.props.account.accessToken;
+        this.props.actions.account.switchToUserAccount(accessToken, project.tenantId, project.id);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let accessToken = this.props.account.accessToken;
+        if (_.isEmpty(nextProps.account.linkedAccountAuthenticate) && !nextProps.account.isGetSwichToUserAccount) {
+            let Token = nextProps.account.switchAccount.switchAccountToken;
+            this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
+            console.log('_switchAccountToken___________', Token)
+        }
+
+    }
 
     render() {
         return (
@@ -44,7 +59,7 @@ export default class extends Component {
                         keyExtractor={(item) => item.id + ''}
                         renderItem={({ item, index }) => {
                             return <ItemProjectApartment
-                                item={item}
+                                title={item.title}
                                 image={IC_APARTMENT}
                             />
                         }}

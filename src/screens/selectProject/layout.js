@@ -35,13 +35,14 @@ export default class extends Component {
                 </Text>
                 <View style={Style.viewBottom}>
                     <FlatList
-                        data={DATA}
+                        data={this.props.account.tenantLocal && this.props.account.tenantLocal}
                         horizontal
                         contentContainerStyle={{ paddingVertical: 5 }}
-                        keyExtractor={(item) => item.id + ''}
+                        keyExtractor={(item) => item.tenantId + ''}
                         renderItem={({ item, index }) => {
                             return <ItemProjectApartment
-                                item={item}
+                                onPressItem={() => this._gotoChooseApartment(item)}
+                                title={item.tenancyName}
                                 image={IC_PROJECT}
                             />
                         }}

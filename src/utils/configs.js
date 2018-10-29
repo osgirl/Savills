@@ -3,7 +3,8 @@ import { Platform } from 'react-native';
 
 const configs = {
     VERSION: "1.0.0",
-    // API: '',
+    API: 'https://uat.spms.asia/core/api',
+    API_ACCOUNT: 'https://uat-accounts.spms.asia/api',
     Platform: Platform.OS,
     DEFAULT_WIDTH: 375,
     DEFAULT_HEIGHT: 666,
