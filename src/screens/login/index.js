@@ -12,7 +12,8 @@ class Login extends layout {
             selectedItem: 1,
             username: '',
             password: '',
-            flag: true
+            flag: true,
+            loading: false
         }
     }
 
@@ -31,6 +32,7 @@ class Login extends layout {
                 await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, tenantList[0].tenantId, tenantList[0].id);
             } else {
                 await this._gotoChooseProject();
+                this.setState({ loading: false })
             }
         }
 
@@ -51,13 +53,19 @@ class Login extends layout {
             if (nextProps.units.listUnits.items && nextProps.units.listUnits.items.length === 1) {
                 await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.items[0]);
                 await this.props.navigation.navigate('Home');
+                this.setState({ loading: false })
             } else {
                 this._gotoChooseApartment(this.props.account.tenantLocal);
+                this.setState({ loading: false })
             }
             this.setState({ flag: false })
         }
 
-
+        if (this.props.account.error !== nextProps.account.error) {
+            if (nextProps.account.error) {
+                this.setState({ loading: false })
+            }
+        }
 
 
 
@@ -67,6 +75,7 @@ class Login extends layout {
 
     _login(username, password) {
         this.props.actions.account.login(username, password);
+        this.setState({ loading: true })
     }
 
     _toggleModalLanguage() {

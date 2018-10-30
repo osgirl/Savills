@@ -41,9 +41,29 @@ function* linkedAccountAuthenticate(action) {
   }
 }
 
+function* sendPasswordResetCode(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.SENDCODERESETPASS_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function* resetPassword(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.RESETPASSWORD_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export default function* saga() {
   yield takeLatest(Types.LOGIN, login);
   yield takeLatest(Types.GET_TENANT, getTenant);
   yield takeLatest(Types.GET_SWITCHTOUSERACCOUNT, switchToUserAccount);
   yield takeLatest(Types.LINKEDACCOUNTAUTHEN, linkedAccountAuthenticate);
+  yield takeLatest(Types.SENDCODERESETPASS, sendPasswordResetCode);
+  yield takeLatest(Types.RESETPASSWORD, resetPassword);
 }

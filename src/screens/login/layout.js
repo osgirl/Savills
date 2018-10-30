@@ -17,8 +17,10 @@ import Resolution from "@utils/resolution";
 import IC_EMAIL from "@resources/icons/ID.png";
 import IC_PASS from "@resources/icons/password.png";
 
-import IMG_LOGIN from "../../resources/image/imgLogin.png";
+import IMG_LOGIN from "@resources/image/imgLogin.png";
 
+import Loading from "@components/loading";
+import Configs from "../../utils/configs";
 import Style from "./style";
 
 const { width } = Dimensions.get('window');
@@ -67,6 +69,16 @@ export default class extends Component {
         )
     };
 
+    renderLoading() {
+        if (this.state.loading) {
+            return <Loading
+                visible={this.state.loading}
+                onRequestClose={() => { }}
+            />
+        }
+        return null;
+    }
+
     render() {
         return (
             <View style={Style.container}>
@@ -109,6 +121,7 @@ export default class extends Component {
 
                     <Button
                         onPress={() => this._login(this.state.username, this.state.password)}
+                        style={{...Configs.ShadowButton}}
                     >
                         <LinearGradient
                             colors={['#4A89E8', '#8FBCFF']}
@@ -141,6 +154,7 @@ export default class extends Component {
                 >
                     {this.renderModalContent()}
                 </Modal>
+                {this.renderLoading()}
             </View>
         );
     }

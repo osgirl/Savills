@@ -10,10 +10,13 @@ const INIT_STATE = ({
     error: null,
     switchAccount: {},
     linkedAccountAuthenticate: {},
+    resetPassword: {},
+    sendCodeVerify: {},
     isGetAccessToken: true,
     isGetTenant: true,
     isGetAccessTokenAPI: true,
-    isGetSwichToUserAccount: true
+    isGetSwichToUserAccount: true,
+    isSendCodeVerify: true
 });
 
 export default createReducer(INIT_STATE, {
@@ -121,6 +124,61 @@ export default createReducer(INIT_STATE, {
         return {
             ...state,
             linkedAccountAuthenticate: {},
+        };
+    },
+
+
+    // ! SEND CODE RESET PASS
+    [Types.SENDCODERESETPASS]: (state, action) => {
+        return {
+            ...state,
+        };
+    },
+
+    [Types.SENDCODERESETPASS_SUCCESS]: (state, action) => {
+        // console.log('SENDCODERESETPASS_SUCCESS______', action)
+        try {
+            return {
+                ...state,
+                sendCodeVerify: action.response,
+                isSendCodeVerify: false
+            };
+        } catch (error) {
+            console.log(error);
+        }
+
+    },
+
+    [Types.SENDCODERESETPASS_FAIL]: (state, action) => {
+        return {
+            ...state,
+        };
+    },
+
+    // ! RESET PASSWORD
+    [Types.RESETPASSWORD]: (state, action) => {
+        return {
+            ...state,
+            isSendCodeVerify: true
+        };
+    },
+
+    [Types.RESETPASSWORD_SUCCESS]: (state, action) => {
+        // console.log('RESETPASSWORD_SUCCESS______', action)
+        try {
+            return {
+                ...state,
+                resetPassword: action.response
+            };
+        } catch (error) {
+            console.log(error);
+        }
+
+    },
+
+    [Types.RESETPASSWORD_FAIL]: (state, action) => {
+        return {
+            ...state,
         };
     },
 

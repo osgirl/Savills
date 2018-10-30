@@ -58,6 +58,35 @@ export function setIsAccessTokenAPI(bool = true) {
     }
 }
 
+
+
+export function sendPasswordResetCode(email) {
+    return {
+        type: Types.SENDCODERESETPASS,
+        payload: {
+            api: Configs.API_ACCOUNT + '/services/app/Account/SendPasswordResetCode',
+            method: 'POST',
+            payload: {
+                emailAddress: email,
+            },
+        }
+    }
+}
+
+export function resetPassword(codeVerify = '', pass = '') {
+    return {
+        type: Types.RESETPASSWORD,
+        payload: {
+            api: Configs.API_ACCOUNT + '/services/app/Account/AppResetPassword',
+            method: 'POST',
+            payload: {
+                resetCode: codeVerify,
+                password: pass
+            },
+        }
+    }
+}
+
 // ! set accessToken
 export function setAccessTokenLocal(data) {
     return {

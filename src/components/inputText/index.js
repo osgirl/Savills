@@ -14,6 +14,7 @@ import {
 import Connect from '@stores';
 const { width, height } = Dimensions.get("window");
 import Resolution from "../../utils/resolution";
+import configs from "../../utils/configs";
 class InputText extends Component {
 
     constructor(props) {
@@ -30,7 +31,7 @@ class InputText extends Component {
                 {
                     // width: Resolution.scaleWidth(255),
                     ...this.props.style,
-                    width : width - 120,
+                    width: width - 120,
                     marginTop: this.props.margintop,
                     marginHorizontal: this.props.marginHorizontal,
                     marginVertical: this.props.marginVertical
@@ -40,7 +41,7 @@ class InputText extends Component {
                     placeholder={this.props.placeholder}
                     selectionColor="white"
                     style={Styles.inputText}
-                    placeholderTextColor={"#ACB4BD"}
+                    placeholderTextColor={"#BABFC8"}
                     onChangeText={e => {
                         this.props.onChange && this.props.onChange(e);
                         this.setState({ text: e })
@@ -61,41 +62,21 @@ const Styles = StyleSheet.create({
     inputText: {
         height: 50,
         paddingVertical: 0,
-        color: '#ACB4BD',
+        color: '#505E75',
         fontSize: PixelRatio.roundToNearestPixel(14),
         marginHorizontal: 20,
         marginLeft: 50,
         flex: 1
     },
-    inputView:
-        Platform.OS === 'ios' ?
-            {
-                height: PixelRatio.roundToNearestPixel(40),
-                backgroundColor: '#FFFFFF',
-                borderRadius: 33,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                shadowColor: '#4A89E8',
-                shadowOffset: { width: 0, height: 3, },
-                shadowOpacity: 0.2,
-                shadowRadius: 10,
-
-            } : {
-                height: PixelRatio.roundToNearestPixel(40),
-                backgroundColor: '#FFFFFF',
-                borderRadius: 33,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                // elevation: 3,
-                // shadowColor: '#4A89E8',
-                // shadowOffset: { width: 0, height: 3, },
-                // shadowOpacity: 0.1,
-                // shadowRadius: 10,
-                // borderWidth: 0.4,
-                borderColor: '#ACB4BD'
-            },
+    inputView: {
+        ...configs.Shadow,
+        height: PixelRatio.roundToNearestPixel(40),
+        backgroundColor: '#FFFFFF',
+        borderRadius: 33,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    }
 })
 
 
