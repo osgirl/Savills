@@ -10,12 +10,13 @@ import {
 
 import Resolution from "@utils/resolution";
 import Utils from "../../utils";
+import Configs from "../../utils/configs";
 export default class ItemHome extends Component {
 
     render() {
         const item = this.props.item;
         return (
-            <View style={Styles.container}>
+            <View style={[Styles.container, { ...Configs.Shadow }]}>
                 <Image source={Utils.mapItemHome(item.key)} />
                 <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.title}</Text>
             </View>
@@ -33,10 +34,10 @@ const Styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         margin: 10,
 
-        shadowColor: '#4A89E8',
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 3, },
-        shadowRadius: 1,
-        elevation: 2
+        // shadowColor: '#4A89E8',
+        // shadowOpacity: 0.2,
+        // shadowOffset: { width: 0, height: 3, },
+        // shadowRadius: 1,
+        // elevation: 2
     }
 })

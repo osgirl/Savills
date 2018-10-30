@@ -10,6 +10,7 @@ import {
 
 import Resolution from "@utils/resolution";
 import Button from "../button";
+import Configs from "../../utils/configs";
 export default class ItemProjectApartment extends Component {
 
     render() {
@@ -17,7 +18,7 @@ export default class ItemProjectApartment extends Component {
         return (
             <Button
                 onPress={this.props.onPressItem}
-                style={Styles.container}>
+                style={[Styles.container, { ...Configs.Shadow }]}>
                 <Image source={this.props.image} />
                 <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
             </Button>

@@ -17,7 +17,7 @@ class Launcher extends layout {
             && !_.isEmpty(this.props.units.unitActive)) {
             this.props.navigation.navigate('Home');
         } else {
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('Login');
         }
     }
 

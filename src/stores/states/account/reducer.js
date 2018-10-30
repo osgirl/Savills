@@ -237,4 +237,11 @@ export default createReducer(INIT_STATE, {
         return tempState;
     },
 
+    // ! LOGOUT
+    [Types.LOGOUT_SUCCESS]: (state, action) => {
+        let tempState = Object.assign({}, { ...state },
+            { accessToken: '', accessTokenAPI: '', tenantLocal: {}, isGetTenant: true });
+        return tempState;
+    },
+
 });

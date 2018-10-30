@@ -8,9 +8,9 @@ class Profile extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false
         }
     }
-
 }
 
 export default Connect(Profile);

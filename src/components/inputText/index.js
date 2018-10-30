@@ -39,7 +39,7 @@ class InputText extends Component {
                 <TextInput
                     underlineColorAndroid={'transparent'}
                     placeholder={this.props.placeholder}
-                    selectionColor="white"
+                    selectionColor="#4A89E8"
                     style={Styles.inputText}
                     placeholderTextColor={"#BABFC8"}
                     onChangeText={e => {

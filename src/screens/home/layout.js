@@ -9,6 +9,7 @@ import {
 
 import ItemHome from "@components/itemHome";
 import Modal from "react-native-modal";
+import Loading from "@components/loading";
 import Profile from "../profile";
 import Style from "./style";
 import Button from "../../components/button";
@@ -28,6 +29,17 @@ let DATA = [
 ]
 
 export default class extends Component {
+
+    renderLoading() {
+        if (this.state.loading) {
+            return <Loading
+                style={{ zIndex: 30 }}
+                visible={this.state.loading}
+                onRequestClose={() => { }}
+            />
+        }
+        return null;
+    }
 
     handleScroll = (event) => {
         Animated.event(
@@ -87,8 +99,10 @@ export default class extends Component {
                     isVisible={this.state.isShowProfile}>
                     <Profile
                         onClose={() => this._closeProfile()}
+                        onLogOut={() => this._logOut()}
                     />
                 </Modal>
+                {this.renderLoading()}
             </View>
         );
     }

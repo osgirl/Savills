@@ -15,6 +15,19 @@ export function login(username = '', password = '') {
     }
 }
 
+export function logOut(data = '') {
+    return {
+        type: Types.LOGOUT,
+        payload: {
+            storage: {
+                key: 'LOGOUT',
+                type: 'setString',
+                data: data
+            }
+        }
+    }
+}
+
 export function getTenant(accessToken = '', MaxResultCount = 10, SkipCount = 0) {
     return {
         type: Types.GET_TENANT,

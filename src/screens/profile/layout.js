@@ -99,7 +99,9 @@ export default class extends Component {
                             <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>Change Password</Text>
                         </Button>
 
-                        <Button style={[Style.btnBlock, { marginVertical: 10, alignItems: 'center', marginBottom: 20 }]}>
+                        <Button
+                            onPress={() => this.props.onLogOut()}
+                            style={[Style.btnBlock, { marginVertical: 10, alignItems: 'center', marginBottom: 20 }]}>
                             <Text style={[Style.txtBlock, { color: '#FF361A' }]}>LOGOUT</Text>
                         </Button>
 

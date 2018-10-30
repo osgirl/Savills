@@ -43,7 +43,8 @@ class Home extends layout {
         super(props);
         this.state = {
             scrollY: new Animated.Value(0), // Animated event scroll,
-            isShowProfile: false
+            isShowProfile: false,
+            loading: false
         }
         this.showCenter = false;
 
@@ -66,6 +67,15 @@ class Home extends layout {
 
     _closeProfile() {
         this.setState({ isShowProfile: false })
+    }
+
+    async _logOut() {
+        this.setState({ loading: true });
+        await this.props.actions.account.logOut('');
+        await this.props.actions.units.setUnitLocal({}).then(() => {
+            this.setState({ loading: false })
+            this.props.navigation.navigate('Login');
+        })
     }
 
 

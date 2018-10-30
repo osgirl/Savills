@@ -13,5 +13,6 @@ export default keymirror({
     GET_TENNANT_LOCAL: null,
     SET_IS_GETACCESSTOKEN_API: null,
     SENDCODERESETPASS: null,
-    RESETPASSWORD: null
+    RESETPASSWORD: null,
+    LOGOUT: null
 }, "ACCOUNT_");
