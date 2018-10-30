@@ -16,18 +16,6 @@ import Button from "../../components/button";
 
 const imgSize = 64;
 
-let DATA = [
-    { id: 1, key: 'events', title: 'Events' },
-    { id: 2, key: 'booking', title: 'Booking' },
-    { id: 3, key: 'workorder', title: 'Work Order' },
-    { id: 4, key: 'invoice', title: 'Invoice' },
-    { id: 5, key: 'inbox', title: 'Inbox' },
-    { id: 6, key: 'feedback', title: 'Feed back' },
-    { id: 7, key: 'e-libary', title: 'E-labary' },
-    { id: 8, key: 'deliveries', title: 'Deliverries' },
-    { id: 9, key: 'frontdesk', title: 'Frontdesk' }
-]
-
 export default class extends Component {
 
     renderLoading() {
@@ -67,13 +55,14 @@ export default class extends Component {
             <View style={Style.container}>
                 <View style={{}}>
                     <FlatList
-                        data={DATA}
+                        data={this.state.dataModule}
                         contentContainerStyle={{ paddingVertical: 5 }}
                         keyExtractor={(item) => item.id + ''}
                         numColumns={2}
                         renderItem={({ item, index }) => {
                             return <ItemHome
-                                item={item}
+                                title={item.title}
+                                image={item.key}
                             />
                         }}
                         onScroll={this.handleScroll}

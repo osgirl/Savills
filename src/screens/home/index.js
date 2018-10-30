@@ -2,11 +2,26 @@ import React, { Component } from 'react';
 import { Text, View, Image, Animated } from "react-native";
 import Connect from '@stores';
 import layout from './layout';
+import _ from "lodash";
 
 import Header from '@components/header'
 import Button from "@components/button";
 import IC_EDIT from "@resources/icons/edit-profile.png";
 import IC_NOTIFY from "@resources/icons/notify.png";
+
+let DATA = [
+    { id: 1, key: 'Pages.Resident', title: 'Events' },
+    { id: 2, key: 'Pages.Resident.Booking', title: 'Booking' },
+    { id: 3, key: 'Pages.Resident.WorkOrder', title: 'Work Order' },
+    { id: 4, key: 'invoice', title: 'Invoice' },
+    { id: 5, key: 'Pages.Resident.Inbox', title: 'Inbox' },
+    { id: 6, key: 'Pages.Resident.Feedback', title: 'Feed back' },
+    { id: 7, key: 'e-libary', title: 'E-labary' },
+    { id: 8, key: 'Pages.Resident.Contacts', title: 'Contacts' },
+    { id: 9, key: 'Pages.Resident.FrontDesk', title: 'Frontdesk' },
+    { id: 10, key: 'Pages.Resident.Fee', title: 'Free' },
+]
+
 
 class Home extends layout {
 
@@ -44,21 +59,38 @@ class Home extends layout {
         this.state = {
             scrollY: new Animated.Value(0), // Animated event scroll,
             isShowProfile: false,
-            loading: false
+            loading: false,
+            dataModule: []
         }
         this.showCenter = false;
 
     }
 
+    async componentWillReceiveProps(nextProps) {
+        if (this.props.account.userSettings !== nextProps.account.userSettings && nextProps.account.userSettings.success) {
+            let dataGrantedPermissions = nextProps.account.userSettings.result.auth.grantedPermissions;
+            // console.log(dataGrantedPermissions)
+            let arrTemp = [];
+            DATA.map(item => {
+                if (item.key in dataGrantedPermissions && dataGrantedPermissions[item.key]) {
+                    arrTemp.push(item);
+                }
+            })
 
-    async componentWillMount() {
-        await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
+            await this.setState({ dataModule: arrTemp })
+            // console.log(this.state.dataModule)
+        }
     }
 
-    componentDidMount() {
-        this.props.actions.account.setTenantLocal(this.props.account.tenant).then(() => {
-            console.log('SET XONG ')
-        })
+
+    async componentWillMount() {
+        let accessTokenApi = this.props.account.accessTokenAPI;
+        await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
+        await this.props.actions.account.getUserSettings(accessTokenApi);
+
+        if (_.isEmpty(this.props.account.tenantLocal)) {
+            this.props.actions.account.setTenantLocal(this.props.account.tenant);
+        }
     }
 
     _openProfile() {

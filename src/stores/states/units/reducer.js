@@ -24,7 +24,7 @@ export default createReducer(INIT_STATE, {
         try {
             return {
                 ...state,
-                listUnits: action.response.result,
+                listUnits: action.response,
                 statusGetUnit: 100
             };
         } catch (error) {

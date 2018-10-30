@@ -37,15 +37,16 @@ class Login extends layout {
         }
 
 
-        if (_.isEmpty(nextProps.account.linkedAccountAuthenticate) && !nextProps.account.isGetSwichToUserAccount) {
+        if (!_.isEmpty(nextProps.account.switchAccount) && nextProps.account.switchAccount.success && !nextProps.account.isGetSwichToUserAccount) {
             let accessToken = this.props.account.accessToken;
-            let Token = nextProps.account.switchAccount.switchAccountToken;
+            let Token = nextProps.account.switchAccount.result.switchAccountToken;
             await this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
         }
 
-        if (!_.isEmpty(nextProps.account.linkedAccountAuthenticate) && !nextProps.account.isGetAccessTokenAPI) {
-            await this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.accessToken);
-            await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.accessToken);
+        if (!_.isEmpty(nextProps.account.linkedAccountAuthenticate) && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
+            await this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
+            await this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
+            await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.account.setIsAccessTokenAPI();
         }
 

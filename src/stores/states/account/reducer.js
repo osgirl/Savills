@@ -4,6 +4,7 @@ import createReducer from '../';
 const INIT_STATE = ({
     accessToken: '',
     accessTokenAPI: '',
+    encToken: '',
     tenant: [],
     tenantLocal: {},
     success: null,
@@ -12,6 +13,7 @@ const INIT_STATE = ({
     linkedAccountAuthenticate: {},
     resetPassword: {},
     sendCodeVerify: {},
+    userSettings: {},
     isGetAccessToken: true,
     isGetTenant: true,
     isGetAccessTokenAPI: true,
@@ -87,7 +89,7 @@ export default createReducer(INIT_STATE, {
     [Types.GET_SWITCHTOUSERACCOUNT_SUCCESS]: (state, action) => {
         return {
             ...state,
-            switchAccount: action.response.result,
+            switchAccount: action.response,
             isGetSwichToUserAccount: false
         };
     },
@@ -111,7 +113,7 @@ export default createReducer(INIT_STATE, {
         try {
             return {
                 ...state,
-                linkedAccountAuthenticate: action.response.result && action.response.result || {},
+                linkedAccountAuthenticate: action.response && action.response || {},
                 isGetAccessTokenAPI: false
             };
         } catch (error) {
@@ -183,6 +185,34 @@ export default createReducer(INIT_STATE, {
     },
 
 
+    // ! GET USER_SETTING
+    [Types.USER_SETTING]: (state, action) => {
+        return {
+            ...state,
+        };
+    },
+
+    [Types.USER_SETTING_SUCCESS]: (state, action) => {
+        // console.log('USER_SETTING_SUCCESS______', action)
+        try {
+            return {
+                ...state,
+                userSettings: action.response
+            };
+        } catch (error) {
+            console.log(error);
+        }
+
+    },
+
+    [Types.USER_SETTING_FAIL]: (state, action) => {
+        return {
+            ...state,
+        };
+    },
+
+
+
     // !   SET_IS_GETACCESSTOKEN_API
     [Types.SET_IS_GETACCESSTOKEN_API]: (state, action) => {
         return {
@@ -198,6 +228,8 @@ export default createReducer(INIT_STATE, {
             { accessToken: action.payload });
         return tempState;
     },
+
+
 
     [Types.GET_ACCESSTOKEN_SUCCESS]: (state, action) => {
         let tempState = Object.assign({}, { ...state },
@@ -218,6 +250,19 @@ export default createReducer(INIT_STATE, {
         return tempState;
     },
 
+    // !SET = Get encToken 
+    [Types.SET_ENC_TOKEN_SUCCESS]: (state, action) => {
+        let tempState = Object.assign({}, { ...state },
+            { encToken: action.payload });
+        return tempState;
+    },
+
+    [Types.GET_ENC_TOKEN_SUCCESS]: (state, action) => {
+        let tempState = Object.assign({}, { ...state },
+            { encToken: action.payload });
+        return tempState;
+    },
+
     // ! SET_TENNANT_LOCAL
     [Types.SET_TENNANT_LOCAL_SUCCESS]: (state, action) => {
         console.log('SET_TENNANT_LOCAL_SUCCESS__________', action)
@@ -229,7 +274,6 @@ export default createReducer(INIT_STATE, {
     },
 
     [Types.GET_TENNANT_LOCAL_SUCCESS]: (state, action) => {
-        console.log('GET_TENNANT_LOCAL_SUCCESS__________', action)
         let tempState = Object.assign({},
             { ...state },
             { tenantLocal: action.payload }
@@ -240,7 +284,13 @@ export default createReducer(INIT_STATE, {
     // ! LOGOUT
     [Types.LOGOUT_SUCCESS]: (state, action) => {
         let tempState = Object.assign({}, { ...state },
-            { accessToken: '', accessTokenAPI: '', tenantLocal: {}, isGetTenant: true });
+            {
+                accessToken: '',
+                accessTokenAPI: '',
+                tenantLocal: {},
+                encToken: '',
+                isGetTenant: true
+            });
         return tempState;
     },
 

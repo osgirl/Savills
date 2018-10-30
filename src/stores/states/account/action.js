@@ -32,7 +32,7 @@ export function getTenant(accessToken = '', MaxResultCount = 10, SkipCount = 0) 
     return {
         type: Types.GET_TENANT,
         payload: {
-            api: Configs.API + `/UserLink/GetLinkedAccount?MaxResultCount=${MaxResultCount}&SkipCount=${SkipCount}`,
+            api: Configs.API + `/api/UserLink/GetLinkedAccount?MaxResultCount=${MaxResultCount}&SkipCount=${SkipCount}`,
             method: 'GET',
             token: accessToken
         }
@@ -43,7 +43,7 @@ export function switchToUserAccount(accessToken = '', TenantId = '', UserId = ''
     return {
         type: Types.GET_SWITCHTOUSERACCOUNT,
         payload: {
-            api: Configs.API + `/UserLink/SwitchToUserAccount?targetTenantId=${TenantId}&targetUserId=${UserId}`,
+            api: Configs.API + `/api/UserLink/SwitchToUserAccount?targetTenantId=${TenantId}&targetUserId=${UserId}`,
             method: 'GET',
             token: accessToken
         }
@@ -54,7 +54,7 @@ export function linkedAccountAuthenticate(accessToken = '', switchAccountToken =
     return {
         type: Types.LINKEDACCOUNTAUTHEN,
         payload: {
-            api: Configs.API + `/TokenAuth/LinkedAccountAuthenticate?switchAccountToken=${switchAccountToken}`,
+            api: Configs.API + `/api/TokenAuth/LinkedAccountAuthenticate?switchAccountToken=${switchAccountToken}`,
             method: 'POST',
             token: accessToken
             // payload: {
@@ -96,6 +96,17 @@ export function resetPassword(codeVerify = '', pass = '') {
                 resetCode: codeVerify,
                 password: pass
             },
+        }
+    }
+}
+
+export function getUserSettings(accessToken = '') {
+    return {
+        type: Types.USER_SETTING,
+        payload: {
+            api: Configs.API + '/AbpUserConfiguration/GetAll',
+            method: 'GET',
+            token: accessToken
         }
     }
 }
@@ -146,6 +157,32 @@ export function getAccessApiTokenLocal() {
         payload: {
             storage: {
                 key: 'ACCESSTOKEN_API',
+                type: 'getString',
+            }
+        }
+    }
+}
+
+// ! set encToken
+export function setEncTokenLocal(data) {
+    return {
+        type: Types.SET_ENC_TOKEN,
+        payload: {
+            storage: {
+                key: 'ENC_TOKEN',
+                type: 'setString',
+                data: data
+            }
+        }
+    }
+}
+
+export function getEncTokenLocal() {
+    return {
+        type: Types.GET_ENC_TOKEN,
+        payload: {
+            storage: {
+                key: 'ENC_TOKEN',
                 type: 'getString',
             }
         }

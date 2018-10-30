@@ -14,11 +14,10 @@ import Configs from "../../utils/configs";
 export default class ItemHome extends Component {
 
     render() {
-        const item = this.props.item;
         return (
             <View style={[Styles.container, { ...Configs.Shadow }]}>
-                <Image source={Utils.mapItemHome(item.key)} />
-                <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.title}</Text>
+                <Image source={Utils.mapItemHome(this.props.image)} />
+                <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
             </View>
         );
     }

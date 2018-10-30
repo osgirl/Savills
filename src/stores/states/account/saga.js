@@ -59,6 +59,15 @@ function* resetPassword(action) {
   }
 }
 
+function* getUserSettings(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.USER_SETTING_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export default function* saga() {
   yield takeLatest(Types.LOGIN, login);
   yield takeLatest(Types.GET_TENANT, getTenant);
@@ -66,4 +75,5 @@ export default function* saga() {
   yield takeLatest(Types.LINKEDACCOUNTAUTHEN, linkedAccountAuthenticate);
   yield takeLatest(Types.SENDCODERESETPASS, sendPasswordResetCode);
   yield takeLatest(Types.RESETPASSWORD, resetPassword);
+  yield takeLatest(Types.USER_SETTING, getUserSettings);
 }

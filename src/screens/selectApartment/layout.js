@@ -37,14 +37,15 @@ export default class extends Component {
 
     componentWillReceiveProps(nextProps) {
         let accessToken = this.props.account.accessToken;
-        if (_.isEmpty(this.props.account.linkedAccountAuthenticate) && !nextProps.account.isGetSwichToUserAccount) {
-            let Token = nextProps.account.switchAccount.switchAccountToken;
+        if (!_.isEmpty(nextProps.account.switchAccount) && nextProps.account.switchAccount.success && !nextProps.account.isGetSwichToUserAccount) {
+            let Token = nextProps.account.switchAccount.result.switchAccountToken;
             this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
         }
 
-        if (!_.isEmpty(this.props.account.linkedAccountAuthenticate) && !nextProps.account.isGetAccessTokenAPI) {
-            this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.accessToken);
-            this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.accessToken);
+        if (!_.isEmpty(nextProps.account.linkedAccountAuthenticate) && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
+            this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
+            this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
+            this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             this.props.actions.account.setIsAccessTokenAPI();
         }
     }
@@ -57,12 +58,12 @@ export default class extends Component {
                 resizeMode={'contain'}
                 style={Style.container}
             >
-                <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123, fontFamily: 'Opensans-Bold' }}>
+                <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123, fontFamily: 'OpenSans-Bold' }}>
                     Choose Your apartment
                 </Text>
                 <View style={Style.viewBottom}>
                     <FlatList
-                        data={this.props.units.listUnits.items && this.props.units.listUnits.items}
+                        data={this.props.units.listUnits.result && this.props.units.listUnits.result.items}
                         horizontal
                         contentContainerStyle={{ paddingVertical: 5 }}
                         keyExtractor={(item) => item.fullUnitCode}
