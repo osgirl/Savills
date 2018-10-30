@@ -25,35 +25,87 @@ class Header extends Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			fadeAnim: new Animated.Value(1),
+			fadeAnimIcon: new Animated.Value(1)
+		}
+	}
+
+	componentDidMount() {
+		if (this.props.customViewLeft) {
+			this.show();
+		} else {
+			this.hide();
+		}
+	}
+
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.customViewLeft !== this.props.customViewLeft) {
+			if (this.props.customViewLeft) {
+				this.show();
+			} else {
+				this.hide();
+			}
+		}
+	}
+
+	show() {
+		const timing = Animated.timing;
+		timing(this.state.fadeAnim, {
+			toValue: 1,
+			duration: 700
+		}).start();
+		timing(this.state.fadeAnimIcon, {
+			toValue: 0,
+			duration: 400
+		}).start();
+	}
+
+	hide() {
+		const timing = Animated.timing;
+		timing(this.state.fadeAnim, {
+			toValue: 0,
+			duration: 400
+		}).start();
+		timing(this.state.fadeAnimIcon, {
+			toValue: 1,
+			duration: 700
+		}).start();
 	}
 
 	renderContent() {
 		let fixHeader = this.props.headercolor === 'transparent' && !this.props.LinearGradient ? true : false;
+		const Opacity = { opacity: this.state.fadeAnim };
+		const OpacityIcon = { opacity: this.state.fadeAnimIcon || 1 }
 		return (
 			<View
 				style={[style.container,
 				{
 					backgroundColor: this.props.headercolor,
 					position: fixHeader ? 'absolute' : 'relative',
-					top: fixHeader && Platform.OS === "ios" ? 20 : 0
+					top: fixHeader && Platform.OS === "ios" ? 20 : 0,
 				}]}>
 
 				<View style={style.wrapper}>
-					{
-						this.props.customViewLeft ?
-							this.props.renderViewLeft :
-							<View>
-								{
-									this.props.leftIcon &&
-									<ButtonCustom
-										background={this.props.headercolor}
-										haveMargin={false}
-										onPress={this.props.leftAction || null}
-										icon={this.props.leftIcon}
-									/>
-								}
-							</View>
-					}
+
+					
+					<Animated.View style={Opacity}>
+						{this.props.renderViewLeft}
+					</Animated.View>
+					
+					<Animated.View style={[OpacityIcon, {position: 'absolute', left : 0}]}>
+						{
+							this.props.leftIcon &&
+							<ButtonCustom
+								background={this.props.headercolor}
+								haveMargin={false}
+								onPress={this.props.leftAction || null}
+								icon={this.props.leftIcon}
+							/>
+						}
+					</Animated.View>
+
 
 					<View>
 						{this.props.center && typeof this.props.center !== 'string'
