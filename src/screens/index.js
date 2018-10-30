@@ -7,6 +7,7 @@ import SelectApartment from "./selectApartment";
 import ForgotPassword from "./forgotPassword";
 import ChangePassword from "./changePassword";
 import Home from "./home";
+import Profile from "./profile";
 import Events from './events';
 
 
@@ -20,6 +21,7 @@ export {
     ForgotPassword,
     ChangePassword,
     Home,
+    Profile,
     Events
 
 }

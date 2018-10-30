@@ -220,6 +220,7 @@ export default createReducer(INIT_STATE, {
 
     // ! SET_TENNANT_LOCAL
     [Types.SET_TENNANT_LOCAL_SUCCESS]: (state, action) => {
+        console.log('SET_TENNANT_LOCAL_SUCCESS__________', action)
         let tempState = Object.assign({},
             { ...state },
             { tenantLocal: action.payload, isGetTenant: true }
@@ -228,6 +229,7 @@ export default createReducer(INIT_STATE, {
     },
 
     [Types.GET_TENNANT_LOCAL_SUCCESS]: (state, action) => {
+        console.log('GET_TENNANT_LOCAL_SUCCESS__________', action)
         let tempState = Object.assign({},
             { ...state },
             { tenantLocal: action.payload }

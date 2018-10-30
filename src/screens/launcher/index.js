@@ -5,13 +5,11 @@ import _ from "lodash";
 
 class Launcher extends layout {
 
-    async componentDidMount() {
-        Promise.all([
-            await this.props.actions.account.getAccessTokenLocal(),
-            await this.props.actions.account.getTenantLocal(),
-            await this.props.actions.account.getAccessApiTokenLocal(),
-            await this.props.actions.units.getUnitLocal()
-        ]);
+    async componentWillMount() {
+        await this.props.actions.account.getAccessTokenLocal();
+        await this.props.actions.account.getTenantLocal();
+        await this.props.actions.account.getAccessApiTokenLocal();
+        await this.props.actions.units.getUnitLocal();
 
         if (this.props.account.accessToken.length > 0
             && this.props.account.accessTokenAPI.length > 0
@@ -19,7 +17,7 @@ class Launcher extends layout {
             && !_.isEmpty(this.props.units.unitActive)) {
             this.props.navigation.navigate('Home');
         } else {
-            this.props.navigation.navigate('Login');
+            this.props.navigation.navigate('Home');
         }
     }
 
