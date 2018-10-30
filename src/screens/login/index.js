@@ -47,19 +47,19 @@ class Login extends layout {
             await this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
             await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
-            await this.props.actions.account.setIsAccessTokenAPI();
+            await this.props.actions.account.setIsAccessTokenAPI(true);
         }
 
-        if (nextProps.units.statusGetUnit === 100 && this.state.flag) {
-            if (nextProps.units.listUnits.items && nextProps.units.listUnits.items.length === 1) {
-                await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.items[0]);
+        if (nextProps.units.listUnits.success && !nextProps.units.isGetlisUnit) {
+            if (nextProps.units.listUnits.result.items && nextProps.units.listUnits.result.items.length === 1) {
+                await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.result.items[0]);
                 await this.props.navigation.navigate('Home');
                 this.setState({ loading: false })
             } else {
                 this._gotoChooseApartment(this.props.account.tenantLocal);
                 this.setState({ loading: false })
             }
-            this.setState({ flag: false })
+            this.props.actions.units.setIsGetlisUnit(true);
         }
 
         if (this.props.account.error !== nextProps.account.error) {

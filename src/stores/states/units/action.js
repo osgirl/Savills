@@ -5,7 +5,7 @@ export function getUnits(accessTokenAPI) {
     return {
         type: Types.GET_UNITS,
         payload: {
-            api: Configs.API + '/units/UnitsByMember',
+            api: Configs.API + '/api/units/UnitsByMember',
             method: 'GET',
             token: accessTokenAPI
         }
@@ -35,5 +35,12 @@ export function getUnitLocal() {
                 type: 'getArrayObject',
             }
         }
+    }
+}
+
+export function setIsGetlisUnit(bool = true) {
+    return {
+        type: Types.SET_IS_GETUNIT,
+        payload: bool
     }
 }

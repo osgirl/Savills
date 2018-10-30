@@ -46,7 +46,7 @@ export default class extends Component {
             this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
             this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
-            this.props.actions.account.setIsAccessTokenAPI();
+            this.props.actions.account.setIsAccessTokenAPI(true);
         }
     }
 

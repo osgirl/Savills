@@ -104,10 +104,14 @@ class Home extends layout {
     async _logOut() {
         this.setState({ loading: true });
         await this.props.actions.account.logOut('');
-        await this.props.actions.units.setUnitLocal({}).then(() => {
-            this.setState({ loading: false })
-            this.props.navigation.navigate('Login');
-        })
+        await this.props.actions.units.setUnitLocal({});
+        await this.props.actions.account.setTenantLocal({})
+        await this.props.actions.account.setAccessTokenLocal('');
+        await this.props.actions.account.setAccessApiTokenLocal('');
+        await this.props.actions.account.setEncTokenLocal('');
+
+        this.setState({ loading: false })
+        this.props.navigation.navigate('Login');
     }
 
 

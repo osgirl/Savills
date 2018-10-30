@@ -4,8 +4,7 @@ import createReducer from '../';
 const INIT_STATE = ({
     listUnits: {},
     unitActive: {},
-    statusGetUnit: 0,
-    isGetlisUnit: true
+    statusGetUnit: 0
 
 });
 
@@ -26,7 +25,7 @@ export default createReducer(INIT_STATE, {
             return {
                 ...state,
                 listUnits: action.response,
-                isGetlisUnit: false
+                statusGetUnit: 100
             };
         } catch (error) {
             console.log(error)
@@ -62,15 +61,6 @@ export default createReducer(INIT_STATE, {
         );
         return tempState;
     },
-
-    // * SET_IS_GETUNIT
-    [Types.SET_IS_GETUNIT]: (state, action) => {
-        return {
-            ...state,
-            isGetlisUnit: action.payload
-        };
-    },
-
 
 
 
