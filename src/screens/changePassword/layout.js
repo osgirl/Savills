@@ -98,7 +98,7 @@ export default class extends Component {
                 <View>
                     {
                         this.state.error.length > 0 ?
-                            <Text style={{ color: 'red' }}>{this.state.error}</Text> : null
+                            <Text style={{ color: '#FF361A', fontSize: 10, alignSelf: 'center' }}>{this.state.error}</Text> : null
                     }
                     <View style={{ marginVertical: 20 }}>
                         {

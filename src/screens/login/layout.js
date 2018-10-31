@@ -100,6 +100,10 @@ export default class extends Component {
                     <Image source={IMG_LOGIN} style={{ marginTop: 31, width: Resolution.scaleWidth(206), height: Resolution.scaleHeight(146) }} />
                 </View>
                 <View>
+                    {
+                        this.props.account.error ?
+                            <Text style={{ color: '#FF361A', fontSize: 10, alignSelf: 'center', marginBottom: 6, textAlign: 'center' }}>{this.props.account.error.message + '\n' + this.props.account.error.details}</Text> : null
+                    }
                     <InputText
                         placeholder={'Username or Email'}
                         iconLeft={IC_EMAIL}
@@ -121,7 +125,7 @@ export default class extends Component {
 
                     <Button
                         onPress={() => this._login(this.state.username, this.state.password)}
-                        style={{...Configs.ShadowButton}}
+                        style={{ ...Configs.ShadowButton }}
                     >
                         <LinearGradient
                             colors={['#4A89E8', '#8FBCFF']}
