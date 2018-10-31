@@ -12,7 +12,7 @@ import ItemProjectApartment from "../../components/itemProjectApartment";
 import Header from '@components/header'
 import IC_BACK from "@resources/icons/back-dark.png";
 import Button from "../../components/button";
-
+import Utils from "../../utils";
 import _ from "lodash";
 
 import IC_APARTMENT from "@resources/icons/Apartment.png";
@@ -55,7 +55,7 @@ export default class extends Component {
         return (
             <ImageBackground
                 source={IMG_BG}
-                resizeMode={'contain'}
+                resizeMode={'cover'}
                 style={Style.container}
             >
                 <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123, fontFamily: 'OpenSans-Bold' }}>
@@ -63,15 +63,16 @@ export default class extends Component {
                 </Text>
                 <View style={Style.viewBottom}>
                     <FlatList
-                        data={this.props.units.listUnits.result && this.props.units.listUnits.result.items}
+                        data={this.props.units.listUnits.result && this.props.units.listUnits.result.items.length > 0 ? this.props.units.listUnits.result.items : Utils.dataPlaceholder}
                         horizontal
                         contentContainerStyle={{ paddingVertical: 5 }}
-                        keyExtractor={(item) => item.fullUnitCode}
+                        keyExtractor={(item, index) => 'itemApartment__' + index}
                         renderItem={({ item, index }) => {
                             return <ItemProjectApartment
                                 title={item.fullUnitCode}
                                 image={IC_APARTMENT}
                                 onPressItem={() => this._gotoHome(item)}
+                                loading={this.props.units.listUnits.result && this.props.units.listUnits.result.items.length > 0 ? true : false}
                             />
                         }}
                         showsHorizontalScrollIndicator={false}

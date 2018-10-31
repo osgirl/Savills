@@ -1,7 +1,6 @@
 import keymirror from '@utils/keymirror';
 
 export default keymirror({
-    GET_UNITS: null,
-    SET_UNITLOCAL: null,
-    GET_UNITLOCAL: null
+    GET_USER_INFORMATION: null,
+    GET_IMAGE_USER: null,
 }, "UNITS_");

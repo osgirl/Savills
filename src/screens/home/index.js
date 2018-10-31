@@ -35,12 +35,14 @@ class Home extends layout {
                 <Button
                     onPress={navigation.getParam('openProfileHome')}
                     style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
-                    <Image source={{ uri: 'https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-9/26168307_1832573663480180_5899833810848274293_n.jpg?_nc_cat=109&_nc_ht=scontent.fsgn5-6.fna&oh=fa469d9c20f13899bd5f8757b5b675e1&oe=5C84EE81' }}
+                    <Image source={{ uri: navigation.getParam('userAvatar') }}
                         style={{ width: 30, height: 30, borderRadius: 30 / 2 }}
                     />
                     <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                        <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold' }}>{'Hey!! Toan Tam'}</Text>
-                        <Text style={{ fontSize: 12, fontFamily: 'OpenSans-Regular', color: '#BABFC8' }}>{'T1-A03-01'}</Text>
+                        <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold' }}>
+                            {navigation.getParam('userDisplayname')}</Text>
+                        <Text style={{ fontSize: 12, fontFamily: 'OpenSans-Regular', color: '#BABFC8' }}>
+                            {navigation.getParam('userFullUnitCode')}</Text>
                     </View>
                 </Button>
             }
@@ -60,25 +62,22 @@ class Home extends layout {
             scrollY: new Animated.Value(0), // Animated event scroll,
             isShowProfile: false,
             loading: false,
-            dataModule: []
+            dataModule: [],
+            profile: null,
         }
         this.showCenter = false;
-
     }
 
     async componentWillReceiveProps(nextProps) {
         if (this.props.account.userSettings !== nextProps.account.userSettings && nextProps.account.userSettings.success) {
             let dataGrantedPermissions = nextProps.account.userSettings.result.auth.grantedPermissions;
-            // console.log(dataGrantedPermissions)
             let arrTemp = [];
             DATA.map(item => {
                 if (item.key in dataGrantedPermissions && dataGrantedPermissions[item.key]) {
                     arrTemp.push(item);
                 }
             })
-
             await this.setState({ dataModule: arrTemp })
-            // console.log(this.state.dataModule)
         }
     }
 
@@ -86,10 +85,13 @@ class Home extends layout {
     async componentWillMount() {
         let accessTokenApi = this.props.account.accessTokenAPI;
         await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
+        await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
+        await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
         await this.props.actions.account.getUserSettings(accessTokenApi);
 
-        if (_.isEmpty(this.props.account.tenantLocal)) {
-            this.props.actions.account.setTenantLocal(this.props.account.tenant);
+        if (_.isEmpty(this.props.account.tenantLocal) || this.props.account.tenant.length > 0) {
+            await this.props.actions.account.setTenantLocal(this.props.account.tenant);
+            await this.props.actions.account.getTenantLocal();
         }
     }
 
@@ -102,16 +104,18 @@ class Home extends layout {
     }
 
     async _logOut() {
-        this.setState({ loading: true });
+        await this.setState({ loading: true });
         await this.props.actions.account.logOut('');
         await this.props.actions.units.setUnitLocal({});
-        await this.props.actions.account.setTenantLocal({})
+        await this.props.actions.account.setTenantLocal({});
         await this.props.actions.account.setAccessTokenLocal('');
         await this.props.actions.account.setAccessApiTokenLocal('');
         await this.props.actions.account.setEncTokenLocal('');
 
-        this.setState({ loading: false })
-        this.props.navigation.navigate('Login');
+        await this.setState({ loading: false });
+        if (this.state.isShowProfile)
+            await this.setState({ isShowProfile: false })
+        await this.props.navigation.navigate('Login');
     }
 
 

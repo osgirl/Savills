@@ -48,7 +48,41 @@ export default class {
         }
         return icon;
     }
+
+    static dataPlaceholder = [
+        {
+            id: 1,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            id: 2,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            id: 3,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            id: 4,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            id: 5,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            id: 6,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+    ]
 }
+
 
 // let DATA = [
 //     { id: 1, key: 'Pages.Resident', title: 'Events' },

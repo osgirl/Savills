@@ -4,15 +4,25 @@ import { call, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
 import Types from './';
 import API from '../../../utils/api';
 
-function* getUnits(action) {
+function* getCurrentLoginInformations(action) {
   try {
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.GET_UNITS_SUCCESS, response });
+    yield put({ ...action, type: Types.GET_USER_INFORMATION_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function* getImageUserProfile(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_IMAGE_USER_SUCCESS, response });
   } catch (e) {
     console.log(e)
   }
 }
 
 export default function* saga() {
-  yield takeLatest(Types.GET_UNITS, getUnits);
+  yield takeLatest(Types.GET_USER_INFORMATION, getCurrentLoginInformations);
+  yield takeLatest(Types.GET_IMAGE_USER, getImageUserProfile);
 }

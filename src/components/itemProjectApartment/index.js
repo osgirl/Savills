@@ -11,17 +11,25 @@ import {
 import Resolution from "@utils/resolution";
 import Button from "../button";
 import Configs from "../../utils/configs";
+import IC_DEFAULT from "@resources/icons/default.png";
+
 export default class ItemProjectApartment extends Component {
 
     render() {
         // const item = this.props.item;
+        console.log(this.props.image)
         return (
-            <Button
-                onPress={this.props.onPressItem}
-                style={[Styles.container, { ...Configs.Shadow }]}>
-                <Image source={this.props.image} />
-                <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
-            </Button>
+            this.props.loading ?
+                <Button
+                    onPress={this.props.onPressItem}
+                    style={[Styles.container, { ...Configs.Shadow }]}>
+                    <Image source={typeof this.props.image === 'number' ? this.props.image : { uri: this.props.image }} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
+                    <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                </Button>
+                :
+                <View style={[Styles.container, { ...Configs.Shadow }]}>
+                    <Image source={IC_DEFAULT} />
+                </View>
         );
     }
 }
@@ -34,11 +42,5 @@ const Styles = StyleSheet.create({
         width: Resolution.scaleWidth(136),
         height: Resolution.scaleHeight(136),
         backgroundColor: '#FFFFFF',
-
-        shadowColor: '#4A89E8',
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 3, },
-        shadowRadius: 1,
-        elevation: 2
     }
 })

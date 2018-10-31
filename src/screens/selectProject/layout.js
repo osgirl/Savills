@@ -9,7 +9,7 @@ import {
 
 import IMG_BG from "../../resources/image/ChooseProject.png";
 import ItemProjectApartment from "../../components/itemProjectApartment";
-
+import Utils from "../../utils";
 import IC_PROJECT from "@resources/icons/Project.png";
 
 import Style from "./style";
@@ -35,15 +35,16 @@ export default class extends Component {
                 </Text>
                 <View style={Style.viewBottom}>
                     <FlatList
-                        data={this.props.account.tenant && this.props.account.tenant}
+                        data={this.props.account.tenant && this.props.account.tenant.length > 0 ? this.props.account.tenant : Utils.dataPlaceholder}
                         horizontal
                         contentContainerStyle={{ paddingVertical: 5 }}
-                        keyExtractor={(item) => item.tenantId + ''}
+                        keyExtractor={(item, index) => 'itenmProject__' + index}
                         renderItem={({ item, index }) => {
                             return <ItemProjectApartment
                                 onPressItem={() => this._gotoChooseApartment(item)}
                                 title={item.tenancyName}
-                                image={IC_PROJECT}
+                                image={`https://uat.spms.asia/core/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`}
+                                loading={this.props.account.tenant && this.props.account.tenant.length > 0 ? true : false}
                             />
                         }}
                         showsHorizontalScrollIndicator={false}

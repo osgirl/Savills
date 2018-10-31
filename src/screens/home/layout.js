@@ -4,7 +4,8 @@ import {
     Text,
     Image,
     FlatList,
-    Animated
+    Animated,
+    StatusBar
 } from 'react-native';
 
 import ItemHome from "@components/itemHome";
@@ -13,6 +14,7 @@ import Loading from "@components/loading";
 import Profile from "../profile";
 import Style from "./style";
 import Button from "../../components/button";
+import Utils from "../../utils";
 
 const imgSize = 64;
 
@@ -30,6 +32,10 @@ export default class extends Component {
     }
 
     handleScroll = (event) => {
+        let User = this.props.userProfile.profile && this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
+        let imageProfile = this.props.userProfile.imageProfile && this.props.userProfile.imageProfile.result && this.props.userProfile.imageProfile.result.profilePicture;
+        let Unit = this.props.units.unitActive;
+        var avatar = `data:image/png;base64,${imageProfile}`;
         Animated.event(
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
             {
@@ -37,7 +43,10 @@ export default class extends Component {
                     if (event.nativeEvent.contentOffset.y > 70) {
                         if (!this.showCenter) {
                             this.showCenter = true
-                            this.props.navigation.setParams({ isHidenHeaderHome: true })
+                            this.props.navigation.setParams({ isHidenHeaderHome: true });
+                            this.props.navigation.setParams({ userDisplayname: User.displayName });
+                            this.props.navigation.setParams({ userFullUnitCode: Unit.fullUnitCode });
+                            this.props.navigation.setParams({ userAvatar: avatar });
                         }
                     } else {
                         if (this.showCenter) {
@@ -51,11 +60,17 @@ export default class extends Component {
     }
 
     render() {
+        StatusBar.setHidden(this.state.isShowProfile)
+        let User = this.props.userProfile.profile && this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
+        let imageProfile = this.props.userProfile.imageProfile && this.props.userProfile.imageProfile.result && this.props.userProfile.imageProfile.result.profilePicture;
+        let Unit = this.props.units.unitActive;
+        var avatar = `data:image/png;base64,${imageProfile}`;
+        let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
         return (
             <View style={Style.container}>
                 <View style={{}}>
                     <FlatList
-                        data={this.state.dataModule}
+                        data={data}
                         contentContainerStyle={{ paddingVertical: 5 }}
                         keyExtractor={(item) => item.id + ''}
                         numColumns={2}
@@ -63,6 +78,7 @@ export default class extends Component {
                             return <ItemHome
                                 title={item.title}
                                 image={item.key}
+                                loading={this.state.dataModule && this.state.dataModule.length > 0 ? true : false}
                             />
                         }}
                         onScroll={this.handleScroll}
@@ -73,11 +89,17 @@ export default class extends Component {
                             <Button
                                 onPress={() => { this._openProfile() }}
                                 style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 40 }}>
-                                <Image source={{ uri: 'https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-9/26168307_1832573663480180_5899833810848274293_n.jpg?_nc_cat=109&_nc_ht=scontent.fsgn5-6.fna&oh=fa469d9c20f13899bd5f8757b5b675e1&oe=5C84EE81' }}
+                                <Image source={{ uri: avatar }}
                                     style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }}
                                 />
-                                <Text style={{ fontSize: 25, color: '#505E75', textAlign: 'center', marginTop: 20, marginBottom: 6, fontFamily: 'OpenSans-Bold' }}>{'Hey!! Toan Tam'}</Text>
-                                <Text style={{ fontSize: 18, color: '#BABFC8', textAlign: 'center', fontFamily: 'OpenSans-Regular' }}>{'T1-A03-01'}</Text>
+                                {
+                                    User && <Text style={{ fontSize: 25, color: '#505E75', textAlign: 'center', marginTop: 20, marginBottom: 6, fontFamily: 'OpenSans-Bold' }}>
+                                        {'Hey!! ' + User && User.displayName}
+                                    </Text>
+                                }
+                                <Text style={{ fontSize: 18, color: '#BABFC8', textAlign: 'center', fontFamily: 'OpenSans-Regular' }}>
+                                    {Unit.fullUnitCode}
+                                </Text>
                             </Button>
                         }
                         ListFooterComponent={() => <View style={{ width: 20 }} />}
@@ -89,9 +111,12 @@ export default class extends Component {
                     <Profile
                         onClose={() => this._closeProfile()}
                         onLogOut={() => this._logOut()}
+                        loading={this.state.loading}
+                        profile={User}
+                        imageProfile={avatar}
                     />
                 </Modal>
-                {this.renderLoading()}
+                {/* {this.renderLoading()} */}
             </View>
         );
     }

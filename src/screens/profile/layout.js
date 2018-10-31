@@ -38,7 +38,20 @@ let styleTextRight = {
 
 export default class extends Component {
 
+    renderLoading() {
+        if (this.props.loading) {
+            return <Loading
+                style={{ zIndex: 30 }}
+                visible={this.props.loading}
+                onRequestClose={() => { }}
+            />
+        }
+        return null;
+    }
+
     render() {
+        let Profile = this.props.profile;
+        let Unit = this.props.units.unitActive;
         return (
             <View style={{ flex: 1 }}>
                 <View style={Style.btnLeft}>
@@ -60,7 +73,7 @@ export default class extends Component {
                 {/* <ScrollView style={Style.container}> */}
                 <View style={Style.container}>
                     <View style={{ position: 'absolute', top: 0 }}>
-                        <Image source={{ uri: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' }}
+                        <Image source={{ uri: this.props.imageProfile }}
                             resizeMode={'cover'}
                             style={Style.imgAvatar}
                         />
@@ -73,9 +86,9 @@ export default class extends Component {
                                 <Text style={styleTextTitle}>SDT</Text>
                             </View>
                             <View>
-                                <Text style={styleTextRight}>T1-A03-01</Text>
-                                <Text style={[styleTextRight, { marginVertical: 20 }]}>toantam1708@gmail.com</Text>
-                                <Text style={styleTextRight}>0907690504</Text>
+                                <Text style={styleTextRight}>{Unit.fullUnitCode}</Text>
+                                <Text style={[styleTextRight, { marginVertical: 20 }]}>{Profile.emailAddress}</Text>
+                                <Text style={styleTextRight}>{Profile.phoneNumber}</Text>
                             </View>
                         </View>
                         <View style={Style.block2}>
@@ -85,17 +98,21 @@ export default class extends Component {
                                 <Text style={styleTextTitle}>Display name</Text>
                             </View>
                             <View>
-                                <Text style={styleTextRight}>Nguyen Toan</Text>
-                                <Text style={[styleTextRight, { marginVertical: 20 }]}>Tam</Text>
-                                <Text style={styleTextRight}>Nguyen Toan Tam</Text>
+                                <Text style={styleTextRight}>{Profile.name}</Text>
+                                <Text style={[styleTextRight, { marginVertical: 20 }]}>{Profile.surname}</Text>
+                                <Text style={styleTextRight}>{Profile.displayName}</Text>
                             </View>
                         </View>
 
-                        <Button style={Style.btnBlock}>
+                        <Button
+                            Onpress={() => alert('SETTING')}
+                            style={Style.btnBlock}>
                             <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>Setting</Text>
                         </Button>
 
-                        <Button style={[Style.btnBlock, { marginVertical: 10 }]}>
+                        <Button
+                            Onpress={() => alert('CHANGPASS')}
+                            style={[Style.btnBlock, { marginVertical: 10 }]}>
                             <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>Change Password</Text>
                         </Button>
 
@@ -107,6 +124,7 @@ export default class extends Component {
 
                     </View>
                 </View>
+                {this.renderLoading()}
                 {/* </ScrollView> */}
             </View>
         );

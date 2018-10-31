@@ -27,7 +27,7 @@ class Header extends Component {
 		super(props);
 		this.state = {
 			fadeAnim: new Animated.Value(1),
-			fadeAnimIcon: new Animated.Value(1)
+			fadeAnimIcon: new Animated.Value(0)
 		}
 	}
 

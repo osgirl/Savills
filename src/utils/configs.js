@@ -5,6 +5,8 @@ const configs = {
     VERSION: "1.0.0",
     API: 'https://uat.spms.asia/core',
     API_ACCOUNT: 'https://uat-accounts.spms.asia/api',
+    // API_COMMON:,
+    // API_BOOKING: ,
     Platform: Platform.OS,
     DEFAULT_WIDTH: 375,
     DEFAULT_HEIGHT: 666,

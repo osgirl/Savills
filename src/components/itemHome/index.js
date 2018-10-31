@@ -11,13 +11,23 @@ import {
 import Resolution from "@utils/resolution";
 import Utils from "../../utils";
 import Configs from "../../utils/configs";
+import IC_DEFAULT from "@resources/icons/default.png";
+
 export default class ItemHome extends Component {
 
     render() {
         return (
             <View style={[Styles.container, { ...Configs.Shadow }]}>
-                <Image source={Utils.mapItemHome(this.props.image)} />
-                <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                {
+                    this.props.loading ?
+                        <View style={Styles.container}>
+                            <Image source={Utils.mapItemHome(this.props.image)} />
+                            <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                        </View>
+                        :
+                        <Image source={IC_DEFAULT} />
+                }
+
             </View>
         );
     }

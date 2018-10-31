@@ -10,6 +10,10 @@ class Profile extends Layout {
         this.state = {
             loading: false
         }
+
+    }
+
+    componentWillMount() {
     }
 }
 
