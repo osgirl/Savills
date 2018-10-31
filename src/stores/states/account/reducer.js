@@ -12,6 +12,7 @@ const INIT_STATE = ({
     switchAccount: {},
     linkedAccountAuthenticate: {},
     resetPassword: {},
+    changePassword: {},
     sendCodeVerify: {},
     userSettings: {},
     isGetAccessToken: true,
@@ -210,6 +211,34 @@ export default createReducer(INIT_STATE, {
             ...state,
         };
     },
+
+
+     // ! CHANGE PASSWORD
+     [Types.CHANGE_PASSWORD]: (state, action) => {
+        return {
+            ...state,
+        };
+    },
+
+    [Types.CHANGE_PASSWORD_SUCCESS]: (state, action) => {
+        console.log('CHANGE_PASSWORD_SUCCESS______', action)
+        try {
+            return {
+                ...state,
+                changePassword: action.response
+            };
+        } catch (error) {
+            console.log(error);
+        }
+
+    },
+
+    [Types.CHANGE_PASSWORD_FAIL]: (state, action) => {
+        return {
+            ...state,
+        };
+    },
+
 
 
 

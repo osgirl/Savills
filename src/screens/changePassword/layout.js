@@ -24,28 +24,52 @@ export default class extends Component {
             newPass: '',
             rePass: '',
             loading: false,
-            flag: true
+            flag: true,
+            error: ''
         }
     }
 
     async componentWillReceiveProps(nextProps) {
-        if (nextProps.account.resetPassword && nextProps.account.resetPassword.success && this.state.flag) {
-            await this.setState({ loading: false, flag: false });
+        if (this.props.account.resetPassword !== nextProps.account.resetPassword && nextProps.account.resetPassword.success) {
+            await this.setState({ loading: false, error: '' });
             await this._gotoLogin();
+        }
+        if (this.props.account.changePassword !== nextProps.account.changePassword && nextProps.account.changePassword.success) {
+            await this.setState({ loading: false, error: '' });
+            await this.props.navigation.goBack();
+        }
+
+        if (this.props.account.resetPassword !== nextProps.account.resetPassword && !nextProps.account.resetPassword.success) {
+            await this.setState({ loading: false, error: nextProps.account.changePassword.error.message });
+        }
+
+        if (this.props.account.changePassword !== nextProps.account.changePassword && !nextProps.account.changePassword.success) {
+            await this.setState({ loading: false, error: nextProps.account.changePassword.error.message });
         }
     }
 
     _resetPassWord() {
+        let { status } = this.props.navigation.state.params;
+        let accessToken = this.props.account.accessToken;
         this.setState({ loading: true })
         if (!this.state.flag) {
             this.setState({ flag: true })
         }
         if (this.state.newPass !== this.state.rePass) {
-            this.setState({ loading: false })
-            alert('password not equal repass');
+            this.setState({ loading: false, error: 'password is not equal re-enter password' })
             return;
+        }else{
+            this.setState({ error: '' })
         }
-        this.props.actions.account.resetPassword(this.state.verifyCode, this.state.newPass)
+
+        if (status === 'forgot') {
+            this.props.actions.account.resetPassword(this.state.verifyCode, this.state.newPass)
+        } else {
+            this.props.actions.account.ChangePassword(accessToken, this.state.currPass, this.state.newPass);
+        }
+
+
+
     }
 
     _gotoLogin() {
@@ -72,6 +96,10 @@ export default class extends Component {
                     </Text>
                 </View>
                 <View>
+                    {
+                        this.state.error.length > 0 ?
+                            <Text style={{ color: 'red' }}>{this.state.error}</Text> : null
+                    }
                     <View style={{ marginVertical: 20 }}>
                         {
                             status == 'forgot' ?

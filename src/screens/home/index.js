@@ -96,6 +96,12 @@ class Home extends layout {
         }
     }
 
+    _gotoChangePassword() {
+        if (this.state.isShowProfile)
+            this.setState({ isShowProfile: false })
+        this.props.navigation.navigate('ChangePassword', { status: 'change' })
+    }
+
     _openProfile() {
         this.setState({ isShowProfile: true })
     }

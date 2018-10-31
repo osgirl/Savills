@@ -111,6 +111,21 @@ export function getUserSettings(accessToken = '') {
     }
 }
 
+export function ChangePassword(accessTokenApi = '', currentPassword = '', newPassword = '') {
+    return {
+        type: Types.CHANGE_PASSWORD,
+        payload: {
+            api: Configs.API_ACCOUNT + '/services/app/Account/ChangePassword',
+            method: 'POST',
+            token: accessTokenApi,
+            payload: {
+                currentPassword: currentPassword,
+                newPassword: newPassword
+            },
+        }
+    }
+}
+
 // ! set accessToken
 export function setAccessTokenLocal(data) {
     return {

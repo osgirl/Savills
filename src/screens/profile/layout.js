@@ -111,7 +111,7 @@ export default class extends Component {
                         </Button>
 
                         <Button
-                            onPress={() => alert('CHANGPASS')}
+                            onPress={() => this.props.onChangePassword()}
                             style={[Style.btnBlock, { marginVertical: 10 }]}>
                             <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>Change Password</Text>
                         </Button>

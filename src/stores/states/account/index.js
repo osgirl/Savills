@@ -17,5 +17,7 @@ export default keymirror({
     SENDCODERESETPASS: null,
     RESETPASSWORD: null,
     LOGOUT: null,
-    USER_SETTING: null
+    USER_SETTING: null,
+    CHANGE_PASSWORD: null,
+    
 }, "ACCOUNT_");

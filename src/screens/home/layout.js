@@ -91,22 +91,22 @@ export default class extends Component {
                     </Text>
                 </Button>
                 {/* <View style={{ backgroundColor: 'red' }}> */}
-                    <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginHorizontal: 20 }}>
-                        <Button
-                            disabled={this.state.numcolumn === 2 ? true : false}
-                            style={Style.btnGrid}
-                            onPress={() => this._onChangeNumColumn('2')}
-                        >
-                            <Image source={this.state.numcolumn === 2 ? IC_GRIDVIEW_ACTIVE : IC_GRIDVIEW} />
-                        </Button>
-                        <Button
-                            disabled={this.state.numcolumn !== 2 ? true : false}
-                            style={Style.btnList}
-                            onPress={() => this._onChangeNumColumn('1')}
-                        >
-                            <Image source={this.state.numcolumn !== 2 ? IC_LISTVIEW_ACTIVE : IC_LISTVIEW} />
-                        </Button>
-                    </View>
+                <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginHorizontal: 20 }}>
+                    <Button
+                        disabled={this.state.numcolumn === 2 ? true : false}
+                        style={Style.btnGrid}
+                        onPress={() => this._onChangeNumColumn('2')}
+                    >
+                        <Image source={this.state.numcolumn === 2 ? IC_GRIDVIEW_ACTIVE : IC_GRIDVIEW} />
+                    </Button>
+                    <Button
+                        disabled={this.state.numcolumn !== 2 ? true : false}
+                        style={Style.btnList}
+                        onPress={() => this._onChangeNumColumn('1')}
+                    >
+                        <Image source={this.state.numcolumn !== 2 ? IC_LISTVIEW_ACTIVE : IC_LISTVIEW} />
+                    </Button>
+                </View>
                 {/* </View> */}
             </View>
         )
@@ -167,6 +167,7 @@ export default class extends Component {
                     <Profile
                         onClose={() => this._closeProfile()}
                         onLogOut={() => this._logOut()}
+                        onChangePassword={() => this._gotoChangePassword()}
                         loading={this.state.loading}
                         profile={User}
                         imageProfile={avatar}
