@@ -105,13 +105,13 @@ export default class extends Component {
                         </View>
 
                         <Button
-                            Onpress={() => alert('SETTING')}
+                            onPress={() => alert('SETTING')}
                             style={Style.btnBlock}>
                             <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>Setting</Text>
                         </Button>
 
                         <Button
-                            Onpress={() => alert('CHANGPASS')}
+                            onPress={() => alert('CHANGPASS')}
                             style={[Style.btnBlock, { marginVertical: 10 }]}>
                             <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>Change Password</Text>
                         </Button>

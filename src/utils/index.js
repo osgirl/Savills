@@ -11,6 +11,20 @@ import Elibary from "@resources/icons/Elibary.png";
 import Delivery from "@resources/icons/delivery.png";
 import Frontdesk from "@resources/icons/Frontdesk.png";
 
+
+// * Circle
+import Circle_Events from "../resources/icons/Circle-Events.png";
+import Circle_Booking from "../resources/icons/Circle-Booking.png";
+import Circle_Workorder from "../resources/icons/Circle-Workorder.png";
+import Circle_Invoice from "../resources/icons/Circle-Invoice.png";
+import Circle_inbox from "../resources/icons/Circle-inbox.png";
+import Circle_Feedback from "../resources/icons/Circle-Feedback.png";
+import Circle_E_libary from "../resources/icons/Circle-E-libary.png";
+import Circle_delivery from "../resources/icons/Circle-delivery.png";
+import Circle_Frontdesk from "../resources/icons/Circle-Frontdesk.png";
+import Circle_Contacts from "../resources/icons/Circle-Contacts.png";
+import Circle_FAQ from "../resources/icons/Circle-FAQ.png";
+
 export default class {
     static mapItemHome(name) {
         let icon;
@@ -42,6 +56,54 @@ export default class {
             case 'Pages.Resident.FrontDesk':
                 icon = Frontdesk
                 break;
+            default:
+                icon = Elibary
+                break;
+        }
+        return icon;
+    }
+
+
+    static mapItemHomeCircle(name) {
+        let icon;
+        switch (name) {
+            case 'Pages.Resident':
+                icon = Circle_Events
+                break;
+            case 'Pages.Resident.Booking':
+                icon = Circle_Booking
+                break;
+            case 'Pages.Resident.WorkOrder':
+                icon = Circle_Workorder
+                break;
+            case 'Pages.Resident.Invoice':
+                icon = Circle_Invoice
+                break;
+            case 'Pages.Resident.Inbox':
+                icon = Circle_inbox
+                break;
+            case 'Pages.Resident.Feedback':
+                icon = Circle_Feedback
+                break;
+            case 'e-libary':
+                icon = Circle_E_libary
+                break;
+            case 'deliveries':
+                icon = Circle_delivery
+                break;
+            case 'Pages.Resident.FrontDesk':
+                icon = Circle_Frontdesk
+                break;
+            case 'Pages.Resident.Contacts':
+                icon = Circle_Contacts
+                break;
+            case 'Pages.Resident.FAQ':
+                icon = Circle_FAQ
+                break;
+            case 'Pages.Resident.Fee':
+                icon = Circle_Invoice
+                break;
+
             default:
                 icon = Elibary
                 break;

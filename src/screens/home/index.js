@@ -10,16 +10,16 @@ import IC_EDIT from "@resources/icons/edit-profile.png";
 import IC_NOTIFY from "@resources/icons/notify.png";
 
 let DATA = [
-    { id: 1, key: 'Pages.Resident', title: 'Events' },
-    { id: 2, key: 'Pages.Resident.Booking', title: 'Booking' },
-    { id: 3, key: 'Pages.Resident.WorkOrder', title: 'Work Order' },
-    { id: 4, key: 'invoice', title: 'Invoice' },
-    { id: 5, key: 'Pages.Resident.Inbox', title: 'Inbox' },
-    { id: 6, key: 'Pages.Resident.Feedback', title: 'Feed back' },
-    { id: 7, key: 'e-libary', title: 'E-labary' },
-    { id: 8, key: 'Pages.Resident.Contacts', title: 'Contacts' },
-    { id: 9, key: 'Pages.Resident.FrontDesk', title: 'Frontdesk' },
-    { id: 10, key: 'Pages.Resident.Fee', title: 'Free' },
+    { id: 1, key: 'Pages.Resident', title: 'Events', screen: 'Events' },
+    { id: 2, key: 'Pages.Resident.Booking', title: 'Booking', screen: '' },
+    { id: 3, key: 'Pages.Resident.WorkOrder', title: 'Work Order', screen: '' },
+    { id: 4, key: 'invoice', title: 'Invoice', screen: '' },
+    { id: 5, key: 'Pages.Resident.Inbox', title: 'Inbox', screen: '' },
+    { id: 6, key: 'Pages.Resident.Feedback', title: 'Feed back', screen: '' },
+    { id: 7, key: 'e-libary', title: 'E-labary', screen: '' },
+    { id: 8, key: 'Pages.Resident.Contacts', title: 'Contacts', screen: '' },
+    { id: 9, key: 'Pages.Resident.FrontDesk', title: 'Frontdesk', screen: '' },
+    { id: 10, key: 'Pages.Resident.Fee', title: 'Free', screen: '' },
 ]
 
 
@@ -64,6 +64,7 @@ class Home extends layout {
             loading: false,
             dataModule: [],
             profile: null,
+            numcolumn: 2
         }
         this.showCenter = false;
     }

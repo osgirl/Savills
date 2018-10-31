@@ -3,6 +3,8 @@ import {
     Platform
 } from 'react-native';
 
+import Resolution from "../../utils/resolution";
+
 const style = StyleSheet.create({
     container: {
         flex: 1,
@@ -21,6 +23,32 @@ const style = StyleSheet.create({
     btnLogin: {
         alignItems: 'center',
         borderRadius: 33
+    },
+    displayName: {
+        fontSize: 25,
+        color: '#505E75',
+        textAlign: 'center',
+        marginTop: 20,
+        marginBottom: 6,
+        fontFamily: 'OpenSans-Bold',
+        marginHorizontal: Resolution.scaleWidth(60)
+    },
+    unitCode: {
+        fontSize: 18,
+        color: '#BABFC8',
+        textAlign: 'center',
+        fontFamily: 'OpenSans-Regular'
+    },
+    btnGrid: {
+        paddingRight: 15,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 10
+    },
+    btnList: {
+        paddingLeft: 15,
+        paddingBottom: 10,
+        paddingTop: 10
     }
 })
 
