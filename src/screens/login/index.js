@@ -43,7 +43,7 @@ class Login extends layout {
             await this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
         }
 
-        if (!_.isEmpty(nextProps.account.linkedAccountAuthenticate) && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
+        if (this.props.account.linkedAccountAuthenticate !== nextProps.account.linkedAccountAuthenticate && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
             await this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
             await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
@@ -55,11 +55,62 @@ class Login extends layout {
                 await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.result.items[0]);
                 await this.props.navigation.navigate('Home');
                 this.setState({ loading: false })
-            } else {
-                this._gotoChooseApartment(this.props.account.tenantLocal);
-                this.setState({ loading: false })
+                this.props.actions.units.setIsGetlisUnit(true);
             }
-            this.props.actions.units.setIsGetlisUnit(true);
+            if (nextProps.units.listUnits.result.items && nextProps.units.listUnits.result.items.length > 1) {
+                let checkIsDefault = false;
+                let itemDefault = null;
+                console.log('11')
+                nextProps.units.listUnits.result.items.map(item => {
+                    if (item.isDefault) {
+                        itemDefault = item
+                        checkIsDefault = true
+                    } else {
+                        checkIsDefault = false
+                    }
+                })
+
+                if (checkIsDefault && itemDefault !== null) {
+                    console.log('22')
+                    this.props.actions.units.setUnitLocal(itemDefault);
+                    this.props.navigation.navigate('Home');
+                    this.props.actions.units.setIsGetlisUnit(true);
+                } else {
+                    console.log('33')
+                    this._gotoChooseApartment(this.props.account.tenantLocal);
+                    this.props.actions.units.setIsGetlisUnit(true);
+                }
+            }
+            
+        
+            // this._gotoChooseApartment(this.props.account.tenantLocal);
+            // this.props.actions.units.setIsGetlisUnit(true);
+            // if (nextProps.units.listUnits.result.items && nextProps.units.listUnits.result.items.length > 1) {
+            //     let checkIsDefault = false;
+            //     let itemDefault = null;
+            //     console.log('11')
+            //     nextProps.units.listUnits.result.items.map(item => {
+            //         if (item.isDefault) {
+            //             itemDefault = item
+            //             checkIsDefault = true
+            //         } else {
+            //             checkIsDefault = false
+            //         }
+            //     })
+
+            //     if (checkIsDefault && itemDefault !== null) {
+            //         console.log('22')
+            //         this.props.actions.units.setUnitLocal(itemDefault);
+            //         this.props.navigation.navigate('Home');
+            //         this.setState({ loading: false })
+            //         this.props.actions.units.setIsGetlisUnit(true);
+            //     } else {
+            //         console.log('33')
+            //         this._gotoChooseApartment(this.props.account.tenantLocal);
+            //         this.setState({ loading: false })
+            //         this.props.actions.units.setIsGetlisUnit(true);
+            //     }
+            // }
         }
 
         if (this.props.account.error !== nextProps.account.error) {

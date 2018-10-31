@@ -17,7 +17,6 @@ export default class ItemProjectApartment extends Component {
 
     render() {
         // const item = this.props.item;
-        console.log(this.props.image)
         return (
             this.props.loading ?
                 <Button
