@@ -49,8 +49,46 @@ export default class extends Component {
         return null;
     }
 
+    renderModalContent = () => (
+        <View style={[Style.modalContent, {}]}>
+            <Text style={{ marginTop: 40, fontSize: 15, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>
+                {
+                    this.state.keyUpdate === 'sdt' ?
+                        'Phone number' :
+                        this.state.keyUpdate === 'name' ?
+                            'First name' :
+                                this.state.keyUpdate === 'surname' ?
+                                    'Last name' : ''
+
+                }
+            </Text>
+            <View>
+                <TextInput
+                    placeholder={'YOURCODE'}
+                    value={this.state.txtUpdate}
+                    style={{ fontSize: 22, fontFamily: 'OpenSans-Regular', color: '#505E75' }}
+                    onChangeText={(text) => this.setState({ txtUpdate: text })}
+                />
+            </View>
+            <Button
+                style={{ width: Resolution.scaleWidth(255), marginBottom: 40 }}
+                onPress={() => this._updateProfile()}
+            >
+                <LinearGradient
+                    colors={['#4A89E8', '#8FBCFF']}
+                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                    style={{ alignItems: 'center', borderRadius: 33, }}
+                >
+                    <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'Opensans-SemiBold' }}>
+                        OK
+                     </Text>
+                </LinearGradient>
+            </Button>
+        </View>
+    );
+
     render() {
-        let Profile = this.props.profile;
+        // let Profile = this.props.profile;
         let Unit = this.props.units.unitActive;
         return (
             <View style={{ flex: 1 }}>
@@ -86,9 +124,17 @@ export default class extends Component {
                                 <Text style={styleTextTitle}>SDT</Text>
                             </View>
                             <View>
-                                <Text style={styleTextRight}>{Unit.fullUnitCode}</Text>
-                                <Text style={[styleTextRight, { marginVertical: 20 }]}>{Profile.emailAddress}</Text>
-                                <Text style={styleTextRight}>{Profile.phoneNumber}</Text>
+                                <Button
+                                    onPress={() => { }}
+                                >
+                                    <Text style={styleTextRight}>{Unit.fullUnitCode}</Text>
+                                </Button>
+                                <Text style={[styleTextRight, { marginVertical: 20, color: '#BABFC8' }]}>{this.state.profile.emailAddress}</Text>
+                                <Button
+                                    onPress={() => { this._openModalUpdate('sdt') }}
+                                >
+                                    <Text style={styleTextRight}>{this.state.profile.phoneNumber}</Text>
+                                </Button>
                             </View>
                         </View>
                         <View style={Style.block2}>
@@ -98,9 +144,17 @@ export default class extends Component {
                                 <Text style={styleTextTitle}>Display name</Text>
                             </View>
                             <View>
-                                <Text style={styleTextRight}>{Profile.name}</Text>
-                                <Text style={[styleTextRight, { marginVertical: 20 }]}>{Profile.surname}</Text>
-                                <Text style={styleTextRight}>{Profile.displayName}</Text>
+                                <Button
+                                    onPress={() => { this._openModalUpdate('name') }}
+                                >
+                                    <Text style={styleTextRight}>{this.state.profile.name}</Text>
+                                </Button>
+                                <Button
+                                    onPress={() => { this._openModalUpdate('surname') }}
+                                >
+                                    <Text style={[styleTextRight, { marginVertical: 20 }]}>{this.state.profile.surname}</Text>
+                                </Button>
+                                <Text style={[styleTextRight, { color: '#BABFC8' }]}>{this.state.profile.displayName}</Text>
                             </View>
                         </View>
 
@@ -124,6 +178,11 @@ export default class extends Component {
 
                     </View>
                 </View>
+                <Modal
+                    onBackdropPress={() => this.setState({ isShowModalUpdate: false })}
+                    isVisible={this.state.isShowModalUpdate}>
+                    {this.renderModalContent()}
+                </Modal>
                 {this.renderLoading()}
                 {/* </ScrollView> */}
             </View>

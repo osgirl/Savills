@@ -22,7 +22,17 @@ function* getImageUserProfile(action) {
   }
 }
 
+function* updateCurrentUserProfile(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.UPDATE_USER_PROFILE_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export default function* saga() {
   yield takeLatest(Types.GET_USER_INFORMATION, getCurrentLoginInformations);
   yield takeLatest(Types.GET_IMAGE_USER, getImageUserProfile);
+  yield takeLatest(Types.UPDATE_USER_PROFILE, updateCurrentUserProfile);
 }

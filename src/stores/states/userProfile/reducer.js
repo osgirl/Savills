@@ -3,7 +3,8 @@ import createReducer from '../';
 
 const INIT_STATE = ({
     profile: {},
-    imageProfile: ''
+    imageProfile: '',
+    updateUserProfile: {}
 });
 
 export default createReducer(INIT_STATE, {
@@ -64,6 +65,39 @@ export default createReducer(INIT_STATE, {
     },
 
     [Types.GET_IMAGE_USER_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+    [Types.UPDATE_USER_PROFILE]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.UPDATE_USER_PROFILE_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                updateUserProfile: action.response
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.UPDATE_USER_PROFILE_FAIL]: (state, action) => {
         try {
             return {
                 ...state,

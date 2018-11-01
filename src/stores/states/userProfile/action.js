@@ -22,3 +22,28 @@ export function getImageUserProfile(accessTokenAPI) {
         }
     }
 }
+
+export function updateCurrentUserProfile(accessTokenAPI, profile = {}) {
+    return {
+        type: Types.UPDATE_USER_PROFILE,
+        payload: {
+            api: Configs.API + '/api/services/app/Profile/UpdateCurrentUserProfile',
+            method: 'PUT',
+            token: accessTokenAPI,
+            payload: {
+                name: profile.name,
+                surname: profile.surname,
+                displayName: profile.displayName,
+                userName: profile.userName,
+                emailAddress: profile.emailAddress,
+                phoneNumber: profile.phoneNumber,
+                isGoogleAuthenticatorEnabled: profile.isGoogleAuthenticatorEnabled,
+                isPhoneNumberConfirmed: profile.isPhoneNumberConfirmed,
+                qrCodeSetupImageUrl: profile.qrCodeSetupImageUrl,
+                timezone: profile.timezone
+            }
+        }
+    }
+}
+
+

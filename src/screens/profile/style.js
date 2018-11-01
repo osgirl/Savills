@@ -50,7 +50,16 @@ const style = StyleSheet.create({
     },
     txtBlock: {
         fontSize: 13, fontFamily: 'OpenSans-SemiBold', marginLeft: 10
-    }
+    },
+    modalContent: {
+        backgroundColor: "white",
+        // padding: 22,
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderRadius: 14,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        height: Resolution.scaleHeight(228)
+    },
 })
 
 export default style;
