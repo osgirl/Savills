@@ -84,7 +84,7 @@ class Header extends Component {
 				{
 					backgroundColor: this.props.headercolor,
 					position: fixHeader ? 'absolute' : 'relative',
-					top: fixHeader && Platform.OS === "ios" ? 20 : 0,
+					top: fixHeader && Platform.OS === "ios" ? 0 : 0,
 				}]}>
 
 				<View style={style.wrapper}>

@@ -37,7 +37,7 @@ class Login extends layout {
         }
 
 
-        if (!_.isEmpty(nextProps.account.switchAccount) && nextProps.account.switchAccount.success && !nextProps.account.isGetSwichToUserAccount) {
+        if (this.props.account.switchAccount !== nextProps.account.switchAccount && nextProps.account.switchAccount.success && !nextProps.account.isGetSwichToUserAccount) {
             let accessToken = this.props.account.accessToken;
             let Token = nextProps.account.switchAccount.result.switchAccountToken;
             await this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
@@ -50,67 +50,32 @@ class Login extends layout {
             await this.props.actions.account.setIsAccessTokenAPI(true);
         }
 
-        if (nextProps.units.listUnits.success && !nextProps.units.isGetlisUnit) {
+        if (this.props.units.listUnits !== nextProps.units.listUnits && nextProps.units.listUnits.success && !nextProps.units.isGetlisUnit) {
             if (nextProps.units.listUnits.result.items && nextProps.units.listUnits.result.items.length === 1) {
                 await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.result.items[0]);
                 await this.props.navigation.navigate('Home');
                 this.setState({ loading: false })
                 this.props.actions.units.setIsGetlisUnit(true);
-            }
-            if (nextProps.units.listUnits.result.items && nextProps.units.listUnits.result.items.length > 1) {
-                let checkIsDefault = false;
-                let itemDefault = null;
-                console.log('11')
-                nextProps.units.listUnits.result.items.map(item => {
+            } else {
+                let arrTemp = nextProps.units.listUnits.result.items;
+                let unitTemp = null;
+                arrTemp.map(item => {
                     if (item.isDefault) {
-                        itemDefault = item
-                        checkIsDefault = true
-                    } else {
-                        checkIsDefault = false
+                        unitTemp = item;
                     }
                 })
-
-                if (checkIsDefault && itemDefault !== null) {
-                    console.log('22')
-                    this.props.actions.units.setUnitLocal(itemDefault);
+                if (unitTemp && unitTemp !== null) {
+                    this.props.actions.units.setUnitLocal(unitTemp);
                     this.props.navigation.navigate('Home');
                     this.props.actions.units.setIsGetlisUnit(true);
+                    this.setState({ loading: false })
                 } else {
-                    console.log('33')
                     this._gotoChooseApartment(this.props.account.tenantLocal);
                     this.props.actions.units.setIsGetlisUnit(true);
+                    this.setState({ loading: false })
                 }
-            }
-            
-        
-            // this._gotoChooseApartment(this.props.account.tenantLocal);
-            // this.props.actions.units.setIsGetlisUnit(true);
-            // if (nextProps.units.listUnits.result.items && nextProps.units.listUnits.result.items.length > 1) {
-            //     let checkIsDefault = false;
-            //     let itemDefault = null;
-            //     console.log('11')
-            //     nextProps.units.listUnits.result.items.map(item => {
-            //         if (item.isDefault) {
-            //             itemDefault = item
-            //             checkIsDefault = true
-            //         } else {
-            //             checkIsDefault = false
-            //         }
-            //     })
 
-            //     if (checkIsDefault && itemDefault !== null) {
-            //         console.log('22')
-            //         this.props.actions.units.setUnitLocal(itemDefault);
-            //         this.props.navigation.navigate('Home');
-            //         this.setState({ loading: false })
-            //         this.props.actions.units.setIsGetlisUnit(true);
-            //     } else {
-            //         console.log('33')
-            //         this._gotoChooseApartment(this.props.account.tenantLocal);
-            //         this.setState({ loading: false })
-            //         this.props.actions.units.setIsGetlisUnit(true);
-            //     }
-            // }
+            }
         }
 
         if (this.props.account.error !== nextProps.account.error) {
