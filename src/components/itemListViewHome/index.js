@@ -28,11 +28,11 @@ export default class ItemListHome extends Component {
                                 <Image source={Utils.mapItemHomeCircle(this.props.image)} style={{ marginHorizontal: 20, marginVertical: 10 }} />
                                 <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
                             </View>
-                            <View style={{ marginHorizontal: 20, justifyContent: 'center' }}>
+                            {/* <View style={{ marginHorizontal: 20, justifyContent: 'center' }}>
                                 <View style={{ backgroundColor: '#FF361A', borderRadius: 20 }}>
                                     <Text style={{ color: '#FFFFFF', padding: 5 }}>9+</Text>
                                 </View>
-                            </View>
+                            </View> */}
                         </View>
                         :
                         <Image source={IC_DEFAULT} />

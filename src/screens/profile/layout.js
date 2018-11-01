@@ -57,8 +57,8 @@ export default class extends Component {
                         'Phone number' :
                         this.state.keyUpdate === 'name' ?
                             'First name' :
-                                this.state.keyUpdate === 'surname' ?
-                                    'Last name' : ''
+                            this.state.keyUpdate === 'surname' ?
+                                'Last name' : ''
 
                 }
             </Text>
@@ -66,7 +66,7 @@ export default class extends Component {
                 <TextInput
                     placeholder={'YOURCODE'}
                     value={this.state.txtUpdate}
-                    style={{ fontSize: 22, fontFamily: 'OpenSans-Regular', color: '#505E75' }}
+                    style={{ fontSize: 22, fontFamily: 'OpenSans-Regular', color: '#505E75', width: width, textAlign: 'center' }}
                     onChangeText={(text) => this.setState({ txtUpdate: text })}
                 />
             </View>

@@ -27,6 +27,7 @@ class Login extends layout {
             await this.props.actions.account.getTenant(nextProps.account.accessToken);
         }
         if (_.isEmpty(this.props.account.tenantLocal) && nextProps.account.tenant && nextProps.account.tenant.length > 0 && !nextProps.account.isGetTenant) {
+            await this.props.actions.account.setTenantLocal(nextProps.account.tenant);
             let tenantList = nextProps.account.tenant;
             if (tenantList && tenantList.length === 1) {
                 await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, tenantList[0].tenantId, tenantList[0].id);

@@ -72,12 +72,14 @@ class Home extends layout {
     async componentWillReceiveProps(nextProps) {
         if (this.props.account.userSettings !== nextProps.account.userSettings && nextProps.account.userSettings.success) {
             let dataGrantedPermissions = nextProps.account.userSettings.result.auth.grantedPermissions;
+            let accessTokenApi = this.props.account.accessTokenAPI;
             let arrTemp = [];
             DATA.map(item => {
                 if (item.key in dataGrantedPermissions && dataGrantedPermissions[item.key]) {
                     arrTemp.push(item);
                 }
             })
+            await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
             await this.setState({ dataModule: arrTemp })
         }
     }
@@ -90,10 +92,10 @@ class Home extends layout {
         await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
         await this.props.actions.account.getUserSettings(accessTokenApi);
 
-        if (_.isEmpty(this.props.account.tenantLocal) || this.props.account.tenant.length > 0) {
-            await this.props.actions.account.setTenantLocal(this.props.account.tenant);
-            await this.props.actions.account.getTenantLocal();
-        }
+        // if (_.isEmpty(this.props.account.tenantLocal) || this.props.account.tenant.length > 0) {
+        //     await this.props.actions.account.setTenantLocal(this.props.account.tenant);
+        //     await this.props.actions.account.getTenantLocal();
+        // }
     }
 
     _gotoChangePassword() {
