@@ -44,7 +44,7 @@ class Login extends layout {
             await this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
         }
 
-        if (this.props.account.linkedAccountAuthenticate !== nextProps.account.linkedAccountAuthenticate && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
+        if (!_.isEmpty(nextProps.account.linkedAccountAuthenticate) && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
             await this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
             await this.props.actions.userProfile.getCurrentLoginInformations(nextProps.account.linkedAccountAuthenticate.result.accessToken);
@@ -58,27 +58,11 @@ class Login extends layout {
                 await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.result.items[0]);
                 await this.props.navigation.navigate('Home');
                 this.setState({ loading: false })
-                this.props.actions.units.setIsGetlisUnit(true);
             } else {
-                let arrTemp = nextProps.units.listUnits.result.items;
-                let unitTemp = null;
-                arrTemp.map(item => {
-                    if (item.isDefault) {
-                        unitTemp = item;
-                    }
-                })
-                if (unitTemp && unitTemp !== null) {
-                    this.props.actions.units.setUnitLocal(unitTemp);
-                    this.props.navigation.navigate('Home');
-                    this.props.actions.units.setIsGetlisUnit(true);
-                    this.setState({ loading: false })
-                } else {
-                    this._gotoChooseApartment(this.props.account.tenantLocal);
-                    this.props.actions.units.setIsGetlisUnit(true);
-                    this.setState({ loading: false })
-                }
-
+                this._gotoChooseApartment(this.props.account.tenantLocal);
+                this.setState({ loading: false })
             }
+            this.props.actions.units.setIsGetlisUnit(true);
         }
 
         if (this.props.account.error !== nextProps.account.error) {

@@ -138,14 +138,19 @@ class modalFull extends Component {
         return <LinearGradient
             colors={['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-            style={{ width: width, height: Resolution.scaleHeight(123), marginBottom: 20 }}>
-            <Button
-                onPress={() => this.props.onClose()}
-                style={{ margin: 20 }}
-            >
-                <Image source={IC_CLOSE} />
-            </Button>
-            <Text style={{ color: '#FFFFFF', fontSize: 35, fontFamily: 'OpenSans-Bold', marginHorizontal: 20 }}>{this.formatDateHeader(dateSelected)}</Text>
+            style={{ width: width, marginBottom: 20 }}>
+            <View>
+                <View>
+                    <Button
+                        onPress={() => this.props.onClose()}
+                        style={{ marginTop: 20, marginLeft: 20, width: 20 }}
+                    >
+                        <Image source={IC_CLOSE} />
+                    </Button>
+                </View>
+
+                <Text style={{ color: '#FFFFFF', fontSize: 35, fontFamily: 'OpenSans-Bold', marginHorizontal: 20, marginBottom: 20, marginTop: 10 }}>{this.formatDateHeader(dateSelected)}</Text>
+            </View>
         </LinearGradient>
     }
 

@@ -16,11 +16,11 @@ let DATA = [
     { id: 4, key: 'invoice', title: 'Invoice', screen: '' },
     { id: 5, key: 'Pages.Resident.Inbox', title: 'Inbox', screen: '' },
     { id: 6, key: 'Pages.Resident.Feedback', title: 'Feed back', screen: '' },
-    { id: 7, key: 'e-libary', title: 'E-labary', screen: '' },
+    { id: 7, key: 'Pages.Libraries', title: 'E-labary', screen: '' },
     { id: 8, key: 'Pages.Resident.Contacts', title: 'Contacts', screen: 'Contacts' },
     { id: 9, key: 'Pages.Resident.FrontDesk', title: 'Frontdesk', screen: '' },
     { id: 10, key: 'Pages.Resident.Fee', title: 'Free', screen: '' },
-    { id: 10, key: 'Pages.FAQ', title: 'FAQ', screen: 'FAQ' },
+    { id: 11, key: 'Pages.FAQ', title: 'FAQ', screen: 'FAQ' },
 ]
 
 
@@ -37,7 +37,7 @@ class Home extends layout {
                 <Button
                     onPress={navigation.getParam('openProfileHome')}
                     style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
-                    <Image source={{ uri: navigation.getParam('userAvatar') }}
+                    <Image source={typeof navigation.getParam('userAvatar') === 'number' ? navigation.getParam('userAvatar') : { uri: navigation.getParam('userAvatar') }}
                         style={{ width: 30, height: 30, borderRadius: 30 / 2 }}
                     />
                     <View style={{ flexDirection: 'column', marginLeft: 10 }}>
