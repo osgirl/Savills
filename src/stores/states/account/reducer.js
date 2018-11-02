@@ -213,8 +213,8 @@ export default createReducer(INIT_STATE, {
     },
 
 
-     // ! CHANGE PASSWORD
-     [Types.CHANGE_PASSWORD]: (state, action) => {
+    // ! CHANGE PASSWORD
+    [Types.CHANGE_PASSWORD]: (state, action) => {
         return {
             ...state,
         };
@@ -318,6 +318,7 @@ export default createReducer(INIT_STATE, {
                 accessTokenAPI: '',
                 tenantLocal: {},
                 encToken: '',
+                userSettings: {},
                 isGetTenant: true
             });
         return tempState;

@@ -47,6 +47,8 @@ class Login extends layout {
         if (this.props.account.linkedAccountAuthenticate !== nextProps.account.linkedAccountAuthenticate && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
             await this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
+            await this.props.actions.userProfile.getCurrentLoginInformations(nextProps.account.linkedAccountAuthenticate.result.accessToken);
+            await this.props.actions.userProfile.getImageUserProfile(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.account.setIsAccessTokenAPI(true);
         }

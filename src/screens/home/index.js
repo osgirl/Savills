@@ -79,7 +79,6 @@ class Home extends layout {
                     arrTemp.push(item);
                 }
             })
-            await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
             await this.setState({ dataModule: arrTemp })
         }
     }
@@ -110,6 +109,10 @@ class Home extends layout {
 
     _closeProfile() {
         this.setState({ isShowProfile: false })
+    }
+
+    _gotoModule(screen) {
+        this.props.navigation.navigate(screen);
     }
 
     async _logOut() {

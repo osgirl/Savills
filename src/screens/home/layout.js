@@ -69,7 +69,7 @@ export default class extends Component {
     }
 
     renderHeader() {
-        let User = this.props.userProfile.profile && this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
+        let User = this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
         let imageProfile = this.props.userProfile.imageProfile && this.props.userProfile.imageProfile.result && this.props.userProfile.imageProfile.result.profilePicture;
         let Unit = this.props.units.unitActive;
         var avatar = `data:image/png;base64,${imageProfile}`;
@@ -122,12 +122,14 @@ export default class extends Component {
                 title={item.title}
                 image={item.key}
                 loading={loading}
+                onPressItem={() => this._gotoModule(item.screen)}
             />
         } else {
             return <ItemHome
                 title={item.title}
                 image={item.key}
                 loading={loading}
+                onPressItem={() => this._gotoModule(item.screen)}
             />
         }
     }
@@ -155,7 +157,6 @@ export default class extends Component {
                         legacyImplementation={false}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
-
                         ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
                         ListHeaderComponent={() => this.renderHeader()}
                         ListFooterComponent={() => <View style={{ width: 20 }} />}

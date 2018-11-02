@@ -1,113 +1,148 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, Image, FlatList, StatusBar } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '../../components/headerTitle';
 
-import { Agenda } from "../../components/calendar";
+import Button from "@components/button";
+import { Calendar } from "../../components/calendars";
 
 const { width, height } = Dimensions.get('window');
 
 import IC_CALENDAR from "../../resources/icons/calendar.png";
 import IC_CLOCK from "../../resources/icons/clock.png";
 
-let DATA = [
+import Modal from "react-native-modal";
 
-]
+import ModalDetail from "./components/modalDetail";
+import ModalFull from "./components/modalFull";
 
 export default class Layout extends Component {
 
+    async _onPressDay(data) {
+        await this.setState({ dateSelected: data });
+        this._openModalFull();
+    }
+
+    renderHeader() {
+        return <View>
+            <LinearGradient
+                colors={['#4A89E8', '#8FBCFF']}
+                start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                style={{}}>
+                <HeaderTitle title='Events' />
+                <Calendar
+                    minDate={'2017-05-10'}
+                    maxDate={'2020-01-01'}
+                    onDayPress={(data) => this._onPressDay(data.dateString)}
+                    style={styles.calendar}
+                    backgroundColor={'transparent'}
+                    markingType={'custom'}
+                    markedDates={this.state.overViewDate || {}}
+                    theme={{
+                        todayTextColor: '#343D4D',
+                        arrowColor: '#FFF',
+                        selectedDayBackgroundColor: '#fff',
+                        monthTextColor: '#FFF',
+                        textSectionTitleColor: '#FFF',
+                        textDayHeaderFontSize: 15,
+                    }}
+                />
+            </LinearGradient>
+            <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>
+                <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
+                    {'Tất cả sự kiện'}
+                </Text>
+            </View>
+        </View>
+    }
+
     render() {
-        let dataSelected = this.mapObjectSelected();
+        StatusBar.setHidden(this.state.isShowModalFull)
         return (
-            <Agenda
-                items={this.state.items}
-                loadItemsForMonth={this.loadItems.bind(this)}
-                selected={'2018-10-22'}
-                renderItem={this.renderItem.bind(this)}
-                renderEmptyDate={this.renderEmptyDate.bind(this)}
-                rowHasChanged={this.rowHasChanged.bind(this)}
-                // markingType={'period'}
-                // markedDates={{
-                //    '2017-05-08': {textColor: '#666'},
-                //    '2017-05-09': {textColor: '#666'},
-                //    '2017-05-14': {startingDay: true, endingDay: true, color: 'blue'},
-                //    '2017-05-21': {startingDay: true, color: 'blue'},
-                //    '2017-05-22': {endingDay: true, color: 'gray'},
-                //    '2017-05-24': {startingDay: true, color: 'gray'},
-                //    '2017-05-25': {color: 'gray'},
-                //    '2017-05-26': {endingDay: true, color: 'gray'}}}
-                // monthFormat={'yyyy'}
-                // theme={{
-                    // calendarBackground: 'red',
-                    // agendaKnobColor: 'green'
-                // }}
-            //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
-            />
+            <View style={styles.container}>
+                <FlatList
+                    data={this.state.myEvent}
+                    keyExtractor={(item) => item.eventId + ''}
+                    renderItem={({ item, index }) => (
+                        this.renderItem(item)
+                    )}
+                    // onScroll={this.handleScroll}
+                    legacyImplementation={false}
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                    ListHeaderComponent={() => this.renderHeader()}
+                    ListFooterComponent={() => <View style={{ height: 20 }} />}
+                />
+                <Modal
+                    style={{ flex: 1, marginTop: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, zIndex: 100 }}
+                    isVisible={this.state.isShowModalDetail}>
+                    <ModalDetail
+                        onClose={() => this._closeModalDetail()}
+                        itemEventSelected={this.state.itemEventSelect}
+                    />
+                </Modal>
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isShowModalFull}>
+                    <ModalFull
+                        onClose={() => this._closeModalFull()}
+                        eventIndate={this.state.myEvent}
+                        dateSelected={this.state.dateSelected}
+                    />
+                </Modal>
+            </View>
         );
     }
 
-    loadItems(day) {
-        // setTimeout(() => {
-        for (let i = -15; i < 85; i++) {
-            const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-            const strTime = this.timeToString(time);
-            if (!this.state.items[strTime]) {
-                this.state.items[strTime] = [];
-                const numItems = Math.floor(Math.random() * 5);
-                for (let j = 0; j < numItems; j++) {
-                    this.state.items[strTime].push({
-                        name: 'Item for ' + strTime,
-                        height: Math.max(50, Math.floor(Math.random() * 150))
-                    });
-                }
-            }
-        }
-        //console.log(this.state.items);
-        const newItems = {};
-        Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
-        this.setState({
-            items: newItems
-        }); 
-        // }, 1000);
-        // console.log(`Load Items for ${day.year}-${day.month}`);
-         console.log('____',this.state.item);
-    }
-
     renderItem(item) {
+        let encToken = this.props.account.encToken;
+        let startTime = this.converDateToTime(item.startTime);
+        let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
         return (
-            <View style={[styles.item, { flexDirection: 'row' }]}>
-                {/* <View style={{ borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}> */}
+            <Button
+                onPress={() => this._openModalDetail(item)}
+                style={[styles.item, { flexDirection: 'row' }]}>
                 <Image
-                    source={{ uri: 'https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-9/26168307_1832573663480180_5899833810848274293_n.jpg?_nc_cat=109&_nc_ht=scontent.fsgn5-6.fna&oh=fa469d9c20f13899bd5f8757b5b675e1&oe=5C84EE81' }}
+                    source={{ uri: image }}
                     style={{ width: 103, height: 103, borderRadius: 5, }} />
                 <View style={{ width: width - 143, flexDirection: 'column' }}>
                     <Text
                         numberOfLines={2} style={{ fontSize: 13, fontWeight: '600', marginLeft: 20, marginRight: 20, marginTop: 20 }}>
-                        Tam khung Tam khung Tam khung Tam khung Tam khung Tam khung Tam khung Tam khung Tam khung Tam khung </Text>
-                    <View style={{ flexDirection: 'row', position: 'absolute', bottom: 20, left: 20, alignItems: 'center' }}>
-                        <Image source={IC_CLOCK} />
-                        <Text style={{ marginLeft: 10 }}>10 : 30</Text>
-                        <Image source={IC_CALENDAR} style={{ marginLeft: 40 }} />
-                        <Text style={{ marginLeft: 10 }}>{'( 01/09 - 05/09 )'}</Text>
+                        {item.subject}
+                    </Text>
+                    <View style={{ flexDirection: 'row', marginLeft: 20, marginTop: 10 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Image source={IC_CLOCK} />
+                            <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
+                                {startTime}
+                            </Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
+                            <Image source={IC_CALENDAR} style={{}} />
+                            <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
+                                {'(' + this.converDate(item.startTime) + ' - ' + this.converDate(item.endTime) + ')'}
+                            </Text>
+                        </View>
                     </View>
                 </View>
-
-
-                {/* </View> */}
-            </View >
+            </Button >
         );
     }
 
-    renderEmptyDate() {
-        return null;
-        return (
-            <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
-        );
+    converDateToTime(data) {
+        let d = new Date(data)
+        let minutes = d.getMinutes() < 10 ? d.getMinutes() + "0" : d.getMinutes();
+        let hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
+        return `${hours + ':' + minutes}`
     }
 
-    rowHasChanged(r1, r2) {
-        return r1.name !== r2.name;
+    converDate(data) {
+        let d = new Date(data)
+        let date = d.getDate();
+        let month = d.getMonth();
+        return `${date + '/' + month}`
     }
 
     timeToString(time) {
@@ -121,7 +156,7 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
         // alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#F6F8FD',
     },
     item: {
         backgroundColor: 'white',
@@ -129,7 +164,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         // padding: 10,
         // marginRight: 10,
-        marginTop: 20,
+        // marginTop: 20,
         width: width - 40,
         marginHorizontal: 20
     },
