@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Animated, View, Text } from 'react-native';
 import Connect from '@stores';
 import Header from '@components/header'
 import IC_BACK from "@resources/icons/back-light.png";
@@ -13,6 +13,7 @@ class Events extends Layout {
     constructor(props) {
         super(props);
         this.state = {
+            scrollY: new Animated.Value(0),
             dateSelected: '',
             overViewDate: {},
             items: {},
@@ -23,20 +24,6 @@ class Events extends Layout {
         };
 
     }
-
-    static navigationOptions = ({ navigation }) => ({
-        header: <Header
-            LinearGradient={true}
-            leftIcon={IC_BACK}
-            leftAction={() => navigation.goBack()}
-            headercolor={'transparent'}
-        // center={function () {
-        //     return <View><Text>{this.app.test}</Text></View>
-        // }}
-        // rightIcon={IC_MENU}
-        // rightAction={() => alert('Notify')}
-        />
-    })
 
     componentWillMount() {
         const accessTokenApi = this.props.account.accessTokenAPI;
@@ -62,9 +49,6 @@ class Events extends Layout {
     }
 
     async _openModalDetail(item) {
-        // if (this.state.isShowModalFull) {
-        //     this.setState({ isShowModalFull: false })
-        // }
         await this.setState({ itemEventSelect: item })
         await this.setState({ isShowModalDetail: true })
     }
@@ -78,6 +62,7 @@ class Events extends Layout {
     _closeModalFull() {
         this.setState({ isShowModalFull: false })
     }
+
     timeToString(time) {
         const date = new Date(time);
         return date.toISOString().split('T')[0];

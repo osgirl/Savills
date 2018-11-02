@@ -20,6 +20,7 @@ let DATA = [
     { id: 8, key: 'Pages.Resident.Contacts', title: 'Contacts', screen: 'Contacts' },
     { id: 9, key: 'Pages.Resident.FrontDesk', title: 'Frontdesk', screen: '' },
     { id: 10, key: 'Pages.Resident.Fee', title: 'Free', screen: '' },
+    { id: 10, key: 'Pages.FAQ', title: 'FAQ', screen: 'FAQ' },
 ]
 
 
@@ -27,6 +28,7 @@ class Home extends layout {
 
     static navigationOptions = ({ navigation }) => ({
         header: <Header
+            animatedLeft
             headercolor={'#F6F8FD'}
             leftIcon={IC_EDIT}
             leftAction={navigation.getParam('openProfileHome')}
@@ -46,11 +48,6 @@ class Home extends layout {
                     </View>
                 </Button>
             }
-            // center={function () {
-            //     return <View><Text>{this.app.test}</Text></View>
-            // }}
-            // rightIconL={navigation.getParam('isHidenHeaderHome') ? IC_EDIT : null}
-            // rightActionL={() => alert('Edit L')}
             rightIcon={IC_NOTIFY}
             rightAction={() => alert('Notify')}
         />

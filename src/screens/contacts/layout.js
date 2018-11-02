@@ -16,6 +16,9 @@ import HeaderTitle from '@components/headerTitle';
 import call from 'react-native-phone-call'
 import IC_CALL from "@resources/icons/Call-button.png";
 
+import Header from '@components/header'
+import IC_BACK from "@resources/icons/back-light.png";
+
 const { width, height } = Dimensions.get('window');
 
 import Style from "./style";
@@ -105,6 +108,12 @@ export default class extends Component {
     render() {
         return (
             <View style={Style.container}>
+                <Header
+                    LinearGradient={true}
+                    headercolor={'transparent'}
+                    leftIcon={IC_BACK}
+                    leftAction={() => this.props.navigation.goBack()}
+                />
                 <FlatList
                     alwaysBounceVertical={false}
                     data={this.state.data || []}

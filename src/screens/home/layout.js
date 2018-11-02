@@ -135,7 +135,8 @@ export default class extends Component {
     }
 
     render() {
-        StatusBar.setHidden(this.state.isShowProfile)
+        StatusBar.setHidden(this.state.isShowProfile);
+        StatusBar.setBarStyle('dark-content');
         let User = this.props.userProfile.profile && this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
         let imageProfile = this.props.userProfile.imageProfile && this.props.userProfile.imageProfile.result && this.props.userProfile.imageProfile.result.profilePicture;
         var avatar = `data:image/png;base64,${imageProfile}`;

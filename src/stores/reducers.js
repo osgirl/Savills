@@ -5,6 +5,7 @@ import account from './states/account/reducer';
 import units from './states/units/reducer';
 import userProfile from './states/userProfile/reducer';
 import events from './states/events/reducer';
+import utilities from './states/utilities/reducer';
 
 export default combineReducers({
     app,
@@ -12,5 +13,6 @@ export default combineReducers({
     units,
     userProfile,
     events,
+    utilities
 
 });

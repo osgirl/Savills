@@ -88,13 +88,10 @@ class Header extends Component {
 				}]}>
 
 				<View style={style.wrapper}>
-
-					
 					<Animated.View style={Opacity}>
 						{this.props.renderViewLeft}
 					</Animated.View>
-					
-					<Animated.View style={[OpacityIcon, {position: 'absolute', left : 0}]}>
+					<Animated.View style={[OpacityIcon, { position: 'absolute', left: 0 }]}>
 						{
 							this.props.leftIcon &&
 							<ButtonCustom
@@ -105,16 +102,15 @@ class Header extends Component {
 							/>
 						}
 					</Animated.View>
-
-
 					<View>
-						{this.props.center && typeof this.props.center !== 'string'
-							? this.props.center()
-							: this.renderTitle()}
+						{
+							this.props.center ?
+								this.props.center : <View />
+						}
 					</View>
 					<View>
 						{
-							this.props.rightIcon ?
+							this.props.rightIcon || this.props.text ?
 								<View style={{ flexDirection: 'row' }}>
 									{
 										this.props.rightIconL ? <ButtonCustom
@@ -128,7 +124,10 @@ class Header extends Component {
 										background={this.props.headercolor}
 										haveMargin={false}
 										onPress={this.props.rightAction || null}
-										icon={this.props.rightIcon} />
+										display={this.props.display}
+										icon={this.props.rightIcon}
+										text={this.props.text}
+									/>
 
 								</View>
 								: <View style={{ width: 60 }} />

@@ -10,6 +10,7 @@ import Home from "./home";
 import Profile from "./profile";
 import Events from './events';
 import Contacts from './contacts';
+import FAQ from './faq';
 
 
 export {
@@ -24,6 +25,7 @@ export {
     Home,
     Profile,
     Events,
-    Contacts
+    Contacts,
+    FAQ
 
 }

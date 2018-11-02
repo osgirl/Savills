@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, FlatList, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, StatusBar } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
@@ -13,6 +13,9 @@ import IC_CALENDAR from "../../resources/icons/calendar.png";
 import IC_CLOCK from "../../resources/icons/clock.png";
 import IMG_CALENDAR_PH from "../../resources/icons/calendar-placehoder.png";
 import Placeholder from 'rn-placeholder';
+
+import Header from '@components/header'
+import IC_BACK from "@resources/icons/back-light.png";
 
 
 
@@ -63,17 +66,51 @@ export default class Layout extends Component {
         </View>
     }
 
+    handleScroll = (event) => {
+        Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            {
+                listener: event => {
+                    if (event.nativeEvent.contentOffset.y > 70) {
+                        if (!this.showCenter) {
+                            this.showCenter = true
+                            this.props.navigation.setParams({ eventTitle: 'Events' });
+                        }
+                    } else {
+                        if (this.showCenter) {
+                            this.showCenter = false
+                            this.props.navigation.setParams({ eventTitle: null });
+                        }
+                    }
+                }
+            }
+        )(event)
+    }
+
     render() {
-        StatusBar.setHidden(this.state.isShowModalFull)
+        StatusBar.setHidden(this.state.isShowModalFull);
         return (
             <View style={styles.container}>
+                <Header
+                    LinearGradient={true}
+                    leftIcon={IC_BACK}
+                    leftAction={() => this.props.navigation.goBack()}
+                    headercolor={'transparent'}
+                    center={
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 100 }}>
+                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-SemiBold' }}>{this.props.navigation.getParam('eventTitle')}</Text>
+                        </View>
+                    }
+                    text='T1-A03-02'
+                    display={'text'}
+                />
                 <FlatList
                     data={this.state.myEvent}
                     keyExtractor={(item) => item.eventId + ''}
                     renderItem={({ item, index }) => (
                         this.renderItem(item)
                     )}
-                    // onScroll={this.handleScroll}
+                    onScroll={this.handleScroll}
                     legacyImplementation={false}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
@@ -107,8 +144,6 @@ export default class Layout extends Component {
         let startTime = this.converDateToTime(item.startTime);
         let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
         return (
-            
-
             <Button
                 onPress={() => this._openModalDetail(item)}
                 style={[styles.item, { flexDirection: 'row' }]}>
@@ -136,8 +171,6 @@ export default class Layout extends Component {
                     </View>
                 </View>
             </Button >
-
-
         );
     }
 
@@ -159,22 +192,19 @@ export default class Layout extends Component {
         const date = new Date(time);
         return date.toISOString().split('T')[0];
     }
+
+
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center',
         backgroundColor: '#F6F8FD',
     },
     item: {
         backgroundColor: 'white',
         flex: 1,
         borderRadius: 5,
-        // padding: 10,
-        // marginRight: 10,
-        // marginTop: 20,
         width: width - 40,
         marginHorizontal: 20
     },
