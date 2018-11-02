@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Dimensions, Image, FlatList, StatusBar } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
-import HeaderTitle from '../../components/headerTitle';
+import HeaderTitle from '@components/headerTitle';
 
 import Button from "@components/button";
 import { Calendar } from "../../components/calendars";
@@ -11,8 +11,13 @@ const { width, height } = Dimensions.get('window');
 
 import IC_CALENDAR from "../../resources/icons/calendar.png";
 import IC_CLOCK from "../../resources/icons/clock.png";
+import IMG_CALENDAR_PH from "../../resources/icons/calendar-placehoder.png";
+import Placeholder from 'rn-placeholder';
+
+
 
 import Modal from "react-native-modal";
+import Resolution from "../../utils/resolution";
 
 import ModalDetail from "./components/modalDetail";
 import ModalFull from "./components/modalFull";
@@ -25,11 +30,12 @@ export default class Layout extends Component {
     }
 
     renderHeader() {
+        StatusBar.setBarStyle('light-content')
         return <View>
             <LinearGradient
                 colors={['#4A89E8', '#8FBCFF']}
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                style={{}}>
+                style={{ paddingBottom: 10 }}>
                 <HeaderTitle title='Events' />
                 <Calendar
                     minDate={'2017-05-10'}
@@ -101,6 +107,8 @@ export default class Layout extends Component {
         let startTime = this.converDateToTime(item.startTime);
         let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
         return (
+            
+
             <Button
                 onPress={() => this._openModalDetail(item)}
                 style={[styles.item, { flexDirection: 'row' }]}>
@@ -128,6 +136,8 @@ export default class Layout extends Component {
                     </View>
                 </View>
             </Button >
+
+
         );
     }
 

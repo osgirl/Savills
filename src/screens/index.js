@@ -9,6 +9,7 @@ import ChangePassword from "./changePassword";
 import Home from "./home";
 import Profile from "./profile";
 import Events from './events';
+import Contacts from './contacts';
 
 
 export {
@@ -22,6 +23,7 @@ export {
     ChangePassword,
     Home,
     Profile,
-    Events
+    Events,
+    Contacts
 
 }
