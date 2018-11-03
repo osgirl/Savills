@@ -12,7 +12,7 @@ import {
 export default class HeaderTitle extends Component {
     static defaultProps = {
         marginHorizontal: 20,
-        margintop: 40
+        margintop: 0
     };
 
     render() {

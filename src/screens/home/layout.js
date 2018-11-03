@@ -22,6 +22,7 @@ import IC_GRIDVIEW_ACTIVE from "../../resources/icons/Grid-view-active.png";
 import IC_GRIDVIEW from "../../resources/icons/Grid-view.png";
 import IC_LISTVIEW_ACTIVE from "../../resources/icons/list-view-active.png";
 import IC_LISTVIEW from "../../resources/icons/list-view.png";
+import IMG_AVATAR_DEFAULT from "../../resources/icons/avatar-default.png";
 
 const { width } = Dimensions.get('window');
 
@@ -44,7 +45,7 @@ export default class extends Component {
         let User = this.props.userProfile.profile && this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
         let imageProfile = this.props.userProfile.imageProfile && this.props.userProfile.imageProfile.result && this.props.userProfile.imageProfile.result.profilePicture;
         let Unit = this.props.units.unitActive;
-        var avatar = `data:image/png;base64,${imageProfile}`;
+        var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
         Animated.event(
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
             {
@@ -72,13 +73,13 @@ export default class extends Component {
         let User = this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
         let imageProfile = this.props.userProfile.imageProfile && this.props.userProfile.imageProfile.result && this.props.userProfile.imageProfile.result.profilePicture;
         let Unit = this.props.units.unitActive;
-        var avatar = `data:image/png;base64,${imageProfile}`;
+        var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
         return (
             <View style={{ width: width }}>
                 <Button
                     onPress={() => { this._openProfile() }}
                     style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 10 }}>
-                    <Image source={{ uri: avatar }}
+                    <Image source={typeof avatar === 'number' ? avatar : { uri: avatar }}
                         style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }}
                     />
                     {
@@ -139,7 +140,7 @@ export default class extends Component {
         StatusBar.setBarStyle('dark-content');
         let User = this.props.userProfile.profile && this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
         let imageProfile = this.props.userProfile.imageProfile && this.props.userProfile.imageProfile.result && this.props.userProfile.imageProfile.result.profilePicture;
-        var avatar = `data:image/png;base64,${imageProfile}`;
+        var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
         let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
         return (
             <View style={Style.container}>
@@ -148,7 +149,7 @@ export default class extends Component {
                         data={data}
                         horizontal={false}
                         key={(this.state.numcolumn === 2 ? 'h' : 'v')}
-                        contentContainerStyle={{ alignItems: 'center' }}
+                        contentContainerStyle={{ alignItems: 'center', }}
                         keyExtractor={(item) => item.id + ''}
                         numColumns={this.state.numcolumn || 2}
                         renderItem={({ item, index }) => (
