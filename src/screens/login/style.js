@@ -9,8 +9,6 @@ import Resolution from "../../utils/resolution";
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'space-between',
         backgroundColor: '#F6F8FD'
     },
     txtTop: {

@@ -1,9 +1,12 @@
 import {
     StyleSheet,
-    Platform
+    Platform,
+    Dimensions
 } from 'react-native';
 
 import Resolution from "../../utils/resolution";
+
+const { width } = Dimensions.get('window');
 
 const style = StyleSheet.create({
     container: {
@@ -20,12 +23,13 @@ const style = StyleSheet.create({
         fontFamily: 'OpenSans-Bold',
         lineHeight: 28
     },
-    btnLanguage: {
-        position: 'absolute', top: Platform.OS !== 'ios' ? 20 : 40, right: 20
-    },
     btnSent: {
-        marginBottom: 100,
+        // position: 'absolute',
+        // bottom: Resolution.scaleHeight(100),
+        // marginBottom: 100,
         marginTop: 20,
+        width: width - 120,
+        marginHorizontal: 60
     },
     modalContent: {
         backgroundColor: "white",

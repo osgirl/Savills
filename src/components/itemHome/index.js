@@ -25,7 +25,7 @@ export default class ItemHome extends Component {
                             onPress={() => this.props.onPressItem()}
                             style={Styles.container}>
                             <Image source={Utils.mapItemHome(this.props.image)} />
-                            <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                            <Text style={{ color: '#505E75', fontSize: 12, marginTop:Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
                         </Button>
                         :
                         <Image source={IC_DEFAULT} />
@@ -41,8 +41,8 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        width: Resolution.scaleWidth(157),
-        height: Resolution.scaleHeight(157),
+        width: 157,
+        height: 157,
         backgroundColor: '#FFFFFF',
         margin: 10,
 
