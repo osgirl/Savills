@@ -24,6 +24,7 @@ import Resolution from "../../utils/resolution";
 
 import ModalDetail from "./components/modalDetail";
 import ModalFull from "./components/modalFull";
+import ModalSelectUnit from "../../components/modalSelectUnit";
 
 export default class Layout extends Component {
 
@@ -40,7 +41,7 @@ export default class Layout extends Component {
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={{ paddingBottom: 10 }}>
                 <HeaderTitle title='Events' />
-                <Calendar
+                {/* <Calendar
                     minDate={'2017-05-10'}
                     maxDate={'2020-01-01'}
                     onDayPress={(data) => this._onPressDay(data.dateString)}
@@ -51,12 +52,30 @@ export default class Layout extends Component {
                     theme={{
                         todayTextColor: '#343D4D',
                         arrowColor: '#FFF',
-                        selectedDayBackgroundColor: '#fff',
+                        selectedDayBackgroundColor: 'transparent',
                         monthTextColor: '#FFF',
                         textSectionTitleColor: '#FFF',
                         textDayHeaderFontSize: 15,
+
+                    }}
+                /> */}
+
+                <Calendar
+                    style={styles.calendar}
+                    firstDay={1}
+                    markedDates={this.state.overViewDate || {}}
+                    theme={{
+                        todayTextColor: '#343D4D',
+                        arrowColor: '#FFF',
+                        selectedDayBackgroundColor: '#FFF',
+                        monthTextColor: '#FFF',
+                        textSectionTitleColor: '#FFF',
+                        textDayHeaderFontSize: 15,
+
                     }}
                 />
+
+
             </LinearGradient>
             <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>
                 <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
@@ -103,6 +122,7 @@ export default class Layout extends Component {
                     }
                     text='T1-A03-02'
                     display={'text'}
+                    rightAction={() => this._onpenModalSelectUnit()}
                 />
                 <FlatList
                     data={this.state.myEvent}
@@ -133,6 +153,13 @@ export default class Layout extends Component {
                         onClose={() => this._closeModalFull()}
                         eventIndate={this.state.myEvent}
                         dateSelected={this.state.dateSelected}
+                    />
+                </Modal>
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isModalSelectUnit}>
+                    <ModalSelectUnit
+                        onClose={() => this._onCloseModalSelectUnit()}
                     />
                 </Modal>
             </View>

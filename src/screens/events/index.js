@@ -20,7 +20,8 @@ class Events extends Layout {
             myEvent: [],
             isShowModalDetail: false,
             isShowModalFull: false,
-            itemEventSelect: null
+            itemEventSelect: null,
+            isModalSelectUnit: false
         };
 
     }
@@ -70,33 +71,40 @@ class Events extends Layout {
 
     mapObjectSelected(arrDate) {
         let markedDateMap = {};
-        let tempEvents = []
+        let tempEvents = [];
+        let currDate = this.timeToString(new Date());
+        console.log(currDate)
         arrDate.map((item) => {
             if (item.isEvent) {
                 tempEvents.push(item);
             }
         })
-
         tempEvents.map(item => {
             let date = this.timeToString(item.eventDate);
-            markedDateMap[date] = {
-                selected: true,
-                // disableTouchEvent: true,
-                // selectedDotColor: 'orange',
-                customStyles: {
-                    container: {
-                        backgroundColor: 'white',
-                        elevation: 2
-                    },
-                    text: {
-                        color: '#4A89E8',
-                        fontWeight: 'bold'
-                    },
+            if (date === currDate) {
+                markedDateMap[date] = {
+                    selected: true, marked: true, dotColor: 'red',
+                }
+            } else {
+                markedDateMap[date] = {
+                    marked: true, dotColor: '#FFF'
                 }
             }
+
         })
         return markedDateMap;
     }
+
+
+    _onpenModalSelectUnit() {
+        this.setState({ isModalSelectUnit: true })
+    }
+
+    _onCloseModalSelectUnit() {
+        this.setState({ isModalSelectUnit: false })
+    }
+
+
 }
 
 export default Connect(Events);

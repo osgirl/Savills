@@ -10,6 +10,7 @@ const INIT_STATE = ({
     success: null,
     error: null,
     switchAccount: {},
+    tenantActive: {},
     linkedAccountAuthenticate: {},
     resetPassword: {},
     changePassword: {},
@@ -309,6 +310,23 @@ export default createReducer(INIT_STATE, {
         );
         return tempState;
     },
+
+
+    // !TENANT_ACTIVE 
+    [Types.SET_TENANT_ACTIVE_SUCCESS]: (state, action) => {
+        let tempState = Object.assign({}, { ...state },
+            { tenantActive: action.payload });
+        return tempState;
+    },
+
+
+
+    [Types.GET_TENANT_ACTIVE_SUCCESS]: (state, action) => {
+        let tempState = Object.assign({}, { ...state },
+            { tenantActive: action.payload });
+        return tempState;
+    },
+
 
     // ! LOGOUT
     [Types.LOGOUT_SUCCESS]: (state, action) => {

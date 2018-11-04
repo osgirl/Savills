@@ -87,11 +87,7 @@ class Home extends layout {
         await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
         await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
         await this.props.actions.account.getUserSettings(accessTokenApi);
-
-        // if (_.isEmpty(this.props.account.tenantLocal) || this.props.account.tenant.length > 0) {
-        //     await this.props.actions.account.setTenantLocal(this.props.account.tenant);
-        //     await this.props.actions.account.getTenantLocal();
-        // }
+        await this.props.actions.account.getTenantActive();
     }
 
     _gotoChangePassword() {

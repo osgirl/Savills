@@ -105,7 +105,7 @@ export default class Button extends Component {
                 <TouchableOpacity
                     disabled={this.props.disabled}
                     activeOpacity={this.props.activeOpacity || 0.8}
-                    onPress={() => this.onPress() || (() => { })}
+                    onPress={() => this.onPress()}
                     style={[
                         this.props.type === 'bottom' || !this.props.haveMargin ? {} : { marginHorizontal: 20 }
                     ]}>

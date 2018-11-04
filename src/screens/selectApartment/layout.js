@@ -18,6 +18,7 @@ import _ from "lodash";
 import IC_APARTMENT from "@resources/icons/Apartment.png";
 
 import Style from "./style";
+import resolution from '../../utils/resolution';
 
 let DATA = [
     { id: 1, title: 'T1-A03-01' },
@@ -35,20 +36,20 @@ export default class extends Component {
         this.props.actions.account.switchToUserAccount(accessToken, project.tenantId, project.id);
     }
 
-    componentWillReceiveProps(nextProps) {
-        let accessToken = this.props.account.accessToken;
-        if (!_.isEmpty(nextProps.account.switchAccount) && nextProps.account.switchAccount.success && !nextProps.account.isGetSwichToUserAccount) {
-            let Token = nextProps.account.switchAccount.result.switchAccountToken;
-            this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
-        }
+    // componentWillReceiveProps(nextProps) {
+    //     let accessToken = this.props.account.accessToken;
+    //     if (!_.isEmpty(nextProps.account.switchAccount) && nextProps.account.switchAccount.success && !nextProps.account.isGetSwichToUserAccount) {
+    //         let Token = nextProps.account.switchAccount.result.switchAccountToken;
+    //         this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
+    //     }
 
-        if (!_.isEmpty(nextProps.account.linkedAccountAuthenticate) && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
-            this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
-            this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
-            this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
-            this.props.actions.account.setIsAccessTokenAPI(true);
-        }
-    }
+    //     if (!_.isEmpty(nextProps.account.linkedAccountAuthenticate) && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
+    //         this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
+    //         this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
+    //         this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
+    //         this.props.actions.account.setIsAccessTokenAPI(true);
+    //     }
+    // }
 
     render() {
 
@@ -65,7 +66,7 @@ export default class extends Component {
                     <FlatList
                         data={this.props.units.listUnits.result && this.props.units.listUnits.result.items.length > 0 ? this.props.units.listUnits.result.items : Utils.dataPlaceholder}
                         horizontal
-                        contentContainerStyle={{ paddingVertical: 5 }}
+                        contentContainerStyle={{ paddingVertical: resolution.scaleHeight(115) }}
                         keyExtractor={(item, index) => 'itemApartment__' + index}
                         renderItem={({ item, index }) => {
                             return <ItemProjectApartment
