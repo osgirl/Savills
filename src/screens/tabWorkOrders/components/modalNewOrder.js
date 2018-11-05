@@ -6,7 +6,7 @@ import Header from '@components/header';
 import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 import ImageViewer from 'react-native-image-zoom-viewer';
 const { width } = Dimensions.get('window');
-
+import Connect from '@stores';
 const options = {
   title: 'Chụp ảnh để tải lên',
   storageOptions: {
@@ -21,7 +21,7 @@ const options = {
   maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
 };
 
-export default class ModalNewOrder extends Component {
+class ModalNewOrder extends Component {
   static navigationOptions = ({ navigation }) => ({
     header: (
       <Header
@@ -45,6 +45,10 @@ export default class ModalNewOrder extends Component {
       showImage: false,
       imageIndex: 0
     };
+  }
+
+  componentWillMount() {
+    this.props.actions.workOrder.createWorkOrder();
   }
 
   changeArea(index) {
@@ -308,3 +312,5 @@ class ItemScorll extends Component {
     );
   }
 }
+
+export default Connect(ModalNewOrder);

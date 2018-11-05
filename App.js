@@ -19,7 +19,7 @@ Object.keys(Screens).forEach(name => {
 });
 
 const Stack = createStackNavigator(stacks, {
-  initialRouteName: 'Launcher',
+  initialRouteName: 'WorkOrder',
   navigationOptions: ({ navigation }) => ({
     header: null,
     gesturesEnabled: false
