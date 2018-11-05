@@ -4,7 +4,7 @@ import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import Stores from './src/stores/store';
 import * as Screens from './src/screens';
-import Resolution from "./src/utils/resolution";
+import Resolution from './src/utils/resolution';
 // YellowBox.ignoreWarnings([
 //     'Warning: isMounted',
 //     'Module RCTImageLoader',
@@ -13,26 +13,24 @@ import Resolution from "./src/utils/resolution";
 
 let stacks = {};
 Object.keys(Screens).forEach(name => {
-	stacks[name] = {
-		screen: Screens[name]
-	}
+  stacks[name] = {
+    screen: Screens[name]
+  };
 });
 
 const Stack = createStackNavigator(stacks, {
-	initialRouteName: "Launcher",
-	navigationOptions: ({ navigation }) => ({
-		
-		header: null,
-		gesturesEnabled: false,
-
-	}),
-	transitionConfig: () => ({
-		transitionSpec: {
-			duration: 0,
-			timing: Animated.timing,
-			easing: Easing.step0,
-		},
-	}),
+  initialRouteName: 'Launcher',
+  navigationOptions: ({ navigation }) => ({
+    header: null,
+    gesturesEnabled: false
+  }),
+  transitionConfig: () => ({
+    transitionSpec: {
+      duration: 0,
+      timing: Animated.timing,
+      easing: Easing.step0
+    }
+  })
 });
 
 // const DrawerNavigator = createDrawerNavigator({
@@ -49,12 +47,11 @@ const Stack = createStackNavigator(stacks, {
 // );
 
 export default class App extends Component {
-
-	render() {
-		return (
-			<Provider store={Stores}>
-				<Stack />
-			</Provider>
-		)
-	}
+  render() {
+    return (
+      <Provider store={Stores}>
+        <Stack />
+      </Provider>
+    );
+  }
 }

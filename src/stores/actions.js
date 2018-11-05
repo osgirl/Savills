@@ -4,12 +4,14 @@ import * as units from './states/units/action';
 import * as userProfile from './states/userProfile/action';
 import * as events from './states/events/action';
 import * as utilities from './states/utilities/action';
+import * as workOrder from './states/workOrder/action';
 
 export default {
-    app,
-    account,
-    units,
-    userProfile,
-    events,
-    utilities
+  workOrder,
+  app,
+  account,
+  units,
+  userProfile,
+  events,
+  utilities
 };
