@@ -1,10 +1,10 @@
-import {StyleSheet, Platform} from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import * as defaultStyle from '../../../style';
 
 const STYLESHEET_ID = 'stylesheet.day.basic';
 
-export default function styleConstructor(theme={}) {
-  const appStyle = {...defaultStyle, ...theme};
+export default function styleConstructor(theme = {}) {
+  const appStyle = { ...defaultStyle, ...theme };
   return StyleSheet.create({
     base: {
       width: 32,
@@ -24,8 +24,7 @@ export default function styleConstructor(theme={}) {
     },
     selected: {
       backgroundColor: appStyle.selectedDayBackgroundColor,
-      borderRadius: 16,
-      fontSize : 16
+      borderRadius: 12,
     },
     today: {
       backgroundColor: appStyle.todayBackgroundColor
@@ -35,6 +34,8 @@ export default function styleConstructor(theme={}) {
     },
     selectedText: {
       color: '#4A89E8',
+      fontWeight: '900'
+      // fontFamily: 'OpenSans-Bold'
     },
     disabledText: {
       color: appStyle.textDisabledColor
@@ -52,6 +53,10 @@ export default function styleConstructor(theme={}) {
     },
     selectedDot: {
       backgroundColor: appStyle.selectedDotColor
+    },
+
+    textEvent: {
+      fontWeight: 'bold'
     },
     ...(theme[STYLESHEET_ID] || {})
   });

@@ -87,7 +87,7 @@ class Events extends Layout {
                 }
             } else {
                 markedDateMap[date] = {
-                    marked: true, dotColor: '#FFF'
+                    marked: true, dotColor: '#FFF', isEvent: true
                 }
             }
 

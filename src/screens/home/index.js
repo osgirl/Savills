@@ -12,7 +12,7 @@ import IC_NOTIFY from "@resources/icons/notify.png";
 let DATA = [
     { id: 1, key: 'Pages.Resident', title: 'Events', screen: 'Events' },
     { id: 2, key: 'Pages.Resident.Booking', title: 'Booking', screen: '' },
-    { id: 3, key: 'Pages.Resident.WorkOrder', title: 'Work Order', screen: '' },
+    { id: 3, key: 'Pages.Resident.WorkOrder', title: 'Work Order', screen: 'WorkOrder' },
     { id: 4, key: 'invoice', title: 'Invoice', screen: '' },
     { id: 5, key: 'Pages.Resident.Inbox', title: 'Inbox', screen: '' },
     { id: 6, key: 'Pages.Resident.Feedback', title: 'Feed back', screen: '' },

@@ -71,6 +71,8 @@ export default class Layout extends Component {
                         monthTextColor: '#FFF',
                         textSectionTitleColor: '#FFF',
                         textDayHeaderFontSize: 15,
+                        textDayFontFamily: 'OpenSans-Regular',
+                        textDayFontSize: 14,
 
                     }}
                 />

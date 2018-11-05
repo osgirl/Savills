@@ -14,24 +14,14 @@ import {
 } from 'react-native';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
+import HeaderTitle from '@components/headerTitle';
 import moment from 'moment';
 import Header from '@components/header';
+import IC_BACK from "@resources/icons/back-light.png";
+
 import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 const { width } = Dimensions.get('window');
 class TabWorkOrder extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    header: (
-      <Header
-        leftIcon={IC_MENU}
-        leftAction={navigation.toggleDrawer}
-        // center={function () {
-        //     return <View><Text>{this.app.test}</Text></View>
-        // }}
-        // rightIcon={IC_MENU}
-        // rightAction={() => alert('Notify')}
-      />
-    )
-  });
 
   constructor(props) {
     super(props);
@@ -61,8 +51,25 @@ class TabWorkOrder extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']} style={{ flex: 1 }}>
-          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20 }}>Yêu Cầu</Text>
+        <Header
+          LinearGradient={true}
+          leftIcon={IC_BACK}
+          leftAction={() => this.props.navigation.goBack()}
+          headercolor={'transparent'}
+          // center={
+          //   <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 100 }}>
+          //     <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-SemiBold' }}>{this.props.navigation.getParam('eventTitle')}</Text>
+          //   </View>
+          // }
+          text='T1-A03-02'
+          display={'text'}
+          rightAction={() => this._onpenModalSelectUnit()}
+        />
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+          style={{ flex: 1 }}>
+          <HeaderTitle title='Yêu Cầu' />
           <ScrollableTabView
             tabBarActiveTextColor={'#FFF'}
             tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
