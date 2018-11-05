@@ -115,8 +115,21 @@ class modalSelectUnit extends Component {
         return null;
     }
 
+    timeToString(time) {
+        const date = new Date(time);
+        return date.toISOString().split('T')[0];
+    }
+
     async seletUnits(unit) {
         this.setState({ loading: true });
+        const accessTokenApi = this.props.account.accessTokenAPI;
+        const buildingID = this.props.units.unitActive.buildingId;
+        let date = new Date();
+        let firstDay = new Date(date.getFullYear(), 0, 1);
+        let lastDay = new Date(date.getFullYear(), 12, 31);
+        this.props.actions.events.getMyEvents(accessTokenApi, buildingID, this.timeToString(firstDay), this.timeToString(lastDay));
+        this.props.actions.events.getOverviewMyEvents(accessTokenApi, this.timeToString(firstDay), this.timeToString(lastDay));
+
         await this.props.actions.units.setUnitLocal(unit);
         await this.props.actions.units.getUnitLocal();
         this.setState({ loading: false });
