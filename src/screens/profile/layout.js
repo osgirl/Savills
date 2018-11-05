@@ -19,6 +19,7 @@ import IC_EMAIL from "@resources/icons/ID.png";
 import Resolution from "../../utils/resolution";
 import IC_CLOSE from "@resources/icons/close.png";
 import IC_SETTING from "@resources/icons/setting.png";
+import IMG_AVATAR_DEFAULT from "../../resources/icons/avatar-default.png";
 import Style from "./style";
 
 const { width } = Dimensions.get('window');
@@ -89,6 +90,7 @@ export default class extends Component {
 
     render() {
         // let Profile = this.props.profile;
+        let avatar = this.props.imageProfile;
         let Unit = this.props.units.unitActive;
         return (
             <View style={{ flex: 1 }}>
@@ -111,7 +113,7 @@ export default class extends Component {
                 {/* <ScrollView style={Style.container}> */}
                 <View style={Style.container}>
                     <View style={{ position: 'absolute', top: 0 }}>
-                        <Image source={{ uri: this.props.imageProfile }}
+                        <Image source={typeof avatar === 'number' ? avatar : { uri: avatar }}
                             resizeMode={'cover'}
                             style={Style.imgAvatar}
                         />

@@ -229,3 +229,30 @@ export function getTenantLocal() {
         }
     }
 }
+
+// ! set encToken
+export function setTenantActive(data) {
+    return {
+        type: Types.SET_TENANT_ACTIVE,
+        payload: {
+            storage: {
+                key: 'TENANT_ACTIVE',
+                type: 'setArrayObject',
+                data: data
+            }
+        }
+    }
+}
+
+export function getTenantActive() {
+    return {
+        type: Types.GET_TENANT_ACTIVE,
+        payload: {
+            storage: {
+                key: 'TENANT_ACTIVE',
+                type: 'getArrayObject',
+            }
+        }
+    }
+}
+

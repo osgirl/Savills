@@ -16,10 +16,11 @@ let DATA = [
     { id: 4, key: 'invoice', title: 'Invoice', screen: '' },
     { id: 5, key: 'Pages.Resident.Inbox', title: 'Inbox', screen: '' },
     { id: 6, key: 'Pages.Resident.Feedback', title: 'Feed back', screen: '' },
-    { id: 7, key: 'e-libary', title: 'E-labary', screen: '' },
-    { id: 8, key: 'Pages.Resident.Contacts', title: 'Contacts', screen: '' },
+    { id: 7, key: 'Pages.Libraries', title: 'E-labary', screen: '' },
+    { id: 8, key: 'Pages.Resident.Contacts', title: 'Contacts', screen: 'Contacts' },
     { id: 9, key: 'Pages.Resident.FrontDesk', title: 'Frontdesk', screen: '' },
     { id: 10, key: 'Pages.Resident.Fee', title: 'Free', screen: '' },
+    { id: 11, key: 'Pages.FAQ', title: 'FAQ', screen: 'FAQ' },
 ]
 
 
@@ -27,6 +28,7 @@ class Home extends layout {
 
     static navigationOptions = ({ navigation }) => ({
         header: <Header
+            animatedLeft
             headercolor={'#F6F8FD'}
             leftIcon={IC_EDIT}
             leftAction={navigation.getParam('openProfileHome')}
@@ -35,7 +37,7 @@ class Home extends layout {
                 <Button
                     onPress={navigation.getParam('openProfileHome')}
                     style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
-                    <Image source={{ uri: navigation.getParam('userAvatar') }}
+                    <Image source={typeof navigation.getParam('userAvatar') === 'number' ? navigation.getParam('userAvatar') : { uri: navigation.getParam('userAvatar') }}
                         style={{ width: 30, height: 30, borderRadius: 30 / 2 }}
                     />
                     <View style={{ flexDirection: 'column', marginLeft: 10 }}>
@@ -46,11 +48,6 @@ class Home extends layout {
                     </View>
                 </Button>
             }
-            // center={function () {
-            //     return <View><Text>{this.app.test}</Text></View>
-            // }}
-            // rightIconL={navigation.getParam('isHidenHeaderHome') ? IC_EDIT : null}
-            // rightActionL={() => alert('Edit L')}
             rightIcon={IC_NOTIFY}
             rightAction={() => alert('Notify')}
         />
@@ -79,7 +76,6 @@ class Home extends layout {
                     arrTemp.push(item);
                 }
             })
-            await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
             await this.setState({ dataModule: arrTemp })
         }
     }
@@ -91,11 +87,7 @@ class Home extends layout {
         await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
         await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
         await this.props.actions.account.getUserSettings(accessTokenApi);
-
-        // if (_.isEmpty(this.props.account.tenantLocal) || this.props.account.tenant.length > 0) {
-        //     await this.props.actions.account.setTenantLocal(this.props.account.tenant);
-        //     await this.props.actions.account.getTenantLocal();
-        // }
+        await this.props.actions.account.getTenantActive();
     }
 
     _gotoChangePassword() {
@@ -110,6 +102,10 @@ class Home extends layout {
 
     _closeProfile() {
         this.setState({ isShowProfile: false })
+    }
+
+    _gotoModule(screen) {
+        this.props.navigation.navigate(screen);
     }
 
     async _logOut() {

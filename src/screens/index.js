@@ -9,6 +9,8 @@ import ChangePassword from './changePassword';
 import Home from './home';
 import Profile from './profile';
 import Events from './events';
+import Contacts from './contacts';
+import FAQ from './faq';
 import WorkOrder from './tabWorkOrders';
 import ModalWorkOrder from './tabWorkOrders/components/modalNewOrder';
 import ModalEditOrder from './tabWorkOrders/components/modalEditOrder';
@@ -27,5 +29,7 @@ export {
   ChangePassword,
   Home,
   Profile,
-  Events
+  Events,
+  Contacts,
+  FAQ
 };

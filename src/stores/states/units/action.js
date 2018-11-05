@@ -12,6 +12,16 @@ export function getUnits(accessTokenAPI) {
     }
 }
 
+export function getEmployeesByOu(accessTokenAPI) {
+    return {
+        type: Types.GET_EMP_BYOU,
+        payload: {
+            api: Configs.API + '/api/Units/EmployeesByOu',
+            method: 'GET',
+            token: accessTokenAPI
+        }
+    }
+}
 
 export function setUnitLocal(data) {
     return {

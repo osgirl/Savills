@@ -13,11 +13,11 @@ export const textColor = '#43515c';
 export const textLinkColor = '#00adf5';
 export const textSecondaryColor = '#7a92a5';
 
-export const textDayFontFamily = 'System';
+export const textDayFontFamily = 'OpenSans-Bold';
 export const textMonthFontFamily = 'System';
 export const textDayHeaderFontFamily = 'System';
 
-export const textMonthFontWeight = '300';
+export const textMonthFontWeight = '900';
 
 export const textDayFontSize = 16;
 export const textMonthFontSize = 16;

@@ -12,7 +12,7 @@ const style = StyleSheet.create({
     },
     viewBottom: {
         position: 'absolute',
-        bottom: 115
+        bottom: 0
     }
 })
 

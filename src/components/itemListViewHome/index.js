@@ -12,6 +12,7 @@ import {
 import Resolution from "@utils/resolution";
 import Utils from "../../utils";
 import Configs from "../../utils/configs";
+import Button from "../button";
 import IC_DEFAULT from "@resources/icons/default.png";
 
 const { width } = Dimensions.get('window');
@@ -24,10 +25,12 @@ export default class ItemListHome extends Component {
                 {
                     this.props.loading ?
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Button
+                                onPress={() => this.props.onPressItem()}
+                                style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <Image source={Utils.mapItemHomeCircle(this.props.image)} style={{ marginHorizontal: 20, marginVertical: 10 }} />
                                 <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
-                            </View>
+                            </Button>
                             {/* <View style={{ marginHorizontal: 20, justifyContent: 'center' }}>
                                 <View style={{ backgroundColor: '#FF361A', borderRadius: 20 }}>
                                     <Text style={{ color: '#FFFFFF', padding: 5 }}>9+</Text>

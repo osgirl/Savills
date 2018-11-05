@@ -10,6 +10,9 @@ import Feedback from "@resources/icons/Feedback.png";
 import Elibary from "@resources/icons/Elibary.png";
 import Delivery from "@resources/icons/delivery.png";
 import Frontdesk from "@resources/icons/Frontdesk.png";
+import Fee from "../resources/icons/Fee.png";
+import FAQ from "../resources/icons/FAQ.png";
+import Contacts from "../resources/icons/contacts.png";
 
 
 // * Circle
@@ -47,17 +50,25 @@ export default class {
             case 'Pages.Resident.Feedback':
                 icon = Feedback
                 break;
-            case 'e-libary':
+            case 'Pages.Libraries':
                 icon = Elibary
                 break;
             case 'deliveries':
                 icon = Delivery
                 break;
+            case 'Pages.Resident.Fee':
+                icon = Fee
+                break;
+            case 'Pages.FAQ':
+                icon = FAQ
+                break;
             case 'Pages.Resident.FrontDesk':
                 icon = Frontdesk
                 break;
+            case 'Pages.Resident.Contacts':
+                icon = Contacts
+                break;
             default:
-                icon = Elibary
                 break;
         }
         return icon;
@@ -85,7 +96,7 @@ export default class {
             case 'Pages.Resident.Feedback':
                 icon = Circle_Feedback
                 break;
-            case 'e-libary':
+            case 'Pages.Libraries':
                 icon = Circle_E_libary
                 break;
             case 'deliveries':
@@ -97,7 +108,7 @@ export default class {
             case 'Pages.Resident.Contacts':
                 icon = Circle_Contacts
                 break;
-            case 'Pages.Resident.FAQ':
+            case 'Pages.FAQ':
                 icon = Circle_FAQ
                 break;
             case 'Pages.Resident.Fee':

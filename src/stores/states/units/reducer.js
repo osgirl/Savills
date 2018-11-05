@@ -4,6 +4,7 @@ import createReducer from '../';
 const INIT_STATE = ({
     listUnits: {},
     unitActive: {},
+    employeesByOu: {},
     statusGetUnit: 0,
     isGetlisUnit: true
 
@@ -39,6 +40,40 @@ export default createReducer(INIT_STATE, {
             return {
                 ...state,
                 listUnits: {}
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.GET_EMP_BYOU]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_EMP_BYOU_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                employeesByOu: action.response,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_EMP_BYOU_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
             };
         } catch (error) {
             console.log(error)

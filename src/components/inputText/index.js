@@ -46,6 +46,7 @@ class InputText extends Component {
                         this.props.onChange && this.props.onChange(e);
                         this.setState({ text: e })
                     }}
+                    keyboardType={this.props.keyboardType}
                     secureTextEntry={this.props.secureTextEntry || false}
                     value={this.state.text}
                     onSubmitEditing={() => this.props.submitAction && this.props.submitAction(this.state.text)}

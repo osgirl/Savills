@@ -3,7 +3,8 @@ import {
     View,
     Text,
     Platform,
-    TextInput
+    TextInput,
+    KeyboardAvoidingView
 } from 'react-native';
 
 import Modal from "react-native-modal";
@@ -28,7 +29,7 @@ export default class extends Component {
 
     renderModalContent = () => (
         <View style={[Style.modalContent, {}]}>
-            <Text style={{ marginTop: 40, fontSize: 15, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>Verify Your Code</Text>
+            <Text style={{ marginTop: Resolution.scaleHeight(40), fontSize: 15, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>Verify Your Code</Text>
             <View>
                 <TextInput
                     placeholder={'YOURCODE'}
@@ -36,7 +37,7 @@ export default class extends Component {
                 />
             </View>
             <Button
-                style={{ width: Resolution.scaleWidth(255), marginBottom: 40 }}
+                style={{ width: Resolution.scaleWidth(255), marginBottom: Resolution.scaleHeight(40) }}
                 onPress={() => { }}
             >
                 <LinearGradient
@@ -44,7 +45,7 @@ export default class extends Component {
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                     style={{ alignItems: 'center', borderRadius: 33, }}
                 >
-                    <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'Opensans-SemiBold' }}>
+                    <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: Resolution.scaleHeight(13), fontFamily: 'Opensans-SemiBold' }}>
                         OK
                      </Text>
                 </LinearGradient>
@@ -60,9 +61,10 @@ export default class extends Component {
                         {' A password reset link will be sent to your password. If you dont get an email within a few minutes, plesase re-try'}
                     </Text>
                 </View>
-                <View>
+                <KeyboardAvoidingView behavior={Platform.OS === 'android' ? "height" : "padding"}  style={{ alignItems: 'center', marginBottom: Resolution.scaleHeight(100)}} enabled>
                     <InputText
                         placeholder={'Email'}
+                        keyboardType='email-address'
                         iconLeft={IC_EMAIL}
                         onChange={(text) => { this.setState({ email: text }) }}
                     />
@@ -76,17 +78,12 @@ export default class extends Component {
                             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                             style={{ alignItems: 'center', borderRadius: 33, }}
                         >
-                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'Opensans-SemiBold' }}>
+                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: Resolution.scaleHeight(13), fontFamily: 'Opensans-SemiBold' }}>
                                 Send
                             </Text>
                         </LinearGradient>
                     </Button>
-                </View>
-                {/* <Modal
-                    onBackdropPress={() => this.setState({ isShowModalVerify: false })}
-                    isVisible={this.state.isShowModalVerify}>
-                    {this.renderModalContent()}
-                </Modal> */}
+                </KeyboardAvoidingView>
                 {this.renderLoading()}
             </View>
         );

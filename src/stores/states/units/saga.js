@@ -13,6 +13,16 @@ function* getUnits(action) {
   }
 }
 
+function* getEmployeesByOu(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_EMP_BYOU_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export default function* saga() {
   yield takeLatest(Types.GET_UNITS, getUnits);
+  yield takeLatest(Types.GET_EMP_BYOU, getEmployeesByOu);
 }

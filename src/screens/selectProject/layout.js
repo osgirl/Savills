@@ -11,8 +11,10 @@ import IMG_BG from "../../resources/image/ChooseProject.png";
 import ItemProjectApartment from "../../components/itemProjectApartment";
 import Utils from "../../utils";
 import IC_PROJECT from "@resources/icons/Project.png";
+import Loading from "@components/loading";
 
 import Style from "./style";
+import resolution from '../../utils/resolution';
 
 let DATA = [
     { id: 1, title: 'TheSun Avinue' },
@@ -22,6 +24,18 @@ let DATA = [
 ]
 
 export default class extends Component {
+
+    renderLoading() {
+        if (this.state.loading) {
+            return <Loading
+                style={{ zIndex: 30 }}
+                visible={this.state.loading}
+                onRequestClose={() => { }}
+            />
+        }
+        return null;
+    }
+
 
     render() {
         return (
@@ -37,7 +51,7 @@ export default class extends Component {
                     <FlatList
                         data={this.props.account.tenant && this.props.account.tenant.length > 0 ? this.props.account.tenant : Utils.dataPlaceholder}
                         horizontal
-                        contentContainerStyle={{ paddingVertical: 5 }}
+                        contentContainerStyle={{ paddingVertical: resolution.scaleHeight(115) }}
                         keyExtractor={(item, index) => 'itenmProject__' + index}
                         renderItem={({ item, index }) => {
                             return <ItemProjectApartment
@@ -53,6 +67,7 @@ export default class extends Component {
                         ListFooterComponent={() => <View style={{ width: 20 }} />}
                     />
                 </View>
+                {this.renderLoading()}
             </ImageBackground>
         );
     }

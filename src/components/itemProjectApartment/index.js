@@ -19,12 +19,14 @@ export default class ItemProjectApartment extends Component {
         // const item = this.props.item;
         return (
             this.props.loading ?
-                <Button
-                    onPress={this.props.onPressItem}
-                    style={[Styles.container, { ...Configs.Shadow }]}>
-                    <Image source={typeof this.props.image === 'number' ? this.props.image : { uri: this.props.image }} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
-                    <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
-                </Button>
+                <View style={[Styles.container, { ...Configs.Shadow }]}>
+                    <Button
+                        onPress={this.props.onPressItem}
+                        style={[Styles.container, { ...Configs.Shadow }]}>
+                        <Image source={typeof this.props.image === 'number' ? this.props.image : { uri: this.props.image }} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
+                        <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                    </Button>
+                </View>
                 :
                 <View style={[Styles.container, { ...Configs.Shadow }]}>
                     <Image source={IC_DEFAULT} />
@@ -38,8 +40,8 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        width: Resolution.scaleWidth(136),
-        height: Resolution.scaleHeight(136),
+        width: 136,
+        height: 136,
         backgroundColor: '#FFFFFF',
     }
 })

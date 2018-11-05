@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    Platform
+    Platform,
+    KeyboardAvoidingView
 } from 'react-native';
 
 import Button from "@components/button";
 import InputText from "@components/inputText";
 import LinearGradient from 'react-native-linear-gradient';
 import Loading from "@components/loading";
+import Resolution from "../../utils/resolution";
 
 import IC_EMAIL from "@resources/icons/ID.png";
 
@@ -58,7 +60,7 @@ export default class extends Component {
         if (this.state.newPass !== this.state.rePass) {
             this.setState({ loading: false, error: 'password is not equal re-enter password' })
             return;
-        }else{
+        } else {
             this.setState({ error: '' })
         }
 
@@ -95,12 +97,12 @@ export default class extends Component {
                         {'Change Your Pass'}
                     </Text>
                 </View>
-                <View>
+                <KeyboardAvoidingView behavior="padding" enabled style={{marginBottom: Resolution.scaleHeight(100)}}>
                     {
                         this.state.error.length > 0 ?
                             <Text style={{ color: '#FF361A', fontSize: 10, alignSelf: 'center' }}>{this.state.error}</Text> : null
                     }
-                    <View style={{ marginVertical: 20 }}>
+                    <View style={{ marginVertical: Resolution.scaleHeight(20) }}>
                         {
                             status == 'forgot' ?
                                 <InputText
@@ -124,7 +126,7 @@ export default class extends Component {
                         onChange={(text) => this.setState({ newPass: text })}
                         secureTextEntry
                     />
-                    <View style={{ marginVertical: 20 }}>
+                    <View style={{ marginVertical: Resolution.scaleHeight(20) }}>
                         <InputText
                             placeholder={'Retype Password'}
                             iconLeft={IC_EMAIL}
@@ -134,17 +136,16 @@ export default class extends Component {
                     </View>
                     <Button
                         onPress={() => this._resetPassWord()}
-                        style={{ marginBottom: 100 }}
                     >
                         <LinearGradient
                             colors={['#4A89E8', '#8FBCFF']}
                             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                             style={{ alignItems: 'center', borderRadius: 33 }}
                         >
-                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'OpenSans-SemiBold' }}>Send</Text>
+                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: Resolution.scaleHeight(13), fontFamily: 'OpenSans-SemiBold' }}>Send</Text>
                         </LinearGradient>
                     </Button>
-                </View>
+                </KeyboardAvoidingView>
                 {this.renderLoading()}
             </View>
         );
