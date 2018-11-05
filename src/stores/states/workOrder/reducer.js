@@ -3,10 +3,32 @@ import createReducer from '../';
 
 const INIT_STATE = {
   workOrderList: {},
-  workOrderDetail: false
+  workOrderDetail: false,
+  listCategory: false
 };
 
 export default createReducer(INIT_STATE, {
+  [Types.GET_LIST_CATEGORY]: (state, action) => {
+    try {
+      return {
+        ...state
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.GET_LIST_CATEGORY_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        listCategory: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.GET_LIST_WORKORDER]: (state, action) => {
     try {
       return {
