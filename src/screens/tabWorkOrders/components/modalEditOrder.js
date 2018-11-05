@@ -13,24 +13,25 @@ const STAR_OFF = require('../../../resources/icons/Star.png');
 
 const { width } = Dimensions.get('window');
 class ModalEditOrder extends Component {
-  componentWillMount = () => {
-    let id = this.props.navigation.getParam('id', 0);
-    this.props.actions.workOrder.detailWordOrder('asda', id);
-  };
-
   constructor(props) {
     super(props);
     this.state = {
       detailOrder: {},
       isShowChat: false,
       isShowRating: false,
+      loading: true,
       vote: 0
     };
   }
 
+  componentWillMount = async () => {
+    let id = this.props.navigation.getParam('id', 0);
+    await this.props.actions.workOrder.detailWordOrder('asda', id);
+  };
+
   componentWillReceiveProps = nextProps => {
     if (nextProps.workOrder.workOrderDetail && nextProps.workOrder.workOrderDetail.success) {
-      this.setState({ detailOrder: nextProps.workOrder.workOrderDetail.result });
+      this.setState({ detailOrder: nextProps.workOrder.workOrderDetail.result, loading: false });
     }
   };
 
@@ -38,7 +39,10 @@ class ModalEditOrder extends Component {
     const { description, fullUnitCode, currentStatus, dateCreate, id } = this.state.detailOrder;
     let date = moment(dateCreate).format('l');
     let time = moment(dateCreate).format('LT');
-    return this.props.workOrder.workOrderDetail ? (
+    console.log('asdajsdasjdklasjdklasdasda', this.state.detailOrder);
+    return this.state.loading ? (
+      <ActivityIndicator size={'large'} color={'red'} />
+    ) : (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 50 }}>
           <LinearGradient
@@ -127,7 +131,11 @@ class ModalEditOrder extends Component {
                   alignItems: 'center'
                 }}
               >
-                <Image source={require('../../../resources/icons/avatar-default.png')} />
+                <Image
+                  style={{ width: 70, height: 70, borderRadius: 35 }}
+                  resizeMode={'cover'}
+                  source={require('../../../resources/icons/avatar-default.png')}
+                />
                 <Text style={{ flex: 1, marginLeft: 20 }}>Chưa có người phụ trách</Text>
                 <Image source={require('../../../resources/icons/call-disable.png')} />
               </View>
@@ -227,8 +235,6 @@ class ModalEditOrder extends Component {
         {this.renderContentModalChat()}
         {this.renderModalRating()}
       </View>
-    ) : (
-      <ActivityIndicator size={'large'} color={'red'} />
     );
   }
 
