@@ -13,6 +13,7 @@ class Profile extends Layout {
             profile: this.props.profile,
             txtUpdate: '',
             keyUpdate: '',
+            avatarSource: ''
         }
     }
 

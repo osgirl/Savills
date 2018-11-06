@@ -25,7 +25,7 @@ const style = StyleSheet.create({
         width: width
     },
     content: {
-        marginTop: Resolution.scaleHeight(200),
+        marginTop: Resolution.scaleHeight(160),
         width: width - 40,
         alignSelf: 'center'
     },
