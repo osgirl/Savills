@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+  FlatList
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Connect from '@stores';
 import moment from 'moment';
@@ -17,6 +27,7 @@ class ModalEditOrder extends Component {
     super(props);
     this.state = {
       detailOrder: {},
+      listComment: false,
       isShowChat: false,
       isShowRating: false,
       loading: true,
@@ -27,11 +38,16 @@ class ModalEditOrder extends Component {
   componentWillMount = async () => {
     let id = this.props.navigation.getParam('id', 0);
     await this.props.actions.workOrder.detailWordOrder('asda', id);
+    await this.props.actions.workOrder.getCommentUser();
+    // await this.props.actions.workOrder.addCommentUser();
   };
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.workOrder.workOrderDetail && nextProps.workOrder.workOrderDetail.success) {
       this.setState({ detailOrder: nextProps.workOrder.workOrderDetail.result, loading: false });
+    }
+    if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
+      this.setState({ listComment: nextProps.workOrder.listComment.result.items });
     }
   };
 
@@ -39,9 +55,10 @@ class ModalEditOrder extends Component {
     const { description, fullUnitCode, currentStatus, dateCreate, id } = this.state.detailOrder;
     let date = moment(dateCreate).format('l');
     let time = moment(dateCreate).format('LT');
-    console.log('asdajsdasjdklasjdklasdasda', this.state.detailOrder);
     return this.state.loading ? (
-      <ActivityIndicator size={'large'} color={'red'} />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator size={'large'} color={'red'} />
+      </View>
     ) : (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 50 }}>
@@ -132,7 +149,7 @@ class ModalEditOrder extends Component {
                 }}
               >
                 <Image
-                  style={{ width: 70, height: 70, borderRadius: 35 }}
+                  style={{ width: 50, height: 50, borderRadius: 18 }}
                   resizeMode={'cover'}
                   source={require('../../../resources/icons/avatar-default.png')}
                 />
@@ -144,19 +161,34 @@ class ModalEditOrder extends Component {
           <ItemScorll
             title={'Hình Ảnh'}
             view={
-              <ScrollView
-                style={{
-                  borderRadius: 10,
-                  paddingTop: 20,
-                  width: width - 40,
-                  height: 130,
-                  backgroundColor: '#FFF'
-                }}
-                showsHorizontalScrollIndicator={false}
-                horizontal
-              >
-                {['1', '2', '3', '4', '5', '6'].map((item, index) => this.renderItemImage(index))}
-              </ScrollView>
+              this.state.detailOrder.fileUrls.length > 0 ? (
+                <ScrollView
+                  style={{
+                    borderRadius: 10,
+                    paddingTop: 20,
+                    width: width - 40,
+                    height: 130,
+                    backgroundColor: '#FFF'
+                  }}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal
+                >
+                  {this.state.detailOrder.fileUrls.map((item, index) => this.renderItemImage(index, item))}
+                </ScrollView>
+              ) : (
+                <View
+                  style={{
+                    borderRadius: 10,
+                    width: width - 40,
+                    height: 80,
+                    backgroundColor: '#FFF',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Text style={{ color: '#515E6D', fontSize: 16, fontWeight: '600' }}>Chưa upload hình ảnh</Text>
+                </View>
+              )
             }
           />
           <ItemScorll
@@ -238,8 +270,19 @@ class ModalEditOrder extends Component {
     );
   }
 
-  renderItemImage = index => {
-    return <View key={index} style={{ width: 90, height: 90, marginLeft: 20, backgroundColor: 'yellow', borderRadius: 10 }} />;
+  renderItemImage = (index, item) => {
+    let encToken = this.props.account.encToken;
+    let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+    return (
+      <Image
+        key={index}
+        style={{ width: 90, height: 90, marginLeft: 20, borderRadius: 10 }}
+        resizeMode={'cover'}
+        source={{
+          uri: image
+        }}
+      />
+    );
   };
 
   voteProduct(data) {
@@ -349,9 +392,13 @@ class ModalEditOrder extends Component {
               <Image source={require('../../../resources/icons/close-image.png')} />
             </TouchableOpacity>
           </View>
-          <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            <View style={{ width: width, height: 2000 }} />
-          </ScrollView>
+          <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
+            <FlatList
+              data={this.state.listComment}
+              keyExtractor={(item, index) => item.id.toString()}
+              renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
+            />
+          </View>
           <LinearGradient
             colors={['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }}
@@ -391,6 +438,26 @@ class ItemScorll extends Component {
       <View style={{ flex: 1, marginHorizontal: 20 }}>
         <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 14, fontWeight: 'bold' }}>{title}</Text>
         {this.props.view}
+      </View>
+    );
+  }
+}
+
+class ItemComment extends Component {
+  render() {
+    const { content, creationTime } = this.props.item;
+    let times = moment(creationTime).fromNow();
+    return (
+      <View style={{ width: width - 40, marginHorizontal: 20, marginVertical: 10, flexDirection: 'row' }}>
+        <Image
+          style={{ width: 36, height: 36, borderRadius: 18, marginVertical: 20 }}
+          resizeMode={'cover'}
+          source={{ uri: 'http://thuthuatphanmem.vn/uploads/2018/06/18/anh-avatar-dep-65_034122567.jpg' }}
+        />
+        <View style={{ flex: 1, backgroundColor: '#FFF', borderRadius: 5, padding: 20, marginLeft: 20 }}>
+          <Text style={{ color: '#515E6D', fontSize: 14, fontWeight: '600' }}>{content}</Text>
+          <Text style={{ marginTop: 5, color: 'rgba(69,79,102,0.5)', fontSize: 12 }}>{times}</Text>
+        </View>
       </View>
     );
   }

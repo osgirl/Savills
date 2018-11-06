@@ -17,12 +17,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
 import moment from 'moment';
 import Header from '@components/header';
-import IC_BACK from "@resources/icons/back-light.png";
+import IC_BACK from '@resources/icons/back-light.png';
 
 import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 const { width } = Dimensions.get('window');
 class TabWorkOrder extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -48,7 +47,6 @@ class TabWorkOrder extends Component {
       list = this.state.listWorkOrder.filter(e => e.currentStatus.codeName === 'New');
       listTwo = this.state.listWorkOrder.filter(e => e.currentStatus.codeName !== 'New');
     }
-
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <Header
@@ -61,15 +59,12 @@ class TabWorkOrder extends Component {
           //     <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-SemiBold' }}>{this.props.navigation.getParam('eventTitle')}</Text>
           //   </View>
           // }
-          text='T1-A03-02'
+          text="T1-A03-02"
           display={'text'}
           rightAction={() => this._onpenModalSelectUnit()}
         />
-        <LinearGradient
-          colors={['#4A89E8', '#8FBCFF']}
-          start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-          style={{ flex: 1 }}>
-          <HeaderTitle title='Yêu Cầu' />
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
+          <HeaderTitle title="Yêu Cầu" />
           <ScrollableTabView
             tabBarActiveTextColor={'#FFF'}
             tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
@@ -119,7 +114,7 @@ class TabWorkOrder extends Component {
           ListEmptyComponent={() => {
             return (
               <View style={{ marginTop: 50 }}>
-                <Text>asdasdasa</Text>
+                <Text>Load Data !!</Text>
               </View>
             );
           }}
@@ -138,8 +133,8 @@ class TabWorkOrder extends Component {
           renderItem={({ item, index }) => this.renderItem(item, index)}
           ListEmptyComponent={() => {
             return (
-              <View style={{ marginTop: 50 }}>
-                <Text>asdasdasa</Text>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 100 }}>
+                <Text style={{ color: '#515E6D', fontWeight: '500', fontSize: 18 }}>No data !!</Text>
               </View>
             );
           }}

@@ -23,9 +23,7 @@ export default class {
         request['body'] = JSON.stringify(action.payload);
       }
     }
-    // console.log(url,request,action);
     let response = await fetch(url, request);
-    console.log('asdjasdklasjdkasdjalksdjalskdasda', url);
     let json = await response.json();
     return json;
   }
