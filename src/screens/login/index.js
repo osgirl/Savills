@@ -24,12 +24,11 @@ class Login extends layout {
 
     async componentWillReceiveProps(nextProps) {
         if (this.state.unMount) {
-            console.log('zozozo')
             if (nextProps.account.accessToken && nextProps.account.accessToken.length > 0 && !nextProps.account.isGetAccessToken) {
                 await this.props.actions.account.setAccessTokenLocal(nextProps.account.accessToken);
                 await this.props.actions.account.getTenant(nextProps.account.accessToken);
             }
-            if (_.isEmpty(this.props.account.tenantLocal) && nextProps.account.tenant && nextProps.account.tenant.length > 0 && !nextProps.account.isGetTenant) {
+            if (this.props.account.tenant !== nextProps.account.tenant && nextProps.account.tenant.length > 0 && !nextProps.account.isGetTenant) {
                 await this.props.actions.account.setTenantLocal(nextProps.account.tenant);
                 let tenantList = nextProps.account.tenant;
                 if (tenantList && tenantList.length === 1) {

@@ -14,6 +14,7 @@ import ButtonCustom from "@components/buttonCustom";
 import Button from "@components/button";
 import InputText from "@components/inputText";
 import LinearGradient from 'react-native-linear-gradient';
+import ImagePicker from 'react-native-image-picker';
 import Loading from "@components/loading";
 import IC_EMAIL from "@resources/icons/ID.png";
 import Resolution from "../../utils/resolution";
@@ -88,6 +89,41 @@ export default class extends Component {
         </View>
     );
 
+    selectPhotoTapped() {
+        const options = {
+            quality: 1.0,
+            maxWidth: 500,
+            maxHeight: 500,
+            storageOptions: {
+                skipBackup: true
+            }
+        };
+
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled photo picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                let source = { uri: response.uri };
+
+                // You can also display the image using data:
+                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+                this.setState({
+                    avatarSource: source
+                });
+            }
+        });
+    }
+
     render() {
         // let Profile = this.props.profile;
         let avatar = this.props.imageProfile;
@@ -119,6 +155,11 @@ export default class extends Component {
                         />
                     </View>
                     <View style={Style.content}>
+                        <View style={{ marginVertical: 10, alignItems: 'flex-end' }}>
+                            <Button onPress={() => this.selectPhotoTapped()}>
+                                <Text style={{ color: '#FFF', fontFamily: 'OpenSans-Semibold', fontSize: 12 }}>Change avatar</Text>
+                            </Button>
+                        </View>
                         <View style={Style.block1}>
                             <View>
                                 <Text style={styleTextTitle}>Unit</Text>
