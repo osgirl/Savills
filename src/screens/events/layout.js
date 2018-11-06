@@ -64,6 +64,7 @@ export default class Layout extends Component {
                     style={styles.calendar}
                     firstDay={1}
                     markedDates={this.state.overViewDate || {}}
+                    onDayPress={(data) => this._onPressDay(data.dateString)}
                     theme={{
                         todayTextColor: '#343D4D',
                         arrowColor: '#FFF',
