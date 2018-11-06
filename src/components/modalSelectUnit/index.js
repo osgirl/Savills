@@ -48,6 +48,11 @@ class modalSelectUnit extends Component {
             await this.props.actions.account.linkedAccountAuthenticate(accessToken, Token);
         }
 
+        if (this.props.account.switchAccount !== nextProps.account.switchAccount && !nextProps.account.switchAccount.success && !nextProps.account.isGetSwichToUserAccount) {
+            alert('faild switchAccount')
+            await this.setState({ loading: false })
+        }
+
         if (this.props.account.linkedAccountAuthenticate !== nextProps.account.linkedAccountAuthenticate && nextProps.account.linkedAccountAuthenticate.success && !nextProps.account.isGetAccessTokenAPI) {
             await this.props.actions.account.setAccessApiTokenLocal(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.account.setEncTokenLocal(nextProps.account.linkedAccountAuthenticate.result.encryptedAccessToken);
@@ -55,6 +60,12 @@ class modalSelectUnit extends Component {
             await this.props.actions.userProfile.getImageUserProfile(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
             await this.props.actions.account.setIsAccessTokenAPI(true);
+        }
+
+        if (this.props.account.linkedAccountAuthenticate !== nextProps.account.linkedAccountAuthenticate && !nextProps.account.linkedAccountAuthenticate.success) {
+            alert(nextProps.account.linkedAccountAuthenticate.error.message);
+            this.setState({ loading: false })
+            return
         }
 
         if (this.props.units.listUnits !== nextProps.units.listUnits && nextProps.units.listUnits.success) {
