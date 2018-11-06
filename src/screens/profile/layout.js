@@ -18,6 +18,7 @@ import ImagePicker from 'react-native-image-picker';
 import Loading from "@components/loading";
 import IC_EMAIL from "@resources/icons/ID.png";
 import Resolution from "../../utils/resolution";
+import FastImage from "../../components/fastImage";
 import IC_CLOSE from "@resources/icons/close.png";
 import IC_SETTING from "@resources/icons/setting.png";
 import IMG_AVATAR_DEFAULT from "../../resources/icons/avatar-default.png";
@@ -125,7 +126,6 @@ export default class extends Component {
     }
 
     render() {
-        // let Profile = this.props.profile;
         let avatar = this.props.imageProfile;
         let Unit = this.props.units.unitActive;
         return (
@@ -149,9 +149,10 @@ export default class extends Component {
                 {/* <ScrollView style={Style.container}> */}
                 <View style={Style.container}>
                     <View style={{ position: 'absolute', top: 0 }}>
-                        <Image source={typeof avatar === 'number' ? avatar : { uri: avatar }}
-                            resizeMode={'cover'}
+                        <FastImage
                             style={Style.imgAvatar}
+                            source={avatar}
+                            resizeMode={'cover'}
                         />
                     </View>
                     <View style={Style.content}>

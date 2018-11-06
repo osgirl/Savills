@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
 
 import Button from "@components/button";
+import FastImage from "../../components/fastImage";
 import { Calendar } from "../../components/calendars";
 
 const { width, height } = Dimensions.get('window');
@@ -41,24 +42,6 @@ export default class Layout extends Component {
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={{ paddingBottom: 10 }}>
                 <HeaderTitle title='Events' />
-                {/* <Calendar
-                    minDate={'2017-05-10'}
-                    maxDate={'2020-01-01'}
-                    onDayPress={(data) => this._onPressDay(data.dateString)}
-                    style={styles.calendar}
-                    backgroundColor={'transparent'}
-                    markingType={'custom'}
-                    markedDates={this.state.overViewDate || {}}
-                    theme={{
-                        todayTextColor: '#343D4D',
-                        arrowColor: '#FFF',
-                        selectedDayBackgroundColor: 'transparent',
-                        monthTextColor: '#FFF',
-                        textSectionTitleColor: '#FFF',
-                        textDayHeaderFontSize: 15,
-
-                    }}
-                /> */}
 
                 <Calendar
                     style={styles.calendar}
@@ -77,8 +60,6 @@ export default class Layout extends Component {
 
                     }}
                 />
-
-
             </LinearGradient>
             <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>
                 <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
@@ -177,10 +158,14 @@ export default class Layout extends Component {
             <Button
                 onPress={() => this._openModalDetail(item)}
                 style={[styles.item, { flexDirection: 'row' }]}>
-                <Image
-                    source={{ uri: image }}
-                    style={{ width: 103, height: 103, borderRadius: 5, }} />
-                <View style={{ width: width - 143, flexDirection: 'column' }}>
+
+                <FastImage
+                    style={{ width: 103, height: 103, borderRadius: 5, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+                    source={image}
+                    resizeMode={'cover'}
+                />
+
+                <View style={{ width: width - 143, flexDirection: 'column', }}>
                     <Text
                         numberOfLines={2} style={{ fontSize: 13, fontWeight: '600', marginLeft: 20, marginRight: 20, marginTop: 20 }}>
                         {item.subject}

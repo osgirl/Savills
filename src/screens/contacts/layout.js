@@ -13,6 +13,7 @@ import InputText from "@components/inputText";
 import LinearGradient from 'react-native-linear-gradient';
 import Loading from "@components/loading";
 import HeaderTitle from '@components/headerTitle';
+import FastImage from "../../components/fastImage";
 import call from 'react-native-phone-call'
 import IC_CALL from "@resources/icons/Call-button.png";
 
@@ -78,9 +79,11 @@ export default class extends Component {
                 onPress={() => { }}
                 style={[{ marginHorizontal: 20, width: width - 40, backgroundColor: '#FFF', borderRadius: 5 }]}>
                 <View style={{ flexDirection: 'row', padding: 20, justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Image
-                        source={{ uri: image }}
-                        style={{ width: 50, height: 50, borderRadius: 50 / 2, }} />
+                    <FastImage
+                        style={{ width: 50, height: 50, borderRadius: 50 / 2, }}
+                        source={image}
+                        resizeMode={'cover'}
+                    />
                     <View style={{ flexDirection: 'column', marginLeft: 20 }}>
                         <Text
                             numberOfLines={2} style={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold', width: resolution.scaleWidth(175) }}>
