@@ -22,34 +22,66 @@ const options = {
 };
 
 class ModalNewOrder extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    header: (
-      <Header
-        leftIcon={IC_MENU}
-        leftAction={navigation.toggleDrawer}
-        // center={function () {
-        //     return <View><Text>{this.app.test}</Text></View>
-        // }}
-        // rightIcon={IC_MENU}
-        // rightAction={() => alert('Notify')}
-      />
-    )
-  });
-
   constructor(props) {
     super(props);
     this.state = {
       area: 0,
       imageList: ['1'],
+      imageListBase64: [],
       comment: '',
       showImage: false,
       imageIndex: 0
     };
   }
 
-  componentWillMount() {
-    this.props.actions.workOrder.createWorkOrder();
+  async componentWillReceiveProps(nextProps) {
+    let accessTokenAPI = this.props.account.accessTokenAPI;
+    if (
+      nextProps.workOrder.createWorkorder &&
+      nextProps.workOrder.createWorkorder.success &&
+      !nextProps.workOrder.isCreateWorkOrder
+    ) {
+      nextProps.actions.workOrder.setFlagCreateWorkOrder();
+      alert('Create Success !!');
+      if (this.state.imageListBase64.length > 0) {
+        for (let i = 0; i < this.state.imageListBase64.length; i++) {
+          await this.props.actions.workOrder.uploadImageWorkOrder(
+            accessTokenAPI,
+            this.state.imageListBase64[i],
+            nextProps.workOrder.createWorkorder.result.guid
+          );
+        }
+      }
+    }
   }
+
+  actionCreateWorkOrder = () => {
+    let accessTokenAPI = this.props.account.accessTokenAPI;
+    const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
+    const { name, id, phoneNumber, emailAddress, userName } = this.props.userProfile.profile.result.user;
+    let WorkOrder = {
+      currentStatusId: 11,
+      fullUnitName: `${fullUnitCode} - ${userName}`,
+      fullUnitCode: fullUnitCode,
+      buildingId: buildingId,
+      floorId: floorId,
+      unitId: unitId,
+      description: this.state.comment,
+      sourceId: 3,
+      maintainanceTeamId: 1,
+      areaId: 50,
+      categoryId: 90,
+      subCategoryId: null,
+      contact: {
+        fullName: name,
+        phoneNumber: phoneNumber,
+        email: emailAddress,
+        memberId: id
+      },
+      isPrivate: true
+    };
+    this.props.actions.workOrder.createWorkOrder(accessTokenAPI, WorkOrder);
+  };
 
   changeArea(index) {
     this.setState({ area: index });
@@ -57,6 +89,7 @@ class ModalNewOrder extends Component {
 
   getPhotos() {
     let ListImage = this.state.imageList.slice();
+    let ListImageBase64 = this.state.imageListBase64.slice();
     ImagePicker.showImagePicker(options, response => {
       console.log('Response = ', response);
 
@@ -68,10 +101,13 @@ class ModalNewOrder extends Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         const source = { uri: response.uri };
+        const sourceBase64 = response.data;
+        ListImageBase64.push(sourceBase64);
         ListImage.push(source);
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
         this.setState({
+          imageListBase64: ListImageBase64,
           imageList: ListImage
         });
       }
@@ -80,8 +116,10 @@ class ModalNewOrder extends Component {
 
   deleteImage = index => {
     let arr = this.state.imageList.slice();
+    let arrBase64 = this.state.imageListBase64.slice();
+    arrBase64.splice(index - 1, 1);
     arr.splice(index, 1);
-    this.setState({ imageList: arr });
+    this.setState({ imageList: arr, imageListBase64: arrBase64 });
   };
 
   showDetailImage() {
@@ -133,11 +171,21 @@ class ModalNewOrder extends Component {
   }
 
   render() {
+    const { fullUnitCode } = this.props.units.unitActive;
+    const { phoneNumber, emailAddress, userName } = this.props.userProfile.profile.result.user;
     return (
       <View style={{ flex: 1 }}>
         {this.showDetailImage()}
         <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 50 }}>
-          <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']} style={{ flex: 1 }}>
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1.0, y: 1.0 }}
+            colors={['#4A89E8', '#8FBCFF']}
+            style={{ flex: 1, paddingTop: 100 }}
+          >
+            <TouchableOpacity style={{ position: 'absolute', top: 30, left: 10 }} onPress={() => this.props.navigation.goBack()}>
+              <Text style={{ color: '#FFF', fontSize: 25, margin: 20 }}>x</Text>
+            </TouchableOpacity>
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20 }}>New Order</Text>
           </LinearGradient>
           <ItemScorll
@@ -156,15 +204,15 @@ class ModalNewOrder extends Component {
               >
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
-                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>T1-A03-01-Leenguyen G (Resident)</Text>
+                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{`${fullUnitCode} - ${userName}`}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Mail</Text>
-                  <Text style={{ color: '#4A89E8', fontWeight: '500' }}>toantam1708@gmail.com</Text>
+                  <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{emailAddress}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>SĐT</Text>
-                  <Text style={{ color: '#4A89E8', fontWeight: '500' }}>0907690504</Text>
+                  <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{phoneNumber}</Text>
                 </View>
               </View>
             }
@@ -247,6 +295,7 @@ class ModalNewOrder extends Component {
         <View style={{ position: 'absolute', width: width, height: 50, backgroundColor: '#FFF', bottom: 0, padding: 10 }}>
           <TouchableOpacity
             style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
+            onPress={() => this.actionCreateWorkOrder()}
           >
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>
           </TouchableOpacity>
