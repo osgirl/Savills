@@ -24,6 +24,9 @@ import IC_LISTVIEW_ACTIVE from "../../resources/icons/list-view-active.png";
 import IC_LISTVIEW from "../../resources/icons/list-view.png";
 import IMG_AVATAR_DEFAULT from "../../resources/icons/avatar-default.png";
 
+import FastImage from "../../components/fastImage";
+import FAQ from "../../screens/faq";
+
 const { width } = Dimensions.get('window');
 
 const imgSize = 64;
@@ -79,9 +82,12 @@ export default class extends Component {
                 <Button
                     onPress={() => { this._openProfile() }}
                     style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 10 }}>
-                    <Image source={typeof avatar === 'number' ? avatar : { uri: avatar }}
+
+                    <FastImage
                         style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }}
+                        source={avatar}
                     />
+
                     {
                         User && <Text style={Style.displayName}>
                             {'Hey!! ' + User.displayName}
@@ -176,6 +182,16 @@ export default class extends Component {
                         imageProfile={avatar}
                     />
                 </Modal>
+
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isShowFAQ}>
+                    <FAQ
+                        onClose={() => this._closeFAQ()}
+                    />
+                </Modal>
+
+
                 {/* {this.renderLoading()} */}
             </View>
         );

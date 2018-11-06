@@ -4,6 +4,7 @@ import Connect from '@stores';
 import layout from './layout';
 import _ from "lodash";
 
+import FastImage from "../../components/fastImage";
 import Header from '@components/header'
 import Button from "@components/button";
 import IC_EDIT from "@resources/icons/edit-profile.png";
@@ -37,9 +38,12 @@ class Home extends layout {
                 <Button
                     onPress={navigation.getParam('openProfileHome')}
                     style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
-                    <Image source={typeof navigation.getParam('userAvatar') === 'number' ? navigation.getParam('userAvatar') : { uri: navigation.getParam('userAvatar') }}
+
+                    <FastImage
                         style={{ width: 30, height: 30, borderRadius: 30 / 2 }}
+                        source={navigation.getParam('userAvatar')}
                     />
+
                     <View style={{ flexDirection: 'column', marginLeft: 10 }}>
                         <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold' }}>
                             {navigation.getParam('userDisplayname')}</Text>
@@ -90,6 +94,11 @@ class Home extends layout {
         await this.props.actions.account.getTenantActive();
     }
 
+    componentDidMount() {
+        let accessTokenAPI = this.props.account.accessTokenAPI;
+        this.props.actions.utilities.getFAQ(accessTokenAPI);
+    }
+
     _gotoChangePassword() {
         if (this.state.isShowProfile)
             this.setState({ isShowProfile: false })
@@ -104,8 +113,20 @@ class Home extends layout {
         this.setState({ isShowProfile: false })
     }
 
+    _openFAQ() {
+        this.setState({ isShowFAQ: true })
+    }
+
+    _closeFAQ() {
+        this.setState({ isShowFAQ: false })
+    }
+
     _gotoModule(screen) {
-        this.props.navigation.navigate(screen);
+        if (screen === 'FAQ') {
+            this._openFAQ();
+        } else {
+            this.props.navigation.navigate(screen);
+        }
     }
 
     async _logOut() {
