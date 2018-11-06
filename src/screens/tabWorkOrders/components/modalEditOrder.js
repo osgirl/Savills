@@ -210,8 +210,8 @@ class ModalEditOrder extends Component {
         <TouchableOpacity
           style={{
             position: 'absolute',
-            bottom: 80,
-            right: 40
+            bottom: 70,
+            right: 20
           }}
           onPress={() => this.setState({ isShowChat: true })}
         >
