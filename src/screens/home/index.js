@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Animated } from "react-native";
+import { Text, StatusBar, Platform, Animated } from "react-native";
 import Connect from '@stores';
 import layout from './layout';
 import _ from "lodash";
-
-import FastImage from "../../components/fastImage";
-import Header from '@components/header'
-import Button from "@components/button";
-import IC_EDIT from "@resources/icons/edit-profile.png";
-import IC_NOTIFY from "@resources/icons/notify.png";
 
 let DATA = [
     { id: 1, key: 'Pages.Resident', title: 'Events', screen: 'Events' },
@@ -27,36 +21,6 @@ let DATA = [
 
 class Home extends layout {
 
-    static navigationOptions = ({ navigation }) => ({
-        header: <Header
-            animatedLeft
-            headercolor={'#F6F8FD'}
-            leftIcon={IC_EDIT}
-            leftAction={navigation.getParam('openProfileHome')}
-            customViewLeft={navigation.getParam('isHidenHeaderHome')}
-            renderViewLeft={
-                <Button
-                    onPress={navigation.getParam('openProfileHome')}
-                    style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
-
-                    <FastImage
-                        style={{ width: 30, height: 30, borderRadius: 30 / 2 }}
-                        source={navigation.getParam('userAvatar')}
-                    />
-
-                    <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                        <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold' }}>
-                            {navigation.getParam('userDisplayname')}</Text>
-                        <Text style={{ fontSize: 12, fontFamily: 'OpenSans-Regular', color: '#BABFC8' }}>
-                            {navigation.getParam('userFullUnitCode')}</Text>
-                    </View>
-                </Button>
-            }
-            rightIcon={IC_NOTIFY}
-            rightAction={() => alert('Notify')}
-        />
-    })
-
     constructor(props) {
         super(props);
         this.state = {
@@ -68,6 +32,11 @@ class Home extends layout {
             numcolumn: 2
         }
         this.showCenter = false;
+        if (Platform.OS === 'android') {
+            StatusBar.setHidden(false);
+            StatusBar.setBackgroundColor('#000');
+            StatusBar.setBarStyle('light-content');
+        }
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -127,6 +96,14 @@ class Home extends layout {
         } else {
             this.props.navigation.navigate(screen);
         }
+    }
+
+    _openNoti() {
+        this.setState({ isShowNoti: true });
+    }
+
+    _closeNoti() {
+        this.setState({ isShowNoti: false });
     }
 
     async _logOut() {

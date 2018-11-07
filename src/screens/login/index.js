@@ -1,5 +1,9 @@
 import Connect from '@stores';
 import layout from './layout';
+import {
+    Platform,
+    StatusBar
+} from 'react-native';
 
 import _ from "lodash";
 
@@ -15,6 +19,11 @@ class Login extends layout {
             flag: true,
             loading: false,
             unMount: true
+        }
+        if (Platform.OS === 'android') {
+            StatusBar.setHidden(false);
+            StatusBar.setBackgroundColor('#000');
+            StatusBar.setBarStyle('light-content');
         }
     }
 

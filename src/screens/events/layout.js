@@ -35,7 +35,6 @@ export default class Layout extends Component {
     }
 
     renderHeader() {
-        StatusBar.setBarStyle('light-content')
         return <View>
             <LinearGradient
                 colors={['#4A89E8', '#8FBCFF']}
@@ -91,7 +90,6 @@ export default class Layout extends Component {
     }
 
     render() {
-        StatusBar.setHidden(this.state.isShowModalFull);
         return (
             <View style={styles.container}>
                 <Header
