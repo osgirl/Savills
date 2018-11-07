@@ -61,7 +61,7 @@ export default class extends Component {
                         {' A password reset link will be sent to your password. If you dont get an email within a few minutes, plesase re-try'}
                     </Text>
                 </View>
-                <KeyboardAvoidingView behavior={Platform.OS === 'android' ? "height" : "padding"}  style={{ alignItems: 'center', marginBottom: Resolution.scaleHeight(100)}} enabled>
+                <KeyboardAvoidingView behavior={Platform.OS === 'android' ? "height" : "padding"}  style={{ alignItems: 'center', marginBottom: Resolution.scaleHeight(100)}}>
                     <InputText
                         placeholder={'Email'}
                         keyboardType='email-address'
