@@ -13,7 +13,8 @@ const { width, height } = Dimensions.get('window');
 import IC_CALENDAR from "../../resources/icons/calendar.png";
 import IC_CLOCK from "../../resources/icons/clock.png";
 import IMG_CALENDAR_PH from "../../resources/icons/calendar-placehoder.png";
-import Placeholder from 'rn-placeholder';
+import { ItemHorizontal } from "../../components/placeHolder";
+import Utils from "../../utils";
 
 import Header from '@components/header'
 import IC_BACK from "@resources/icons/back-light.png";
@@ -26,6 +27,8 @@ import Resolution from "../../utils/resolution";
 import ModalDetail from "./components/modalDetail";
 import ModalFull from "./components/modalFull";
 import ModalSelectUnit from "../../components/modalSelectUnit";
+
+
 
 export default class Layout extends Component {
 
@@ -107,10 +110,10 @@ export default class Layout extends Component {
                     rightAction={() => this._onpenModalSelectUnit()}
                 />
                 <FlatList
-                    data={this.state.myEvent}
+                    data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
                     keyExtractor={(item) => item.eventId + ''}
                     renderItem={({ item, index }) => (
-                        this.renderItem(item)
+                        this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)
                     )}
                     onScroll={this.handleScroll}
                     legacyImplementation={false}
@@ -148,42 +151,50 @@ export default class Layout extends Component {
         );
     }
 
-    renderItem(item) {
+    renderItem(item, index, loading) {
         let encToken = this.props.account.encToken;
         let startTime = this.converDateToTime(item.startTime);
         let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+        console.log('________', loading)
         return (
-            <Button
-                onPress={() => this._openModalDetail(item)}
-                style={[styles.item, { flexDirection: 'row' }]}>
+            <ItemHorizontal
+                key={'__PLD' + index}
+                onReady={loading}
+                bgColor={'#FFF'}
+                animate='fade'
+            >
+                <Button
+                    onPress={() => this._openModalDetail(item)}
+                    style={[styles.item, { flexDirection: 'row' }]}>
 
-                <FastImage
-                    style={{ width: 103, height: 103, borderRadius: 5, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
-                    source={image}
-                    resizeMode={'cover'}
-                />
+                    <FastImage
+                        style={{ width: 103, height: 103, borderRadius: 5, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+                        source={image}
+                        resizeMode={'cover'}
+                    />
 
-                <View style={{ width: width - 143, flexDirection: 'column', }}>
-                    <Text
-                        numberOfLines={2} style={{ fontSize: 13, fontWeight: '600', marginLeft: 20, marginRight: 20, marginTop: 20 }}>
-                        {item.subject}
-                    </Text>
-                    <View style={{ flexDirection: 'row', marginLeft: 20, marginTop: 10 }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={IC_CLOCK} />
-                            <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
-                                {startTime}
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
-                            <Image source={IC_CALENDAR} style={{}} />
-                            <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
-                                {'(' + this.converDate(item.startTime) + ' - ' + this.converDate(item.endTime) + ')'}
-                            </Text>
+                    <View style={{ width: width - 143, flexDirection: 'column', }}>
+                        <Text
+                            numberOfLines={2} style={{ fontSize: 13, fontWeight: '600', marginLeft: 20, marginRight: 20, marginTop: 20 }}>
+                            {item.subject}
+                        </Text>
+                        <View style={{ flexDirection: 'row', marginLeft: 20, marginTop: 10 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Image source={IC_CLOCK} />
+                                <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
+                                    {startTime}
+                                </Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
+                                <Image source={IC_CALENDAR} style={{}} />
+                                <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
+                                    {'(' + this.converDate(item.startTime) + ' - ' + this.converDate(item.endTime) + ')'}
+                                </Text>
+                            </View>
                         </View>
                     </View>
-                </View>
-            </Button >
+                </Button>
+            </ItemHorizontal>
         );
     }
 

@@ -5,7 +5,8 @@ import {
     View,
     StyleSheet,
     Image,
-    Text
+    Text,
+    Dimensions
 } from "react-native";
 
 import Resolution from "@utils/resolution";
@@ -14,23 +15,27 @@ import Configs from "../../utils/configs";
 import Button from "../button";
 import IC_DEFAULT from "@resources/icons/default.png";
 
-export default class ItemHome extends Component {
+import { ItemHome } from "../../components/placeHolder";
+
+const { width, height } = Dimensions.get('window');
+
+export default class ItemHomeComponent extends Component {
 
     render() {
         return (
             <View style={[Styles.container, { ...Configs.Shadow }]}>
-                {
-                    this.props.loading ?
-                        <Button
-                            onPress={() => this.props.onPressItem()}
-                            style={Styles.container}>
-                            <Image source={Utils.mapItemHome(this.props.image)} />
-                            <Text style={{ color: '#505E75', fontSize: 12, marginTop:Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
-                        </Button>
-                        :
-                        <Image source={IC_DEFAULT} />
-                }
-
+                <ItemHome
+                    txtWidth={70}
+                    onReady={this.props.loading}
+                    bgColor={'#FFF'}
+                    animate='fade'>
+                    <Button
+                        onPress={() => this.props.onPressItem()}
+                        style={[Styles.container,]}>
+                        <Image source={Utils.mapItemHome(this.props.image)} />
+                        <Text style={{ color: '#505E75', fontSize: 12, marginTop: Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                    </Button>
+                </ItemHome>
             </View>
         );
     }
@@ -41,15 +46,9 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        width: 157,
-        height: 157,
+        width: (width - 60) / 2,
+        height: (width - 60) / 2,
         backgroundColor: '#FFFFFF',
-        margin: 10,
-
-        // shadowColor: '#4A89E8',
-        // shadowOpacity: 0.2,
-        // shadowOffset: { width: 0, height: 3, },
-        // shadowRadius: 1,
-        // elevation: 2
+        margin: 10
     }
 })
