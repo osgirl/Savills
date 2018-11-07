@@ -154,6 +154,29 @@ export default class {
             image: require('@resources/icons/Events.png'),
         },
     ]
+
+    static dataPlaceholderEvents = [
+        {
+            eventId: 112321,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            eventId: 21231213123,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            eventId: 621122121,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            eventId: 7123123121,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+    ]
 }
 
 

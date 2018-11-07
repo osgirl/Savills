@@ -27,7 +27,7 @@ export default class Image extends Component {
                             this.props.resizeMode === 'cover' ?
                                 FastImage.resizeMode.cover :
                                 this.props.resizeMode === 'stretch' ?
-                                    FastImage.resizeMode.stretch : FastImage.resizeMode.contain
+                                    FastImage.resizeMode.stretch : FastImage.resizeMode.cover
                 }
             />
         );

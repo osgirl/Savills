@@ -1,18 +1,23 @@
 'use strict';
 
-import {
-    Dimensions
-} from 'react-native';
-import Config from './configs';
+import { Dimensions } from 'react-native';
 
+import Config from './configs';
 const { width, height } = Dimensions.get('window');
 
 export default class {
-    static scaleWidth(size) {
-        return width * size / Config.DEFAULT_WIDTH;
+
+    //dung de padding - marrgin
+    static scale(size) {
+        return width / Config.DEFAULT_WIDTH * size;
+    }
+
+    static scaleWidth(size, factor = 0.5) {
+        // return size + (this.scale(size) - size) * factor;
+        return width / Config.DEFAULT_WIDTH * size;
     }
 
     static scaleHeight(size) {
-        return height * size / Config.DEFAULT_HEIGHT;
+        return height / Config.DEFAULT_HEIGHT * size;
     }
 }
