@@ -5,11 +5,13 @@ import {
     Dimensions,
     FlatList,
     Image,
-    Text
+    Text,
+    ActivityIndicator
 } from 'react-native';
 import Header from '@components/header';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
+import moment from 'moment';
 
 import IC_BACK from "../../resources/icons/close.png";
 import IC_CALENDAR from "../../resources/icons/calendar.png";
@@ -25,35 +27,41 @@ const { width } = Dimensions.get('window');
 
 export default class extends Component {
 
-    renderItem() {
+    renderItem(item) {
+        let state = item.state;
+        let times = moment(item.notification.creationTime).format('LT');
+        let date = moment(item.dateCreate).format('l');
         return <View style={[Styles.item, { ...Configs.Shadow }]}>
             <Button
                 onPress={() => { }}
                 style={{ alignItems: 'flex-start' }}>
                 <View style={{ marginHorizontal: 20 }}>
                     <View style={{ flexDirection: 'row', marginTop: 20, marginBottom: 10, justifyContent: 'space-between' }}>
-                        <View style={{ backgroundColor: '#505E75', borderRadius: 5, }}>
-                            <Text style={{ color: '#F8F8F8', paddingVertical: 2, paddingHorizontal: 20 }}>#696</Text>
+                        <View style={{ backgroundColor: state === 0 ? '#505E75' : '#BABFC8', borderRadius: 5, }}>
+                            <Text style={{ color: '#F8F8F8', paddingVertical: 2, paddingHorizontal: 20 }}>{`#${item.notification.data.properties.Id}`}</Text>
                         </View>
-                        <View style={{ backgroundColor: '#FF361A', width: 8, height: 8, borderRadius: 33 }} />
+                        {
+                            state === 0 ?
+                                <View style={{ backgroundColor: '#FF361A', width: 8, height: 8, borderRadius: 33 }} /> : null
+                        }
+
                     </View>
                     <View>
-                        <Text style={{ color: '#343D4D', fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}>
-                            Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và dàn trang phục vụ cho in ấn. Lorem Ipsum đã... được sử dụng như một văn bản chuẩn cho ngành công nghiệp in ấn từ những năm 150
+                        <Text style={{ color: state === 0 ? '#343D4D' : '#BABFC8', fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}>
+                            {`${item.notification.data.message}`}
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: 10, marginBottom: 20 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Image source={IC_CLOCK} />
                             <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
-                                {'10-10'}
+                                {times}
                             </Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
                             <Image source={IC_CALENDAR} style={{}} />
                             <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
-                                {/* {'(' + this.converDate(item.startTime) + ' - ' + this.converDate(item.endTime) + ')'} */}
-                                {'(30/9 - 12/9)'}
+                                {date}
                             </Text>
                         </View>
                     </View>
@@ -62,7 +70,7 @@ export default class extends Component {
         </View>
     }
 
-    HeaderFlatlist() {
+    _HeaderFlatlist() {
         return (
             <LinearGradient
                 colors={['#4A89E8', '#8FBCFF']}
@@ -70,6 +78,18 @@ export default class extends Component {
                 style={{ width: width, marginBottom: 20 }}>
                 <HeaderTitle title='Notification' />
             </LinearGradient>
+        )
+    }
+
+    _FooterFlatlist() {
+        return (
+            this.state.loadingMore ?
+                <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator
+                        size="large"
+                        color={Configs.colorMain}
+                    />
+                </View> : <View style={{ height: 20 }} />
         )
     }
 
@@ -83,20 +103,22 @@ export default class extends Component {
                     headercolor={'transparent'}
                 />
                 <FlatList
-                    data={[{}, {}, {}, {}]}
+                    data={this.state.data}
                     horizontal={false}
                     contentContainerStyle={{ alignItems: 'center', }}
-                    keyExtractor={(item) => item.id + ''}
+                    keyExtractor={(item, index) => item.id + '__' + index}
                     renderItem={({ item, index }) => (
                         this.renderItem(item)
                     )}
                     // onScroll={this.handleScroll}
+                    onEndReachedThreshold={0.5}
+                    onEndReached={this._onEndReached()}
                     legacyImplementation={false}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
                     ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-                    ListHeaderComponent={() => this.HeaderFlatlist()}
-                    ListFooterComponent={() => <View style={{ height: 20 }} />}
+                    ListHeaderComponent={() => this._HeaderFlatlist()}
+                    ListFooterComponent={() => this._FooterFlatlist()}
                 />
             </View>
         );

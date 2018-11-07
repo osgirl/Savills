@@ -41,7 +41,7 @@ export default class extends Component {
         return (
             <ImageBackground
                 source={IMG_BG}
-                resizeMode={'contain'}
+                resizeMode={'cover'}
                 style={Style.container}
             >
                 <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123, fontFamily: 'OpenSans-Bold' }}>

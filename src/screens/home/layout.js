@@ -31,6 +31,8 @@ import FastImage from "../../components/fastImage";
 import FAQ from "../../screens/faq";
 import Notification from "../notification";
 
+import { Avatar } from "../../components/placeHolder";
+
 const { width } = Dimensions.get('window');
 
 const imgSize = 64;
@@ -82,15 +84,22 @@ export default class extends Component {
         let Unit = this.props.units.unitActive;
         var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
         return (
-            <View style={{ width: width }}>
+            <View style={{ width: width, alignSelf: 'center' }}>
                 <Button
                     onPress={() => { this._openProfile() }}
                     style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 10 }}>
 
-                    <FastImage
-                        style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }}
-                        source={avatar}
-                    />
+                    <Avatar
+                        size={imgSize}
+                        onReady={this.props.userProfile.imageProfile.success}
+                        bgColor={'#FFF'}
+                        animate='fade'
+                    >
+                        <FastImage
+                            style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }}
+                            source={avatar}
+                        />
+                    </Avatar>
 
                     {
                         User && <Text style={Style.displayName}>
@@ -127,13 +136,14 @@ export default class extends Component {
         this.setState({ numcolumn: Number(num) })
     }
 
-    renderItem(item, loading) {
+    renderItem(item, index, loading) {
         if (this.state.numcolumn === 1) {
             return <ItemListViewHome
                 title={item.title}
                 image={item.key}
                 loading={loading}
                 onPressItem={() => this._gotoModule(item.screen)}
+                index={index}
             />
         } else {
             return <ItemHome
@@ -141,6 +151,7 @@ export default class extends Component {
                 image={item.key}
                 loading={loading}
                 onPressItem={() => this._gotoModule(item.screen)}
+                index={index}
             />
         }
     }
@@ -152,7 +163,6 @@ export default class extends Component {
         let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
         return (
             <View style={Style.container}>
-
                 <Header
                     animatedLeft
                     headercolor={'#F6F8FD'}
@@ -186,11 +196,11 @@ export default class extends Component {
                         data={data}
                         horizontal={false}
                         key={(this.state.numcolumn === 2 ? 'h' : 'v')}
-                        contentContainerStyle={{ alignItems: 'center', }}
+                        contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}
                         keyExtractor={(item) => item.id + ''}
                         numColumns={this.state.numcolumn || 2}
                         renderItem={({ item, index }) => (
-                            this.renderItem(item, this.state.dataModule && this.state.dataModule.length > 0 ? true : false)
+                            this.renderItem(item, index, this.state.dataModule && this.state.dataModule.length > 0 ? true : false)
                         )}
                         onScroll={this.handleScroll}
                         legacyImplementation={false}
@@ -198,7 +208,7 @@ export default class extends Component {
                         showsVerticalScrollIndicator={false}
                         ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
                         ListHeaderComponent={() => this.renderHeader()}
-                        ListFooterComponent={() => <View style={{ width: 20 }} />}
+                        ListFooterComponent={() => <View style={{ height: 100, width: 40 }} />}
                     />
                 </View>
                 <Modal

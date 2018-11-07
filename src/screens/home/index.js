@@ -66,6 +66,7 @@ class Home extends layout {
     componentDidMount() {
         let accessTokenAPI = this.props.account.accessTokenAPI;
         this.props.actions.utilities.getFAQ(accessTokenAPI);
+        this.props.actions.notification.getListNotification(accessTokenAPI);
     }
 
     _gotoChangePassword() {
