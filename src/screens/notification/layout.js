@@ -6,6 +6,7 @@ import {
     FlatList,
     Image,
     Text,
+    Animated,
     ActivityIndicator
 } from 'react-native';
 import Header from '@components/header';
@@ -31,7 +32,7 @@ export default class extends Component {
         let state = item.state;
         let times = moment(item.notification.creationTime).format('LT');
         let date = moment(item.dateCreate).format('l');
-        return <View style={[Styles.item, { ...Configs.Shadow }]}>
+        return <View style={[Styles.item]}>
             <Button
                 onPress={() => { }}
                 style={{ alignItems: 'flex-start' }}>
@@ -93,6 +94,29 @@ export default class extends Component {
         )
     }
 
+    handleScroll = (event) => {
+        Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            {
+                listener: event => {
+                    if (event.nativeEvent.contentOffset.y > 70) {
+                        if (!this.showCenter) {
+                            this.showCenter = true
+                            this.setState({ isShowTitleHeader: true })
+                            // this.props.navigation.setParams({ eventTitle: 'Events' });
+                        }
+                    } else {
+                        if (this.showCenter) {
+                            this.showCenter = false
+                            // this.props.navigation.setParams({ eventTitle: null });
+                            this.setState({ isShowTitleHeader: false })
+                        }
+                    }
+                }
+            }
+        )(event)
+    }
+
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
@@ -101,6 +125,14 @@ export default class extends Component {
                     leftIcon={IC_BACK}
                     leftAction={() => this.props.onclose()}
                     headercolor={'transparent'}
+                    showTitleHeader={this.state.isShowTitleHeader}
+                    center={
+                        <View>
+                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>
+                                {'Notification'}
+                            </Text>
+                        </View>
+                    }
                 />
                 <FlatList
                     data={this.state.data}
@@ -110,9 +142,9 @@ export default class extends Component {
                     renderItem={({ item, index }) => (
                         this.renderItem(item)
                     )}
-                    // onScroll={this.handleScroll}
-                    onEndReachedThreshold={0.5}
-                    onEndReached={this._onEndReached()}
+                    onScroll={this.handleScroll}
+                    onEndReachedThreshold={0.01}
+                    onEndReached={() => this._onEndReached()}
                     legacyImplementation={false}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}

@@ -13,6 +13,7 @@ const { width, height } = Dimensions.get('window');
 import IC_CALENDAR from "../../resources/icons/calendar.png";
 import IC_CLOCK from "../../resources/icons/clock.png";
 import IMG_CALENDAR_PH from "../../resources/icons/calendar-placehoder.png";
+import IC_DROPDOWN from "../../resources/icons/dropDown.png";
 import { ItemHorizontal } from "../../components/placeHolder";
 import Utils from "../../utils";
 
@@ -93,6 +94,7 @@ export default class Layout extends Component {
     }
 
     render() {
+        let unitActive = this.props.units.unitActive;
         return (
             <View style={styles.container}>
                 <Header
@@ -101,13 +103,18 @@ export default class Layout extends Component {
                     leftAction={() => this.props.navigation.goBack()}
                     headercolor={'transparent'}
                     center={
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 100 }}>
-                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-SemiBold' }}>{this.props.navigation.getParam('eventTitle')}</Text>
+                        <View>
+                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{this.props.navigation.getParam('eventTitle')}</Text>
                         </View>
                     }
-                    text='T1-A03-02'
-                    display={'text'}
-                    rightAction={() => this._onpenModalSelectUnit()}
+                    renderViewRight={
+                        <Button
+                            onPress={() => this._onpenModalSelectUnit()}
+                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
+                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+                            <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                        </Button>
+                    }
                 />
                 <FlatList
                     data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
@@ -155,7 +162,6 @@ export default class Layout extends Component {
         let encToken = this.props.account.encToken;
         let startTime = this.converDateToTime(item.startTime);
         let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
-        console.log('________', loading)
         return (
             <ItemHorizontal
                 key={'__PLD' + index}

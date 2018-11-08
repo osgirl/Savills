@@ -17,7 +17,7 @@ import Profile from "../profile";
 import Style from "./style";
 import Button from "../../components/button";
 import Utils from "../../utils";
-import Header from '@components/header'
+import HeaderHome from '@components/headerHome'
 import IC_EDIT from "@resources/icons/edit-profile.png";
 import IC_NOTIFY from "@resources/icons/notify.png";
 
@@ -163,7 +163,7 @@ export default class extends Component {
         let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
         return (
             <View style={Style.container}>
-                <Header
+                <HeaderHome
                     animatedLeft
                     headercolor={'#F6F8FD'}
                     leftIcon={IC_EDIT}

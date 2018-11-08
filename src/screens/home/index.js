@@ -36,6 +36,10 @@ class Home extends layout {
             StatusBar.setHidden(false);
             StatusBar.setBackgroundColor('#000');
             StatusBar.setBarStyle('light-content');
+        } else {
+            StatusBar.setHidden(false);
+            StatusBar.setBackgroundColor('#F6F8FD');
+            StatusBar.setBarStyle('dark-content');
         }
     }
 

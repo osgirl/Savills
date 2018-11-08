@@ -16,21 +16,23 @@ import ButtonCustom from "../buttonCustom";
 import Connect from '@stores';
 const { width, height } = Dimensions.get("window");
 
-class Header extends Component {
+class HeaderHome extends Component {
 
 	static defaultProps = {
 		headercolor: "#FFF",
+		// reading: false
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			fadeAnim: new Animated.Value(0),
+			fadeAnim: new Animated.Value(1),
+			fadeAnimIcon: new Animated.Value(0)
 		}
 	}
 
 	componentDidMount() {
-		if (this.props.showTitleHeader) {
+		if (this.props.customViewLeft) {
 			this.show();
 		} else {
 			this.hide();
@@ -39,8 +41,8 @@ class Header extends Component {
 
 
 	componentDidUpdate(prevProps, prevState) {
-		if (prevProps.showTitleHeader !== this.props.showTitleHeader) {
-			if (this.props.showTitleHeader) {
+		if (prevProps.customViewLeft !== this.props.customViewLeft) {
+			if (this.props.customViewLeft) {
 				this.show();
 			} else {
 				this.hide();
@@ -54,6 +56,10 @@ class Header extends Component {
 			toValue: 1,
 			duration: 700
 		}).start();
+		timing(this.state.fadeAnimIcon, {
+			toValue: 0,
+			duration: 400
+		}).start();
 	}
 
 	hide() {
@@ -62,43 +68,67 @@ class Header extends Component {
 			toValue: 0,
 			duration: 400
 		}).start();
+		timing(this.state.fadeAnimIcon, {
+			toValue: 1,
+			duration: 700
+		}).start();
 	}
 
 	renderContent() {
 		let fixHeader = this.props.headercolor === 'transparent' && !this.props.LinearGradient ? true : false;
 		const Opacity = { opacity: this.state.fadeAnim };
+		const OpacityIcon = { opacity: this.state.fadeAnimIcon || 1 }
 		return (
 			<View
 				style={[style.container,
 				{
 					backgroundColor: this.props.headercolor,
-
 					position: fixHeader ? 'absolute' : 'relative',
 					top: fixHeader && Platform.OS === "ios" ? 0 : 0,
 				}]}>
+
 				<View style={style.wrapper}>
-					<View style={{ width: width / 3, alignItems: 'flex-start' }}>
+					<Animated.View style={Opacity}>
+						{this.props.renderViewLeft}
+					</Animated.View>
+					<Animated.View style={[OpacityIcon, { position: 'absolute', left: 0 }]}>
 						{
-							this.props.leftIcon ?
-								<ButtonCustom
-									background={this.props.headercolor}
-									haveMargin={false}
-									onPress={this.props.leftAction || null}
-									icon={this.props.leftIcon}
-								/> : <View />
+							this.props.leftIcon &&
+							<ButtonCustom
+								background={this.props.headercolor}
+								haveMargin={false}
+								onPress={this.props.leftAction || null}
+								icon={this.props.leftIcon}
+							/>
 						}
-					</View>
-					<Animated.View style={{ width: width / 3, alignItems: 'center' }}>
+					</Animated.View>
+					<View>
 						{
 							this.props.center ?
 								this.props.center : <View />
 						}
-					</Animated.View>
-					<View style={{ width: width / 3, alignItems: 'flex-end' }}>
+					</View>
+					<View>
 						{
-							this.props.renderViewRight ?
+							this.props.rightIcon || this.props.text ?
 								<View style={{ flexDirection: 'row' }}>
-									{this.props.renderViewRight}
+									{
+										this.props.rightIconL ? <ButtonCustom
+											background={this.props.headercolor}
+											haveMargin={false}
+											onPress={this.props.rightActionL || null}
+											icon={this.props.rightIconL} /> : null
+									}
+
+									<ButtonCustom
+										background={this.props.headercolor}
+										haveMargin={false}
+										onPress={this.props.rightAction || null}
+										display={this.props.display}
+										icon={this.props.rightIcon}
+										text={this.props.text}
+									/>
+
 								</View>
 								: <View style={{ width: 60 }} />
 						}
@@ -146,18 +176,19 @@ const style = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	wrapper: {
+		// backgroundColor: 'yellow',
 		width: width,
 		flexDirection: "row",
 		alignItems: 'center',
-		// justifyContent: 'space-around',
+		justifyContent: 'space-between',
 		marginTop: Platform.OS === "ios" ? 30 : 0,
 		height: 60,
+		// paddingHorizontal: 10
 	},
 	titleContainer: {
-		// flex: 1,
+		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: 'red'
 	},
 	titleText: {
 		color: "#000",
@@ -167,4 +198,4 @@ const style = StyleSheet.create({
 });
 
 
-export default Connect(Header)
+export default Connect(HeaderHome)

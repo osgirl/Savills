@@ -4,7 +4,12 @@ import Layout from './layout';
 
 class Contacts extends Layout {
 
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            isModalSelectUnit: false
+        }
+    }
 }
 
 export default Connect(Contacts);
