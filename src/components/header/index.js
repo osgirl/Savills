@@ -52,7 +52,7 @@ class Header extends Component {
 		const timing = Animated.timing;
 		timing(this.state.fadeAnim, {
 			toValue: 1,
-			duration: 700
+			duration: 300
 		}).start();
 	}
 
@@ -60,7 +60,7 @@ class Header extends Component {
 		const timing = Animated.timing;
 		timing(this.state.fadeAnim, {
 			toValue: 0,
-			duration: 400
+			duration: 300
 		}).start();
 	}
 
@@ -88,7 +88,7 @@ class Header extends Component {
 								/> : <View />
 						}
 					</View>
-					<Animated.View style={{ width: width / 3, alignItems: 'center' }}>
+					<Animated.View style={[{ width: width / 3, alignItems: 'center' }, Opacity]}>
 						{
 							this.props.center ?
 								this.props.center : <View />

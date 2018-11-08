@@ -28,10 +28,11 @@ import IC_LISTVIEW from "../../resources/icons/list-view.png";
 import IMG_AVATAR_DEFAULT from "../../resources/icons/avatar-default.png";
 
 import FastImage from "../../components/fastImage";
+import Placeholder from "rn-placeholder";
 import FAQ from "../../screens/faq";
 import Notification from "../notification";
 
-import { Avatar } from "../../components/placeHolder";
+import { Avatar, Line } from "../../components/placeHolder";
 
 const { width } = Dimensions.get('window');
 
@@ -100,12 +101,19 @@ export default class extends Component {
                             source={avatar}
                         />
                     </Avatar>
-
+                    <Line
+                        txtWidth={width / 2}
+                        height={20}
+                        onReady={User ? true : false}
+                        animate='fade'
+                    >
                     {
-                        User && <Text style={Style.displayName}>
-                            {'Hey!! ' + User.displayName}
+                         User && <Text style={Style.displayName}>
+                                {'Hey!! ' + User.displayName}
                         </Text>
                     }
+                    </Line>
+
                     <Text style={Style.unitCode}>
                         {Unit.fullUnitCode}
                     </Text>

@@ -99,7 +99,7 @@ export default class extends Component {
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
             {
                 listener: event => {
-                    if (event.nativeEvent.contentOffset.y > 70) {
+                    if (event.nativeEvent.contentOffset.y > 50) {
                         if (!this.showCenter) {
                             this.showCenter = true
                             this.setState({ isShowTitleHeader: true })

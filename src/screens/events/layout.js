@@ -77,7 +77,7 @@ export default class Layout extends Component {
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
             {
                 listener: event => {
-                    if (event.nativeEvent.contentOffset.y > 70) {
+                    if (event.nativeEvent.contentOffset.y > 50) {
                         if (!this.showCenter) {
                             this.showCenter = true
                             this.props.navigation.setParams({ eventTitle: 'Events' });
@@ -102,6 +102,7 @@ export default class Layout extends Component {
                     leftIcon={IC_BACK}
                     leftAction={() => this.props.navigation.goBack()}
                     headercolor={'transparent'}
+                    showTitleHeader={this.props.navigation.getParam('eventTitle') ? true : false}
                     center={
                         <View>
                             <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{this.props.navigation.getParam('eventTitle')}</Text>
@@ -162,7 +163,6 @@ export default class Layout extends Component {
         let encToken = this.props.account.encToken;
         let startTime = this.converDateToTime(item.startTime);
         let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
-        console.log('________', loading)
         return (
             <ItemHorizontal
                 key={'__PLD' + index}
