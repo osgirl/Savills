@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Animated, View, Text } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
 
@@ -10,14 +11,16 @@ class Notification extends layout {
         super(props);
         this.state = {
             data: this.props.notification.listNoti.items,
-            loadingMore: false
+            loadingMore: false,
+            isShowTitleHeader: false,
+            scrollY: new Animated.Value(0),
         }
     }
 
     async componentWillReceiveProps(nextProps) {
         if (this.props.notification.listNoti.items !== nextProps.notification.listNoti.items && nextProps.notification.listNoti.success) {
             await this.setState({ data: this.state.data.concat(nextProps.notification.listNoti.items) });
-            this.setState({ loadingMore: false })
+            await this.setState({ loadingMore: false })
         }
     }
 

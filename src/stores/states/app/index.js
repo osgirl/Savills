@@ -1,5 +1,5 @@
 import keymirror from '@utils/keymirror';
 
 export default keymirror({
-    TEST: null
+    GET_LANGUAGE: null
 }, "APP_");

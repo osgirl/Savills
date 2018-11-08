@@ -17,7 +17,7 @@ import Profile from "../profile";
 import Style from "./style";
 import Button from "../../components/button";
 import Utils from "../../utils";
-import Header from '@components/header'
+import HeaderHome from '@components/headerHome'
 import IC_EDIT from "@resources/icons/edit-profile.png";
 import IC_NOTIFY from "@resources/icons/notify.png";
 
@@ -28,10 +28,11 @@ import IC_LISTVIEW from "../../resources/icons/list-view.png";
 import IMG_AVATAR_DEFAULT from "../../resources/icons/avatar-default.png";
 
 import FastImage from "../../components/fastImage";
+import Placeholder from "rn-placeholder";
 import FAQ from "../../screens/faq";
 import Notification from "../notification";
 
-import { Avatar } from "../../components/placeHolder";
+import { Avatar, Line } from "../../components/placeHolder";
 
 const { width } = Dimensions.get('window');
 
@@ -100,12 +101,19 @@ export default class extends Component {
                             source={avatar}
                         />
                     </Avatar>
-
+                    <Line
+                        txtWidth={width / 2}
+                        height={20}
+                        onReady={User ? true : false}
+                        animate='fade'
+                    >
                     {
-                        User && <Text style={Style.displayName}>
-                            {'Hey!! ' + User.displayName}
+                         User && <Text style={Style.displayName}>
+                                {'Hey!! ' + User.displayName}
                         </Text>
                     }
+                    </Line>
+
                     <Text style={Style.unitCode}>
                         {Unit.fullUnitCode}
                     </Text>
@@ -163,7 +171,7 @@ export default class extends Component {
         let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
         return (
             <View style={Style.container}>
-                <Header
+                <HeaderHome
                     animatedLeft
                     headercolor={'#F6F8FD'}
                     leftIcon={IC_EDIT}

@@ -22,9 +22,8 @@ export default class HeaderTitle extends Component {
                 marginTop: this.props.margintop,
                 marginHorizontal: this.props.marginHorizontal
             }]}>
-                {/* <Image source={this.props.icon} /> */}
                 <Text
-                    style={{fontSize: 35, fontWeight: '900', color: '#FFF'}}
+                    style={{ fontSize: 35, fontFamily: 'OpenSans-Bold', color: '#FFF' }}
                 >
                     {this.props.title}
                 </Text>
@@ -36,7 +35,6 @@ export default class HeaderTitle extends Component {
 const style = StyleSheet.create({
     container: {
         marginBottom: 20,
-        // marginHorizontal: 20,
         flexDirection: "row",
         alignItems: "center",
         flexDirection: 'row',
