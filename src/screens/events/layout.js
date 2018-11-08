@@ -162,6 +162,7 @@ export default class Layout extends Component {
         let encToken = this.props.account.encToken;
         let startTime = this.converDateToTime(item.startTime);
         let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+        console.log('________', loading)
         return (
             <ItemHorizontal
                 key={'__PLD' + index}
