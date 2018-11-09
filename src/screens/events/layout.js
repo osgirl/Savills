@@ -29,9 +29,23 @@ import ModalDetail from "./components/modalDetail";
 import ModalFull from "./components/modalFull";
 import ModalSelectUnit from "../../components/modalSelectUnit";
 
+import Language from "../../utils/language";
 
+import XDate from 'xdate';
 
 export default class Layout extends Component {
+
+    constructor(props) {
+        super(props);
+        XDate.locales['fr'] = {
+            monthNames: Language.listLanguage[this.props.app.languegeLocal].data.EVENTS_TXT_MONTH,
+            dayNamesShort: Language.listLanguage[this.props.app.languegeLocal].data.EVENTS_TXT_WEEK,
+            // monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+            // dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        };
+
+        XDate.defaultLocale = 'fr';
+    }
 
     async _onPressDay(data) {
         await this.setState({ dateSelected: data });
@@ -39,12 +53,13 @@ export default class Layout extends Component {
     }
 
     renderHeader() {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return <View>
             <LinearGradient
                 colors={['#4A89E8', '#8FBCFF']}
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={{ paddingBottom: 10 }}>
-                <HeaderTitle title='Events' />
+                <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
 
                 <Calendar
                     style={styles.calendar}
@@ -66,13 +81,14 @@ export default class Layout extends Component {
             </LinearGradient>
             <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>
                 <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
-                    {'Tất cả sự kiện'}
+                    {LG.EVENTS_TXT_ALLTITLE}
                 </Text>
             </View>
         </View>
     }
 
     handleScroll = (event) => {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         Animated.event(
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
             {
@@ -80,7 +96,7 @@ export default class Layout extends Component {
                     if (event.nativeEvent.contentOffset.y > 50) {
                         if (!this.showCenter) {
                             this.showCenter = true
-                            this.props.navigation.setParams({ eventTitle: 'Events' });
+                            this.props.navigation.setParams({ eventTitle: LG.EVENTS_TXT_TITLE });
                         }
                     } else {
                         if (this.showCenter) {

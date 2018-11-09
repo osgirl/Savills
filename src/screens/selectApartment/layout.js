@@ -20,12 +20,7 @@ import IC_APARTMENT from "@resources/icons/Apartment.png";
 import Style from "./style";
 import resolution from '../../utils/resolution';
 
-let DATA = [
-    { id: 1, title: 'T1-A03-01' },
-    { id: 2, title: 'T1-A03-01' },
-    { id: 3, title: 'T1-A03-01' },
-    { id: 4, title: 'T1-A03-01' },
-]
+import Language from "../../utils/language";
 
 export default class extends Component {
 
@@ -52,7 +47,7 @@ export default class extends Component {
     // }
 
     render() {
-
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <ImageBackground
                 source={IMG_BG}
@@ -60,7 +55,7 @@ export default class extends Component {
                 style={Style.container}
             >
                 <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123, fontFamily: 'OpenSans-Bold' }}>
-                    Choose Your apartment
+                    {LG.APARTMENT_TXT_CONTENT}
                 </Text>
                 <View style={Style.viewBottom}>
                     <FlatList

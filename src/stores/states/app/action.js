@@ -11,3 +11,28 @@ export function getLanguage(accessTokenAPI) {
         }
     }
 }
+
+export function setLanguageLocal(data) {
+    return {
+        type: Types.SET_LANGUAGE_LOCAL,
+        payload: {
+            storage: {
+                key: 'LANGUAGE_LOCAL',
+                type: 'setString',
+                data: data
+            }
+        }
+    }
+}
+
+export function getLanguageLocal() {
+    return {
+        type: Types.GET_LANGUAGE_LOCAL,
+        payload: {
+            storage: {
+                key: 'LANGUAGE_LOCAL',
+                type: 'getString',
+            }
+        }
+    }
+}

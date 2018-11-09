@@ -16,6 +16,8 @@ import Loading from "@components/loading";
 import Style from "./style";
 import resolution from '../../utils/resolution';
 
+import Language from "../../utils/language";
+
 let DATA = [
     { id: 1, title: 'TheSun Avinue' },
     { id: 2, title: 'TheSun Avinue' },
@@ -38,6 +40,7 @@ export default class extends Component {
 
 
     render() {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <ImageBackground
                 source={IMG_BG}
@@ -45,7 +48,7 @@ export default class extends Component {
                 style={Style.container}
             >
                 <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123, fontFamily: 'OpenSans-Bold' }}>
-                    Choose Your Project
+                    {LG.PROJECT_TXT_CONTENT}
                 </Text>
                 <View style={Style.viewBottom}>
                     <FlatList

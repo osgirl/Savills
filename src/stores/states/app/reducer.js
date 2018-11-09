@@ -2,28 +2,27 @@ import Types from './';
 import createReducer from '../';
 
 const INIT_STATE = ({
-    test: ""
+    listLanguege: {},
+    languegeLocal : ''
 });
 
 export default createReducer(INIT_STATE, {
-    [Types.TEST]: (state, action) => {        
-        return {
-            ...state,
-            test : action.payload.data
-        };
+    
+     [Types.SET_LANGUAGE_LOCAL_SUCCESS]: (state, action) => {
+        let tempState = Object.assign({},
+            { ...state },
+            { languegeLocal: action.payload }
+        );
+        return tempState;
     },
 
-    // [Types.TEST_SUCCESS]: (state, action) => {
-        
-    //     return {
-    //         ...state,
-    //         test: action.payload.data
-    //     };
-    // },
+    [Types.GET_LANGUAGE_LOCAL_SUCCESS]: (state, action) => {
+        let tempState = Object.assign({},
+            { ...state },
+            { languegeLocal: action.payload }
+        );
+        return tempState;
+    },
 
-    // [Types.TEST_FAIL]: (state, action) => {
-    //     return {
-    //         ...state,
-    //     };
-    // },
+
 });

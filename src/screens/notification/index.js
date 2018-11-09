@@ -13,6 +13,7 @@ class Notification extends layout {
             data: this.props.notification.listNoti.items,
             loadingMore: false,
             isShowTitleHeader: false,
+            isModalSelectUnit: false,
             scrollY: new Animated.Value(0),
         }
     }
@@ -32,6 +33,10 @@ class Notification extends layout {
         let start = await this.state.data.length;
         let accessTokenAPI = this.props.account.accessTokenAPI;
         await this.props.actions.notification.getListNotification(accessTokenAPI, start);
+    }
+
+    _openModalSelectUnit() {
+        this.setState({ isModalSelectUnit: true })
     }
 
 

@@ -4,20 +4,7 @@ import Connect from '@stores';
 import layout from './layout';
 import _ from "lodash";
 
-let DATA = [
-    { id: 1, key: 'Pages.Resident', title: 'Events', screen: 'Events' },
-    { id: 2, key: 'Pages.Resident.Booking', title: 'Booking', screen: '' },
-    { id: 3, key: 'Pages.Resident.WorkOrder', title: 'Work Order', screen: 'WorkOrder' },
-    { id: 4, key: 'invoice', title: 'Invoice', screen: '' },
-    { id: 5, key: 'Pages.Resident.Inbox', title: 'Inbox', screen: '' },
-    { id: 6, key: 'Pages.Resident.Feedback', title: 'Feed back', screen: '' },
-    { id: 7, key: 'Pages.Libraries', title: 'E-labary', screen: '' },
-    { id: 8, key: 'Pages.Resident.Contacts', title: 'Contacts', screen: 'Contacts' },
-    { id: 9, key: 'Pages.Resident.FrontDesk', title: 'Frontdesk', screen: '' },
-    { id: 10, key: 'Pages.Resident.Fee', title: 'Free', screen: '' },
-    { id: 11, key: 'Pages.FAQ', title: 'FAQ', screen: 'FAQ' },
-]
-
+import Language from "../../utils/language";
 
 class Home extends layout {
 
@@ -29,7 +16,20 @@ class Home extends layout {
             loading: false,
             dataModule: [],
             profile: null,
-            numcolumn: 2
+            numcolumn: 2,
+            DATA: [
+                { id: 1, key: 'Pages.Resident', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_EVENTS, screen: 'Events' },
+                { id: 2, key: 'Pages.Resident.Booking', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_BOOKING, screen: '' },
+                { id: 3, key: 'Pages.Resident.WorkOrder', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_WORKORDER, screen: 'WorkOrder' },
+                { id: 4, key: 'invoice', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_INVOICE, screen: '' },
+                { id: 5, key: 'Pages.Resident.Inbox', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FEEDBACK, screen: '' },
+                { id: 6, key: 'Pages.Resident.Feedback', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FEEDBACK, screen: '' },
+                { id: 7, key: 'Pages.Libraries', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_E_LIBARY, screen: '' },
+                { id: 8, key: 'Pages.Resident.Contacts', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_CONTACTS, screen: 'Contacts' },
+                { id: 9, key: 'Pages.Resident.FrontDesk', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FRONTDESK, screen: '' },
+                { id: 10, key: 'Pages.Resident.Fee', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FREE, screen: '' },
+                { id: 11, key: 'Pages.FAQ', title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FAQ, screen: 'FAQ' },
+            ]
         }
         this.showCenter = false;
         if (Platform.OS === 'android') {
@@ -47,7 +47,7 @@ class Home extends layout {
             let dataGrantedPermissions = nextProps.account.userSettings.result.auth.grantedPermissions;
             let accessTokenApi = this.props.account.accessTokenAPI;
             let arrTemp = [];
-            DATA.map(item => {
+            this.state.DATA.map(item => {
                 if (item.key in dataGrantedPermissions && dataGrantedPermissions[item.key]) {
                     arrTemp.push(item);
                 }

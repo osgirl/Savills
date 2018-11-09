@@ -13,7 +13,7 @@ class Login extends layout {
         super(props);
         this.state = {
             isModalLanguage: false,
-            selectedItem: 1,
+            selectedItem: this.props.app.languegeLocal,
             username: '',
             password: '',
             flag: true,
@@ -128,7 +128,6 @@ class Login extends layout {
     _gotoForgotPassword() {
         this.props.navigation.navigate('ForgotPassword');
     }
-
 
 }
 
