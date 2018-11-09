@@ -13,6 +13,8 @@ import Header from '@components/header';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
 import moment from 'moment';
+import ModalSelectUnit from "@components/modalSelectUnit";
+import Modal from "react-native-modal";
 
 import IC_BACK from "../../resources/icons/close.png";
 import IC_CALENDAR from "../../resources/icons/calendar.png";
@@ -22,7 +24,10 @@ import { } from "../";
 import Configs from "../../utils/configs";
 import Button from "../../components/button";
 
+import IC_DROPDOWN from "@resources/icons/dropDown.png";
 import IC_DEFAULT from "@resources/icons/default.png";
+
+import Language from "../../utils/language";
 
 const { width } = Dimensions.get('window');
 
@@ -72,12 +77,13 @@ export default class extends Component {
     }
 
     _HeaderFlatlist() {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <LinearGradient
                 colors={['#4A89E8', '#8FBCFF']}
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={{ width: width, marginBottom: 20 }}>
-                <HeaderTitle title='Notification' />
+                <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
             </LinearGradient>
         )
     }
@@ -118,6 +124,8 @@ export default class extends Component {
     }
 
     render() {
+        let unitActive = this.props.units.unitActive;
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
                 <Header
@@ -129,9 +137,17 @@ export default class extends Component {
                     center={
                         <View>
                             <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>
-                                {'Notification'}
+                                {LG.NOTIFICATION_TXT_TITLE}
                             </Text>
                         </View>
+                    }
+                    renderViewRight={
+                        <Button
+                            onPress={() => this._openModalSelectUnit()}
+                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
+                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+                            <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                        </Button>
                     }
                 />
                 <FlatList
@@ -152,6 +168,13 @@ export default class extends Component {
                     ListHeaderComponent={() => this._HeaderFlatlist()}
                     ListFooterComponent={() => this._FooterFlatlist()}
                 />
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isModalSelectUnit}>
+                    <ModalSelectUnit
+                        onClose={() => this.setState({ isModalSelectUnit: false })}
+                    />
+                </Modal>
             </View>
         );
     }

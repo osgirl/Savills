@@ -16,6 +16,8 @@ import IC_EMAIL from "@resources/icons/ID.png";
 import Resolution from "../../utils/resolution";
 import Style from "./style";
 
+import Language from "../../utils/language";
+
 export default class extends Component {
 
     renderLoading() {
@@ -54,16 +56,17 @@ export default class extends Component {
     );
 
     render() {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <View style={Style.container}>
                 <View style={{ marginTop: Platform.OS === 'ios' ? 100 : 80 }}>
                     <Text style={Style.txtTop}>
-                        {' A password reset link will be sent to your password. If you dont get an email within a few minutes, plesase re-try'}
+                        {LG.FORGOT_TXT_CONTENT}
                     </Text>
                 </View>
-                <KeyboardAvoidingView behavior={Platform.OS === 'android' ? "height" : "padding"}  style={{ alignItems: 'center', marginBottom: Resolution.scaleHeight(100)}}>
+                <KeyboardAvoidingView behavior={Platform.OS === 'android' ? "height" : "padding"} style={{ alignItems: 'center', marginBottom: Resolution.scaleHeight(100) }}>
                     <InputText
-                        placeholder={'Email'}
+                        placeholder={LG.FORGOT_TXT_PLACEHOLDER}
                         keyboardType='email-address'
                         iconLeft={IC_EMAIL}
                         onChange={(text) => { this.setState({ email: text }) }}
@@ -79,7 +82,7 @@ export default class extends Component {
                             style={{ alignItems: 'center', borderRadius: 33, }}
                         >
                             <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: Resolution.scaleHeight(13), fontFamily: 'Opensans-SemiBold' }}>
-                                Send
+                                {LG.FORGOT_BTN_SEND}
                             </Text>
                         </LinearGradient>
                     </Button>

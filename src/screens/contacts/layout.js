@@ -29,6 +29,8 @@ const { width, height } = Dimensions.get('window');
 import Style from "./style";
 import resolution from '../../utils/resolution';
 
+import Language from "../../utils/language";
+
 export default class extends Component {
 
     constructor(props) {
@@ -62,12 +64,13 @@ export default class extends Component {
     }
 
     renderHeader() {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <LinearGradient
                 colors={['#4A89E8', '#8FBCFF']}
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={{ marginBottom: 20 }}>
-                <HeaderTitle title='Contacts' />
+                <HeaderTitle title={LG.CONTACTS_TXT_TITLE} />
             </LinearGradient>
         )
     }

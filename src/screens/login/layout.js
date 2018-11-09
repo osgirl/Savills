@@ -24,21 +24,20 @@ import Loading from "@components/loading";
 import Configs from "../../utils/configs";
 import Style from "./style";
 
+import Language from "../../utils/language";
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 const { width, height } = Dimensions.get('window');
 
-let DATA_LANGUAGE = [
-    { id: 1, title: 'Vietnamese' },
-    { id: 2, title: 'English' }
-]
 var PickerItem = Picker.Item;
+
 export default class extends Component {
 
     onPickerSelect(index) {
         try {
-            alert(index)
+            this.props.actions.app.setLanguageLocal(index.toString());
             this.setState({
                 selectedItem: index,
             })
@@ -59,9 +58,9 @@ export default class extends Component {
                         itemStyle={{ color: "#333333", fontSize: 20, fontWeight: 'bold' }}
                         onValueChange={(index) => this.onPickerSelect(index)}>
                         {
-                            DATA_LANGUAGE.map((item, index) => (
+                            Language.listLanguage.map((item, index) => (
                                 <PickerItem
-                                    label={item.title}
+                                    label={item.icon + ' ' + item.title}
                                     value={index}
                                     key={"id_" + index}
                                 />
@@ -84,6 +83,8 @@ export default class extends Component {
     }
 
     render() {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
+        let iconFlag = Language.listLanguage[this.props.app.languegeLocal].icon
         return (
             <View style={Style.container}>
                 <KeyboardAwareScrollView>
@@ -95,7 +96,7 @@ export default class extends Component {
                                 haveMargin={false}
                                 color={'#4A89E8'}
                                 onPress={() => this._toggleModalLanguage()}
-                                text="language"
+                                text={iconFlag + ' ' + LG.LOGIN_BTN_LANGUAGE}
                                 fontFamily={'OpenSans-Regular'}
                             />
                         </View>
@@ -111,7 +112,7 @@ export default class extends Component {
                                     <Text style={{ color: '#FF361A', fontSize: 10, alignSelf: 'center', marginBottom: 6, textAlign: 'center' }}>{this.props.account.error.message + '\n' + this.props.account.error.details}</Text> : null
                             }
                             <InputText
-                                placeholder={'Username or Email'}
+                                placeholder={LG.LOGIN_TXT_PLACEHOLDER_EMAIL}
                                 iconLeft={IC_EMAIL}
                                 keyboardType='email-address'
                                 onChange={(data) => {
@@ -120,7 +121,7 @@ export default class extends Component {
                                 style={this.props.account.error ? Style.errorTextinput : null}
                             />
                             <InputText
-                                placeholder={'Password'}
+                                placeholder={LG.LOGIN_TXT_PLACEHOLDER_PASSWORD}
                                 iconLeft={IC_PASS}
                                 secureTextEntry
                                 marginVertical={20}
@@ -139,7 +140,7 @@ export default class extends Component {
                                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                                     style={Style.btnLogin}
                                 >
-                                    <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'OpenSans-SemiBold' }}>Login</Text>
+                                    <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'OpenSans-SemiBold' }}>{LG.LOGIN_BTN_LOGIN}</Text>
                                 </LinearGradient>
                             </Button>
 
@@ -151,7 +152,7 @@ export default class extends Component {
                                     haveMargin={false}
                                     color={'#BABFC8'}
                                     onPress={() => this._gotoForgotPassword()}
-                                    text="Forgot Password?"
+                                    text={LG.LOGIN_TXT_FORGOTPASSWORD + ' ?'}
                                 />
                             </View>
                         </View>
