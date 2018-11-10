@@ -15,8 +15,13 @@ import Notification from './notification';
 import WorkOrder from './tabWorkOrders';
 import ModalWorkOrder from './tabWorkOrders/components/modalNewOrder';
 import ModalEditOrder from './tabWorkOrders/components/modalEditOrder';
+import ModalDetailBooking from './tabBooking/components/modalDetailBooking';
+import ModalNewBooking from './tabBooking/components/modalNewBooking';
+import Booking from './tabBooking';
 
 export {
+  ModalDetailBooking,
+  ModalNewBooking,
   ModalEditOrder,
   ModalWorkOrder,
   // MainTab,
@@ -29,6 +34,7 @@ export {
   ForgotPassword,
   ChangePassword,
   Home,
+  Booking,
   Profile,
   Events,
   Contacts,

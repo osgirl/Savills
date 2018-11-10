@@ -61,15 +61,13 @@ class ModalEditOrder extends Component {
       </View>
     ) : (
       <View style={{ flex: 1 }}>
+        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']} style={{ height: 200 }}>
+          <TouchableOpacity style={{ position: 'absolute', top: 30, left: 10 }} onPress={() => this.props.navigation.goBack()}>
+            <Text style={{ color: '#FFF', fontSize: 25, margin: 20 }}>x</Text>
+          </TouchableOpacity>
+          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>#{id}</Text>
+        </LinearGradient>
         <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 50 }}>
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1.0, y: 1.0 }}
-            colors={['#4A89E8', '#8FBCFF']}
-            style={{ flex: 1, paddingTop: 100 }}
-          >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20 }}>#{id}</Text>
-          </LinearGradient>
           <ItemScorll
             title={'Thông Tin'}
             view={
@@ -149,7 +147,7 @@ class ModalEditOrder extends Component {
                 }}
               >
                 <Image
-                  style={{ width: 50, height: 50, borderRadius: 18 }}
+                  style={{ width: 50, height: 50, borderRadius: 25 }}
                   resizeMode={'cover'}
                   source={require('../../../resources/icons/avatar-default.png')}
                 />
@@ -200,7 +198,9 @@ class ModalEditOrder extends Component {
                   backgroundColor: '#FFF',
                   borderRadius: 5,
                   width: null,
-                  padding: 10
+                  padding: 10,
+                  minHeight: 100,
+                  marginBottom: 20
                 }}
               >
                 <Text>{description}</Text>
@@ -414,12 +414,7 @@ class ModalEditOrder extends Component {
             }}
           >
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
-              <TextInput
-                style={{ flex: 1 }}
-                color={'#FFF'}
-                placeholderTextColor={'rgba(255,255,255,0.7)'}
-                placeholder={'Nhập tin nhắn ...'}
-              />
+              <TextInput style={{ flex: 1 }} placeholderTextColor={'rgba(255,255,255,0.7)'} placeholder={'Nhập tin nhắn ...'} />
               <TouchableOpacity>
                 <Image source={require('../../../resources/icons/send-mess.png')} />
               </TouchableOpacity>

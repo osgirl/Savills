@@ -54,11 +54,6 @@ class TabWorkOrder extends Component {
           leftIcon={IC_BACK}
           leftAction={() => this.props.navigation.goBack()}
           headercolor={'transparent'}
-          // center={
-          //   <View style={{ justifyContent: 'center', alignItems: 'center', marginLeft: 100 }}>
-          //     <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-SemiBold' }}>{this.props.navigation.getParam('eventTitle')}</Text>
-          //   </View>
-          // }
           text="T1-A03-02"
           display={'text'}
           rightAction={() => this._onpenModalSelectUnit()}
@@ -93,7 +88,7 @@ class TabWorkOrder extends Component {
             justifyContent: 'center'
           }}
         >
-          <Image source={require('../../resources/icons/close.png')} />
+          <Image source={require('../../resources/icons/plush-addnew.png')} />
         </TouchableOpacity>
       </View>
     );
