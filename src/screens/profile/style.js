@@ -15,10 +15,10 @@ const style = StyleSheet.create({
         backgroundColor: '#F6F8FD'
     },
     btnLeft: {
-        position: 'absolute', top: 40, left: 0, zIndex: 2
+        position: 'absolute', top: Resolution.scaleHeight(20), left: 0, zIndex: 2
     },
     btnRight: {
-        position: 'absolute', top: 40, right: 0, zIndex: 2
+        position: 'absolute', top: Resolution.scaleHeight(20), right: 0, zIndex: 2
     },
     imgAvatar: {
         height: Resolution.scaleHeight(220),
@@ -26,7 +26,7 @@ const style = StyleSheet.create({
     },
     content: {
         marginTop: Resolution.scaleHeight(160),
-        width: width - 40,
+        width: width - Resolution.scaleWidth(40),
         alignSelf: 'center'
     },
     block1: {
@@ -34,19 +34,20 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: '#FFF',
         borderRadius: 5,
-        padding: 20
+        padding: Resolution.scale(20)
     },
     block2: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: '#FFF',
-        borderRadius: 5, padding: 20,
+        borderRadius: 5,
+        padding: Resolution.scale(20),
         marginVertical: 10
     },
     btnBlock: {
         backgroundColor: '#FFF',
         borderRadius: 5,
-        padding: 10,
+        padding: Resolution.scale(10),
     },
     txtBlock: {
         fontSize: 13, fontFamily: 'OpenSans-SemiBold', marginLeft: 10
