@@ -46,7 +46,7 @@ class Home extends layout {
           id: 2,
           key: 'Pages.Resident.Booking',
           title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_BOOKING,
-          screen: ''
+          screen: 'Booking'
         },
         {
           id: 3,
