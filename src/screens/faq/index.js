@@ -6,6 +6,12 @@ import _ from "lodash";
 
 class FAQ extends layout {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            isModalSelectUnit: false
+        }
+    }
 
 }
 

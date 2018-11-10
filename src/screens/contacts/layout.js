@@ -15,15 +15,21 @@ import Loading from "@components/loading";
 import HeaderTitle from '@components/headerTitle';
 import FastImage from "../../components/fastImage";
 import call from 'react-native-phone-call'
-import IC_CALL from "@resources/icons/Call-button.png";
 
+import ModalSelectUnit from "@components/modalSelectUnit";
+import Modal from "react-native-modal";
+
+import IC_CALL from "@resources/icons/Call-button.png";
 import Header from '@components/header'
 import IC_BACK from "@resources/icons/back-light.png";
+import IC_DROPDOWN from "@resources/icons/dropDown.png";
 
 const { width, height } = Dimensions.get('window');
 
 import Style from "./style";
 import resolution from '../../utils/resolution';
+
+import Language from "../../utils/language";
 
 export default class extends Component {
 
@@ -58,19 +64,18 @@ export default class extends Component {
     }
 
     renderHeader() {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <LinearGradient
                 colors={['#4A89E8', '#8FBCFF']}
                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={{ marginBottom: 20 }}>
-                <HeaderTitle title='Contacts' />
+                <HeaderTitle title={LG.CONTACTS_TXT_TITLE} />
             </LinearGradient>
         )
     }
 
     renderItem(item) {
-        // let startTime = this.converDateToTime(item.startTime)
-        console.log(item)
         let encToken = this.props.account.encToken;
         let image = `${item.user.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
         return (
@@ -109,13 +114,22 @@ export default class extends Component {
     }
 
     render() {
+        let unitActive = this.props.units.unitActive;
         return (
             <View style={Style.container}>
                 <Header
                     LinearGradient={true}
-                    headercolor={'transparent'}
                     leftIcon={IC_BACK}
                     leftAction={() => this.props.navigation.goBack()}
+                    headercolor={'transparent'}
+                    renderViewRight={
+                        <Button
+                            onPress={() => this.setState({ isModalSelectUnit: true })}
+                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
+                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+                            <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                        </Button>
+                    }
                 />
                 <FlatList
                     alwaysBounceVertical={false}
@@ -131,6 +145,13 @@ export default class extends Component {
                     ListHeaderComponent={() => this.renderHeader()}
                     ListFooterComponent={() => <View style={{ height: 20 }} />}
                 />
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isModalSelectUnit}>
+                    <ModalSelectUnit
+                        onClose={() => this.setState({ isModalSelectUnit: false })}
+                    />
+                </Modal>
             </View>
         );
     }

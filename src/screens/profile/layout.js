@@ -22,7 +22,10 @@ import FastImage from "../../components/fastImage";
 import IC_CLOSE from "@resources/icons/close.png";
 import IC_SETTING from "@resources/icons/setting.png";
 import IMG_AVATAR_DEFAULT from "../../resources/icons/avatar-default.png";
+import ModalSelectUnit from "@components/modalSelectUnit";
 import Style from "./style";
+
+import Language from "../../utils/language";
 
 const { width } = Dimensions.get('window');
 
@@ -57,11 +60,11 @@ export default class extends Component {
             <Text style={{ marginTop: 40, fontSize: 15, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>
                 {
                     this.state.keyUpdate === 'sdt' ?
-                        'Phone number' :
+                        Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_PHONE :
                         this.state.keyUpdate === 'name' ?
-                            'First name' :
+                            Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_FIRST :
                             this.state.keyUpdate === 'surname' ?
-                                'Last name' : ''
+                                Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST : ''
 
                 }
             </Text>
@@ -128,6 +131,7 @@ export default class extends Component {
     render() {
         let avatar = this.props.imageProfile;
         let Unit = this.props.units.unitActive;
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <View style={{ flex: 1 }}>
                 <View style={Style.btnLeft}>
@@ -158,18 +162,18 @@ export default class extends Component {
                     <View style={Style.content}>
                         <View style={{ marginVertical: 10, alignItems: 'flex-end' }}>
                             <Button onPress={() => this.selectPhotoTapped()}>
-                                <Text style={{ color: '#FFF', fontFamily: 'OpenSans-Semibold', fontSize: 12 }}>Change avatar</Text>
+                                <Text style={{ color: '#FFF', fontFamily: 'OpenSans-Semibold', fontSize: 12 }}>{LG.PROFILE_TXT_CHANGEAVATAR}</Text>
                             </Button>
                         </View>
                         <View style={Style.block1}>
                             <View>
-                                <Text style={styleTextTitle}>Unit</Text>
+                                <Text style={styleTextTitle}>{LG.PROFILE_TXT_UNIT}</Text>
                                 <Text style={[styleTextTitle, { marginVertical: 20 }]}>Mail</Text>
-                                <Text style={styleTextTitle}>SDT</Text>
+                                <Text style={styleTextTitle}>{LG.PROFILE_TXT_PHONE}</Text>
                             </View>
                             <View>
                                 <Button
-                                    onPress={() => { }}
+                                    onPress={() => this._openModalSelectUnit()}
                                 >
                                     <Text style={styleTextRight}>{Unit.fullUnitCode}</Text>
                                 </Button>
@@ -183,9 +187,9 @@ export default class extends Component {
                         </View>
                         <View style={Style.block2}>
                             <View>
-                                <Text style={styleTextTitle}>First name</Text>
-                                <Text style={[styleTextTitle, { marginVertical: 20 }]}>Last name</Text>
-                                <Text style={styleTextTitle}>Display name</Text>
+                                <Text style={styleTextTitle}>{LG.PROFILE_TXT_FIRST}</Text>
+                                <Text style={[styleTextTitle, { marginVertical: 20 }]}>{LG.PROFILE_TXT_LAST}</Text>
+                                <Text style={styleTextTitle}>{LG.PROFILE_TXT_DISPLAY}</Text>
                             </View>
                             <View>
                                 <Button
@@ -205,19 +209,19 @@ export default class extends Component {
                         <Button
                             onPress={() => alert('SETTING')}
                             style={Style.btnBlock}>
-                            <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>Setting</Text>
+                            <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{LG.PROFILE_BTN_SETTING}</Text>
                         </Button>
 
                         <Button
                             onPress={() => this.props.onChangePassword()}
                             style={[Style.btnBlock, { marginVertical: 10 }]}>
-                            <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>Change Password</Text>
+                            <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{LG.PROFILE_BTN_CHANGEPASS}</Text>
                         </Button>
 
                         <Button
                             onPress={() => this.props.onLogOut()}
                             style={[Style.btnBlock, { marginVertical: 10, alignItems: 'center', marginBottom: 20 }]}>
-                            <Text style={[Style.txtBlock, { color: '#FF361A' }]}>LOGOUT</Text>
+                            <Text style={[Style.txtBlock, { color: '#FF361A' }]}>{LG.PROFILE_BTN_LOGOUT}</Text>
                         </Button>
 
                     </View>
@@ -229,6 +233,13 @@ export default class extends Component {
                 </Modal>
                 {this.renderLoading()}
                 {/* </ScrollView> */}
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isModalSelectUnit}>
+                    <ModalSelectUnit
+                        onClose={() => this.setState({ isModalSelectUnit: false })}
+                    />
+                </Modal>
             </View>
         );
     }

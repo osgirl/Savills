@@ -1,5 +1,9 @@
 import Connect from '@stores';
 import layout from './layout';
+import {
+    Platform,
+    StatusBar
+} from 'react-native';
 
 import _ from "lodash";
 
@@ -9,12 +13,20 @@ class Login extends layout {
         super(props);
         this.state = {
             isModalLanguage: false,
-            selectedItem: 1,
+            selectedItem: this.props.app.languegeLocal,
             username: '',
             password: '',
             flag: true,
             loading: false,
             unMount: true
+        }
+        if (Platform.OS === 'android') {
+            StatusBar.setHidden(false);
+            StatusBar.setBackgroundColor('#000');
+            StatusBar.setBarStyle('light-content');
+        } else {
+            StatusBar.setHidden(false);
+            StatusBar.setBarStyle('dark-content');
         }
     }
 
@@ -116,7 +128,6 @@ class Login extends layout {
     _gotoForgotPassword() {
         this.props.navigation.navigate('ForgotPassword');
     }
-
 
 }
 

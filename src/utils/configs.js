@@ -9,8 +9,8 @@ const configs = {
   API_BOOKING: 'https://uat.spms.asia/booking',
   API_UPLOAD_IMAGE: 'https://uat-r.spms.asia/core',
   Platform: Platform.OS,
-  DEFAULT_WIDTH: 375,
-  DEFAULT_HEIGHT: 666,
+  DEFAULT_WIDTH: 350,
+  DEFAULT_HEIGHT: 680,
   colorMain: '#4A89E8',
   Shadow:
     Platform.OS === 'ios'

@@ -11,6 +11,7 @@ import Profile from './profile';
 import Events from './events';
 import Contacts from './contacts';
 import FAQ from './faq';
+import Notification from './notification';
 import WorkOrder from './tabWorkOrders';
 import ModalWorkOrder from './tabWorkOrders/components/modalNewOrder';
 import ModalEditOrder from './tabWorkOrders/components/modalEditOrder';
@@ -37,5 +38,6 @@ export {
   Profile,
   Events,
   Contacts,
-  FAQ
+  FAQ,
+  Notification
 };

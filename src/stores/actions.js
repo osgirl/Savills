@@ -6,6 +6,7 @@ import * as events from './states/events/action';
 import * as utilities from './states/utilities/action';
 import * as workOrder from './states/workOrder/action';
 import * as booking from './states/booking/action';
+import * as notification from './states/notification/action';
 export default {
   booking,
   workOrder,
@@ -14,5 +15,6 @@ export default {
   units,
   userProfile,
   events,
-  utilities
+  utilities,
+  notification
 };

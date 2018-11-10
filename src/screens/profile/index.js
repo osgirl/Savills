@@ -13,7 +13,8 @@ class Profile extends Layout {
             profile: this.props.profile,
             txtUpdate: '',
             keyUpdate: '',
-            avatarSource: ''
+            avatarSource: '',
+            isModalSelectUnit: false
         }
     }
 
@@ -62,6 +63,10 @@ class Profile extends Layout {
                 break;
         }
         this.setState({ isShowModalUpdate: false, profile: tempProfile })
+    }
+
+    _openModalSelectUnit() {
+        this.setState({ isModalSelectUnit: true })
     }
 
 
