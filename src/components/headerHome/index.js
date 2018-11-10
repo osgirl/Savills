@@ -14,6 +14,8 @@ import { SafeAreaView } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import ButtonCustom from "../buttonCustom";
 import Connect from '@stores';
+
+import Resolution from "../../utils/resolution";
 const { width, height } = Dimensions.get("window");
 
 class HeaderHome extends Component {
@@ -172,17 +174,17 @@ class HeaderHome extends Component {
 
 const style = StyleSheet.create({
 	container: {
-		height: Platform.OS === "ios" ? 80 : 60,
+		height: Platform.OS === "ios" ? Resolution.scaleHeight(80) : Resolution.scaleHeight(60),
 		justifyContent: 'center',
 	},
 	wrapper: {
-		// backgroundColor: 'yellow',
+		// backgroundColor: 'red',
 		width: width,
 		flexDirection: "row",
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		marginTop: Platform.OS === "ios" ? 30 : 0,
-		height: 60,
+		marginTop: Platform.OS === "ios" ? Resolution.scale(20) : 0,
+		height: Resolution.scaleHeight(60),
 		// paddingHorizontal: 10
 	},
 	titleContainer: {

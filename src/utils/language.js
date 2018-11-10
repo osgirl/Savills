@@ -64,7 +64,7 @@ export default class {
                 NOTIFICATION_TXT_TITLE: 'Notification',
 
                 //WORKORDER
-
+                
                 //BOOKING
 
             },

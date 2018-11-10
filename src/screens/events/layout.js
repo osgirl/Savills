@@ -75,7 +75,6 @@ export default class Layout extends Component {
                         textDayHeaderFontSize: 15,
                         textDayFontFamily: 'OpenSans-Regular',
                         textDayFontSize: 14,
-
                     }}
                 />
             </LinearGradient>

@@ -133,6 +133,7 @@ const style = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         paddingHorizontal: 20,
+        paddingVertical: 20
     },
     separator: {
         width: 10

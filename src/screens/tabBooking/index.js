@@ -14,7 +14,7 @@ import TabComplete from './tabs/tabComplete';
 import TabInComming from './tabs/tabInComming';
 import TabProcess from './tabs/tabProcess';
 import configs from '../../utils/configs';
-import TabBar from './tabs/TabBar';
+// import TabBar from './tabs/TabBar';
 const { width } = Dimensions.get('window');
 class TabBooking extends Component {
   constructor(props) {

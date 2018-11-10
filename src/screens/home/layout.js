@@ -220,7 +220,7 @@ export default class extends Component {
                     />
                 </View>
                 <Modal
-                    style={{ flex: 1, margin: 0 }}
+                    style={{ flex: 1, margin: 0, backgroundColor: '#F6F8FD' }}
                     isVisible={this.state.isShowProfile}>
                     <Profile
                         onClose={() => this._closeProfile()}
