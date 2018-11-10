@@ -144,7 +144,7 @@ export default class extends Component {
                                 </LinearGradient>
                             </Button>
 
-                            <View style={{ alignItems: 'center', marginVertical: Resolution.scale(40) }}>
+                            <View style={{ alignItems: 'center', marginVertical: Resolution.scale(30) }}>
                                 <ButtonCustom
                                     background={'transparent'}
                                     display='text'

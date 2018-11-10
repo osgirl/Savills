@@ -42,7 +42,7 @@ export default class extends Component {
         }
 
         if (this.props.account.resetPassword !== nextProps.account.resetPassword && !nextProps.account.resetPassword.success) {
-            await this.setState({ loading: false, error: nextProps.account.changePassword.error.message });
+            await this.setState({ loading: false, error: nextProps.account.resetPassword.error.message });
         }
 
         if (this.props.account.changePassword !== nextProps.account.changePassword && !nextProps.account.changePassword.success) {
@@ -57,6 +57,14 @@ export default class extends Component {
         if (!this.state.flag) {
             this.setState({ flag: true })
         }
+
+        if (status !== 'forgot') {
+            if (this.state.currPass === this.state.newPass) {
+                this.setState({ loading: false, error: 'Current Password is not equal new password' })
+                return;
+            }
+        }
+
         if (this.state.newPass !== this.state.rePass) {
             this.setState({ loading: false, error: 'password is not equal re-enter password' })
             return;
@@ -89,7 +97,9 @@ export default class extends Component {
 
     render() {
         let { status } = this.props.navigation.state.params;
-        // console.log(status)
+        let checkDisabled = status == 'forgot' &&
+            this.state.verifyCode.length <= 0 || this.state.newPass.length <= 0 || this.state.rePass.length <= 0 ? true : false ||
+                status == 'change' && this.state.currPass.length <= 0 || this.state.newPass.length <= 0 || this.state.rePass.length <= 0 ? true : false
         return (
             <View style={Style.container}>
                 <View style={{ marginTop: Platform.OS === 'ios' ? 100 : 80 }}>
@@ -97,7 +107,7 @@ export default class extends Component {
                         {'Change Your Pass'}
                     </Text>
                 </View>
-                <KeyboardAvoidingView behavior="padding" enabled style={{marginBottom: Resolution.scaleHeight(100)}}>
+                <KeyboardAvoidingView behavior="padding" enabled style={{ marginBottom: Resolution.scaleHeight(100) }}>
                     {
                         this.state.error.length > 0 ?
                             <Text style={{ color: '#FF361A', fontSize: 10, alignSelf: 'center' }}>{this.state.error}</Text> : null
@@ -134,11 +144,15 @@ export default class extends Component {
                             secureTextEntry
                         />
                     </View>
+                    {
+
+                    }
                     <Button
+                        disabled={checkDisabled}
                         onPress={() => this._resetPassWord()}
                     >
                         <LinearGradient
-                            colors={['#4A89E8', '#8FBCFF']}
+                            colors={checkDisabled ? ['#CCCCCC', '#EEEEEE'] : ['#4A89E8', '#8FBCFF']}
                             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                             style={{ alignItems: 'center', borderRadius: 33 }}
                         >
