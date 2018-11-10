@@ -9,7 +9,7 @@ function* getCurrentLoginInformations(action) {
     let response = yield call(API.request, action.payload);
     yield put({ ...action, type: Types.GET_USER_INFORMATION_SUCCESS, response });
   } catch (e) {
-    console.log(e)
+    // console.log(e)
   }
 }
 
@@ -18,7 +18,7 @@ function* getImageUserProfile(action) {
     let response = yield call(API.request, action.payload);
     yield put({ ...action, type: Types.GET_IMAGE_USER_SUCCESS, response });
   } catch (e) {
-    console.log(e)
+    // console.log(e)
   }
 }
 
@@ -27,7 +27,7 @@ function* updateCurrentUserProfile(action) {
     let response = yield call(API.request, action.payload);
     yield put({ ...action, type: Types.UPDATE_USER_PROFILE_SUCCESS, response });
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 

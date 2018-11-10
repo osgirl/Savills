@@ -5,6 +5,7 @@ import ImagePicker from 'react-native-image-picker';
 import Header from '@components/header';
 import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import HeaderTitle from '@components/headerTitle';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
 const options = {
@@ -176,18 +177,13 @@ class ModalNewOrder extends Component {
     return (
       <View style={{ flex: 1 }}>
         {this.showDetailImage()}
+        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']} style={{ height: 200 }}>
+          <TouchableOpacity style={{ position: 'absolute', top: 30, left: 10 }} onPress={() => this.props.navigation.goBack()}>
+            <Text style={{ color: '#FFF', fontSize: 25, margin: 20 }}>x</Text>
+          </TouchableOpacity>
+          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>New Order</Text>
+        </LinearGradient>
         <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 50 }}>
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1.0, y: 1.0 }}
-            colors={['#4A89E8', '#8FBCFF']}
-            style={{ flex: 1, paddingTop: 100 }}
-          >
-            <TouchableOpacity style={{ position: 'absolute', top: 30, left: 10 }} onPress={() => this.props.navigation.goBack()}>
-              <Text style={{ color: '#FFF', fontSize: 25, margin: 20 }}>x</Text>
-            </TouchableOpacity>
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20 }}>New Order</Text>
-          </LinearGradient>
           <ItemScorll
             title={'Thông Tin'}
             view={

@@ -5,8 +5,9 @@ import * as userProfile from './states/userProfile/action';
 import * as events from './states/events/action';
 import * as utilities from './states/utilities/action';
 import * as workOrder from './states/workOrder/action';
-
+import * as booking from './states/booking/action';
 export default {
+  booking,
   workOrder,
   app,
   account,

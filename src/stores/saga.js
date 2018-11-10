@@ -6,6 +6,7 @@ import userProfile from './states/userProfile/saga';
 import workOrder from './states/workOrder/saga';
 import events from './states/events/saga';
 import utilities from './states/utilities/saga';
+import booking from './states/booking/saga';
 export default function* sagaRoot() {
-  yield all([app(), account(), units(), userProfile(), workOrder(), events(), utilities()]);
+  yield all([app(), account(), units(), userProfile(), workOrder(), events(), utilities(), booking()]);
 }

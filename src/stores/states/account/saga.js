@@ -73,7 +73,7 @@ function* getUserSettings(action) {
     let response = yield call(API.request, action.payload);
     yield put({ ...action, type: Types.USER_SETTING_SUCCESS, response });
   } catch (e) {
-    console.log(e)
+    // console.log(e)
   }
 }
 
