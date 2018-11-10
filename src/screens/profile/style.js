@@ -34,7 +34,7 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: '#FFF',
         borderRadius: 5,
-        padding: Resolution.scale(20)
+        padding: Resolution.scale(20),
     },
     block2: {
         flexDirection: 'row',

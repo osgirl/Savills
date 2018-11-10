@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    WebView, Image
+    WebView, Image,
+    StatusBar
 } from 'react-native';
 import Header from '@components/header';
 import IC_BACK from "@resources/icons/close.png";
@@ -17,6 +18,9 @@ export default class extends Component {
         let unitActive = this.props.units.unitActive;
         return (
             <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+                <StatusBar
+                    barStyle="light-content"
+                />
                 <Header
                     LinearGradient={true}
                     leftIcon={IC_BACK}

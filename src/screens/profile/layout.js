@@ -6,7 +6,7 @@ import {
     TextInput,
     Image,
     Dimensions,
-    ScrollView
+    ScrollView,StatusBar
 } from 'react-native';
 
 import Modal from "react-native-modal";
@@ -138,6 +138,9 @@ export default class extends Component {
             <ScrollView
                 alwaysBounceVertical={false}
                 style={{ flex: 1 }}>
+                <StatusBar
+                    barStyle="light-content"
+                />
                 <View style={Style.btnLeft}>
                     <ButtonCustom
                         background={'transparent'}

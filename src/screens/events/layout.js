@@ -49,13 +49,6 @@ export default class Layout extends Component {
     this._openModalFull();
   }
 
-  renderHeader() {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    return (
-      <View>
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ paddingBottom: 10 }}>
-          <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
-
     renderHeader() {
         let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return <View>
@@ -88,8 +81,6 @@ export default class Layout extends Component {
                 </Text>
             </View>
         </View>
-      </View>
-    );
   }
 
   handleScroll = event => {
@@ -115,6 +106,9 @@ export default class Layout extends Component {
     let unitActive = this.props.units.unitActive;
     return (
       <View style={styles.container}>
+       <StatusBar
+          barStyle="light-content"
+        />
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}

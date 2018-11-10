@@ -7,7 +7,8 @@ import {
     Image,
     Text,
     Animated,
-    ActivityIndicator
+    ActivityIndicator,
+    StatusBar
 } from 'react-native';
 import Header from '@components/header';
 import LinearGradient from 'react-native-linear-gradient';
@@ -140,6 +141,9 @@ export default class extends Component {
 
         return (
             <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                <StatusBar
+                    barStyle="light-content"
+                />
                 <FlatList
                     data={this.state.data}
                     horizontal={false}
@@ -156,7 +160,7 @@ export default class extends Component {
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
                     ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-                    ListHeaderComponent={() => <View style={{ marginTop: HEADER_MAX_HEIGHT , }} />}
+                    ListHeaderComponent={() => <View style={{ marginTop: HEADER_MAX_HEIGHT, }} />}
                     ListFooterComponent={() => this._FooterFlatlist()}
                 />
 

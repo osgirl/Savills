@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, View, Text } from 'react-native';
+import { Animated, View, StatusBar } from 'react-native';
 import Connect from '@stores';
 import Header from '@components/header'
 import IC_BACK from "@resources/icons/back-light.png";
@@ -48,6 +48,7 @@ class Events extends Layout {
 
         }
     }
+
 
     async _openModalDetail(item) {
         await this.setState({ itemEventSelect: item })
