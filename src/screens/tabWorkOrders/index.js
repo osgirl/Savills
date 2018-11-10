@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   Image,
+  Animated,
   TouchableOpacity
 } from 'react-native';
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
@@ -21,11 +22,16 @@ import IC_BACK from '@resources/icons/back-light.png';
 import { isIphoneX } from '../../utils/func';
 import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 const { width } = Dimensions.get('window');
+import Resolution from '../../utils/resolution';
+
+const HEADER_MAX_HEIGHT = 70;
+const HEADER_MIN_HEIGHT = 70;
 class TabWorkOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listWorkOrder: []
+      listWorkOrder: [],
+      scrollY: new Animated.Value(0)
     };
   }
 
@@ -40,7 +46,56 @@ class TabWorkOrder extends Component {
     }
   };
 
+  handleScroll = event => {
+    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
+      listener: event => {
+        if (event.nativeEvent.contentOffset.y > 50) {
+          if (!this.showCenter) {
+            this.showCenter = true;
+            this.setState({ isShowTitleHeader: true });
+            // this.props.navigation.setParams({ eventTitle: 'Events' });
+          }
+        } else {
+          if (this.showCenter) {
+            this.showCenter = false;
+            // this.props.navigation.setParams({ eventTitle: null });
+            this.setState({ isShowTitleHeader: false });
+          }
+        }
+      }
+    })(event);
+  };
+
   render() {
+    const headerHeight = this.state.scrollY.interpolate({
+      inputRange: [0, 100, 286],
+      outputRange: [60, 60, 0],
+      extrapolate: 'clamp'
+    });
+
+    const fontSize = this.state.scrollY.interpolate({
+      inputRange: [0, 100, 286],
+      outputRange: [30, 30, 0],
+      extrapolate: 'clamp'
+    });
+    const opacityText = this.state.scrollY.interpolate({
+      inputRange: [0, 100, 286],
+      outputRange: [1, 1, 0],
+      extrapolate: 'clamp'
+    });
+
+    const opacityText2 = this.state.scrollY.interpolate({
+      inputRange: [0, 100, 286],
+      outputRange: [0, 0, 1],
+      extrapolate: 'clamp'
+    });
+
+    const headerHeight2 = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT],
+      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      extrapolate: 'clamp'
+    });
+
     let list = [];
     let listTwo = [];
     if (this.state.listWorkOrder.length > 0) {
@@ -49,17 +104,33 @@ class TabWorkOrder extends Component {
     }
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-        <Header
-          LinearGradient={true}
-          leftIcon={IC_BACK}
-          leftAction={() => this.props.navigation.goBack()}
-          headercolor={'transparent'}
-          text="T1-A03-02"
-          display={'text'}
-          rightAction={() => this._onpenModalSelectUnit()}
-        />
+        <Animated.View style={[{ height: headerHeight2 }]}>
+          <Header
+            LinearGradient={true}
+            leftIcon={IC_BACK}
+            leftAction={() => this.props.navigation.goBack()}
+            headercolor={'transparent'}
+            text="T1-A03-02"
+            display={'text'}
+            showTitleHeader={true}
+            center={
+              <View>
+                <Animated.Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold', opacity: opacityText2 }}>
+                  Yêu Cầu
+                </Animated.Text>
+              </View>
+            }
+            rightAction={() => this._onpenModalSelectUnit()}
+          />
+        </Animated.View>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
-          <HeaderTitle title="Yêu Cầu" />
+          <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
+            <Animated.Text
+              style={{ fontSize: fontSize, fontFamily: 'OpenSans-Bold', color: '#FFF', marginLeft: 20, marginBottom: 0 }}
+            >
+              Yêu Cầu
+            </Animated.Text>
+          </Animated.View>
           <ScrollableTabView
             tabBarActiveTextColor={'#FFF'}
             tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
@@ -105,6 +176,11 @@ class TabWorkOrder extends Component {
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => item.id.toString()}
           data={list}
+          onScroll={Animated.event([
+            {
+              nativeEvent: { contentOffset: { y: this.state.scrollY } }
+            }
+          ])}
           renderItem={({ item, index }) => this.renderItem(item, index)}
           ListEmptyComponent={() => {
             return (
@@ -125,6 +201,11 @@ class TabWorkOrder extends Component {
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => item.id.toString()}
           data={list}
+          onScroll={Animated.event([
+            {
+              nativeEvent: { contentOffset: { y: this.state.scrollY } }
+            }
+          ])}
           renderItem={({ item, index }) => this.renderItem(item, index)}
           ListEmptyComponent={() => {
             return (
