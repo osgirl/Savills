@@ -51,8 +51,8 @@ class InputText extends Component {
                     value={this.state.text}
                     onSubmitEditing={() => this.props.submitAction && this.props.submitAction(this.state.text)}
                 />
-                <View style={{ position: 'absolute', left: 30 }}>
-                    <Image source={this.props.iconLeft} style={{ width: 15, height: 15 }} resizeMode={'contain'} />
+                <View style={{ position: 'absolute', left: Resolution.scale(30) }}>
+                    <Image source={this.props.iconLeft} style={{ width: Resolution.scaleWidth(15), height: Resolution.scaleHeight(15) }} resizeMode={'contain'} />
                 </View>
             </View>
         );

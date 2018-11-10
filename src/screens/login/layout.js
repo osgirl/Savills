@@ -104,12 +104,12 @@ export default class extends Component {
                             <Text style={Style.txtTop}>
                                 {' Redefining Your Home \n Search Experience'}
                             </Text>
-                            <Image source={IMG_LOGIN} style={{ marginTop: 31, width: Resolution.scaleWidth(206), height: Resolution.scaleHeight(146) }} />
+                            <Image source={IMG_LOGIN} style={{ marginTop: Resolution.scale(31), width: Resolution.scaleWidth(206), height: Resolution.scaleHeight(146) }} resizeMode={'contain'} />
                         </View>
                         <View>
                             {
                                 this.props.account.error ?
-                                    <Text style={{ color: '#FF361A', fontSize: 10, alignSelf: 'center', marginBottom: 6, textAlign: 'center' }}>{this.props.account.error.message + '\n' + this.props.account.error.details}</Text> : null
+                                    <Text style={{ color: '#FF361A', fontSize: Resolution.scale(10), alignSelf: 'center', marginBottom: 6, textAlign: 'center' }}>{this.props.account.error.message + '\n' + this.props.account.error.details}</Text> : null
                             }
                             <InputText
                                 placeholder={LG.LOGIN_TXT_PLACEHOLDER_EMAIL}
@@ -124,7 +124,7 @@ export default class extends Component {
                                 placeholder={LG.LOGIN_TXT_PLACEHOLDER_PASSWORD}
                                 iconLeft={IC_PASS}
                                 secureTextEntry
-                                marginVertical={20}
+                                marginVertical={Resolution.scale(20)}
                                 style={this.props.account.error ? Style.errorTextinput : null}
                                 onChange={(data) => {
                                     this.setState({ password: data })
@@ -140,15 +140,15 @@ export default class extends Component {
                                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                                     style={Style.btnLogin}
                                 >
-                                    <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: 13, fontFamily: 'OpenSans-SemiBold' }}>{LG.LOGIN_BTN_LOGIN}</Text>
+                                    <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', marginVertical: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{LG.LOGIN_BTN_LOGIN}</Text>
                                 </LinearGradient>
                             </Button>
 
-                            <View style={{ alignItems: 'center', marginVertical: 40 }}>
+                            <View style={{ alignItems: 'center', marginVertical: Resolution.scale(40) }}>
                                 <ButtonCustom
                                     background={'transparent'}
                                     display='text'
-                                    fontSize={12}
+                                    fontSize={Resolution.scale(12)}
                                     haveMargin={false}
                                     color={'#BABFC8'}
                                     onPress={() => this._gotoForgotPassword()}
@@ -163,7 +163,7 @@ export default class extends Component {
                     isVisible={this.state.isModalLanguage}
                     style={{
                         justifyContent: "flex-end",
-                        margin: 20,
+                        margin: Resolution.scale(20),
                     }}
                 >
                     {this.renderModalContent()}
