@@ -59,7 +59,7 @@ export default class extends Component {
         let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <View style={Style.container}>
-                <View style={{ marginTop: Platform.OS === 'ios' ? 100 : 80 }}>
+                <View style={{ marginTop: Platform.OS === 'ios' ? Resolution.scale(100) : Resolution.scale(80) }}>
                     <Text style={Style.txtTop}>
                         {LG.FORGOT_TXT_CONTENT}
                     </Text>
@@ -81,7 +81,7 @@ export default class extends Component {
                             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                             style={{ alignItems: 'center', borderRadius: 33, }}
                         >
-                            <Text style={{ fontSize: 15, color: '#FFFFFF', marginVertical: Resolution.scaleHeight(13), fontFamily: 'Opensans-SemiBold' }}>
+                            <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', marginVertical: Resolution.scaleHeight(13), fontFamily: 'Opensans-SemiBold' }}>
                                 {LG.FORGOT_BTN_SEND}
                             </Text>
                         </LinearGradient>

@@ -12,11 +12,11 @@ const style = StyleSheet.create({
         backgroundColor: '#F6F8FD'
     },
     txtTop: {
-        fontSize: 15,
+        fontSize: Resolution.scale(15),
         color: '#505E75',
         textAlign: 'center',
         fontFamily: 'OpenSans-Bold',
-        lineHeight: 28
+        lineHeight: Resolution.scale(28),
     },
     btnLanguage: {
         position: 'absolute', top: Platform.OS !== 'ios' ? 20 : 40, right: 20
