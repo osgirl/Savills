@@ -12,13 +12,13 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
 import moment from 'moment';
 import Header from '@components/header';
 import IC_BACK from '@resources/icons/back-light.png';
-
+import { isIphoneX } from '../../utils/func';
 import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 const { width } = Dimensions.get('window');
 class TabWorkOrder extends Component {
@@ -70,7 +70,7 @@ class TabWorkOrder extends Component {
             {this.ViewThree(listTwo)}
           </ScrollableTabView>
         </LinearGradient>
-        <View style={{ backgroundColor: '#FFF', width: width, height: 45 }} />
+        <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('ModalWorkOrder', { profile: 'asd' })}
           style={{
@@ -78,7 +78,7 @@ class TabWorkOrder extends Component {
             width: 50,
             height: 50,
             position: 'absolute',
-            bottom: 20,
+            bottom: isIphoneX() ? 30 : 20,
             left: width / 2 - 25,
             backgroundColor: '#01C772',
             shadowColor: '#4DD49A',
@@ -100,7 +100,7 @@ class TabWorkOrder extends Component {
 
   ViewTwo = list => {
     return (
-      <View tabLabel="Đang xử lý" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingTop: 20, paddingHorizontal: 20 }}>
+      <View tabLabel="Đang xử lý" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => item.id.toString()}
@@ -120,7 +120,7 @@ class TabWorkOrder extends Component {
 
   ViewThree = list => {
     return (
-      <View tabLabel="Hoàn tất" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingTop: 20, paddingHorizontal: 20 }}>
+      <View tabLabel="Hoàn tất" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => item.id.toString()}
@@ -149,14 +149,14 @@ class TabWorkOrder extends Component {
           width: width - 40,
           height: 170,
           borderRadius: 10,
-          marginVertical: 10,
+          marginTop: index === 0 ? 20 : 10,
           backgroundColor: '#FFF',
           padding: 20
         }}
       >
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: 70 }}>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75' }}>
               <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
                 #{item.id}
               </Text>
@@ -194,7 +194,7 @@ class TabWorkOrder extends Component {
         <View
           style={{
             flex: 1,
-            backgroundColor: 'rgba(74,137,232,0.5)',
+            backgroundColor: 'rgba(186,191,200,0.5)',
             borderRadius: 5,
             flexDirection: 'row',
             alignItems: 'center',
@@ -204,7 +204,7 @@ class TabWorkOrder extends Component {
           <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
             Tôi cần một dịch vụ quản lý thật tốt ...
           </Text>
-          <View
+          {/* <View
             style={{
               width: 15,
               height: 15,
@@ -215,7 +215,7 @@ class TabWorkOrder extends Component {
             }}
           >
             <Text style={{ fontWeight: 'bold', color: '#FFF', fontSize: 9 }}>1</Text>
-          </View>
+          </View> */}
         </View>
       </TouchableOpacity>
     );

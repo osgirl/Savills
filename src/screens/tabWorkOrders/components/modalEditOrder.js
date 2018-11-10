@@ -62,8 +62,8 @@ class ModalEditOrder extends Component {
     ) : (
       <View style={{ flex: 1 }}>
         <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']} style={{ height: 200 }}>
-          <TouchableOpacity style={{ position: 'absolute', top: 30, left: 10 }} onPress={() => this.props.navigation.goBack()}>
-            <Text style={{ color: '#FFF', fontSize: 25, margin: 20 }}>x</Text>
+          <TouchableOpacity style={{ position: 'absolute', top: 40, left: 20 }} onPress={() => this.props.navigation.goBack()}>
+            <Image source={require('../../../resources/icons/close.png')} />
           </TouchableOpacity>
           <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>#{id}</Text>
         </LinearGradient>
@@ -212,11 +212,14 @@ class ModalEditOrder extends Component {
           style={{
             position: 'absolute',
             width: width,
-            height: 50,
+            height: 80,
             backgroundColor: '#FFF',
             bottom: 0,
-            padding: 10,
-            flexDirection: 'row'
+            padding: 20,
+            flexDirection: 'row',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.16
           }}
         >
           <TouchableOpacity
@@ -242,7 +245,7 @@ class ModalEditOrder extends Component {
         <TouchableOpacity
           style={{
             position: 'absolute',
-            bottom: 70,
+            bottom: 100,
             right: 20
           }}
           onPress={() => this.setState({ isShowChat: true })}
@@ -385,12 +388,10 @@ class ModalEditOrder extends Component {
             }}
           >
             <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
-              <Image source={require('../../../resources/icons/close-image.png')} />
+              <Image source={require('../../../resources/icons/close-black.png')} />
             </TouchableOpacity>
             <Text>#676</Text>
-            <TouchableOpacity>
-              <Image source={require('../../../resources/icons/close-image.png')} />
-            </TouchableOpacity>
+            <View />
           </View>
           <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
             <FlatList
@@ -413,7 +414,7 @@ class ModalEditOrder extends Component {
               borderRadius: 10
             }}
           >
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
               <TextInput style={{ flex: 1 }} placeholderTextColor={'rgba(255,255,255,0.7)'} placeholder={'Nhập tin nhắn ...'} />
               <TouchableOpacity>
                 <Image source={require('../../../resources/icons/send-mess.png')} />

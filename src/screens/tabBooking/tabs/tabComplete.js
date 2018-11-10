@@ -25,7 +25,7 @@ class TabComplete extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingTop: 20, paddingHorizontal: 20 }}>
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => item.reservationId.toString()}
@@ -58,14 +58,14 @@ class TabComplete extends Component {
           width: width - 40,
           height: 170,
           borderRadius: 10,
-          marginVertical: 10,
+          marginTop: index === 0 ? 20 : 10,
           backgroundColor: '#FFF',
           padding: 20
         }}
       >
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: 70 }}>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75' }}>
               <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
                 #{item.reservationId}
               </Text>
@@ -103,7 +103,7 @@ class TabComplete extends Component {
         <View
           style={{
             flex: 1,
-            backgroundColor: 'rgba(74,137,232,0.5)',
+            backgroundColor: 'rgba(186,191,200,0.5)',
             borderRadius: 5,
             flexDirection: 'row',
             alignItems: 'center',
@@ -113,7 +113,7 @@ class TabComplete extends Component {
           <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
             Tôi cần một dịch vụ quản lý thật tốt ...
           </Text>
-          <View
+          {/* <View
             style={{
               width: 15,
               height: 15,
@@ -124,7 +124,7 @@ class TabComplete extends Component {
             }}
           >
             <Text style={{ fontWeight: 'bold', color: '#FFF', fontSize: 9 }}>1</Text>
-          </View>
+          </View> */}
         </View>
       </TouchableOpacity>
     );
