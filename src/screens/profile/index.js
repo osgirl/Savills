@@ -14,7 +14,8 @@ class Profile extends Layout {
             txtUpdate: '',
             keyUpdate: '',
             avatarSource: '',
-            isModalSelectUnit: false
+            isModalSelectUnit: false,
+            avatar : this.props.imageProfile
         }
     }
 
@@ -23,6 +24,19 @@ class Profile extends Layout {
             let accessTokenApi = this.props.account.accessTokenAPI;
             this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
         }
+
+        if (this.props.userProfile.uploadAvatar !== nextProps.userProfile.uploadAvatar && nextProps.userProfile.uploadAvatar.success) {
+            let accessTokenApi = this.props.account.accessTokenAPI;
+            let img = nextProps.userProfile.uploadAvatar.result;
+            await this.props.actions.userProfile.updateAvatarProfile(accessTokenApi, img.fileName);
+        }
+
+        if (this.props.userProfile.updateAvatar !== nextProps.userProfile.updateAvatar && nextProps.userProfile.updateAvatar.success) {
+            let accessTokenApi = this.props.account.accessTokenAPI;
+            await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
+        }
+
+
     }
 
     _openModalUpdate(key) {

@@ -53,10 +53,25 @@ export function changeAvatarProfile(accessTokenAPI, file) {
             api: Configs.API + '/Profile/UploadProfilePicture',
             method: 'POST',
             token: accessTokenAPI,
+            file
+        }
+    }
+}
+
+export function updateAvatarProfile(accessTokenAPI, fileName, width = 500, height = 500, x = 0, y = 0, ) {
+    return {
+        type: Types.UPDATE_AVATAR,
+        payload: {
+            api: Configs.API + '/api/services/app/Profile/UpdateProfilePicture',
+            method: 'PUT',
+            token: accessTokenAPI,
             payload: {
-                filename: file,
-                type: "image/jpeg",
-                name: "file"
+                fileName: fileName,
+                x: x,
+                y: y,
+                width: width,
+                height: height,
+                mimeType: "image/jpeg"
             }
         }
     }

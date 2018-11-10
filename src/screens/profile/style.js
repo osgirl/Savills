@@ -22,7 +22,7 @@ const style = StyleSheet.create({
     },
     imgAvatar: {
         height: Resolution.scaleHeight(220),
-        width: width
+        width: width, 
     },
     content: {
         marginTop: Resolution.scaleHeight(160),

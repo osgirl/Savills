@@ -6,7 +6,7 @@ import {
     TextInput,
     Image,
     Dimensions,
-    ScrollView,StatusBar
+    ScrollView, StatusBar
 } from 'react-native';
 
 import Modal from "react-native-modal";
@@ -117,21 +117,28 @@ export default class extends Component {
             }
             else {
                 // let source = { uri: response.uri };
-
+                let from = new FormData();
+                let file = {
+                    uri: response.uri,
+                    type: 'image/jpeg',
+                    name: 'file'
+                }
+                from.append('image', file);
                 // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-                // this.setState({
-                //     avatarSource: source
-                // });
-                console.log('Source______________', response)
-                this._uploadAvatar(response.uri);
+                let source = 'data:image/jpeg;base64,' + response.data;
+                this.setState({
+                    avatar: source
+                });
+                // console.log('Source______________', response)
+                // console.log('Source______________', file)
+                this._uploadAvatar(from);
 
             }
         });
     }
 
     render() {
-        let avatar = this.props.imageProfile;
+        // let avatar = this.props.imageProfile;
         let Unit = this.props.units.unitActive;
         let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
@@ -141,31 +148,49 @@ export default class extends Component {
                 <StatusBar
                     barStyle="light-content"
                 />
-                <View style={Style.btnLeft}>
-                    <ButtonCustom
-                        background={'transparent'}
-                        haveMargin={false}
-                        onPress={this.props.onClose}
-                        icon={IC_CLOSE}
-                    />
-                </View>
-                <View style={Style.btnRight}>
-                    <ButtonCustom
-                        background={'transparent'}
-                        haveMargin={false}
-                        onPress={this.props.onSetting}
-                        icon={IC_SETTING}
-                    />
-                </View>
+
                 {/* <ScrollView style={Style.container}> */}
                 <View style={Style.container}>
                     <View style={{ position: 'absolute', top: 0 }}>
                         <FastImage
                             style={Style.imgAvatar}
-                            source={avatar}
+                            source={this.state.avatar}
                             resizeMode={'cover'}
                         />
                     </View>
+                    <LinearGradient
+                        start={{ x: 0.5, y: 0 }}
+                        colors={["rgba(0, 0, 0, 0.3)", "rgba(0, 0, 0, 0)"]}
+                        style={{
+                            height: 80,
+                            position: "absolute",
+                            top:0,
+                            left: 0,
+                            right: 0,
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            flexDirection: 'row'
+                        }}
+                    >
+                        {/* <View style={Style.btnLeft}> */}
+                        <ButtonCustom
+                            background={'transparent'}
+                            haveMargin={false}
+                            onPress={this.props.onClose}
+                            icon={IC_CLOSE}
+                        />
+                        {/* </View> */}
+                        {/* <View style={Style.btnRight}> */}
+                        <ButtonCustom
+                            background={'transparent'}
+                            haveMargin={false}
+                            onPress={this.props.onSetting}
+                            icon={IC_SETTING}
+                        />
+                        {/* </View> */}
+
+
+                    </LinearGradient>
                     <View style={Style.content}>
                         <View style={{ marginVertical: 10, alignItems: 'flex-end' }}>
                             <Button onPress={() => this.selectPhotoTapped()}>

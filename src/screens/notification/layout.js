@@ -23,7 +23,7 @@ import Resolution from '../../utils/resolution';
 
 const { width } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = Resolution.scale(140);
+const HEADER_MAX_HEIGHT = Resolution.scale(135);
 const HEADER_MIN_HEIGHT = Resolution.scale(70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -135,7 +135,7 @@ export default class extends Component {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-          ListHeaderComponent={() => <View style={{ marginTop: HEADER_MAX_HEIGHT }} />}
+          ListHeaderComponent={() => <View style={{ marginTop: HEADER_MAX_HEIGHT + 20 }} />}
           ListFooterComponent={() => this._FooterFlatlist()}
         />
 

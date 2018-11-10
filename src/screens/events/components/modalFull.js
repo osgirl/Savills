@@ -10,6 +10,7 @@ import IC_CALENDAR from "@resources/icons/calendar.png";
 import IC_CLOCK from "@resources/icons/clock.png";
 import ModalDetail from "./modalDetail";
 import Modal from "react-native-modal";
+import HeaderTitle from '@components/headerTitle';
 
 import Header from '@components/header';
 
@@ -50,6 +51,13 @@ class modalFull extends Component {
                     leftAction={() => this.props.onClose()}
                     headercolor={'transparent'}
                 />
+                <LinearGradient
+                    colors={['#4A89E8', '#8FBCFF']}
+                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                    style={{  }}>
+                    <HeaderTitle title={this.props.dateSelected} />
+                </LinearGradient>
+
                 <FlatList
                     alwaysBounceVertical={false}
                     data={this.state.eventOfDate.length > 0 ? this.state.eventOfDate : []}

@@ -103,6 +103,9 @@ export default class Layout extends Component {
     let unitActive = this.props.units.unitActive;
     return (
       <View style={styles.container}>
+        <StatusBar
+          barStyle="light-content"
+        />
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}
