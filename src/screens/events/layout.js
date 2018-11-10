@@ -49,38 +49,35 @@ export default class Layout extends Component {
     this._openModalFull();
   }
 
-    renderHeader() {
-        let LG = Language.listLanguage[this.props.app.languegeLocal].data
-        return <View>
-            <LinearGradient
-                colors={['#4A89E8', '#8FBCFF']}
-                start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                style={{ paddingBottom: 10 }}>
-                <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
+  renderHeader() {
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+    return (
+      <View>
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ paddingBottom: 10 }}>
+          <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
 
-                <Calendar
-                    style={styles.calendar}
-                    firstDay={1}
-                    markedDates={this.state.overViewDate || {}}
-                    onDayPress={(data) => this._onPressDay(data.dateString)}
-                    theme={{
-                        todayTextColor: '#343D4D',
-                        arrowColor: '#FFF',
-                        selectedDayBackgroundColor: '#FFF',
-                        monthTextColor: '#FFF',
-                        textSectionTitleColor: '#FFF',
-                        textDayHeaderFontSize: 15,
-                        textDayFontFamily: 'OpenSans-Regular',
-                        textDayFontSize: 14,
-                    }}
-                />
-            </LinearGradient>
-            <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>
-                <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
-                    {LG.EVENTS_TXT_ALLTITLE}
-                </Text>
-            </View>
+          <Calendar
+            style={styles.calendar}
+            firstDay={1}
+            markedDates={this.state.overViewDate || {}}
+            onDayPress={data => this._onPressDay(data.dateString)}
+            theme={{
+              todayTextColor: '#343D4D',
+              arrowColor: '#FFF',
+              selectedDayBackgroundColor: '#FFF',
+              monthTextColor: '#FFF',
+              textSectionTitleColor: '#FFF',
+              textDayHeaderFontSize: 15,
+              textDayFontFamily: 'OpenSans-Regular',
+              textDayFontSize: 14
+            }}
+          />
+        </LinearGradient>
+        <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>
+          <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>{LG.EVENTS_TXT_ALLTITLE}</Text>
         </View>
+      </View>
+    );
   }
 
   handleScroll = event => {
@@ -106,9 +103,6 @@ export default class Layout extends Component {
     let unitActive = this.props.units.unitActive;
     return (
       <View style={styles.container}>
-       <StatusBar
-          barStyle="light-content"
-        />
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}
