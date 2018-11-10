@@ -62,13 +62,24 @@ class ModalDetailBooking extends Component {
   }
 
   renderDetail = () => {
-    const { amenity, status, createdAt, fullUnitId, name, remark, reservationId } = this.props.booking.detailBooking.result;
+    const {
+      amenity,
+      status,
+      createdAt,
+      fullUnitId,
+      name,
+      remark,
+      reservationId,
+      endDate,
+      startDate
+    } = this.props.booking.detailBooking.result;
+    console.log('asdlasdasdlkasjdlkasdjlaksdjlkasda', this.props.booking.detailBooking.result);
     let date = moment(createdAt).format('l');
     return (
       <View style={{ flex: 1 }}>
         <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']} style={{ height: 200 }}>
-          <TouchableOpacity style={{ position: 'absolute', top: 30, left: 10 }} onPress={() => this.props.navigation.goBack()}>
-            <Text style={{ color: '#FFF', fontSize: 25, margin: 20 }}>x</Text>
+          <TouchableOpacity style={{ position: 'absolute', top: 40, left: 20 }} onPress={() => this.props.navigation.goBack()}>
+            <Image source={require('../../../resources/icons/close.png')} />
           </TouchableOpacity>
           <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>#{reservationId}</Text>
         </LinearGradient>
@@ -103,7 +114,7 @@ class ModalDetailBooking extends Component {
             view={
               <View
                 style={{
-                  height: 130,
+                  height: 180,
                   width: null,
                   flex: 1,
                   borderRadius: 10,
@@ -113,13 +124,13 @@ class ModalDetailBooking extends Component {
                 }}
               >
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Căn Hộ</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Căn Hộ</Text>
                   <Text
-                    style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}
+                    style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}
                   >{`${fullUnitId}-${name}`}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Trạng Thái</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Trạng Thái</Text>
                   <View
                     style={{
                       borderRadius: 5,
@@ -129,7 +140,7 @@ class ModalDetailBooking extends Component {
                     <Text
                       style={{
                         color: '#FFF',
-                        fontSize: 12,
+                        fontSize: 13,
                         paddingVertical: 5,
                         fontFamily: 'OpenSans-SemiBold',
                         paddingHorizontal: 15
@@ -140,7 +151,7 @@ class ModalDetailBooking extends Component {
                   </View>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Ngày Gửi</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Ngày</Text>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -153,68 +164,16 @@ class ModalDetailBooking extends Component {
                         style={{ marginRight: 10, width: 15, height: 15 }}
                         source={require('../../../resources/icons/calendar.png')}
                       />
-                      <Text style={{ color: '#C9CDD4', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{date}</Text>
+                      <Text style={{ color: '#C9CDD4', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{date}</Text>
                     </View>
                   </View>
                 </View>
-              </View>
-            }
-          />
-          <ItemScorll
-            title={'Thời Gian'}
-            view={
-              <View
-                style={{
-                  width: null,
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: '#FFF',
-                  padding: 20,
-                  justifyContent: 'space-around',
-                  flexDirection: 'row',
-                  flexWrap: 'wrap'
-                }}
-              >
-                <View
-                  style={{
-                    width: 80,
-                    height: 22,
-                    borderRadius: 5,
-                    backgroundColor: '#BABFC8',
-                    marginVertical: 10,
-                    marginRight: 10
-                  }}
-                />
-                <View
-                  style={{
-                    width: 80,
-                    height: 22,
-                    borderRadius: 5,
-                    backgroundColor: '#BABFC8',
-                    marginVertical: 10,
-                    marginRight: 10
-                  }}
-                />
-                <View
-                  style={{
-                    width: 80,
-                    height: 22,
-                    borderRadius: 5,
-                    backgroundColor: '#BABFC8',
-                    marginVertical: 10,
-                    marginRight: 10
-                  }}
-                />
-                <View
-                  style={{
-                    width: 80,
-                    height: 22,
-                    borderRadius: 5,
-                    backgroundColor: '#BABFC8',
-                    marginVertical: 10,
-                    marginRight: 10
-                  }}
-                />
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Thời gian</Text>
+                  <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{`${moment(startDate).format(
+                    'hh:mm'
+                  )} - ${moment(endDate).format('hh:mm')}`}</Text>
+                </View>
               </View>
             }
           />
@@ -227,9 +186,8 @@ class ModalDetailBooking extends Component {
                   backgroundColor: '#FFF',
                   borderRadius: 5,
                   width: null,
-                  padding: 10,
+                  padding: 20,
                   minHeight: 100,
-                  marginBottom: 20
                 }}
               >
                 <Text>{remark}</Text>
@@ -257,7 +215,7 @@ class ModalDetailBooking extends Component {
           <View
             style={{
               width: width - 40,
-              height: 150,
+              height: 120,
               borderRadius: 10,
               backgroundColor: '#FFF',
               marginHorizontal: 20,
@@ -265,27 +223,31 @@ class ModalDetailBooking extends Component {
               padding: 20
             }}
           >
-            <Text>Hủy</Text>
-            <Text style={{ marginVertical: 20 }}>Bạn muốn hủy sự kiện này</Text>
+            <Text style={{ marginBottom: 20, color: '#BABFC8', fontFamily: 'Opensans-SemiBold', fontSize: 14 }}>
+              Bạn muốn hủy sự kiện này
+            </Text>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() => this.setState({ isShowModalCancel: false })}
-                style={{ flex: 1, backgroundColor: 'yellow', borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
+                style={{ flex: 1, backgroundColor: '#FFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
               >
-                <Text>Hủy</Text>
+                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>Quay Lại</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this.cancelBooking()}
                 style={{
                   flex: 1,
-                  backgroundColor: 'red',
-                  borderRadius: 10,
-                  alignItems: 'center',
-                  justifyContent: 'center',
                   marginLeft: 20
                 }}
               >
-                <Text>Đồng Ý</Text>
+                <LinearGradient
+                  colors={['#01C772', '#01C772']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10 }}
+                >
+                  <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
+                </LinearGradient>
               </TouchableOpacity>
             </View>
           </View>
@@ -296,7 +258,7 @@ class ModalDetailBooking extends Component {
 
   renderFooter = () => {
     return (
-      <View style={{ position: 'absolute', width: width, height: 80, backgroundColor: '#FFF', bottom: 0, padding: 20 }}>
+      <View style={{ position: 'absolute', width: width, height: 70, backgroundColor: '#FFF', bottom: 0, padding: 20 }}>
         <TouchableOpacity
           onPress={() => this.setState({ isShowModalCancel: true })}
           style={{ flex: 1, backgroundColor: '#404040', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}

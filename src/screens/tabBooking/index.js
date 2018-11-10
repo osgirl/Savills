@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Connect from '@stores';
-import { View, Dimensions, Image, TouchableOpacity, Text, FlatList } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { View, Dimensions, Image, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
+import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
@@ -14,8 +14,8 @@ import TabComplete from './tabs/tabComplete';
 import TabInComming from './tabs/tabInComming';
 import TabProcess from './tabs/tabProcess';
 import configs from '../../utils/configs';
-import TabBar from './tabs/TabBar';
 const { width } = Dimensions.get('window');
+import { isIphoneX } from '../../utils/func';
 class TabBooking extends Component {
   constructor(props) {
     super(props);
@@ -52,6 +52,7 @@ class TabBooking extends Component {
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
           <HeaderTitle title="Đặt tiện ích" />
           <ScrollableTabView
+            textStyle={{ fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}
             tabBarActiveTextColor={'#FFF'}
             tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
@@ -66,7 +67,7 @@ class TabBooking extends Component {
           style={{
             backgroundColor: '#FFF',
             width: width,
-            height: 60,
+            height: isIphoneX() ? 60 : 40,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 1 },
             shadowOpacity: 0.16
@@ -79,7 +80,7 @@ class TabBooking extends Component {
             width: 50,
             height: 50,
             position: 'absolute',
-            bottom: 30,
+            bottom: isIphoneX() ? 30 : 20,
             left: width / 2 - 25,
             backgroundColor: '#01C772',
             shadowColor: '#4DD49A',
@@ -103,7 +104,7 @@ class TabBooking extends Component {
   renderModalCategory() {
     return (
       <Modal
-        style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 200 }}
+        style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: isIphoneX() ? 40 : 20 }}
         isVisible={this.state.isShowCategory}
       >
         <View style={{ flex: 1 }}>
@@ -121,12 +122,10 @@ class TabBooking extends Component {
             }}
           >
             <TouchableOpacity onPress={() => this.setState({ isShowCategory: false })}>
-              <Image source={require('../../resources/icons/close-image.png')} />
+              <Image source={require('../../resources/icons/close-black.png')} />
             </TouchableOpacity>
-            <Text>#676</Text>
-            <TouchableOpacity>
-              <Image source={require('../../resources/icons/close-image.png')} />
-            </TouchableOpacity>
+            <Text styl={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold' }}>Choose Amenity</Text>
+            <View />
           </View>
           <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
             <FlatList
@@ -154,6 +153,7 @@ class TabBooking extends Component {
 class ItemCategory extends Component {
   render() {
     const { amenityName, iconPath } = this.props.item;
+
     return (
       <TouchableOpacity
         onPress={() => this.props.actins()}
@@ -163,7 +163,7 @@ class ItemCategory extends Component {
           borderRadius: 10,
           backgroundColor: '#FFF',
           marginHorizontal: 20,
-          marginVertical: 10,
+          marginTop: this.props.index === 0 ? 20 : 10,
           flexDirection: 'row',
           padding: 20,
           alignItems: 'center'
