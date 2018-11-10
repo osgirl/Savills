@@ -15,7 +15,12 @@ class Profile extends Layout {
             keyUpdate: '',
             avatarSource: '',
             isModalSelectUnit: false,
-            avatar : this.props.imageProfile
+            avatar: this.props.imageProfile,
+            dataDisplayname: [
+                this.props.profile.name + ' ' + this.props.profile.surname,
+                this.props.profile.surname + ' ' + this.props.profile.name,
+            ],
+            itemSelectDisplay: this.props.profile.displayName
         }
     }
 
@@ -71,6 +76,10 @@ class Profile extends Layout {
                 break;
             case 'surname':
                 tempProfile.surname = this.state.txtUpdate;
+                await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
+                break;
+            case 'displayName':
+                tempProfile.displayName = this.state.itemSelectDisplay;
                 await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
                 break;
             default:
