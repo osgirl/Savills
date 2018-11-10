@@ -46,4 +46,21 @@ export function updateCurrentUserProfile(accessTokenAPI, profile = {}) {
     }
 }
 
+export function changeAvatarProfile(accessTokenAPI, file) {
+    return {
+        type: Types.UPLOAD_AVATAR,
+        payload: {
+            api: Configs.API + '/Profile/UploadProfilePicture',
+            method: 'POST',
+            token: accessTokenAPI,
+            payload: {
+                filename: file,
+                type: "image/jpeg",
+                name: "file"
+            }
+        }
+    }
+}
+
+
 

@@ -28,8 +28,13 @@ import IC_DROPDOWN from "@resources/icons/dropDown.png";
 import IC_DEFAULT from "@resources/icons/default.png";
 
 import Language from "../../utils/language";
+import Resolution from '../../utils/resolution';
 
 const { width } = Dimensions.get('window');
+
+const HEADER_MAX_HEIGHT = Resolution.scale(140);
+const HEADER_MIN_HEIGHT = Resolution.scale(70);
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default class extends Component {
 
@@ -126,48 +131,67 @@ export default class extends Component {
     render() {
         let unitActive = this.props.units.unitActive;
         let LG = Language.listLanguage[this.props.app.languegeLocal].data
+
+        const headerHeight = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+            extrapolate: 'clamp',
+        });
+
         return (
             <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-                <Header
-                    LinearGradient={true}
-                    leftIcon={IC_BACK}
-                    leftAction={() => this.props.onclose()}
-                    headercolor={'transparent'}
-                    showTitleHeader={this.state.isShowTitleHeader}
-                    center={
-                        <View>
-                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>
-                                {LG.NOTIFICATION_TXT_TITLE}
-                            </Text>
-                        </View>
-                    }
-                    renderViewRight={
-                        <Button
-                            onPress={() => this._openModalSelectUnit()}
-                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
-                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                            <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
-                        </Button>
-                    }
-                />
                 <FlatList
                     data={this.state.data}
                     horizontal={false}
-                    contentContainerStyle={{ alignItems: 'center', }}
+                    contentContainerStyle={{ alignItems: 'center' }}
                     keyExtractor={(item, index) => item.id + '__' + index}
                     renderItem={({ item, index }) => (
                         this.renderItem(item)
                     )}
                     onScroll={this.handleScroll}
                     onEndReachedThreshold={0.01}
+                    scrollEventThrottle={16}
                     onEndReached={() => this._onEndReached()}
                     legacyImplementation={false}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
                     ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-                    ListHeaderComponent={() => this._HeaderFlatlist()}
+                    ListHeaderComponent={() => <View style={{ marginTop: HEADER_MAX_HEIGHT , }} />}
                     ListFooterComponent={() => this._FooterFlatlist()}
                 />
+
+                <Animated.View style={[Styles.header, { height: headerHeight }]}>
+                    <Header
+                        LinearGradient={true}
+                        leftIcon={IC_BACK}
+                        leftAction={() => this.props.onclose()}
+                        headercolor={'transparent'}
+                        showTitleHeader={this.state.isShowTitleHeader}
+                        center={
+                            <View>
+                                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>
+                                    {LG.NOTIFICATION_TXT_TITLE}
+                                </Text>
+                            </View>
+                        }
+                        renderViewRight={
+                            <Button
+                                onPress={() => this._openModalSelectUnit()}
+                                style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
+                                <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+                                <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                            </Button>
+                        }
+                    />
+                    <LinearGradient
+                        colors={['#4A89E8', '#8FBCFF']}
+                        start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                        style={{ width: width, marginBottom: 20 }}>
+                        <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
+                    </LinearGradient>
+                </Animated.View>
+
+
                 <Modal
                     style={{ flex: 1, margin: 0 }}
                     isVisible={this.state.isModalSelectUnit}>
@@ -189,5 +213,12 @@ const Styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         marginHorizontal: 20,
         marginVertical: 5
-    }
+    },
+    header: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        overflow: 'hidden',
+    },
 })

@@ -11,6 +11,8 @@ import IC_CLOCK from "@resources/icons/clock.png";
 import ModalDetail from "./modalDetail";
 import Modal from "react-native-modal";
 
+import Header from '@components/header';
+
 const { width, height } = Dimensions.get('window');
 
 class modalFull extends Component {
@@ -42,6 +44,12 @@ class modalFull extends Component {
     render() {
         return (
             <View style={[styles.container, {}]}>
+                <Header
+                    LinearGradient={true}
+                    leftIcon={IC_CLOSE}
+                    leftAction={() => this.props.onClose()}
+                    headercolor={'transparent'}
+                />
                 <FlatList
                     alwaysBounceVertical={false}
                     data={this.state.eventOfDate.length > 0 ? this.state.eventOfDate : []}
@@ -53,7 +61,7 @@ class modalFull extends Component {
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
                     ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                    ListHeaderComponent={() => this.renderHeader()}
+                    ListHeaderComponent={() => <View style={{ height: 20 }} />}
                     ListFooterComponent={() => <View style={{ height: 20 }} />}
                 />
                 <Modal
