@@ -96,8 +96,8 @@ export default class extends Component {
     selectPhotoTapped() {
         const options = {
             quality: 1.0,
-            maxWidth: 500,
-            maxHeight: 500,
+            maxWidth: 1080,
+            maxHeight: 1080,
             storageOptions: {
                 skipBackup: true
             }
@@ -116,14 +116,16 @@ export default class extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = { uri: response.uri };
+                // let source = { uri: response.uri };
 
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                // this.setState({
+                //     avatarSource: source
+                // });
+                console.log('Source______________', response)
+                this._uploadAvatar(response.uri);
 
-                this.setState({
-                    avatarSource: source
-                });
             }
         });
     }
@@ -133,7 +135,9 @@ export default class extends Component {
         let Unit = this.props.units.unitActive;
         let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
-            <View style={{ flex: 1 }}>
+            <ScrollView
+                alwaysBounceVertical={false}
+                style={{ flex: 1 }}>
                 <View style={Style.btnLeft}>
                     <ButtonCustom
                         background={'transparent'}
@@ -240,7 +244,7 @@ export default class extends Component {
                         onClose={() => this.setState({ isModalSelectUnit: false })}
                     />
                 </Modal>
-            </View>
+            </ScrollView>
         );
     }
 }

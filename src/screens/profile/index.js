@@ -69,6 +69,11 @@ class Profile extends Layout {
         this.setState({ isModalSelectUnit: true })
     }
 
+    _uploadAvatar(file) {
+        let accessTokenApi = this.props.account.accessTokenAPI;
+        this.props.actions.userProfile.changeAvatarProfile(accessTokenApi, file);
+    }
+
 
 }
 

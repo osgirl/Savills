@@ -15,10 +15,10 @@ const style = StyleSheet.create({
         backgroundColor: '#F6F8FD'
     },
     btnLeft: {
-        position: 'absolute', top: 20, left: 0, zIndex: 2
+        position: 'absolute', top: 40, left: 0, zIndex: 2
     },
     btnRight: {
-        position: 'absolute', top: 20, right: 0, zIndex: 2
+        position: 'absolute', top: 40, right: 0, zIndex: 2
     },
     imgAvatar: {
         height: Resolution.scaleHeight(220),

@@ -31,11 +31,13 @@ class ModalNewBooking extends Component {
     super(props);
     this.state = {
       area: 0,
-      selected: ['2018-10-31', '2018-10-29', '2018-10-20', '2018-10-19'],
+      selected: ['2018-11-10'],
       comment: '',
       listBooking: [],
       arraySelectTime: [],
-      isShowModalConfirm: false
+      isShowModalConfirm: false,
+      checkConfirm: false,
+      isShowRegulations: false
     };
   }
 
@@ -93,14 +95,14 @@ class ModalNewBooking extends Component {
     const { phoneNumber, emailAddress, userName } = this.props.userProfile.profile.result.user;
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 120 }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 100 }}>
           <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
             <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
               <TouchableOpacity
-                style={{ position: 'absolute', top: 30, left: 10 }}
+                style={{ position: 'absolute', top: 40, left: 20 }}
                 onPress={() => this.props.navigation.goBack()}
               >
-                <Text style={{ color: '#FFF', fontSize: 25, margin: 20 }}>x</Text>
+                <Image source={require('../../../resources/icons/close.png')} />
               </TouchableOpacity>
               <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>Choose Amenity</Text>
               <Calendar
@@ -145,7 +147,7 @@ class ModalNewBooking extends Component {
                 <Text style={{ color: '#343D4D', fontWeight: 'bold', fontSize: 15, flex: 1, marginLeft: 20 }}>
                   {item.amenityName}
                 </Text>
-                <Text style={{ color: '#4A89E8', fontSize: 13 }}>Change</Text>
+                <Text style={{ color: '#4A89E8', fontSize: 13 }} />
               </View>
             }
           />
@@ -169,11 +171,11 @@ class ModalNewBooking extends Component {
                     onPress={() => this.selectTimeBooking(item, index)}
                     key={index}
                     style={{
-                      width: 80,
+                      width: 85,
                       height: 22,
                       borderRadius: 5,
                       backgroundColor: item.isCheck ? '#4A89E8' : '#BABFC8',
-                      marginVertical: 10,
+                      marginVertical: 5,
                       marginRight: 10,
                       alignItems: 'center',
                       justifyContent: 'center'
@@ -192,9 +194,9 @@ class ModalNewBooking extends Component {
                         }}
                       />
                     ) : null}
-                    <Text style={{ color: '#FFF', fontSize: 8, fontWeight: '700' }}>{`${moment(item.startTime).format(
-                      'hh:mm'
-                    )}-${moment(item.endTime).format('hh:mm')}`}</Text>
+                    <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
+                      item.startTime
+                    ).format('hh:mm')}-${moment(item.endTime).format('hh:mm')}`}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -208,7 +210,7 @@ class ModalNewBooking extends Component {
                   flex: 1,
                   backgroundColor: '#FFF',
                   borderRadius: 5,
-                  height: 100,
+                  height: 110,
                   width: null,
                   padding: 10,
                   paddingTop: 20
@@ -230,43 +232,65 @@ class ModalNewBooking extends Component {
                   borderRadius: 10,
                   backgroundColor: '#FFF',
                   padding: 20,
-                  justifyContent: 'space-around'
+                  justifyContent: 'space-around',
+                  marginBottom: 20
                 }}
               >
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Căn Hộ</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Căn Hộ</Text>
                   <Text
-                    style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}
+                    style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}
                   >{`${fullUnitCode}-${userName}`}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Mail</Text>
-                  <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{emailAddress}</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Mail</Text>
+                  <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{emailAddress}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>SĐT</Text>
-                  <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{phoneNumber}</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>SĐT</Text>
+                  <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{phoneNumber}</Text>
                 </View>
               </View>
             }
           />
         </ScrollView>
-        <View style={{ position: 'absolute', width: width, height: 100, backgroundColor: '#FFF', bottom: 0, padding: 20 }}>
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-            <TouchableOpacity style={{ flex: 1 }}>
+        <View
+          style={{
+            position: 'absolute',
+            width: width,
+            height: 100,
+            backgroundColor: '#FFF',
+            bottom: 0,
+            paddingTop: 5,
+            paddingBottom: 20,
+            paddingHorizontal: 20
+          }}
+        >
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowRegulations: true })}>
               <Text style={{ color: '#4A89E8', fontSize: 12, textDecorationLine: 'underline', fontFamily: 'OpenSans-Italic' }}>
                 Chi tiết quy định
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity
+              onPress={() => this.setState({ checkConfirm: !this.state.checkConfirm })}
+              style={{ flexDirection: 'row', alignItems: 'center' }}
+            >
               <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>Chấp Nhận</Text>
-              <Image style={{ marginLeft: 5, width: 17, height: 17 }} source={require('../../../resources/icons/checked.png')} />
+              <Image
+                style={{ marginLeft: 5, width: 17, height: 17 }}
+                source={
+                  this.state.checkConfirm
+                    ? require('../../../resources/icons/checked.png')
+                    : require('../../../resources/icons/check.png')
+                }
+              />
             </TouchableOpacity>
           </View>
           <TouchableOpacity
             style={{
-              flex: 1,
-              height: 50,
+              width: width - 40,
+              height: 30,
               backgroundColor: '#01C772',
               borderRadius: 5,
               alignItems: 'center',
@@ -278,9 +302,27 @@ class ModalNewBooking extends Component {
           </TouchableOpacity>
         </View>
         {this.renderModalConfirmBooking()}
+        {this.renderModalRegulations()}
       </View>
     );
   }
+
+  renderModalRegulations = () => {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.isShowRegulations}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}
+      >
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <Text>Chưa biết bỏ gì vào đây</Text>
+        </View>
+      </Modal>
+    );
+  };
 
   renderModalConfirmBooking = () => {
     let dataSelected = this.mapObjectSelected();

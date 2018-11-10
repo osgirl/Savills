@@ -4,7 +4,8 @@ import createReducer from '../';
 const INIT_STATE = ({
     profile: {},
     imageProfile: '',
-    updateUserProfile: {}
+    updateUserProfile: {},
+    uploadAvatar: ''
 });
 
 export default createReducer(INIT_STATE, {
@@ -106,6 +107,42 @@ export default createReducer(INIT_STATE, {
             console.log(error)
         }
     },
+
+
+    [Types.UPLOAD_AVATAR]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.UPLOAD_AVATAR_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                uploadAvatar: action.response
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.UPLOAD_AVATAR_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
 
 
     // // * SET_GET_UNITLOCAL
