@@ -32,9 +32,19 @@ export default class ItemHomeComponent extends Component {
                     <Button
                         activeOpacity={0.6}
                         onPress={() => this.props.onPressItem()}
-                        style={[Styles.container,]}>
-                        <Image source={Utils.mapItemHome(this.props.image)} />
-                        <Text style={{ color: '#505E75', fontSize: 12, marginTop: Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                        style={{}}>
+                        <View style={Styles.container}>
+                            <Image source={Utils.mapItemHome(this.props.image)} />
+                            <Text style={{ color: '#505E75', fontSize: 12, marginTop: Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                            <View style={{ backgroundColor: '#FFF', borderRadius: 33, position: 'absolute', top: (width - 60) / 8, right: (width - 60) / 6 }}>
+                                <View style={{ backgroundColor: '#FF361A', borderRadius: 33, margin: 2 }}>
+                                    <View style={{ width: 20, height: 20, justifyContent: 'center', alignItems: 'center' }}>
+                                        <Text style={{ color: '#FFFFFF', fontFamily: 'OpenSans-Bold', fontSize: 13 }}>9+</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+
                     </Button>
                 </ItemHome>
             </View>

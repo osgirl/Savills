@@ -46,18 +46,21 @@ class Home extends layout {
 					id: 1,
 					key: 'Pages.Resident',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_EVENTS,
+					moduleName: "Events",
 					screen: 'Events'
 				},
 				{
 					id: 2,
 					key: 'Pages.Resident.Booking',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_BOOKING,
+					moduleName: "Booking",
 					screen: 'Booking'
 				},
 				{
 					id: 3,
 					key: 'Pages.Resident.WorkOrder',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_WORKORDER,
+					moduleName: "Work order",
 					screen: 'WorkOrder'
 				},
 
@@ -68,7 +71,7 @@ class Home extends layout {
 					screen: 'Contacts'
 				},
 				{
-					id:5,
+					id: 5,
 					key: 'Pages.FAQ',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FAQ,
 					screen: 'FAQ'
@@ -77,10 +80,11 @@ class Home extends layout {
 					id: 6,
 					key: 'Pages.Resident.Inbox',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FEEDBACK,
+					moduleName: "Inboxes",
 					screen: ''
 				},
 				{
-					id: 7, 
+					id: 7,
 					key: 'invoice',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_INVOICE,
 					screen: ''
@@ -89,12 +93,14 @@ class Home extends layout {
 					id: 8,
 					key: 'Pages.Resident.Feedback',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FEEDBACK,
+					moduleName: "Feedbacks",
 					screen: ''
 				},
 				{
 					id: 9,
 					key: 'Pages.Libraries',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_E_LIBARY,
+					moduleName: "Library",
 					screen: ''
 				},
 
@@ -108,6 +114,7 @@ class Home extends layout {
 					id: 11,
 					key: 'Pages.Resident.Fee',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FREE,
+					moduleName: "Fee/Phí",
 					screen: ''
 				},
 			]
