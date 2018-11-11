@@ -51,8 +51,8 @@ class InputText extends Component {
                     value={this.state.text}
                     onSubmitEditing={() => this.props.submitAction && this.props.submitAction(this.state.text)}
                 />
-                <View style={{ position: 'absolute', left: 30 }}>
-                    <Image source={this.props.iconLeft} style={{ width: 15, height: 15 }} resizeMode={'contain'} />
+                <View style={{ position: 'absolute', left: Resolution.scale(30) }}>
+                    <Image source={this.props.iconLeft} style={{ width: Resolution.scaleWidth(15), height: Resolution.scaleHeight(15) }} resizeMode={'contain'} />
                 </View>
             </View>
         );
@@ -61,17 +61,17 @@ class InputText extends Component {
 
 const Styles = StyleSheet.create({
     inputText: {
-        height: 50,
+        height: Resolution.scaleHeight(50),
         paddingVertical: 0,
         color: '#505E75',
-        fontSize: PixelRatio.roundToNearestPixel(14),
-        marginHorizontal: 20,
-        marginLeft: 50,
+        fontSize: Resolution.scale(13),
+        marginHorizontal: Resolution.scale(20),
+        marginLeft: Resolution.scale(50),
         flex: 1
     },
     inputView: {
         ...configs.Shadow,
-        height: PixelRatio.roundToNearestPixel(40),
+        height: Resolution.scaleHeight(40),
         backgroundColor: '#FFFFFF',
         borderRadius: 33,
         flexDirection: 'row',

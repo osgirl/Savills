@@ -9,6 +9,7 @@ import {
     Image
 } from 'react-native';
 import PropTypes from 'prop-types';
+import Resolution from '../../utils/resolution';
 
 export default class Button extends Component {
     static defaultProps = {
@@ -125,20 +126,20 @@ const style = StyleSheet.create({
         flex: 1
     },
     container: {
-        paddingVertical: 10,
+        paddingVertical: Resolution.scale(10),
         alignItems: "center",
         justifyContent: "center",
     },
     contentContainer: {
         alignItems: "center",
         flexDirection: "row",
-        paddingHorizontal: 20,
-        paddingVertical: 20
+        paddingHorizontal: Resolution.scale(20),
+        paddingVertical: Resolution.scale(20)
     },
     separator: {
-        width: 10
+        width: Resolution.scale(10)
     },
     text: {
-        fontSize: 15,
+        fontSize: Resolution.scale(15),
     }
 });

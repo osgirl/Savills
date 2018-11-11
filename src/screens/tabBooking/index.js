@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Connect from '@stores';
-import { View, Dimensions, Image, TouchableOpacity, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Dimensions, Image, TouchableOpacity, Text, FlatList, StyleSheet, StatusBar } from 'react-native';
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
@@ -40,6 +40,9 @@ class TabBooking extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+        <StatusBar
+          barStyle="light-content"
+        />
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}

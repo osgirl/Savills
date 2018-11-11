@@ -121,15 +121,26 @@ class HeaderHome extends Component {
 											onPress={this.props.rightActionL || null}
 											icon={this.props.rightIconL} /> : null
 									}
-
-									<ButtonCustom
-										background={this.props.headercolor}
-										haveMargin={false}
-										onPress={this.props.rightAction || null}
-										display={this.props.display}
-										icon={this.props.rightIcon}
-										text={this.props.text}
-									/>
+									<View>
+										<ButtonCustom
+											background={this.props.headercolor}
+											haveMargin={false}
+											onPress={this.props.rightAction || null}
+											display={this.props.display}
+											icon={this.props.rightIcon}
+											text={this.props.text}
+										/>
+										{
+											this.props.notiCount && this.props.notiCount > 0 ?
+												<View style={{ position: 'absolute', right: 16, top: 14 }}>
+													<View style={{ backgroundColor: '#FF361A', borderRadius: 33, justifyContent: 'center', alignItems: 'center' }}>
+														<View style={{ width: 15, height: 15, alignItems: 'center', alignSelf: 'center', justifyContent: 'center', }}>
+															<Text style={{ color: '#FFFFFF', fontSize: 9, fontFamily: 'OpenSans-Bold', alignSelf: 'center', textAlign: 'center' }}>{this.props.notiCount}</Text>
+														</View>
+													</View>
+												</View> : null
+										}
+									</View>
 
 								</View>
 								: <View style={{ width: 60 }} />

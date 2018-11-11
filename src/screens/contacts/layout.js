@@ -5,7 +5,7 @@ import {
     Platform,
     Image,
     FlatList,
-    Dimensions
+    Dimensions,StatusBar
 } from 'react-native';
 
 import Button from "@components/button";
@@ -117,6 +117,9 @@ export default class extends Component {
         let unitActive = this.props.units.unitActive;
         return (
             <View style={Style.container}>
+                <StatusBar
+                    barStyle="light-content"
+                />
                 <Header
                     LinearGradient={true}
                     leftIcon={IC_BACK}

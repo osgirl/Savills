@@ -15,6 +15,12 @@ export default class {
     if (action.token) {
       request.headers['Authorization'] = 'Bearer ' + action.token;
     }
+
+    if (action.file) {
+      request.headers['Content-Type'] = 'multipart/form-data';
+      request['body'] = action.file
+    }
+
     let url = action.api;
     if (action.payload) {
       if (method === 'GET') {

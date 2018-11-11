@@ -6,7 +6,7 @@ import {
     TextInput,
     Image,
     Dimensions,
-    ScrollView
+    ScrollView, StatusBar
 } from 'react-native';
 
 import Modal from "react-native-modal";
@@ -24,10 +24,12 @@ import IC_SETTING from "@resources/icons/setting.png";
 import IMG_AVATAR_DEFAULT from "../../resources/icons/avatar-default.png";
 import ModalSelectUnit from "@components/modalSelectUnit";
 import Style from "./style";
+import Picker from 'react-native-wheel-picker';
 
 import Language from "../../utils/language";
 
-const { width } = Dimensions.get('window');
+var PickerItem = Picker.Item;
+const { width, height } = Dimensions.get('window');
 
 let styleTextTitle = {
     fontSize: 13,
@@ -55,6 +57,17 @@ export default class extends Component {
         return null;
     }
 
+    onPickerSelect(value) {
+        try {
+            this.setState({
+                itemSelectDisplay: value,
+            })
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
     renderModalContent = () => (
         <View style={[Style.modalContent, {}]}>
             <Text style={{ marginTop: 40, fontSize: 15, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>
@@ -64,18 +77,40 @@ export default class extends Component {
                         this.state.keyUpdate === 'name' ?
                             Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_FIRST :
                             this.state.keyUpdate === 'surname' ?
-                                Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST : ''
+                                Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST :
+                                this.state.keyUpdate === 'displayName' ?
+                                    'Display name' : ''
 
                 }
             </Text>
-            <View>
-                <TextInput
-                    placeholder={'YOURCODE'}
-                    value={this.state.txtUpdate}
-                    style={{ fontSize: 22, fontFamily: 'OpenSans-Regular', color: '#505E75', width: width, textAlign: 'center' }}
-                    onChangeText={(text) => this.setState({ txtUpdate: text })}
-                />
-            </View>
+            {
+                this.state.keyUpdate !== 'displayName' ?
+                    <View>
+                        <TextInput
+                            placeholder={'__'}
+                            value={this.state.txtUpdate}
+                            style={{ fontSize: 22, fontFamily: 'OpenSans-Regular', color: '#505E75', width: width, textAlign: 'center' }}
+                            onChangeText={(text) => this.setState({ txtUpdate: text })}
+                        />
+                    </View> :
+                    <Picker
+                        style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
+                        selectedValue={this.state.itemSelectDisplay}
+                        itemStyle={{ color: "#333333", fontSize: 20, fontWeight: 'bold' }}
+                        onValueChange={(value) => this.onPickerSelect(value)}
+                    >
+                        {
+                            this.state.dataDisplayname.map((item, index) => (
+                                <PickerItem
+                                    label={item}
+                                    value={item}
+                                    key={"id_" + index}
+                                />
+                            ))
+                        }
+                    </Picker>
+            }
+
             <Button
                 style={{ width: Resolution.scaleWidth(255), marginBottom: 40 }}
                 onPress={() => this._updateProfile()}
@@ -116,53 +151,75 @@ export default class extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                // let source = { uri: response.uri };
-
-                // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-                // this.setState({
-                //     avatarSource: source
-                // });
-                console.log('Source______________', response)
-                this._uploadAvatar(response.uri);
+                let from = new FormData();
+                let file = {
+                    uri: response.uri,
+                    type: 'image/jpeg',
+                    name: 'file'
+                }
+                from.append('image', file);
+                let source = 'data:image/jpeg;base64,' + response.data;
+                this.setState({
+                    avatar: source
+                });
+                this._uploadAvatar(from);
 
             }
         });
     }
 
     render() {
-        let avatar = this.props.imageProfile;
+        // let avatar = this.props.imageProfile;
         let Unit = this.props.units.unitActive;
         let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
             <ScrollView
                 alwaysBounceVertical={false}
                 style={{ flex: 1 }}>
-                <View style={Style.btnLeft}>
-                    <ButtonCustom
-                        background={'transparent'}
-                        haveMargin={false}
-                        onPress={this.props.onClose}
-                        icon={IC_CLOSE}
-                    />
-                </View>
-                <View style={Style.btnRight}>
-                    <ButtonCustom
-                        background={'transparent'}
-                        haveMargin={false}
-                        onPress={this.props.onSetting}
-                        icon={IC_SETTING}
-                    />
-                </View>
-                {/* <ScrollView style={Style.container}> */}
+                <StatusBar
+                    barStyle="light-content"
+                />
                 <View style={Style.container}>
                     <View style={{ position: 'absolute', top: 0 }}>
                         <FastImage
                             style={Style.imgAvatar}
-                            source={avatar}
+                            source={this.state.avatar}
                             resizeMode={'cover'}
                         />
                     </View>
+                    <LinearGradient
+                        start={{ x: 0.5, y: 0 }}
+                        colors={["rgba(0, 0, 0, 0.3)", "rgba(0, 0, 0, 0)"]}
+                        style={{
+                            height: 80,
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            flexDirection: 'row'
+                        }}
+                    >
+                        {/* <View style={Style.btnLeft}> */}
+                        <ButtonCustom
+                            background={'transparent'}
+                            haveMargin={false}
+                            onPress={this.props.onClose}
+                            icon={IC_CLOSE}
+                        />
+                        {/* </View> */}
+                        {/* <View style={Style.btnRight}> */}
+                        <ButtonCustom
+                            background={'transparent'}
+                            haveMargin={false}
+                            onPress={this.props.onSetting}
+                            icon={IC_SETTING}
+                        />
+                        {/* </View> */}
+
+
+                    </LinearGradient>
                     <View style={Style.content}>
                         <View style={{ marginVertical: 10, alignItems: 'flex-end' }}>
                             <Button onPress={() => this.selectPhotoTapped()}>
@@ -206,7 +263,11 @@ export default class extends Component {
                                 >
                                     <Text style={[styleTextRight, { marginVertical: 20 }]}>{this.state.profile.surname}</Text>
                                 </Button>
-                                <Text style={[styleTextRight, { color: '#BABFC8' }]}>{this.state.profile.displayName}</Text>
+                                <Button
+                                    onPress={() => { this._openModalUpdate('displayName') }}
+                                >
+                                    <Text style={styleTextRight}>{this.state.profile.displayName}</Text>
+                                </Button>
                             </View>
                         </View>
 
@@ -236,7 +297,6 @@ export default class extends Component {
                     {this.renderModalContent()}
                 </Modal>
                 {this.renderLoading()}
-                {/* </ScrollView> */}
                 <Modal
                     style={{ flex: 1, margin: 0 }}
                     isVisible={this.state.isModalSelectUnit}>

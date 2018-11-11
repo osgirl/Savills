@@ -5,6 +5,8 @@ import {
     StatusBar
 } from 'react-native';
 
+import { BackHandler } from "react-native";
+
 import _ from "lodash";
 
 class Login extends layout {
@@ -28,10 +30,20 @@ class Login extends layout {
             StatusBar.setHidden(false);
             StatusBar.setBarStyle('dark-content');
         }
+
+        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+			BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+		);
     }
 
     componentWillMount() {
         // console.log('____', this.props)
+    }
+
+    componentDidMount(){
+        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+			BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+		);
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -104,6 +116,10 @@ class Login extends layout {
         }
 
     }
+
+    onBackButtonPressAndroid = () => {
+        return true;
+    };
 
     _login(username, password) {
         this.props.actions.account.login(username, password);

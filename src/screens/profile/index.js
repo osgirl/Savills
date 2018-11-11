@@ -14,7 +14,13 @@ class Profile extends Layout {
             txtUpdate: '',
             keyUpdate: '',
             avatarSource: '',
-            isModalSelectUnit: false
+            isModalSelectUnit: false,
+            avatar: this.props.imageProfile,
+            dataDisplayname: [
+                this.props.profile.name + ' ' + this.props.profile.surname,
+                this.props.profile.surname + ' ' + this.props.profile.name,
+            ],
+            itemSelectDisplay: this.props.profile.displayName
         }
     }
 
@@ -23,6 +29,19 @@ class Profile extends Layout {
             let accessTokenApi = this.props.account.accessTokenAPI;
             this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
         }
+
+        if (this.props.userProfile.uploadAvatar !== nextProps.userProfile.uploadAvatar && nextProps.userProfile.uploadAvatar.success) {
+            let accessTokenApi = this.props.account.accessTokenAPI;
+            let img = nextProps.userProfile.uploadAvatar.result;
+            await this.props.actions.userProfile.updateAvatarProfile(accessTokenApi, img.fileName);
+        }
+
+        if (this.props.userProfile.updateAvatar !== nextProps.userProfile.updateAvatar && nextProps.userProfile.updateAvatar.success) {
+            let accessTokenApi = this.props.account.accessTokenAPI;
+            await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
+        }
+
+
     }
 
     _openModalUpdate(key) {
@@ -57,6 +76,10 @@ class Profile extends Layout {
                 break;
             case 'surname':
                 tempProfile.surname = this.state.txtUpdate;
+                await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
+                break;
+            case 'displayName':
+                tempProfile.displayName = this.state.itemSelectDisplay;
                 await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
                 break;
             default:

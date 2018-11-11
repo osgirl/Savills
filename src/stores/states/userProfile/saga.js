@@ -31,12 +31,19 @@ function* updateCurrentUserProfile(action) {
   }
 }
 
-let form_data = { 'Content-Type': 'multipart/form-data' };
-
-function* changeAvatarProfile(action, form_data) {
+function* changeAvatarProfile(action) {
   try {
     let response = yield call(API.request, action.payload);
     yield put({ ...action, type: Types.UPLOAD_AVATAR_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+function* uploadAvatarProfile(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.UPDATE_AVATAR_SUCCESS, response });
   } catch (e) {
     console.log(e);
   }
@@ -47,4 +54,5 @@ export default function* saga() {
   yield takeLatest(Types.GET_IMAGE_USER, getImageUserProfile);
   yield takeLatest(Types.UPDATE_USER_PROFILE, updateCurrentUserProfile);
   yield takeLatest(Types.UPLOAD_AVATAR, changeAvatarProfile);
+  yield takeLatest(Types.UPDATE_AVATAR, uploadAvatarProfile);
 }

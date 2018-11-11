@@ -5,7 +5,8 @@ const INIT_STATE = ({
     profile: {},
     imageProfile: '',
     updateUserProfile: {},
-    uploadAvatar: ''
+    uploadAvatar: {},
+    updateAvatar: {}
 });
 
 export default createReducer(INIT_STATE, {
@@ -141,6 +142,41 @@ export default createReducer(INIT_STATE, {
             console.log(error)
         }
     },
+
+    [Types.UPDATE_AVATAR]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.UPDATE_AVATAR_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                updateAvatar: action.response
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.UPDATE_AVATAR_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+    
 
 
 

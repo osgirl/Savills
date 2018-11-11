@@ -25,6 +25,7 @@ export default class ItemListHome extends Component {
                 {
                     this.props.loading ?
                         <Button
+                            activeOpacity={0.6}
                             onPress={() => this.props.onPressItem()}
                             style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View

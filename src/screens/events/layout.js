@@ -103,6 +103,9 @@ export default class Layout extends Component {
     let unitActive = this.props.units.unitActive;
     return (
       <View style={styles.container}>
+        <StatusBar
+          barStyle="light-content"
+        />
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}
@@ -124,6 +127,7 @@ export default class Layout extends Component {
             </Button>
           }
         />
+        {/* {this.renderHeader()} */}
         <FlatList
           data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
           keyExtractor={item => item.eventId + ''}
