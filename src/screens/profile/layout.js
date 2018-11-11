@@ -87,7 +87,7 @@ export default class extends Component {
                 this.state.keyUpdate !== 'displayName' ?
                     <View>
                         <TextInput
-                            placeholder={'YOURCODE'}
+                            placeholder={'__'}
                             value={this.state.txtUpdate}
                             style={{ fontSize: 22, fontFamily: 'OpenSans-Regular', color: '#505E75', width: width, textAlign: 'center' }}
                             onChangeText={(text) => this.setState({ txtUpdate: text })}
@@ -151,7 +151,6 @@ export default class extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                // let source = { uri: response.uri };
                 let from = new FormData();
                 let file = {
                     uri: response.uri,
@@ -159,13 +158,10 @@ export default class extends Component {
                     name: 'file'
                 }
                 from.append('image', file);
-                // You can also display the image using data:
                 let source = 'data:image/jpeg;base64,' + response.data;
                 this.setState({
                     avatar: source
                 });
-                // console.log('Source______________', response)
-                // console.log('Source______________', file)
                 this._uploadAvatar(from);
 
             }

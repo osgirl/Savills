@@ -27,6 +27,11 @@ class Events extends Layout {
     }
 
     componentWillMount() {
+        this._getEvent();
+
+    }
+
+    _getEvent() {
         const accessTokenApi = this.props.account.accessTokenAPI;
         const buildingID = this.props.units.unitActive.buildingId;
         let date = new Date();
@@ -34,7 +39,6 @@ class Events extends Layout {
         let lastDay = new Date(date.getFullYear(), 12, 31);
         this.props.actions.events.getMyEvents(accessTokenApi, buildingID, this.timeToString(firstDay), this.timeToString(lastDay));
         this.props.actions.events.getOverviewMyEvents(accessTokenApi, this.timeToString(firstDay), this.timeToString(lastDay));
-
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -102,7 +106,8 @@ class Events extends Layout {
     }
 
     _onCloseModalSelectUnit() {
-        this.setState({ isModalSelectUnit: false })
+        this.setState({ isModalSelectUnit: false });
+        this._getEvent();
     }
 
 

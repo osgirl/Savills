@@ -30,6 +30,7 @@ export default class ItemHomeComponent extends Component {
                     bgColor={'#FFF'}
                     animate='shine'>
                     <Button
+                        activeOpacity={0.6}
                         onPress={() => this.props.onPressItem()}
                         style={[Styles.container,]}>
                         <Image source={Utils.mapItemHome(this.props.image)} />

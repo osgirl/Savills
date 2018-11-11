@@ -3,6 +3,7 @@ import createReducer from '../';
 
 const INIT_STATE = ({
     listNoti: { items: [], success: false },
+    unreadCount: 0
 });
 
 export default createReducer(INIT_STATE, {
@@ -36,6 +37,7 @@ export default createReducer(INIT_STATE, {
                             items: action.response.result.items,
                             success: action.response.success
                         },
+                        unreadCount: action.response.result.unreadCount
                     },
                 );
             }
@@ -51,6 +53,7 @@ export default createReducer(INIT_STATE, {
             return {
                 ...state,
                 listNoti: { items: [], success: false },
+                unreadCount: 0
             };
         } catch (error) {
             console.log(error)
