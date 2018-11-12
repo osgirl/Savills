@@ -7,6 +7,8 @@ const { width } = Dimensions.get('window');
 import Connect from '@stores';
 import ItemComment from '@components/itemComment';
 
+import Resolution from "../../../utils/resolution";
+
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;

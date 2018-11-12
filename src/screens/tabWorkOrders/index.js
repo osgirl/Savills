@@ -10,7 +10,8 @@ import {
   Animated,
   RefreshControl,
   StatusBar,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native';
 
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
@@ -25,13 +26,12 @@ import Button from '@components/button';
 import EmptyItemList from '@components/emptyItemList';
 
 import IC_BACK from '@resources/icons/back-light.png';
-import { isIphoneX } from '../../utils/func';
 import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 const { width } = Dimensions.get('window');
-import Resolution from '../../utils/resolution';
-import Configs from '../../utils/configs';
+import Resolution from '@utils/resolution';
+// import Configs from '../../utils/configs';
 import Modal from 'react-native-modal';
-import Button from '../../components/button';
+// import Button from '../../components/button';
 
 import ModalSelectUnit from '../../components/modalSelectUnit';
 import IC_DROPDOWN from '../../resources/icons/dropDown.png';
