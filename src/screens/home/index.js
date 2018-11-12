@@ -6,25 +6,6 @@ import _ from 'lodash';
 
 import { BackHandler } from "react-native";
 
-import FastImage from '../../components/fastImage';
-import Header from '@components/header';
-import Button from '@components/button';
-import IC_EDIT from '@resources/icons/edit-profile.png';
-import IC_NOTIFY from '@resources/icons/notify.png';
-
-let DATA = [
-	{ id: 1, key: 'Pages.Resident', title: 'Events', screen: 'Events' },
-	{ id: 2, key: 'Pages.Resident.Booking', title: 'Booking', screen: 'Booking' },
-	{ id: 3, key: 'Pages.Resident.WorkOrder', title: 'Work Order', screen: 'WorkOrder' },
-	{ id: 4, key: 'invoice', title: 'Invoice', screen: '' },
-	{ id: 5, key: 'Pages.Resident.Inbox', title: 'Inbox', screen: '' },
-	{ id: 6, key: 'Pages.Resident.Feedback', title: 'Feed back', screen: '' },
-	{ id: 7, key: 'Pages.Libraries', title: 'E-labary', screen: '' },
-	{ id: 8, key: 'Pages.Resident.Contacts', title: 'Contacts', screen: 'Contacts' },
-	{ id: 9, key: 'Pages.Resident.FrontDesk', title: 'Frontdesk', screen: '' },
-	{ id: 10, key: 'Pages.Resident.Fee', title: 'Free', screen: '' },
-	{ id: 11, key: 'Pages.FAQ', title: 'FAQ', screen: 'FAQ' }
-];
 import Language from '../../utils/language';
 
 class Home extends layout {
@@ -41,6 +22,7 @@ class Home extends layout {
 			dataModule: [],
 			profile: null,
 			numcolumn: 2,
+			moduleCount: [],
 			DATA: [
 				{
 					id: 1,
@@ -68,18 +50,20 @@ class Home extends layout {
 					id: 4,
 					key: 'Pages.Resident.Contacts',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_CONTACTS,
+					moduleName: "_",
 					screen: 'Contacts'
 				},
 				{
 					id: 5,
 					key: 'Pages.FAQ',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FAQ,
+					moduleName: "_",
 					screen: 'FAQ'
 				},
 				{
 					id: 6,
 					key: 'Pages.Resident.Inbox',
-					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FEEDBACK,
+					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_INBOX,
 					moduleName: "Inboxes",
 					screen: ''
 				},
@@ -87,6 +71,7 @@ class Home extends layout {
 					id: 7,
 					key: 'invoice',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_INVOICE,
+					moduleName: "_",
 					screen: ''
 				},
 				{
@@ -108,6 +93,7 @@ class Home extends layout {
 					id: 10,
 					key: 'Pages.Resident.FrontDesk',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FRONTDESK,
+					moduleName: "_",
 					screen: ''
 				},
 				{
@@ -146,15 +132,21 @@ class Home extends layout {
 			});
 			await this.setState({ dataModule: arrTemp });
 		}
+
+		if (this.props.notification.listCountModule !== nextProps.notification.listCountModule && nextProps.notification.listCountModule.success) {
+			this.setState({ moduleCount: nextProps.notification.listCountModule.result })
+		}
 	}
 
 	async componentWillMount() {
 		let accessTokenApi = this.props.account.accessTokenAPI;
+		let unitID = this.props.units.unitActive.unitId;
 		await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
 		await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
 		await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
 		await this.props.actions.account.getUserSettings(accessTokenApi);
 		await this.props.actions.account.getTenantActive();
+		await this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
 	}
 
 	componentDidMount() {

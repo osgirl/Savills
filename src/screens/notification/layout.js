@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, FlatList, Image, Text, Animated, ActivityIndicator, Platform } from 'react-native';
+import { View, StyleSheet, Dimensions, FlatList, Image, Text, Animated, ActivityIndicator, Platform, StatusBar } from 'react-native';
 import Header from '@components/header';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
@@ -10,7 +10,7 @@ import Modal from 'react-native-modal';
 import IC_BACK from '../../resources/icons/close.png';
 import IC_CALENDAR from '../../resources/icons/calendar.png';
 import IC_CLOCK from '../../resources/icons/clock.png';
-import {} from '../';
+import { } from '../';
 
 import Configs from '../../utils/configs';
 import Button from '../../components/button';
@@ -34,13 +34,13 @@ export default class extends Component {
     let date = moment(item.dateCreate).format('l');
     return (
       <View style={[Styles.item]}>
-        <Button onPress={() => {}} style={{ alignItems: 'flex-start' }}>
+        <Button onPress={() => { }} style={{ alignItems: 'flex-start' }}>
           <View style={{ marginHorizontal: 20 }}>
             <View style={{ flexDirection: 'row', marginTop: 20, marginBottom: 10, justifyContent: 'space-between' }}>
               <View style={{ backgroundColor: state === 0 ? '#505E75' : '#BABFC8', borderRadius: 5 }}>
                 <Text style={{ color: '#F8F8F8', paddingVertical: 2, paddingHorizontal: 20 }}>{`#${
                   item.notification.data.properties.Id
-                }`}</Text>
+                  }`}</Text>
               </View>
               {state === 0 ? <View style={{ backgroundColor: '#FF361A', width: 8, height: 8, borderRadius: 33 }} /> : null}
             </View>
@@ -85,8 +85,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: 20 }} />
-    );
+        <View style={{ height: 20 }} />
+      );
   }
 
   handleScroll = event => {
@@ -121,6 +121,9 @@ export default class extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        <StatusBar
+          barStyle="light-content"
+        />
         <FlatList
           data={this.state.data}
           horizontal={false}
