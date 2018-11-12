@@ -127,6 +127,7 @@ export default class Layout extends Component {
             </Button>
           }
         />
+        {/* {this.renderHeader()} */}
         <FlatList
           data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
           keyExtractor={item => item.eventId + ''}

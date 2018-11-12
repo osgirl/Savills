@@ -94,7 +94,7 @@ export default class extends Component {
                         size={imgSize}
                         onReady={this.props.userProfile.imageProfile.success}
                         bgColor={'#FFF'}
-                        animate='fade'
+                        animate='shine'
                     >
                         <FastImage
                             style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }}
@@ -102,16 +102,16 @@ export default class extends Component {
                         />
                     </Avatar>
                     <Line
-                        txtWidth={width / 2}
+                        txtWidth={100}
                         height={20}
                         onReady={User ? true : false}
-                        animate='fade'
+                        animate='shine'
                     >
-                    {
-                         User && <Text style={Style.displayName}>
+                        {
+                            User && <Text style={Style.displayName}>
                                 {'Hey!! ' + User.displayName}
-                        </Text>
-                    }
+                            </Text>
+                        }
                     </Line>
 
                     <Text style={Style.unitCode}>
@@ -195,6 +195,7 @@ export default class extends Component {
                             </View>
                         </Button>
                     }
+                    notiCount={this.props.notification.unreadCount}
                     rightIcon={IC_NOTIFY}
                     rightAction={() => this._openNoti()}
                 />

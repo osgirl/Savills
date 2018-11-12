@@ -9,7 +9,8 @@ import {
   TextInput,
   ActivityIndicator,
   FlatList,
-  Animated
+  Animated,
+  Platform
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Connect from '@stores';
@@ -25,7 +26,7 @@ const STAR_ON = require('../../../resources/icons/Star-big.png');
 const STAR_OFF = require('../../../resources/icons/Star.png');
 
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
-const HEADER_MIN_HEIGHT = Resolution.scale(70);
+const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const { width } = Dimensions.get('window');

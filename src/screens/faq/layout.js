@@ -26,6 +26,7 @@ export default class extends Component {
                     leftIcon={IC_BACK}
                     leftAction={() => this.props.onClose()}
                     headercolor={'transparent'}
+                    showTitleHeader={true}
                     center={
                         <View>
                             <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>FAQ</Text>
