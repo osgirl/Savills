@@ -3,32 +3,35 @@ import Connect from '@stores';
 import {
   View,
   Text,
-  SafeAreaView,
   Dimensions,
   FlatList,
-  Platform,
   ActivityIndicator,
-  StyleSheet,
   Image,
   Animated,
-  TouchableOpacity,
   RefreshControl,
-  StatusBar
+  StatusBar,
+  StyleSheet
 } from 'react-native';
+
+
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
-import HeaderTitle from '@components/headerTitle';
 import moment from 'moment';
+
+import Configs from '@utils/configs';
 import Header from '@components/header';
+import { isIphoneX } from '@utils/func';
+
+import Button from '@components/button';
+import EmptyItemList from '@components/emptyItemList';
+
+
 import IC_BACK from '@resources/icons/back-light.png';
-import { isIphoneX } from '../../utils/func';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
-const { width } = Dimensions.get('window');
-import Resolution from '../../utils/resolution';
-import Configs from '../../utils/configs';
 
 const HEADER_MAX_HEIGHT = 70;
 const HEADER_MIN_HEIGHT = 70;
+const { width } = Dimensions.get('window');
+
 class TabWorkOrder extends Component {
   constructor(props) {
     super(props);
@@ -122,7 +125,7 @@ class TabWorkOrder extends Component {
       extrapolate: 'clamp'
     });
     return (
-      <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+      <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Animated.View style={[{ height: headerHeight2 }]}>
           <Header
@@ -145,11 +148,7 @@ class TabWorkOrder extends Component {
         </Animated.View>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
           <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
-            <Animated.Text
-              style={{ fontSize: fontSize, fontFamily: 'OpenSans-Bold', color: '#FFF', marginLeft: 20, marginBottom: 0 }}
-            >
-              Yêu Cầu
-            </Animated.Text>
+            <Animated.Text style={[{ fontSize: fontSize }, styles.textHeader]}>Yêu Cầu</Animated.Text>
           </Animated.View>
           <ScrollableTabView
             tabBarActiveTextColor={'#FFF'}
@@ -162,25 +161,9 @@ class TabWorkOrder extends Component {
           </ScrollableTabView>
         </LinearGradient>
         <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('ModalWorkOrder', { profile: 'asd' })}
-          style={{
-            borderRadius: 25,
-            width: 50,
-            height: 50,
-            position: 'absolute',
-            bottom: isIphoneX() ? 30 : 20,
-            left: width / 2 - 25,
-            backgroundColor: '#01C772',
-            shadowColor: '#4DD49A',
-            shadowOffset: { width: 3, height: 6 },
-            shadowOpacity: 0.3,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
+        <Button onPress={() => this.props.navigation.navigate('ModalWorkOrder', { profile: 'asd' })} style={styles.ButtonAdd}>
           <Image source={require('../../resources/icons/plush-addnew.png')} />
-        </TouchableOpacity>
+        </Button>
       </View>
     );
   }
@@ -212,11 +195,7 @@ class TabWorkOrder extends Component {
           }
           renderItem={({ item, index }) => this.renderItem(item, index)}
           ListEmptyComponent={() => {
-            return (
-              <View style={{ marginTop: 50 }}>
-                <Text>Load Data !!</Text>
-              </View>
-            );
+            return <EmptyItemList />;
           }}
           // onEndReachedThreshold={0.01}
           // scrollEventThrottle={16}
@@ -298,11 +277,7 @@ class TabWorkOrder extends Component {
           }
           renderItem={({ item, index }) => this.renderItem(item, index)}
           ListEmptyComponent={() => {
-            return (
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 100 }}>
-                <Text style={{ color: '#515E6D', fontWeight: '500', fontSize: 18 }}>No data !!</Text>
-              </View>
-            );
+            return <EmptyItemList />;
           }}
         />
       </View>
@@ -313,7 +288,7 @@ class TabWorkOrder extends Component {
     let date = moment(item.dateCreate).format('l');
     let time = moment(item.dateCreate).format('LT');
     return (
-      <TouchableOpacity
+      <Button
         onPress={() => this.clickDetail(item)}
         key={item.id}
         style={{
@@ -373,12 +348,39 @@ class TabWorkOrder extends Component {
           }}
         >
           <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-            Tôi cần một dịch vụ quản lý thật tốt ...
+            {item.lastComment}
           </Text>
         </View>
-      </TouchableOpacity>
+      </Button>
     );
   };
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFF'
+  },
+  textHeader: {
+    fontFamily: 'OpenSans-Bold',
+    color: '#FFF',
+    marginLeft: 20,
+    marginBottom: 0
+  },
+  ButtonAdd: {
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    position: 'absolute',
+    bottom: isIphoneX() ? 30 : 20,
+    left: width / 2 - 25,
+    backgroundColor: '#01C772',
+    shadowColor: '#4DD49A',
+    shadowOffset: { width: 3, height: 6 },
+    shadowOpacity: 0.3,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
 
 export default Connect(TabWorkOrder);

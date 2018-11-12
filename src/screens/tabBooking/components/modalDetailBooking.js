@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, PixelRatio, FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-picker';
-import Header from '@components/header';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
-import ImageViewer from 'react-native-image-zoom-viewer';
-import HeaderTitle from '@components/headerTitle';
-import { Calendar } from '../../../components/calendars';
-import Resolution from '../../../utils/resolution';
 import moment from 'moment';
 import Modal from 'react-native-modal';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
+import ItemComment from '@components/itemComment';
 
 class ModalDetailBooking extends Component {
   constructor(props) {
@@ -386,26 +380,6 @@ class ItemScorll extends Component {
       <View style={{ flex: 1, marginHorizontal: 20 }}>
         <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 14, fontWeight: 'bold' }}>{title}</Text>
         {this.props.view}
-      </View>
-    );
-  }
-}
-
-class ItemComment extends Component {
-  render() {
-    const { content, creationTime } = this.props.item;
-    let times = moment(creationTime).fromNow();
-    return (
-      <View style={{ width: width - 40, marginHorizontal: 20, marginVertical: 10, flexDirection: 'row' }}>
-        <Image
-          style={{ width: 36, height: 36, borderRadius: 18, marginVertical: 20 }}
-          resizeMode={'cover'}
-          source={{ uri: 'http://thuthuatphanmem.vn/uploads/2018/06/18/anh-avatar-dep-65_034122567.jpg' }}
-        />
-        <View style={{ flex: 1, backgroundColor: '#FFF', borderRadius: 5, padding: 20, marginLeft: 20 }}>
-          <Text style={{ color: '#515E6D', fontSize: 14, fontWeight: '600' }}>{content}</Text>
-          <Text style={{ marginTop: 5, color: 'rgba(69,79,102,0.5)', fontSize: 12 }}>{times}</Text>
-        </View>
       </View>
     );
   }

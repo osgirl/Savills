@@ -16,8 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Connect from '@stores';
 import moment from 'moment';
 import Header from '@components/header';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
-import Profile from '../../profile';
+import ItemComment from '@components/itemComment';
 import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
 import Resolution from '../../../utils/resolution';
@@ -26,7 +25,7 @@ const STAR_ON = require('../../../resources/icons/Star-big.png');
 const STAR_OFF = require('../../../resources/icons/Star.png');
 
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
+const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const { width } = Dimensions.get('window');
@@ -153,7 +152,7 @@ class ModalEditOrder extends Component {
                 <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>Quay Lại</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.cancelOrder()}
+                onPress={() => this.changeStatusWorkOrder(16)}
                 style={{
                   flex: 1,
                   marginLeft: 20
@@ -175,14 +174,14 @@ class ModalEditOrder extends Component {
     );
   };
 
-  cancelOrder = () => {
+  changeStatusWorkOrder = idStatus => {
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
     let WorkOrder = {
       id: this.state.detailOrder.id,
       guid: this.state.detailOrder.guid,
-      currentStatusId: 16,
+      currentStatusId: idStatus,
       createdUserFullName: displayName,
       updateUserFullName: '',
       fullUnitId: unitId,
@@ -191,36 +190,6 @@ class ModalEditOrder extends Component {
       description: '',
       sourceId: 3,
       rating: 0,
-      dateCreate: this.state.detailOrder.dateCreate,
-      maintainanceTeamId: 1,
-      areaId: 50,
-      categoryId: 90,
-      isPrivate: true,
-      contact: {
-        email: emailAddress,
-        phoneNumber: phoneNumber,
-        memberId: id
-      }
-    };
-    this.props.actions.workOrder.updateWorkOrder(accessTokenAPI, WorkOrder);
-  };
-
-  completeOrder = () => {
-    const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
-    let accessTokenAPI = this.props.account.accessTokenAPI;
-    const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
-    let WorkOrder = {
-      id: this.state.detailOrder.id,
-      guid: this.state.detailOrder.guid,
-      currentStatusId: 15,
-      createdUserFullName: displayName,
-      updateUserFullName: '',
-      rating: this.state.vote,
-      fullUnitId: unitId,
-      fullUnitName: `${fullUnitCode} - ${displayName}`,
-      fullUnitCode: fullUnitCode,
-      description: this.state.description,
-      sourceId: 3,
       dateCreate: this.state.detailOrder.dateCreate,
       maintainanceTeamId: 1,
       areaId: 50,
@@ -565,7 +534,7 @@ class ModalEditOrder extends Component {
               multiline
               onChangeText={e => this.setState({ description: e })}
             />
-            <TouchableOpacity onPress={() => this.completeOrder()}>
+            <TouchableOpacity onPress={() => this.changeStatusWorkOrder(15)}>
               <LinearGradient
                 colors={['#4A89E8', '#8FBCFF']}
                 start={{ x: 0, y: 0 }}
@@ -659,26 +628,6 @@ class ItemScorll extends Component {
       <View style={{ flex: 1, marginHorizontal: 20 }}>
         <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 14, fontWeight: 'bold' }}>{title}</Text>
         {this.props.view}
-      </View>
-    );
-  }
-}
-
-class ItemComment extends Component {
-  render() {
-    const { content, creationTime } = this.props.item;
-    let times = moment(creationTime).fromNow();
-    return (
-      <View style={{ width: width - 40, marginHorizontal: 20, marginVertical: 10, flexDirection: 'row' }}>
-        <Image
-          style={{ width: 36, height: 36, borderRadius: 18, marginVertical: 20 }}
-          resizeMode={'cover'}
-          source={{ uri: 'http://thuthuatphanmem.vn/uploads/2018/06/18/anh-avatar-dep-65_034122567.jpg' }}
-        />
-        <View style={{ flex: 1, backgroundColor: '#FFF', borderRadius: 5, padding: 20, marginLeft: 20 }}>
-          <Text style={{ color: '#515E6D', fontSize: 14, fontWeight: '600' }}>{content}</Text>
-          <Text style={{ marginTop: 5, color: 'rgba(69,79,102,0.5)', fontSize: 12 }}>{times}</Text>
-        </View>
       </View>
     );
   }

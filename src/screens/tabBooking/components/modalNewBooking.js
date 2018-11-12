@@ -309,20 +309,17 @@ class ModalNewBooking extends Component {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
+            disabled={!this.state.checkConfirm}
             style={{
               width: width - 40,
               height: 30,
-              backgroundColor: '#01C772',
+              backgroundColor: this.state.checkConfirm ? '#01C772' : '#DEDEDE',
               borderRadius: 5,
               alignItems: 'center',
               justifyContent: 'center'
             }}
             onPress={() => {
-              if (!this.state.checkConfirm) {
-                alert('Check confirm');
-              } else {
-                this.setState({ isShowModalConfirm: true });
-              }
+              this.setState({ isShowModalConfirm: true });
             }}
           >
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>

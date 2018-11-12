@@ -23,18 +23,26 @@ const { width } = Dimensions.get('window');
 import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
 import Connect from '@stores';
+// const options = {
+//   title: 'Chụp ảnh để tải lên',
+//   storageOptions: {
+//     skipBackup: true,
+//     uriImage: '',
+//     path: 'images'
+//   },
+//   quality: 1,
+//   mediaType: 'photo',
+//   cameraType: 'front',
+//   maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
+//   maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
+// };
+
 const options = {
-  title: 'Chụp ảnh để tải lên',
+  title: 'Select Image',
   storageOptions: {
     skipBackup: true,
-    uriImage: '',
     path: 'images'
-  },
-  quality: 1,
-  mediaType: 'photo',
-  cameraType: 'front',
-  maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
-  maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
+  }
 };
 
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
