@@ -20,7 +20,7 @@ import Header from '@components/header';
 import ItemComment from '@components/itemComment';
 import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
-import Resolution from '../../../utils/resolution';
+import Resolution from '@utils/resolution';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
