@@ -90,8 +90,16 @@ class ModalNewBooking extends Component {
 
   selectTimeBooking = (item, index) => {
     let arr = this.state.listBooking.slice();
+    let arrABC = [];
+    arr.map(item => item.isCheck);
+    arrABC.filter(item => item.isCheck === true);
+    // if (arr[index - 1].isCheck === false || (arr[index + 1].isCheck === false && arrABC.length > 0)) {
+    //   alert('k được chọn');
+    // }
     let flag = arr[index].isCheck || false;
     arr[index].isCheck = !flag;
+    // arr[index - 1].isFlag = true;
+    // arr[index + 1].isFlag = true;
     this.setState({ listBooking: arr });
   };
 
@@ -166,7 +174,7 @@ class ModalNewBooking extends Component {
                 <Text style={{ color: '#343D4D', fontWeight: 'bold', fontSize: 15, flex: 1, marginLeft: 20 }}>
                   {item.amenityName}
                 </Text>
-                <Text style={{ color: '#4A89E8', fontSize: 13 }} />
+                <Text style={{ color: '#4A89E8', fontSize: 13 }}>Change</Text>
               </View>
             }
           />
@@ -201,7 +209,7 @@ class ModalNewBooking extends Component {
                         justifyContent: 'center'
                       }}
                     >
-                      {item.isTrue ? (
+                      {item.isFlag ? (
                         <View
                           style={{
                             width: 10,
@@ -325,7 +333,7 @@ class ModalNewBooking extends Component {
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>
           </TouchableOpacity>
         </View>
-        {this.renderModalConfirmBooking()}
+        {this.state.listBooking && this.state.listBooking.length > 0 ? this.renderModalConfirmBooking() : null}
         {this.renderModalRegulations()}
       </View>
     );
@@ -352,8 +360,8 @@ class ModalNewBooking extends Component {
     const { fullUnitCode } = this.props.units.unitActive;
     const { phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
     let listSelect = this.state.listBooking.filter(e => e.isCheck == true);
-    // let startTime = listSelect[0].startTime || 0;
-    // let endTime = listSelect[listSelect.length - 1].endTime || 0;
+    let startTime = listSelect[0] && listSelect[0].startTime ? listSelect[0].startTime : 0;
+    let endTime = listSelect[0] && listSelect[0].endTime ? listSelect[listSelect.length - 1].endTime : 0;
     return (
       <Modal
         animationType="slide"
@@ -380,14 +388,7 @@ class ModalNewBooking extends Component {
             >
               <Image source={require('../../../resources/icons/close.png')} />
             </TouchableOpacity>
-            <Image
-              style={{ height: 100, width: null }}
-              resizeMode={'cover'}
-              source={{
-                uri:
-                  'https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Article+Image+Update/Triathlon/Build+Swimming+Endurance/carousel.jpg'
-              }}
-            />
+            <Image style={{ height: 100, width: null }} resizeMode={'cover'} source={require('@resources/image/Swim.png')} />
             <ScrollView style={{ flex: 1 }}>
               <ItemScorll
                 title={'Thông Tin'}
@@ -444,9 +445,11 @@ class ModalNewBooking extends Component {
                         justifyContent: 'center'
                       }}
                     >
-                      {/* <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(startTime).format(
-                        'hh:mm'
-                      )}-${moment(endTime).format('hh:mm')}`}</Text> */}
+                      {startTime && startTime != undefined && endTime && endTime != undefined ? (
+                        <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
+                          startTime
+                        ).format('hh:mm')}-${moment(endTime).format('hh:mm')}`}</Text>
+                      ) : null}
                     </TouchableOpacity>
                   </View>
                 }

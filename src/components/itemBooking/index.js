@@ -75,7 +75,7 @@ export class ItemBooking extends Component {
           }}
         >
           <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-            Tôi cần một dịch vụ quản lý thật tốt ...
+            {item.lastComment}
           </Text>
           {/* <View
             style={{

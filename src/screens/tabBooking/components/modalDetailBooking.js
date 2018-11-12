@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, PixelRatio, FlatList, Animated, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  PixelRatio,
+  FlatList,
+  Animated,
+  Platform
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import Modal from 'react-native-modal';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
 import ItemComment from '@components/itemComment';
+import Resolution from '@utils/resolution';
+import Header from '@components/header';
+import HeaderTitle from '@components/headerTitle';
 
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
+const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class ModalDetailBooking extends Component {
@@ -21,7 +36,7 @@ class ModalDetailBooking extends Component {
       listChat: [],
       chatText: '',
       isShowTitleHeader: false,
-      scrollY: new Animated.Value(0),
+      scrollY: new Animated.Value(0)
     };
   }
 
@@ -91,7 +106,7 @@ class ModalDetailBooking extends Component {
       isPrivate: false,
       userName: displayName,
       profilePictureId: profilePictureId,
-      moduleId: 1
+      moduleId: 3
     };
     this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
   };
@@ -120,15 +135,14 @@ class ModalDetailBooking extends Component {
       extrapolate: 'clamp'
     });
 
-
     return (
       <View style={{ flex: 1 }}>
-
         <ScrollView
           scrollEventThrottle={16}
           contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
           onScroll={this.handleScroll}
-          style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 70 }}>
+          style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 70 }}
+        >
           <ItemScorll
             title={'Dịch Vụ'}
             view={
@@ -240,7 +254,7 @@ class ModalDetailBooking extends Component {
               </View>
             }
           />
-          <View style={{height: 50}} />
+          <View style={{ height: 50 }} />
         </ScrollView>
 
         <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
@@ -265,8 +279,6 @@ class ModalDetailBooking extends Component {
             <HeaderTitle title={`#${reservationId}`} />
           </LinearGradient>
         </Animated.View>
-
-
 
         <TouchableOpacity
           style={{

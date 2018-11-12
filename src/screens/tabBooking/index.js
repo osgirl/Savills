@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import Connect from '@stores';
-import { View, Dimensions, Image, TouchableOpacity, Text, FlatList, StyleSheet, StatusBar, Animated, Platform } from 'react-native';
+import {
+  View,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  Text,
+  FlatList,
+  StyleSheet,
+  StatusBar,
+  Animated,
+  Platform
+} from 'react-native';
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
@@ -18,14 +29,14 @@ const { width } = Dimensions.get('window');
 import { isIphoneX } from '../../utils/func';
 import ModalSelectUnit from '../../components/modalSelectUnit';
 
-import Resolution from "../../utils/resolution";
+import Resolution from '@utils/resolution';
 
-import Button from "../../components/button";
+import Button from '../../components/button';
 
 import IC_DROPDOWN from '../../resources/icons/dropDown.png';
 
 const HEADER_MAX_HEIGHT = Resolution.scale(70);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
+const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class TabBooking extends Component {
@@ -52,8 +63,9 @@ class TabBooking extends Component {
   }
 
   handleScroll = event => {
-    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }]
-      , {
+    Animated.event(
+      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+      {
         listener: event => {
           if (event.nativeEvent.contentOffset.y > 40) {
             if (!this.showCenter) {
@@ -68,7 +80,8 @@ class TabBooking extends Component {
           }
         }
       },
-      { useNativeDriver: true })(event);
+      { useNativeDriver: true }
+    )(event);
   };
 
   render() {
@@ -100,8 +113,6 @@ class TabBooking extends Component {
       extrapolate: 'clamp'
     });
 
-
-
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <StatusBar barStyle="light-content" />
@@ -114,9 +125,7 @@ class TabBooking extends Component {
             showTitleHeader={this.state.isShowTitleHeader}
             center={
               <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>
-                  Đặt tiện ích
-                </Text>
+                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Đặt tiện ích</Text>
               </View>
             }
             renderViewRight={
@@ -134,7 +143,14 @@ class TabBooking extends Component {
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
           <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
             <Animated.Text
-              style={{ fontSize: 30, fontFamily: 'OpenSans-Bold', color: '#FFF', marginLeft: 20, marginBottom: 0, opacity: opacityText2 }}
+              style={{
+                fontSize: 30,
+                fontFamily: 'OpenSans-Bold',
+                color: '#FFF',
+                marginLeft: 20,
+                marginBottom: 0,
+                opacity: opacityText2
+              }}
             >
               Đặt tiện ích
             </Animated.Text>
@@ -146,15 +162,9 @@ class TabBooking extends Component {
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
           >
-            <TabProcess
-              onScroll={this.handleScroll}
-              tabLabel={'Đang Xử Lý'} {...this.props} actions={() => this.clickDetail()} />
-            <TabInComming
-              onScroll={this.handleScroll}
-              tabLabel={'Sắp Tới'} {...this.props} actions={() => this.clickDetail()} />
-            <TabComplete
-              onScroll={this.handleScroll}
-              tabLabel={'Hoàn Tất'} {...this.props} actions={() => this.clickDetail()} />
+            <TabProcess onScroll={this.handleScroll} tabLabel={'Đang Xử Lý'} {...this.props} actions={() => this.clickDetail()} />
+            <TabInComming onScroll={this.handleScroll} tabLabel={'Sắp Tới'} {...this.props} actions={() => this.clickDetail()} />
+            <TabComplete onScroll={this.handleScroll} tabLabel={'Hoàn Tất'} {...this.props} actions={() => this.clickDetail()} />
           </ScrollableTabView>
         </LinearGradient>
         <View
