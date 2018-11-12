@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, TouchableOpacity, Dimensions, Image } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Dimensions, Image,RefreshControl } from 'react-native';
 import moment from 'moment';
 const { width, height } = Dimensions.get('window');
 import Connect from '@stores';
@@ -9,7 +9,8 @@ class TabActive extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listData: []
+      listData: [],
+      isRefreshing: false
     };
   }
 
@@ -20,7 +21,7 @@ class TabActive extends Component {
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.booking.listOnGoing && nextProps.booking.listOnGoing.success) {
-      this.setState({ listData: nextProps.booking.listOnGoing.result.items });
+      this.setState({ listData: nextProps.booking.listOnGoing.result.items, isRefreshing: false });
     }
   };
 
@@ -32,6 +33,15 @@ class TabActive extends Component {
           keyExtractor={(item, index) => item.reservationId.toString()}
           data={this.state.listData}
           renderItem={({ item, index }) => this.renderItem(item, index)}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={() => this._onRefresh()}
+              title={'Refrech Data !!'}
+              tintColor="#000"
+              titleColor="#000"
+            />
+          }
           ListEmptyComponent={() => {
             return (
               <View
@@ -53,6 +63,18 @@ class TabActive extends Component {
     );
   }
 
+  _onRefresh = () => {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    this.setState(
+      {
+        isRefreshing: true
+      },
+      () => {
+        this.props.actions.booking.getListBooking(accessTokenApi, 'ONGOING');
+      }
+    );
+  };
+
   clickDetail = () => {
     alert('ss');
   };
@@ -73,7 +95,7 @@ class TabActive extends Component {
       >
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75'}}>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75' }}>
               <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
                 #7812
               </Text>

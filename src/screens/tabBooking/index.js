@@ -27,8 +27,8 @@ class TabBooking extends Component {
 
   componentWillMount = () => {
     let accessTokenApi = this.props.account.accessTokenAPI;
-
-    this.props.actions.booking.getListCategory(accessTokenApi);
+    const buildingID = this.props.units.unitActive.buildingId;
+    this.props.actions.booking.getListCategory(accessTokenApi, buildingID);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -40,9 +40,7 @@ class TabBooking extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-        <StatusBar
-          barStyle="light-content"
-        />
+        <StatusBar barStyle="light-content" />
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}

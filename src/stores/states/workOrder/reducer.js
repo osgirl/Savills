@@ -2,15 +2,17 @@ import Types from './';
 import createReducer from '../';
 
 const INIT_STATE = {
-  workOrderList: {},
   workOrderDetail: false,
-  listCategory: false,
+  listActive: false,
+  listComplete: false,
   listComment: false,
   addComment: false,
   uploadImage: false,
   createWorkorder: false,
-
-  isCreateWorkOrder: true
+  updateWorkOrder: false,
+  isCreateWorkOrder: true,
+  isGetListWorkOrder: true,
+  isUpdateWorkOrder: true
 };
 
 export default createReducer(INIT_STATE, {
@@ -19,6 +21,18 @@ export default createReducer(INIT_STATE, {
       return {
         ...state,
         uploadImage: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.UPDATE_WORK_ORDER_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        updateWorkOrder: action.response,
+        isUpdateWorkOrder: false
       };
     } catch (error) {
       console.log(error);
@@ -60,10 +74,25 @@ export default createReducer(INIT_STATE, {
 
   [Types.GET_LIST_WORKORDER_SUCCESS]: (state, action) => {
     try {
-      return {
-        ...state,
-        workOrderList: action.response
-      };
+      switch (action.payload.sort) {
+        case 'ACTIVE': {
+          return {
+            ...state,
+            listActive: action.response,
+            isGetListWorkOrder: false
+          };
+        }
+        case 'COMPLETED': {
+          return {
+            ...state,
+            listComplete: action.response,
+            isGetListWorkOrder: false
+          };
+        }
+        default: {
+          return { ...state };
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -95,5 +124,15 @@ export default createReducer(INIT_STATE, {
   [Types.FLAG_CREATE_WORKORDER]: (state, action) => ({
     ...state,
     isCreateWorkOrder: true
+  }),
+
+  [Types.FLAG_GET_WORKORDER_LIST]: (state, action) => ({
+    ...state,
+    isGetListWorkOrder: true
+  }),
+
+  [Types.FLAG_UPDATE_WORKODER]: (state, action) => ({
+    ...state,
+    isUpdateWorkOrder: true
   })
 });

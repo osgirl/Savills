@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, TouchableOpacity, Dimensions, Image } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Dimensions, Image,RefreshControl } from 'react-native';
 import moment from 'moment';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
@@ -8,7 +8,8 @@ class TabActive extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listData: []
+      listData: [],
+      isRefreshing: false
     };
   }
 
@@ -19,12 +20,12 @@ class TabActive extends Component {
 
   componentWillReceiveProps = nextProps => {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    if (nextProps.booking.createNewBooking && nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
-      nextProps.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
-      nextProps.actions.booking.setFlagCreateBooking();
-    }
+    // if (nextProps.booking.createNewBooking && nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
+    //   nextProps.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
+    //   nextProps.actions.booking.setFlagCreateBooking();
+    // }
     if (nextProps.booking.listActive && nextProps.booking.listActive.success) {
-      this.setState({ listData: nextProps.booking.listActive.result.items });
+      this.setState({ listData: nextProps.booking.listActive.result.items, isRefreshing: false });
     }
   };
 
@@ -36,6 +37,15 @@ class TabActive extends Component {
           keyExtractor={(item, index) => item.reservationId.toString()}
           data={this.state.listData}
           renderItem={({ item, index }) => this.renderItem(item, index)}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={() => this._onRefresh()}
+              title={'Refrech Data !!'}
+              tintColor="#000"
+              titleColor="#000"
+            />
+          }
           ListEmptyComponent={() => {
             return (
               <View style={{ marginTop: 50 }}>
@@ -45,6 +55,18 @@ class TabActive extends Component {
           }}
         />
       </View>
+    );
+  }
+
+  _onRefresh() {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    this.setState(
+      {
+        isRefreshing: true
+      },
+      () => {
+        this.props.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
+      }
     );
   }
 

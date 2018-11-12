@@ -22,6 +22,15 @@ function* detailWorkOrder(action) {
   }
 }
 
+function* updateWorkOrder(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.UPDATE_WORK_ORDER_SUCCESS, response });
+  } catch (e) {
+    // console.log(e);
+  }
+}
+
 function* createlWorkOrder(action) {
   try {
     let response = yield call(API.request, action.payload);
@@ -68,6 +77,7 @@ function* uploadImage(action) {
 }
 
 export default function* saga() {
+  yield takeLatest(Types.UPDATE_WORK_ORDER, updateWorkOrder);
   yield takeLatest(Types.UPDATE_IMAGE_WORKORDER, uploadImage);
   yield takeLatest(Types.ADD_COMMENT_USER, addComment);
   yield takeLatest(Types.GET_COMMENT_USER, getListComment);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, TouchableOpacity, Dimensions, Image } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Dimensions, Image, RefreshControl } from 'react-native';
 import moment from 'moment';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
@@ -8,13 +8,14 @@ class TabComplete extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listData: []
+      listData: [],
+      isRefreshing: false
     };
   }
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.booking.listComplete && nextProps.booking.listComplete.success) {
-      this.setState({ listData: nextProps.booking.listComplete.result.items });
+      this.setState({ listData: nextProps.booking.listComplete.result.items, isRefreshing: false });
     }
   };
 
@@ -31,6 +32,15 @@ class TabComplete extends Component {
           keyExtractor={(item, index) => item.reservationId.toString()}
           data={this.state.listData}
           renderItem={({ item, index }) => this.renderItem(item, index)}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={() => this._onRefresh()}
+              title={'Refrech Data !!'}
+              tintColor="#000"
+              titleColor="#000"
+            />
+          }
           ListEmptyComponent={() => {
             return (
               <View style={{ marginTop: 50 }}>
@@ -42,6 +52,18 @@ class TabComplete extends Component {
       </View>
     );
   }
+
+  _onRefresh = () => {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    this.setState(
+      {
+        isRefreshing: true
+      },
+      () => {
+        this.props.actions.booking.getListBooking(accessTokenApi, 'HISTORY');
+      }
+    );
+  };
 
   clickDetail = item => {
     this.props.navigation.navigate('ModalDetailBooking', { id: item.reservationId });
