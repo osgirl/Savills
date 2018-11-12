@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, PixelRatio, FlatList } from 'react-native';
+import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, PixelRatio, FlatList, Animated, Platform } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
 import Header from '@components/header';
@@ -13,6 +13,10 @@ import Modal from 'react-native-modal';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
 
+const HEADER_MAX_HEIGHT = Resolution.scale(140);
+const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
 class ModalDetailBooking extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +25,9 @@ class ModalDetailBooking extends Component {
       loading: true,
       isShowModalCancel: false,
       listChat: [],
-      chatText: ''
+      chatText: '',
+      isShowTitleHeader: false,
+      scrollY: new Animated.Value(0),
     };
   }
 
@@ -63,6 +69,24 @@ class ModalDetailBooking extends Component {
     }
   }
 
+  handleScroll = event => {
+    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
+      listener: event => {
+        if (event.nativeEvent.contentOffset.y > 60) {
+          if (!this.showCenter) {
+            this.showCenter = true;
+            this.setState({ isShowTitleHeader: true });
+          }
+        } else {
+          if (this.showCenter) {
+            this.showCenter = false;
+            this.setState({ isShowTitleHeader: false });
+          }
+        }
+      }
+    })(event);
+  };
+
   addComment = () => {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
@@ -95,15 +119,22 @@ class ModalDetailBooking extends Component {
       startDate
     } = this.props.booking.detailBooking.result;
     let date = moment(createdAt).format('l');
+
+    const headerHeight = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      extrapolate: 'clamp'
+    });
+
+
     return (
       <View style={{ flex: 1 }}>
-        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']} style={{ height: 200 }}>
-          <TouchableOpacity style={{ position: 'absolute', top: 40, left: 20 }} onPress={() => this.props.navigation.goBack()}>
-            <Image source={require('../../../resources/icons/close.png')} />
-          </TouchableOpacity>
-          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>#{reservationId}</Text>
-        </LinearGradient>
-        <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 70 }}>
+
+        <ScrollView
+          scrollEventThrottle={16}
+          contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
+          onScroll={this.handleScroll}
+          style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 70 }}>
           <ItemScorll
             title={'Dịch Vụ'}
             view={
@@ -207,14 +238,42 @@ class ModalDetailBooking extends Component {
                   borderRadius: 5,
                   width: null,
                   padding: 20,
-                  minHeight: 100
+                  minHeight: 100,
+                  marginBottom: 150
                 }}
               >
                 <Text>{remark}</Text>
               </View>
             }
           />
+          <View style={{height: 50}} />
         </ScrollView>
+
+        <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+          <Header
+            LinearGradient={true}
+            leftIcon={require('../../../resources/icons/close.png')}
+            leftAction={() => this.props.navigation.goBack()}
+            headercolor={'transparent'}
+            showTitleHeader={this.state.isShowTitleHeader}
+            center={
+              <View>
+                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`#${reservationId}`}</Text>
+              </View>
+            }
+          />
+          <LinearGradient
+            colors={['#4A89E8', '#8FBCFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{ width: width, marginBottom: 20 }}
+          >
+            <HeaderTitle title={`#${reservationId}`} />
+          </LinearGradient>
+        </Animated.View>
+
+
+
         <TouchableOpacity
           style={{
             position: 'absolute',

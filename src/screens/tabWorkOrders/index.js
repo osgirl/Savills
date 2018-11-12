@@ -26,9 +26,19 @@ import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 const { width } = Dimensions.get('window');
 import Resolution from '../../utils/resolution';
 import Configs from '../../utils/configs';
+import Modal from 'react-native-modal';
+import Button from "../../components/button";
 
-const HEADER_MAX_HEIGHT = 70;
-const HEADER_MIN_HEIGHT = 70;
+import ModalSelectUnit from '../../components/modalSelectUnit';
+import IC_DROPDOWN from '../../resources/icons/dropDown.png';
+
+// const HEADER_MAX_HEIGHT = 70;
+// const HEADER_MIN_HEIGHT = 70;
+
+const HEADER_MAX_HEIGHT = Resolution.scale(70);
+const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
 class TabWorkOrder extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +48,8 @@ class TabWorkOrder extends Component {
       isRefreshingComplete: false,
       listWorkOrderComplete: [],
       scrollY: new Animated.Value(0),
-      loadingMoreTabActive: false
+      loadingMoreTabActive: false,
+      isModalSelectUnit: false
     };
   }
 
@@ -73,51 +84,58 @@ class TabWorkOrder extends Component {
   };
 
   handleScroll = event => {
-    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
-      listener: event => {
-        if (event.nativeEvent.contentOffset.y > 50) {
-          if (!this.showCenter) {
-            this.showCenter = true;
-            this.setState({ isShowTitleHeader: true });
-            // this.props.navigation.setParams({ eventTitle: 'Events' });
-          }
-        } else {
-          if (this.showCenter) {
-            this.showCenter = false;
-            // this.props.navigation.setParams({ eventTitle: null });
-            this.setState({ isShowTitleHeader: false });
+    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }]
+      , {
+        listener: event => {
+          if (event.nativeEvent.contentOffset.y > 40) {
+            if (!this.showCenter) {
+              this.showCenter = true;
+              this.setState({ isShowTitleHeader: true });
+              // this.props.navigation.setParams({ eventTitle: 'Events' });
+            }
+          } else {
+            if (this.showCenter) {
+              this.showCenter = false;
+              // this.props.navigation.setParams({ eventTitle: null });
+              this.setState({ isShowTitleHeader: false });
+            }
           }
         }
-      }
-    })(event);
+      },
+      { useNativeDriver: true })(event);
   };
 
   render() {
+
+    let unitActive = this.props.units.unitActive;
+
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 100, 286],
-      outputRange: [60, 60, 0],
-      extrapolate: 'clamp'
+      inputRange: [0, 10, 40, 60],
+      outputRange: [60, 40, 10, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
     });
 
     const fontSize = this.state.scrollY.interpolate({
-      inputRange: [0, 100, 286],
+      inputRange: [0, 0, 100],
       outputRange: [30, 30, 0],
       extrapolate: 'clamp'
     });
     const opacityText = this.state.scrollY.interpolate({
-      inputRange: [0, 100, 286],
-      outputRange: [1, 1, 0],
-      extrapolate: 'clamp'
+      inputRange: [0, 60, 100],
+      outputRange: [1, 0.5, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
     });
 
     const opacityText2 = this.state.scrollY.interpolate({
-      inputRange: [0, 100, 286],
-      outputRange: [0, 0, 1],
+      inputRange: [0, 60, 100],
+      outputRange: [1, 0.3, 0],
       extrapolate: 'clamp'
     });
 
     const headerHeight2 = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_MAX_HEIGHT],
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
@@ -130,23 +148,31 @@ class TabWorkOrder extends Component {
             leftIcon={IC_BACK}
             leftAction={() => this.props.navigation.goBack()}
             headercolor={'transparent'}
-            text="T1-A03-02"
-            display={'text'}
-            showTitleHeader={true}
+            showTitleHeader={this.state.isShowTitleHeader}
             center={
               <View>
-                <Animated.Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold', opacity: opacityText2 }}>
+                {/* <Animated.Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold', opacity: opacityText2 }}> */}
+                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>
                   Yêu Cầu
-                </Animated.Text>
+                </Text>
+                {/* </Animated.Text> */}
               </View>
             }
-            rightAction={() => this._onpenModalSelectUnit()}
+            renderViewRight={
+              <Button
+                onPress={() => this.setState({ isModalSelectUnit: true })}
+                style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
+              >
+                <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+                <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+              </Button>
+            }
           />
         </Animated.View>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
           <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
             <Animated.Text
-              style={{ fontSize: fontSize, fontFamily: 'OpenSans-Bold', color: '#FFF', marginLeft: 20, marginBottom: 0 }}
+              style={{ fontSize: 30, fontFamily: 'OpenSans-Bold', color: '#FFF', marginLeft: 20, marginBottom: 0, opacity: opacityText2 }}
             >
               Yêu Cầu
             </Animated.Text>
@@ -181,6 +207,9 @@ class TabWorkOrder extends Component {
         >
           <Image source={require('../../resources/icons/plush-addnew.png')} />
         </TouchableOpacity>
+        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
+          <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
+        </Modal>
       </View>
     );
   }
@@ -194,13 +223,15 @@ class TabWorkOrder extends Component {
       <View tabLabel="Đang xử lý" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
           keyExtractor={(item, index) => item.id.toString()}
           data={list}
-          onScroll={Animated.event([
-            {
-              nativeEvent: { contentOffset: { y: this.state.scrollY } }
-            }
-          ])}
+          onScroll={this.handleScroll}
+          // onScroll={Animated.event([
+          //   {
+          //     nativeEvent: { contentOffset: { y: this.state.scrollY } }
+          //   }
+          // ])}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}

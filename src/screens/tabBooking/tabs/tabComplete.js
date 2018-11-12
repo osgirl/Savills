@@ -29,9 +29,11 @@ class TabComplete extends Component {
       <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
+          alwaysBounceVertical={false}
           keyExtractor={(item, index) => item.reservationId.toString()}
           data={this.state.listData}
           renderItem={({ item, index }) => this.renderItem(item, index)}
+          onScroll={this.props.onScroll}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
