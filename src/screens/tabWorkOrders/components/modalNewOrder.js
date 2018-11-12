@@ -11,7 +11,8 @@ import {
   PixelRatio,
   Modal,
   Animated,
-  Platform
+  Platform,
+  KeyboardAvoidingView
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -23,19 +24,8 @@ const { width } = Dimensions.get('window');
 import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
 import Connect from '@stores';
-// const options = {
-//   title: 'Chụp ảnh để tải lên',
-//   storageOptions: {
-//     skipBackup: true,
-//     uriImage: '',
-//     path: 'images'
-//   },
-//   quality: 1,
-//   mediaType: 'photo',
-//   cameraType: 'front',
-//   maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
-//   maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
-// };
+
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const options = {
   title: 'Select Image',
@@ -243,110 +233,113 @@ class ModalNewOrder extends Component {
           contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
           style={{ flex: 1, backgroundColor: '#F6F8FD' }}
         >
-          <ItemScorll
-            title={'Thông Tin'}
-            view={
-              <View
-                style={{
-                  height: 130,
-                  width: null,
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: '#FFF',
-                  padding: 20,
-                  justifyContent: 'space-around'
-                }}
-              >
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
-                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{`${fullUnitCode} - ${displayName}`}</Text>
+          <KeyboardAwareScrollView>
+            <ItemScorll
+              title={'Thông Tin'}
+              view={
+                <View
+                  style={{
+                    height: 130,
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    justifyContent: 'space-around'
+                  }}
+                >
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
+                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{`${fullUnitCode} - ${displayName}`}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Mail</Text>
+                    <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{emailAddress}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>SĐT</Text>
+                    <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{phoneNumber}</Text>
+                  </View>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Mail</Text>
-                  <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{emailAddress}</Text>
+              }
+            />
+            <ItemScorll
+              title={'Khu Vực'}
+              view={
+                <View
+                  style={{
+                    height: 110,
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    justifyContent: 'space-around'
+                  }}
+                >
+                  <TouchableOpacity activeOpacity={1} onPress={() => this.changeArea(0)} style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
+                    <Image
+                      source={
+                        this.state.area === 0
+                          ? require('../../../resources/icons/checked.png')
+                          : require('../../../resources/icons/check.png')
+                      }
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity activeOpacity={1} onPress={() => this.changeArea(1)} style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Công Cộng</Text>
+                    <Image
+                      source={
+                        this.state.area === 0
+                          ? require('../../../resources/icons/check.png')
+                          : require('../../../resources/icons/checked.png')
+                      }
+                    />
+                  </TouchableOpacity>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>SĐT</Text>
-                  <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{phoneNumber}</Text>
-                </View>
-              </View>
-            }
-          />
-          <ItemScorll
-            title={'Khu Vực'}
-            view={
-              <View
-                style={{
-                  height: 110,
-                  width: null,
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: '#FFF',
-                  padding: 20,
-                  justifyContent: 'space-around'
-                }}
-              >
-                <TouchableOpacity activeOpacity={1} onPress={() => this.changeArea(0)} style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
-                  <Image
-                    source={
-                      this.state.area === 0
-                        ? require('../../../resources/icons/checked.png')
-                        : require('../../../resources/icons/check.png')
-                    }
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={1} onPress={() => this.changeArea(1)} style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Công Cộng</Text>
-                  <Image
-                    source={
-                      this.state.area === 0
-                        ? require('../../../resources/icons/check.png')
-                        : require('../../../resources/icons/checked.png')
-                    }
-                  />
-                </TouchableOpacity>
-              </View>
-            }
-          />
-          <ItemScorll
-            title={'Hình Ảnh'}
-            view={
-              <ScrollView
-                style={{
-                  borderRadius: 10,
-                  paddingTop: 10,
-                  width: width - 40,
-                  height: 130,
-                  backgroundColor: '#FFF'
-                }}
-                showsHorizontalScrollIndicator={false}
-                horizontal
-              >
-                {this.state.imageList.map((item, index) => this.renderItemImage(item, index))}
-              </ScrollView>
-            }
-          />
-          <ItemScorll
-            title={'Miêu Tả'}
-            view={
-              <TextInput
-                style={{
-                  flex: 1,
-                  backgroundColor: '#FFF',
-                  borderRadius: 5,
-                  height: 100,
-                  width: null,
-                  padding: 10,
-                  paddingTop: 20,
-                  marginBottom: 170
-                }}
-                multiline
-                placeholder={'Nhập nội dung ...'}
-                onChangeText={e => this.setState({ comment: e })}
-              />
-            }
-          />
+              }
+            />
+            <ItemScorll
+              title={'Hình Ảnh'}
+              view={
+                <ScrollView
+                  style={{
+                    borderRadius: 10,
+                    paddingTop: 10,
+                    width: width - 40,
+                    height: 130,
+                    backgroundColor: '#FFF'
+                  }}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal
+                >
+                  {this.state.imageList.map((item, index) => this.renderItemImage(item, index))}
+                </ScrollView>
+              }
+            />
+
+            <ItemScorll
+              title={'Miêu Tả'}
+              view={
+                <TextInput
+                  style={{
+                    flex: 1,
+                    backgroundColor: '#FFF',
+                    borderRadius: 5,
+                    height: 100,
+                    width: null,
+                    padding: 10,
+                    paddingTop: 20,
+                    marginBottom: 170
+                  }}
+                  multiline
+                  placeholder={'Nhập nội dung ...'}
+                  onChangeText={e => this.setState({ comment: e })}
+                />
+              }
+            />
+          </KeyboardAwareScrollView>
         </ScrollView>
         <View
           style={{
