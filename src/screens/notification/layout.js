@@ -23,7 +23,7 @@ import Resolution from '../../utils/resolution';
 
 const { width } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = Resolution.scale(0);
+const HEADER_MAX_HEIGHT = Resolution.scale(70);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -121,8 +121,8 @@ export default class extends Component {
     // });
 
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 10, 40, 70],
-      outputRange: [70, 40, 10, 0],
+      inputRange: [0, 10, 40, 65],
+      outputRange: [65, 40, 10, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
