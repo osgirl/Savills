@@ -20,8 +20,13 @@ class Notification extends layout {
     }
 
     async componentWillReceiveProps(nextProps) {
-        if (this.props.notification.listNoti.items !== nextProps.notification.listNoti.items && nextProps.notification.listNoti.success) {
+        if (this.props.notification.listNoti.items !== nextProps.notification.listNoti.items && nextProps.notification.listNoti.success && !this.state.isRefresh) {
             await this.setState({ data: this.state.data.concat(nextProps.notification.listNoti.items) });
+            await this.setState({ loadingMore: false, })
+        }
+
+        if (this.props.notification.listNoti.items !== nextProps.notification.listNoti.items && nextProps.notification.listNoti.success && this.state.isRefresh) {
+            await this.setState({ data: nextProps.notification.listNoti.items });
             await this.setState({ loadingMore: false, isRefresh: false })
         }
     }

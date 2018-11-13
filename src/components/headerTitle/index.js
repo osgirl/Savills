@@ -17,17 +17,14 @@ export default class HeaderTitle extends Component {
 
     render() {
         return (
-            <View style={[style.container,
-            {
-                marginTop: this.props.margintop,
-                marginHorizontal: this.props.marginHorizontal
-            }]}>
-                <Text
-                    style={{ fontSize: 35, fontFamily: 'OpenSans-Bold', color: '#FFF' }}
-                >
-                    {this.props.title}
-                </Text>
-            </View>
+            <Text
+                style={{
+                    fontSize: 35, fontFamily: 'OpenSans-Bold', color: '#FFF', marginTop: this.props.margintop,
+                    marginHorizontal: this.props.marginHorizontal,
+                }}
+            >
+                {this.props.title}
+            </Text>
         )
     }
 }

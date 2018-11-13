@@ -113,16 +113,9 @@ export default class extends Component {
     let unitActive = this.props.units.unitActive;
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
-    // const headerHeight = this.state.scrollY.interpolate({
-    //   inputRange: [0, HEADER_SCROLL_DISTANCE],
-    //   outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-    //   extrapolate: 'clamp',
-    //   useNativeDriver: true
-    // });
-
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 10, 40, 65],
-      outputRange: [65, 40, 10, 0],
+      inputRange: [0, 40, 60],
+      outputRange: [60, 40, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
@@ -165,6 +158,7 @@ export default class extends Component {
             end={{ x: 1, y: 0 }}
           >
             <Animated.View style={{ height: headerHeight }}>
+            {/* <Text style={{fontSize: 35, color: '#FFFF'}}>{LG.NOTIFICATION_TXT_TITLE}</Text> */}
               <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
             </Animated.View>
           </LinearGradient>

@@ -8,6 +8,7 @@ import events from './states/events/saga';
 import utilities from './states/utilities/saga';
 import booking from './states/booking/saga';
 import notification from './states/notification/saga';
+import inbox from './states/inbox/saga';
 export default function* sagaRoot() {
-  yield all([app(), account(), units(), userProfile(), workOrder(), events(), utilities(), notification(), booking()]);
+  yield all([app(), account(), units(), userProfile(), workOrder(), events(), utilities(), notification(), booking(), inbox()]);
 }
