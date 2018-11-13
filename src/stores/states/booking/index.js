@@ -9,7 +9,8 @@ export default keymirror(
     CHANGE_STATUS_BOOKING: null,
     GET_LIST_BOOKING: null,
 
-    FLAG_CREATE_BOOKING: null
+    FLAG_CREATE_BOOKING: null,
+    FLAG_CHANGE_STATUS: null
   },
   'BOOKING_'
 );

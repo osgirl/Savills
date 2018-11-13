@@ -144,13 +144,15 @@ export default class extends Component {
         this.setState({ numcolumn: Number(num) })
     }
 
-    renderItem(item, index, loading) {
+    renderItem(item, index, loading, moduleCount) {
         if (this.state.numcolumn === 1) {
             return <ItemListViewHome
                 title={item.title}
                 image={item.key}
                 loading={loading}
                 onPressItem={() => this._gotoModule(item.screen)}
+                moduleCount={moduleCount}
+                moduleName={item.moduleName}
                 index={index}
             />
         } else {
@@ -159,6 +161,8 @@ export default class extends Component {
                 image={item.key}
                 loading={loading}
                 onPressItem={() => this._gotoModule(item.screen)}
+                moduleCount={moduleCount}
+                moduleName={item.moduleName}
                 index={index}
             />
         }
@@ -209,7 +213,7 @@ export default class extends Component {
                         keyExtractor={(item) => item.id + ''}
                         numColumns={this.state.numcolumn || 2}
                         renderItem={({ item, index }) => (
-                            this.renderItem(item, index, this.state.dataModule && this.state.dataModule.length > 0 ? true : false)
+                            this.renderItem(item, index, this.state.dataModule && this.state.dataModule.length > 0 ? true : false, this.state.moduleCount)
                         )}
                         onScroll={this.handleScroll}
                         legacyImplementation={false}

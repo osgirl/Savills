@@ -20,6 +20,9 @@ const { width } = Dimensions.get('window');
 export default class ItemListHome extends Component {
 
     render() {
+        let moduleCount = this.props.moduleCount;
+        let moduleName = this.props.moduleName;
+        let moduleCountByItem = moduleCount && moduleCount.length > 0 ? moduleCount.find(e => e.moduleName === moduleName) : {}
         return (
             <View style={[Styles.container, { ...Configs.Shadow }]}>
                 {
@@ -33,11 +36,15 @@ export default class ItemListHome extends Component {
                                 <Image source={Utils.mapItemHomeCircle(this.props.image)} style={{ marginHorizontal: 20, marginVertical: 10 }} />
                                 <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
                             </View>
-                            {/* <View style={{ marginHorizontal: 20, justifyContent: 'center' }}>
-                                <View style={{ backgroundColor: '#FF361A', borderRadius: 20 }}>
-                                    <Text style={{ color: '#FFFFFF', padding: 5 }}>9+</Text>
-                                </View>
-                            </View> */}
+                            {
+                                moduleCountByItem && moduleCountByItem.unreadCount > 0 ?
+                                    <View style={{ marginHorizontal: 20, justifyContent: 'center' }}>
+                                        <View style={{ backgroundColor: '#FF361A', borderRadius: 20, width: Resolution.scale(30), alignItems: 'center' }}>
+                                            <Text style={{ color: '#FFFFFF', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(12) }}>{moduleCountByItem.unreadCount}</Text>
+                                        </View>
+                                    </View> : null
+                            }
+
                         </Button>
                         :
                         <Image source={IC_DEFAULT} />

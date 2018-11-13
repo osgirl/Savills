@@ -9,6 +9,8 @@ import utilities from './states/utilities/reducer';
 import workOrder from './states/workOrder/reducer';
 import booking from './states/booking/reducer';
 import notification from './states/notification/reducer';
+import inbox from './states/inbox/reducer';
+
 export default combineReducers({
   booking,
   workOrder,
@@ -18,5 +20,7 @@ export default combineReducers({
   userProfile,
   events,
   utilities,
-  notification
+  notification,
+  inbox
+
 });

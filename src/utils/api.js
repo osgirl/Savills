@@ -1,6 +1,5 @@
 export default class {
   static async request(action, headers = {}) {
-    console.log('asdkajsdasjdkasdjlasdas', action);
     let method = action.method || 'GET';
     let request = {
       method: method,

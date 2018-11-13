@@ -1,25 +1,42 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, PixelRatio, Modal } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  PixelRatio,
+  FlatList,
+  Animated,
+  Platform
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-picker';
-import Header from '@components/header';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
-import ImageViewer from 'react-native-image-zoom-viewer';
-import HeaderTitle from '@components/headerTitle';
-import { Calendar } from '../../../components/calendars';
-import Resolution from '../../../utils/resolution';
 import moment from 'moment';
+import Modal from 'react-native-modal';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
+import ItemComment from '@components/itemComment';
+import Resolution from '@utils/resolution';
+import Header from '@components/header';
+import HeaderTitle from '@components/headerTitle';
+
+const HEADER_MAX_HEIGHT = Resolution.scale(140);
+const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class ModalDetailBooking extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: ['2018-10-31', '2018-10-29', '2018-10-20', '2018-10-19'],
       comment: '',
       loading: true,
-      isShowModalCancel: false
+      isShowModalCancel: false,
+      listChat: [],
+      chatText: '',
+      isShowTitleHeader: false,
+      scrollY: new Animated.Value(0)
     };
   }
 
@@ -30,32 +47,69 @@ class ModalDetailBooking extends Component {
   };
 
   async componentWillReceiveProps(nextProps) {
-    if (nextProps.booking.detailBooking && nextProps.booking.detailBooking.success) {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    if (
+      nextProps.booking.detailBooking &&
+      nextProps.booking.detailBooking.success &&
+      this.props.booking.detailBooking != nextProps.booking.detailBooking
+    ) {
       this.setState({ loading: false });
+      this.props.actions.workOrder.getCommentUser(accessTokenApi, nextProps.booking.detailBooking.guid);
+    }
+    if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
+      this.setState({ listChat: nextProps.workOrder.listComment.result.items });
+    }
+    if (
+      nextProps.booking.changeStatusBooking &&
+      nextProps.booking.changeStatusBooking.success &&
+      !nextProps.booking.isChangeStatus
+    ) {
+      nextProps.actions.booking.setFlagChangeStatus();
+      this.props.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
+      this.props.navigation.goBack();
+    }
+    if (
+      nextProps.workOrder.addComment &&
+      nextProps.workOrder.addComment.success &&
+      this.props.workOrder.addComment != nextProps.workOrder.addComment
+    ) {
+      this.textInput.clear();
+      this.props.actions.workOrder.getCommentUser(accessTokenApi, nextProps.booking.detailBooking.result.guid);
     }
   }
 
-  mapObjectSelected() {
-    let markedDateMap = {};
-    this.state.selected.map(item => {
-      markedDateMap[item] = {
-        selected: true,
-        // disableTouchEvent: true,
-        selectedDotColor: 'orange',
-        customStyles: {
-          container: {
-            backgroundColor: 'white',
-            elevation: 2
-          },
-          text: {
-            color: '#4A89E8',
-            fontWeight: 'bold'
+  handleScroll = event => {
+    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
+      listener: event => {
+        if (event.nativeEvent.contentOffset.y > 60) {
+          if (!this.showCenter) {
+            this.showCenter = true;
+            this.setState({ isShowTitleHeader: true });
+          }
+        } else {
+          if (this.showCenter) {
+            this.showCenter = false;
+            this.setState({ isShowTitleHeader: false });
           }
         }
-      };
-    });
-    return markedDateMap;
-  }
+      }
+    })(event);
+  };
+
+  addComment = () => {
+    let accessTokenAPI = this.props.account.accessTokenAPI;
+    const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
+    let comment = {
+      conversationId: this.props.booking.detailBooking.result.guid,
+      content: this.state.chatText,
+      typeId: null,
+      isPrivate: false,
+      userName: displayName,
+      profilePictureId: profilePictureId,
+      moduleId: 3
+    };
+    this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
+  };
 
   render() {
     return this.state.loading ? null : this.renderDetail();
@@ -73,17 +127,22 @@ class ModalDetailBooking extends Component {
       endDate,
       startDate
     } = this.props.booking.detailBooking.result;
-    console.log('asdlasdasdlkasjdlkasdjlaksdjlkasda', this.props.booking.detailBooking.result);
     let date = moment(createdAt).format('l');
+
+    const headerHeight = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      extrapolate: 'clamp'
+    });
+
     return (
       <View style={{ flex: 1 }}>
-        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']} style={{ height: 200 }}>
-          <TouchableOpacity style={{ position: 'absolute', top: 40, left: 20 }} onPress={() => this.props.navigation.goBack()}>
-            <Image source={require('../../../resources/icons/close.png')} />
-          </TouchableOpacity>
-          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>#{reservationId}</Text>
-        </LinearGradient>
-        <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 70 }}>
+        <ScrollView
+          scrollEventThrottle={16}
+          contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
+          onScroll={this.handleScroll}
+          style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 70 }}
+        >
           <ItemScorll
             title={'Dịch Vụ'}
             view={
@@ -188,29 +247,138 @@ class ModalDetailBooking extends Component {
                   width: null,
                   padding: 20,
                   minHeight: 100,
+                  marginBottom: 150
                 }}
               >
                 <Text>{remark}</Text>
               </View>
             }
           />
+          <View style={{ height: 50 }} />
         </ScrollView>
+
+        <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+          <Header
+            LinearGradient={true}
+            leftIcon={require('../../../resources/icons/close.png')}
+            leftAction={() => this.props.navigation.goBack()}
+            headercolor={'transparent'}
+            showTitleHeader={this.state.isShowTitleHeader}
+            center={
+              <View>
+                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`#${reservationId}`}</Text>
+              </View>
+            }
+          />
+          <LinearGradient
+            colors={['#4A89E8', '#8FBCFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{ width: width, marginBottom: 20 }}
+          >
+            <HeaderTitle title={`#${reservationId}`} />
+          </LinearGradient>
+        </Animated.View>
+
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            bottom: 100,
+            right: 20
+          }}
+          onPress={() => this.setState({ isShowChat: true })}
+        >
+          <Image source={require('../../../resources/icons/chat-big.png')} />
+          <View
+            style={{
+              width: 16,
+              height: 16,
+              backgroundColor: 'red',
+              borderRadius: 8,
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}> 1</Text>
+          </View>
+        </TouchableOpacity>
+        {this.renderContentModalChat()}
         {this.renderModalCancel()}
         {this.renderFooter()}
       </View>
     );
   };
 
+  renderContentModalChat() {
+    return (
+      <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              width: width,
+              height: 50,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              flexDirection: 'row',
+              backgroundColor: '#FFF',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingHorizontal: 20
+            }}
+          >
+            <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
+              <Image source={require('../../../resources/icons/close-black.png')} />
+            </TouchableOpacity>
+            <Text>#676</Text>
+            <View />
+          </View>
+          <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
+            <FlatList
+              data={this.state.listChat}
+              keyExtractor={(item, index) => item.id.toString()}
+              renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
+            />
+          </View>
+          <LinearGradient
+            colors={['#4A89E8', '#8FBCFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              width: width - 40,
+              position: 'absolute',
+              bottom: 20,
+              left: 20,
+              height: 50,
+
+              borderRadius: 10
+            }}
+          >
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+              <TextInput
+                ref={input => {
+                  this.textInput = input;
+                }}
+                style={{ flex: 1, color: '#FFF' }}
+                onChangeText={e => this.setState({ chatText: e })}
+                placeholderTextColor={'rgba(255,255,255,0.7)'}
+                placeholder={'Nhập tin nhắn ...'}
+              />
+              <TouchableOpacity onPress={() => this.addComment()}>
+                <Image source={require('../../../resources/icons/send-mess.png')} />
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        </View>
+      </Modal>
+    );
+  }
+
   renderModalCancel = () => {
     return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={this.state.isShowModalCancel}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}
-      >
+      <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} isVisible={this.state.isShowModalCancel}>
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center' }}>
           <View
             style={{
@@ -271,7 +439,8 @@ class ModalDetailBooking extends Component {
 
   cancelBooking = () => {
     let id = this.props.navigation.getParam('id', null);
-    this.setState({ isShowModalCancel: false }, () => this.props.actions.booking.changeStatusBooking('', id));
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    this.setState({ isShowModalCancel: false }, () => this.props.actions.booking.changeStatusBooking(accessTokenApi, id));
   };
 }
 

@@ -3,10 +3,12 @@ import createReducer from '../';
 
 const INIT_STATE = ({
     listNoti: { items: [], success: false },
-    unreadCount: 0
+    unreadCount: 0,
+    listCountModule: {}
 });
 
 export default createReducer(INIT_STATE, {
+
     [Types.GET_LIST]: (state, action) => {
         try {
             return {
@@ -49,6 +51,42 @@ export default createReducer(INIT_STATE, {
     },
 
     [Types.GET_LIST_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                listNoti: { items: [], success: false },
+                unreadCount: 0
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.GET_COUNT_MODULE]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_COUNT_MODULE_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                listCountModule: action.response,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_COUNT_MODULE_FAIL]: (state, action) => {
         try {
             return {
                 ...state,

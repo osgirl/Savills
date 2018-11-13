@@ -11,7 +11,8 @@ const INIT_STATE = {
   listOnGoing: false,
   listActive: false,
 
-  isCreateBooking: true
+  isCreateBooking: true,
+  isChangeStatus: true
 };
 
 export default createReducer(INIT_STATE, {
@@ -73,7 +74,8 @@ export default createReducer(INIT_STATE, {
     try {
       return {
         ...state,
-        changeStatusBooking: action.response
+        changeStatusBooking: action.response,
+        isChangeStatus: false
       };
     } catch (error) {
       console.log(error);
@@ -116,5 +118,10 @@ export default createReducer(INIT_STATE, {
   [Types.FLAG_CREATE_BOOKING]: (state, action) => ({
     ...state,
     isCreateBooking: true
+  }),
+
+  [Types.FLAG_CHANGE_STATUS]: (state, action) => ({
+    ...state,
+    isChangeStatus: true
   })
 });
