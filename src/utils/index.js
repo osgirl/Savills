@@ -29,6 +29,15 @@ import Circle_Contacts from "../resources/icons/Circle-Contacts.png";
 import Circle_FAQ from "../resources/icons/Circle-FAQ.png";
 
 export default class {
+
+
+    static convertNumber(x) {
+        if (x == undefined) {
+            x = 0;
+        }
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
     static mapItemHome(name) {
         let icon;
         switch (name) {

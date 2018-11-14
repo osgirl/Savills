@@ -101,7 +101,7 @@ class Home extends layout {
 					key: 'Pages.Resident.Fee',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FREE,
 					moduleName: "Fee/Phí",
-					screen: ''
+					screen: 'Fee'
 				},
 			]
 		};
