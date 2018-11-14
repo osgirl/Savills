@@ -7,6 +7,8 @@ import * as utilities from './states/utilities/action';
 import * as workOrder from './states/workOrder/action';
 import * as booking from './states/booking/action';
 import * as notification from './states/notification/action';
+import * as inbox from './states/inbox/action';
+
 export default {
   booking,
   workOrder,
@@ -16,5 +18,6 @@ export default {
   userProfile,
   events,
   utilities,
-  notification
+  notification,
+  inbox
 };

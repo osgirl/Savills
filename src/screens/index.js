@@ -18,10 +18,12 @@ import ModalEditOrder from './tabWorkOrders/components/modalEditOrder';
 import ModalDetailBooking from './tabBooking/components/modalDetailBooking';
 import ModalNewBooking from './tabBooking/components/modalNewBooking';
 import Booking from './tabBooking';
+import Inbox from './inbox';
+
 export {
   ModalDetailBooking,
-  ModalNewBooking,
   ModalEditOrder,
+  ModalNewBooking,
   ModalWorkOrder,
   // MainTab,
   Launcher,
@@ -38,5 +40,6 @@ export {
   Events,
   Contacts,
   FAQ,
-  Notification
+  Notification,
+  Inbox
 };

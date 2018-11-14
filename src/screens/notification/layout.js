@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, FlatList, Image, Text, Animated, ActivityIndicator, Platform, StatusBar } from 'react-native';
+import { View, StyleSheet, Dimensions, FlatList, Image, Text, Animated, ActivityIndicator, Platform, StatusBar, RefreshControl } from 'react-native';
 import Header from '@components/header';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
@@ -23,7 +23,7 @@ import Resolution from '../../utils/resolution';
 
 const { width } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = Resolution.scale(135);
+const HEADER_MAX_HEIGHT = Resolution.scale(70);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -114,8 +114,8 @@ export default class extends Component {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      inputRange: [0, 40, 60],
+      outputRange: [60, 40, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
@@ -125,25 +125,9 @@ export default class extends Component {
         <StatusBar
           barStyle="light-content"
         />
-        <FlatList
-          data={this.state.data}
-          horizontal={false}
-          contentContainerStyle={{ alignItems: 'center' }}
-          keyExtractor={(item, index) => item.id + '__' + index}
-          renderItem={({ item, index }) => this.renderItem(item)}
-          onScroll={this.handleScroll}
-          onEndReachedThreshold={0.01}
-          scrollEventThrottle={16}
-          onEndReached={() => this._onEndReached()}
-          legacyImplementation={false}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-          ListHeaderComponent={() => <View style={{ marginTop: HEADER_MAX_HEIGHT + 20 }} />}
-          ListFooterComponent={() => this._FooterFlatlist()}
-        />
 
-        <Animated.View style={[Styles.header, { height: headerHeight }]}>
+        {/* <Animated.View style={{ height: headerHeight }}> */}
+        <View>
           <Header
             LinearGradient={true}
             leftIcon={IC_BACK}
@@ -165,15 +149,49 @@ export default class extends Component {
               </Button>
             }
           />
+
+
+
           <LinearGradient
             colors={['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            style={{ width: width, marginBottom: 20 }}
           >
-            <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
+            <Animated.View style={{ height: headerHeight }}>
+            {/* <Text style={{fontSize: 35, color: '#FFFF'}}>{LG.NOTIFICATION_TXT_TITLE}</Text> */}
+              <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
+            </Animated.View>
           </LinearGradient>
-        </Animated.View>
+        </View>
+        {/* </Animated.View> */}
+
+        <FlatList
+          data={this.state.data}
+          horizontal={false}
+          contentContainerStyle={{ alignItems: 'center' }}
+          keyExtractor={(item, index) => item.id + '__' + index}
+          renderItem={({ item, index }) => this.renderItem(item)}
+          onScroll={this.handleScroll}
+          onEndReachedThreshold={0.01}
+          scrollEventThrottle={16}
+          // refreshControl={
+          //   <RefreshControl
+          //     refreshing={this.state.isRefresh}
+          //     onRefresh={() => this._onRefresh()}
+          //   />
+          // }
+          refreshing={this.state.isRefresh}
+          onRefresh={() => this._onRefresh()}
+          onEndReached={() => this._onEndReached()}
+          legacyImplementation={false}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
+          ListHeaderComponent={() => <View style={{ height: 20, }} />}
+          ListFooterComponent={() => this._FooterFlatlist()}
+        />
+
+
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -189,7 +207,7 @@ const Styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
     marginHorizontal: 20,
-    marginVertical: 5
+    marginVertical: 5,
   },
   header: {
     position: 'absolute',

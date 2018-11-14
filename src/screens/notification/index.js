@@ -15,14 +15,29 @@ class Notification extends layout {
             isShowTitleHeader: false,
             isModalSelectUnit: false,
             scrollY: new Animated.Value(0),
+            isRefresh: false
         }
     }
 
     async componentWillReceiveProps(nextProps) {
-        if (this.props.notification.listNoti.items !== nextProps.notification.listNoti.items && nextProps.notification.listNoti.success) {
+        if (this.props.notification.listNoti.items !== nextProps.notification.listNoti.items && nextProps.notification.listNoti.success && !this.state.isRefresh) {
             await this.setState({ data: this.state.data.concat(nextProps.notification.listNoti.items) });
-            await this.setState({ loadingMore: false })
+            await this.setState({ loadingMore: false, })
         }
+
+        if (this.props.notification.listNoti.items !== nextProps.notification.listNoti.items && nextProps.notification.listNoti.success && this.state.isRefresh) {
+            await this.setState({ data: nextProps.notification.listNoti.items });
+            await this.setState({ loadingMore: false, isRefresh: false })
+        }
+    }
+
+    async _onRefresh() {
+        let accessTokenAPI = this.props.account.accessTokenAPI;
+        if (this.state.isRefresh) {
+            return;
+        }
+        await this.setState({ isRefresh: true })
+        await this.props.actions.notification.getListNotification(accessTokenAPI);
     }
 
     async _onEndReached() {

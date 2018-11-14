@@ -65,7 +65,7 @@ class Home extends layout {
 					key: 'Pages.Resident.Inbox',
 					title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_INBOX,
 					moduleName: "Inboxes",
-					screen: ''
+					screen: 'Inbox'
 				},
 				{
 					id: 7,
