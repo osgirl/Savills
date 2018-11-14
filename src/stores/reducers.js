@@ -10,6 +10,7 @@ import workOrder from './states/workOrder/reducer';
 import booking from './states/booking/reducer';
 import notification from './states/notification/reducer';
 import inbox from './states/inbox/reducer';
+import fee from './states/fee/reducer';
 
 export default combineReducers({
   booking,
@@ -21,6 +22,7 @@ export default combineReducers({
   events,
   utilities,
   notification,
-  inbox
+  inbox,
+  fee
 
 });

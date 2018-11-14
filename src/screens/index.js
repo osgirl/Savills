@@ -20,6 +20,7 @@ import ModalNewBooking from './tabBooking/components/modalNewBooking';
 import Booking from './tabBooking';
 
 import Inbox from './inbox';
+import Fee from './fee';
 
 export {
   ModalDetailBooking,
@@ -43,4 +44,6 @@ export {
   FAQ,
   Notification,
   Inbox,
+  Fee,
+  
 };
