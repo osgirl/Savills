@@ -51,7 +51,9 @@ class ModalNewOrder extends Component {
       isShowModalConfirm: false,
       imageIndex: 0,
       scrollY: new Animated.Value(0),
-      isShowTitleHeader: false
+      isShowTitleHeader: false,
+      email: this.props.userProfile.profile.result.user.emailAddress,
+      sdt: this.props.userProfile.profile.result.user.phoneNumber
     };
   }
 
@@ -98,8 +100,8 @@ class ModalNewOrder extends Component {
       subCategoryId: null,
       contact: {
         fullName: name,
-        phoneNumber: phoneNumber,
-        email: emailAddress,
+        phoneNumber: this.state.sdt,
+        email: this.state.email,
         memberId: id
       },
       isPrivate: true
@@ -250,15 +252,30 @@ class ModalNewOrder extends Component {
                 >
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
-                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{`${fullUnitCode} - ${displayName}`}</Text>
+                    <Text
+                      underlineColorAndroid={'transparent'}
+                      style={{ color: '#BABFC8', fontWeight: '500' }}
+                    >{`${fullUnitCode} - ${displayName}`}</Text>
                   </View>
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Mail</Text>
-                    <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{emailAddress}</Text>
+                    {/* <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{emailAddress}</Text> */}
+                    <TextInput
+                      onChangeText={e => this.setState({ email: e })}
+                      value={this.state.email}
+                      underlineColorAndroid={'transparent'}
+                      style={{ paddingTop: 0, color: '#4A89E8' }}
+                    />
                   </View>
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>SĐT</Text>
-                    <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{phoneNumber}</Text>
+                    {/* <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{phoneNumber}</Text> */}
+                    <TextInput
+                      onChangeText={e => this.setState({ sdt: e })}
+                      value={this.state.sdt}
+                      underlineColorAndroid={'transparent'}
+                      style={{ paddingTop: 0, color: '#4A89E8' }}
+                    />
                   </View>
                 </View>
               }
@@ -445,11 +462,11 @@ class ModalNewOrder extends Component {
                     </View>
                     <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                       <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Mail</Text>
-                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{emailAddress}</Text>
+                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.email}</Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                       <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>SĐT</Text>
-                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{phoneNumber}</Text>
+                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.sdt}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: 20 }}>
                       <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Khu Vực</Text>

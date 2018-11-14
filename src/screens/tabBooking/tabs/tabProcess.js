@@ -43,7 +43,7 @@ class TabActive extends Component {
               titleColor="#000"
             />
           }
-          ListFooterComponent={() => <ActivityIndicator color={'red'} size={'large'} />}
+          ListFooterComponent={() => <ActivityIndicator color={'blue'} size={'large'} />}
           ListEmptyComponent={() => {
             return <EmptyItemList />;
           }}
@@ -52,9 +52,7 @@ class TabActive extends Component {
     );
   }
 
-  renderFooter = () => {
-    
-  }
+  renderFooter = () => {};
 
   _onRefresh() {
     let accessTokenApi = this.props.account.accessTokenAPI;

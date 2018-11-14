@@ -11,7 +11,8 @@ import {
   FlatList,
   Animated,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  findNodeHandle
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Connect from '@stores';
@@ -598,80 +599,100 @@ class ModalEditOrder extends Component {
     );
   };
 
+  _scrollTo(reactNode) {
+    this.scroll.props.scrollToFocusedInput(reactNode);
+  }
+
   renderContentModalChat() {
     let focusChat = {};
     let id = this.props.userProfile.profile.result.user.id;
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              width: width,
-              height: 50,
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              flexDirection: 'row',
-              backgroundColor: '#FFF',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 20
-            }}
-          >
-            <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
-              <Image source={require('../../../resources/icons/close-black.png')} />
-            </TouchableOpacity>
-            <Text>#676</Text>
-            <View />
-          </View>
-          <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
-            <FlatList
-              data={this.state.listComment}
-              keyExtractor={(item, index) => item.id.toString()}
-              renderItem={({ item, index }) => <ItemComment index={index} item={item} idUser={id} />}
-              ListEmptyComponent={() => {
-                return (
-                  <View style={{ flex: 1, alignItems: 'center', marginTop: 100 }}>
-                    <Image source={require('../../../resources/icons/chat-big.png')} />
-                    <Text
-                      style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
-                    >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
-                  </View>
-                );
-              }}
-            />
-          </View>
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={[
-              {
-                width: width - 40,
-                position: 'absolute',
-                bottom: 20,
-                left: 20,
-                height: 50,
-                borderRadius: 10
-              },
-              focusChat
-            ]}
-          >
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
-              <TextInput
-                ref={input => {
-                  this.textInput = input;
+        <KeyboardAwareScrollView
+          innerRef={ref => (this.scroll = ref)}
+          keyboardShouldPersistTaps="handled"
+          extraHeight={-200}
+          enableOnAndroid
+          contentContainerStyle={{
+            minHeight: '100%',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <ScrollView style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+              <View
+                style={{
+                  width: width,
+                  height: 50,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  flexDirection: 'row',
+                  backgroundColor: '#FFF',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 20
                 }}
-                style={{ flex: 1, color: '#FFF' }}
-                onChangeText={e => this.setState({ comment: e })}
-                placeholderTextColor={'rgba(255,255,255,0.7)'}
-                placeholder={'Nhập tin nhắn ...'}
-              />
-              <TouchableOpacity onPress={() => this.addComment()}>
-                <Image source={require('../../../resources/icons/send-mess.png')} />
-              </TouchableOpacity>
+              >
+                <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
+                  <Image source={require('../../../resources/icons/close-black.png')} />
+                </TouchableOpacity>
+                <Text>#676</Text>
+                <View />
+              </View>
+              <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
+                <FlatList
+                  data={this.state.listComment}
+                  style={{ minHeight: 500 }}
+                  keyExtractor={(item, index) => item.id.toString()}
+                  renderItem={({ item, index }) => <ItemComment index={index} item={item} idUser={id} />}
+                  ListEmptyComponent={() => {
+                    return (
+                      <View style={{ flex: 1, alignItems: 'center', marginTop: 100 }}>
+                        <Image source={require('../../../resources/icons/chat-big.png')} />
+                        <Text
+                          style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
+                        >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
+                      </View>
+                    );
+                  }}
+                />
+              </View>
+              <LinearGradient
+                colors={['#4A89E8', '#8FBCFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={[
+                  {
+                    width: width - 40,
+                    position: 'absolute',
+                    bottom: 20,
+                    left: 20,
+                    height: 50,
+                    borderRadius: 10
+                  },
+                  focusChat
+                ]}
+              >
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+                  <TextInput
+                    ref={input => {
+                      this.textInput = input;
+                    }}
+                    onFocus={event => this._scrollTo(findNodeHandle(event.target))}
+                    style={{ flex: 1, color: '#FFF' }}
+                    onChangeText={e => this.setState({ comment: e })}
+                    placeholderTextColor={'rgba(255,255,255,0.7)'}
+                    placeholder={'Nhập tin nhắn ...'}
+                  />
+                  <TouchableOpacity onPress={() => this.addComment()}>
+                    <Image source={require('../../../resources/icons/send-mess.png')} />
+                  </TouchableOpacity>
+                </View>
+              </LinearGradient>
             </View>
-          </LinearGradient>
-        </View>
+          </ScrollView>
+        </KeyboardAwareScrollView>
       </Modal>
     );
   }

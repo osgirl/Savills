@@ -313,7 +313,6 @@ class TabWorkOrder extends Component {
       item.fileUrls && item.fileUrls.length > 0
         ? `${item.fileUrls[0].fileUrl}&encToken=${encodeURIComponent(encToken)}`
         : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';
-    console.log('asdkjaskldjasldkasjdlkasda', image);
     return (
       <Button
         onPress={() => this.clickDetail(item)}
@@ -329,7 +328,7 @@ class TabWorkOrder extends Component {
       >
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75' }}>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: 70 }}>
               <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
                 #{item.id}
               </Text>

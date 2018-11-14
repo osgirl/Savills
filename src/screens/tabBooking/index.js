@@ -59,6 +59,7 @@ class TabBooking extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    let accessTokenApi = this.props.account.accessTokenAPI;
     if (nextProps.booking.listCategory && nextProps.booking.listCategory.success) {
       this.setState({ listCategory: nextProps.booking.listCategory.result });
     }
@@ -201,6 +202,7 @@ class TabBooking extends Component {
         {this.renderModalCategory()}
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNewBooking}>
           <ModalNewBooking
+            goBack={() => this.setState({ isModalNewBooking: false })}
             changeCategory={() => this.changeCategory()}
             close={() => this.setState({ isModalNewBooking: false })}
             item={this.state.item}

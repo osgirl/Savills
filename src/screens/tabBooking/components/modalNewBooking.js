@@ -24,6 +24,7 @@ import moment from 'moment';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
 import { Agenda } from 'react-native-calendars';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const options = {
   title: 'Chụp ảnh để tải lên',
   storageOptions: {
@@ -48,7 +49,9 @@ class ModalNewBooking extends Component {
       arrSelected: [],
       isShowModalConfirm: false,
       checkConfirm: false,
-      isShowRegulations: false
+      isShowRegulations: false,
+      email: this.props.userProfile.profile.result.user.emailAddress,
+      sdt: this.props.userProfile.profile.result.user.phoneNumber
     };
   }
 
@@ -79,7 +82,13 @@ class ModalNewBooking extends Component {
     if (nextProps.booking.createNewBooking && nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.props.actions.booking.setFlagCreateBooking();
       this.props.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
-      this.props.navigation.goBack();
+      this.setState({ isShowModalConfirm: false });
+      this.props.goBack();
+    }
+    if (!nextProps.booking.createNewBooking && !nextProps.booking.isCreateBooking) {
+      this.props.actions.booking.setFlagCreateBooking();
+      this.setState({ isShowModalConfirm: false });
+      this.props.goBack();
     }
   }
 
@@ -192,161 +201,184 @@ class ModalNewBooking extends Component {
           </TouchableOpacity>
           <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>Choose Amenity</Text>
         </LinearGradient>
-        <ScrollView
-          onScroll={this.handleScroll}
-          showsVerticalScrollIndicator={false}
-          style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 100 }}
+        <KeyboardAwareScrollView
+          innerRef={ref => (this.scroll = ref)}
+          keyboardShouldPersistTaps="handled"
+          extraHeight={300}
+          style={{ flex: 1 }}
+          enableOnAndroid
+          contentContainerStyle={{
+            minHeight: '100%'
+          }}
         >
-          <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
-            <Calendar
-              firstDay={1}
-              markedDates={dataSelected}
-              onDayPress={data => this._onPressDay(data.dateString)}
-              theme={{
-                todayTextColor: '#343D4D',
-                arrowColor: '#FFF',
-                selectedDayBackgroundColor: '#FFF',
-                monthTextColor: '#FFF',
-                textSectionTitleColor: '#FFF',
-                textDayHeaderFontSize: 15,
-                textDayFontFamily: 'OpenSans-Regular',
-                textDayFontSize: 14,
-                fontWeight: 'bold'
-              }}
-            />
-          </LinearGradient>
-          <ItemScorll
-            title={'Dịch Vụ'}
-            view={
-              <View
-                style={{
-                  height: 70,
-                  width: null,
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: '#FFF',
-                  padding: 20,
-                  alignItems: 'center',
-                  flexDirection: 'row'
+          <ScrollView
+            onScroll={this.handleScroll}
+            showsVerticalScrollIndicator={false}
+            style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 100 }}
+          >
+            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
+              <Calendar
+                firstDay={1}
+                markedDates={dataSelected}
+                onDayPress={data => this._onPressDay(data.dateString)}
+                theme={{
+                  todayTextColor: '#343D4D',
+                  arrowColor: '#FFF',
+                  selectedDayBackgroundColor: '#FFF',
+                  monthTextColor: '#FFF',
+                  textSectionTitleColor: '#FFF',
+                  textDayHeaderFontSize: 15,
+                  textDayFontFamily: 'OpenSans-Regular',
+                  textDayFontSize: 14,
+                  fontWeight: 'bold'
                 }}
-              >
-                <Image
-                  style={{ width: 30, height: 30 }}
-                  resizeMode={'cover'}
-                  source={{ uri: configs.API_BOOKING + item.iconPath }}
-                />
-                <Text style={{ color: '#343D4D', fontWeight: 'bold', fontSize: 15, flex: 1, marginLeft: 20 }}>
-                  {item.amenityName}
-                </Text>
-                <Button onPress={() => this.props.changeCategory()}>
-                  <Text style={{ color: '#4A89E8', fontSize: 13 }}>Change</Text>
-                </Button>
-              </View>
-            }
-          />
-          <ItemScorll
-            title={'Thời Gian'}
-            view={
-              <View
-                style={{
-                  width: null,
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: '#FFF',
-                  padding: 20,
-                  justifyContent: 'space-around',
-                  flexDirection: 'row',
-                  flexWrap: 'wrap'
-                }}
-              >
-                {this.state.listBooking.map((item, index) => (
-                  <TouchableOpacity
-                    onPress={() => this.selectItem(index)}
-                    key={index}
-                    style={{
-                      width: 85,
-                      height: 22,
-                      borderRadius: 5,
-                      backgroundColor: item.isCheck ? '#4A89E8' : '#BABFC8',
-                      marginVertical: 5,
-                      marginRight: 10,
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    {item.isFlag && item.isCheck == false ? (
-                      <View
-                        style={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: 5,
-                          position: 'absolute',
-                          right: 0,
-                          top: 0,
-                          backgroundColor: '#4A89E8'
-                        }}
-                      />
-                    ) : null}
-                    <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
-                      item.startTime
-                    ).format('hh:mm')}-${moment(item.endTime).format('hh:mm')}`}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            }
-          />
-          <ItemScorll
-            title={'Miêu Tả'}
-            view={
-              <TextInput
-                style={{
-                  flex: 1,
-                  backgroundColor: '#FFF',
-                  borderRadius: 5,
-                  height: 110,
-                  width: null,
-                  padding: 10,
-                  paddingTop: 20
-                }}
-                multiline
-                placeholder={'Nhập nội dung ...'}
-                onChangeText={e => this.setState({ comment: e })}
               />
-            }
-          />
-          <ItemScorll
-            title={'Thông Tin'}
-            view={
-              <View
-                style={{
-                  height: 130,
-                  width: null,
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: '#FFF',
-                  padding: 20,
-                  justifyContent: 'space-around',
-                  marginBottom: 20
-                }}
-              >
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Căn Hộ</Text>
-                  <Text
-                    style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}
-                  >{`${fullUnitCode}-${displayName}`}</Text>
+            </LinearGradient>
+            <ItemScorll
+              title={'Dịch Vụ'}
+              view={
+                <View
+                  style={{
+                    height: 70,
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    alignItems: 'center',
+                    flexDirection: 'row'
+                  }}
+                >
+                  <Image
+                    style={{ width: 30, height: 30 }}
+                    resizeMode={'cover'}
+                    source={{ uri: configs.API_BOOKING + item.iconPath }}
+                  />
+                  <Text style={{ color: '#343D4D', fontWeight: 'bold', fontSize: 15, flex: 1, marginLeft: 20 }}>
+                    {item.amenityName}
+                  </Text>
+                  <Button onPress={() => this.props.changeCategory()}>
+                    <Text style={{ color: '#4A89E8', fontSize: 13 }}>Change</Text>
+                  </Button>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Mail</Text>
-                  <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{emailAddress}</Text>
+              }
+            />
+            <ItemScorll
+              title={'Thời Gian'}
+              view={
+                <View
+                  style={{
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    justifyContent: 'space-around',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  {this.state.listBooking.map((item, index) => (
+                    <TouchableOpacity
+                      onPress={() => this.selectItem(index)}
+                      key={index}
+                      style={{
+                        width: 85,
+                        height: 22,
+                        borderRadius: 5,
+                        backgroundColor: item.isCheck ? '#4A89E8' : '#BABFC8',
+                        marginVertical: 5,
+                        marginRight: 10,
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {item.isFlag && item.isCheck == false ? (
+                        <View
+                          style={{
+                            width: 10,
+                            height: 10,
+                            borderRadius: 5,
+                            position: 'absolute',
+                            right: 0,
+                            top: 0,
+                            backgroundColor: '#4A89E8'
+                          }}
+                        />
+                      ) : null}
+                      <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
+                        item.startTime
+                      ).format('hh:mm')}-${moment(item.endTime).format('hh:mm')}`}</Text>
+                    </TouchableOpacity>
+                  ))}
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>SĐT</Text>
-                  <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{phoneNumber}</Text>
+              }
+            />
+            <ItemScorll
+              title={'Miêu Tả'}
+              view={
+                <TextInput
+                  style={{
+                    flex: 1,
+                    backgroundColor: '#FFF',
+                    borderRadius: 5,
+                    height: 110,
+                    width: null,
+                    padding: 10,
+                    paddingTop: 20
+                  }}
+                  multiline
+                  placeholder={'Nhập nội dung ...'}
+                  onChangeText={e => this.setState({ comment: e })}
+                />
+              }
+            />
+            <ItemScorll
+              title={'Thông Tin'}
+              view={
+                <View
+                  style={{
+                    height: 130,
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    justifyContent: 'space-around',
+                    marginBottom: 20
+                  }}
+                >
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Căn Hộ</Text>
+                    <Text
+                      style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}
+                    >{`${fullUnitCode}-${displayName}`}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Mail</Text>
+                    {/* <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{emailAddress}</Text> */}
+                    <TextInput
+                      onChangeText={e => this.setState({ email: e })}
+                      value={this.state.email}
+                      underlineColorAndroid={'transparent'}
+                      style={{ paddingTop: 0, color: '#4A89E8' }}
+                    />
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>SĐT</Text>
+                    <TextInput
+                      onChangeText={e => this.setState({ sdt: e })}
+                      value={this.state.sdt}
+                      underlineColorAndroid={'transparent'}
+                      style={{ paddingTop: 0, color: '#4A89E8' }}
+                    />
+                    {/* <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{phoneNumber}</Text> */}
+                  </View>
                 </View>
-              </View>
-            }
-          />
-        </ScrollView>
+              }
+            />
+          </ScrollView>
+        </KeyboardAwareScrollView>
         <View
           style={{
             position: 'absolute',
@@ -381,11 +413,11 @@ class ModalNewBooking extends Component {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            disabled={!this.state.checkConfirm}
+            disabled={this.state.checkConfirm && this.state.arrSelected.length > 0 ? false : true}
             style={{
               width: width - 40,
               height: 30,
-              backgroundColor: this.state.checkConfirm ? '#01C772' : '#DEDEDE',
+              backgroundColor: this.state.checkConfirm && this.state.arrSelected.length > 0 ? '#01C772' : '#DEDEDE',
               borderRadius: 5,
               alignItems: 'center',
               justifyContent: 'center'
@@ -521,11 +553,11 @@ class ModalNewBooking extends Component {
                     </View>
                     <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                       <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Mail</Text>
-                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{emailAddress}</Text>
+                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.email}</Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                       <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>SĐT</Text>
-                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{phoneNumber}</Text>
+                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.sdt}</Text>
                     </View>
                   </View>
                 }
@@ -615,12 +647,9 @@ class ModalNewBooking extends Component {
     let Booking = {
       startDate: startTime,
       endDate: endTime,
-      amenityId: 75,
       amenityId: item.amenityId,
       status: 'REQUESTED',
       amenity: {
-        // amenityId: 75,
-        // amenityName: 12
         amenityId: item.amenityId,
         amenityName: item.amenityName
       },
@@ -629,8 +658,8 @@ class ModalNewBooking extends Component {
       fullUnitId: fullUnitCode,
       userId: id,
       name: displayName,
-      phone: phoneNumber,
-      email: emailAddress,
+      phone: this.state.phone,
+      email: this.state.email,
       userName: displayName,
       profilePictureId: profilePictureId,
       paymentStatus: null,
