@@ -19,7 +19,7 @@ Object.keys(Screens).forEach(name => {
 });
 
 const Stack = createStackNavigator(stacks, {
-  // initialRouteName: 'Booking',
+  // initialRouteName: 'Test',
   initialRouteName: 'Launcher',
   navigationOptions: ({ navigation }) => ({
     header: null,

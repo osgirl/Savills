@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, TouchableOpacity, Dimensions, Image, RefreshControl } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Dimensions, Image, RefreshControl, ActivityIndicator } from 'react-native';
 import moment from 'moment';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
@@ -43,12 +43,17 @@ class TabActive extends Component {
               titleColor="#000"
             />
           }
+          ListFooterComponent={() => <ActivityIndicator color={'red'} size={'large'} />}
           ListEmptyComponent={() => {
             return <EmptyItemList />;
           }}
         />
       </View>
     );
+  }
+
+  renderFooter = () => {
+    
   }
 
   _onRefresh() {

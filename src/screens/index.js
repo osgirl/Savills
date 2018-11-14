@@ -18,7 +18,6 @@ import ModalEditOrder from './tabWorkOrders/components/modalEditOrder';
 import ModalDetailBooking from './tabBooking/components/modalDetailBooking';
 import ModalNewBooking from './tabBooking/components/modalNewBooking';
 import Booking from './tabBooking';
-
 export {
   ModalDetailBooking,
   ModalNewBooking,

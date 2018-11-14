@@ -88,11 +88,11 @@ export function changeStatusBooking(accessTokenAPI, id) {
 }
 
 // lấy danh sách 3 tab
-export function getListBooking(accessTokenAPI, status) {
+export function getListBooking(accessTokenAPI, status, page = 1) {
   return {
     type: Types.GET_LIST_BOOKING,
     payload: {
-      api: Configs.API_BOOKING + '/api/bookings/mybookings?page=1&pageSize=100&isActive=true&groupStatus=' + status,
+      api: Configs.API_BOOKING + `/api/bookings/mybookings?page=${page}&pageSize=100&isActive=true&groupStatus=${status}`,
       method: 'GET',
       status: status,
       token: accessTokenAPI
