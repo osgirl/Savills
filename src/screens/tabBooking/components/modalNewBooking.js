@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, PixelRatio, Modal } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  PixelRatio,
+  Modal,
+  Animated
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
 import Header from '@components/header';
@@ -12,6 +23,7 @@ import Button from '@components/button';
 import moment from 'moment';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
+import { Agenda } from 'react-native-calendars';
 const options = {
   title: 'Chụp ảnh để tải lên',
   storageOptions: {
@@ -25,7 +37,6 @@ const options = {
   maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
   maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
 };
-
 class ModalNewBooking extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +45,7 @@ class ModalNewBooking extends Component {
       selected: [moment(new Date()).format('YYYY-MM-DD')],
       comment: '',
       listBooking: [],
-      arraySelectTime: [],
+      arrSelected: [],
       isShowModalConfirm: false,
       checkConfirm: false,
       isShowRegulations: false
@@ -45,9 +56,12 @@ class ModalNewBooking extends Component {
 
   componentDidMount() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let item = this.props.navigation.getParam('item', null);
+    console.log('asdkasjdklasjdaklsdasda', this.props.item);
+    let item = this.props.item;
+    // let item = this.props.navigation.getParam('item', null);
     let data = {
       emenityId: item.amenityId,
+      // emenityId: 75,
       fromDate: this.state.selected,
       toDate: this.state.selected
     };
@@ -57,7 +71,10 @@ class ModalNewBooking extends Component {
   componentWillReceiveProps(nextProps) {
     let accessTokenApi = this.props.account.accessTokenAPI;
     if (nextProps.booking.listBookingOption && nextProps.booking.listBookingOption.success) {
-      this.setState({ listBooking: nextProps.booking.listBookingOption.result });
+      let arr = nextProps.booking.listBookingOption.result.filter(item => item.isAvailable == true);
+      arr.map(item => (item.isCheck = false));
+      arr.map(item => (item.isFlag = false));
+      this.setState({ listBooking: arr });
     }
     if (nextProps.booking.createNewBooking && nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.props.actions.booking.setFlagCreateBooking();
@@ -88,26 +105,70 @@ class ModalNewBooking extends Component {
     return markedDateMap;
   }
 
-  selectTimeBooking = (item, index) => {
+  selectItem = async index => {
     let arr = this.state.listBooking.slice();
-    let arrABC = [];
-    arr.map(item => item.isCheck);
-    arrABC.filter(item => item.isCheck === true);
-    // if (arr[index - 1].isCheck === false || (arr[index + 1].isCheck === false && arrABC.length > 0)) {
-    //   alert('k được chọn');
-    // }
+    let arrSelect = this.state.arrSelected.slice();
     let flag = arr[index].isCheck || false;
-    arr[index].isCheck = !flag;
-    // arr[index - 1].isFlag = true;
-    // arr[index + 1].isFlag = true;
-    this.setState({ listBooking: arr });
+    let position = arrSelect.indexOf(index);
+    if (arr.length === 1) {
+      arr[index].isCheck = !flag;
+      if (position > -1) {
+        arrSelect.splice(position, 1);
+      } else {
+        arrSelect.push(index);
+      }
+    } else if (index === 0) {
+      if (arrSelect.length > 0 && !flag && arr[index + 1].isCheck === false) {
+        return;
+      } else {
+        let isFlag = arr[index + 1].isFlag;
+        arr[index + 1].isFlag = !isFlag;
+        arr[index].isCheck = !flag;
+        if (position > -1) {
+          arrSelect.splice(position, 1);
+        } else {
+          arrSelect.push(index);
+        }
+      }
+    } else if (index === arr.length - 1) {
+      if (arrSelect.length > 0 && !flag && arr[index - 1].isCheck === false) {
+        return;
+      } else {
+        arr[index].isCheck = !flag;
+        let isFlag = arr[index - 1].isFlag;
+        arr[index - 1].isFlag = !isFlag;
+        if (position > -1) {
+          arrSelect.splice(position, 1);
+        } else {
+          arrSelect.push(index);
+        }
+      }
+    } else if (arrSelect.length > 0 && !flag && arr[index - 1].isCheck === false && arr[index + 1].isCheck === false) {
+      return;
+    } else if (arrSelect.length > 0 && flag && arr[index + 1].isCheck && arr[index - 1].isCheck) {
+      return;
+    } else {
+      arr[index].isCheck = !flag;
+      let isFlag1 = arr[index - 1].isFlag;
+      let isFlag2 = arr[index + 1].isFlag;
+      arr[index - 1].isFlag = !isFlag1;
+      arr[index + 1].isFlag = !isFlag2;
+      if (position > -1) {
+        arrSelect.splice(position, 1);
+      } else {
+        arrSelect.push(index);
+      }
+    }
+    this.setState({ listBooking: arr, arrSelected: arrSelect });
   };
 
   async _onPressDay(data) {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let item = this.props.navigation.getParam('item', null);
+    // let item = this.props.navigation.getParam('item', null);
+    let item = this.props.item;
     await this.setState({ selected: [data] }, () => {
       let data = {
+        // emenityId: 75,
         emenityId: item.amenityId,
         fromDate: this.state.selected,
         toDate: this.state.selected
@@ -118,38 +179,41 @@ class ModalNewBooking extends Component {
 
   render() {
     let dataSelected = this.mapObjectSelected();
-    let item = this.props.navigation.getParam('item', null);
+    // let item = this.props.navigation.getParam('item', null);
+    let item = this.props.item;
     const { fullUnitCode } = this.props.units.unitActive;
     const { phoneNumber, emailAddress, userName, displayName } = this.props.userProfile.profile.result.user;
+
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 100 }}>
-          <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
-              <TouchableOpacity
-                style={{ position: 'absolute', top: 40, left: 20 }}
-                onPress={() => this.props.navigation.goBack()}
-              >
-                <Image source={require('../../../resources/icons/close.png')} />
-              </TouchableOpacity>
-              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>Choose Amenity</Text>
-              <Calendar
-                firstDay={1}
-                markedDates={dataSelected}
-                onDayPress={data => this._onPressDay(data.dateString)}
-                theme={{
-                  todayTextColor: '#343D4D',
-                  arrowColor: '#FFF',
-                  selectedDayBackgroundColor: '#FFF',
-                  monthTextColor: '#FFF',
-                  textSectionTitleColor: '#FFF',
-                  textDayHeaderFontSize: 15,
-                  textDayFontFamily: 'OpenSans-Regular',
-                  textDayFontSize: 14,
-                  fontWeight: 'bold'
-                }}
-              />
-            </LinearGradient>
+        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
+          <TouchableOpacity style={{ position: 'absolute', top: 40, left: 20 }} onPress={() => this.props.close()}>
+            <Image source={require('../../../resources/icons/close.png')} />
+          </TouchableOpacity>
+          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>Choose Amenity</Text>
+        </LinearGradient>
+        <ScrollView
+          onScroll={this.handleScroll}
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 100 }}
+        >
+          <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
+            <Calendar
+              firstDay={1}
+              markedDates={dataSelected}
+              onDayPress={data => this._onPressDay(data.dateString)}
+              theme={{
+                todayTextColor: '#343D4D',
+                arrowColor: '#FFF',
+                selectedDayBackgroundColor: '#FFF',
+                monthTextColor: '#FFF',
+                textSectionTitleColor: '#FFF',
+                textDayHeaderFontSize: 15,
+                textDayFontFamily: 'OpenSans-Regular',
+                textDayFontSize: 14,
+                fontWeight: 'bold'
+              }}
+            />
           </LinearGradient>
           <ItemScorll
             title={'Dịch Vụ'}
@@ -174,7 +238,9 @@ class ModalNewBooking extends Component {
                 <Text style={{ color: '#343D4D', fontWeight: 'bold', fontSize: 15, flex: 1, marginLeft: 20 }}>
                   {item.amenityName}
                 </Text>
-                <Text style={{ color: '#4A89E8', fontSize: 13 }}>Change</Text>
+                <Button onPress={() => this.props.changeCategory()}>
+                  <Text style={{ color: '#4A89E8', fontSize: 13 }}>Change</Text>
+                </Button>
               </View>
             }
           />
@@ -193,41 +259,39 @@ class ModalNewBooking extends Component {
                   flexWrap: 'wrap'
                 }}
               >
-                {this.state.listBooking.map((item, index) =>
-                  item.isAvailable ? (
-                    <TouchableOpacity
-                      onPress={() => this.selectTimeBooking(item, index)}
-                      key={index}
-                      style={{
-                        width: 85,
-                        height: 22,
-                        borderRadius: 5,
-                        backgroundColor: item.isCheck ? '#4A89E8' : '#BABFC8',
-                        marginVertical: 5,
-                        marginRight: 10,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      {item.isFlag ? (
-                        <View
-                          style={{
-                            width: 10,
-                            height: 10,
-                            borderRadius: 5,
-                            position: 'absolute',
-                            right: 0,
-                            top: 0,
-                            backgroundColor: '#4A89E8'
-                          }}
-                        />
-                      ) : null}
-                      <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
-                        item.startTime
-                      ).format('hh:mm')}-${moment(item.endTime).format('hh:mm')}`}</Text>
-                    </TouchableOpacity>
-                  ) : null
-                )}
+                {this.state.listBooking.map((item, index) => (
+                  <TouchableOpacity
+                    onPress={() => this.selectItem(index)}
+                    key={index}
+                    style={{
+                      width: 85,
+                      height: 22,
+                      borderRadius: 5,
+                      backgroundColor: item.isCheck ? '#4A89E8' : '#BABFC8',
+                      marginVertical: 5,
+                      marginRight: 10,
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    {item.isFlag && item.isCheck == false ? (
+                      <View
+                        style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: 5,
+                          position: 'absolute',
+                          right: 0,
+                          top: 0,
+                          backgroundColor: '#4A89E8'
+                        }}
+                      />
+                    ) : null}
+                    <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
+                      item.startTime
+                    ).format('hh:mm')}-${moment(item.endTime).format('hh:mm')}`}</Text>
+                  </TouchableOpacity>
+                ))}
               </View>
             }
           />
@@ -349,8 +413,55 @@ class ModalNewBooking extends Component {
           Alert.alert('Modal has been closed.');
         }}
       >
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
-          <Text>Chưa biết bỏ gì vào đây</Text>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', paddingVertical: 70, paddingHorizontal: 20 }}>
+          <View style={{ flex: 1, borderRadius: 10, paddingTop: 40, backgroundColor: '#FFF', paddingHorizontal: 20 }}>
+            <TouchableOpacity
+              style={{ position: 'absolute', top: 20, left: 20 }}
+              onPress={() => this.setState({ isShowRegulations: false })}
+            >
+              <Image source={require('../../../resources/icons/close-black.png')} />
+            </TouchableOpacity>
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold', alignSelf: 'center', marginBottom: 20 }}
+              >
+                Dịch Vụ
+              </Text>
+              <Text style={{ color: '#BABFC8', fontSize: 14, fontFamily: 'OpenSans-Regular' }}>
+                Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và
+              </Text>
+              <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>Policies</Text>
+              <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-Regular', fontSize: 14 }}>
+                Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.
+                Lorem Ipsum đã... được sử dụng như một
+              </Text>
+              <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>Remark</Text>
+              <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-Regular', fontSize: 14 }}>
+                Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.
+                Lorem Ipsum đã... được sử
+              </Text>
+            </View>
+            <Button
+              style={{
+                width: width - 80,
+                height: 50,
+                marginBottom: 20,
+                shadowColor: '#4A89E8',
+                shadowOffset: { width: 3, heigth: 6 },
+                shadowOpatity: 1
+              }}
+              onPress={() => this.setState({ isShowRegulations: false, checkConfirm: true })}
+            >
+              <LinearGradient
+                colors={['#4A89E8', '#8FBCFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
+              >
+                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Xác Nhận</Text>
+              </LinearGradient>
+            </Button>
+          </View>
         </View>
       </Modal>
     );
@@ -495,7 +606,8 @@ class ModalNewBooking extends Component {
     let listSelect = this.state.listBooking.filter(e => e.isCheck == true);
     let startTime = listSelect[0].startTime;
     let endTime = listSelect[listSelect.length - 1].endTime;
-    let item = this.props.navigation.getParam('item', null);
+    // let item = this.props.navigation.getParam('item', null);
+    let item = this.props.item;
     let accessTokenApi = this.props.account.accessTokenAPI;
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     const { name, id, phoneNumber, emailAddress, displayName, profilePictureId } = this.props.userProfile.profile.result.user;
@@ -503,9 +615,12 @@ class ModalNewBooking extends Component {
     let Booking = {
       startDate: startTime,
       endDate: endTime,
+      amenityId: 75,
       amenityId: item.amenityId,
       status: 'REQUESTED',
       amenity: {
+        // amenityId: 75,
+        // amenityName: 12
         amenityId: item.amenityId,
         amenityName: item.amenityName
       },

@@ -340,6 +340,16 @@ class ModalDetailBooking extends Component {
               data={this.state.listChat}
               keyExtractor={(item, index) => item.id.toString()}
               renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
+              ListEmptyComponent={() => {
+                return (
+                  <View style={{ flex: 1, alignItems: 'center', marginTop: 100 }}>
+                    <Image source={require('../../../resources/icons/chat-big.png')} />
+                    <Text
+                      style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
+                    >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
+                  </View>
+                );
+              }}
             />
           </View>
           <LinearGradient

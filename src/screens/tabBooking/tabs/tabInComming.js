@@ -64,8 +64,8 @@ class TabActive extends Component {
     );
   };
 
-  clickDetail = () => {
-    alert('ss');
+  clickDetail = item => {
+    this.props.navigation.navigate('ModalDetailBooking', { id: item.reservationId });
   };
 }
 
