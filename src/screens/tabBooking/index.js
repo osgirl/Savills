@@ -28,7 +28,7 @@ import configs from '../../utils/configs';
 const { width } = Dimensions.get('window');
 import { isIphoneX } from '../../utils/func';
 import ModalSelectUnit from '../../components/modalSelectUnit';
-
+import ModalNewBooking from './components/modalNewBooking';
 import Resolution from '@utils/resolution';
 
 import Button from '../../components/button';
@@ -46,7 +46,9 @@ class TabBooking extends Component {
       isShowCategory: false,
       listCategory: [],
       scrollY: new Animated.Value(0),
-      isModalSelectUnit: false
+      isModalSelectUnit: false,
+      isModalNewBooking: false,
+      itemCategory: {}
     };
   }
 
@@ -57,6 +59,7 @@ class TabBooking extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    let accessTokenApi = this.props.account.accessTokenAPI;
     if (nextProps.booking.listCategory && nextProps.booking.listCategory.success) {
       this.setState({ listCategory: nextProps.booking.listCategory.result });
     }
@@ -197,12 +200,27 @@ class TabBooking extends Component {
           <Image source={require('../../resources/icons/plush-addnew.png')} />
         </TouchableOpacity>
         {this.renderModalCategory()}
+        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNewBooking}>
+          <ModalNewBooking
+            goBack={() => this.setState({ isModalNewBooking: false })}
+            changeCategory={() => this.changeCategory()}
+            close={() => this.setState({ isModalNewBooking: false })}
+            item={this.state.item}
+          />
+        </Modal>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
         </Modal>
       </View>
     );
   }
+
+  changeCategory = () => {
+    this.setState({ isModalNewBooking: false });
+    setTimeout(() => {
+      this.setState({ isShowCategory: true });
+    }, 500);
+  };
 
   clickDetail = () => {
     this.props.navigation.navigate('ModalDetailBooking');
@@ -249,11 +267,10 @@ class TabBooking extends Component {
   }
 
   gotoCreateBooking = item => {
-    this.setState({ isShowCategory: false }, () => {
-      setTimeout(() => {
-        this.props.navigation.navigate('ModalNewBooking', { item: item });
-      }, 500);
-    });
+    this.setState({ isShowCategory: false, item: item });
+    setTimeout(() => {
+      this.setState({ isModalNewBooking: true });
+    }, 500);
   };
 }
 

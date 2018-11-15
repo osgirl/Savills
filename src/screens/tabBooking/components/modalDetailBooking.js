@@ -21,7 +21,7 @@ import ItemComment from '@components/itemComment';
 import Resolution from '@utils/resolution';
 import Header from '@components/header';
 import HeaderTitle from '@components/headerTitle';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -315,63 +315,88 @@ class ModalDetailBooking extends Component {
   renderContentModalChat() {
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              width: width,
-              height: 50,
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              flexDirection: 'row',
-              backgroundColor: '#FFF',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 20
-            }}
-          >
-            <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
-              <Image source={require('../../../resources/icons/close-black.png')} />
-            </TouchableOpacity>
-            <Text>#676</Text>
-            <View />
-          </View>
-          <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
-            <FlatList
-              data={this.state.listChat}
-              keyExtractor={(item, index) => item.id.toString()}
-              renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
-            />
-          </View>
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{
-              width: width - 40,
-              position: 'absolute',
-              bottom: 20,
-              left: 20,
-              height: 50,
-
-              borderRadius: 10
-            }}
-          >
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
-              <TextInput
-                ref={input => {
-                  this.textInput = input;
+        <KeyboardAwareScrollView
+          innerRef={ref => (this.scroll = ref)}
+          keyboardShouldPersistTaps="handled"
+          extraHeight={300}
+          enableOnAndroid
+          contentContainerStyle={{
+            minHeight: '100%',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <ScrollView style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+              <View
+                style={{
+                  width: width,
+                  height: 50,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  flexDirection: 'row',
+                  backgroundColor: '#FFF',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 20
                 }}
-                style={{ flex: 1, color: '#FFF' }}
-                onChangeText={e => this.setState({ chatText: e })}
-                placeholderTextColor={'rgba(255,255,255,0.7)'}
-                placeholder={'Nhập tin nhắn ...'}
-              />
-              <TouchableOpacity onPress={() => this.addComment()}>
-                <Image source={require('../../../resources/icons/send-mess.png')} />
-              </TouchableOpacity>
+              >
+                <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
+                  <Image source={require('../../../resources/icons/close-black.png')} />
+                </TouchableOpacity>
+                <Text>#676</Text>
+                <View />
+              </View>
+              <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
+                <FlatList
+                  data={this.state.listChat}
+                  keyExtractor={(item, index) => item.id.toString()}
+                  style={{ minHeight: 500 }}
+                  renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
+                  ListEmptyComponent={() => {
+                    return (
+                      <View style={{ flex: 1, alignItems: 'center', marginTop: 100 }}>
+                        <Image source={require('../../../resources/icons/chat-big.png')} />
+                        <Text
+                          style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
+                        >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
+                      </View>
+                    );
+                  }}
+                />
+              </View>
+              <LinearGradient
+                colors={['#4A89E8', '#8FBCFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{
+                  width: width - 40,
+                  position: 'absolute',
+                  bottom: 20,
+                  left: 20,
+                  height: 50,
+
+                  borderRadius: 10
+                }}
+              >
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+                  <TextInput
+                    ref={input => {
+                      this.textInput = input;
+                    }}
+                    style={{ flex: 1, color: '#FFF' }}
+                    onChangeText={e => this.setState({ chatText: e })}
+                    placeholderTextColor={'rgba(255,255,255,0.7)'}
+                    placeholder={'Nhập tin nhắn ...'}
+                  />
+                  <TouchableOpacity onPress={() => this.addComment()}>
+                    <Image source={require('../../../resources/icons/send-mess.png')} />
+                  </TouchableOpacity>
+                </View>
+              </LinearGradient>
             </View>
-          </LinearGradient>
-        </View>
+          </ScrollView>
+        </KeyboardAwareScrollView>
       </Modal>
     );
   }

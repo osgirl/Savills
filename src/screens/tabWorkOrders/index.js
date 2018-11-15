@@ -234,14 +234,6 @@ class TabWorkOrder extends Component {
           ListEmptyComponent={() => {
             return <EmptyItemList />;
           }}
-          // onEndReachedThreshold={0.01}
-          // scrollEventThrottle={16}
-          // onEndReached={() => this._onEndReached()}
-          // legacyImplementation={false}
-          // showsHorizontalScrollIndicator={false}
-          // showsVerticalScrollIndicator={false}
-          // ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-          ListFooterComponent={() => this._FooterFlatlist()}
         />
       </View>
     );
@@ -255,14 +247,6 @@ class TabWorkOrder extends Component {
     let start = await this.state.listWorkOrder.length;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     await this.props.actions.notification.getListNotification(accessTokenAPI, start);
-  }
-
-  _FooterFlatlist() {
-    return (
-      <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color={Configs.colorMain} />
-      </View>
-    );
   }
 
   _onRefresh() {
@@ -324,6 +308,11 @@ class TabWorkOrder extends Component {
   renderItem = (item, index) => {
     let date = moment(item.dateCreate).format('l');
     let time = moment(item.dateCreate).format('LT');
+    let encToken = this.props.account.encToken;
+    let image =
+      item.fileUrls && item.fileUrls.length > 0
+        ? `${item.fileUrls[0].fileUrl}&encToken=${encodeURIComponent(encToken)}`
+        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';
     return (
       <Button
         onPress={() => this.clickDetail(item)}
@@ -339,17 +328,14 @@ class TabWorkOrder extends Component {
       >
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75' }}>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: 70 }}>
               <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
                 #{item.id}
               </Text>
             </View>
             <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: 13, marginTop: 12 }}>{item.fullUnitCode}</Text>
           </View>
-          <Image
-            style={{ width: 40, height: 40, borderRadius: 5 }}
-            source={{ uri: 'http://imgt.taimienphi.vn/cf/Images/tt/2018/4/24/hinh-anh-che-13.jpg' }}
-          />
+          <Image style={{ width: 40, height: 40, borderRadius: 5 }} source={{ uri: image }} />
         </View>
 
         <View

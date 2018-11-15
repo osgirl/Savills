@@ -1,14 +1,12 @@
 import Types from './';
 import Configs from '../../../utils/configs';
-let accessTokenAPIs =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijk5NTE4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6Ijg0NGM1ZTY5ZjczMDQwZjhhNjZkZWFlYTQwMjczZmY5IiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJMTVJZVFNPWUNNT0FWT0hETkY0RldWUzVZU1E2TlA2RSIsIkpvYlRpdGxlIjoiQWRtaW4iLCJVbmlxdWVJZCI6Ijg0NGM1ZTY5LWY3MzAtNDBmOC1hNjZkLWVhZWE0MDI3M2ZmOSIsIkRhdGVPZkJpcnRoIjoiMS8zMS8xOTk1IDU6MDA6MDAgUE0iLCJDb250cmFjdERhdGUiOiIxMC85LzIwMTggNTowMDowMCBQTSIsIkNvbnRyYWN0RXhwaXJlZERhdGUiOiIxMS8zMC8yMDE4IDU6MDA6MDAgUE0iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiRW1wbG95ZWUiLCJBZG1pbiJdLCJodHRwOi8vd3d3LmFzcG5ldGJvaWxlcnBsYXRlLmNvbS9pZGVudGl0eS9jbGFpbXMvdGVuYW50SWQiOiI0Iiwic3ViIjoiOTk1MTgiLCJqdGkiOiIxMGM5NzRjOC03NjJlLTQ0YjYtODAzNi05NmUwYjE3YTcxMjEiLCJpYXQiOjE1NDE0MDE0MDIsIm5iZiI6MTU0MTQwMTQwMiwiZXhwIjoxNTQzOTkzNDAyLCJpc3MiOiJTUE1TLVZpZXRuYW0iLCJhdWQiOiJTUE1TLVZpZXRuYW0ifQ.PgZJbuWvw9Al8SQcTQuTdQoPzp2wegPSQfabH-kpr9o';
 export function getWorkOrderList(accessTokenAPI, sort, memberId) {
   return {
     type: Types.GET_LIST_WORKORDER,
     payload: {
       api:
         Configs.API +
-        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=0&pageSize=20&groupStatus=${sort}`,
+        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=1&pageSize=100&groupStatus=${sort}`,
       method: 'GET',
       sort: sort,
       token: accessTokenAPI
@@ -99,7 +97,7 @@ export function getListCategory(accessTokenAPI) {
     payload: {
       api: Configs.API + '/api/WorkOrders/GetListCatType',
       method: 'GET',
-      token: accessTokenAPIs
+      token: accessTokenAPI
     }
   };
 }

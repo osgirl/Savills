@@ -5,26 +5,46 @@ const { width } = Dimensions.get('window');
 
 class ItemComment extends Component {
   render() {
-    const { content, creationTime } = this.props.item;
+    const { content, creationTime, creatorUserId } = this.props.item;
+    let id = this.props.idUser;
     let times = moment(creationTime).fromNow();
-    return (
-      <View style={styles.contain}>
-        <Image
-          style={styles.imageAvatar}
-          resizeMode={'cover'}
-          source={{ uri: 'http://thuthuatphanmem.vn/uploads/2018/06/18/anh-avatar-dep-65_034122567.jpg' }}
-        />
-        <View style={styles.viewChat}>
-          <Text style={styles.textContent}>{content}</Text>
-          <Text style={styles.textTime}>{times}</Text>
+    if (id == creatorUserId) {
+      return (
+        <View style={styles.contain}>
+          <Image style={styles.imageAvatar} resizeMode={'cover'} source={{ uri: "" }} />
+          <View style={styles.viewChat}>
+            <Text style={styles.textContent}>{content}</Text>
+            <Text style={styles.textTime}>{times}</Text>
+          </View>
         </View>
-      </View>
-    );
+      );
+    } else {
+      console.log('asdajsdkalsdla', 'vao 2');
+      return (
+        <View style={styles.containAdmin}>
+          <Image
+            style={[styles.imageAvatar]}
+            resizeMode={'cover'}
+            source={{ uri: 'http://thuthuatphanmem.vn/uploads/2018/06/18/anh-avatar-dep-65_034122567.jpg' }}
+          />
+          <View style={[styles.viewChat, { backgroundColor: '#4A89E8' }]}>
+            <Text style={[styles.textContent, { color: '#FFF' }]}>{content}</Text>
+            <Text style={[styles.textTime, { color: 'rgba(255,255,255,0.5)' }]}>{times}</Text>
+          </View>
+        </View>
+      );
+    }
   }
 }
 
 const styles = StyleSheet.create({
   contain: {
+    width: width - 40,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    flexDirection: 'row'
+  },
+  containAdmin: {
     width: width - 40,
     marginHorizontal: 20,
     marginVertical: 10,
