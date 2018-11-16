@@ -96,7 +96,7 @@ export default class extends Component {
             useNativeDriver: true
         });
 
-        let checkAll = this.props.fee.listUserFee && this.state.listFeeSelected.length === this.props.fee.listUserFee.result.items.length ? true : false;
+        let checkAll = this.props.fee.listUserFee.result && this.state.listFeeSelected.length === this.props.fee.listUserFee.result.items.length ? true : false;
 
 
         return (

@@ -213,7 +213,7 @@ export default class extends Component {
                         <ButtonCustom
                             background={'transparent'}
                             haveMargin={false}
-                            onPress={this.props.onSetting}
+                            onPress={() => alert('SETTING')}
                             icon={IC_SETTING}
                         />
                         {/* </View> */}

@@ -145,8 +145,14 @@ class Home extends layout {
 		await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
 		await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
 		await this.props.actions.account.getUserSettings(accessTokenApi);
+		if (unitID) {
+			this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
+		} else {
+			this.props.actions.units.getUnitLocal().then(() => {
+				this.props.actions.notification.getListCountModule(accessTokenApi, this.props.units.unitActive.unitId);
+			})
+		}
 		await this.props.actions.account.getTenantActive();
-		await this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
 	}
 
 	componentDidMount() {
