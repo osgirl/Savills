@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Animated } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
 
@@ -10,9 +11,13 @@ class Fee extends layout {
         super(props);
         this.state = {
             isModalSelectUnit: false,
+            isShowModalConfirm: false,
+            isShowModalHistory: false,
+            isShowTitleHeader: false,
             data: [],
             listFeeSelected: [],
-            totalPay: 0
+            totalPay: 0,
+            scrollY: new Animated.Value(0),
         }
     }
 
@@ -68,6 +73,37 @@ class Fee extends layout {
             total += item.totalAmount;
         })
         await this.setState({ totalPay: total })
+    }
+
+    async _addAllitem() {
+        let listitem = this.props.fee.listUserFee.result.items;
+        if (this.state.listFeeSelected.length === listitem.length) {
+            await this.setState({ listFeeSelected: [] });
+            this._calTotalPay();
+            return
+        }
+        await this.setState({ listFeeSelected: listitem });
+        this._calTotalPay();
+    }
+
+
+
+
+
+    _openModalConfirm() {
+        this.setState({ isShowModalConfirm: true });
+    }
+
+    _closeModalConfirm() {
+        this.setState({ isShowModalConfirm: false });
+    }
+
+    _openModalHistory() {
+        this.setState({ isShowModalHistory: true });
+    }
+
+    _closeModalHistory() {
+        this.setState({ isShowModalHistory: false });
     }
 
 
