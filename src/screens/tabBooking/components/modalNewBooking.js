@@ -9,7 +9,8 @@ import {
   TextInput,
   PixelRatio,
   Modal,
-  Animated
+  Animated,
+  ActivityIndicator
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -21,23 +22,12 @@ import configs from '../../../utils/configs';
 import { Calendar } from '../../../components/calendars';
 import Button from '@components/button';
 import moment from 'moment';
+import Loading from '@components/loading';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
 import { Agenda } from 'react-native-calendars';
+import AlertWarning from '@components/alertWarning';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-const options = {
-  title: 'Chụp ảnh để tải lên',
-  storageOptions: {
-    skipBackup: true,
-    uriImage: '',
-    path: 'images'
-  },
-  quality: 1,
-  mediaType: 'photo',
-  cameraType: 'front',
-  maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
-  maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
-};
 class ModalNewBooking extends Component {
   constructor(props) {
     super(props);
@@ -51,15 +41,14 @@ class ModalNewBooking extends Component {
       checkConfirm: false,
       isShowRegulations: false,
       email: this.props.userProfile.profile.result.user.emailAddress,
-      sdt: this.props.userProfile.profile.result.user.phoneNumber
+      sdt: this.props.userProfile.profile.result.user.phoneNumber,
+      loading: false,
+      isModalError: false
     };
   }
 
-  async componentWillReceiveProps(nextProps) {}
-
   componentDidMount() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    console.log('asdkasjdklasjdaklsdasda', this.props.item);
     let item = this.props.item;
     // let item = this.props.navigation.getParam('item', null);
     let data = {
@@ -69,6 +58,7 @@ class ModalNewBooking extends Component {
       toDate: this.state.selected
     };
     this.props.actions.booking.getListBookingOption(accessTokenApi, data);
+    this.props.actions.booking.getDetailCategory(accessTokenApi, item.amenityId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,15 +72,13 @@ class ModalNewBooking extends Component {
     if (nextProps.booking.createNewBooking && nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.props.actions.booking.setFlagCreateBooking();
       this.props.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
-      this.setState({ isShowModalConfirm: false });
+      this.setState({ isShowModalConfirm: false, loading: false });
       this.props.goBack();
     }
-    if (!nextProps.booking.createNewBooking && !nextProps.booking.isCreateBooking) {
-      this.props.actions.booking.setFlagCreateBooking();
-      this.setState({ isShowModalConfirm: false });
-      this.props.goBack();
+    if (nextProps.booking.createNewBooking && !nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
+      this.setState({ isModalError: true });
     }
-  }
+  }d
 
   mapObjectSelected() {
     let markedDateMap = {};
@@ -119,7 +107,12 @@ class ModalNewBooking extends Component {
     let arrSelect = this.state.arrSelected.slice();
     let flag = arr[index].isCheck || false;
     let position = arrSelect.indexOf(index);
-    if (arr.length === 1) {
+    if (
+      this.state.arrSelected.length === this.props.booking.detailCategory.result.numOfExtendTimeSlot &&
+      arr[index].isCheck === false
+    ) {
+      return;
+    } else if (arr.length === 1) {
       arr[index].isCheck = !flag;
       if (position > -1) {
         arrSelect.splice(position, 1);
@@ -175,7 +168,7 @@ class ModalNewBooking extends Component {
     let accessTokenApi = this.props.account.accessTokenAPI;
     // let item = this.props.navigation.getParam('item', null);
     let item = this.props.item;
-    await this.setState({ selected: [data] }, () => {
+    await this.setState({ selected: [data], listBooking: [], arrSelected: [] }, () => {
       let data = {
         // emenityId: 75,
         emenityId: item.amenityId,
@@ -191,7 +184,7 @@ class ModalNewBooking extends Component {
     // let item = this.props.navigation.getParam('item', null);
     let item = this.props.item;
     const { fullUnitCode } = this.props.units.unitActive;
-    const { phoneNumber, emailAddress, userName, displayName } = this.props.userProfile.profile.result.user;
+    const { displayName } = this.props.userProfile.profile.result.user;
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
@@ -265,6 +258,12 @@ class ModalNewBooking extends Component {
             />
             <ItemScorll
               title={'Thời Gian'}
+              renderLeft
+              number={
+                this.props.booking.detailCategory && this.props.booking.detailCategory.result
+                  ? this.props.booking.detailCategory.result.numOfExtendTimeSlot
+                  : 0
+              }
               view={
                 <View
                   style={{
@@ -280,6 +279,7 @@ class ModalNewBooking extends Component {
                 >
                   {this.state.listBooking.map((item, index) => (
                     <TouchableOpacity
+                      activeOpacity={0.9}
                       onPress={() => this.selectItem(index)}
                       key={index}
                       style={{
@@ -430,12 +430,20 @@ class ModalNewBooking extends Component {
           </TouchableOpacity>
         </View>
         {this.state.listBooking && this.state.listBooking.length > 0 ? this.renderModalConfirmBooking() : null}
-        {this.renderModalRegulations()}
+        {this.props.booking.detailCategory && this.props.booking.detailCategory.result ? this.renderModalRegulations() : null}
+        {this.props.booking.createNewBooking && this.props.booking.createNewBooking.error.message ? (
+          <AlertWarning
+            clickAction={() => this.props.goBack()}
+            isVisible={this.state.isModalError}
+            message={this.props.booking.createNewBooking.error.message}
+          />
+        ) : null}
       </View>
     );
   }
 
   renderModalRegulations = () => {
+    const { display, remark, policyNote, amenityName } = this.props.booking.detailCategory.result;
     return (
       <Modal
         animationType="slide"
@@ -454,24 +462,18 @@ class ModalNewBooking extends Component {
               <Image source={require('../../../resources/icons/close-black.png')} />
             </TouchableOpacity>
             <View style={{ flex: 1 }}>
-              <Text
-                style={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold', alignSelf: 'center', marginBottom: 20 }}
-              >
-                Dịch Vụ
-              </Text>
-              <Text style={{ color: '#BABFC8', fontSize: 14, fontFamily: 'OpenSans-Regular' }}>
-                Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và
-              </Text>
-              <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>Policies</Text>
-              <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-Regular', fontSize: 14 }}>
-                Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.
-                Lorem Ipsum đã... được sử dụng như một
-              </Text>
-              <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>Remark</Text>
-              <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-Regular', fontSize: 14 }}>
-                Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.
-                Lorem Ipsum đã... được sử
-              </Text>
+              <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+                <Text
+                  style={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold', alignSelf: 'center', marginBottom: 20 }}
+                >
+                  Dịch Vụ
+                </Text>
+                <Text style={{ color: '#BABFC8', fontSize: 14, fontFamily: 'OpenSans-Regular' }}>{amenityName}</Text>
+                <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>Policies</Text>
+                <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-Regular', fontSize: 14 }}>{`${policyNote}`}</Text>
+                <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>Remark</Text>
+                <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-Regular', fontSize: 14 }}>{remark}</Text>
+              </ScrollView>
             </View>
             <Button
               style={{
@@ -616,6 +618,7 @@ class ModalNewBooking extends Component {
               />
             </ScrollView>
             <Button
+              disabled={this.state.loading}
               style={{ width: width - 80, marginHorizontal: 20, height: 50, marginBottom: 20 }}
               onPress={() => this.submitBooking()}
             >
@@ -625,7 +628,11 @@ class ModalNewBooking extends Component {
                 end={{ x: 1, y: 0 }}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
               >
-                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
+                {this.state.loading ? (
+                  <ActivityIndicator animating={this.state.loading} color={'#FFF'} />
+                ) : (
+                  <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
+                )}
               </LinearGradient>
             </Button>
           </View>
@@ -667,16 +674,26 @@ class ModalNewBooking extends Component {
       isAcceptPolicy: true,
       tenantId: tenantId
     };
+    this.setState({ loading: true, isShowModalConfirm: false });
     this.props.actions.booking.createNewBooking(accessTokenApi, Booking);
   };
 }
 
 class ItemScorll extends Component {
   render() {
-    const { title } = this.props;
+    const { title, renderLeft, number } = this.props;
     return (
       <View style={{ marginHorizontal: 20 }}>
-        <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 14, fontWeight: 'bold' }}>{title}</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 14, fontWeight: 'bold', flex: 1 }}>
+            {title}
+          </Text>
+          {renderLeft ? (
+            <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 14, fontWeight: 'bold' }}>
+              <Text style={{ color: '#FF361A' }}>{number}</Text> Slot
+            </Text>
+          ) : null}
+        </View>
         {this.props.view}
       </View>
     );

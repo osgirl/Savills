@@ -10,6 +10,7 @@ const INIT_STATE = {
   listComplete: false,
   listOnGoing: false,
   listActive: false,
+  detailCategory: false,
 
   isCreateBooking: true,
   isChangeStatus: true
@@ -28,11 +29,22 @@ export default createReducer(INIT_STATE, {
     }
   },
 
+  [Types.GET_DETAIL_CATEGORY_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        detailCategory: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.CREATE_NEW_BOOKING_FAIL]: (state, action) => {
     try {
       return {
         ...state,
-        createNewBooking: false,
+        createNewBooking: action.response,
         isCreateBooking: false
       };
     } catch (error) {

@@ -11,7 +11,8 @@ class TabActive extends Component {
     super(props);
     this.state = {
       listData: [],
-      isRefreshing: false
+      isRefreshing: false,
+      isLoadData: true
     };
   }
 
@@ -22,7 +23,7 @@ class TabActive extends Component {
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.booking.listOnGoing && nextProps.booking.listOnGoing.success) {
-      this.setState({ listData: nextProps.booking.listOnGoing.result.items, isRefreshing: false });
+      this.setState({ listData: nextProps.booking.listOnGoing.result.items, isRefreshing: false, isLoadData: false });
     }
   };
 
@@ -39,13 +40,12 @@ class TabActive extends Component {
             <RefreshControl
               refreshing={this.state.isRefreshing}
               onRefresh={() => this._onRefresh()}
-              title={'Refrech Data !!'}
               tintColor="#000"
               titleColor="#000"
             />
           }
           ListEmptyComponent={() => {
-            return <EmptyItemList />;
+            return <EmptyItemList loadData={this.state.isLoadData} />;
           }}
         />
       </View>

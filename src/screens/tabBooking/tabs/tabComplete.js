@@ -12,13 +12,14 @@ class TabComplete extends Component {
     super(props);
     this.state = {
       listData: [],
-      isRefreshing: false
+      isRefreshing: false,
+      isLoadData: true
     };
   }
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.booking.listComplete && nextProps.booking.listComplete.success) {
-      this.setState({ listData: nextProps.booking.listComplete.result.items, isRefreshing: false });
+      this.setState({ listData: nextProps.booking.listComplete.result.items, isRefreshing: false, isLoadData: false });
     }
   };
 
@@ -41,13 +42,12 @@ class TabComplete extends Component {
             <RefreshControl
               refreshing={this.state.isRefreshing}
               onRefresh={() => this._onRefresh()}
-              title={'Refrech Data !!'}
               tintColor="#000"
               titleColor="#000"
             />
           }
           ListEmptyComponent={() => {
-            return <EmptyItemList />;
+            return <EmptyItemList loadData={this.state.isLoadData} />;
           }}
         />
       </View>

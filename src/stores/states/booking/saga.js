@@ -17,6 +17,15 @@ function* createNewBooking(action) {
   }
 }
 
+function* getDetailCategory(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_DETAIL_CATEGORY_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 function* getListCategory(action) {
   try {
     let response = yield call(API.request, action.payload);
@@ -63,6 +72,7 @@ function* getListBooking(action) {
 }
 
 export default function* saga() {
+  yield takeLatest(Types.GET_DETAIL_CATEGORY, getDetailCategory);
   yield takeLatest(Types.GET_LIST_BOOKING, getListBooking);
   yield takeLatest(Types.CHANGE_STATUS_BOOKING, changeStatusBooking);
   yield takeLatest(Types.GET_DETAIL_BOOKING, getDetailBooking);

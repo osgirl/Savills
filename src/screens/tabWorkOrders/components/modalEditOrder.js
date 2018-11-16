@@ -15,6 +15,7 @@ import {
   findNodeHandle
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import Connect from '@stores';
 import moment from 'moment';
 import Header from '@components/header';
@@ -24,6 +25,7 @@ import Modal from 'react-native-modal';
 import Resolution from '@utils/resolution';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 const STAR_ON = require('../../../resources/icons/Star-big.png');
 const STAR_OFF = require('../../../resources/icons/Star.png');
@@ -32,7 +34,7 @@ const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 class ModalEditOrder extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +49,8 @@ class ModalEditOrder extends Component {
       comment: '',
       scrollY: new Animated.Value(0),
       isShowTitleHeader: false,
-      showModalConfirmCancel: false
+      showModalConfirmCancel: false,
+      showImage: false
     };
   }
 
@@ -413,7 +416,7 @@ class ModalEditOrder extends Component {
         <TouchableOpacity
           style={{
             position: 'absolute',
-            bottom: 100,
+            bottom: this.state.detailOrder.currentStatus && this.state.detailOrder.currentStatus.id !== 11 ? 20 : 100,
             right: 20
           }}
           onPress={() => this.setState({ isShowChat: true })}
@@ -460,6 +463,7 @@ class ModalEditOrder extends Component {
             <HeaderTitle title={`#${id}`} />
           </LinearGradient>
         </Animated.View>
+        {this.showDetailImage()}
       </View>
     );
   }
@@ -505,14 +509,15 @@ class ModalEditOrder extends Component {
     let encToken = this.props.account.encToken;
     let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
     return (
-      <Image
-        key={index}
-        style={{ width: 90, height: 90, marginLeft: 20, borderRadius: 10 }}
-        resizeMode={'cover'}
-        source={{
-          uri: image
-        }}
-      />
+      <TouchableOpacity key={index} onPress={() => this.setState({ showImage: true })}>
+        <Image
+          style={{ width: 90, height: 90, marginLeft: 20, borderRadius: 10 }}
+          resizeMode={'cover'}
+          source={{
+            uri: image
+          }}
+        />
+      </TouchableOpacity>
     );
   };
 
@@ -599,8 +604,53 @@ class ModalEditOrder extends Component {
     );
   };
 
-  _scrollTo(reactNode) {
-    this.scroll.props.scrollToFocusedInput(reactNode);
+  showDetailImage() {
+    const newData = [];
+    let encToken = this.props.account.encToken;
+    {
+      this.state.detailOrder.fileUrls && this.state.detailOrder.fileUrls.length > 0
+        ? this.state.detailOrder.fileUrls.map(value => {
+            if (value == null) {
+              return;
+            }
+            if (value.fileUrl) {
+              newData.push({ url: `${value.fileUrl}&encToken=${encodeURIComponent(encToken)}` });
+            } else {
+              newData.push({ url: value });
+            }
+          })
+        : null;
+    }
+    return (
+      <Modal
+        visible={this.state.showImage}
+        transparent={false}
+        animationType="slide"
+        onRequestClose={() => this.setState({ showImage: false })}
+      >
+        <ImageViewer imageUrls={newData} index={0} />
+        <TouchableOpacity
+          onPress={() => this.setState({ showImage: false })}
+          style={{
+            position: 'absolute',
+            top: 35,
+            left: 20,
+            width: 50,
+            height: 50
+          }}
+        >
+          <Text
+            style={{
+              color: '#ffffff',
+              fontSize: 18,
+              backgroundColor: 'transparent'
+            }}
+          >
+            Close
+          </Text>
+        </TouchableOpacity>
+      </Modal>
+    );
   }
 
   renderContentModalChat() {
@@ -608,42 +658,32 @@ class ModalEditOrder extends Component {
     let id = this.props.userProfile.profile.result.user.id;
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
-        <KeyboardAwareScrollView
-          innerRef={ref => (this.scroll = ref)}
-          keyboardShouldPersistTaps="handled"
-          extraHeight={-200}
-          enableOnAndroid
-          contentContainerStyle={{
-            minHeight: '100%',
+        <View
+          style={{
+            width: width,
+            height: 50,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            flexDirection: 'row',
+            backgroundColor: '#FFF',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'space-between',
+            paddingHorizontal: 20
           }}
         >
-          <ScrollView style={{ flex: 1 }}>
+          <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
+            <Image source={require('../../../resources/icons/close-black.png')} />
+          </TouchableOpacity>
+          <Text>#676</Text>
+          <View />
+        </View>
+        <ScrollView style={{ flex: 1 }}>
+          <KeyboardAwareScrollView extraScrollHeight={50} extraHeight={-300}>
             <View style={{ flex: 1 }}>
-              <View
-                style={{
-                  width: width,
-                  height: 50,
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  flexDirection: 'row',
-                  backgroundColor: '#FFF',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 20
-                }}
-              >
-                <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
-                  <Image source={require('../../../resources/icons/close-black.png')} />
-                </TouchableOpacity>
-                <Text>#676</Text>
-                <View />
-              </View>
               <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
                 <FlatList
                   data={this.state.listComment}
-                  style={{ minHeight: 500 }}
+                  style={{ maxHeight: isIphoneX() ? 500 : height - 150 }}
                   keyExtractor={(item, index) => item.id.toString()}
                   renderItem={({ item, index }) => <ItemComment index={index} item={item} idUser={id} />}
                   ListEmptyComponent={() => {
@@ -658,41 +698,40 @@ class ModalEditOrder extends Component {
                   }}
                 />
               </View>
-              <LinearGradient
-                colors={['#4A89E8', '#8FBCFF']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={[
-                  {
-                    width: width - 40,
-                    position: 'absolute',
-                    bottom: 20,
-                    left: 20,
-                    height: 50,
-                    borderRadius: 10
-                  },
-                  focusChat
-                ]}
-              >
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
-                  <TextInput
-                    ref={input => {
-                      this.textInput = input;
-                    }}
-                    onFocus={event => this._scrollTo(findNodeHandle(event.target))}
-                    style={{ flex: 1, color: '#FFF' }}
-                    onChangeText={e => this.setState({ comment: e })}
-                    placeholderTextColor={'rgba(255,255,255,0.7)'}
-                    placeholder={'Nhập tin nhắn ...'}
-                  />
-                  <TouchableOpacity onPress={() => this.addComment()}>
-                    <Image source={require('../../../resources/icons/send-mess.png')} />
-                  </TouchableOpacity>
-                </View>
-              </LinearGradient>
             </View>
-          </ScrollView>
-        </KeyboardAwareScrollView>
+            <LinearGradient
+              colors={['#4A89E8', '#8FBCFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={[
+                {
+                  width: width - 40,
+                  position: 'absolute',
+                  bottom: 20,
+                  left: 20,
+                  height: 50,
+                  borderRadius: 10
+                },
+                focusChat
+              ]}
+            >
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+                <TextInput
+                  ref={input => {
+                    this.textInput = input;
+                  }}
+                  style={{ flex: 1, color: '#FFF' }}
+                  onChangeText={e => this.setState({ comment: e })}
+                  placeholderTextColor={'rgba(255,255,255,0.7)'}
+                  placeholder={'Nhập tin nhắn ...'}
+                />
+                <TouchableOpacity onPress={() => this.addComment()}>
+                  <Image source={require('../../../resources/icons/send-mess.png')} />
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </KeyboardAwareScrollView>
+        </ScrollView>
       </Modal>
     );
   }

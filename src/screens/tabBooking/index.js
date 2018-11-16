@@ -52,7 +52,7 @@ class TabBooking extends Component {
     };
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const buildingID = this.props.units.unitActive.buildingId;
     this.props.actions.booking.getListCategory(accessTokenApi, buildingID);

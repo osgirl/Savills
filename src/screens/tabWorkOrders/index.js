@@ -48,7 +48,9 @@ class TabWorkOrder extends Component {
       listWorkOrderComplete: [],
       scrollY: new Animated.Value(0),
       loadingMoreTabActive: false,
-      isModalSelectUnit: false
+      isModalSelectUnit: false,
+      isLoadDataComplete: true,
+      isLoadDataActive: true
     };
   }
 
@@ -69,7 +71,7 @@ class TabWorkOrder extends Component {
       !nextProps.workOrder.isGetListWorkOrder
     ) {
       nextProps.actions.workOrder.setFlagGetWorkOrderList();
-      this.setState({ listWorkOrder: nextProps.workOrder.listActive.result.items, isRefreshing: false });
+      this.setState({ listWorkOrder: nextProps.workOrder.listActive.result.items, isRefreshing: false, isLoadDataActive: false });
     }
     if (
       nextProps.workOrder &&
@@ -78,7 +80,11 @@ class TabWorkOrder extends Component {
       !nextProps.workOrder.isGetListWorkOrder
     ) {
       nextProps.actions.workOrder.setFlagGetWorkOrderList();
-      this.setState({ listWorkOrderComplete: nextProps.workOrder.listComplete.result.items, isRefreshingComplete: false });
+      this.setState({
+        listWorkOrderComplete: nextProps.workOrder.listComplete.result.items,
+        isRefreshingComplete: false,
+        isLoadDataComplete: false
+      });
     }
   };
 
@@ -225,14 +231,13 @@ class TabWorkOrder extends Component {
             <RefreshControl
               refreshing={this.state.isRefreshing}
               onRefresh={() => this._onRefresh()}
-              title={'Refrech Data !!'}
               tintColor="#000"
               titleColor="#000"
             />
           }
           renderItem={({ item, index }) => this.renderItem(item, index)}
           ListEmptyComponent={() => {
-            return <EmptyItemList />;
+            return <EmptyItemList loadData={this.state.isLoadDataActive} />;
           }}
         />
       </View>
@@ -291,14 +296,13 @@ class TabWorkOrder extends Component {
             <RefreshControl
               refreshing={this.state.isRefreshingComplete}
               onRefresh={() => this._onRefreshTabComplete()}
-              title={'Refrech Data !!'}
               tintColor="#000"
               titleColor="#000"
             />
           }
           renderItem={({ item, index }) => this.renderItem(item, index)}
           ListEmptyComponent={() => {
-            return <EmptyItemList />;
+            return <EmptyItemList loadData={this.state.isLoadDataComplete} />;
           }}
         />
       </View>

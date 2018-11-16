@@ -100,6 +100,18 @@ export function getListBooking(accessTokenAPI, status, page = 1) {
   };
 }
 
+// lấy chi tiết category
+export function getDetailCategory(accessTokenAPI, id) {
+  return {
+    type: Types.GET_DETAIL_CATEGORY,
+    payload: {
+      api: Configs.API_BOOKING + `/api/amenities/${id}`,
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
 export function setFlagCreateBooking(bool = true) {
   return {
     type: Types.FLAG_CREATE_BOOKING,

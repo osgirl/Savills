@@ -11,8 +11,7 @@ import {
   PixelRatio,
   Modal,
   Animated,
-  Platform,
-  KeyboardAvoidingView
+  Platform
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -32,7 +31,10 @@ const options = {
   storageOptions: {
     skipBackup: true,
     path: 'images'
-  }
+  },
+  quality: 1,
+  maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
+  maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
 };
 
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
@@ -61,7 +63,6 @@ class ModalNewOrder extends Component {
     let accessTokenAPI = nextProps.account.accessTokenAPI;
     const { id } = nextProps.userProfile.profile.result.user;
 
-    await nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
     if (
       nextProps.workOrder.createWorkorder &&
       nextProps.workOrder.createWorkorder.success &&
@@ -77,8 +78,9 @@ class ModalNewOrder extends Component {
           );
         }
       }
+      await nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
+      await this.props.navigation.goBack();
     }
-    await this.props.navigation.goBack();
   }
 
   actionCreateWorkOrder = () => {
@@ -235,7 +237,7 @@ class ModalNewOrder extends Component {
           contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
           style={{ flex: 1, backgroundColor: '#F6F8FD' }}
         >
-          <KeyboardAwareScrollView>
+          <KeyboardAwareScrollView extraHeight={-100}>
             <ItemScorll
               title={'Thông Tin'}
               view={
@@ -348,7 +350,9 @@ class ModalNewOrder extends Component {
                     width: null,
                     padding: 10,
                     paddingTop: 20,
-                    marginBottom: 170
+                    marginBottom: 170,
+                    borderWidth: 1,
+                    borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF'
                   }}
                   multiline
                   placeholder={'Nhập nội dung ...'}
@@ -371,7 +375,13 @@ class ModalNewOrder extends Component {
         >
           <TouchableOpacity
             style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
-            onPress={() => this.setState({ isShowModalConfirm: true })}
+            onPress={() => {
+              if (this.state.comment.trim() === '') {
+                alert('Thiếu Comment');
+              } else {
+                this.setState({ isShowModalConfirm: true });
+              }
+            }}
           >
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>
           </TouchableOpacity>
@@ -433,13 +443,11 @@ class ModalNewOrder extends Component {
             >
               <Image source={require('../../../resources/icons/close.png')} />
             </TouchableOpacity>
-            <Image
-              style={{ height: 50, width: null }}
-              resizeMode={'cover'}
-              source={{
-                uri:
-                  'https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Article+Image+Update/Triathlon/Build+Swimming+Endurance/carousel.jpg'
-              }}
+            <LinearGradient
+              colors={['#4A89E8', '#8FBCFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{ width: width, height: 50 }}
             />
             <ScrollView style={{ flex: 1, marginBottom: 100 }} showsVerticalScrollIndicator={false}>
               <ItemScorll
@@ -489,7 +497,15 @@ class ModalNewOrder extends Component {
                     showsHorizontalScrollIndicator={false}
                     horizontal
                   >
-                    {this.state.imageList.map((item, index) => this.renderItemImage(item, index))}
+                    {this.state.imageList.map((item, index) => {
+                      if (index === 0) {
+                        return;
+                      } else {
+                        return (
+                          <Image key={index} style={{ width: 90, height: 90, borderRadius: 10, margin: 10 }} source={item} />
+                        );
+                      }
+                    })}
                   </ScrollView>
                 }
               />

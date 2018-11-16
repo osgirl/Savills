@@ -15,13 +15,15 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import Modal from 'react-native-modal';
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 import Connect from '@stores';
 import ItemComment from '@components/itemComment';
 import Resolution from '@utils/resolution';
 import Header from '@components/header';
 import HeaderTitle from '@components/headerTitle';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Button from '@components/button';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -36,7 +38,8 @@ class ModalDetailBooking extends Component {
       listChat: [],
       chatText: '',
       isShowTitleHeader: false,
-      scrollY: new Animated.Value(0)
+      scrollY: new Animated.Value(0),
+      popupError: false
     };
   }
 
@@ -54,7 +57,18 @@ class ModalDetailBooking extends Component {
       this.props.booking.detailBooking != nextProps.booking.detailBooking
     ) {
       this.setState({ loading: false });
-      this.props.actions.workOrder.getCommentUser(accessTokenApi, nextProps.booking.detailBooking.guid);
+      this.props.actions.workOrder.getCommentUser(accessTokenApi, nextProps.booking.detailBooking.result.guid);
+    }
+    if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
+      this.setState({ listChat: nextProps.workOrder.listComment.result.items });
+    }
+    if (
+      nextProps.booking.changeStatusBooking &&
+      !nextProps.booking.changeStatusBooking.success &&
+      !nextProps.booking.isChangeStatus
+    ) {
+      nextProps.actions.booking.setFlagChangeStatus();
+      this.setState({ popupError: true });
     }
     if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
       this.setState({ listChat: nextProps.workOrder.listComment.result.items });
@@ -307,6 +321,7 @@ class ModalDetailBooking extends Component {
         </TouchableOpacity>
         {this.renderContentModalChat()}
         {this.renderModalCancel()}
+        {this.renderPopupCancelError()}
         {this.renderFooter()}
       </View>
     );
@@ -315,88 +330,78 @@ class ModalDetailBooking extends Component {
   renderContentModalChat() {
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
-        <KeyboardAwareScrollView
-          innerRef={ref => (this.scroll = ref)}
-          keyboardShouldPersistTaps="handled"
-          extraHeight={300}
-          enableOnAndroid
-          contentContainerStyle={{
-            minHeight: '100%',
+        <View
+          style={{
+            width: width,
+            height: 50,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            flexDirection: 'row',
+            backgroundColor: '#FFF',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'space-between',
+            paddingHorizontal: 20
           }}
         >
-          <ScrollView style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-              <View
-                style={{
-                  width: width,
-                  height: 50,
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  flexDirection: 'row',
-                  backgroundColor: '#FFF',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 20
+          <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
+            <Image source={require('../../../resources/icons/close-black.png')} />
+          </TouchableOpacity>
+          <Text>#676</Text>
+          <View />
+        </View>
+        {/* <ScrollView style={{ flex: 1 }}> */}
+        <KeyboardAwareScrollView extraScrollHeight={50} extraHeight={-300}>
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
+              <FlatList
+                data={this.state.listChat}
+                keyExtractor={(item, index) => item.id.toString()}
+                style={{ maxHeight: isIphoneX() ? 500 : height - 150 }}
+                renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
+                ListEmptyComponent={() => {
+                  return (
+                    <View style={{ flex: 1, alignItems: 'center', marginTop: 100 }}>
+                      <Image source={require('../../../resources/icons/chat-big.png')} />
+                      <Text
+                        style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
+                      >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
+                    </View>
+                  );
                 }}
-              >
-                <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
-                  <Image source={require('../../../resources/icons/close-black.png')} />
-                </TouchableOpacity>
-                <Text>#676</Text>
-                <View />
-              </View>
-              <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
-                <FlatList
-                  data={this.state.listChat}
-                  keyExtractor={(item, index) => item.id.toString()}
-                  style={{ minHeight: 500 }}
-                  renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
-                  ListEmptyComponent={() => {
-                    return (
-                      <View style={{ flex: 1, alignItems: 'center', marginTop: 100 }}>
-                        <Image source={require('../../../resources/icons/chat-big.png')} />
-                        <Text
-                          style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
-                        >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
-                      </View>
-                    );
-                  }}
-                />
-              </View>
-              <LinearGradient
-                colors={['#4A89E8', '#8FBCFF']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{
-                  width: width - 40,
-                  position: 'absolute',
-                  bottom: 20,
-                  left: 20,
-                  height: 50,
-
-                  borderRadius: 10
-                }}
-              >
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
-                  <TextInput
-                    ref={input => {
-                      this.textInput = input;
-                    }}
-                    style={{ flex: 1, color: '#FFF' }}
-                    onChangeText={e => this.setState({ chatText: e })}
-                    placeholderTextColor={'rgba(255,255,255,0.7)'}
-                    placeholder={'Nhập tin nhắn ...'}
-                  />
-                  <TouchableOpacity onPress={() => this.addComment()}>
-                    <Image source={require('../../../resources/icons/send-mess.png')} />
-                  </TouchableOpacity>
-                </View>
-              </LinearGradient>
+              />
             </View>
-          </ScrollView>
+            <LinearGradient
+              colors={['#4A89E8', '#8FBCFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{
+                width: width - 40,
+                position: 'absolute',
+                bottom: 20,
+                left: 20,
+                height: 50,
+
+                borderRadius: 10
+              }}
+            >
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+                <TextInput
+                  ref={input => {
+                    this.textInput = input;
+                  }}
+                  style={{ flex: 1, color: '#FFF' }}
+                  onChangeText={e => this.setState({ chatText: e })}
+                  placeholderTextColor={'rgba(255,255,255,0.7)'}
+                  placeholder={'Nhập tin nhắn ...'}
+                />
+                <TouchableOpacity onPress={() => this.addComment()}>
+                  <Image source={require('../../../resources/icons/send-mess.png')} />
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
         </KeyboardAwareScrollView>
+        {/* </ScrollView> */}
       </Modal>
     );
   }
@@ -449,6 +454,47 @@ class ModalDetailBooking extends Component {
     );
   };
 
+  renderPopupCancelError = () => {
+    return (
+      <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} isVisible={this.state.popupError}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center' }}>
+          <View
+            style={{
+              width: width - 40,
+              borderRadius: 10,
+              backgroundColor: '#FFF',
+              marginHorizontal: 20,
+              alignItems: 'center',
+              padding: 20
+            }}
+          >
+            <Image source={require('../../../resources/icons/warning.png')} />
+            <Text style={{ marginVertical: 10, color: '#505E75', fontSize: 13, fontFamily: 'OpenSans-Bold' }}>Sorry!</Text>
+            <Text style={{ marginBottom: 20, color: '#BABFC8', fontFamily: 'OpenSans-Regular', textAlign: 'center' }}>
+              {this.props.booking.changeStatusBooking && !this.props.booking.changeStatusBooking.success
+                ? this.props.booking.changeStatusBooking.error.message
+                : ''}
+            </Text>
+            <Button style={{ width: width - 80, marginHorizontal: 20, height: 50 }} onPress={() => this.clickOk()}>
+              <LinearGradient
+                colors={['#4A89E8', '#8FBCFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
+              >
+                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>OK</Text>
+              </LinearGradient>
+            </Button>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
+  clickOk = () => {
+    this.props.navigation.goBack();
+  };
+
   renderFooter = () => {
     return (
       <View style={{ position: 'absolute', width: width, height: 70, backgroundColor: '#FFF', bottom: 0, padding: 20 }}>
@@ -465,7 +511,11 @@ class ModalDetailBooking extends Component {
   cancelBooking = () => {
     let id = this.props.navigation.getParam('id', null);
     let accessTokenApi = this.props.account.accessTokenAPI;
-    this.setState({ isShowModalCancel: false }, () => this.props.actions.booking.changeStatusBooking(accessTokenApi, id));
+    this.setState({ isShowModalCancel: false }, () =>
+      setTimeout(() => {
+        this.props.actions.booking.changeStatusBooking(accessTokenApi, id);
+      }, 500)
+    );
   };
 }
 
