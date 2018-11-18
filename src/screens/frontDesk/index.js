@@ -57,7 +57,6 @@ class TabWorkOrder extends Component {
   componentWillMount = async () => {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const { id } = this.props.userProfile.profile.result.user;
-    this.props.actions.workOrder.getListArea(accessTokenApi);
     this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'ACTIVE', id);
     setTimeout(() => {
       this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'COMPLETED', id);
@@ -158,9 +157,7 @@ class TabWorkOrder extends Component {
             showTitleHeader={this.state.isShowTitleHeader}
             center={
               <View>
-                {/* <Animated.Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold', opacity: opacityText2 }}> */}
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Yêu Cầu</Text>
-                {/* </Animated.Text> */}
+                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Frontdesk</Text>
               </View>
             }
             renderViewRight={
@@ -186,7 +183,7 @@ class TabWorkOrder extends Component {
                 opacity: opacityText2
               }}
             >
-              Yêu Cầu
+              Frontdesk
             </Animated.Text>
           </Animated.View>
           <ScrollableTabView
@@ -194,7 +191,6 @@ class TabWorkOrder extends Component {
             tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
-            backgroundColor={'#FFF'}
           >
             {this.ViewTwo(this.state.listWorkOrder)}
             {this.ViewThree(this.state.listWorkOrderComplete)}
@@ -217,13 +213,18 @@ class TabWorkOrder extends Component {
 
   ViewTwo = list => {
     return (
-      <View tabLabel="Đang xử lý" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+      <View tabLabel="Deliveries" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
           scrollEventThrottle={16}
           keyExtractor={(item, index) => item.id.toString()}
           data={list}
           onScroll={this.handleScroll}
+          // onScroll={Animated.event([
+          //   {
+          //     nativeEvent: { contentOffset: { y: this.state.scrollY } }
+          //   }
+          // ])}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
@@ -279,7 +280,7 @@ class TabWorkOrder extends Component {
 
   ViewThree = list => {
     return (
-      <View tabLabel="Hoàn tất" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+      <View tabLabel="Instruction" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => item.id.toString()}

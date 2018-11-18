@@ -351,16 +351,19 @@ class ModalDetailBooking extends Component {
         </View>
         {/* <ScrollView style={{ flex: 1 }}> */}
         <KeyboardAwareScrollView extraScrollHeight={50} extraHeight={-300}>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: '#FFF' }}>
             <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
               <FlatList
                 data={this.state.listChat}
                 keyExtractor={(item, index) => item.id.toString()}
-                style={{ maxHeight: isIphoneX() ? 500 : height - 150 }}
+                style={{
+                  maxHeight: isIphoneX() ? 500 : height - 150,
+                  minHeight: isIphoneX() ? 500 : height - 150
+                }}
                 renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
                 ListEmptyComponent={() => {
                   return (
-                    <View style={{ flex: 1, alignItems: 'center', marginTop: 100 }}>
+                    <View style={{ flex: 1, height: isIphoneX() ? 500 : height - 150, alignItems: 'center', marginTop: 100 }}>
                       <Image source={require('../../../resources/icons/chat-big.png')} />
                       <Text
                         style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}

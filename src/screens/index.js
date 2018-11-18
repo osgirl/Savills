@@ -20,8 +20,9 @@ import ModalNewBooking from './tabBooking/components/modalNewBooking';
 import Booking from './tabBooking';
 import Inbox from './inbox';
 import Fee from './fee';
-
+import FrontDesk from './frontDesk';
 export {
+  FrontDesk,
   ModalDetailBooking,
   ModalEditOrder,
   ModalNewBooking,
@@ -43,6 +44,5 @@ export {
   FAQ,
   Notification,
   Inbox,
-  Fee,
-  
+  Fee
 };

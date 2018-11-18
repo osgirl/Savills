@@ -8,6 +8,7 @@ const INIT_STATE = {
   listComment: false,
   addComment: false,
   uploadImage: false,
+  listArea: false,
   createWorkorder: false,
   updateWorkOrder: false,
   isCreateWorkOrder: true,
@@ -16,6 +17,17 @@ const INIT_STATE = {
 };
 
 export default createReducer(INIT_STATE, {
+  [Types.GET_LIST_AREA_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        listArea: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.UPDATE_IMAGE_WORKORDER_SUCCESS]: (state, action) => {
     try {
       return {

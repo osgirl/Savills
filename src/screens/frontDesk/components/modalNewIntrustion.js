@@ -57,14 +57,7 @@ class ModalNewOrder extends Component {
       scrollY: new Animated.Value(0),
       isShowTitleHeader: false,
       email: this.props.userProfile.profile.result.user.emailAddress,
-      sdt: this.props.userProfile.profile.result.user.phoneNumber,
-      listArea: this.props.workOrder.listArea.result,
-      indexListArea: false,
-      indexAreaChilder: false,
-      indexArea2: false,
-      listAreaChilder: [],
-      listArea2: false,
-      isShowCategory: false
+      sdt: this.props.userProfile.profile.result.user.phoneNumber
     };
   }
 
@@ -106,9 +99,9 @@ class ModalNewOrder extends Component {
       description: this.state.comment,
       sourceId: 3,
       maintainanceTeamId: 1,
-      areaId: this.state.indexListArea,
-      categoryId: this.state.listAreaChilder[this.state.indexAreaChilder].id,
-      subCategoryId: this.state.listArea2[this.state.indexArea2].id,
+      areaId: 50,
+      categoryId: 90,
+      subCategoryId: null,
       contact: {
         fullName: name,
         phoneNumber: this.state.sdt,
@@ -121,17 +114,7 @@ class ModalNewOrder extends Component {
   };
 
   changeArea(index) {
-    let arr = this.state.listArea.slice();
-    arr.map(item => (item.isCheck = false));
-    arr[index].isCheck = true;
-    this.setState({
-      listArea: arr,
-      isShowCategory: true,
-      listAreaChilder: arr[index].children,
-      indexListArea: arr[index].id,
-      indexArea2: false,
-      listArea2: false
-    });
+    this.setState({ area: index });
   }
 
   getPhotos() {
@@ -310,59 +293,29 @@ class ModalNewOrder extends Component {
                     justifyContent: 'space-around'
                   }}
                 >
-                  {this.state.listArea && this.state.listArea.length > 0
-                    ? this.state.listArea.map((item, index) => (
-                        <TouchableOpacity
-                          key={index}
-                          activeOpacity={1}
-                          onPress={() => this.changeArea(index)}
-                          style={{ flexDirection: 'row' }}
-                        >
-                          <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{item.name}</Text>
-                          <Image
-                            source={
-                              item.isCheck
-                                ? require('../../../resources/icons/checked.png')
-                                : require('../../../resources/icons/check.png')
-                            }
-                          />
-                        </TouchableOpacity>
-                      ))
-                    : null}
+                  <TouchableOpacity activeOpacity={1} onPress={() => this.changeArea(0)} style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
+                    <Image
+                      source={
+                        this.state.area === 0
+                          ? require('../../../resources/icons/checked.png')
+                          : require('../../../resources/icons/check.png')
+                      }
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity activeOpacity={1} onPress={() => this.changeArea(1)} style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Công Cộng</Text>
+                    <Image
+                      source={
+                        this.state.area === 0
+                          ? require('../../../resources/icons/check.png')
+                          : require('../../../resources/icons/checked.png')
+                      }
+                    />
+                  </TouchableOpacity>
                 </View>
               }
             />
-            {this.state.indexArea2 ? (
-              <ItemScorll
-                title={'Danh mục đã chọn'}
-                view={
-                  <View
-                    style={{
-                      height: 110,
-                      width: null,
-                      flex: 1,
-                      borderRadius: 10,
-                      backgroundColor: '#FFF',
-                      padding: 20,
-                      justifyContent: 'space-around'
-                    }}
-                  >
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>
-                        {this.state.listAreaChilder[this.state.indexAreaChilder].name}
-                      </Text>
-                      <Image source={require('../../../resources/icons/checked.png')} />
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>
-                        {this.state.listArea2[this.state.indexArea2].name}
-                      </Text>
-                      <Image source={require('../../../resources/icons/checked.png')} />
-                    </View>
-                  </View>
-                }
-              />
-            ) : null}
             <ItemScorll
               title={'Hình Ảnh'}
               view={
@@ -461,10 +414,7 @@ class ModalNewOrder extends Component {
 
   renderModalArea() {
     return (
-      <Modal
-        style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 70 }}
-        isVisible={this.state.isShowCategory}
-      >
+      <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 70 }} isVisible={true}>
         <View style={{ flex: 1 }}>
           <View
             style={{
@@ -479,7 +429,7 @@ class ModalNewOrder extends Component {
               paddingHorizontal: 20
             }}
           >
-            <TouchableOpacity onPress={() => this.backModal()}>
+            <TouchableOpacity onPress={() => this.setState({ isShowCategory: false })}>
               <Image source={require('@resources/icons/close-black.png')} />
             </TouchableOpacity>
             <Text styl={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold' }}>Khu vực căn hộ</Text>
@@ -487,13 +437,15 @@ class ModalNewOrder extends Component {
           </View>
           <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
             <FlatList
-              data={this.state.listArea2 ? this.state.listArea2 : this.state.listAreaChilder}
-              keyExtractor={(item, index) => item.id.toString()}
-              renderItem={({ item, index }) => this.renderItemChilder(item, index)}
+              data={this.state.listCategory}
+              keyExtractor={(item, index) => item.amenityId.toString()}
+              renderItem={({ item, index }) => (
+                <ItemCategory index={index} item={item} actins={() => this.gotoCreateBooking(item)} />
+              )}
             />
             <Button
               style={{ position: 'absolute', bottom: 20, left: 20, width: width - 40, height: 50 }}
-              onPress={() => this.onPressButton()}
+              onPress={() => this.actionCreateWorkOrder()}
             >
               <LinearGradient
                 colors={['#4A89E8', '#8FBCFF']}
@@ -501,9 +453,7 @@ class ModalNewOrder extends Component {
                 end={{ x: 1, y: 0 }}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
               >
-                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
-                  {!this.state.listArea2 ? 'Next' : 'Done'}
-                </Text>
+                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
               </LinearGradient>
             </Button>
           </View>
@@ -511,64 +461,6 @@ class ModalNewOrder extends Component {
       </Modal>
     );
   }
-
-  backModal = () => {
-    if (this.state.listArea2) {
-      this.setState({ listArea2: false });
-    } else {
-      this.setState({ isShowCategory: false });
-    }
-  };
-
-  onPressButton = () => {
-    if (!this.state.listArea2) {
-      this.setState({ listArea2: this.state.listAreaChilder[this.state.indexAreaChilder].children });
-    } else {
-      this.setState({ isShowCategory: false });
-    }
-  };
-
-  onClickAreaChilder = index => {
-    if (!this.state.listArea2) {
-      let arr = this.state.listAreaChilder.slice();
-      arr.map(item => (item.isCheck = false));
-      let flag = arr[index].isCheck || false;
-      arr[index].isCheck = !flag;
-      this.setState({ listAreaChilder: arr, indexAreaChilder: index });
-    } else {
-      let arr = this.state.listArea2.slice();
-      arr.map(item => (item.isCheck = false));
-      let flag = arr[index].isCheck || false;
-      arr[index].isCheck = !flag;
-      this.setState({ listArea2: arr, indexArea2: index });
-    }
-  };
-
-  renderItemChilder = (item, index) => {
-    return (
-      <TouchableOpacity
-        key={index}
-        activeOpacity={1}
-        onPress={() => this.onClickAreaChilder(index)}
-        style={{
-          flexDirection: 'row',
-          height: 70,
-          width: width - 40,
-          marginHorizontal: 20,
-          borderRadius: 10,
-          marginVertical: 5,
-          alignItems: 'center',
-          backgroundColor: '#FFF',
-          paddingHorizontal: 20
-        }}
-      >
-        <Text style={{ flex: 1, color: '#343D4D', fontFamily: 'OpenSans-Bold', fontSize: 13 }}>{item.name}</Text>
-        <Image
-          source={item.isCheck ? require('../../../resources/icons/checked.png') : require('../../../resources/icons/check.png')}
-        />
-      </TouchableOpacity>
-    );
-  };
 
   renderModalConfirmBooking = () => {
     const { fullUnitCode } = this.props.units.unitActive;
