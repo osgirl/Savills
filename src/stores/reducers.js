@@ -11,8 +11,9 @@ import booking from './states/booking/reducer';
 import notification from './states/notification/reducer';
 import inbox from './states/inbox/reducer';
 import fee from './states/fee/reducer';
-
+import frontDesk from './states/frontDesk/reducer';
 export default combineReducers({
+  frontDesk,
   booking,
   workOrder,
   app,
@@ -24,5 +25,4 @@ export default combineReducers({
   notification,
   inbox,
   fee
-
 });

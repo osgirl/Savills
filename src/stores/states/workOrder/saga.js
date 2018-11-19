@@ -85,7 +85,17 @@ function* uploadImage(action) {
   }
 }
 
+function* getCommentUnread(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_COMMENT_UNREAD_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export default function* saga() {
+  yield takeLatest(Types.GET_COMMENT_UNREAD, getCommentUnread);
   yield takeLatest(Types.GET_LIST_AREA, getListArea);
   yield takeLatest(Types.UPDATE_WORK_ORDER, updateWorkOrder);
   yield takeLatest(Types.UPDATE_IMAGE_WORKORDER, uploadImage);

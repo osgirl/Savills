@@ -10,12 +10,9 @@ import {
   ActivityIndicator,
   FlatList,
   Animated,
-  Platform,
-  KeyboardAvoidingView,
-  findNodeHandle
+  Platform
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import Connect from '@stores';
 import moment from 'moment';
 import Header from '@components/header';
@@ -35,79 +32,31 @@ const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const { width, height } = Dimensions.get('window');
-class ModalEditOrder extends Component {
+class DetailDelivery extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailOrder: {},
-      listComment: false,
-      isShowChat: false,
-      isShowRating: false,
+      detailDelivery: {},
       loading: true,
-      vote: 0,
-      description: '',
-      comment: '',
       scrollY: new Animated.Value(0),
-      isShowTitleHeader: false,
-      showModalConfirmCancel: false,
-      showImage: false
+      isShowTitleHeader: false
     };
   }
 
   componentWillMount = async () => {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     let id = this.props.navigation.getParam('id', 0);
-    await this.props.actions.workOrder.detailWordOrder(accessTokenAPI, id);
+    await this.props.actions.frontDesk.getDetailDelivery(accessTokenAPI, id);
   };
 
   componentWillReceiveProps = nextProps => {
-    const { id } = this.props.userProfile.profile.result.user;
-    let accessTokenAPI = this.props.account.accessTokenAPI;
     if (
-      nextProps.workOrder.workOrderDetail &&
-      nextProps.workOrder.workOrderDetail.success &&
-      this.props.workOrder.workOrderDetail != nextProps.workOrder.workOrderDetail
+      nextProps.frontDesk.detailDelivery &&
+      nextProps.frontDesk.detailDelivery.success &&
+      this.props.frontDesk.detailDelivery != nextProps.frontDesk.detailDelivery
     ) {
-      this.setState({ detailOrder: nextProps.workOrder.workOrderDetail.result, loading: false });
-      this.props.actions.workOrder.getCommentUser(accessTokenAPI, nextProps.workOrder.workOrderDetail.result.guid);
+      this.setState({ detailDelivery: nextProps.frontDesk.detailDelivery.result, loading: false });
     }
-    if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
-      this.setState({ listComment: nextProps.workOrder.listComment.result.items });
-    }
-    if (
-      nextProps.workOrder.updateWorkOrder &&
-      nextProps.workOrder.updateWorkOrder.success &&
-      !nextProps.workOrder.isUpdateWorkOrder
-    ) {
-      nextProps.actions.workOrder.setFlagUpdateWorkOrder();
-      this.setState({ showModalConfirmCancel: false }, () => {
-        nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
-        this.props.navigation.goBack();
-      });
-    }
-    if (
-      nextProps.workOrder.addComment &&
-      nextProps.workOrder.addComment.success &&
-      this.props.workOrder.addComment != nextProps.workOrder.addComment
-    ) {
-      this.textInput.clear();
-      this.props.actions.workOrder.getCommentUser(accessTokenAPI, nextProps.workOrder.workOrderDetail.result.guid);
-    }
-  };
-
-  addComment = () => {
-    let accessTokenAPI = this.props.account.accessTokenAPI;
-    const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
-    let comment = {
-      conversationId: this.props.workOrder.workOrderDetail.result.guid,
-      content: this.state.comment,
-      typeId: null,
-      isPrivate: false,
-      userName: displayName,
-      profilePictureId: profilePictureId,
-      moduleId: 2
-    };
-    this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
   };
 
   handleScroll = event => {
@@ -128,106 +77,10 @@ class ModalEditOrder extends Component {
     })(event);
   };
 
-  renderModalCancel = () => {
-    return (
-      <Modal
-        style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }}
-        isVisible={this.state.showModalConfirmCancel}
-      >
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <View
-            style={{
-              width: width - 40,
-              height: 120,
-              borderRadius: 10,
-              backgroundColor: '#FFF',
-              marginHorizontal: 20,
-              alignItems: 'center',
-              padding: 20
-            }}
-          >
-            <Text style={{ marginBottom: 20, color: '#BABFC8', fontFamily: 'Opensans-SemiBold', fontSize: 14 }}>
-              Bạn muốn hủy order này
-            </Text>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <TouchableOpacity
-                onPress={() => this.setState({ showModalConfirmCancel: false })}
-                style={{ flex: 1, backgroundColor: '#FFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
-              >
-                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>Quay Lại</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.changeStatusWorkOrder(16)}
-                style={{
-                  flex: 1,
-                  marginLeft: 20
-                }}
-              >
-                <LinearGradient
-                  colors={['#4A89E8', '#8FBCFF']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10 }}
-                >
-                  <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-    );
-  };
-
-  changeStatusWorkOrder = idStatus => {
-    const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
-    let accessTokenAPI = this.props.account.accessTokenAPI;
-    const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
-    let WorkOrder = {
-      id: this.state.detailOrder.id,
-      guid: this.state.detailOrder.guid,
-      currentStatusId: idStatus,
-      createdUserFullName: displayName,
-      updateUserFullName: '',
-      fullUnitId: unitId,
-      fullUnitName: `${fullUnitCode} - ${displayName}`,
-      fullUnitCode: fullUnitCode,
-      description: this.state.description,
-      sourceId: 3,
-      rating: this.state.vote,
-      dateCreate: this.state.detailOrder.dateCreate,
-      maintainanceTeamId: 1,
-      areaId: 50,
-      categoryId: 90,
-      isPrivate: true,
-      contact: {
-        email: emailAddress,
-        phoneNumber: phoneNumber,
-        memberId: id
-      }
-    };
-    this.props.actions.workOrder.updateWorkOrder(accessTokenAPI, WorkOrder);
-  };
-
-  renderStartDetail = number => {
-    let start = [];
-    for (let i = 0; i < number; i++) {
-      start.push(
-        <Image key={i} style={{ width: 12, height: 12, margin: 2 }} source={require('../../../resources/icons/Star-big.png')} />
-      );
-    }
-    for (let i = 0; i < 5 - number; i++) {
-      start.push(
-        <Image key={i + 10} style={{ width: 12, height: 12, margin: 2 }} source={require('../../../resources/icons/Star.png')} />
-      );
-    }
-    return start;
-  };
-
   render() {
-    const { fullUnitCode, currentStatus, dateCreate, id, rating, description } = this.state.detailOrder;
-    let date = moment(dateCreate).format('l');
-    let time = moment(dateCreate).format('LT');
+    const { fullUnitCode, status, creationTime, id, deliveryText, deliveryType, disclaimers } = this.state.detailDelivery;
+    let date = moment(creationTime).format('l');
+    let time = moment(creationTime).format('LT');
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, HEADER_SCROLL_DISTANCE],
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
@@ -269,11 +122,11 @@ class ModalEditOrder extends Component {
                   <View
                     style={{
                       borderRadius: 5,
-                      backgroundColor: currentStatus.colorCode
+                      backgroundColor: status.colorCode
                     }}
                   >
                     <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
-                      {currentStatus.codeName}
+                      {status.code}
                     </Text>
                   </View>
                 </View>
@@ -303,68 +156,29 @@ class ModalEditOrder extends Component {
                   </View>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Khu Vực</Text>
-                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>Căn Hộ</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Loại Hàng</Text>
+                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{deliveryType.name}</Text>
                 </View>
               </View>
             }
           />
           <ItemScorll
-            title={'Người Phụ Trách'}
+            title={'Chi Tiết'}
             view={
               <View
                 style={{
-                  height: 90,
-                  width: null,
                   flex: 1,
-                  borderRadius: 10,
                   backgroundColor: '#FFF',
+                  borderRadius: 5,
+                  width: null,
                   padding: 20,
-                  flexDirection: 'row',
-                  alignItems: 'center'
+                  minHeight: 100
                 }}
               >
-                <Image
-                  style={{ width: 50, height: 50, borderRadius: 25 }}
-                  resizeMode={'cover'}
-                  source={require('../../../resources/icons/avatar-default.png')}
-                />
-                <Text style={{ flex: 1, marginLeft: 20 }}>Chưa có người phụ trách</Text>
-                <Image source={require('../../../resources/icons/call-disable.png')} />
+                <Text style={{ color: '#BABFC8', fontSize: 12, fontFamily: 'OpenSans-Regular', lineHeight: 20 }}>
+                  {disclaimers}
+                </Text>
               </View>
-            }
-          />
-          <ItemScorll
-            title={'Hình Ảnh'}
-            view={
-              this.state.detailOrder.fileUrls.length > 0 ? (
-                <ScrollView
-                  style={{
-                    borderRadius: 10,
-                    paddingTop: 20,
-                    width: width - 40,
-                    height: 130,
-                    backgroundColor: '#FFF'
-                  }}
-                  showsHorizontalScrollIndicator={false}
-                  horizontal
-                >
-                  {this.state.detailOrder.fileUrls.map((item, index) => this.renderItemImage(index, item))}
-                </ScrollView>
-              ) : (
-                <View
-                  style={{
-                    borderRadius: 10,
-                    width: width - 40,
-                    height: 80,
-                    backgroundColor: '#FFF',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <Text style={{ color: '#515E6D', fontSize: 16, fontWeight: '600' }}>Chưa upload hình ảnh</Text>
-                </View>
-              )
             }
           />
           <ItemScorll
@@ -376,71 +190,16 @@ class ModalEditOrder extends Component {
                   backgroundColor: '#FFF',
                   borderRadius: 5,
                   width: null,
-                  padding: 10,
+                  padding: 20,
                   minHeight: 100,
-                  marginBottom: rating > 0 && description != '' ? 0 : 200
+                  marginBottom: 200
                 }}
               >
-                <Text>{description}</Text>
+                <Text>{deliveryText}</Text>
               </View>
             }
           />
-          {rating > 0 && description != '' ? (
-            <ItemScorll
-              title={'Bạn đã đánh giá dịch vụ'}
-              view={
-                <View
-                  style={{
-                    flex: 1,
-                    backgroundColor: '#FFF',
-                    borderRadius: 5,
-                    width: null,
-                    padding: 20,
-                    height: 113,
-                    marginBottom: 200,
-                    flexDirection: 'row',
-                    alignItems: 'center'
-                  }}
-                >
-                  <View>
-                    <Text style={{ color: '#505E75', fontSize: 60, fontWeight: 'bold' }}>{rating}.0</Text>
-                    <View style={{ flexDirection: 'row', alignSelf: 'center' }}>{this.renderStartDetail(rating)}</View>
-                  </View>
-                  <Text style={{ flex: 1, marginLeft: 10 }}>{description}</Text>
-                </View>
-              }
-            />
-          ) : null}
         </ScrollView>
-        {this.state.detailOrder.currentStatus && this.state.detailOrder.currentStatus.id !== 11 ? null : this.renderFooter()}
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            bottom: this.state.detailOrder.currentStatus && this.state.detailOrder.currentStatus.id !== 11 ? 20 : 100,
-            right: 20
-          }}
-          onPress={() => this.setState({ isShowChat: true })}
-        >
-          <Image source={require('../../../resources/icons/chat-big.png')} />
-          <View
-            style={{
-              width: 16,
-              height: 16,
-              backgroundColor: 'red',
-              borderRadius: 8,
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}> 1</Text>
-          </View>
-        </TouchableOpacity>
-        {this.renderContentModalChat()}
-        {this.renderModalRating()}
-        {this.renderModalCancel()}
         <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
           <Header
             LinearGradient={true}
@@ -463,7 +222,6 @@ class ModalEditOrder extends Component {
             <HeaderTitle title={`#${id}`} />
           </LinearGradient>
         </Animated.View>
-        {this.showDetailImage()}
       </View>
     );
   }
@@ -604,55 +362,6 @@ class ModalEditOrder extends Component {
     );
   };
 
-  showDetailImage() {
-    const newData = [];
-    let encToken = this.props.account.encToken;
-    {
-      this.state.detailOrder.fileUrls && this.state.detailOrder.fileUrls.length > 0
-        ? this.state.detailOrder.fileUrls.map(value => {
-            if (value == null) {
-              return;
-            }
-            if (value.fileUrl) {
-              newData.push({ url: `${value.fileUrl}&encToken=${encodeURIComponent(encToken)}` });
-            } else {
-              newData.push({ url: value });
-            }
-          })
-        : null;
-    }
-    return (
-      <Modal
-        visible={this.state.showImage}
-        transparent={false}
-        animationType="slide"
-        onRequestClose={() => this.setState({ showImage: false })}
-      >
-        <ImageViewer imageUrls={newData} index={0} />
-        <TouchableOpacity
-          onPress={() => this.setState({ showImage: false })}
-          style={{
-            position: 'absolute',
-            top: 35,
-            left: 20,
-            width: 50,
-            height: 50
-          }}
-        >
-          <Text
-            style={{
-              color: '#ffffff',
-              fontSize: 18,
-              backgroundColor: 'transparent'
-            }}
-          >
-            Close
-          </Text>
-        </TouchableOpacity>
-      </Modal>
-    );
-  }
-
   renderContentModalChat() {
     let focusChat = {};
     let id = this.props.userProfile.profile.result.user.id;
@@ -749,4 +458,4 @@ class ItemScorll extends Component {
   }
 }
 
-export default Connect(ModalEditOrder);
+export default Connect(DetailDelivery);

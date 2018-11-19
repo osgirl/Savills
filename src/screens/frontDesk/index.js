@@ -42,10 +42,10 @@ class TabWorkOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listWorkOrder: [],
+      listDelivery: [],
+      listIntrustion: [],
       isRefreshing: false,
       isRefreshingComplete: false,
-      listWorkOrderComplete: [],
       scrollY: new Animated.Value(0),
       loadingMoreTabActive: false,
       isModalSelectUnit: false,
@@ -56,32 +56,27 @@ class TabWorkOrder extends Component {
 
   componentWillMount = async () => {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    const { id } = this.props.userProfile.profile.result.user;
-    this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'ACTIVE', id);
-    setTimeout(() => {
-      this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'COMPLETED', id);
-    }, 1000);
+    this.props.actions.frontDesk.getListDelivery(accessTokenApi);
+    this.props.actions.frontDesk.getListIntrustion(accessTokenApi);
+    // this.props.actions.frontDesk.getDetailDelivery(accessTokenApi);
+    // this.props.actions.frontDesk.getDetailIntrustion(accessTokenApi);
+    // this.props.actions.frontDesk.createIntrustion(accessTokenApi);
+    // this.props.actions.frontDesk.editIntrustion(accessTokenApi);
   };
 
   componentWillReceiveProps = nextProps => {
-    if (
-      nextProps.workOrder &&
-      nextProps.workOrder.listActive &&
-      nextProps.workOrder.listActive.success &&
-      !nextProps.workOrder.isGetListWorkOrder
-    ) {
-      nextProps.actions.workOrder.setFlagGetWorkOrderList();
-      this.setState({ listWorkOrder: nextProps.workOrder.listActive.result.items, isRefreshing: false, isLoadDataActive: false });
-    }
-    if (
-      nextProps.workOrder &&
-      nextProps.workOrder.listComplete &&
-      nextProps.workOrder.listComplete.success &&
-      !nextProps.workOrder.isGetListWorkOrder
-    ) {
-      nextProps.actions.workOrder.setFlagGetWorkOrderList();
+    if (nextProps.frontDesk.listDelivery && nextProps.frontDesk.listDelivery.success && !nextProps.frontDesk.isDelivery) {
+      nextProps.actions.frontDesk.setFlagGetListDelivery();
       this.setState({
-        listWorkOrderComplete: nextProps.workOrder.listComplete.result.items,
+        listDelivery: nextProps.frontDesk.listDelivery.result.items,
+        isRefreshing: false,
+        isLoadDataActive: false
+      });
+    }
+    if (nextProps.frontDesk.listIntrustion && nextProps.frontDesk.listIntrustion.success && !nextProps.frontDesk.isIntroduction) {
+      nextProps.actions.frontDesk.setFlagGetListIntrodustion();
+      this.setState({
+        listIntrustion: nextProps.frontDesk.listIntrustion.result.items,
         isRefreshingComplete: false,
         isLoadDataComplete: false
       });
@@ -192,23 +187,20 @@ class TabWorkOrder extends Component {
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
           >
-            {this.ViewTwo(this.state.listWorkOrder)}
-            {this.ViewThree(this.state.listWorkOrderComplete)}
+            {this.ViewTwo(this.state.listDelivery)}
+            {this.ViewThree(this.state.listIntrustion)}
           </ScrollableTabView>
         </LinearGradient>
-        <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
-        <Button onPress={() => this.props.navigation.navigate('ModalWorkOrder', { profile: 'asd' })} style={styles.ButtonAdd}>
-          <Image source={require('../../resources/icons/plush-addnew.png')} />
-        </Button>
-        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
-          <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
-        </Modal>
       </View>
     );
   }
 
-  clickDetail = item => {
-    this.props.navigation.navigate('ModalEditOrder', { id: item.id });
+  clickDetail = (item, tabIndex) => {
+    if (tabIndex == 0) {
+      this.props.navigation.navigate('DetailDelivery', { id: item.id });
+    } else {
+      this.props.navigation.navigate('DetailIntrustion', { id: item.id });
+    }
   };
 
   ViewTwo = list => {
@@ -220,11 +212,6 @@ class TabWorkOrder extends Component {
           keyExtractor={(item, index) => item.id.toString()}
           data={list}
           onScroll={this.handleScroll}
-          // onScroll={Animated.event([
-          //   {
-          //     nativeEvent: { contentOffset: { y: this.state.scrollY } }
-          //   }
-          // ])}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
@@ -233,7 +220,7 @@ class TabWorkOrder extends Component {
               titleColor="#000"
             />
           }
-          renderItem={({ item, index }) => this.renderItem(item, index)}
+          renderItem={({ item, index }) => this.renderItem(item, index, 0)}
           ListEmptyComponent={() => {
             return <EmptyItemList loadData={this.state.isLoadDataActive} />;
           }}
@@ -242,38 +229,26 @@ class TabWorkOrder extends Component {
     );
   };
 
-  async _onEndReached() {
-    if (this.state.loadingMoreTabActive) {
-      return;
-    }
-    this.setState({ loadingMoreTabActive: true });
-    let start = await this.state.listWorkOrder.length;
-    let accessTokenAPI = this.props.account.accessTokenAPI;
-    await this.props.actions.notification.getListNotification(accessTokenAPI, start);
-  }
-
   _onRefresh() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    const { id } = this.props.userProfile.profile.result.user;
     this.setState(
       {
         isRefreshing: true
       },
       () => {
-        this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'ACTIVE', id);
+        this.props.actions.frontDesk.getListDelivery(accessTokenApi);
       }
     );
   }
 
   _onRefreshTabComplete() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    const { id } = this.props.userProfile.profile.result.user;
     this.setState(
       {
         isRefreshingComplete: true
       },
       () => {
-        this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'COMPLETED', id);
+        this.props.actions.frontDesk.getListIntrustion(accessTokenApi);
       }
     );
   }
@@ -298,18 +273,24 @@ class TabWorkOrder extends Component {
               titleColor="#000"
             />
           }
-          renderItem={({ item, index }) => this.renderItem(item, index)}
+          renderItem={({ item, index }) => this.renderItem(item, index, 1)}
           ListEmptyComponent={() => {
             return <EmptyItemList loadData={this.state.isLoadDataComplete} />;
           }}
         />
+        <Button onPress={() => this.props.navigation.navigate('ModalWorkOrder', { profile: 'asd' })} style={styles.ButtonAdd}>
+          <Image source={require('../../resources/icons/plush-addnew.png')} />
+        </Button>
+        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
+          <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
+        </Modal>
       </View>
     );
   };
 
-  renderItem = (item, index) => {
-    let date = moment(item.dateCreate).format('l');
-    let time = moment(item.dateCreate).format('LT');
+  renderItem = (item, index, tabIndex) => {
+    let date = moment(item.creationTime).format('l');
+    let time = moment(item.creationTime).format('LT');
     let encToken = this.props.account.encToken;
     let image =
       item.fileUrls && item.fileUrls.length > 0
@@ -317,11 +298,11 @@ class TabWorkOrder extends Component {
         : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';
     return (
       <Button
-        onPress={() => this.clickDetail(item)}
+        onPress={() => this.clickDetail(item, tabIndex)}
         key={item.id}
         style={{
           width: width - 40,
-          height: 170,
+          height: 150,
           borderRadius: 10,
           marginTop: index === 0 ? 20 : 10,
           backgroundColor: '#FFF',
@@ -341,7 +322,7 @@ class TabWorkOrder extends Component {
         </View>
 
         <View
-          style={{ flex: 1, marginVertical: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+          style={{ flex: 1, marginVertical: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image style={{ marginRight: 10, width: 15, height: 15 }} source={require('../../resources/icons/clock.png')} />
@@ -354,28 +335,17 @@ class TabWorkOrder extends Component {
           <View
             style={{
               borderRadius: 5,
-              backgroundColor: item.currentStatus.colorCode
+              backgroundColor: item.status && item.status.colorCode ? item.status.colorCode : item.instructionStatus.colorCode
             }}
           >
             <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
-              {item.currentStatus.codeName}
+              {item.status ? item.status.code : item.instructionStatus.code}
             </Text>
           </View>
         </View>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'rgba(186,191,200,0.5)',
-            borderRadius: 5,
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 10
-          }}
-        >
-          <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-            {item.lastComment}
-          </Text>
-        </View>
+        <Text style={{ color: '#343D4D', fontSize: 12 }} numberOfLines={1}>
+          {item.deliveryText || item.instructionText}
+        </Text>
       </Button>
     );
   };

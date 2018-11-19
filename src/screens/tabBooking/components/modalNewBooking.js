@@ -78,7 +78,7 @@ class ModalNewBooking extends Component {
     if (nextProps.booking.createNewBooking && !nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.setState({ isModalError: true });
     }
-  }d
+  }
 
   mapObjectSelected() {
     let markedDateMap = {};
@@ -261,7 +261,7 @@ class ModalNewBooking extends Component {
               renderLeft
               number={
                 this.props.booking.detailCategory && this.props.booking.detailCategory.result
-                  ? this.props.booking.detailCategory.result.numOfExtendTimeSlot
+                  ? this.props.booking.detailCategory.result.numOfExtendTimeSlot - this.state.arrSelected.length
                   : 0
               }
               view={
@@ -431,7 +431,7 @@ class ModalNewBooking extends Component {
         </View>
         {this.state.listBooking && this.state.listBooking.length > 0 ? this.renderModalConfirmBooking() : null}
         {this.props.booking.detailCategory && this.props.booking.detailCategory.result ? this.renderModalRegulations() : null}
-        {this.props.booking.createNewBooking && this.props.booking.createNewBooking.error.message ? (
+        {this.props.booking.createNewBooking && this.props.booking.createNewBooking.error ? (
           <AlertWarning
             clickAction={() => this.props.goBack()}
             isVisible={this.state.isModalError}

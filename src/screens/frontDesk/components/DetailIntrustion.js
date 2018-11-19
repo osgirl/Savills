@@ -39,7 +39,7 @@ class ModalEditOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailOrder: {},
+      detailIntroduction: {},
       listComment: false,
       isShowChat: false,
       isShowRating: false,
@@ -57,42 +57,18 @@ class ModalEditOrder extends Component {
   componentWillMount = async () => {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     let id = this.props.navigation.getParam('id', 0);
-    await this.props.actions.workOrder.detailWordOrder(accessTokenAPI, id);
-    this.props.actions.workOrder.getCommentUnread(accessTokenAPI, id, 2);
+    await this.props.actions.frontDesk.getDetailIntrustion(accessTokenAPI, id);
   };
 
   componentWillReceiveProps = nextProps => {
     const { id } = this.props.userProfile.profile.result.user;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     if (
-      nextProps.workOrder.workOrderDetail &&
-      nextProps.workOrder.workOrderDetail.success &&
-      this.props.workOrder.workOrderDetail != nextProps.workOrder.workOrderDetail
+      nextProps.frontDesk.detailIntroduction &&
+      nextProps.frontDesk.detailIntroduction.success &&
+      this.props.frontDesk.detailIntroduction != nextProps.frontDesk.detailIntroduction
     ) {
-      this.setState({ detailOrder: nextProps.workOrder.workOrderDetail.result, loading: false });
-      this.props.actions.workOrder.getCommentUser(accessTokenAPI, nextProps.workOrder.workOrderDetail.result.guid);
-    }
-    if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
-      this.setState({ listComment: nextProps.workOrder.listComment.result.items });
-    }
-    if (
-      nextProps.workOrder.updateWorkOrder &&
-      nextProps.workOrder.updateWorkOrder.success &&
-      !nextProps.workOrder.isUpdateWorkOrder
-    ) {
-      nextProps.actions.workOrder.setFlagUpdateWorkOrder();
-      this.setState({ showModalConfirmCancel: false }, () => {
-        nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
-        this.props.navigation.goBack();
-      });
-    }
-    if (
-      nextProps.workOrder.addComment &&
-      nextProps.workOrder.addComment.success &&
-      this.props.workOrder.addComment != nextProps.workOrder.addComment
-    ) {
-      this.textInput.clear();
-      this.props.actions.workOrder.getCommentUser(accessTokenAPI, nextProps.workOrder.workOrderDetail.result.guid);
+      this.setState({ detailIntroduction: nextProps.frontDesk.detailIntroduction.result, loading: false });
     }
   };
 
@@ -423,27 +399,21 @@ class ModalEditOrder extends Component {
           onPress={() => this.setState({ isShowChat: true })}
         >
           <Image source={require('../../../resources/icons/chat-big.png')} />
-          {this.props.workOrder.commentUnread &&
-          this.props.workOrder.commentUnread.success &&
-          this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
-            <View
-              style={{
-                width: 16,
-                height: 16,
-                backgroundColor: 'red',
-                borderRadius: 8,
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
-                {this.props.workOrder.commentUnread.result[0].unreadCount}
-              </Text>
-            </View>
-          ) : null}
+          <View
+            style={{
+              width: 16,
+              height: 16,
+              backgroundColor: 'red',
+              borderRadius: 8,
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}> 1</Text>
+          </View>
         </TouchableOpacity>
         {this.renderContentModalChat()}
         {this.renderModalRating()}

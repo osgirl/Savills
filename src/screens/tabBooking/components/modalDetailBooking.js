@@ -47,6 +47,7 @@ class ModalDetailBooking extends Component {
     let accessTokenApi = this.props.account.accessTokenAPI;
     let id = this.props.navigation.getParam('id', null);
     this.props.actions.booking.getDetailBooking(accessTokenApi, id);
+    this.props.actions.workOrder.getCommentUnread(accessTokenApi, id, 3);
   };
 
   async componentWillReceiveProps(nextProps) {
@@ -303,21 +304,27 @@ class ModalDetailBooking extends Component {
           onPress={() => this.setState({ isShowChat: true })}
         >
           <Image source={require('../../../resources/icons/chat-big.png')} />
-          <View
-            style={{
-              width: 16,
-              height: 16,
-              backgroundColor: 'red',
-              borderRadius: 8,
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}> 1</Text>
-          </View>
+          {this.props.workOrder.commentUnread &&
+          this.props.workOrder.commentUnread.success &&
+          this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: 'red',
+                borderRadius: 8,
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
+                {this.props.workOrder.commentUnread.result[0].unreadCount}
+              </Text>
+            </View>
+          ) : null}
         </TouchableOpacity>
         {this.renderContentModalChat()}
         {this.renderModalCancel()}

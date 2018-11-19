@@ -21,7 +21,13 @@ import Booking from './tabBooking';
 import Inbox from './inbox';
 import Fee from './fee';
 import FrontDesk from './frontDesk';
+import NewIntrustion from './frontDesk/components/NewIntrustion';
+import DetailIntrustion from './frontDesk/components/DetailIntrustion';
+import DetailDelivery from './frontDesk/components/DetailDelivery';
 export {
+  DetailDelivery,
+  NewIntrustion,
+  DetailIntrustion,
   FrontDesk,
   ModalDetailBooking,
   ModalEditOrder,

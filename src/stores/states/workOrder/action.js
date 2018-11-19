@@ -161,6 +161,17 @@ export function uploadImageWorkOrder(accessTokenAPI, file, idWO) {
   };
 }
 
+export function getCommentUnread(accessTokenAPI, id, idModules) {
+  return {
+    type: Types.GET_COMMENT_UNREAD,
+    payload: {
+      api: Configs.API + `/api/services/app/Notification/GetUserNotificationCommentUnread?entityIds=${id}&moduleId=${idModules}`,
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
 export function setFlagCreateWorkOrder(bool = true) {
   return {
     type: Types.FLAG_CREATE_WORKORDER,
