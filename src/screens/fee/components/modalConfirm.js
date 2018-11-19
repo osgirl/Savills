@@ -29,6 +29,7 @@ class modalConfirm extends Component {
     }
 
     render() {
+        let data = this.props.listFeeSelected || []
         return (
             <View style={[styles.container, {}]}>
                 <Header
@@ -50,7 +51,7 @@ class modalConfirm extends Component {
 
                     <View style={{ marginHorizontal: 20, paddingVertical: 20, width: width - 40, borderRadius: 5, backgroundColor: '#FFF', marginTop: 20 }}>
                         {
-                            DATA.map((item, index) => (
+                            data.map((item, index) => (
                                 this.renderItem(item, index)
                             ))
                         }
@@ -91,26 +92,27 @@ class modalConfirm extends Component {
 
 
     renderItem(item, index) {
+        console.log('______', item)
         return (
-            <Button
-                onPress={() => { }}
+            <View
+                key={item.id + '__detailOrder'}
                 style={[styles.item, { flexDirection: 'row', marginHorizontal: 20, width: width - 40, borderRadius: 5 }]}>
-                <View style={{ width: width - 80, flexDirection: 'column' }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: index === 0 ? 0 : 20 }}>
+                <View style={{ width: width - 80, alignSelf: 'flex-start' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: index === 0 ? 0 : 20 }}>
                         <Text
-                            numberOfLines={2} style={{ fontSize: 14, fontFamily: 'OpenSans-Bold' }}>
-                            {'Tenist 2'}
+                            numberOfLines={2} style={{ fontSize: 14, fontFamily: 'OpenSans-Bold', width: width - 160 }}>
+                            {item.description}
                         </Text>
                         <Text
                             numberOfLines={2} style={{ fontSize: 14, fontFamily: 'OpenSans-Bold', }}>
-                            {'370,260 VND'}
+                            {item.totalAmount + ' VND'}
                         </Text>
                     </View>
-                    <Text style={{ color: '#BABFC8', fontSize: 13, fontFamily: 'OpenSans-SemiBold' }}>
-                        1 X 370,260 VND
+                    <Text numberOfLines={1} style={{ color: '#BABFC8', fontSize: 13, fontFamily: 'OpenSans-SemiBold', }}>
+                        {item.quantity + ' x ' + item.totalAmount}
                     </Text>
                 </View>
-            </Button >
+            </View>
         );
     }
 
