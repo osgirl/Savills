@@ -188,7 +188,7 @@ export default class extends Component {
                 />
 
                 <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
-                <Button onPress={() => this._openModalConfirm()} style={Styles.ButtonAdd}>
+                <Button onPress={() => this._openModalConfirm()} style={[Styles.ButtonAdd, { backgroundColor: this.state.listFeeSelected.length > 0 ? '#01C772' : '#e0e0e0', }]}>
                     <Text style={{ color: '#F8F8F8', fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
                 </Button>
 
@@ -203,6 +203,7 @@ export default class extends Component {
                 <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowModalConfirm}>
                     <ModalConfirm
                         onClose={() => this._closeModalConfirm()}
+                        listFeeSelected={this.state.listFeeSelected}
                     />
                 </Modal>
                 <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowModalHistory}>

@@ -15,9 +15,9 @@ export default StyleSheet.create({
         bottom: isIphoneX() ? 30 : 20,
         left: width / 2 - 25,
         backgroundColor: '#01C772',
-        shadowColor: '#4DD49A',
-        shadowOffset: { width: 3, height: 6 },
-        shadowOpacity: 0.3,
+        // shadowColor: '#4DD49A',
+        // shadowOffset: { width: 3, height: 6 },
+        // shadowOpacity: 0.3,
         alignItems: 'center',
         justifyContent: 'center'
       }
