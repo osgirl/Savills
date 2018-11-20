@@ -95,7 +95,7 @@ class ModalNewFeedback extends Component {
     });
 
     let category = this.state.listCategory.filter(o => o.id === this.state.categorySelectedId);
-    
+
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <ScrollView
@@ -252,7 +252,7 @@ class ModalNewFeedback extends Component {
             showTitleHeader={this.state.isShowTitleHeader}
             center={
               <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'New Order'}</Text>
+                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'New Feedback'}</Text>
               </View>
             }
           />
