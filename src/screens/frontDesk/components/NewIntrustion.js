@@ -349,7 +349,7 @@ class ModalNewOrder extends Component {
                     paddingTop: 20,
                     marginBottom: 170,
                     borderWidth: 1,
-                    borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF'
+                    // borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF'
                   }}
                   multiline
                   placeholder={'Nhập nội dung ...'}

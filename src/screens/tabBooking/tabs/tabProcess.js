@@ -43,7 +43,6 @@ class TabActive extends Component {
               titleColor="#000"
             />
           }
-          ListFooterComponent={() => <ActivityIndicator color={'blue'} size={'large'} />}
           ListEmptyComponent={() => {
             return <EmptyItemList loadData={this.state.isLoadData} />;
           }}

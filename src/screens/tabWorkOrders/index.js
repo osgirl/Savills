@@ -34,7 +34,7 @@ import Modal from 'react-native-modal';
 import ModalSelectUnit from '../../components/modalSelectUnit';
 import IC_DROPDOWN from '../../resources/icons/dropDown.png';
 
-const HEADER_MAX_HEIGHT = Resolution.scale(70);
+const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -191,7 +191,7 @@ class TabWorkOrder extends Component {
           </Animated.View>
           <ScrollableTabView
             tabBarActiveTextColor={'#FFF'}
-            tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
+            tabBarInactiveTextColor={'rgba(255,255,255,0.9)'}
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
             backgroundColor={'#FFF'}

@@ -92,7 +92,6 @@ export default class extends Component {
 
           <Text style={Style.unitCode}>{Unit.fullUnitCode}</Text>
         </Button>
-        {/* <View style={{ backgroundColor: 'red' }}> */}
         <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginHorizontal: 20 }}>
           <Button
             disabled={this.state.numcolumn === 2 ? true : false}

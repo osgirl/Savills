@@ -27,6 +27,7 @@ import ModalDetail from './components/modalDetail';
 import ModalFull from './components/modalFull';
 import ModalSelectUnit from '../../components/modalSelectUnit';
 
+import CalendarStrip from '@components/calendarAgenda';
 import Language from '../../utils/language';
 
 import XDate from 'xdate';
@@ -55,23 +56,36 @@ export default class Layout extends Component {
       <View>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ paddingBottom: 10 }}>
           <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
-
-          <Calendar
-            style={styles.calendar}
-            firstDay={1}
-            markedDates={this.state.overViewDate || {}}
-            onDayPress={data => this._onPressDay(data.dateString)}
-            theme={{
-              todayTextColor: '#343D4D',
-              arrowColor: '#FFF',
-              selectedDayBackgroundColor: '#FFF',
-              monthTextColor: '#FFF',
-              textSectionTitleColor: '#FFF',
-              textDayHeaderFontSize: 15,
-              textDayFontFamily: 'OpenSans-Regular',
-              textDayFontSize: 14
-            }}
-          />
+          {this.state.openFullCalendar ? (
+            <Calendar
+              style={styles.calendar}
+              firstDay={1}
+              markedDates={this.state.overViewDate || {}}
+              onDayPress={data => this._onPressDay(data.dateString)}
+              theme={{
+                todayTextColor: '#343D4D',
+                arrowColor: '#FFF',
+                selectedDayBackgroundColor: '#FFF',
+                monthTextColor: '#FFF',
+                textSectionTitleColor: '#FFF',
+                textDayHeaderFontSize: 15,
+                textDayFontFamily: 'OpenSans-Regular',
+                textDayFontSize: 14
+              }}
+            />
+          ) : (
+            <CalendarStrip
+              selectedDate={this.state.selectedDate}
+              onPressDate={date => {
+                this.setState({ selectedDate: date });
+              }}
+              onPressGoToday={today => {
+                this.setState({ selectedDate: today });
+              }}
+              onSwipeDown={() => {}}
+              markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
+            />
+          )}
         </LinearGradient>
         <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>
           <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>{LG.EVENTS_TXT_ALLTITLE}</Text>
@@ -103,9 +117,7 @@ export default class Layout extends Component {
     let unitActive = this.props.units.unitActive;
     return (
       <View style={styles.container}>
-        <StatusBar
-          barStyle="light-content"
-        />
+        <StatusBar barStyle="light-content" />
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}
@@ -127,7 +139,7 @@ export default class Layout extends Component {
             </Button>
           }
         />
-        {/* {this.renderHeader()} */}
+        {this.renderHeader()}
         <FlatList
           data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
           keyExtractor={item => item.eventId + ''}
@@ -137,7 +149,7 @@ export default class Layout extends Component {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          ListHeaderComponent={() => this.renderHeader()}
+          // ListHeaderComponent={() => this.renderHeader()}
           ListFooterComponent={() => <View style={{ height: 20 }} />}
         />
         <Modal

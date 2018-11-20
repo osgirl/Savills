@@ -89,7 +89,7 @@ class DetailDelivery extends Component {
 
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size={'large'} color={'red'} />
+        <ActivityIndicator size={'large'} color={'blue'} />
       </View>
     ) : (
       <View style={{ flex: 1 }}>
