@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
+import CalendarStrip from '@components/calendarAgenda';
 import Header from '@components/header';
 import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -25,7 +26,6 @@ import moment from 'moment';
 import Loading from '@components/loading';
 const { width } = Dimensions.get('window');
 import Connect from '@stores';
-import { Agenda } from 'react-native-calendars';
 import AlertWarning from '@components/alertWarning';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 class ModalNewBooking extends Component {
@@ -33,8 +33,10 @@ class ModalNewBooking extends Component {
     super(props);
     this.state = {
       area: 0,
+      selectedDate: new Date(),
       selected: [moment(new Date()).format('YYYY-MM-DD')],
       comment: '',
+      scrollY: new Animated.Value(0),
       listBooking: [],
       arrSelected: [],
       isShowModalConfirm: false,
@@ -43,7 +45,8 @@ class ModalNewBooking extends Component {
       email: this.props.userProfile.profile.result.user.emailAddress,
       sdt: this.props.userProfile.profile.result.user.phoneNumber,
       loading: false,
-      isModalError: false
+      isModalError: false,
+      openFullCalendar: false
     };
   }
 
@@ -168,7 +171,7 @@ class ModalNewBooking extends Component {
     let accessTokenApi = this.props.account.accessTokenAPI;
     // let item = this.props.navigation.getParam('item', null);
     let item = this.props.item;
-    await this.setState({ selected: [data], listBooking: [], arrSelected: [] }, () => {
+    await this.setState({ selected: [data], listBooking: [], arrSelected: [], selectedDate: moment.utc(data).toDate() }, () => {
       let data = {
         // emenityId: 75,
         emenityId: item.amenityId,
@@ -186,13 +189,58 @@ class ModalNewBooking extends Component {
     const { fullUnitCode } = this.props.units.unitActive;
     const { displayName } = this.props.userProfile.profile.result.user;
 
+    const heightCalendar = this.state.scrollY.interpolate({
+      inputRange: [0, 100],
+      outputRange: [200, 300],
+      extrapolate: 'clamp'
+    });
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
-          <TouchableOpacity style={{ position: 'absolute', top: 40, left: 20 }} onPress={() => this.props.close()}>
-            <Image source={require('../../../resources/icons/close.png')} />
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity style={{ position: 'absolute', top: 40, left: 20 }} onPress={() => this.props.close()}>
+              <Image source={require('../../../resources/icons/close.png')} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ position: 'absolute', top: 40, right: 20 }}
+              onPress={() => this.setState({ openFullCalendar: !this.state.openFullCalendar })}
+            >
+              <Image style={{ width: 30, height: 30 }} source={require('@resources/icons/Circle-Booking.png')} />
+            </TouchableOpacity>
+          </View>
           <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>Choose Amenity</Text>
+          {this.state.openFullCalendar ? (
+            <Calendar
+              firstDay={1}
+              markedDates={dataSelected}
+              onDayPress={data => this._onPressDay(data.dateString)}
+              theme={{
+                todayTextColor: '#343D4D',
+                arrowColor: '#FFF',
+                selectedDayBackgroundColor: '#FFF',
+                monthTextColor: '#FFF',
+                textSectionTitleColor: '#FFF',
+                textDayHeaderFontSize: 15,
+                textDayFontFamily: 'OpenSans-Regular',
+                textDayFontSize: 14,
+                fontWeight: 'bold'
+              }}
+            />
+          ) : (
+            <CalendarStrip
+              selectedDate={this.state.selectedDate}
+              onPressDate={date => {
+                this.setState({ selectedDate: date });
+              }}
+              onPressGoToday={today => {
+                this.setState({ selectedDate: today });
+              }}
+              onSwipeDown={() => {
+                // alert('onSwipeDown');
+              }}
+              markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
+            />
+          )}
         </LinearGradient>
         <KeyboardAwareScrollView
           innerRef={ref => (this.scroll = ref)}
@@ -209,24 +257,6 @@ class ModalNewBooking extends Component {
             showsVerticalScrollIndicator={false}
             style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 100 }}
           >
-            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
-              <Calendar
-                firstDay={1}
-                markedDates={dataSelected}
-                onDayPress={data => this._onPressDay(data.dateString)}
-                theme={{
-                  todayTextColor: '#343D4D',
-                  arrowColor: '#FFF',
-                  selectedDayBackgroundColor: '#FFF',
-                  monthTextColor: '#FFF',
-                  textSectionTitleColor: '#FFF',
-                  textDayHeaderFontSize: 15,
-                  textDayFontFamily: 'OpenSans-Regular',
-                  textDayFontSize: 14,
-                  fontWeight: 'bold'
-                }}
-              />
-            </LinearGradient>
             <ItemScorll
               title={'Dịch Vụ'}
               view={
