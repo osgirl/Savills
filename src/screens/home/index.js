@@ -78,7 +78,7 @@ class Home extends layout {
           key: 'Pages.Resident.Feedback',
           title: Language.listLanguage[this.props.app.languegeLocal].data.HOME_TXT_FEEDBACK,
           moduleName: 'Feedbacks',
-          screen: ''
+          screen: 'Feedback'
         },
         {
           id: 9,

@@ -11,6 +11,8 @@ import notification from './states/notification/saga';
 import inbox from './states/inbox/saga';
 import fee from './states/fee/saga';
 import frontDesk from './states/frontDesk/saga';
+import feedback from './states/feedback/saga';
+
 export default function* sagaRoot() {
   yield all([
     frontDesk(),
@@ -24,6 +26,7 @@ export default function* sagaRoot() {
     notification(),
     booking(),
     inbox(),
-    fee()
+    fee(),
+    feedback()
   ]);
 }

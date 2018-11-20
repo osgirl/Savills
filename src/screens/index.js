@@ -24,6 +24,7 @@ import FrontDesk from './frontDesk';
 import NewIntrustion from './frontDesk/components/NewIntrustion';
 import DetailIntrustion from './frontDesk/components/DetailIntrustion';
 import DetailDelivery from './frontDesk/components/DetailDelivery';
+import Feedback from './feedback';
 export {
   DetailDelivery,
   NewIntrustion,
@@ -50,5 +51,6 @@ export {
   FAQ,
   Notification,
   Inbox,
-  Fee
+  Fee,
+  Feedback
 };
