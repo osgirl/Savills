@@ -116,7 +116,7 @@ export default class extends Component {
                             <HeaderTitle title={'Inbox'} />
                         </Animated.View>
                     </Animated.View>
-                    <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
+                    {/* <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
                         <View style={{ height: 0, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ marginLeft: 20 }}>
                                 <Button>
@@ -134,7 +134,7 @@ export default class extends Component {
                                 </Button>
                             </View>
                         </View>
-                    </LinearGradient>
+                    </LinearGradient> */}
                     <ScrollableTabView
                         tabBarActiveTextColor={'#FFF'}
                         tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
