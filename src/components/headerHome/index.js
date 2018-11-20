@@ -22,7 +22,6 @@ class HeaderHome extends Component {
 
 	static defaultProps = {
 		headercolor: "#FFF",
-		// reading: false
 	};
 
 	constructor(props) {
@@ -56,7 +55,7 @@ class HeaderHome extends Component {
 		const timing = Animated.timing;
 		timing(this.state.fadeAnim, {
 			toValue: 1,
-			duration: 700
+			duration: 600
 		}).start();
 		timing(this.state.fadeAnimIcon, {
 			toValue: 0,
@@ -72,7 +71,7 @@ class HeaderHome extends Component {
 		}).start();
 		timing(this.state.fadeAnimIcon, {
 			toValue: 1,
-			duration: 700
+			duration: 600
 		}).start();
 	}
 
@@ -134,8 +133,8 @@ class HeaderHome extends Component {
 											this.props.notiCount && this.props.notiCount > 0 ?
 												<View style={{ position: 'absolute', right: 16, top: 14 }}>
 													<View style={{ backgroundColor: '#FF361A', borderRadius: 33, justifyContent: 'center', alignItems: 'center' }}>
-														<View style={{ width: 15, height: 15, alignItems: 'center', alignSelf: 'center', justifyContent: 'center', }}>
-															<Text style={{ color: '#FFFFFF', fontSize: 9, fontFamily: 'OpenSans-Bold', alignSelf: 'center', textAlign: 'center' }}>{this.props.notiCount}</Text>
+														<View style={{ alignItems: 'center', alignSelf: 'center', justifyContent: 'center', }}>
+															<Text style={{ color: '#FFFFFF', fontSize: 9, fontFamily: 'OpenSans-Bold', alignSelf: 'center', textAlign: 'center', paddingHorizontal: 3, paddingVertical: 2 }}>{this.props.notiCount}</Text>
 														</View>
 													</View>
 												</View> : null

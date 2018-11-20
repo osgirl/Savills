@@ -21,6 +21,8 @@ import Booking from './tabBooking';
 import Inbox from './inbox';
 import Fee from './fee';
 import FrontDesk from './frontDesk';
+import Feedback from './feedback';
+
 export {
   FrontDesk,
   ModalDetailBooking,
@@ -44,5 +46,7 @@ export {
   FAQ,
   Notification,
   Inbox,
-  Fee
+  Fee,
+  Feedback
+
 };
