@@ -112,18 +112,23 @@ class ModalDetailBooking extends Component {
   };
 
   addComment = () => {
-    let accessTokenAPI = this.props.account.accessTokenAPI;
-    const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
-    let comment = {
-      conversationId: this.props.booking.detailBooking.result.guid,
-      content: this.state.chatText,
-      typeId: null,
-      isPrivate: false,
-      userName: displayName,
-      profilePictureId: profilePictureId,
-      moduleId: 3
-    };
-    this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
+    if (this.state.chatText.trim() === '') {
+      return;
+    } else {
+      this.setState({ chatText: '' });
+      let accessTokenAPI = this.props.account.accessTokenAPI;
+      const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
+      let comment = {
+        conversationId: this.props.booking.detailBooking.result.guid,
+        content: this.state.chatText,
+        typeId: null,
+        isPrivate: false,
+        userName: displayName,
+        profilePictureId: profilePictureId,
+        moduleId: 3
+      };
+      this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
+    }
   };
 
   render() {
@@ -298,7 +303,7 @@ class ModalDetailBooking extends Component {
         <TouchableOpacity
           style={{
             position: 'absolute',
-            bottom: 100,
+            bottom: 80,
             right: 20
           }}
           onPress={() => this.setState({ isShowChat: true })}
@@ -336,7 +341,12 @@ class ModalDetailBooking extends Component {
 
   renderContentModalChat() {
     return (
-      <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
+      <Modal
+        style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }}
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps={'always'}
+        isVisible={this.state.isShowChat}
+      >
         <View
           style={{
             width: width,
@@ -356,17 +366,24 @@ class ModalDetailBooking extends Component {
           <Text>#676</Text>
           <View />
         </View>
-        {/* <ScrollView style={{ flex: 1 }}> */}
-        <KeyboardAwareScrollView extraScrollHeight={50} extraHeight={-300}>
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="on-drag"
+          extraScrollHeight={50}
+          extraHeight={-300}
+        >
           <View style={{ flex: 1, backgroundColor: '#FFF' }}>
             <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
               <FlatList
                 data={this.state.listChat}
                 keyExtractor={(item, index) => item.id.toString()}
                 style={{
-                  maxHeight: isIphoneX() ? 500 : height - 150,
-                  minHeight: isIphoneX() ? 500 : height - 150
+                  maxHeight: isIphoneX() ? height - 180 : height - 150,
+                  minHeight: isIphoneX() ? height - 180 : height - 150
                 }}
+                ref={ref => (this.flatList = ref)}
+                onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
+                onLayout={() => this.flatList.scrollToEnd({ animated: true })}
                 renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
                 ListEmptyComponent={() => {
                   return (
@@ -399,19 +416,23 @@ class ModalDetailBooking extends Component {
                   ref={input => {
                     this.textInput = input;
                   }}
+                  returnKeyType={'send'}
                   style={{ flex: 1, color: '#FFF' }}
                   onChangeText={e => this.setState({ chatText: e })}
+                  onSubmitEditing={() => this.addComment()}
                   placeholderTextColor={'rgba(255,255,255,0.7)'}
                   placeholder={'Nhập tin nhắn ...'}
                 />
-                <TouchableOpacity onPress={() => this.addComment()}>
-                  <Image source={require('../../../resources/icons/send-mess.png')} />
+                <TouchableOpacity disabled={this.state.chatText.trim() == '' ? true : false} onPress={() => this.addComment()}>
+                  <Image
+                    style={{ opacity: this.state.chatText.trim() == '' ? 0.5 : 1 }}
+                    source={require('../../../resources/icons/send-mess.png')}
+                  />
                 </TouchableOpacity>
               </View>
             </LinearGradient>
           </View>
         </KeyboardAwareScrollView>
-        {/* </ScrollView> */}
       </Modal>
     );
   }
@@ -507,7 +528,19 @@ class ModalDetailBooking extends Component {
 
   renderFooter = () => {
     return (
-      <View style={{ position: 'absolute', width: width, height: 70, backgroundColor: '#FFF', bottom: 0, padding: 20 }}>
+      <View
+        style={{
+          position: 'absolute',
+          width: width,
+          height: 70,
+          backgroundColor: '#FFF',
+          bottom: 0,
+          padding: 20,
+          shadowColor: '#000',
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.05
+        }}
+      >
         <TouchableOpacity
           onPress={() => this.setState({ isShowModalCancel: true })}
           style={{ flex: 1, backgroundColor: '#404040', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}

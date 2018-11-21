@@ -24,6 +24,7 @@ import HeaderTitle from '@components/headerTitle';
 const { width } = Dimensions.get('window');
 import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
+import Loading from '@components/loading';
 import Connect from '@stores';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -54,6 +55,7 @@ class ModalNewOrder extends Component {
       showImage: false,
       isShowModalConfirm: false,
       imageIndex: 0,
+      loading: false,
       scrollY: new Animated.Value(0),
       isShowTitleHeader: false,
       email: this.props.userProfile.profile.result.user.emailAddress,
@@ -87,12 +89,14 @@ class ModalNewOrder extends Component {
           );
         }
       }
+      this.setState({ loading: false });
       await nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
       await this.props.navigation.goBack();
     }
   }
 
   actionCreateWorkOrder = () => {
+    this.setState({ loading: true, isShowModalConfirm: false });
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
@@ -245,13 +249,19 @@ class ModalNewOrder extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.showDetailImage()}
-        <ScrollView
-          scrollEventThrottle={16}
+        {this.state.loading ? <Loading /> : null}
+        <KeyboardAwareScrollView
+          innerRef={ref => (this.scroll = ref)}
+          keyboardShouldPersistTaps="handled"
+          extraHeight={0}
+          style={{ flex: 1 }}
+          enableOnAndroid
+          contentContainerStyle={{
+            minHeight: '100%'
+          }}
           onScroll={this.handleScroll}
-          contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
-          style={{ flex: 1, backgroundColor: '#F6F8FD' }}
         >
-          <KeyboardAwareScrollView extraHeight={-100}>
+          <ScrollView contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
             <ItemScorll
               title={'Thông Tin'}
               view={
@@ -394,8 +404,8 @@ class ModalNewOrder extends Component {
                     width: null,
                     padding: 10,
                     paddingTop: 20,
-                    marginBottom: 170,
-                    borderWidth: 1,
+                    marginBottom: 170
+                    // borderWidth: 1,
                     // borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF'
                   }}
                   multiline
@@ -404,8 +414,8 @@ class ModalNewOrder extends Component {
                 />
               }
             />
-          </KeyboardAwareScrollView>
-        </ScrollView>
+          </ScrollView>
+        </KeyboardAwareScrollView>
         <View
           style={{
             width: width,

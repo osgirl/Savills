@@ -8,17 +8,6 @@ export default class Loading extends Component {
     super(props);
   }
 
-  // componentWillMount() {
-  //     this._panResponder = PanResponder.create({
-  //         onStartShouldSetPanResponder: (evt, gestureState) => true,
-  //         onPanResponderGrant: (evt, gestureState) => {
-  //             if (evt.nativeEvent.locationX === evt.nativeEvent.pageX) {
-  //                 this.props.onRequestClose();
-  //             }
-  //         },
-  //     });
-  // }
-
   render() {
     return (
       <Modal transparent={true} visible={this.props.visible} onRequestClose={() => this.props.onRequestClose()}>

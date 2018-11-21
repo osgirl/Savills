@@ -79,7 +79,8 @@ class ModalNewBooking extends Component {
       this.props.goBack();
     }
     if (nextProps.booking.createNewBooking && !nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
-      this.setState({ isModalError: true });
+      this.props.actions.booking.setFlagCreateBooking();
+      this.setState({ isModalError: true, arrSelected: [] });
     }
   }
 
@@ -463,11 +464,12 @@ class ModalNewBooking extends Component {
         {this.props.booking.detailCategory && this.props.booking.detailCategory.result ? this.renderModalRegulations() : null}
         {this.props.booking.createNewBooking && this.props.booking.createNewBooking.error ? (
           <AlertWarning
-            clickAction={() => this.props.goBack()}
+            clickAction={() => this.setState({ isModalError: false })}
             isVisible={this.state.isModalError}
             message={this.props.booking.createNewBooking.error.message}
           />
         ) : null}
+        {/* {this.state.loading ? <Loading /> : null} */}
       </View>
     );
   }
@@ -672,6 +674,7 @@ class ModalNewBooking extends Component {
   };
 
   submitBooking = () => {
+    this.setState({ isShowModalConfirm: false });
     let listSelect = this.state.listBooking.filter(e => e.isCheck == true);
     let startTime = listSelect[0].startTime;
     let endTime = listSelect[listSelect.length - 1].endTime;

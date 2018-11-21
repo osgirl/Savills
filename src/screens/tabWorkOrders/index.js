@@ -310,10 +310,6 @@ class TabWorkOrder extends Component {
     let date = moment(item.dateCreate).format('l');
     let time = moment(item.dateCreate).format('LT');
     let encToken = this.props.account.encToken;
-    let image =
-      item.fileUrls && item.fileUrls.length > 0
-        ? `${item.fileUrls[0].fileUrl}&encToken=${encodeURIComponent(encToken)}`
-        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';
     return (
       <Button
         onPress={() => this.clickDetail(item)}
@@ -336,7 +332,12 @@ class TabWorkOrder extends Component {
             </View>
             <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: 13, marginTop: 12 }}>{item.fullUnitCode}</Text>
           </View>
-          <Image style={{ width: 40, height: 40, borderRadius: 5 }} source={{ uri: image }} />
+          {item.fileUrls && item.fileUrls.length > 0 ? (
+            <Image
+              style={{ width: 40, height: 40, borderRadius: 5 }}
+              source={{ uri: `${item.fileUrls[0].fileUrl}&encToken=${encodeURIComponent(encToken)}` }}
+            />
+          ) : null}
         </View>
 
         <View

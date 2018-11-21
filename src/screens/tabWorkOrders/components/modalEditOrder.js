@@ -23,7 +23,6 @@ import ItemComment from '@components/itemComment';
 import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
 import Resolution from '@utils/resolution';
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
@@ -40,6 +39,7 @@ class ModalEditOrder extends Component {
     super(props);
     this.state = {
       detailOrder: {},
+      imageIndex: 0,
       listComment: false,
       isShowChat: false,
       isShowRating: false,
@@ -97,18 +97,23 @@ class ModalEditOrder extends Component {
   };
 
   addComment = () => {
-    let accessTokenAPI = this.props.account.accessTokenAPI;
-    const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
-    let comment = {
-      conversationId: this.props.workOrder.workOrderDetail.result.guid,
-      content: this.state.comment,
-      typeId: null,
-      isPrivate: false,
-      userName: displayName,
-      profilePictureId: profilePictureId,
-      moduleId: 2
-    };
-    this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
+    if (this.state.comment.trim() === '') {
+      return;
+    } else {
+      this.setState({ chatText: '' });
+      let accessTokenAPI = this.props.account.accessTokenAPI;
+      const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
+      let comment = {
+        conversationId: this.props.workOrder.workOrderDetail.result.guid,
+        content: this.state.comment,
+        typeId: null,
+        isPrivate: false,
+        userName: displayName,
+        profilePictureId: profilePictureId,
+        moduleId: 2
+      };
+      this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
+    }
   };
 
   handleScroll = event => {
@@ -330,7 +335,7 @@ class ModalEditOrder extends Component {
                   resizeMode={'cover'}
                   source={require('../../../resources/icons/avatar-default.png')}
                 />
-                <Text style={{ flex: 1, marginLeft: 20 }}>Chưa có người phụ trách</Text>
+                <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>Chưa có người phụ trách</Text>
                 <Image source={require('../../../resources/icons/call-disable.png')} />
               </View>
             }
@@ -363,7 +368,7 @@ class ModalEditOrder extends Component {
                     justifyContent: 'center'
                   }}
                 >
-                  <Text style={{ color: '#515E6D', fontSize: 16, fontWeight: '600' }}>Chưa upload hình ảnh</Text>
+                  <Text style={{ color: '#BABFC8', fontSize: 16, fontWeight: '600' }}>Chưa upload hình ảnh</Text>
                 </View>
               )
             }
@@ -516,7 +521,7 @@ class ModalEditOrder extends Component {
     let encToken = this.props.account.encToken;
     let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
     return (
-      <TouchableOpacity key={index} onPress={() => this.setState({ showImage: true })}>
+      <TouchableOpacity key={index} onPress={() => this.setState({ showImage: true, imageIndex: index })}>
         <Image
           style={{ width: 90, height: 90, marginLeft: 20, borderRadius: 10 }}
           resizeMode={'cover'}
@@ -545,68 +550,71 @@ class ModalEditOrder extends Component {
   renderModalRating = () => {
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} isVisible={this.state.isShowRating}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <View
-            style={{
-              width: width - 40,
-              borderRadius: 10,
-              backgroundColor: '#FFF',
-              alignItems: 'center',
-              padding: 20
-            }}
-          >
-            <Text style={{ color: '#505E75', fontSize: 60, fontWeight: '700' }}>
-              {this.state.vote}
-              .0
-            </Text>
-            <Text
-              style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10, fontSize: 14 }}
-            >{`Hãy đánh giá dịch vụ của \n Chúng tôi`}</Text>
+        <KeyboardAwareScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: height / 2 - 200 }}>
             <View
               style={{
                 width: width - 40,
-                height: 34,
-                marginVertical: 20,
+                borderRadius: 10,
+                alignSelf: 'center',
                 backgroundColor: '#FFF',
-                flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'center'
+                padding: 20
               }}
             >
-              {[1, 2, 3, 4, 5].map((data, index) => this.renderOneStar(data, index))}
-            </View>
-            <TextInput
-              style={{
-                width: width - 80,
-                height: 80,
-                marginVertical: 20,
-                borderRadius: 10,
-                backgroundColor: '#FFF',
-                padding: 10,
-                paddingTop: 10
-              }}
-              placeholder={'Nhập nội dung nhận xét'}
-              multiline
-              onChangeText={e => this.setState({ description: e })}
-            />
-            <TouchableOpacity onPress={() => this.changeStatusWorkOrder(15)}>
-              <LinearGradient
-                colors={['#4A89E8', '#8FBCFF']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
+              <Text style={{ color: '#505E75', fontSize: 60, fontWeight: '700' }}>
+                {this.state.vote}
+                .0
+              </Text>
+              <Text
+                style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10, fontSize: 14 }}
+              >{`Hãy đánh giá dịch vụ của \n Chúng tôi`}</Text>
+              <View
                 style={{
-                  borderRadius: 25,
-                  width: width - 80,
-                  height: 50,
+                  width: width - 40,
+                  height: 34,
+                  marginVertical: 20,
+                  backgroundColor: '#FFF',
+                  flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
               >
-                <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Send</Text>
-              </LinearGradient>
-            </TouchableOpacity>
+                {[1, 2, 3, 4, 5].map((data, index) => this.renderOneStar(data, index))}
+              </View>
+              <TextInput
+                style={{
+                  width: width - 80,
+                  height: 80,
+                  marginVertical: 20,
+                  borderRadius: 10,
+                  backgroundColor: '#FFF',
+                  padding: 10,
+                  paddingTop: 10
+                }}
+                placeholder={'Nhập nội dung nhận xét'}
+                multiline
+                onChangeText={e => this.setState({ description: e })}
+              />
+              <TouchableOpacity onPress={() => this.changeStatusWorkOrder(15)}>
+                <LinearGradient
+                  colors={['#4A89E8', '#8FBCFF']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={{
+                    borderRadius: 25,
+                    width: width - 80,
+                    height: 50,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Send</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </KeyboardAwareScrollView>
       </Modal>
     );
   };
@@ -629,13 +637,8 @@ class ModalEditOrder extends Component {
         : null;
     }
     return (
-      <Modal
-        visible={this.state.showImage}
-        transparent={false}
-        animationType="slide"
-        onRequestClose={() => this.setState({ showImage: false })}
-      >
-        <ImageViewer imageUrls={newData} index={0} />
+      <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} visible={this.state.showImage}>
+        <ImageViewer imageUrls={newData} index={this.state.imageIndex} />
         <TouchableOpacity
           onPress={() => this.setState({ showImage: false })}
           style={{
@@ -685,14 +688,22 @@ class ModalEditOrder extends Component {
           <View />
         </View>
         <ScrollView style={{ flex: 1, backgroundColor: '#FFF' }}>
-          <KeyboardAwareScrollView extraScrollHeight={50} extraHeight={-250}>
+          <KeyboardAwareScrollView
+            keyboardShouldPersistTaps="always"
+            keyboardDismissMode="on-drag"
+            extraScrollHeight={50}
+            extraHeight={-250}
+          >
             <View style={{ flex: 1 }}>
               <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: 70 }}>
                 <FlatList
                   data={this.state.listComment}
-                  style={{ maxHeight: isIphoneX() ? 500 : height - 150, minHeight: isIphoneX() ? 500 : height - 150 }}
+                  style={{ maxHeight: isIphoneX() ? height - 180 : height - 150, minHeight: isIphoneX() ? 500 : height - 150 }}
                   keyExtractor={(item, index) => item.id.toString()}
                   renderItem={({ item, index }) => <ItemComment index={index} item={item} idUser={id} />}
+                  ref={ref => (this.flatList = ref)}
+                  onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
+                  onLayout={() => this.flatList.scrollToEnd({ animated: true })}
                   ListEmptyComponent={() => {
                     return (
                       <View style={{ flex: 1, alignItems: 'center', marginTop: 100, height: isIphoneX() ? 500 : height - 150 }}>
@@ -727,13 +738,19 @@ class ModalEditOrder extends Component {
                   ref={input => {
                     this.textInput = input;
                   }}
+                  editable={this.state.detailOrder.currentStatus.id === 11 ? true : false}
+                  returnKeyType={'send'}
                   style={{ flex: 1, color: '#FFF' }}
+                  onSubmitEditing={() => this.addComment()}
                   onChangeText={e => this.setState({ comment: e })}
                   placeholderTextColor={'rgba(255,255,255,0.7)'}
                   placeholder={'Nhập tin nhắn ...'}
                 />
-                <TouchableOpacity onPress={() => this.addComment()}>
-                  <Image source={require('../../../resources/icons/send-mess.png')} />
+                <TouchableOpacity disabled={this.state.comment.trim() == '' ? true : false} onPress={() => this.addComment()}>
+                  <Image
+                    style={{ opacity: this.state.comment.trim() == '' ? 0.5 : 1 }}
+                    source={require('../../../resources/icons/send-mess.png')}
+                  />
                 </TouchableOpacity>
               </View>
             </LinearGradient>
