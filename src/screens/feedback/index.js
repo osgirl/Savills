@@ -14,10 +14,12 @@ class Feedback extends layout {
             isModalSelectUnit: false,
             isShowTitleHeader: false,
             isModalSelectUnit: false,
+            isModalDetail: false,
             isRefresh: false,
             loadingMore: false,
             isModalNew: false,
             pageCount: 1,
+            itemSelected: null,
             scrollY: new Animated.Value(0),
         }
     }
@@ -70,8 +72,18 @@ class Feedback extends layout {
         this.setState({ isModalSelectUnit: true })
     }
 
+    _openModalDetail(item) {
+        this.setState({ itemSelected: item })
+        this.setState({ isModalDetail: true })
+    }
+
     _openModalNew() {
         this.setState({ isModalNew: true })
+    }
+
+    _onCloseModalNew() {
+        this.setState({ isModalNew: false })
+        this._onRefresh();
     }
 
 }

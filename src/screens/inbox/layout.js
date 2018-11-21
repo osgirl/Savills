@@ -150,7 +150,7 @@ export default class extends Component {
                     style={{ flex: 1, margin: 0 }}
                     isVisible={this.state.isModalSelectUnit}>
                     <ModalSelectUnit
-                        onClose={() => this.setState({ isModalSelectUnit: false })}
+                        onClose={() => this._closeModalSelectUnit()}
                     />
                 </Modal>
             </View>

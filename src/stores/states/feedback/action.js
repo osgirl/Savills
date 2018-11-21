@@ -35,3 +35,27 @@ export function getTypeFeedback(accessTokenAPI, language = 'en') {
     }
 }
 
+export function createFeedback(accessTokenAPI, commentBoxSourceId = 0, buildingId = 0, userId = 0, userName = '', unitId = 0, fullUnitCode = '',commentBoxCategoryId= 0, description = '',commentBoxType = '') {
+    return {
+        type: Types.CREATE_FEEDBACK,
+        payload: {
+            api: Configs.API_BOOKING + `/api/commentboxes/member?culture=en`,
+            method: 'POST',
+            token: accessTokenAPI,
+            payload: {
+                "commentBoxNature": "INDIVIDUAL",
+                "commentBoxSourceId": commentBoxSourceId,
+                "buildingId": buildingId,
+                "userId": userId,
+                "userName": userName,
+                "unitId": unitId,
+                "fullUnitCode": fullUnitCode,
+                "commentBoxProjectType": "PROJECT",
+                "commentBoxCategoryId": commentBoxCategoryId,
+                "description": description,
+                "commentBoxType": commentBoxType
+            }
+        }
+    }
+}
+

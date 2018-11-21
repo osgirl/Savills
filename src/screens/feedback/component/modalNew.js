@@ -25,6 +25,7 @@ const { width } = Dimensions.get('window');
 import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
 import Connect from '@stores';
+import Loading from "@components/loading";
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -33,6 +34,7 @@ const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class ModalNewFeedback extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -44,12 +46,24 @@ class ModalNewFeedback extends Component {
         { name: 'HO', value: 'HO' },
         { name: 'Project', value: 'PROJECT' }
       ],
-      listCategory: this.props.feedback.listCategory.result,
+      listCategory: this.props.feedback.listCategory.result || [],
       isShowCategory: false,
       type: '',
       typeProject: '',
-      categorySelectedId: null
+      categorySelectedId: null,
+      isShowModalConfirm: false
     };
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    if (this.props.feedback.createFeedback !== nextProps.feedback.createFeedback && nextProps.feedback.createFeedback.success) {
+      if (this.state.isShowModalConfirm) {
+        await this.setState({ isShowModalConfirm: false })
+      }
+      await this.setState({ loading: false });
+      await this.props.onClose();
+
+    }
   }
 
   handleScroll = event => {
@@ -69,6 +83,24 @@ class ModalNewFeedback extends Component {
       }
     })(event);
   };
+
+  _createFeedback(commentBoxSourceId = 3, commentBoxType = '') {
+    this.setState({ loading: true })
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    let unitActive = this.props.units.unitActive;
+    let { id, username } = this.props.account.tenantActive;
+    this.props.actions.feedback.createFeedback(accessTokenApi,
+      commentBoxSourceId,
+      unitActive.buildingId,
+      id,
+      username,
+      unitActive.unitId,
+      unitActive.fullUnitCode,
+      this.state.categorySelectedId,
+      this.state.comment,
+      this.state.type
+    );
+  }
 
   _changeTypeFeedback(type) {
     this.setState({ type: type })
@@ -99,6 +131,7 @@ class ModalNewFeedback extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <ScrollView
+          alwaysBounceVertical={false}
           scrollEventThrottle={16}
           onScroll={this.handleScroll}
           contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
@@ -147,9 +180,7 @@ class ModalNewFeedback extends Component {
                 : null
             }
 
-
-
-            <ItemScorll
+            {/* <ItemScorll
               title={'Gửi phản hồi'}
               view={
                 <View
@@ -186,12 +217,12 @@ class ModalNewFeedback extends Component {
                   }
                 </View>
               }
-            />
+            /> */}
 
             <Button
               onPress={() => this.setState({ isShowCategory: true })}
               style={{ backgroundColor: '#FFF', marginVertical: 20, marginHorizontal: 20, borderRadius: 5 }}>
-              <Text style={{ padding: 20 }}>{category.length > 0 ? category[0].name : 'Loại phản hồi'}</Text>
+              <Text style={{ padding: 20, color: '#4A89E8' }}>{category.length > 0 ? category[0].name : 'Vấn đề phản hồi'}</Text>
             </Button>
 
             <ItemScorll
@@ -265,7 +296,9 @@ class ModalNewFeedback extends Component {
             <HeaderTitle title={'New Feedback'} />
           </LinearGradient>
         </Animated.View>
+        {this.renderLoading()}
         {this.renderCategory()}
+        {this.renderModalConfirm()}
       </View>
     );
   }
@@ -307,6 +340,123 @@ class ModalNewFeedback extends Component {
         </View>
       </Modal>
     );
+  }
+
+  renderModalConfirm = () => {
+    let category = this.state.listCategory.filter(o => o.id === this.state.categorySelectedId);
+    return (
+      <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} visible={this.state.isShowModalConfirm}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <View
+            style={{
+              flex: 1,
+              marginHorizontal: 20,
+              marginVertical: 60,
+              backgroundColor: '#f6f8fd',
+              borderRadius: 10,
+              overflow: 'hidden'
+            }}
+          >
+            <TouchableOpacity
+              style={{ position: 'absolute', top: 20, left: 20, zIndex: 1 }}
+              onPress={() => this.setState({ isShowModalConfirm: false })}
+            >
+              <Image source={require('../../../resources/icons/close.png')} />
+            </TouchableOpacity>
+            <LinearGradient
+              colors={['#4A89E8', '#8FBCFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{ width: width, height: 50 }}
+            />
+            <ScrollView style={{ flex: 1, marginBottom: 100 }} showsVerticalScrollIndicator={false}>
+              <ItemScorll
+                title={'Loại phản hồi'}
+                view={
+                  <View
+                    style={{
+                      height: 110,
+                      width: null,
+                      flex: 1,
+                      borderRadius: 10,
+                      backgroundColor: '#FFF',
+                      padding: 20,
+                      justifyContent: 'space-around'
+                    }}
+                  >
+                    {
+                      this.state.listTypeFeedback.map((item, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          activeOpacity={1}
+                          onPress={() => this._changeTypeFeedback(item.typeCode)}
+                          style={{ flexDirection: 'row' }}
+                        >
+                          <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{item.name}</Text>
+                          <Image
+                            source={
+                              item.typeCode == this.state.type
+                                ? require('../../../resources/icons/checked.png')
+                                : require('../../../resources/icons/check.png')
+                            }
+                          />
+                        </TouchableOpacity>
+                      ))
+
+                    }
+                  </View>
+                }
+              />
+              <Button
+                onPress={() => this.setState({ isShowCategory: true })}
+                style={{ backgroundColor: '#FFF', marginVertical: 20, marginHorizontal: 20, borderRadius: 5 }}>
+                <Text style={{ padding: 20 }}>{category.length > 0 ? category[0].name : 'Loại phản hồi'}</Text>
+              </Button>
+              <ItemScorll
+                title={'Miêu Tả'}
+                view={
+                  <View
+                    style={{
+                      backgroundColor: '#FFF',
+                      borderRadius: 5,
+                      width: null,
+                      padding: 10,
+                      minHeight: 100,
+                      marginBottom: 20
+                    }}
+                  >
+                    <Text>{this.state.comment}</Text>
+                  </View>
+                }
+              />
+            </ScrollView>
+            <Button
+              style={{ position: 'absolute', bottom: 20, left: 20, width: width - 80, height: 50 }}
+              onPress={() => this._createFeedback()}
+            >
+              <LinearGradient
+                colors={['#4A89E8', '#8FBCFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
+              >
+                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
+              </LinearGradient>
+            </Button>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
+  renderLoading() {
+    if (this.state.loading) {
+      return <Loading
+        visible={this.state.loading}
+        onRequestClose={() => { }}
+      />
+    }
+    return null;
   }
 
   renderItemChilder = (item, index) => {

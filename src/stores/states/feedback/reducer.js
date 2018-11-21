@@ -4,7 +4,8 @@ import createReducer from '../';
 const INIT_STATE = ({
     listFeedBack: { items: [], pageCount: 0, success: false },
     listCategory: {},
-    typeFeedback : {}
+    typeFeedback: {},
+    createFeedback: {}
 });
 
 export default createReducer(INIT_STATE, {
@@ -122,6 +123,45 @@ export default createReducer(INIT_STATE, {
             return {
                 ...state,
                 typeFeedback: {},
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.CREATE_FEEDBACK]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.CREATE_FEEDBACK_SUCCESS]: (state, action) => {
+        try {
+            let tempState;
+            tempState = Object.assign(
+                {},
+                { ...state },
+                {
+                    createFeedback: action.response
+                },
+            );
+            return tempState;
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+    [Types.CREATE_FEEDBACK_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                createFeedback: {},
             };
         } catch (error) {
             console.log(error)
