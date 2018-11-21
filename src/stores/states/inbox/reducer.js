@@ -2,8 +2,8 @@ import Types from './';
 import createReducer from '../';
 
 const INIT_STATE = ({
-    listInbox: { items: [], success: false },
-    listInboxIsActive: { items: [], success: false },
+    listInbox: { items: [], success: false, totalCount: 0 },
+    listInboxIsActive: { items: [], success: false, totalCount: 0 },
     setInboxActive: {}
 });
 
@@ -37,7 +37,8 @@ export default createReducer(INIT_STATE, {
                     {
                         listInbox: {
                             items: action.response.result.items,
-                            success: action.response.success
+                            success: action.response.success,
+                            totalCount: action.response.result.totalCount
                         },
                     },
                 );
@@ -88,7 +89,8 @@ export default createReducer(INIT_STATE, {
                     {
                         listInboxIsActive: {
                             items: action.response.result.items,
-                            success: action.response.success
+                            success: action.response.success,
+                            totalCount: action.response.result.totalCount
                         },
                     },
                 );

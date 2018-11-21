@@ -25,6 +25,12 @@ class Fee extends layout {
         this._getListUserFee();
     }
 
+    componentDidMount(){
+        let unitActive = this.props.units.unitActive;
+        let accessTokenApi = this.props.account.accessTokenAPI;
+        this.props.actions.fee.getListHistory(accessTokenApi, unitActive.fullUnitCode);
+    }
+
     componentWillReceiveProps(nextProps) {
         if (this.props.fee.listUserFee !== nextProps.fee.listUserFee && nextProps.fee.listUserFee.success) {
             let items = nextProps.fee.listUserFee.result.items || [];

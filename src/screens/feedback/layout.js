@@ -16,6 +16,7 @@ import { isIphoneX } from '@utils/func';
 import moment from 'moment';
 import Configs from "../../utils/configs";
 import ModalSelectUnit from "@components/modalSelectUnit";
+import ModaDetailFeedback from "./component/modaDetailFeedback";
 import Modal from "react-native-modal";
 import ModalNew from "./component/modalNew";
 import Styles from "./styles";
@@ -126,8 +127,13 @@ export default class extends Component {
                 <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
                     <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
                 </Modal>
+                <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalDetail}>
+                    <ModaDetailFeedback
+                        itemSelected={this.state.itemSelected}
+                        onClose={() => this.setState({ isModalDetail: false })} />
+                </Modal>
                 <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNew}>
-                    <ModalNew onClose={() => this.setState({ isModalNew: false })} />
+                    <ModalNew onClose={() => this._onCloseModalNew()} />
                 </Modal>
             </View>
         );
@@ -138,7 +144,7 @@ export default class extends Component {
         let time = moment(item.createdAt).format('LT');
         return (
             <Button
-                onPress={() => { }}
+                onPress={() => this._openModalDetail(item)}
                 style={{
                     width: width - 40,
                     height: 170,

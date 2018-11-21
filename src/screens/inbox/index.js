@@ -114,7 +114,8 @@ class Inbox extends layout {
     }
 
     async _onEndReached() {
-        if (this.state.loadingMore) {
+        let totalCount = this.props.inbox.listInbox.totalCount;
+        if (this.state.loadingMore || totalCount === this.state.data.length) {
             return;
         }
         this.setState({ loadingMore: true });
@@ -123,12 +124,17 @@ class Inbox extends layout {
     }
 
     async _onEndReachedInboxActive() {
-        if (this.state.loadingMoreInboxActive) {
+        let totalCount = this.props.inbox.listInboxIsActive.totalCount;
+        if (this.state.loadingMoreInboxActive || totalCount === this.state.dataIsActive.length) {
             return;
         }
         this.setState({ loadingMoreInboxActive: true });
         let start = this.state.dataIsActive.length;
         await this._getListInboxIsActive(start);
+    }
+
+    _closeModalSelectUnit() {
+        this.setState({ isModalSelectUnit: false })
     }
 
 }
