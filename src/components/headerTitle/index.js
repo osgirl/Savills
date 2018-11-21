@@ -12,7 +12,8 @@ import {
 export default class HeaderTitle extends Component {
     static defaultProps = {
         marginHorizontal: 20,
-        margintop: 0
+        margintop: 0,
+        marginVertical: 0
     };
 
     render() {
@@ -20,7 +21,7 @@ export default class HeaderTitle extends Component {
             <Text
                 style={{
                     fontSize: 35, fontFamily: 'OpenSans-Bold', color: '#FFF', marginTop: this.props.margintop,
-                    marginHorizontal: this.props.marginHorizontal,
+                    marginHorizontal: this.props.marginHorizontal,marginVertical: this.props.marginVertical,
                 }}
             >
                 {this.props.title}
