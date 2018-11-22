@@ -186,7 +186,7 @@ export default class Layout extends Component {
           />
 
           <View style={{ width: width - 143, flexDirection: 'column' }}>
-            <Text numberOfLines={2} style={{ fontSize: 13, fontWeight: '600', marginLeft: 20, marginRight: 20, marginTop: 20 }}>
+            <Text numberOfLines={2} style={{ fontSize: 13, fontFamily: 'OpenSans-Bold', color: '#343D4D', marginLeft: 20, marginRight: 20, marginTop: 20 }}>
               {item.subject}
             </Text>
             <View style={{ flexDirection: 'row', marginLeft: 20, marginTop: 10 }}>

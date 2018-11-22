@@ -218,6 +218,7 @@ export default class extends Component {
             onClose={() => this._closeProfile()}
             onLogOut={() => this._logOut()}
             onChangePassword={() => this._gotoChangePassword()}
+            gotoSetting={() => this._gotoSetting()}
             loading={this.state.loading}
             profile={User}
             imageProfile={avatar}

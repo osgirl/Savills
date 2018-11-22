@@ -70,7 +70,7 @@ export default class {
             },
         },
         {
-            id: 'vn',
+            id: 'vi',
             icon: '🇻🇳',
             title: 'Tiếng việt',
             data: {

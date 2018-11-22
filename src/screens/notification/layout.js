@@ -28,12 +28,14 @@ const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default class extends Component {
+
   renderItem(item) {
     let state = item.state;
     let times = moment(item.notification.creationTime).format('LT');
     let date = moment(item.dateCreate).format('l');
     return (
       <View style={[Styles.item]}>
+      {state === 0 ? <View style={{ backgroundColor: '#FF361A', position: 'absolute', top: 20, right: 20, width: 8, height: 8, borderRadius: 33 }} /> : null}
         <Button onPress={() => { }} style={{ alignItems: 'flex-start' }}>
           <View style={{ marginHorizontal: 20 }}>
             <View style={{ flexDirection: 'row', marginTop: 20, marginBottom: 10, justifyContent: 'space-between' }}>
@@ -42,7 +44,6 @@ export default class extends Component {
                   item.notification.data.properties.Id
                   }`}</Text>
               </View>
-              {state === 0 ? <View style={{ backgroundColor: '#FF361A', width: 8, height: 8, borderRadius: 33 }} /> : null}
             </View>
             <View>
               <Text style={{ color: state === 0 ? '#343D4D' : '#BABFC8', fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}>
@@ -158,7 +159,7 @@ export default class extends Component {
             end={{ x: 1, y: 0 }}
           >
             <Animated.View style={{ height: headerHeight }}>
-            {/* <Text style={{fontSize: 35, color: '#FFFF'}}>{LG.NOTIFICATION_TXT_TITLE}</Text> */}
+              {/* <Text style={{fontSize: 35, color: '#FFFF'}}>{LG.NOTIFICATION_TXT_TITLE}</Text> */}
               <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
             </Animated.View>
           </LinearGradient>
@@ -194,7 +195,7 @@ export default class extends Component {
 
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
-          <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
+          <ModalSelectUnit onClose={() => this._closeModalSelectUnit()} />
         </Modal>
       </View>
     );

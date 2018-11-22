@@ -5,6 +5,8 @@ import layout from './layout';
 
 import _ from "lodash";
 
+import Language from "../../utils/language";
+
 class Feedback extends layout {
 
     constructor(props) {
@@ -30,8 +32,9 @@ class Feedback extends layout {
 
     componentDidMount() {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.feedback.getListCategory(accessTokenApi);
-        this.props.actions.feedback.getTypeFeedback(accessTokenApi);
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id
+        this.props.actions.feedback.getListCategory(accessTokenApi, languege);
+        this.props.actions.feedback.getTypeFeedback(accessTokenApi, languege);
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -49,7 +52,8 @@ class Feedback extends layout {
 
     _getList() {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.feedback.getListFeedback(accessTokenApi, this.state.pageCount);
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id
+        this.props.actions.feedback.getListFeedback(accessTokenApi, this.state.pageCount, languege);
     }
 
     async _onRefresh() {

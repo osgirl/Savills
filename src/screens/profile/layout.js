@@ -57,10 +57,10 @@ export default class extends Component {
         return null;
     }
 
-    onPickerSelect(value) {
+    onPickerSelect(index) {
         try {
             this.setState({
-                itemSelectDisplay: value,
+                itemSelectDisplay: index,
             })
         } catch (error) {
             console.log(error)
@@ -103,7 +103,7 @@ export default class extends Component {
                             this.state.dataDisplayname.map((item, index) => (
                                 <PickerItem
                                     label={item}
-                                    value={item}
+                                    value={index}
                                     key={"id_" + index}
                                 />
                             ))
@@ -213,7 +213,7 @@ export default class extends Component {
                         <ButtonCustom
                             background={'transparent'}
                             haveMargin={false}
-                            onPress={() => alert('SETTING')}
+                            onPress={() => this.props.gotoSetting()}
                             icon={IC_SETTING}
                         />
                         {/* </View> */}
@@ -272,7 +272,7 @@ export default class extends Component {
                         </View>
 
                         <Button
-                            onPress={() => alert('SETTING')}
+                            onPress={() => this.props.gotoSetting()}
                             style={Style.btnBlock}>
                             <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{LG.PROFILE_BTN_SETTING}</Text>
                         </Button>

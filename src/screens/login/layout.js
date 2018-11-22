@@ -54,7 +54,7 @@ export default class extends Component {
                     <Text style={{ fontSize: 13, fontFamily: 'OpenSans-Bold', marginTop: 20 }}>Select Language</Text>
                     <Picker
                         style={{ width: width - 20, flex: 1, justifyContent: 'center', }}
-                        selectedValue={this.state.selectedItem}
+                        selectedValue={parseInt(this.state.selectedItem)}
                         itemStyle={{ color: "#333333", fontSize: 20, fontWeight: 'bold' }}
                         onValueChange={(index) => this.onPickerSelect(index)}>
                         {
