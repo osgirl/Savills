@@ -83,7 +83,7 @@ export default class extends Component {
           }}
           style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 10 }}
         >
-          <Avatar size={imgSize} onReady={this.props.userProfile.imageProfile.success} bgColor={'#FFF'} animate="shine">
+          <Avatar size={imgSize} onReady={this.props.userProfile.imageProfile.success} bgColor={'#FFF'} animate="fade">
             <FastImage style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }} source={avatar} />
           </Avatar>
           <Line txtWidth={100} height={20} onReady={User ? true : false} animate="shine">
