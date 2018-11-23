@@ -9,9 +9,11 @@ import {
 
 } from "react-native";
 
+import Resolution from "../../utils/resolution";
+
 export default class HeaderTitle extends Component {
     static defaultProps = {
-        marginHorizontal: 20,
+        marginHorizontal: Resolution.scale(20),
         margintop: 0,
         marginVertical: 0
     };
@@ -20,8 +22,8 @@ export default class HeaderTitle extends Component {
         return (
             <Text
                 style={{
-                    fontSize: 35, fontFamily: 'OpenSans-Bold', color: '#FFF', marginTop: this.props.margintop,
-                    marginHorizontal: this.props.marginHorizontal,marginVertical: this.props.marginVertical,
+                    fontSize: Resolution.scale(35), fontFamily: 'OpenSans-Bold', color: '#FFF', marginTop: this.props.margintop,
+                    marginHorizontal: this.props.marginHorizontal, marginVertical: this.props.marginVertical,
                 }}
             >
                 {this.props.title}
@@ -32,7 +34,7 @@ export default class HeaderTitle extends Component {
 
 const style = StyleSheet.create({
     container: {
-        marginBottom: 20,
+        marginBottom: Resolution.scale(20),
         flexDirection: "row",
         alignItems: "center",
         flexDirection: 'row',

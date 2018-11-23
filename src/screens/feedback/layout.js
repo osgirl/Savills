@@ -21,6 +21,8 @@ import Modal from "react-native-modal";
 import ModalNew from "./component/modalNew";
 import Styles from "./styles";
 
+import Resolution from "../../utils/resolution";
+
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -45,11 +47,11 @@ export default class extends Component {
 
     _FooterFlatlist() {
         return this.state.loadingMore ? (
-            <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ height: Resolution.scaleHeight(50), justifyContent: 'center', alignItems: 'center' }}>
                 <ActivityIndicator size="large" color={Configs.colorMain} />
             </View>
         ) : (
-                <View style={{ height: 40 }} />
+                <View style={{ height: Resolution.scale(40) }} />
             );
     }
 
@@ -78,10 +80,10 @@ export default class extends Component {
                 renderViewRight={
                     <Button
                         onPress={() => this._openModalSelectUnit()}
-                        style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
+                        style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
                     >
-                        <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                        <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                        <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
+                        <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
                     </Button>
                 }
             />
@@ -120,7 +122,7 @@ export default class extends Component {
                     legacyImplementation={false}
                     ListFooterComponent={() => this._FooterFlatlist()}
                 />
-                <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
+                <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40) }} />
                 <Button onPress={() => this._openModalNew()} style={[Styles.ButtonAdd, {}]}>
                     <Image source={require('../../resources/icons/plush-addnew.png')} />
                 </Button>
@@ -146,36 +148,35 @@ export default class extends Component {
             <Button
                 onPress={() => this._openModalDetail(item)}
                 style={{
-                    width: width - 40,
-                    height: 170,
+                    width: width - Resolution.scale(40),
                     borderRadius: 10,
-                    marginTop: index === 0 ? 20 : 10,
+                    marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10),
                     backgroundColor: '#FFF',
-                    padding: 20,
-                    marginHorizontal: 20
+                    padding: Resolution.scale(20),
+                    marginHorizontal: Resolution.scale(20)
                 }}
             >
                 <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View>
-                        <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: 70, alignItems: 'center' }}>
-                            <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
+                        <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: Resolution.scaleWidth(70), alignItems: 'center' }}>
+                            <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontWeight: 'bold', marginVertical: Resolution.scale(5), marginHorizontal: Resolution.scale(15) }}>
                                 #{item.commentBoxId}
                             </Text>
                         </View>
-                        <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: 13, marginTop: 12 }}>{item.fullUnitCode}</Text>
+                        <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13), marginTop: Resolution.scale(12) }}>{item.fullUnitCode}</Text>
                     </View>
                 </View>
 
                 <View
-                    style={{ flex: 1, marginVertical: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+                    style={{ flex: 1, marginVertical: Resolution.scale(15), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
                 >
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image style={{ marginRight: 10 }} source={require('../../resources/icons/clock.png')} />
+                        <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/clock.png')} />
                         <Text style={{ color: '#C9CDD4', fontSize: 12 }}>{time}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image style={{ marginRight: 10 }} source={require('../../resources/icons/calendar.png')} />
-                        <Text style={{ color: '#C9CDD4', fontSize: 12 }}>{date}</Text>
+                        <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
+                        <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
                     </View>
                     <View
                         style={{
@@ -183,7 +184,7 @@ export default class extends Component {
                             backgroundColor: item && item.commentBoxStatus.colorCode
                         }}
                     >
-                        <Text style={{ color: '#F8F8F8', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
+                        <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(10), paddingVertical: Resolution.scale(5), fontWeight: 'bold', paddingHorizontal: Resolution.scale(15) }}>
                             {item && item.commentBoxStatus.statusCode}
                         </Text>
                     </View>
@@ -195,10 +196,10 @@ export default class extends Component {
                         borderRadius: 5,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        paddingHorizontal: 10
+                        paddingHorizontal: Resolution.scale(10)
                     }}
                 >
-                    <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+                    <Text style={{ flex: 1, color: '#FFF', fontSize: Resolution.scale(12), fontWeight: 'bold' }} numberOfLines={1}>
                         {item && item.description}
                     </Text>
                 </View>

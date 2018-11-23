@@ -18,12 +18,12 @@ import IC_GRIDVIEW from '../../resources/icons/Grid-view.png';
 import IC_LISTVIEW_ACTIVE from '../../resources/icons/list-view-active.png';
 import IC_LISTVIEW from '../../resources/icons/list-view.png';
 import IMG_AVATAR_DEFAULT from '../../resources/icons/avatar-default.png';
+import Resolution from "../../utils/resolution";
 
 import FastImage from '../../components/fastImage';
 import Placeholder from 'rn-placeholder';
 import FAQ from '../../screens/faq';
 import Notification from '../notification';
-
 import { Avatar, Line } from '../../components/placeHolder';
 
 const { width } = Dimensions.get('window');
@@ -33,7 +33,7 @@ const imgSize = 64;
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -81,7 +81,7 @@ export default class extends Component {
           onPress={() => {
             this._openProfile();
           }}
-          style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 10 }}
+          style={{ flexDirection: 'column', alignItems: 'center', marginBottom: Resolution.scale(10) }}
         >
           <Avatar size={imgSize} onReady={this.props.userProfile.imageProfile.success} bgColor={'#FFF'} animate="fade">
             <FastImage style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }} source={avatar} />
@@ -168,15 +168,15 @@ export default class extends Component {
               style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}
             >
               <FastImage
-                style={{ width: 30, height: 30, borderRadius: 30 / 2 }}
+                style={{ width: Resolution.scale(30), height: Resolution.scale(30), borderRadius: Resolution.scale(30) / 2 }}
                 source={this.props.navigation.getParam('userAvatar')}
               />
 
-              <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold' }}>
+              <View style={{ flexDirection: 'column', marginLeft: Resolution.scale(10) }}>
+                <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold' }}>
                   {this.props.navigation.getParam('userDisplayname')}
                 </Text>
-                <Text style={{ fontSize: 12, fontFamily: 'OpenSans-Regular', color: '#BABFC8' }}>
+                <Text style={{ fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular', color: '#BABFC8' }}>
                   {this.props.navigation.getParam('userFullUnitCode')}
                 </Text>
               </View>
@@ -192,7 +192,7 @@ export default class extends Component {
             data={data}
             horizontal={false}
             key={this.state.numcolumn === 2 ? 'h' : 'v'}
-            contentContainerStyle={{ alignItems: 'center', marginHorizontal: 20 }}
+            contentContainerStyle={{ alignItems: 'center', marginHorizontal: Resolution.scale(20) }}
             keyExtractor={item => item.id + ''}
             numColumns={this.state.numcolumn || 2}
             renderItem={({ item, index }) =>
@@ -208,9 +208,9 @@ export default class extends Component {
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => <View style={{ width: 500, height: 1000, backgroundColor: 'red' }} />}
-            ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
+            ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
             ListHeaderComponent={() => this.renderHeader()}
-            ListFooterComponent={() => <View style={{ height: 100, width: 40 }} />}
+            ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(100), width: Resolution.scaleWidth(40) }} />}
           />
         </View>
         <Modal style={{ flex: 1, margin: 0, backgroundColor: '#F6F8FD' }} isVisible={this.state.isShowProfile}>

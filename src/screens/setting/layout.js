@@ -46,9 +46,9 @@ export default class extends Component {
                 renderViewRight={
                     <Button
                         onPress={() => this.setState({ isModalSelectUnit: true })}
-                        style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
-                        <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                        <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                        style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}>
+                        <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
+                        <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
                     </Button>
                 }
             />
@@ -80,11 +80,11 @@ export default class extends Component {
         return (
             <View>
                 <View style={Styles.modalContent}>
-                    <Text style={{ fontSize: 13, fontFamily: 'OpenSans-Bold', marginTop: 20 }}>Select Language</Text>
+                    <Text style={{ fontSize: Resolution.scale(13), fontFamily: 'OpenSans-Bold', marginTop: Resolution.scale(20) }}>Select Language</Text>
                     <Picker
-                        style={{ width: width - 20, flex: 1, justifyContent: 'center', }}
+                        style={{ width: width - Resolution.scaleWidth(20), flex: 1, justifyContent: 'center', }}
                         selectedValue={parseInt(this.state.selectedItem)}
-                        itemStyle={{ color: "#333333", fontSize: 20, fontWeight: 'bold' }}
+                        itemStyle={{ color: "#333333", fontSize: Resolution.scale(20), fontWeight: 'bold' }}
                         onValueChange={(index) => this.onPickerSelect(index)}>
                         {
                             Language.listLanguage.map((item, index) => (
@@ -110,10 +110,10 @@ export default class extends Component {
                 />
                 {this.renderHeader()}
 
-                <View style={{ padding: 20 }}>
+                <View style={{ padding: Resolution.scale(20) }}>
                     <Text style={Styles.titleHeader}>Thông báo chung</Text>
                     <View style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 20, paddingHorizontal: 20 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: Resolution.scale(20), paddingHorizontal: Resolution.scale(20) }}>
                             <Text>
                                 Thông báo tất cả
                         </Text>
@@ -127,7 +127,7 @@ export default class extends Component {
                                 />
                             </View>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: Resolution.scale(20) }}>
                             <Text>
                                 Nhận email khi có thông báo
                         </Text>
@@ -144,12 +144,12 @@ export default class extends Component {
                     </View>
                 </View>
 
-                <View style={{ padding: 20 }}>
+                <View style={{ padding: Resolution.scale(20) }}>
                     <Text style={Styles.titleHeader}>Ngôn ngữ</Text>
                     <Button
                         onPress={() => this._toggleModalLanguage()}
                         style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
-                        <View style={{ padding: 20, justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ padding: Resolution.scale(20), justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }}>
                             <Text>{Language.listLanguage[this.state.selectedItem].title}</Text>
                             <Image source={IC_ARROWRIGHT} />
                         </View>

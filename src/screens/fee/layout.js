@@ -22,6 +22,7 @@ import IC_HISTORY from "../../resources/icons/history_fee.png";
 
 import IC_CHECK_WHITE from "../../resources/icons/check_fee.png";
 import IC_CHECKED_WHITE from "../../resources/icons/checked_white_fee.png";
+import Resolution from "../../utils/resolution";
 
 import { isIphoneX } from '@utils/func';
 
@@ -118,9 +119,9 @@ export default class extends Component {
                     renderViewRight={
                         <Button
                             onPress={() => this.setState({ isModalSelectUnit: true })}
-                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
-                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                            <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}>
+                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
+                            <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
                         </Button>
                     }
                 />
@@ -131,44 +132,44 @@ export default class extends Component {
                         </Animated.View>
                     </Animated.View>
                     <Animated.View style={{ height: headerHeightContentTop }}>
-                        <Animated.View style={{ marginTop: 20, alignItems: 'center', opacity: opacityTextPrice }}>
-                            <Text style={{ color: '#FFFFFF', fontSize: 14, fontFamily: 'OpenSans-Semibold' }}>October / 2018</Text>
+                        <Animated.View style={{ marginTop: Resolution.scale(20), alignItems: 'center', opacity: opacityTextPrice }}>
+                            <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold' }}>October / 2018</Text>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                                <Text style={{ fontSize: 35, fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>{Utils.convertNumber(this.state.totalPay)}</Text>
-                                <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginLeft: 10, paddingBottom: 5 }}>VND</Text>
+                                <Text style={{ fontSize: Resolution.scale(35), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>{Utils.convertNumber(this.state.totalPay)}</Text>
+                                <Text style={{ fontSize: Resolution.scale(20), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginLeft: Resolution.scale(10), paddingBottom: Resolution.scale(5) }}>VND</Text>
                             </View>
-                            <Text style={{ fontSize: 14, fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5 }}>{unitActive.fullUnitCode}</Text>
+                            <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5 }}>{unitActive.fullUnitCode}</Text>
                         </Animated.View>
                     </Animated.View>
 
                     <Animated.View style={{ height: headerHeightViewPrice, opacity: opacityViewPrice, justifyContent: 'center' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: Resolution.scale(20) }}>
                             <View style={{}}>
-                                <Text style={{ color: '#FFFFFF', fontSize: 10, fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text>
-                                <Text style={{ fontSize: 10, fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5, textAlign: 'left' }}>{unitActive.fullUnitCode}</Text>
+                                <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text>
+                                <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5, textAlign: 'left' }}>{unitActive.fullUnitCode}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                                <Text style={{ fontSize: 10, fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginRight: 10, paddingBottom: 5 }}>VND</Text>
-                                <Text style={{ fontSize: 22, fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>{Utils.convertNumber(this.state.totalPay)}</Text>
+                                <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginRight: Resolution.scale(10), paddingBottom: Resolution.scale(5) }}>VND</Text>
+                                <Text style={{ fontSize: Resolution.scale(22), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>{Utils.convertNumber(this.state.totalPay)}</Text>
                             </View>
                         </View>
                     </Animated.View>
 
 
                     <View
-                        style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 10 }}>
+                        style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: Resolution.scale(20), paddingVertical: Resolution.scale(10) }}>
                         <Button
                             onPress={() => this._addAllitem()}
                             style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={checkAll ? IC_CHECKED_WHITE : IC_CHECK_WHITE} style={{ marginRight: 20 }} />
-                            <Text style={{ fontSize: 12, fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
+                            <Image source={checkAll ? IC_CHECKED_WHITE : IC_CHECK_WHITE} style={{ marginRight: Resolution.scale(20) }} />
+                            <Text style={{ fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
                                 Tất cả
                             </Text>
                         </Button>
                         <Button
                             onPress={() => this._openModalHistory()}
                             style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 12, fontFamily: 'OpenSans-Semibold', color: '#FFF', marginRight: 20 }}>
+                            <Text style={{ fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Semibold', color: '#FFF', marginRight: Resolution.scale(20) }}>
                                 Lịch sử
                             </Text>
                             <Image source={IC_HISTORY} />
@@ -187,9 +188,9 @@ export default class extends Component {
                     extraData={this.state}
                 />
 
-                <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
+                <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40) }} />
                 <Button onPress={() => this._openModalConfirm()} style={[Styles.ButtonAdd, { backgroundColor: this.state.listFeeSelected.length > 0 ? '#01C772' : '#e0e0e0', }]}>
-                    <Text style={{ color: '#F8F8F8', fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
+                    <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
                 </Button>
 
                 <Modal
@@ -218,8 +219,8 @@ export default class extends Component {
     renderItem(item, index) {
         return (
             <View>
-                <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
-                    <Text style={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold' }}>
+                <View style={{ marginHorizontal: Resolution.scale(20), marginVertical: Resolution.scale(20) }}>
+                    <Text style={{ color: '#505E75', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold' }}>
                         {item[0].package.period + '-' + item[0].package.year}
                     </Text>
                 </View>
@@ -228,17 +229,17 @@ export default class extends Component {
                         let check = this.state.listFeeSelected.some(e => e.id === data.id);
                         return <Button key={data.id + 'itemFee____' + index}
                             onPress={() => this._addItemListFeeSelected(data)}
-                            style={{ padding: 20, backgroundColor: '#FFFFFF', borderRadius: 5, marginBottom: 10, marginHorizontal: 20 }}>
+                            style={{ padding: Resolution.scale(20), backgroundColor: '#FFFFFF', borderRadius: 5, marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Image source={check ? IC_CHECKED : IC_CHECK_BLUE} style={{ marginRight: 20 }} />
-                                    <View style={{ width: width - 165 }}>
-                                        <Text numberOfLines={1} style={{ fontSize: 12, color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>{data.description}</Text>
-                                        <Text numberOfLines={1} style={{ fontSize: 13, color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>{data.fullUnitCode}</Text>
+                                    <Image source={check ? IC_CHECKED : IC_CHECK_BLUE} style={{ marginRight: Resolution.scale(20) }} />
+                                    <View style={{ width: width - Resolution.scaleWidth(165) }}>
+                                        <Text numberOfLines={1} style={{ fontSize: Resolution.scale(12), color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>{data.description}</Text>
+                                        <Text numberOfLines={1} style={{ fontSize: Resolution.scale(13), color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>{data.fullUnitCode}</Text>
                                     </View>
                                 </View>
                                 <View>
-                                    <Text style={{ color: '#BABFC8', fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}>{'$' + data.totalAmount}</Text>
+                                    <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>{'$' + data.totalAmount}</Text>
                                 </View>
                             </View>
                         </Button>

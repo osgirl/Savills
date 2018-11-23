@@ -41,7 +41,7 @@ class modalConfirm extends Component {
                 <LinearGradient
                     colors={['#4A89E8', '#8FBCFF']}
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                    style={{ paddingBottom: 20 }}>
+                    style={{ paddingBottom: Resolution.scale(20) }}>
                     <HeaderTitle title={'Detail order'} />
                 </LinearGradient>
 
@@ -49,7 +49,7 @@ class modalConfirm extends Component {
                     showsVerticalScrollIndicator={false}
                 >
 
-                    <View style={{ marginHorizontal: 20, paddingVertical: 20, width: width - 40, borderRadius: 5, backgroundColor: '#FFF', marginTop: 20 }}>
+                    <View style={{ marginHorizontal: Resolution.scale(20), paddingVertical: Resolution.scale(20), width: width - Resolution.scaleWidth(40), borderRadius: 5, backgroundColor: '#FFF', marginTop: Resolution.scale(20) }}>
                         {
                             data.map((item, index) => (
                                 this.renderItem(item, index)
@@ -57,34 +57,35 @@ class modalConfirm extends Component {
                         }
                     </View>
 
-                    <View style={{ marginHorizontal: 20, width: width - 40, backgroundColor: '#FFF', borderRadius: 5, marginTop: 20, marginBottom: 40 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 20, paddingHorizontal: 20 }}>
+                    <View style={{ marginHorizontal: Resolution.scale(20), width: width - Resolution.scaleWidth(40), backgroundColor: '#FFF', borderRadius: 5, marginTop: Resolution.scale(20), marginBottom: Resolution.scale(40) }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: Resolution.scale(20), paddingHorizontal: Resolution.scale(20) }}>
                             <View style={{}}>
-                                <Text style={{ textAlign: 'left', color: '#BABFC8', fontSize: 13, fontFamily: 'OpenSans-SemiBold' }}>Sub Total</Text>
-                                <Text style={{ textAlign: 'left', paddingVertical: 20, color: '#BABFC8', fontSize: 13, fontFamily: 'OpenSans-SemiBold' }}>SalesTax( 10.5% )</Text>
-                                <Text style={{ textAlign: 'left', color: '#BABFC8', fontSize: 13, fontFamily: 'OpenSans-SemiBold' }}>Rouding</Text>
+                                <Text style={{ textAlign: 'left', color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Sub Total</Text>
+                                <Text style={{ textAlign: 'left', paddingVertical: Resolution.scale(20), color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>SalesTax( 10.5% )</Text>
+                                <Text style={{ textAlign: 'left', color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Rouding</Text>
                             </View>
                             <View style={{}}>
-                                <Text style={{ textAlign: 'right', fontSize: 13, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>12.070,260 VND</Text>
-                                <Text style={{ textAlign: 'right', paddingVertical: 20, fontSize: 13, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>15.51</Text>
-                                <Text style={{ textAlign: 'right', fontSize: 13, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>0.00 VND</Text>
+                                <Text style={{ textAlign: 'right', fontSize: Resolution.scale(13), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>12.070,260 VND</Text>
+                                <Text style={{ textAlign: 'right', paddingVertical: Resolution.scale(20), fontSize: Resolution.scale(13), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>15.51</Text>
+                                <Text style={{ textAlign: 'right', fontSize: Resolution.scale(13), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>0.00 VND</Text>
                             </View>
                         </View>
-                        <View style={{ backgroundColor: '#E6EEFB', flexDirection: 'row', marginHorizontal: 10, borderRadius: 5, marginBottom: 20, justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Text style={{ padding: 10, color: '#BABFC8', fontSize: 13, fontFamily: 'OpenSans-SemiBold' }}>
+                        <View style={{ backgroundColor: '#E6EEFB', flexDirection: 'row', marginHorizontal: Resolution.scale(10), borderRadius: 5, marginBottom: Resolution.scale(20), justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Text style={{ padding: Resolution.scale(10), color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
                                 Total
                         </Text>
-                            <Text style={{ fontSize: 16, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>
+                            <Text style={{ fontSize: Resolution.scale(16), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>
                                 13.070,260 VND
                             </Text>
                         </View>
                     </View>
                 </ScrollView>
-                <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
-                <Button onPress={() => this._openModalConfirm()} style={styles.ButtonAdd}>
-                    <Text style={{ color: '#F8F8F8', fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
+                <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40) }} />
+                <Button
+                    disabled={true}
+                    onPress={() => { }} style={styles.ButtonAdd}>
+                    <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
                 </Button>
-
             </View>
         );
     }
@@ -92,23 +93,22 @@ class modalConfirm extends Component {
 
 
     renderItem(item, index) {
-        console.log('______', item)
         return (
             <View
                 key={item.id + '__detailOrder'}
-                style={[styles.item, { flexDirection: 'row', marginHorizontal: 20, width: width - 40, borderRadius: 5 }]}>
-                <View style={{ width: width - 80, alignSelf: 'flex-start' }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: index === 0 ? 0 : 20 }}>
+                style={[styles.item, { flexDirection: 'row', marginHorizontal: Resolution.scale(20), width: width - Resolution.scaleWidth(40), borderRadius: 5 }]}>
+                <View style={{ width: width - Resolution.scaleWidth(80), alignSelf: 'flex-start' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: index === 0 ? 0 : Resolution.scale(20) }}>
                         <Text
-                            numberOfLines={2} style={{ fontSize: 14, fontFamily: 'OpenSans-Bold', width: width - 160 }}>
+                            numberOfLines={2} style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold', width: width - Resolution.scaleWidth(160) }}>
                             {item.description}
                         </Text>
                         <Text
-                            numberOfLines={2} style={{ fontSize: 14, fontFamily: 'OpenSans-Bold', }}>
+                            numberOfLines={2} style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold', }}>
                             {item.totalAmount + ' VND'}
                         </Text>
                     </View>
-                    <Text numberOfLines={1} style={{ color: '#BABFC8', fontSize: 13, fontFamily: 'OpenSans-SemiBold', }}>
+                    <Text numberOfLines={1} style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold', }}>
                         {item.quantity + ' x ' + item.totalAmount}
                     </Text>
                 </View>
@@ -121,18 +121,18 @@ class modalConfirm extends Component {
         return <LinearGradient
             colors={['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-            style={{ width: width, marginBottom: 20 }}>
+            style={{ width: width, marginBottom: Resolution.scale(20) }}>
             <View>
                 <View>
                     <Button
                         onPress={() => this.props.onClose()}
-                        style={{ marginTop: 20, marginLeft: 20, width: 20 }}
+                        style={{ marginTop: Resolution.scale(20), marginLeft: Resolution.scale(20), width: Resolution.scaleWidth(20) }}
                     >
                         <Image source={IC_CLOSE} />
                     </Button>
                 </View>
 
-                <Text style={{ color: '#FFFFFF', fontSize: 35, fontFamily: 'OpenSans-Bold', marginHorizontal: 20, marginBottom: 20, marginTop: 10 }}>{this.formatDateHeader(dateSelected)}</Text>
+                <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(35), fontFamily: 'OpenSans-Bold', marginHorizontal: Resolution.scale(20), marginBottom: Resolution.scale(20), marginTop: Resolution.scale(10) }}>{this.formatDateHeader(dateSelected)}</Text>
             </View>
         </LinearGradient>
     }
@@ -160,10 +160,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: isIphoneX() ? 30 : 20,
         left: width / 2 - 25,
-        backgroundColor: '#01C772',
-        shadowColor: '#4DD49A',
-        shadowOffset: { width: 3, height: 6 },
-        shadowOpacity: 0.3,
+        // backgroundColor: '#01C772',
+        backgroundColor: '#e0e0e0',
+        // shadowColor: '#4DD49A',
+        // shadowOffset: { width: 3, height: 6 },
+        // shadowOpacity: 0.3,
         alignItems: 'center',
         justifyContent: 'center'
     }

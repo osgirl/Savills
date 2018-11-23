@@ -54,7 +54,7 @@ export default class Layout extends Component {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View>
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ paddingBottom: 10 }}>
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ paddingBottom: Resolution.scale(10) }}>
           <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
           {this.state.openFullCalendar ? (
             <Calendar
@@ -68,27 +68,27 @@ export default class Layout extends Component {
                 selectedDayBackgroundColor: '#FFF',
                 monthTextColor: '#FFF',
                 textSectionTitleColor: '#FFF',
-                textDayHeaderFontSize: 15,
+                textDayHeaderFontSize: Resolution.scale(15),
                 textDayFontFamily: 'OpenSans-Regular',
-                textDayFontSize: 14
+                textDayFontSize: Resolution.scale(14)
               }}
             />
           ) : (
-            <CalendarStrip
-              selectedDate={this.state.selectedDate}
-              onPressDate={date => {
-                this.setState({ selectedDate: date });
-              }}
-              onPressGoToday={today => {
-                this.setState({ selectedDate: today });
-              }}
-              onSwipeDown={() => {}}
-              markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
-            />
-          )}
+              <CalendarStrip
+                selectedDate={this.state.selectedDate}
+                onPressDate={date => {
+                  this.setState({ selectedDate: date });
+                }}
+                onPressGoToday={today => {
+                  this.setState({ selectedDate: today });
+                }}
+                onSwipeDown={() => { }}
+                markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
+              />
+            )}
         </LinearGradient>
-        <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>
-          <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>{LG.EVENTS_TXT_ALLTITLE}</Text>
+        <View style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}>
+          <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>{LG.EVENTS_TXT_ALLTITLE}</Text>
         </View>
       </View>
     );
@@ -132,10 +132,10 @@ export default class Layout extends Component {
           renderViewRight={
             <Button
               onPress={() => this._onpenModalSelectUnit()}
-              style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
             >
-              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-              <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
+              <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
             </Button>
           }
         />
@@ -148,12 +148,12 @@ export default class Layout extends Component {
           legacyImplementation={false}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
           // ListHeaderComponent={() => this.renderHeader()}
-          ListFooterComponent={() => <View style={{ height: 20 }} />}
+          ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
         />
         <Modal
-          style={{ flex: 1, marginTop: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, zIndex: 100 }}
+          style={{ flex: 1, marginTop: Resolution.scale(50), marginLeft: 0, marginRight: 0, marginBottom: 0 }}
           isVisible={this.state.isShowModalDetail}
         >
           <ModalDetail onClose={() => this._closeModalDetail()} itemEventSelected={this.state.itemEventSelect} />
@@ -180,25 +180,25 @@ export default class Layout extends Component {
       <ItemHorizontal key={'__PLD' + index} onReady={loading} bgColor={'#FFF'} animate="fade">
         <Button onPress={() => this._openModalDetail(item)} style={[styles.item, { flexDirection: 'row' }]}>
           <FastImage
-            style={{ width: 103, height: 103, borderRadius: 5, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+            style={{ width: Resolution.scaleWidth(103), height: Resolution.scaleHeight(103), borderRadius: 5, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
             source={image}
             resizeMode={'cover'}
           />
 
-          <View style={{ width: width - 143, flexDirection: 'column' }}>
-            <Text numberOfLines={2} style={{ fontSize: 13, fontFamily: 'OpenSans-Bold', color: '#343D4D', marginLeft: 20, marginRight: 20, marginTop: 20 }}>
+          <View style={{ width: width - Resolution.scale(140), flexDirection: 'column' }}>
+            <Text numberOfLines={2} style={{ fontSize: Resolution.scale(13), fontFamily: 'OpenSans-Bold', color: '#343D4D', marginLeft: Resolution.scale(20), marginRight: Resolution.scale(20), marginTop: Resolution.scale(20) }}>
               {item.subject}
             </Text>
-            <View style={{ flexDirection: 'row', marginLeft: 20, marginTop: 10 }}>
+            <View style={{ flexDirection: 'row', marginLeft: Resolution.scale(20), marginTop: Resolution.scale(10) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={IC_CLOCK} />
-                <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
+                <Text style={{ marginLeft: Resolution.scale(10), fontSize: Resolution.scale(12), color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
                   {startTime}
                 </Text>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: Resolution.scale(20) }}>
                 <Image source={IC_CALENDAR} style={{}} />
-                <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
+                <Text style={{ marginLeft: Resolution.scale(10), fontSize: Resolution.scale(12), color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
                   {'(' + this.converDate(item.startTime) + ' - ' + this.converDate(item.endTime) + ')'}
                 </Text>
               </View>
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 5,
     width: width - 40,
-    marginHorizontal: 20
+    marginHorizontal: Resolution.scale(20)
   },
   emptyDate: {
     height: 15,
