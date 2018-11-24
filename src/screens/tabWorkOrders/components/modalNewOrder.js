@@ -11,8 +11,7 @@ import {
   PixelRatio,
   // Modal,
   Animated,
-  Platform,
-  FlatList
+  Platform
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -60,13 +59,7 @@ class ModalNewOrder extends Component {
       isShowTitleHeader: false,
       email: this.props.userProfile.profile.result.user.emailAddress,
       sdt: this.props.userProfile.profile.result.user.phoneNumber,
-      listArea: this.props.workOrder.listArea.result,
-      indexListArea: false,
-      indexAreaChilder: false,
-      indexArea2: false,
-      listAreaChilder: [],
-      listArea2: false,
-      isShowCategory: false
+      listArea: this.props.workOrder.listArea.result
     };
   }
 
@@ -100,6 +93,7 @@ class ModalNewOrder extends Component {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
+    let indexArea = this.state.listArea.filter(item => item.isCheck == true);
     let WorkOrder = {
       currentStatusId: 11,
       fullUnitName: `${fullUnitCode} - ${displayName}`,
@@ -110,9 +104,9 @@ class ModalNewOrder extends Component {
       description: this.state.comment,
       sourceId: 3,
       maintainanceTeamId: 1,
-      areaId: this.state.indexListArea,
-      categoryId: this.state.listAreaChilder[this.state.indexAreaChilder].id,
-      subCategoryId: this.state.listArea2[this.state.indexArea2].id,
+      areaId: indexArea[0].id,
+      categoryId: null,
+      subCategoryId: null,
       contact: {
         fullName: name,
         phoneNumber: this.state.sdt,
@@ -129,12 +123,7 @@ class ModalNewOrder extends Component {
     arr.map(item => (item.isCheck = false));
     arr[index].isCheck = true;
     this.setState({
-      listArea: arr,
-      isShowCategory: true,
-      listAreaChilder: arr[index].children,
-      indexListArea: arr[index].id,
-      indexArea2: false,
-      listArea2: false
+      listArea: arr
     });
   }
 
@@ -464,121 +453,9 @@ class ModalNewOrder extends Component {
           </LinearGradient>
         </Animated.View>
         {this.renderModalConfirmBooking()}
-        {this.renderModalArea()}
       </View>
     );
   }
-
-  renderModalArea() {
-    return (
-      <Modal
-        style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 70 }}
-        isVisible={this.state.isShowCategory}
-      >
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              width: width,
-              height: 50,
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              flexDirection: 'row',
-              backgroundColor: '#FFF',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 20
-            }}
-          >
-            <TouchableOpacity onPress={() => this.backModal()}>
-              <Image source={require('@resources/icons/close-black.png')} />
-            </TouchableOpacity>
-            <Text styl={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold' }}>Khu vực căn hộ</Text>
-            <View />
-          </View>
-          <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            <FlatList
-              data={this.state.listArea2 ? this.state.listArea2 : this.state.listAreaChilder}
-              keyExtractor={(item, index) => item.id.toString()}
-              renderItem={({ item, index }) => this.renderItemChilder(item, index)}
-            />
-            <Button
-              style={{ position: 'absolute', bottom: 20, left: 20, width: width - 40, height: 50 }}
-              onPress={() => this.onPressButton()}
-            >
-              <LinearGradient
-                colors={['#4A89E8', '#8FBCFF']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
-              >
-                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
-                  {!this.state.listArea2 ? 'Next' : 'Done'}
-                </Text>
-              </LinearGradient>
-            </Button>
-          </View>
-        </View>
-      </Modal>
-    );
-  }
-
-  backModal = () => {
-    if (this.state.listArea2) {
-      this.setState({ listArea2: false });
-    } else {
-      this.setState({ isShowCategory: false });
-    }
-  };
-
-  onPressButton = () => {
-    if (!this.state.listArea2) {
-      this.setState({ listArea2: this.state.listAreaChilder[this.state.indexAreaChilder].children });
-    } else {
-      this.setState({ isShowCategory: false });
-    }
-  };
-
-  onClickAreaChilder = index => {
-    if (!this.state.listArea2) {
-      let arr = this.state.listAreaChilder.slice();
-      arr.map(item => (item.isCheck = false));
-      let flag = arr[index].isCheck || false;
-      arr[index].isCheck = !flag;
-      this.setState({ listAreaChilder: arr, indexAreaChilder: index });
-    } else {
-      let arr = this.state.listArea2.slice();
-      arr.map(item => (item.isCheck = false));
-      let flag = arr[index].isCheck || false;
-      arr[index].isCheck = !flag;
-      this.setState({ listArea2: arr, indexArea2: index });
-    }
-  };
-
-  renderItemChilder = (item, index) => {
-    return (
-      <TouchableOpacity
-        key={index}
-        activeOpacity={1}
-        onPress={() => this.onClickAreaChilder(index)}
-        style={{
-          flexDirection: 'row',
-          height: 70,
-          width: width - 40,
-          marginHorizontal: 20,
-          borderRadius: 10,
-          marginVertical: 5,
-          alignItems: 'center',
-          backgroundColor: '#FFF',
-          paddingHorizontal: 20
-        }}
-      >
-        <Text style={{ flex: 1, color: '#343D4D', fontFamily: 'OpenSans-Bold', fontSize: 13 }}>{item.name}</Text>
-        <Image
-          source={item.isCheck ? require('../../../resources/icons/checked.png') : require('../../../resources/icons/check.png')}
-        />
-      </TouchableOpacity>
-    );
-  };
 
   renderModalConfirmBooking = () => {
     const { fullUnitCode } = this.props.units.unitActive;

@@ -36,7 +36,7 @@ class DateItem extends PureComponent {
     const hightlightTextColor = '#6E99F1';
     const normalTextColor = '#FFF';
     return (
-      <View style={{ width: width / 7, height: 50, borderBottomWidth: 1, borderBottomColor: 'rgba(100,100,100,0.1)' }}>
+      <View style={{ width: width / 7, height: 50 }}>
         <TouchableOpacity
           underlayColor="#008b8b"
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}

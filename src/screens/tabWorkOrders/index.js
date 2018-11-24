@@ -73,7 +73,9 @@ class TabWorkOrder extends Component {
     ) {
       nextProps.actions.workOrder.setFlagGetWorkOrderList();
       this.setState({ listWorkOrder: nextProps.workOrder.listActive.result.items, isRefreshing: false, isLoadDataActive: false });
+      let arr = nextProps.workOrder.listActive.result.items.map(a => a.id);
     }
+
     if (
       nextProps.workOrder &&
       nextProps.workOrder.listComplete &&
@@ -146,6 +148,7 @@ class TabWorkOrder extends Component {
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />

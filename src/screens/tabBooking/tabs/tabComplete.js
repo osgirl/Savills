@@ -36,7 +36,7 @@ class TabComplete extends Component {
           alwaysBounceVertical={false}
           keyExtractor={(item, index) => item.reservationId.toString()}
           data={this.state.listData}
-          renderItem={({ item, index }) => <ItemBooking item={item} index={index} action={() => this.clickDetail(item)} />}
+          renderItem={({ item, index }) => <ItemBooking item={item} index={index} action={() => this.clickDetail(item, 2)} />}
           onScroll={this.props.onScroll}
           refreshControl={
             <RefreshControl
@@ -66,8 +66,8 @@ class TabComplete extends Component {
     );
   };
 
-  clickDetail = item => {
-    this.props.navigation.navigate('ModalDetailBooking', { id: item.reservationId });
+  clickDetail = (item, tabIndex) => {
+    this.props.navigation.navigate('ModalDetailBooking', { id: item.reservationId, index: tabIndex });
   };
 }
 

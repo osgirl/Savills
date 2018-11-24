@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, StatusBar, TouchableOpacity } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
@@ -30,6 +30,7 @@ import ModalSelectUnit from '../../components/modalSelectUnit';
 import CalendarStrip from '@components/calendarAgenda';
 import Language from '../../utils/language';
 
+import moment from 'moment';
 import XDate from 'xdate';
 
 export default class Layout extends Component {
@@ -46,45 +47,58 @@ export default class Layout extends Component {
   }
 
   async _onPressDay(data) {
-    await this.setState({ dateSelected: data });
+    if (this.state.openFullCalendar) {
+      this.setState({ dateSelected: data });
+    } else {
+      let date = moment(data).format('YYYY-MM-DD');
+      this.setState({ dateSelected: date });
+    }
     this._openModalFull();
   }
 
   renderHeader() {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
-      <View>
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ paddingBottom: 10 }}>
+      <View style={{}}>
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
           <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
           {this.state.openFullCalendar ? (
-            <Calendar
-              style={styles.calendar}
-              firstDay={1}
-              markedDates={this.state.overViewDate || {}}
-              onDayPress={data => this._onPressDay(data.dateString)}
-              theme={{
-                todayTextColor: '#343D4D',
-                arrowColor: '#FFF',
-                selectedDayBackgroundColor: '#FFF',
-                monthTextColor: '#FFF',
-                textSectionTitleColor: '#FFF',
-                textDayHeaderFontSize: 15,
-                textDayFontFamily: 'OpenSans-Regular',
-                textDayFontSize: 14
-              }}
-            />
+            <View>
+              <Calendar
+                style={styles.calendar}
+                firstDay={1}
+                markedDates={this.state.overViewDate || {}}
+                onDayPress={data => this._onPressDay(data.dateString)}
+                theme={{
+                  todayTextColor: '#343D4D',
+                  arrowColor: '#FFF',
+                  selectedDayBackgroundColor: '#FFF',
+                  monthTextColor: '#FFF',
+                  textSectionTitleColor: '#FFF',
+                  textDayHeaderFontSize: 15,
+                  textDayFontFamily: 'OpenSans-Regular',
+                  textDayFontSize: 14
+                }}
+              />
+              <TouchableOpacity onPress={() => this.setState({ openFullCalendar: false })}>
+                <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/up.png')} />
+              </TouchableOpacity>
+            </View>
           ) : (
-            <CalendarStrip
-              selectedDate={this.state.selectedDate}
-              onPressDate={date => {
-                this.setState({ selectedDate: date });
-              }}
-              onPressGoToday={today => {
-                this.setState({ selectedDate: today });
-              }}
-              onSwipeDown={() => {}}
-              markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
-            />
+            <View>
+              <CalendarStrip
+                selectedDate={this.state.selectedDate}
+                onPressDate={date => {
+                  this._onPressDay(date);
+                }}
+                onPressGoToday={today => {}}
+                onSwipeDown={() => {}}
+                markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
+              />
+              <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
+                <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/down.png')} />
+              </TouchableOpacity>
+            </View>
           )}
         </LinearGradient>
         <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>

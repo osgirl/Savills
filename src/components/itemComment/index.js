@@ -5,13 +5,15 @@ const { width } = Dimensions.get('window');
 
 class ItemComment extends Component {
   render() {
-    const { content, creationTime, creatorUserId } = this.props.item;
+    const { content, creationTime, creatorUserId, fileUrl } = this.props.item;
     let id = this.props.idUser;
     let times = moment(creationTime).fromNow();
+    let encToken = this.props.account.encToken;
+    let image = `${fileUrl}&encToken=${encodeURIComponent(encToken)}`;
     if (id == creatorUserId) {
       return (
         <View style={styles.contain}>
-          <Image style={styles.imageAvatar} resizeMode={'cover'} source={{ uri: "" }} />
+          <View style={styles.imageAvatar} />
           <View style={styles.viewChat}>
             <Text style={styles.textContent}>{content}</Text>
             <Text style={styles.textTime}>{times}</Text>
@@ -19,14 +21,9 @@ class ItemComment extends Component {
         </View>
       );
     } else {
-      console.log('asdajsdkalsdla', 'vao 2');
       return (
         <View style={styles.containAdmin}>
-          <Image
-            style={[styles.imageAvatar]}
-            resizeMode={'cover'}
-            source={{ uri: 'http://thuthuatphanmem.vn/uploads/2018/06/18/anh-avatar-dep-65_034122567.jpg' }}
-          />
+          <Image style={[styles.imageAvatar]} resizeMode={'cover'} source={{ uri: image }} />
           <View style={[styles.viewChat, { backgroundColor: '#4A89E8' }]}>
             <Text style={[styles.textContent, { color: '#FFF' }]}>{content}</Text>
             <Text style={[styles.textTime, { color: 'rgba(255,255,255,0.5)' }]}>{times}</Text>

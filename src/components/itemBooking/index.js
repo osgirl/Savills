@@ -6,7 +6,7 @@ const { width } = Dimensions.get('window');
 import configs from '@utils/configs';
 export class ItemBooking extends Component {
   render() {
-    const { item, index, action } = this.props;
+    const { item, index, action, disableAction } = this.props;
     let date = moment(item.createdAt).format('l');
     let time = moment(item.createdAt).format('LT');
     return (

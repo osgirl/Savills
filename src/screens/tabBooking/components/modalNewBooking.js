@@ -67,7 +67,8 @@ class ModalNewBooking extends Component {
   componentWillReceiveProps(nextProps) {
     let accessTokenApi = this.props.account.accessTokenAPI;
     if (nextProps.booking.listBookingOption && nextProps.booking.listBookingOption.success) {
-      let arr = nextProps.booking.listBookingOption.result.filter(item => item.isAvailable == true);
+      // let arr = nextProps.booking.listBookingOption.result.filter(item => item.isAvailable == true);
+      let arr = nextProps.booking.listBookingOption.result;
       arr.map(item => (item.isCheck = false));
       arr.map(item => (item.isFlag = false));
       this.setState({ listBooking: arr });
@@ -199,7 +200,7 @@ class ModalNewBooking extends Component {
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={{ position: 'absolute', top: 40, left: 20 }} onPress={() => this.props.close()}>
+            <TouchableOpacity style={{ position: 'absolute', top: 20, padding: 20 }} onPress={() => this.props.close()}>
               <Image source={require('../../../resources/icons/close.png')} />
             </TouchableOpacity>
             <TouchableOpacity
@@ -211,36 +212,48 @@ class ModalNewBooking extends Component {
           </View>
           <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 35, margin: 20, marginTop: 100 }}>Choose Amenity</Text>
           {this.state.openFullCalendar ? (
-            <Calendar
-              firstDay={1}
-              markedDates={dataSelected}
-              onDayPress={data => this._onPressDay(data.dateString)}
-              theme={{
-                todayTextColor: '#343D4D',
-                arrowColor: '#FFF',
-                selectedDayBackgroundColor: '#FFF',
-                monthTextColor: '#FFF',
-                textSectionTitleColor: '#FFF',
-                textDayHeaderFontSize: 15,
-                textDayFontFamily: 'OpenSans-Regular',
-                textDayFontSize: 14,
-                fontWeight: 'bold'
-              }}
-            />
+            <View>
+              <Calendar
+                firstDay={1}
+                minDate={new Date()}
+                markedDates={dataSelected}
+                onDayPress={data => this._onPressDay(data.dateString)}
+                theme={{
+                  todayTextColor: '#343D4D',
+                  arrowColor: '#FFF',
+                  selectedDayBackgroundColor: '#FFF',
+                  monthTextColor: '#FFF',
+                  textSectionTitleColor: '#FFF',
+                  textDayHeaderFontSize: 15,
+                  textDayFontFamily: 'OpenSans-Regular',
+                  textDayFontSize: 14,
+                  fontWeight: 'bold'
+                }}
+              />
+              <Button onPress={() => this.setState({ openFullCalendar: false })}>
+                <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/up.png')} />
+              </Button>
+            </View>
           ) : (
-            <CalendarStrip
-              selectedDate={this.state.selectedDate}
-              onPressDate={date => {
-                this.setState({ selectedDate: date });
-              }}
-              onPressGoToday={today => {
-                this.setState({ selectedDate: today });
-              }}
-              onSwipeDown={() => {
-                // alert('onSwipeDown');
-              }}
-              markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
-            />
+            <View>
+              <CalendarStrip
+                selectedDate={this.state.selectedDate}
+                onPressDate={date => {
+                  this.setState({ selectedDate: date });
+                }}
+                onPressGoToday={today => {
+                  this.setState({ selectedDate: today });
+                }}
+                onSwipeDown={() => {
+                  this.setState({ openFullCalendar: true });
+                  // alert('onSwipeDown');
+                }}
+                markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
+              />
+              <Button onPress={() => this.setState({ openFullCalendar: true })}>
+                <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/down.png')} />
+              </Button>
+            </View>
           )}
         </LinearGradient>
         <KeyboardAwareScrollView
@@ -308,40 +321,60 @@ class ModalNewBooking extends Component {
                     flexWrap: 'wrap'
                   }}
                 >
-                  {this.state.listBooking.map((item, index) => (
-                    <TouchableOpacity
-                      activeOpacity={0.9}
-                      onPress={() => this.selectItem(index)}
-                      key={index}
-                      style={{
-                        width: 85,
-                        height: 22,
-                        borderRadius: 5,
-                        backgroundColor: item.isCheck ? '#4A89E8' : '#BABFC8',
-                        marginVertical: 5,
-                        marginRight: 10,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      {item.isFlag && item.isCheck == false ? (
-                        <View
-                          style={{
-                            width: 10,
-                            height: 10,
-                            borderRadius: 5,
-                            position: 'absolute',
-                            right: 0,
-                            top: 0,
-                            backgroundColor: '#4A89E8'
-                          }}
-                        />
-                      ) : null}
-                      <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
-                        item.startTime
-                      ).format('hh:mm')}-${moment(item.endTime).format('hh:mm')}`}</Text>
-                    </TouchableOpacity>
-                  ))}
+                  {this.state.listBooking.map((item, index) =>
+                    item.isAvailable ? (
+                      <TouchableOpacity
+                        activeOpacity={0.9}
+                        onPress={() => this.selectItem(index)}
+                        key={index}
+                        style={{
+                          width: 85,
+                          height: 22,
+                          borderRadius: 5,
+                          backgroundColor: item.isCheck ? '#4A89E8' : '#BABFC8',
+                          marginVertical: 5,
+                          marginRight: 10,
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        {item.isFlag && item.isCheck == false ? (
+                          <View
+                            style={{
+                              width: 10,
+                              height: 10,
+                              borderRadius: 5,
+                              position: 'absolute',
+                              right: 0,
+                              top: 0,
+                              backgroundColor: '#4A89E8'
+                            }}
+                          />
+                        ) : null}
+                        <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
+                          item.startTime
+                        ).format('hh:mm')}-${moment(item.endTime).format('hh:mm')}`}</Text>
+                      </TouchableOpacity>
+                    ) : (
+                      <View
+                        key={index}
+                        style={{
+                          width: 85,
+                          height: 22,
+                          borderRadius: 5,
+                          backgroundColor: '#dbdee2',
+                          marginVertical: 5,
+                          marginRight: 10,
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
+                          item.startTime
+                        ).format('hh:mm')}-${moment(item.endTime).format('hh:mm')}`}</Text>
+                      </View>
+                    )
+                  )}
                 </View>
               }
             />
@@ -409,67 +442,66 @@ class ModalNewBooking extends Component {
               }
             />
           </ScrollView>
-        </KeyboardAwareScrollView>
-        <View
-          style={{
-            position: 'absolute',
-            width: width,
-            height: 100,
-            backgroundColor: '#FFF',
-            bottom: 0,
-            paddingTop: 5,
-            paddingBottom: 20,
-            paddingHorizontal: 20
-          }}
-        >
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowRegulations: true })}>
-              <Text style={{ color: '#4A89E8', fontSize: 12, textDecorationLine: 'underline', fontFamily: 'OpenSans-Italic' }}>
-                Chi tiết quy định
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.setState({ checkConfirm: !this.state.checkConfirm })}
-              style={{ flexDirection: 'row', alignItems: 'center' }}
-            >
-              <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>Chấp Nhận</Text>
-              <Image
-                style={{ marginLeft: 5, width: 17, height: 17 }}
-                source={
-                  this.state.checkConfirm
-                    ? require('../../../resources/icons/checked.png')
-                    : require('../../../resources/icons/check.png')
-                }
-              />
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            disabled={this.state.checkConfirm && this.state.arrSelected.length > 0 ? false : true}
+          <View
             style={{
-              width: width - 40,
-              height: 30,
-              backgroundColor: this.state.checkConfirm && this.state.arrSelected.length > 0 ? '#01C772' : '#DEDEDE',
-              borderRadius: 5,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-            onPress={() => {
-              this.setState({ isShowModalConfirm: true });
+              position: 'absolute',
+              width: width,
+              height: 100,
+              backgroundColor: '#FFF',
+              bottom: 0,
+              paddingTop: 5,
+              paddingBottom: 20,
+              paddingHorizontal: 20
             }}
           >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>
-          </TouchableOpacity>
-        </View>
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowRegulations: true })}>
+                <Text style={{ color: '#4A89E8', fontSize: 12, textDecorationLine: 'underline', fontFamily: 'OpenSans-Italic' }}>
+                  Chi tiết quy định
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.setState({ checkConfirm: !this.state.checkConfirm })}
+                style={{ flexDirection: 'row', alignItems: 'center' }}
+              >
+                <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>Chấp Nhận</Text>
+                <Image
+                  style={{ marginLeft: 5, width: 17, height: 17 }}
+                  source={
+                    this.state.checkConfirm
+                      ? require('../../../resources/icons/checked.png')
+                      : require('../../../resources/icons/check.png')
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              disabled={this.state.checkConfirm && this.state.arrSelected.length > 0 ? false : true}
+              style={{
+                width: width - 40,
+                height: 30,
+                backgroundColor: this.state.checkConfirm && this.state.arrSelected.length > 0 ? '#01C772' : '#DEDEDE',
+                borderRadius: 5,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onPress={() => {
+                this.setState({ isShowModalConfirm: true });
+              }}
+            >
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAwareScrollView>
         {this.state.listBooking && this.state.listBooking.length > 0 ? this.renderModalConfirmBooking() : null}
         {this.props.booking.detailCategory && this.props.booking.detailCategory.result ? this.renderModalRegulations() : null}
         {this.props.booking.createNewBooking && this.props.booking.createNewBooking.error ? (
           <AlertWarning
-            clickAction={() => this.setState({ isModalError: false })}
+            clickAction={() => this.setState({ isModalError: false, loading: false })}
             isVisible={this.state.isModalError}
             message={this.props.booking.createNewBooking.error.message}
           />
         ) : null}
-        {/* {this.state.loading ? <Loading /> : null} */}
       </View>
     );
   }

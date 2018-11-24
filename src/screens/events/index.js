@@ -22,7 +22,7 @@ class Events extends Layout {
       isShowModalFull: false,
       itemEventSelect: null,
       isModalSelectUnit: false,
-      showFullCalendar: false
+      openFullCalendar: false
     };
   }
 

@@ -154,7 +154,6 @@ class ModalDetailBooking extends Component {
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
-
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
@@ -340,6 +339,8 @@ class ModalDetailBooking extends Component {
   };
 
   renderContentModalChat() {
+    let tabIndex = this.props.navigation.getParam('index', false);
+    let id = this.props.userProfile.profile.result.user.id;
     return (
       <Modal
         style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }}
@@ -384,7 +385,7 @@ class ModalDetailBooking extends Component {
                 ref={ref => (this.flatList = ref)}
                 onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
                 onLayout={() => this.flatList.scrollToEnd({ animated: true })}
-                renderItem={({ item, index }) => <ItemComment index={index} item={item} />}
+                renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={id} />}
                 ListEmptyComponent={() => {
                   return (
                     <View style={{ flex: 1, height: isIphoneX() ? 500 : height - 150, alignItems: 'center', marginTop: 100 }}>
@@ -416,6 +417,7 @@ class ModalDetailBooking extends Component {
                   ref={input => {
                     this.textInput = input;
                   }}
+                  editable={tabIndex && tabIndex == 2 ? false : true}
                   returnKeyType={'send'}
                   style={{ flex: 1, color: '#FFF' }}
                   onChangeText={e => this.setState({ chatText: e })}
@@ -527,6 +529,7 @@ class ModalDetailBooking extends Component {
   };
 
   renderFooter = () => {
+    let tabIndex = this.props.navigation.getParam('index', false);
     return (
       <View
         style={{
@@ -542,6 +545,7 @@ class ModalDetailBooking extends Component {
         }}
       >
         <TouchableOpacity
+          disabled={tabIndex && tabIndex === 2 ? true : false}
           onPress={() => this.setState({ isShowModalCancel: true })}
           style={{ flex: 1, backgroundColor: '#404040', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
         >

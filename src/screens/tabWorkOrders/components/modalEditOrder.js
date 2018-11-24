@@ -12,7 +12,8 @@ import {
   Animated,
   Platform,
   KeyboardAvoidingView,
-  findNodeHandle
+  findNodeHandle,
+  PixelRatio
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -25,20 +26,30 @@ import Modal from 'react-native-modal';
 import Resolution from '@utils/resolution';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-
+import ImagePicker from 'react-native-image-picker';
 const STAR_ON = require('../../../resources/icons/Star-big.png');
 const STAR_OFF = require('../../../resources/icons/Star.png');
-
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+const options = {
+  title: 'Select Image',
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  },
+  quality: 1,
+  maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
+  maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
+};
 
 const { width, height } = Dimensions.get('window');
 class ModalEditOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailOrder: {},
+      detailOrder: false,
       imageIndex: 0,
       listComment: false,
       isShowChat: false,
@@ -50,7 +61,10 @@ class ModalEditOrder extends Component {
       scrollY: new Animated.Value(0),
       isShowTitleHeader: false,
       showModalConfirmCancel: false,
-      showImage: false
+      showImage: false,
+      imageList: [],
+      imageListBase64: [],
+      arrImageOld: []
     };
   }
 
@@ -61,7 +75,7 @@ class ModalEditOrder extends Component {
     this.props.actions.workOrder.getCommentUnread(accessTokenAPI, id, 2);
   };
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps = async nextProps => {
     const { id } = this.props.userProfile.profile.result.user;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     if (
@@ -69,7 +83,14 @@ class ModalEditOrder extends Component {
       nextProps.workOrder.workOrderDetail.success &&
       this.props.workOrder.workOrderDetail != nextProps.workOrder.workOrderDetail
     ) {
-      this.setState({ detailOrder: nextProps.workOrder.workOrderDetail.result, loading: false });
+      this.setState({
+        detailOrder: nextProps.workOrder.workOrderDetail.result,
+        loading: false,
+        description: nextProps.workOrder.workOrderDetail.result.description,
+        arrImageOld: nextProps.workOrder.workOrderDetail.result.fileUrls
+          ? nextProps.workOrder.workOrderDetail.result.fileUrls
+          : []
+      });
       this.props.actions.workOrder.getCommentUser(accessTokenAPI, nextProps.workOrder.workOrderDetail.result.guid);
     }
     if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
@@ -81,6 +102,15 @@ class ModalEditOrder extends Component {
       !nextProps.workOrder.isUpdateWorkOrder
     ) {
       nextProps.actions.workOrder.setFlagUpdateWorkOrder();
+      if (this.state.imageListBase64.length > 0) {
+        for (let i = 0; i < this.state.imageListBase64.length; i++) {
+          await nextProps.actions.workOrder.uploadImageWorkOrder(
+            accessTokenAPI,
+            this.state.imageListBase64[i],
+            nextProps.workOrder.workOrderDetail.result.guid
+          );
+        }
+      }
       this.setState({ showModalConfirmCancel: false }, () => {
         nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
         this.props.navigation.goBack();
@@ -230,6 +260,33 @@ class ModalEditOrder extends Component {
     return start;
   };
 
+  getPhotos() {
+    let ListImage = this.state.arrImageOld.slice();
+    let ListImageBase64 = this.state.imageListBase64.slice();
+    ImagePicker.showImagePicker(options, response => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        const sourceBase64 = response.data;
+        ListImageBase64.push(sourceBase64);
+        ListImage.push(source);
+        // You can also display the image using data:
+        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+        this.setState({
+          imageListBase64: ListImageBase64,
+          arrImageOld: ListImage
+        });
+      }
+    });
+  }
+
   render() {
     const { fullUnitCode, currentStatus, dateCreate, id, rating, description } = this.state.detailOrder;
     let date = moment(dateCreate).format('l');
@@ -239,111 +296,148 @@ class ModalEditOrder extends Component {
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
-
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size={'large'} color={'red'} />
       </View>
     ) : (
-      <View style={{ flex: 1 }}>
-        <ScrollView
-          scrollEventThrottle={16}
-          contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        <KeyboardAwareScrollView
+          innerRef={ref => (this.scroll = ref)}
+          keyboardShouldPersistTaps="handled"
+          extraHeight={0}
+          contentContainerStyle={{
+            minHeight: '100%',
+            backgroundColor: '#F6F8FD'
+          }}
+          enableOnAndroid
           onScroll={this.handleScroll}
-          style={{ flex: 1, backgroundColor: '#F6F8FD' }}
         >
-          <ItemScorll
-            title={'Thông Tin'}
-            view={
-              <View
-                style={{
-                  height: 200,
-                  width: null,
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: '#FFF',
-                  padding: 20,
-                  justifyContent: 'space-around'
-                }}
-              >
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
-                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{fullUnitCode}</Text>
+          <ScrollView
+            scrollEventThrottle={16}
+            contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
+            style={{ flex: 1, backgroundColor: '#F6F8FD' }}
+          >
+            <ItemScorll
+              title={'Thông Tin'}
+              view={
+                <View
+                  style={{
+                    height: 200,
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    justifyContent: 'space-around'
+                  }}
+                >
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
+                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{fullUnitCode}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Trạng Thái</Text>
+                    <View
+                      style={{
+                        borderRadius: 5,
+                        backgroundColor: currentStatus.colorCode
+                      }}
+                    >
+                      <Text
+                        style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}
+                      >
+                        {currentStatus.codeName}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Ngày Gửi</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+                        <Image
+                          style={{ marginRight: 10, width: 15, height: 15 }}
+                          source={require('../../../resources/icons/clock.png')}
+                        />
+                        <Text style={{ color: '#C9CDD4' }}>{time}</Text>
+                      </View>
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Image
+                          style={{ marginRight: 10, width: 15, height: 15 }}
+                          source={require('../../../resources/icons/calendar.png')}
+                        />
+                        <Text style={{ color: '#C9CDD4' }}>{date}</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Khu Vực</Text>
+                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>Căn Hộ</Text>
+                  </View>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Trạng Thái</Text>
+              }
+            />
+            <ItemScorll
+              title={'Người Phụ Trách'}
+              view={
+                <View
+                  style={{
+                    height: 90,
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Image
+                    style={{ width: 50, height: 50, borderRadius: 25 }}
+                    resizeMode={'cover'}
+                    source={require('../../../resources/icons/avatar-default.png')}
+                  />
+                  <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>Chưa có người phụ trách</Text>
+                  <Image source={require('../../../resources/icons/call-disable.png')} />
+                </View>
+              }
+            />
+
+            {rating > 0 && description != '' ? (
+              <ItemScorll
+                title={'Bạn đã đánh giá dịch vụ'}
+                view={
                   <View
                     style={{
+                      flex: 1,
+                      backgroundColor: '#FFF',
                       borderRadius: 5,
-                      backgroundColor: currentStatus.colorCode
-                    }}
-                  >
-                    <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
-                      {currentStatus.codeName}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Ngày Gửi</Text>
-                  <View
-                    style={{
+                      width: null,
+                      padding: 20,
+                      height: 113,
                       flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
+                      alignItems: 'center'
                     }}
                   >
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
-                      <Image
-                        style={{ marginRight: 10, width: 15, height: 15 }}
-                        source={require('../../../resources/icons/clock.png')}
-                      />
-                      <Text style={{ color: '#C9CDD4' }}>{time}</Text>
+                    <View>
+                      <Text style={{ color: '#505E75', fontSize: 60, fontWeight: 'bold' }}>{rating}.0</Text>
+                      <View style={{ flexDirection: 'row', alignSelf: 'center' }}>{this.renderStartDetail(rating)}</View>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Image
-                        style={{ marginRight: 10, width: 15, height: 15 }}
-                        source={require('../../../resources/icons/calendar.png')}
-                      />
-                      <Text style={{ color: '#C9CDD4' }}>{date}</Text>
-                    </View>
+                    <Text style={{ flex: 1, marginLeft: 10 }}>{description}</Text>
                   </View>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Khu Vực</Text>
-                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>Căn Hộ</Text>
-                </View>
-              </View>
-            }
-          />
-          <ItemScorll
-            title={'Người Phụ Trách'}
-            view={
-              <View
-                style={{
-                  height: 90,
-                  width: null,
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: '#FFF',
-                  padding: 20,
-                  flexDirection: 'row',
-                  alignItems: 'center'
-                }}
-              >
-                <Image
-                  style={{ width: 50, height: 50, borderRadius: 25 }}
-                  resizeMode={'cover'}
-                  source={require('../../../resources/icons/avatar-default.png')}
-                />
-                <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>Chưa có người phụ trách</Text>
-                <Image source={require('../../../resources/icons/call-disable.png')} />
-              </View>
-            }
-          />
-          <ItemScorll
-            title={'Hình Ảnh'}
-            view={
-              this.state.detailOrder.fileUrls.length > 0 ? (
+                }
+              />
+            ) : null}
+
+            <ItemScorll
+              title={'Hình Ảnh'}
+              view={
                 <ScrollView
                   style={{
                     borderRadius: 10,
@@ -355,74 +449,74 @@ class ModalEditOrder extends Component {
                   showsHorizontalScrollIndicator={false}
                   horizontal
                 >
-                  {this.state.detailOrder.fileUrls.map((item, index) => this.renderItemImage(index, item))}
+                  <TouchableOpacity
+                    onPress={() => this.getPhotos()}
+                    style={{
+                      width: 90,
+                      height: 90,
+                      marginLeft: 20,
+                      borderRadius: 10,
+                      backgroundColor: '#F6F8FD',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: 50,
+                        height: 50,
+                        backgroundColor: '#FFF',
+                        borderRadius: 25,
+                        shadowColor: '#000',
+                        shadowOffset: { width: 1, height: 2 },
+                        shadowOpacity: 0.16,
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Image
+                        style={{ width: 25, height: 25 }}
+                        resizeMode={'cover'}
+                        source={require('@resources/icons/plus.png')}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  {this.state.arrImageOld.map((item, index) => this.renderItemImage(index, item))}
                 </ScrollView>
-              ) : (
-                <View
-                  style={{
-                    borderRadius: 10,
-                    width: width - 40,
-                    height: 80,
-                    backgroundColor: '#FFF',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <Text style={{ color: '#BABFC8', fontSize: 16, fontWeight: '600' }}>Chưa upload hình ảnh</Text>
-                </View>
-              )
-            }
-          />
-          <ItemScorll
-            title={'Miêu Tả'}
-            view={
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: '#FFF',
-                  borderRadius: 5,
-                  width: null,
-                  padding: 10,
-                  minHeight: 100,
-                  marginBottom: rating > 0 && description != '' ? 0 : 200
-                }}
-              >
-                <Text>{description}</Text>
-              </View>
-            }
-          />
-          {rating > 0 && description != '' ? (
+              }
+            />
             <ItemScorll
-              title={'Bạn đã đánh giá dịch vụ'}
+              title={'Miêu Tả'}
               view={
-                <View
+                <TextInput
                   style={{
                     flex: 1,
                     backgroundColor: '#FFF',
                     borderRadius: 5,
+                    height: 100,
                     width: null,
-                    padding: 20,
-                    height: 113,
-                    marginBottom: 200,
-                    flexDirection: 'row',
-                    alignItems: 'center'
+                    padding: 10,
+                    paddingTop: 20,
+                    marginBottom: 20
                   }}
-                >
-                  <View>
-                    <Text style={{ color: '#505E75', fontSize: 60, fontWeight: 'bold' }}>{rating}.0</Text>
-                    <View style={{ flexDirection: 'row', alignSelf: 'center' }}>{this.renderStartDetail(rating)}</View>
-                  </View>
-                  <Text style={{ flex: 1, marginLeft: 10 }}>{description}</Text>
-                </View>
+                  value={this.state.description}
+                  multiline
+                  placeholder={'Nhập nội dung ...'}
+                  onChangeText={e => this.setState({ description: e })}
+                />
               }
             />
-          ) : null}
-        </ScrollView>
-        {this.state.detailOrder.currentStatus && this.state.detailOrder.currentStatus.id !== 11 ? null : this.renderFooter()}
+          </ScrollView>
+        </KeyboardAwareScrollView>
+        {this.renderFooter()}
         <TouchableOpacity
           style={{
             position: 'absolute',
-            bottom: this.state.detailOrder.currentStatus && this.state.detailOrder.currentStatus.id !== 11 ? 20 : 100,
+            bottom:
+              this.state.detailOrder.currentStatus &&
+              (this.state.detailOrder.currentStatus.id == 11 || this.state.detailOrder.currentStatus.id == 13)
+                ? 100
+                : 20,
             right: 20
           }}
           onPress={() => this.setState({ isShowChat: true })}
@@ -481,56 +575,73 @@ class ModalEditOrder extends Component {
   }
 
   renderFooter = () => {
-    return (
-      <View
-        style={{
-          width: width,
-          height: 80,
-          backgroundColor: '#FFF',
-          padding: 20,
-          flexDirection: 'row',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.16
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => this.setState({ isShowRating: true })}
-          style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
-        >
-          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hoàn Tất</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+    if (
+      this.state.detailOrder.currentStatus &&
+      (this.state.detailOrder.currentStatus.id == 11 || this.state.detailOrder.currentStatus.id == 13)
+    ) {
+      return (
+        <View
           style={{
-            flex: 1,
-            backgroundColor: '#343D4D',
-            borderRadius: 5,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginLeft: 20
+            width: width,
+            height: 80,
+            backgroundColor: '#FFF',
+            padding: 20,
+            flexDirection: 'row',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.16
           }}
-          onPress={() => this.setState({ showModalConfirmCancel: true })}
         >
-          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hủy</Text>
-        </TouchableOpacity>
-      </View>
-    );
+          <TouchableOpacity
+            onPress={() => this.setState({ isShowRating: true })}
+            style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hoàn Tất</Text>
+          </TouchableOpacity>
+          {this.state.detailOrder.currentStatus.id == 11 ? (
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                backgroundColor: '#343D4D',
+                borderRadius: 5,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginLeft: 20
+              }}
+              onPress={() => this.setState({ showModalConfirmCancel: true })}
+            >
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hủy</Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
+      );
+    } else {
+      return null;
+    }
   };
 
   renderItemImage = (index, item) => {
-    let encToken = this.props.account.encToken;
-    let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
-    return (
-      <TouchableOpacity key={index} onPress={() => this.setState({ showImage: true, imageIndex: index })}>
-        <Image
-          style={{ width: 90, height: 90, marginLeft: 20, borderRadius: 10 }}
-          resizeMode={'cover'}
-          source={{
-            uri: image
-          }}
-        />
-      </TouchableOpacity>
-    );
+    if (item.fileUrl) {
+      let encToken = this.props.account.encToken;
+      let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+      return (
+        <TouchableOpacity key={index} onPress={() => this.setState({ showImage: true, imageIndex: index })}>
+          <Image
+            style={{ width: 90, height: 90, marginLeft: 20, borderRadius: 10 }}
+            resizeMode={'cover'}
+            source={{
+              uri: image
+            }}
+          />
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity key={index} onPress={() => this.setState({ showImage: true, imageIndex: index })}>
+          <Image style={{ width: 90, height: 90, marginLeft: 20, borderRadius: 10 }} resizeMode={'cover'} source={item} />
+        </TouchableOpacity>
+      );
+    }
   };
 
   voteProduct(data) {
@@ -623,13 +734,15 @@ class ModalEditOrder extends Component {
     const newData = [];
     let encToken = this.props.account.encToken;
     {
-      this.state.detailOrder.fileUrls && this.state.detailOrder.fileUrls.length > 0
-        ? this.state.detailOrder.fileUrls.map(value => {
+      this.state.arrImageOld && this.state.arrImageOld.length > 0
+        ? this.state.arrImageOld.map(value => {
             if (value == null) {
               return;
             }
             if (value.fileUrl) {
               newData.push({ url: `${value.fileUrl}&encToken=${encodeURIComponent(encToken)}` });
+            } else if (value.uri) {
+              newData.push({ url: value.uri });
             } else {
               newData.push({ url: value });
             }
@@ -700,7 +813,7 @@ class ModalEditOrder extends Component {
                   data={this.state.listComment}
                   style={{ maxHeight: isIphoneX() ? height - 180 : height - 150, minHeight: isIphoneX() ? 500 : height - 150 }}
                   keyExtractor={(item, index) => item.id.toString()}
-                  renderItem={({ item, index }) => <ItemComment index={index} item={item} idUser={id} />}
+                  renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={id} />}
                   ref={ref => (this.flatList = ref)}
                   onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
                   onLayout={() => this.flatList.scrollToEnd({ animated: true })}
