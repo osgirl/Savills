@@ -25,30 +25,30 @@ const style = StyleSheet.create({
         borderRadius: 33
     },
     displayName: {
-        fontSize: 25,
+        fontSize: Resolution.scale(25),
         color: '#505E75',
         textAlign: 'center',
-        marginTop: 20,
-        marginBottom: 6,
+        marginTop: Resolution.scale(20),
+        marginBottom: Resolution.scale(6),
         fontFamily: 'OpenSans-Bold',
         marginHorizontal: Resolution.scaleWidth(60)
     },
     unitCode: {
-        fontSize: 18,
+        fontSize: Resolution.scale(18),
         color: '#BABFC8',
         textAlign: 'center',
         fontFamily: 'OpenSans-Regular'
     },
     btnGrid: {
-        paddingRight: 15,
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 10
+        paddingRight: Resolution.scale(15),
+        paddingTop: Resolution.scale(10),
+        paddingBottom: Resolution.scale(10),
+        paddingLeft: Resolution.scale(10)
     },
     btnList: {
-        paddingLeft: 15,
-        paddingBottom: 10,
-        paddingTop: 10
+        paddingLeft: Resolution.scale(15),
+        paddingBottom: Resolution.scale(10),
+        paddingTop: Resolution.scale(10)
     }
 })
 

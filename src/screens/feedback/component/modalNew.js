@@ -145,12 +145,12 @@ class ModalNewFeedback extends Component {
                   view={
                     <View
                       style={{
-                        height: 110,
+                        height: Resolution.scaleHeight(110),
                         width: null,
                         flex: 1,
                         borderRadius: 10,
                         backgroundColor: '#FFF',
-                        padding: 20,
+                        padding: Resolution.scale(20),
                         justifyContent: 'space-around'
                       }}
                     >
@@ -162,7 +162,7 @@ class ModalNewFeedback extends Component {
                             onPress={() => this._changeTypeFeedback(item.typeCode)}
                             style={{ flexDirection: 'row' }}
                           >
-                            <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{item.name}</Text>
+                            <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}>{item.name}</Text>
                             <Image
                               source={
                                 item.typeCode == this.state.type
@@ -221,8 +221,8 @@ class ModalNewFeedback extends Component {
 
             <Button
               onPress={() => this.setState({ isShowCategory: true })}
-              style={{ backgroundColor: '#FFF', marginVertical: 20, marginHorizontal: 20, borderRadius: 5 }}>
-              <Text style={{ padding: 20, color: '#4A89E8' }}>{category.length > 0 ? category[0].name : 'Vấn đề phản hồi'}</Text>
+              style={{ backgroundColor: '#FFF', marginVertical: Resolution.scale(20), marginHorizontal: Resolution.scale(20), borderRadius: 5 }}>
+              <Text style={{ padding: Resolution.scale(20), color: '#4A89E8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{category.length > 0 ? category[0].name : 'Vấn đề phản hồi'}</Text>
             </Button>
 
             <ItemScorll
@@ -233,13 +233,15 @@ class ModalNewFeedback extends Component {
                     flex: 1,
                     backgroundColor: '#FFF',
                     borderRadius: 5,
-                    height: 100,
+                    height: Resolution.scaleHeight(100),
                     width: null,
-                    padding: 10,
-                    paddingTop: 20,
-                    marginBottom: 170,
-                    borderWidth: 1,
-                    borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF'
+                    padding: Resolution.scale(10),
+                    paddingTop: Resolution.scale(20),
+                    marginBottom: Resolution.scale(170),
+                    // borderWidth: 1,
+                    // borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF',
+                    fontSize: Resolution.scale(14),
+                    fontFamily: 'OpenSans-Regular'
                   }}
                   multiline
                   placeholder={'Nhập nội dung ...'}
@@ -252,9 +254,9 @@ class ModalNewFeedback extends Component {
         <View
           style={{
             width: width,
-            height: 70,
+            height: Resolution.scale(70),
             backgroundColor: '#FFF',
-            padding: 20,
+            padding: Resolution.scale(20),
             shadowColor: '#000',
             shadowOpacity: 0.2,
             shadowOffset: { width: 0, height: 7 }
@@ -270,7 +272,7 @@ class ModalNewFeedback extends Component {
               }
             }}
           >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>Gửi</Text>
           </TouchableOpacity>
         </View>
 
@@ -313,20 +315,20 @@ class ModalNewFeedback extends Component {
           <View
             style={{
               width: width,
-              height: 50,
+              height: Resolution.scaleHeight(50),
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
               flexDirection: 'row',
               backgroundColor: '#FFF',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingHorizontal: 20
+              paddingHorizontal: Resolution.scale(20)
             }}
           >
             <TouchableOpacity onPress={() => this.setState({ isShowCategory: false })}>
               <Image source={require('@resources/icons/close-black.png')} />
             </TouchableOpacity>
-            <Text styl={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold' }}>Vấn đề phản hồi</Text>
+            <Text styl={{ color: '#505E75', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold' }}>Vấn đề phản hồi</Text>
             <View />
           </View>
           <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
@@ -334,7 +336,7 @@ class ModalNewFeedback extends Component {
               data={this.state.listCategory || []}
               keyExtractor={(item, index) => item.id.toString()}
               renderItem={({ item, index }) => this.renderItemChilder(item, index)}
-              ListHeaderComponent={() => <View style={{ height: 20 }} />}
+              ListHeaderComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
             />
           </View>
         </View>
@@ -350,15 +352,15 @@ class ModalNewFeedback extends Component {
           <View
             style={{
               flex: 1,
-              marginHorizontal: 20,
-              marginVertical: 60,
+              marginHorizontal: Resolution.scale(20),
+              marginVertical: Resolution.scale(60),
               backgroundColor: '#f6f8fd',
               borderRadius: 10,
               overflow: 'hidden'
             }}
           >
             <TouchableOpacity
-              style={{ position: 'absolute', top: 20, left: 20, zIndex: 1 }}
+              style={{ position: 'absolute', top: Resolution.scale(20), left: Resolution.scale(20), zIndex: 1 }}
               onPress={() => this.setState({ isShowModalConfirm: false })}
             >
               <Image source={require('../../../resources/icons/close.png')} />
@@ -367,32 +369,33 @@ class ModalNewFeedback extends Component {
               colors={['#4A89E8', '#8FBCFF']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              style={{ width: width, height: 50 }}
+              style={{ width: width, height: Resolution.scaleHeight(60) }}
             />
-            <ScrollView style={{ flex: 1, marginBottom: 100 }} showsVerticalScrollIndicator={false}>
+            <ScrollView style={{ flex: 1, marginBottom: Resolution.scaleHeight(100) }} showsVerticalScrollIndicator={false}>
               <ItemScorll
                 title={'Loại phản hồi'}
                 view={
                   <View
                     style={{
-                      height: 110,
+                      height: Resolution.scaleHeight(110),
                       width: null,
                       flex: 1,
                       borderRadius: 10,
                       backgroundColor: '#FFF',
-                      padding: 20,
+                      padding: Resolution.scale(20),
                       justifyContent: 'space-around'
                     }}
                   >
                     {
                       this.state.listTypeFeedback.map((item, index) => (
                         <TouchableOpacity
+                          disabled={true}
                           key={index}
                           activeOpacity={1}
                           onPress={() => this._changeTypeFeedback(item.typeCode)}
                           style={{ flexDirection: 'row' }}
                         >
-                          <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{item.name}</Text>
+                          <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}>{item.name}</Text>
                           <Image
                             source={
                               item.typeCode == this.state.type
@@ -408,9 +411,10 @@ class ModalNewFeedback extends Component {
                 }
               />
               <Button
+                disabled={true}
                 onPress={() => this.setState({ isShowCategory: true })}
-                style={{ backgroundColor: '#FFF', marginVertical: 20, marginHorizontal: 20, borderRadius: 5 }}>
-                <Text style={{ padding: 20 }}>{category.length > 0 ? category[0].name : 'Loại phản hồi'}</Text>
+                style={{ backgroundColor: '#FFF', marginVertical: Resolution.scale(20), marginHorizontal: Resolution.scale(20), borderRadius: 5 }}>
+                <Text style={{ padding: Resolution.scale(20), fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{category.length > 0 ? category[0].name : 'Loại phản hồi'}</Text>
               </Button>
               <ItemScorll
                 title={'Miêu Tả'}
@@ -420,18 +424,18 @@ class ModalNewFeedback extends Component {
                       backgroundColor: '#FFF',
                       borderRadius: 5,
                       width: null,
-                      padding: 10,
-                      minHeight: 100,
-                      marginBottom: 20
+                      padding: Resolution.scale(10),
+                      minHeight: Resolution.scale(100),
+                      marginBottom: Resolution.scale(20)
                     }}
                   >
-                    <Text>{this.state.comment}</Text>
+                    <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Regular' }}>{this.state.comment}</Text>
                   </View>
                 }
               />
             </ScrollView>
             <Button
-              style={{ position: 'absolute', bottom: 20, left: 20, width: width - 80, height: 50 }}
+              style={{ position: 'absolute', bottom: Resolution.scale(20), left: Resolution.scale(20), width: width - 80, height: Resolution.scale(50) }}
               onPress={() => this._createFeedback()}
             >
               <LinearGradient
@@ -440,7 +444,7 @@ class ModalNewFeedback extends Component {
                 end={{ x: 1, y: 0 }}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
               >
-                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
+                <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
               </LinearGradient>
             </Button>
           </View>
@@ -467,17 +471,17 @@ class ModalNewFeedback extends Component {
         onPress={() => this._selectCategory(item.id)}
         style={{
           flexDirection: 'row',
-          height: 70,
-          width: width - 40,
-          marginHorizontal: 20,
+          height: Resolution.scale(70),
+          width: width - Resolution.scale(40),
+          marginHorizontal: Resolution.scale(20),
           borderRadius: 10,
-          marginVertical: 5,
+          marginVertical: Resolution.scale(5),
           alignItems: 'center',
           backgroundColor: '#FFF',
-          paddingHorizontal: 20,
+          paddingHorizontal: Resolution.scale(20),
         }}
       >
-        <Text style={{ flex: 1, color: '#343D4D', fontFamily: 'OpenSans-Bold', fontSize: 13 }}>{item.name}</Text>
+        <Text style={{ flex: 1, color: '#343D4D', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(13) }}>{item.name}</Text>
       </TouchableOpacity>
     );
   };
@@ -488,8 +492,8 @@ class ItemScorll extends Component {
   render() {
     const { title, view } = this.props;
     return (
-      <View style={{ marginHorizontal: 20 }}>
-        <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 14, fontWeight: 'bold' }}>{title}</Text>
+      <View style={{ marginHorizontal: Resolution.scale(20) }}>
+        <Text style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), color: '#505E75', fontSize: Resolution.scale(14), fontWeight: 'bold' }}>{title}</Text>
         {this.props.view}
       </View>
     );

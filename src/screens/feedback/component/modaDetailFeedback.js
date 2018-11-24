@@ -136,41 +136,41 @@ class ModalDetailFeedback extends Component {
               view={
                 <View
                   style={{
-                    height: 200,
+                    height: Resolution.scaleHeight(200),
                     width: null,
                     flex: 1,
                     borderRadius: 10,
                     backgroundColor: '#FFF',
-                    padding: 20,
+                    padding: Resolution.scale(20),
                     justifyContent: 'space-around'
                   }}
                 >
                   <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Loại phản hồi</Text>
-                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{itemSelected.commentBoxType.name}</Text>
+                    <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Loại phản hồi</Text>
+                    <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{itemSelected.commentBoxType.name}</Text>
                   </View>
 
                   <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Vấn đề</Text>
-                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{itemSelected.commentBoxCategory.name}</Text>
+                    <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Vấn đề</Text>
+                    <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{itemSelected.commentBoxCategory.name}</Text>
                   </View>
 
                   <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Trạng Thái</Text>
+                    <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Trạng Thái</Text>
                     <View
                       style={{
                         borderRadius: 5,
                         backgroundColor: itemSelected.commentBoxStatus.colorCode
                       }}
                     >
-                      <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
+                      <Text style={{ color: '#FFF', fontSize: Resolution.scale(10), paddingVertical: Resolution.scale(5), fontFamily: 'OpenSans-SemiBold', paddingHorizontal: Resolution.scale(15) }}>
                         {itemSelected.commentBoxStatus.name}
                       </Text>
                     </View>
                   </View>
 
                   <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Ngày Gửi</Text>
+                    <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Ngày Gửi</Text>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -178,19 +178,19 @@ class ModalDetailFeedback extends Component {
                         justifyContent: 'space-between'
                       }}
                     >
-                      <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(10) }}>
                         <Image
-                          style={{ marginRight: 10, width: 15, height: 15 }}
+                          style={{ marginRight: Resolution.scale(10), width: Resolution.scale(15), height: Resolution.scale(15) }}
                           source={require('../../../resources/icons/clock.png')}
                         />
-                        <Text style={{ color: '#C9CDD4' }}>{time}</Text>
+                        <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular' }}>{time}</Text>
                       </View>
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image
-                          style={{ marginRight: 10, width: 15, height: 15 }}
+                          style={{ marginRight: Resolution.scale(10), width: Resolution.scale(15), height: Resolution.scale(15) }}
                           source={require('../../../resources/icons/calendar.png')}
                         />
-                        <Text style={{ color: '#C9CDD4' }}>{date}</Text>
+                        <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular' }}>{date}</Text>
                       </View>
                     </View>
                   </View>
@@ -213,7 +213,7 @@ class ModalDetailFeedback extends Component {
                   // marginBottom: rating > 0 && description != '' ? 0 : 200
                 }}
               >
-                <Text>{'dqweqwd'}</Text>
+                <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Regular' }}>{itemSelected.description}</Text>
               </View>
             }
           />
@@ -370,8 +370,8 @@ class ItemScorll extends Component {
   render() {
     const { title, view } = this.props;
     return (
-      <View style={{ marginHorizontal: 20 }}>
-        <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 14, fontWeight: 'bold' }}>{title}</Text>
+      <View style={{ marginHorizontal: Resolution.scale(20) }}>
+        <Text style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), color: '#505E75', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold' }}>{title}</Text>
         {this.props.view}
       </View>
     );

@@ -4,7 +4,8 @@ import createReducer from '../';
 const INIT_STATE = ({
     listInbox: { items: [], success: false, totalCount: 0 },
     listInboxIsActive: { items: [], success: false, totalCount: 0 },
-    setInboxActive: {}
+    setInboxActive: false,
+    statusSetinbox: 0
 });
 
 export default createReducer(INIT_STATE, {
@@ -118,7 +119,8 @@ export default createReducer(INIT_STATE, {
     [Types.SET_INBOX_ACTIVE]: (state, action) => {
         try {
             return {
-                ...state
+                ...state,
+                setInboxActive: false
             };
         } catch (error) {
             console.log(error)
@@ -133,7 +135,7 @@ export default createReducer(INIT_STATE, {
                 {},
                 { ...state },
                 {
-                    setInboxActive: action.response
+                    setInboxActive: action.response.success,
                 },
             );
             return tempState;
@@ -147,7 +149,7 @@ export default createReducer(INIT_STATE, {
         try {
             return {
                 ...state,
-                setInboxActive: {},
+                setInboxActive: false,
             };
         } catch (error) {
             console.log(error)

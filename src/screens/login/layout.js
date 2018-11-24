@@ -51,11 +51,11 @@ export default class extends Component {
         return (
             <View>
                 <View style={Style.modalContent}>
-                    <Text style={{ fontSize: 13, fontFamily: 'OpenSans-Bold', marginTop: 20 }}>Select Language</Text>
+                    <Text style={{ fontSize: Resolution.scale(13), fontFamily: 'OpenSans-Bold', marginTop: Resolution.scale(20) }}>Select Language</Text>
                     <Picker
-                        style={{ width: width - 20, flex: 1, justifyContent: 'center', }}
-                        selectedValue={this.state.selectedItem}
-                        itemStyle={{ color: "#333333", fontSize: 20, fontWeight: 'bold' }}
+                        style={{ width: width - Resolution.scale(20), flex: 1, justifyContent: 'center', }}
+                        selectedValue={parseInt(this.state.selectedItem)}
+                        itemStyle={{ color: "#333333", fontSize: Resolution.scale(20), fontWeight: 'bold' }}
                         onValueChange={(index) => this.onPickerSelect(index)}>
                         {
                             Language.listLanguage.map((item, index) => (
@@ -100,7 +100,7 @@ export default class extends Component {
                                 fontFamily={'OpenSans-Regular'}
                             />
                         </View>
-                        <View style={{ marginTop: 105 }}>
+                        <View style={{ marginTop: Resolution.scale(105) }}>
                             <Text style={Style.txtTop}>
                                 {' Redefining Your Home \n Search Experience'}
                             </Text>
@@ -109,7 +109,7 @@ export default class extends Component {
                         <View>
                             {
                                 this.props.account.error ?
-                                    <Text style={{ color: '#FF361A', fontSize: Resolution.scale(10), alignSelf: 'center', marginBottom: 6, textAlign: 'center' }}>{this.props.account.error.message + '\n' + this.props.account.error.details}</Text> : null
+                                    <Text style={{ color: '#FF361A', fontSize: Resolution.scale(10), alignSelf: 'center', marginBottom: Resolution.scale(6), textAlign: 'center' }}>{this.props.account.error.message + '\n' + this.props.account.error.details}</Text> : null
                             }
                             <InputText
                                 placeholder={LG.LOGIN_TXT_PLACEHOLDER_EMAIL}

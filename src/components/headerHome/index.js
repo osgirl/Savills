@@ -131,10 +131,10 @@ class HeaderHome extends Component {
 										/>
 										{
 											this.props.notiCount && this.props.notiCount > 0 ?
-												<View style={{ position: 'absolute', right: 16, top: 14 }}>
+												<View style={{ position: 'absolute', right: Resolution.scale(10), top: Resolution.scale(10) }}>
 													<View style={{ backgroundColor: '#FF361A', borderRadius: 33, justifyContent: 'center', alignItems: 'center' }}>
 														<View style={{ alignItems: 'center', alignSelf: 'center', justifyContent: 'center', }}>
-															<Text style={{ color: '#FFFFFF', fontSize: 9, fontFamily: 'OpenSans-Bold', alignSelf: 'center', textAlign: 'center', paddingHorizontal: 3, paddingVertical: 2 }}>{this.props.notiCount}</Text>
+															<Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(9), fontFamily: 'OpenSans-Bold', alignSelf: 'center', textAlign: 'center', paddingHorizontal: Resolution.scale(3), paddingVertical: Resolution.scale(2) }}>{this.props.notiCount}</Text>
 														</View>
 													</View>
 												</View> : null

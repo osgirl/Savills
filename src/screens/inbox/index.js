@@ -49,6 +49,9 @@ class Inbox extends layout {
             if (this.state.loadingMore) {
                 await this.setState({ loadingMore: false })
             }
+            if (nextProps.inbox.listInbox.items.length > 0) {
+                await this.setState({ data: nextProps.inbox.listInbox.items });
+            }
         }
 
 
@@ -72,13 +75,16 @@ class Inbox extends layout {
             if (this.state.loadingMoreInboxActive) {
                 await this.setState({ loadingMoreInboxActive: false })
             }
+            if (nextProps.inbox.listInboxIsActive.items.length > 0) {
+                await this.setState({ dataIsActive: nextProps.inbox.listInboxIsActive.items });
+            }
         }
 
 
         // setInboxActive
-        if (this.props.inbox.setInboxActive !== nextProps.inbox.setInboxActive && nextProps.inbox.setInboxActive.success) {
-            this._getListInbox();
-            this._getListInboxIsActive()
+        if (this.props.inbox.setInboxActive !== nextProps.inbox.setInboxActive && nextProps.inbox.setInboxActive) {
+            this._onRefresh();
+            this._onRefreshIsActive();
         }
 
     }
