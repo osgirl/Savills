@@ -10,7 +10,8 @@ import {
   PixelRatio,
   FlatList,
   Animated,
-  Platform
+  Platform,
+  Keyboard
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
@@ -154,6 +155,9 @@ class ModalDetailBooking extends Component {
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
+
+    let tabIndex = this.props.navigation.getParam('index', false);
+
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
@@ -333,7 +337,19 @@ class ModalDetailBooking extends Component {
         {this.renderContentModalChat()}
         {this.renderModalCancel()}
         {this.renderPopupCancelError()}
-        {this.renderFooter()}
+        {tabIndex && tabIndex == 2 ? (
+          <View
+            style={{
+              position: 'absolute',
+              width: width,
+              height: 70,
+              backgroundColor: '#F6F8FD',
+              bottom: 0
+            }}
+          />
+        ) : (
+          this.renderFooter()
+        )}
       </View>
     );
   };
@@ -529,7 +545,6 @@ class ModalDetailBooking extends Component {
   };
 
   renderFooter = () => {
-    let tabIndex = this.props.navigation.getParam('index', false);
     return (
       <View
         style={{
@@ -545,7 +560,6 @@ class ModalDetailBooking extends Component {
         }}
       >
         <TouchableOpacity
-          disabled={tabIndex && tabIndex === 2 ? true : false}
           onPress={() => this.setState({ isShowModalCancel: true })}
           style={{ flex: 1, backgroundColor: '#404040', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
         >
