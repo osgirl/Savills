@@ -105,7 +105,7 @@ export default class extends Component {
           }
         }
       }
-    })(event);
+    }, { useNativeDriver: true })(event);
   };
 
   render() {

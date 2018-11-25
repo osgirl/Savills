@@ -59,7 +59,7 @@ export default class extends Component {
         let unitActive = this.props.units.unitActive;
 
         const headerHeight = this.state.scrollY.interpolate({
-            inputRange: [0, 40, 60],
+            inputRange: [-10, 40, 60],
             outputRange: [60, 40, 0],
             extrapolate: 'clamp',
             useNativeDriver: true
@@ -192,15 +192,16 @@ export default class extends Component {
                 <View
                     style={{
                         flex: 1,
-                        backgroundColor: 'rgba(186,191,200,0.5)',
+                        backgroundColor: item.lastComment ? '#4A89E8' :'#BABFCB',
                         borderRadius: 5,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        paddingHorizontal: Resolution.scale(10)
+                        paddingHorizontal: Resolution.scale(10),
+                        paddingVertical: Resolution.scale(5)
                     }}
                 >
                     <Text style={{ flex: 1, color: '#FFF', fontSize: Resolution.scale(12), fontWeight: 'bold' }} numberOfLines={1}>
-                        {item && item.description}
+                        {item.lastComment ? item.lastComment : 'No comment'}
                     </Text>
                 </View>
             </Button>

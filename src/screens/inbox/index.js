@@ -20,7 +20,11 @@ class Inbox extends layout {
             loadingMore: false,
             loadingMoreInboxActive: false,
             scrollY: new Animated.Value(0),
-            isModalSelectUnit: false
+            isModalSelectUnit: false,
+            isModalDetail: false,
+            pageInbox: 1,
+            pageInboxActive: 1,
+            itemSelected: null
         }
     }
 
@@ -30,54 +34,26 @@ class Inbox extends layout {
     }
 
     async componentWillReceiveProps(nextProps) {
-        if (this.props.inbox.listInbox.items !== nextProps.inbox.listInbox.items && nextProps.inbox.listInbox.success) {
-            if (this.state.isRefresh) {
-                await this.setState({ data: nextProps.inbox.listInbox.items });
-                await this.setState({ isRefresh: false });
-            } else if (this.state.loadingMore) {
-                await this.setState({ data: this.state.data.concat(nextProps.inbox.listInbox.items) });
-                await this.setState({ loadingMore: false })
-            } else {
-                await this.setState({ data: nextProps.inbox.listInbox.items });
-            }
+
+        if (this.props.inbox.listInbox.items !== nextProps.inbox.listInbox.items && nextProps.inbox.listInbox.success && this.state.isRefresh) {
+            await this.setState({ data: nextProps.inbox.listInbox.items });
+            await this.setState({ isRefresh: false })
         }
 
-        if (this.props.inbox.listInbox.items === nextProps.inbox.listInbox.items && nextProps.inbox.listInbox.success) {
-            if (this.state.isRefresh) {
-                await this.setState({ isRefresh: false })
-            }
-            if (this.state.loadingMore) {
-                await this.setState({ loadingMore: false })
-            }
-            if (nextProps.inbox.listInbox.items.length > 0) {
-                await this.setState({ data: nextProps.inbox.listInbox.items });
-            }
+        if (this.props.inbox.listInbox.items !== nextProps.inbox.listInbox.items && nextProps.inbox.listInbox.success && !this.state.isRefresh) {
+            await this.setState({ data: this.state.data.concat(nextProps.inbox.listInbox.items) });
+            await this.setState({ loadingMore: false, isRefresh: false })
         }
 
 
-
-        if (this.props.inbox.listInboxIsActive.items !== nextProps.inbox.listInboxIsActive.items && nextProps.inbox.listInboxIsActive.success) {
-            if (this.state.isRefreshActive) {
-                await this.setState({ dataIsActive: nextProps.inbox.listInboxIsActive.items });
-                await this.setState({ isRefreshActive: false })
-            } else if (this.state.loadingMoreInboxActive) {
-                await this.setState({ dataIsActive: this.state.dataIsActive.concat(nextProps.inbox.listInboxIsActive.items) });
-                await this.setState({ loadingMoreInboxActive: false })
-            } else {
-                await this.setState({ dataIsActive: nextProps.inbox.listInboxIsActive.items });
-            }
+        if (this.props.inbox.listInboxIsActive.items !== nextProps.inbox.listInboxIsActive.items && nextProps.inbox.listInboxIsActive.success && this.state.isRefreshActive) {
+            await this.setState({ dataIsActive: nextProps.inbox.listInboxIsActive.items });
+            await this.setState({ isRefreshActive: false })
         }
 
-        if (this.props.inbox.listInboxIsActive.items === nextProps.inbox.listInboxIsActive.items && nextProps.inbox.listInboxIsActive.success) {
-            if (this.state.isRefreshActive) {
-                await this.setState({ isRefreshActive: false })
-            }
-            if (this.state.loadingMoreInboxActive) {
-                await this.setState({ loadingMoreInboxActive: false })
-            }
-            if (nextProps.inbox.listInboxIsActive.items.length > 0) {
-                await this.setState({ dataIsActive: nextProps.inbox.listInboxIsActive.items });
-            }
+        if (this.props.inbox.listInboxIsActive.items !== nextProps.inbox.listInboxIsActive.items && nextProps.inbox.listInboxIsActive.success && !this.state.isRefreshActive) {
+            await this.setState({ dataIsActive: this.state.dataIsActive.concat(nextProps.inbox.listInboxIsActive.items) });
+            await this.setState({ loadingMoreInboxActive: false, isRefreshActive: false })
         }
 
 
@@ -94,20 +70,20 @@ class Inbox extends layout {
         this.props.actions.inbox.setInboxActive(accessTokenApi, inboxID);
     }
 
-    _getListInbox(start = 1) {
+    _getListInbox() {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.inbox.getListInbox(accessTokenApi, start);
+        this.props.actions.inbox.getListInbox(accessTokenApi, this.state.pageInbox);
     }
 
-    _getListInboxIsActive(start = 1) {
+    _getListInboxIsActive() {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.inbox.getListInboxIsActive(accessTokenApi, start);
+        this.props.actions.inbox.getListInboxIsActive(accessTokenApi, this.state.pageInboxActive);
     }
     async _onRefresh() {
         if (this.state.isRefresh) {
             return;
         }
-        await this.setState({ isRefresh: true })
+        await this.setState({ isRefresh: true, pageInbox: 1 })
         await this._getListInbox();
     }
 
@@ -115,7 +91,7 @@ class Inbox extends layout {
         if (this.state.isRefreshActive) {
             return;
         }
-        await this.setState({ isRefreshActive: true })
+        await this.setState({ isRefreshActive: true, pageInboxActive: 1 })
         await this._getListInboxIsActive();
     }
 
@@ -124,9 +100,9 @@ class Inbox extends layout {
         if (this.state.loadingMore || totalCount === this.state.data.length) {
             return;
         }
-        this.setState({ loadingMore: true });
-        let start = this.state.data.length;
-        await this._getListInbox(start);
+        await this.setState({ loadingMore: true, pageInbox: this.state.pageInbox + 1 });
+        // let start = this.state.data.length;
+        await this._getListInbox(this.state.pageInbox);
     }
 
     async _onEndReachedInboxActive() {
@@ -134,13 +110,22 @@ class Inbox extends layout {
         if (this.state.loadingMoreInboxActive || totalCount === this.state.dataIsActive.length) {
             return;
         }
-        this.setState({ loadingMoreInboxActive: true });
-        let start = this.state.dataIsActive.length;
-        await this._getListInboxIsActive(start);
+        await this.setState({ loadingMoreInboxActive: true, pageInboxActive: this.state.pageInboxActive + 1 });
+        // let start = this.state.dataIsActive.length;
+        await this._getListInboxIsActive(this.state.pageInboxActive);
     }
 
     _closeModalSelectUnit() {
         this.setState({ isModalSelectUnit: false })
+    }
+
+
+    _openModalDetail(item) {
+        this.setState({ itemSelected: item, isModalDetail: true })
+    }
+
+    _closeModalDetail() {
+        this.setState({ isModalDetail: false })
     }
 
 }

@@ -57,9 +57,7 @@ class modalConfirm extends Component {
         this.setState({ itemSelected: item })
         setTimeout(() => {
             this.setState({ isShowModalDetail: true });
-        }, 200)
-
-
+        }, 200);
     }
 
     render() {
