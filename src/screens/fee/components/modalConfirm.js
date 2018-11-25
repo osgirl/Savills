@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, Image, Animated } from 'react-native';
 
 import Connect from '@stores';
 import LinearGradient from 'react-native-linear-gradient';
@@ -25,28 +25,57 @@ class modalConfirm extends Component {
         super(props);
         this.state = {
             isShowModal: false,
+            scrollY: new Animated.Value(0),
+            isShowTitleHeader: false
         }
     }
 
+    handleScroll = event => {
+        Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
+            listener: event => {
+                if (event.nativeEvent.contentOffset.y > 50) {
+                    if (!this.showCenter) {
+                        this.showCenter = true;
+                        this.setState({ isShowTitleHeader: true });
+                    }
+                } else {
+                    if (this.showCenter) {
+                        this.showCenter = false;
+                        this.setState({ isShowTitleHeader: false });
+                    }
+                }
+            }
+        }, { useNativeDriver: true })(event);
+    };
+
     render() {
         let data = this.props.listFeeSelected || []
+
+        const headerHeight = this.state.scrollY.interpolate({
+            inputRange: [0, 40, 60],
+            outputRange: [60, 40, 0],
+            extrapolate: 'clamp',
+            useNativeDriver: true
+        });
+
         return (
             <View style={[styles.container, {}]}>
-                <Header
-                    LinearGradient={true}
-                    leftIcon={IC_CLOSE}
-                    leftAction={() => this.props.onClose()}
-                    headercolor={'transparent'}
-                />
+                {this.renderHeader()}
                 <LinearGradient
                     colors={['#4A89E8', '#8FBCFF']}
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                    style={{ paddingBottom: Resolution.scale(20) }}>
-                    <HeaderTitle title={'Detail order'} />
+                // style={{ height: 60 }}
+                >
+                    <Animated.View style={{ height: headerHeight }}>
+                        <HeaderTitle title={'Detail order'} />
+                    </Animated.View>
                 </LinearGradient>
 
                 <ScrollView
+                    alwaysBounceVertical={false}
                     showsVerticalScrollIndicator={false}
+                    onScroll={this.handleScroll}
+                    scrollEventThrottle={16}
                 >
 
                     <View style={{ marginHorizontal: Resolution.scale(20), paddingVertical: Resolution.scale(20), width: width - Resolution.scaleWidth(40), borderRadius: 5, backgroundColor: '#FFF', marginTop: Resolution.scale(20) }}>
@@ -117,24 +146,19 @@ class modalConfirm extends Component {
     }
 
     renderHeader() {
-        let dateSelected = this.props.dateSelected
-        return <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-            style={{ width: width, marginBottom: Resolution.scale(20) }}>
-            <View>
+        let dateSelected = this.props.dateSelected;
+        return <Header
+            LinearGradient={true}
+            leftIcon={IC_CLOSE}
+            leftAction={() => this.props.onClose()}
+            headercolor={'transparent'}
+            showTitleHeader={this.state.isShowTitleHeader}
+            center={
                 <View>
-                    <Button
-                        onPress={() => this.props.onClose()}
-                        style={{ marginTop: Resolution.scale(20), marginLeft: Resolution.scale(20), width: Resolution.scaleWidth(20) }}
-                    >
-                        <Image source={IC_CLOSE} />
-                    </Button>
+                    <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Detail order'}</Text>
                 </View>
-
-                <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(35), fontFamily: 'OpenSans-Bold', marginHorizontal: Resolution.scale(20), marginBottom: Resolution.scale(20), marginTop: Resolution.scale(10) }}>{this.formatDateHeader(dateSelected)}</Text>
-            </View>
-        </LinearGradient>
+            }
+        />
     }
 
     _openModal(item) {

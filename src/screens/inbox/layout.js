@@ -32,6 +32,8 @@ import IC_AVATAR_DF from "@resources/icons/avatar-default.png";
 import IC_NO_INBOX from "@resources/icons/inbox.png";
 import Configs from ".././../utils/configs";
 
+import ModalDetail from "./components/modalDetail";
+
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -132,6 +134,14 @@ export default class extends Component {
                     isVisible={this.state.isModalSelectUnit}>
                     <ModalSelectUnit
                         onClose={() => this._closeModalSelectUnit()}
+                    />
+                </Modal>
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isModalDetail}>
+                    <ModalDetail
+                        item={this.state.itemSelected}
+                        onClose={() => this._closeModalDetail()}
                     />
                 </Modal>
             </View>
@@ -262,7 +272,7 @@ export default class extends Component {
         return (
             <Button
                 activeOpacity={1}
-                onPress={() => { }}
+                onPress={() => this._openModalDetail(item)}
                 key={item.id}
                 style={{
                     width: width - 40,

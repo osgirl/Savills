@@ -29,9 +29,11 @@ class modalFull extends Component {
 
     componentWillMount() {
         let dateSelected = this.props.dateSelected;
-        const accessTokenApi = this.props.account.accessTokenAPI;
-        const buildingID = this.props.units.unitActive.buildingId;
-        this.props.actions.events.getMyEventsOfDate(accessTokenApi, buildingID, dateSelected);
+        setTimeout(() => {
+            const accessTokenApi = this.props.account.accessTokenAPI;
+            const buildingID = this.props.units.unitActive.buildingId;
+            this.props.actions.events.getMyEventsOfDate(accessTokenApi, buildingID, dateSelected);
+        }, 300)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -54,7 +56,7 @@ class modalFull extends Component {
                 <LinearGradient
                     colors={['#4A89E8', '#8FBCFF']}
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                    style={{  }}>
+                    style={{}}>
                     <HeaderTitle title={this.props.dateSelected} />
                 </LinearGradient>
 

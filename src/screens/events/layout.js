@@ -56,12 +56,43 @@ export default class Layout extends Component {
     this._openModalFull();
   }
 
+
+  handleScroll = event => {
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
+      listener: event => {
+        if (event.nativeEvent.contentOffset.y > 50) {
+          if (!this.showCenter) {
+            this.showCenter = true;
+            this.props.navigation.setParams({ eventTitle: LG.EVENTS_TXT_TITLE });
+          }
+        } else {
+          if (this.showCenter) {
+            this.showCenter = false;
+            this.props.navigation.setParams({ eventTitle: null });
+          }
+        }
+      }
+    }, { useNativeDriver: true })(event);
+  };
+
   renderHeader() {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+
+    const headerHeight = this.state.scrollY.interpolate({
+      inputRange: [0, 20, 40],
+      outputRange: [40, 20, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
+
     return (
       <View style={{}}>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-          <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
+          <Animated.View style={{  height: headerHeight }}>
+            <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
+          </Animated.View>
           {this.state.openFullCalendar ? (
             <View>
               <Calendar
@@ -85,21 +116,21 @@ export default class Layout extends Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <View>
-              <CalendarStrip
-                selectedDate={this.state.selectedDate}
-                onPressDate={date => {
-                  this._onPressDay(date);
-                }}
-                onPressGoToday={today => {}}
-                onSwipeDown={() => {}}
-                markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
-              />
-              <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
-                <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/down.png')} />
-              </TouchableOpacity>
-            </View>
-          )}
+              <View>
+                <CalendarStrip
+                  selectedDate={this.state.selectedDate}
+                  onPressDate={date => {
+                    this._onPressDay(date);
+                  }}
+                  onPressGoToday={today => { }}
+                  onSwipeDown={() => { }}
+                  markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
+                />
+                <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
+                  <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/down.png')} />
+                </TouchableOpacity>
+              </View>
+            )}
         </LinearGradient>
         <View
           style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}
@@ -112,24 +143,6 @@ export default class Layout extends Component {
     );
   }
 
-  handleScroll = event => {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
-      listener: event => {
-        if (event.nativeEvent.contentOffset.y > 50) {
-          if (!this.showCenter) {
-            this.showCenter = true;
-            this.props.navigation.setParams({ eventTitle: LG.EVENTS_TXT_TITLE });
-          }
-        } else {
-          if (this.showCenter) {
-            this.showCenter = false;
-            this.props.navigation.setParams({ eventTitle: null });
-          }
-        }
-      }
-    })(event);
-  };
 
   render() {
     let unitActive = this.props.units.unitActive;
