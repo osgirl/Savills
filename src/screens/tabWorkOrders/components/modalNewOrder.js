@@ -11,7 +11,8 @@ import {
   PixelRatio,
   // Modal,
   Animated,
-  Platform
+  Platform,
+  Keyboard
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -393,10 +394,14 @@ class ModalNewOrder extends Component {
                     width: null,
                     padding: 10,
                     paddingTop: 20,
-                    marginBottom: 170
+                    marginBottom: 20
                     // borderWidth: 1,
                     // borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF'
                   }}
+                  returnKeyType="done"
+                  autoCapitalize="sentences"
+                  autoCorrect={true}
+                  onSubmitEditing={() => Keyboard.dismiss()}
                   multiline
                   placeholder={'Nhập nội dung ...'}
                   onChangeText={e => this.setState({ comment: e })}

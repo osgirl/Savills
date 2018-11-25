@@ -10,7 +10,8 @@ import {
   PixelRatio,
   Modal,
   Animated,
-  ActivityIndicator
+  ActivityIndicator,
+  Keyboard
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -327,11 +328,15 @@ class ModalNewBooking extends Component {
                         activeOpacity={0.9}
                         onPress={() => this.selectItem(index)}
                         key={index}
+                        disabled={
+                          this.props.booking.detailCategory.result.numOfExtendTimeSlot == this.state.arrSelected.length &&
+                          item.isCheck == false
+                        }
                         style={{
                           width: 85,
                           height: 22,
                           borderRadius: 5,
-                          backgroundColor: item.isCheck ? '#4A89E8' : '#BABFC8',
+                          backgroundColor: this.renderColorBooking(item),
                           marginVertical: 5,
                           marginRight: 10,
                           alignItems: 'center',
@@ -391,6 +396,10 @@ class ModalNewBooking extends Component {
                     padding: 10,
                     paddingTop: 20
                   }}
+                  returnKeyType="done"
+                  autoCapitalize="sentences"
+                  autoCorrect={true}
+                  onSubmitEditing={() => Keyboard.dismiss()}
                   multiline
                   placeholder={'Nhập nội dung ...'}
                   onChangeText={e => this.setState({ comment: e })}
@@ -505,6 +514,16 @@ class ModalNewBooking extends Component {
       </View>
     );
   }
+
+  renderColorBooking = item => {
+    if (this.props.booking.detailCategory.result.numOfExtendTimeSlot == this.state.arrSelected.length && item.isCheck == false) {
+      return '#dbdee2';
+    } else if (item.isCheck) {
+      return '#4A89E8';
+    } else {
+      return '#BABFC8';
+    }
+  };
 
   renderModalRegulations = () => {
     const { display, remark, policyNote, amenityName } = this.props.booking.detailCategory.result;

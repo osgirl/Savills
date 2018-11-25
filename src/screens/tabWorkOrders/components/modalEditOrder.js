@@ -13,7 +13,8 @@ import {
   Platform,
   KeyboardAvoidingView,
   findNodeHandle,
-  PixelRatio
+  PixelRatio,
+  Keyboard
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -499,6 +500,10 @@ class ModalEditOrder extends Component {
                     paddingTop: 20,
                     marginBottom: 20
                   }}
+                  returnKeyType="done"
+                  autoCapitalize="sentences"
+                  autoCorrect={true}
+                  onSubmitEditing={() => Keyboard.dismiss()}
                   value={this.state.description}
                   multiline
                   placeholder={'Nhập nội dung ...'}
@@ -673,6 +678,12 @@ class ModalEditOrder extends Component {
                 padding: 20
               }}
             >
+              <TouchableOpacity
+                onPress={() => this.setState({ isShowRating: false })}
+                style={{ position: 'absolute', top: 20, left: 20, padding: 10, zIndex: 1 }}
+              >
+                <Image source={require('@resources/icons/close-black.png')} />
+              </TouchableOpacity>
               <Text style={{ color: '#505E75', fontSize: 60, fontWeight: '700' }}>
                 {this.state.vote}
                 .0
@@ -705,6 +716,10 @@ class ModalEditOrder extends Component {
                 }}
                 placeholder={'Nhập nội dung nhận xét'}
                 multiline
+                returnKeyType="done"
+                autoCapitalize="sentences"
+                autoCorrect={true}
+                onSubmitEditing={() => Keyboard.dismiss()}
                 onChangeText={e => this.setState({ description: e })}
               />
               <TouchableOpacity onPress={() => this.changeStatusWorkOrder(15)}>
