@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,15 @@ import {
   FlatList,
   Animated,
   Platform,
-  KeyboardAvoidingView,
-  findNodeHandle,
   PixelRatio,
   Keyboard
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { isIphoneX } from 'react-native-iphone-x-helper';
+import ImagePicker from 'react-native-image-picker';
+
 import Connect from '@stores';
 import moment from 'moment';
 import Header from '@components/header';
@@ -25,11 +27,9 @@ import ItemComment from '@components/itemComment';
 import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
 import Resolution from '@utils/resolution';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { isIphoneX } from 'react-native-iphone-x-helper';
-import ImagePicker from 'react-native-image-picker';
-const STAR_ON = require('../../../resources/icons/Star-big.png');
-const STAR_OFF = require('../../../resources/icons/Star.png');
+
+const STAR_ON = require('@resources/icons/Star-big.png');
+const STAR_OFF = require('@resources/icons/Star.png');
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -46,7 +46,7 @@ const options = {
 };
 
 const { width, height } = Dimensions.get('window');
-class ModalEditOrder extends Component {
+class ModalEditOrder extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -889,7 +889,7 @@ class ModalEditOrder extends Component {
   }
 }
 
-class ItemScorll extends Component {
+class ItemScorll extends PureComponent {
   render() {
     const { title, view } = this.props;
     return (

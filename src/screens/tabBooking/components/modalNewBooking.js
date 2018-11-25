@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -13,23 +13,20 @@ import {
   ActivityIndicator,
   Keyboard
 } from 'react-native';
+
 import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-picker';
 import CalendarStrip from '@components/calendarAgenda';
-import Header from '@components/header';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
-import ImageViewer from 'react-native-image-zoom-viewer';
-import HeaderTitle from '@components/headerTitle';
-import configs from '../../../utils/configs';
-import { Calendar } from '../../../components/calendars';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Calendar } from '@components/calendars';
+
+import configs from '@utils/configs';
 import Button from '@components/button';
 import moment from 'moment';
-import Loading from '@components/loading';
-const { width } = Dimensions.get('window');
 import Connect from '@stores';
 import AlertWarning from '@components/alertWarning';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-class ModalNewBooking extends Component {
+
+const { width } = Dimensions.get('window');
+class ModalNewBooking extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,10 +51,8 @@ class ModalNewBooking extends Component {
   componentDidMount() {
     let accessTokenApi = this.props.account.accessTokenAPI;
     let item = this.props.item;
-    // let item = this.props.navigation.getParam('item', null);
     let data = {
       emenityId: item.amenityId,
-      // emenityId: 75,
       fromDate: this.state.selected,
       toDate: this.state.selected
     };
@@ -68,10 +63,10 @@ class ModalNewBooking extends Component {
   componentWillReceiveProps(nextProps) {
     let accessTokenApi = this.props.account.accessTokenAPI;
     if (nextProps.booking.listBookingOption && nextProps.booking.listBookingOption.success) {
-      // let arr = nextProps.booking.listBookingOption.result.filter(item => item.isAvailable == true);
       let arr = nextProps.booking.listBookingOption.result;
-      arr.map(item => (item.isCheck = false));
-      arr.map(item => (item.isFlag = false));
+      arr.map(item => {
+        (item.isCheck = false), (item.isFlag = false);
+      });
       this.setState({ listBooking: arr });
     }
     if (nextProps.booking.createNewBooking && nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
@@ -192,11 +187,6 @@ class ModalNewBooking extends Component {
     const { fullUnitCode } = this.props.units.unitActive;
     const { displayName } = this.props.userProfile.profile.result.user;
 
-    const heightCalendar = this.state.scrollY.interpolate({
-      inputRange: [0, 100],
-      outputRange: [200, 300],
-      extrapolate: 'clamp'
-    });
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 1.0 }} colors={['#4A89E8', '#8FBCFF']}>
@@ -763,7 +753,7 @@ class ModalNewBooking extends Component {
   };
 }
 
-class ItemScorll extends Component {
+class ItemScorll extends PureComponent {
   render() {
     const { title, renderLeft, number } = this.props;
     return (

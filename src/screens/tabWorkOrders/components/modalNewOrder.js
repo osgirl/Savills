@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import {
   View,
@@ -9,26 +9,26 @@ import {
   TouchableOpacity,
   TextInput,
   PixelRatio,
-  // Modal,
   Animated,
   Platform,
   Keyboard
 } from 'react-native';
+
 import LinearGradient from 'react-native-linear-gradient';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-picker';
 import Modal from 'react-native-modal';
-import Header from '@components/header';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 import ImageViewer from 'react-native-image-zoom-viewer';
+
+import Header from '@components/header';
 import HeaderTitle from '@components/headerTitle';
-const { width } = Dimensions.get('window');
-import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
 import Loading from '@components/loading';
-import Connect from '@stores';
-import { isIphoneX } from 'react-native-iphone-x-helper';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Resolution from '@utils/resolution';
 
+import Connect from '@stores';
+
+const { width } = Dimensions.get('window');
 const options = {
   title: 'Select Image',
   storageOptions: {
@@ -44,7 +44,7 @@ const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-class ModalNewOrder extends Component {
+class ModalNewOrder extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -633,7 +633,7 @@ class ModalNewOrder extends Component {
   };
 }
 
-class ItemScorll extends Component {
+class ItemScorll extends PureComponent {
   render() {
     const { title, view } = this.props;
     return (

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import { Text, View, FlatList, TouchableOpacity, Dimensions, Image, RefreshControl, ActivityIndicator } from 'react-native';
-import moment from 'moment';
-const { width } = Dimensions.get('window');
+import React, { PureComponent } from 'react';
+import { View, FlatList, RefreshControl } from 'react-native';
 import Connect from '@stores';
 import EmptyItemList from '@components/emptyItemList';
 import ItemBooking from '@components/itemBooking';
-class TabActive extends Component {
+
+class TabActive extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

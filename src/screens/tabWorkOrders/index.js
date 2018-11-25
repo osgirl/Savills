@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Connect from '@stores';
 import {
   View,
@@ -18,7 +18,6 @@ import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 
-import Configs from '@utils/configs';
 import Header from '@components/header';
 import { isIphoneX } from '@utils/func';
 
@@ -26,19 +25,24 @@ import Button from '@components/button';
 import EmptyItemList from '@components/emptyItemList';
 
 import IC_BACK from '@resources/icons/back-light.png';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 const { width } = Dimensions.get('window');
 import Resolution from '@utils/resolution';
 import Modal from 'react-native-modal';
 
-import ModalSelectUnit from '../../components/modalSelectUnit';
-import IC_DROPDOWN from '../../resources/icons/dropDown.png';
+import ModalSelectUnit from '@components/modalSelectUnit';
+
+const IMAGE = {
+  dropDown: require('@resources/icons/dropDown.png'),
+  bt_addNew: require('@resources/icons/plush-addnew.png'),
+  clock: require('@resources/icons/clock.png'),
+  calendar: require('@resources/icons/calendar.png')
+};
 
 const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-class TabWorkOrder extends Component {
+class TabWorkOrder extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -172,7 +176,7 @@ class TabWorkOrder extends Component {
                 style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
               >
                 <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                <Image source={IMAGE.dropDown} style={{ marginLeft: 10 }} />
               </Button>
             }
           />
@@ -205,7 +209,7 @@ class TabWorkOrder extends Component {
         </LinearGradient>
         <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
         <Button onPress={() => this.props.navigation.navigate('ModalWorkOrder', { profile: 'asd' })} style={styles.ButtonAdd}>
-          <Image source={require('../../resources/icons/plush-addnew.png')} />
+          <Image source={IMAGE.codeName} />
         </Button>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -347,11 +351,11 @@ class TabWorkOrder extends Component {
           style={{ flex: 1, marginVertical: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={require('../../resources/icons/clock.png')} />
+            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.clock} />
             <Text style={{ color: '#C9CDD4' }}>{time}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={require('../../resources/icons/calendar.png')} />
+            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.calendar} />
             <Text style={{ color: '#C9CDD4' }}>{date}</Text>
           </View>
           <View
