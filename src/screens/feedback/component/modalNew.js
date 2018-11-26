@@ -12,7 +12,8 @@ import {
   // Modal,
   Animated,
   Platform,
-  FlatList
+  FlatList,
+  KeyboardAvoidingView
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -137,7 +138,7 @@ class ModalNewFeedback extends Component {
           contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
           style={{ flex: 1, backgroundColor: '#F6F8FD' }}
         >
-          <KeyboardAwareScrollView extraHeight={-100}>
+        <KeyboardAvoidingView behavior="position" enabled>
             {
               this.state.listTypeFeedback && this.state.listTypeFeedback.length > 0 ?
                 <ItemScorll
@@ -224,7 +225,7 @@ class ModalNewFeedback extends Component {
               style={{ backgroundColor: '#FFF', marginVertical: Resolution.scale(20), marginHorizontal: Resolution.scale(20), borderRadius: 5 }}>
               <Text style={{ padding: Resolution.scale(20), color: '#4A89E8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{category.length > 0 ? category[0].name : 'Vấn đề phản hồi'}</Text>
             </Button>
-
+            
             <ItemScorll
               title={'Miêu Tả'}
               view={
@@ -249,7 +250,7 @@ class ModalNewFeedback extends Component {
                 />
               }
             />
-          </KeyboardAwareScrollView>
+          </KeyboardAvoidingView>
         </ScrollView>
         <View
           style={{
