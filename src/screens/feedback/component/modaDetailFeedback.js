@@ -54,6 +54,33 @@ class ModalDetailFeedback extends Component {
     };
   }
 
+  componentDidMount() {
+    const { itemSelected } = this.props;
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    setTimeout(() => {
+      this.props.actions.feedback.getCommentUnread(accessTokenApi, itemSelected.commentBoxId, 6);
+      this.props.actions.feedback.getCommentUser(accessTokenApi, itemSelected.guid);
+    }, 200);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { itemSelected } = this.props;
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    if (this.props.feedback.listComment !== nextProps.feedback.listComment && nextProps.feedback.listComment.success) {
+      this.setState({ listComment: nextProps.feedback.listComment.result.items })
+    }
+
+    if (nextProps.feedback.addComment && nextProps.feedback.addComment.success &&
+      this.props.feedback.addComment != nextProps.feedback.addComment
+    ) {
+      this.textInput.clear();
+      this.props.actions.feedback.getCommentUser(accessTokenApi, itemSelected.guid);
+    }
+
+
+  }
+
+
   handleScroll = event => {
     Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
       listener: event => {
@@ -70,6 +97,25 @@ class ModalDetailFeedback extends Component {
         }
       }
     })(event);
+  };
+
+  addComment = () => {
+    if (this.state.comment.trim() === '') {
+      return;
+    } else {
+      let accessTokenAPI = this.props.account.accessTokenAPI;
+      const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
+      let comment = {
+        conversationId: this.props.itemSelected.guid,
+        content: this.state.comment,
+        typeId: null,
+        isPrivate: false,
+        userName: displayName,
+        profilePictureId: profilePictureId,
+        moduleId: 6
+      };
+      this.props.actions.feedback.addCommentUser(accessTokenAPI, comment);
+    }
   };
 
   _createFeedback(commentBoxSourceId = 3, commentBoxType = '') {
@@ -273,23 +319,27 @@ class ModalDetailFeedback extends Component {
           onPress={() => this.setState({ isShowChat: true })}
         >
           <Image source={require('../../../resources/icons/chat-big.png')} />
-          <View
-            style={{
-              width: 16,
-              height: 16,
-              backgroundColor: 'red',
-              borderRadius: 8,
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
-              {/* {this.props.workOrder.commentUnread.result[0].unreadCount} */}
-            </Text>
-          </View>
+          {
+            this.props.feedback.commentUnread.result && this.props.feedback.commentUnread.result[0].unreadCount > 0 &&
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: 'red',
+                borderRadius: 8,
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
+                {this.props.feedback.commentUnread.result[0].unreadCount}
+              </Text>
+            </View>
+          }
+
         </Button>
 
         {this.renderContentModalChat()}
@@ -318,7 +368,7 @@ class ModalDetailFeedback extends Component {
           <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
             <Image source={require('../../../resources/icons/close-black.png')} />
           </TouchableOpacity>
-          <Text>#676</Text>
+          <Text>{'# ' + this.props.itemSelected.commentBoxId}</Text>
           <View />
         </View>
         <ScrollView style={{ flex: 1, backgroundColor: '#FFF' }}>
@@ -327,8 +377,8 @@ class ModalDetailFeedback extends Component {
               <FlatList
                 data={this.state.listComment}
                 style={{ maxHeight: isIphoneX() ? 500 : height - 150, minHeight: isIphoneX() ? 500 : height - 150 }}
-                keyExtractor={(item, index) => item.id.toString()}
-                renderItem={({ item, index }) => <ItemComment index={index} item={item} idUser={id} />}
+                keyExtractor={(item, index) => item.commentBoxId}
+                renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={item.userId} />}
                 ListEmptyComponent={() => {
                   return (
                     <View style={{ flex: 1, alignItems: 'center', marginTop: 100, height: isIphoneX() ? 500 : height - 150 }}>
@@ -370,7 +420,7 @@ class ModalDetailFeedback extends Component {
                 placeholderTextColor={'rgba(255,255,255,0.7)'}
                 placeholder={'Nhập tin nhắn ...'}
               />
-              <TouchableOpacity onPress={() => alert('send')}>
+              <TouchableOpacity disabled={this.state.comment.trim() == '' ? true : false} onPress={() => this.addComment()}>
                 <Image source={require('../../../resources/icons/send-mess.png')} />
               </TouchableOpacity>
             </View>

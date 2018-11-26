@@ -5,7 +5,10 @@ const INIT_STATE = ({
     listFeedBack: { items: [], pageCount: 0, success: false },
     listCategory: {},
     typeFeedback: {},
-    createFeedback: {}
+    createFeedback: {},
+    listComment: {},
+    commentUnread: {},
+    addComment: {}
 });
 
 export default createReducer(INIT_STATE, {
@@ -167,6 +170,41 @@ export default createReducer(INIT_STATE, {
             console.log(error)
         }
     },
+
+
+
+  [Types.GET_COMMENT_USER_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        listComment: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.GET_COMMENT_UNREAD_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        commentUnread: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.ADD_COMMENT_USER_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        addComment: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
 
 
