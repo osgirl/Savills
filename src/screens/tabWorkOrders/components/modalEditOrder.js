@@ -30,6 +30,8 @@ import Modal from 'react-native-modal';
 import Resolution from '@utils/resolution';
 import AnimatedHeader from '@components/animatedHeader';
 
+import IC_CHATEMTY from "@resources/icons/chat_emty.png";
+
 const STAR_ON = require('@resources/icons/Star-big.png');
 const STAR_OFF = require('@resources/icons/Star.png');
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
@@ -841,7 +843,7 @@ class ModalEditOrder extends PureComponent {
             ListEmptyComponent={() => {
               return (
                 <View style={{ flex: 1, alignItems: 'center', marginTop: 100, height: isIphoneX() ? 500 : height - 150 }}>
-                  <Image source={require('../../../resources/icons/chat-big.png')} />
+                  <Image source={IC_CHATEMTY} />
                   <Text
                     style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
                   >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>

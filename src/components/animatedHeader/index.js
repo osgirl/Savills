@@ -24,9 +24,10 @@ export default class AnimatedHeader extends Component {
     });
     const titleScale = scrollY.interpolate({
       inputRange: [0, headerMinHeight],
-      outputRange: [1, 0.8],
+      outputRange: [1, 0.65],
       extrapolate: 'clamp'
     });
+
     const navbarOpacity = scrollY.interpolate({
       inputRange: [0, headerMinHeight * 1.5],
       outputRange: [0, 1],
