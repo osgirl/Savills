@@ -86,7 +86,7 @@ export default class extends Component {
           <Avatar size={imgSize} onReady={this.props.userProfile.imageProfile.success} bgColor={'#FFF'} animate="fade">
             <FastImage style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }} source={avatar} />
           </Avatar>
-          <Line txtWidth={100} height={20} onReady={User ? true : false} animate="shine">
+          <Line txtWidth={100} height={20} onReady={User ? true : false} animate="fade">
             {User && <Text style={Style.displayName}>{'Hey!! ' + User.displayName}</Text>}
           </Line>
 

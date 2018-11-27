@@ -198,7 +198,6 @@ export default class Layout extends Component {
               }
               ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
             />
-
         }
 
         <Modal

@@ -31,7 +31,7 @@ export default class ItemHomeComponent extends Component {
                     txtWidth={70}
                     onReady={this.props.loading}
                     bgColor={'#FFF'}
-                    animate='shine'>
+                    animate='fade'>
                     <Button
                         activeOpacity={0.6}
                         onPress={() => this.props.onPressItem()}
