@@ -128,12 +128,6 @@ class TabWorkOrder extends PureComponent {
       extrapolate: 'clamp',
       useNativeDriver: true
     });
-
-    const fontSize = this.state.scrollY.interpolate({
-      inputRange: [0, 0, 100],
-      outputRange: [30, 30, 0],
-      extrapolate: 'clamp'
-    });
     const opacityText = this.state.scrollY.interpolate({
       inputRange: [0, 60, 100],
       outputRange: [1, 0.5, 0],
@@ -165,9 +159,7 @@ class TabWorkOrder extends PureComponent {
             showTitleHeader={this.state.isShowTitleHeader}
             center={
               <View>
-                {/* <Animated.Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold', opacity: opacityText2 }}> */}
                 <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Yêu Cầu</Text>
-                {/* </Animated.Text> */}
               </View>
             }
             renderViewRight={
@@ -209,7 +201,7 @@ class TabWorkOrder extends PureComponent {
         </LinearGradient>
         <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
         <Button onPress={() => this.props.navigation.navigate('ModalWorkOrder', { profile: 'asd' })} style={styles.ButtonAdd}>
-          <Image source={IMAGE.codeName} />
+          <Image source={IMAGE.bt_addNew} />
         </Button>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -247,16 +239,6 @@ class TabWorkOrder extends PureComponent {
       </View>
     );
   };
-
-  async _onEndReached() {
-    if (this.state.loadingMoreTabActive) {
-      return;
-    }
-    this.setState({ loadingMoreTabActive: true });
-    let start = await this.state.listWorkOrder.length;
-    let accessTokenAPI = this.props.account.accessTokenAPI;
-    await this.props.actions.notification.getListNotification(accessTokenAPI, start);
-  }
 
   _onRefresh() {
     let accessTokenApi = this.props.account.accessTokenAPI;

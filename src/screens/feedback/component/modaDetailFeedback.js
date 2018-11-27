@@ -26,7 +26,6 @@ import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
 import Connect from '@stores';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const { width, height } = Dimensions.get('window');
 
@@ -67,19 +66,18 @@ class ModalDetailFeedback extends Component {
     const { itemSelected } = this.props;
     let accessTokenApi = this.props.account.accessTokenAPI;
     if (this.props.feedback.listComment !== nextProps.feedback.listComment && nextProps.feedback.listComment.success) {
-      this.setState({ listComment: nextProps.feedback.listComment.result.items })
+      this.setState({ listComment: nextProps.feedback.listComment.result.items });
     }
 
-    if (nextProps.feedback.addComment && nextProps.feedback.addComment.success &&
+    if (
+      nextProps.feedback.addComment &&
+      nextProps.feedback.addComment.success &&
       this.props.feedback.addComment != nextProps.feedback.addComment
     ) {
       this.textInput.clear();
       this.props.actions.feedback.getCommentUser(accessTokenApi, itemSelected.guid);
     }
-
-
   }
-
 
   handleScroll = event => {
     Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
@@ -319,8 +317,7 @@ class ModalDetailFeedback extends Component {
           onPress={() => this.setState({ isShowChat: true })}
         >
           <Image source={require('../../../resources/icons/chat-big.png')} />
-          {
-            this.props.feedback.commentUnread.result && this.props.feedback.commentUnread.result[0].unreadCount > 0 &&
+          {this.props.feedback.commentUnread.result && this.props.feedback.commentUnread.result[0].unreadCount > 0 && (
             <View
               style={{
                 width: 16,
@@ -338,8 +335,7 @@ class ModalDetailFeedback extends Component {
                 {this.props.feedback.commentUnread.result[0].unreadCount}
               </Text>
             </View>
-          }
-
+          )}
         </Button>
 
         {this.renderContentModalChat()}

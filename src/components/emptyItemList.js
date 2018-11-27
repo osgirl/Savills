@@ -14,7 +14,7 @@ export class emptyItemList extends Component {
           alignItems: 'center'
         }}
       >
-        <ActivityIndicator color={'blue'} size="large" />
+        <ActivityIndicator color={'#CACACA'} size="large" />
       </View>
     ) : (
       <View
