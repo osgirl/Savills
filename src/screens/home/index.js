@@ -22,7 +22,8 @@ class Home extends layout {
       profile: null,
       numcolumn: 2,
       moduleCount: [],
-      DATA: []
+      DATA: [],
+      isRefresh: false
     };
     this.showCenter = false;
     if (Platform.OS === 'android') {
@@ -50,6 +51,9 @@ class Home extends layout {
         }
       });
       await this.setState({ dataModule: arrTemp });
+      if(this.state.isRefresh){
+        await this.setState({ isRefresh: false });
+      }
     }
 
     if (
@@ -183,6 +187,15 @@ class Home extends layout {
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
+  }
+
+  async _onRefresh() {
+    let accessTokenAPI = this.props.account.accessTokenAPI;
+    if (this.state.isRefresh) {
+      return;
+    }
+    await this.setState({ isRefresh: true })
+    await this.props.actions.account.getUserSettings(accessTokenAPI);
   }
 
   onBackButtonPressAndroid = () => {

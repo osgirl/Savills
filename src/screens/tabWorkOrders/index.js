@@ -354,7 +354,7 @@ class TabWorkOrder extends PureComponent {
         <View
           style={{
             flex: 1,
-            backgroundColor: item.lastComment ? '#4A89E8' : '#D4D7DC',
+            backgroundColor: item.lastComment ? '#A3C3F3' : '#D4D7DC',
             borderRadius: 5,
             flexDirection: 'row',
             alignItems: 'center',
