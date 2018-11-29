@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Text, StatusBar, Platform, Animated } from 'react-native';
+import { Text, StatusBar, Platform, Animated, PushNotificationIOS } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
 import _ from 'lodash';
 
 import { BackHandler } from 'react-native';
-
 import Language from '../../utils/language';
+
+import DeviceInfo from 'react-native-device-info';
+import PushNotification from 'react-native-push-notification';
 
 class Home extends layout {
   _didFocusSubscription;
@@ -22,7 +24,8 @@ class Home extends layout {
       profile: null,
       numcolumn: 2,
       moduleCount: [],
-      DATA: []
+      DATA: [],
+      registerToken: ''
     };
     this.showCenter = false;
     if (Platform.OS === 'android') {
@@ -155,7 +158,7 @@ class Home extends layout {
           screen: 'Fee'
         }
       ]
-    })
+    });
   }
 
   async componentWillMount() {
@@ -183,7 +186,26 @@ class Home extends layout {
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
+    this.listTenNotification(accessTokenAPI);
   }
+
+  listTenNotification = async accessTokenAPI => {
+    const uniqueId = DeviceInfo.getUniqueID();
+    await PushNotification.configure({
+      onRegister: token => {
+        this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
+      },
+      onNotification: function(notification) {},
+      senderID: '31918583407',
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true
+      },
+      popInitialNotification: true,
+      requestPermissions: true
+    });
+  };
 
   onBackButtonPressAndroid = () => {
     return true;
