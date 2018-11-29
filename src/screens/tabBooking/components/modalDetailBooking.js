@@ -27,6 +27,8 @@ import HeaderTitle from '@components/headerTitle';
 import Button from '@components/button';
 import Resolution from '@utils/resolution';
 
+import IC_CHATEMTY from "@resources/icons/chat_emty.png";
+
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -403,7 +405,7 @@ class ModalDetailBooking extends PureComponent {
             ListEmptyComponent={() => {
               return (
                 <View style={{ flex: 1, height: isIphoneX() ? 500 : height - 150, alignItems: 'center', marginTop: 100 }}>
-                  <Image source={IMAGE.chatBig} />
+                  <Image source={IC_CHATEMTY} />
                   <Text
                     style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
                   >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>

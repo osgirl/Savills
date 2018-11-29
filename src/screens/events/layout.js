@@ -14,6 +14,7 @@ import IC_CALENDAR from '../../resources/icons/calendar.png';
 import IC_CLOCK from '../../resources/icons/clock.png';
 import IMG_CALENDAR_PH from '../../resources/icons/calendar-placehoder.png';
 import IC_DROPDOWN from '../../resources/icons/dropDown.png';
+import IC_EVENTEMTY from '../../resources/icons/Events_emty.png';
 import { ItemHorizontal } from '../../components/placeHolder';
 import Utils from '../../utils';
 
@@ -90,7 +91,7 @@ export default class Layout extends Component {
     return (
       <View style={{}}>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-          <Animated.View style={{  height: headerHeight }}>
+          <Animated.View style={{ height: headerHeight }}>
             <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
           </Animated.View>
           {this.state.openFullCalendar ? (
@@ -132,20 +133,21 @@ export default class Layout extends Component {
               </View>
             )}
         </LinearGradient>
-        <View
-          style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}
-        >
-          <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
-            {LG.EVENTS_TXT_ALLTITLE}
-          </Text>
-        </View>
       </View>
     );
+  }
+
+  renderEmty() {
+    return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
+      <Image source={IC_EVENTEMTY} />
+      <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Không có sự kiện nào \n bạn quay lại lần sau nhé'}</Text>
+    </View>
   }
 
 
   render() {
     let unitActive = this.props.units.unitActive;
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -173,18 +175,31 @@ export default class Layout extends Component {
           }
         />
         {this.renderHeader()}
-        <FlatList
-          data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
-          keyExtractor={item => item.eventId + ''}
-          renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
-          onScroll={this.handleScroll}
-          legacyImplementation={false}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
-          // ListHeaderComponent={() => this.renderHeader()}
-          ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
-        />
+        {
+          this.props.events.myEvents.result && this.props.events.myEvents.result.totalCount <= 0 ?
+            this.renderEmty() :
+            <FlatList
+              data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
+              keyExtractor={item => item.eventId + ''}
+              renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
+              onScroll={this.handleScroll}
+              legacyImplementation={false}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
+              ListHeaderComponent={() =>
+                <View
+                  style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}
+                >
+                  <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
+                    {LG.EVENTS_TXT_ALLTITLE}
+                  </Text>
+                </View>
+              }
+              ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
+            />
+        }
+
         <Modal
           style={{ flex: 1, marginTop: Resolution.scale(50), marginLeft: 0, marginRight: 0, marginBottom: 0 }}
           isVisible={this.state.isShowModalDetail}

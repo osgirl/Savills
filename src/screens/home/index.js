@@ -25,7 +25,11 @@ class Home extends layout {
       numcolumn: 2,
       moduleCount: [],
       DATA: [],
+<<<<<<< HEAD
       registerToken: ''
+=======
+      isRefresh: false
+>>>>>>> developer
     };
     this.showCenter = false;
     if (Platform.OS === 'android') {
@@ -53,6 +57,9 @@ class Home extends layout {
         }
       });
       await this.setState({ dataModule: arrTemp });
+      if(this.state.isRefresh){
+        await this.setState({ isRefresh: false });
+      }
     }
 
     if (
@@ -206,6 +213,15 @@ class Home extends layout {
       requestPermissions: true
     });
   };
+  
+  async _onRefresh() {
+    let accessTokenAPI = this.props.account.accessTokenAPI;
+    if (this.state.isRefresh) {
+      return;
+    }
+    await this.setState({ isRefresh: true })
+    await this.props.actions.account.getUserSettings(accessTokenAPI);
+  }
 
   onBackButtonPressAndroid = () => {
     return true;

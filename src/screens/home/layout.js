@@ -68,6 +68,13 @@ export default class extends Component {
   };
 
   renderHeader() {
+
+    const OpacityImage = this.state.scrollY.interpolate({
+      inputRange: [0, 25, 50],
+      outputRange: [1, 0.5, 0],
+      extrapolate: 'clamp',
+    });
+
     let User = this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
     let imageProfile =
       this.props.userProfile.imageProfile &&
@@ -84,9 +91,11 @@ export default class extends Component {
           style={{ flexDirection: 'column', alignItems: 'center', marginBottom: Resolution.scale(10) }}
         >
           <Avatar size={imgSize} onReady={this.props.userProfile.imageProfile.success} bgColor={'#FFF'} animate="fade">
-            <FastImage style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }} source={avatar} />
+            <Animated.View style={{ opacity: OpacityImage }}>
+              <FastImage style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }} source={avatar} />
+            </Animated.View>
           </Avatar>
-          <Line txtWidth={100} height={20} onReady={User ? true : false} animate="shine">
+          <Line txtWidth={100} height={20} onReady={User ? true : false} animate="fade">
             {User && <Text style={Style.displayName}>{'Hey!! ' + User.displayName}</Text>}
           </Line>
 
@@ -154,6 +163,7 @@ export default class extends Component {
       this.props.userProfile.imageProfile.result.profilePicture;
     var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
     let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
+
     return (
       <View style={Style.container}>
         <HeaderHome
@@ -167,6 +177,7 @@ export default class extends Component {
               onPress={this.props.navigation.getParam('openProfileHome')}
               style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}
             >
+
               <FastImage
                 style={{ width: Resolution.scale(30), height: Resolution.scale(30), borderRadius: Resolution.scale(30) / 2 }}
                 source={this.props.navigation.getParam('userAvatar')}
@@ -203,6 +214,9 @@ export default class extends Component {
                 this.state.moduleCount
               )
             }
+            onEndReachedThreshold={0.01}
+            refreshing={this.state.isRefresh}
+            onRefresh={() => this._onRefresh()}
             onScroll={this.handleScroll}
             legacyImplementation={false}
             showsHorizontalScrollIndicator={false}

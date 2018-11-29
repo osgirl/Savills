@@ -30,7 +30,9 @@ import IC_DEL from '@resources/icons/del.png';
 import IC_STORAGE from '@resources/icons/Storage.png';
 import IC_AVATAR_DF from "@resources/icons/avatar-default.png";
 import IC_NO_INBOX from "@resources/icons/inbox.png";
+import IC_INBOXEMTY from "@resources/icons/inbox_emty.png";
 import Configs from ".././../utils/configs";
+
 
 import ModalDetail from "./components/modalDetail";
 
@@ -150,18 +152,14 @@ export default class extends Component {
 
     renderEmty(name) {
         if (name === 'new' && this.props.inbox.listInbox.totalCount === 0) {
-            return <View style={{ alignItems: 'center', marginTop: 30 }}>
-                <Image source={IC_NO_INBOX} />
-                <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 14, color: '#BABFC8', marginVertical: 20 }}>
-                    Chưa có tin nhắn mới
-                </Text>
+            return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: Resolution.scale(60) }}>
+                <Image source={IC_INBOXEMTY} />
+                <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn mới'}</Text>
             </View>
         } else if (name === 'store' && this.props.inbox.listInboxIsActive.totalCount === 0) {
-            return <View style={{ alignItems: 'center', marginTop: 30 }}>
-                <Image source={IC_NO_INBOX} />
-                <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 14, color: '#BABFC8', marginVertical: 20 }}>
-                    Bạn chưa lưu tin nhắn
-                </Text>
+            return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: Resolution.scale(60) }}>
+                <Image source={IC_INBOXEMTY} />
+                <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn nào đã lưu'}</Text>
             </View>
         } else {
             <View style={{ alignItems: 'center', alignItems: 30 }}>

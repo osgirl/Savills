@@ -24,7 +24,7 @@ export default class ItemProjectApartment extends Component {
                     txtWidth={70}
                     onReady={this.props.loading}
                     bgColor={'#FFF'}
-                    animate='shine'>
+                    animate='fade'>
                     <Button
                         onPress={this.props.onPressItem}
                         style={[Styles.container, { ...Configs.Shadow }]}>

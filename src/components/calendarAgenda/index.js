@@ -33,7 +33,7 @@ class DateItem extends PureComponent {
     const solar = format(item, 'D');
     const highlightBgColor = '#FFF';
     const normalBgColor = 'transparent';
-    const hightlightTextColor = '#6E99F1';
+    const hightlightTextColor = '#4A89E8';
     const normalTextColor = '#FFF';
     return (
       <View style={{ width: width / 7, height: 50 }}>
@@ -45,7 +45,7 @@ class DateItem extends PureComponent {
           <View style={[{ borderRadius: 20 }, { backgroundColor: highlight ? highlightBgColor : normalBgColor }]}>
             <Text
               style={[
-                { padding: highlight ? 10 : 0, fontWeight: 'bold' },
+                { padding: highlight ? 8 : 0, fontWeight: '900', fontSize: 12 },
                 { color: highlight ? hightlightTextColor : normalTextColor }
               ]}
             >
