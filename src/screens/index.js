@@ -20,8 +20,19 @@ import ModalNewBooking from './tabBooking/components/modalNewBooking';
 import Booking from './tabBooking';
 import Inbox from './inbox';
 import Fee from './fee';
+import FrontDesk from './frontDesk';
+import NewIntrustion from './frontDesk/components/NewIntrustion';
+import DetailIntrustion from './frontDesk/components/DetailIntrustion';
+import DetailDelivery from './frontDesk/components/DetailDelivery';
+import Feedback from './feedback';
+import Setting from './setting';
+
 
 export {
+  DetailDelivery,
+  NewIntrustion,
+  DetailIntrustion,
+  FrontDesk,
   ModalDetailBooking,
   ModalEditOrder,
   ModalNewBooking,
@@ -44,5 +55,6 @@ export {
   Notification,
   Inbox,
   Fee,
-  
+  Feedback,
+  Setting
 };

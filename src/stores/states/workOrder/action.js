@@ -14,6 +14,17 @@ export function getWorkOrderList(accessTokenAPI, sort, memberId) {
   };
 }
 
+export function getListArea(accessTokenAPI) {
+  return {
+    type: Types.GET_LIST_AREA,
+    payload: {
+      api: Configs.API + `/api/services/app/WorkOrders/GetListCategory`,
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
 export function createWorkOrder(accessTokenAPI, WorkOrder) {
   return {
     type: Types.CREATE_WORK_ORDER,
@@ -32,7 +43,7 @@ export function createWorkOrder(accessTokenAPI, WorkOrder) {
         maintainanceTeamId: WorkOrder.maintainanceTeamId,
         areaId: WorkOrder.areaId,
         categoryId: WorkOrder.categoryId,
-        subCategoryId: null,
+        subCategoryId: WorkOrder.subCategoryId,
         contact: {
           fullName: WorkOrder.contact.fullName,
           phoneNumber: WorkOrder.contact.phoneNumber,
@@ -145,6 +156,17 @@ export function uploadImageWorkOrder(accessTokenAPI, file, idWO) {
         mimeType: 'image/png',
         fileToUpload: file
       },
+      token: accessTokenAPI
+    }
+  };
+}
+
+export function getCommentUnread(accessTokenAPI, id, idModules) {
+  return {
+    type: Types.GET_COMMENT_UNREAD,
+    payload: {
+      api: Configs.API + `/api/services/app/Notification/GetUserNotificationCommentUnread?entityIds=${id}&moduleId=${idModules}`,
+      method: 'GET',
       token: accessTokenAPI
     }
   };

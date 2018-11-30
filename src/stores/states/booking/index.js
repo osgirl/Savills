@@ -8,6 +8,7 @@ export default keymirror(
     GET_DETAIL_BOOKING: null,
     CHANGE_STATUS_BOOKING: null,
     GET_LIST_BOOKING: null,
+    GET_DETAIL_CATEGORY: null,
 
     FLAG_CREATE_BOOKING: null,
     FLAG_CHANGE_STATUS: null

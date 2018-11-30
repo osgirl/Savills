@@ -10,6 +10,8 @@ export default keymirror(
     ADD_COMMENT_USER: null,
     UPDATE_WORK_ORDER: null,
     UPDATE_IMAGE_WORKORDER: null,
+    GET_LIST_AREA: null,
+    GET_COMMENT_UNREAD: null,
 
     FLAG_UPDATE_WORKODER: null,
     FLAG_CREATE_WORKORDER: null,

@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Text, View, FlatList, TouchableOpacity, Dimensions, Image, RefreshControl, ActivityIndicator } from 'react-native';
-import moment from 'moment';
-const { width } = Dimensions.get('window');
+import React, { PureComponent } from 'react';
+import { View, FlatList, RefreshControl } from 'react-native';
 import Connect from '@stores';
 import EmptyItemList from '@components/emptyItemList';
 import ItemBooking from '@components/itemBooking';
-class TabActive extends Component {
+
+class TabActive extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       listData: [],
-      isRefreshing: false
+      isRefreshing: false,
+      isLoadData: true
     };
   }
 
@@ -21,7 +21,7 @@ class TabActive extends Component {
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.booking.listActive && nextProps.booking.listActive.success) {
-      this.setState({ listData: nextProps.booking.listActive.result.items, isRefreshing: false });
+      this.setState({ listData: nextProps.booking.listActive.result.items, isRefreshing: false, isLoadData: false });
     }
   };
 
@@ -38,14 +38,12 @@ class TabActive extends Component {
             <RefreshControl
               refreshing={this.state.isRefreshing}
               onRefresh={() => this._onRefresh()}
-              title={'Refrech Data !!'}
               tintColor="#000"
               titleColor="#000"
             />
           }
-          ListFooterComponent={() => <ActivityIndicator color={'blue'} size={'large'} />}
           ListEmptyComponent={() => {
-            return <EmptyItemList />;
+            return <EmptyItemList loadData={this.state.isLoadData} />;
           }}
         />
       </View>

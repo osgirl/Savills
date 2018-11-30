@@ -30,7 +30,11 @@ import IC_DEL from '@resources/icons/del.png';
 import IC_STORAGE from '@resources/icons/Storage.png';
 import IC_AVATAR_DF from "@resources/icons/avatar-default.png";
 import IC_NO_INBOX from "@resources/icons/inbox.png";
+import IC_INBOXEMTY from "@resources/icons/inbox_emty.png";
 import Configs from ".././../utils/configs";
+
+
+import ModalDetail from "./components/modalDetail";
 
 const { width } = Dimensions.get('window');
 
@@ -116,25 +120,6 @@ export default class extends Component {
                             <HeaderTitle title={'Inbox'} />
                         </Animated.View>
                     </Animated.View>
-                    <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
-                        <View style={{ height: 0, flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <View style={{ marginLeft: 20 }}>
-                                <Button>
-                                    <Image source={IC_DEL} />
-                                </Button>
-                            </View>
-                            <View style={{ flexDirection: 'row', marginRight: 20 }}>
-                                <Button
-                                    style={{ marginRight: 40 }}
-                                >
-                                    <Image source={IC_STORAGE} />
-                                </Button>
-                                <Button>
-                                    <Image source={IC_DEL} />
-                                </Button>
-                            </View>
-                        </View>
-                    </LinearGradient>
                     <ScrollableTabView
                         tabBarActiveTextColor={'#FFF'}
                         tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
@@ -150,20 +135,41 @@ export default class extends Component {
                     style={{ flex: 1, margin: 0 }}
                     isVisible={this.state.isModalSelectUnit}>
                     <ModalSelectUnit
-                        onClose={() => this.setState({ isModalSelectUnit: false })}
+                        onClose={() => this._closeModalSelectUnit()}
+                    />
+                </Modal>
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isModalDetail}>
+                    <ModalDetail
+                        item={this.state.itemSelected}
+                        onClose={() => this._closeModalDetail()}
                     />
                 </Modal>
             </View>
         );
     }
 
-    renderEmty() {
-        return <View style={{ alignItems: 'center', marginTop: 30 }}>
-            <Image source={IC_NO_INBOX} />
-            <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 14, color: '#BABFC8', marginVertical: 20 }}>
-                Chưa có tin nhắn nào
-        </Text>
-        </View>
+    renderEmty(name) {
+        if (name === 'new' && this.props.inbox.listInbox.totalCount === 0) {
+            return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: Resolution.scale(60) }}>
+                <Image source={IC_INBOXEMTY} />
+                <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn mới'}</Text>
+            </View>
+        } else if (name === 'store' && this.props.inbox.listInboxIsActive.totalCount === 0) {
+            return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: Resolution.scale(60) }}>
+                <Image source={IC_INBOXEMTY} />
+                <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn nào đã lưu'}</Text>
+            </View>
+        } else {
+            <View style={{ alignItems: 'center', alignItems: 30 }}>
+                <ActivityIndicator
+                    size={'large'}
+                    color={Configs.colorMain}
+                />
+            </View>
+        }
+
     }
 
     _FooterFlatlist() {
@@ -213,7 +219,7 @@ export default class extends Component {
                     renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
                     rightOpenValue={-80}
                     renderItem={({ item, index }) => this.renderItem(item, index)}
-                    ListEmptyComponent={() => this.renderEmty()}
+                    ListEmptyComponent={() => this.renderEmty('new')}
                     onScroll={this.handleScroll}
                     scrollEventThrottle={16}
                     onEndReachedThreshold={0.01}
@@ -244,7 +250,7 @@ export default class extends Component {
                     // renderHiddenItem={(item, index) => this.renderHiddenRow(item, index)}
                     // rightOpenValue={-80}
                     renderItem={({ item, index }) => this.renderItem(item, index)}
-                    ListEmptyComponent={() => this.renderEmty()}
+                    ListEmptyComponent={() => this.renderEmty('store')}
                     onEndReachedThreshold={0.01}
                     onEndReached={() => this._onEndReachedInboxActive()}
                     legacyImplementation={false}
@@ -264,7 +270,7 @@ export default class extends Component {
         return (
             <Button
                 activeOpacity={1}
-                onPress={() => { }}
+                onPress={() => this._openModalDetail(item)}
                 key={item.id}
                 style={{
                     width: width - 40,

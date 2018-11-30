@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Connect from '@stores';
 import {
   View,
@@ -18,7 +18,6 @@ import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 
-import Configs from '@utils/configs';
 import Header from '@components/header';
 import { isIphoneX } from '@utils/func';
 
@@ -26,19 +25,24 @@ import Button from '@components/button';
 import EmptyItemList from '@components/emptyItemList';
 
 import IC_BACK from '@resources/icons/back-light.png';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 const { width } = Dimensions.get('window');
 import Resolution from '@utils/resolution';
 import Modal from 'react-native-modal';
 
-import ModalSelectUnit from '../../components/modalSelectUnit';
-import IC_DROPDOWN from '../../resources/icons/dropDown.png';
+import ModalSelectUnit from '@components/modalSelectUnit';
 
-const HEADER_MAX_HEIGHT = Resolution.scale(70);
+const IMAGE = {
+  dropDown: require('@resources/icons/dropDown.png'),
+  bt_addNew: require('@resources/icons/plush-addnew.png'),
+  clock: require('@resources/icons/clock.png'),
+  calendar: require('@resources/icons/calendar.png')
+};
+
+const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-class TabWorkOrder extends Component {
+class TabWorkOrder extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,13 +52,16 @@ class TabWorkOrder extends Component {
       listWorkOrderComplete: [],
       scrollY: new Animated.Value(0),
       loadingMoreTabActive: false,
-      isModalSelectUnit: false
+      isModalSelectUnit: false,
+      isLoadDataComplete: true,
+      isLoadDataActive: true
     };
   }
 
   componentWillMount = async () => {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const { id } = this.props.userProfile.profile.result.user;
+    this.props.actions.workOrder.getListArea(accessTokenApi);
     this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'ACTIVE', id);
     setTimeout(() => {
       this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'COMPLETED', id);
@@ -69,8 +76,10 @@ class TabWorkOrder extends Component {
       !nextProps.workOrder.isGetListWorkOrder
     ) {
       nextProps.actions.workOrder.setFlagGetWorkOrderList();
-      this.setState({ listWorkOrder: nextProps.workOrder.listActive.result.items, isRefreshing: false });
+      this.setState({ listWorkOrder: nextProps.workOrder.listActive.result.items, isRefreshing: false, isLoadDataActive: false });
+      let arr = nextProps.workOrder.listActive.result.items.map(a => a.id);
     }
+
     if (
       nextProps.workOrder &&
       nextProps.workOrder.listComplete &&
@@ -78,7 +87,11 @@ class TabWorkOrder extends Component {
       !nextProps.workOrder.isGetListWorkOrder
     ) {
       nextProps.actions.workOrder.setFlagGetWorkOrderList();
-      this.setState({ listWorkOrderComplete: nextProps.workOrder.listComplete.result.items, isRefreshingComplete: false });
+      this.setState({
+        listWorkOrderComplete: nextProps.workOrder.listComplete.result.items,
+        isRefreshingComplete: false,
+        isLoadDataComplete: false
+      });
     }
   };
 
@@ -115,12 +128,6 @@ class TabWorkOrder extends Component {
       extrapolate: 'clamp',
       useNativeDriver: true
     });
-
-    const fontSize = this.state.scrollY.interpolate({
-      inputRange: [0, 0, 100],
-      outputRange: [30, 30, 0],
-      extrapolate: 'clamp'
-    });
     const opacityText = this.state.scrollY.interpolate({
       inputRange: [0, 60, 100],
       outputRange: [1, 0.5, 0],
@@ -139,6 +146,7 @@ class TabWorkOrder extends Component {
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -151,9 +159,7 @@ class TabWorkOrder extends Component {
             showTitleHeader={this.state.isShowTitleHeader}
             center={
               <View>
-                {/* <Animated.Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold', opacity: opacityText2 }}> */}
                 <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Yêu Cầu</Text>
-                {/* </Animated.Text> */}
               </View>
             }
             renderViewRight={
@@ -162,7 +168,7 @@ class TabWorkOrder extends Component {
                 style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
               >
                 <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                <Image source={IMAGE.dropDown} style={{ marginLeft: 10 }} />
               </Button>
             }
           />
@@ -184,9 +190,10 @@ class TabWorkOrder extends Component {
           </Animated.View>
           <ScrollableTabView
             tabBarActiveTextColor={'#FFF'}
-            tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
+            tabBarInactiveTextColor={'rgba(255,255,255,0.9)'}
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
+            backgroundColor={'#FFF'}
           >
             {this.ViewTwo(this.state.listWorkOrder)}
             {this.ViewThree(this.state.listWorkOrderComplete)}
@@ -194,7 +201,7 @@ class TabWorkOrder extends Component {
         </LinearGradient>
         <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
         <Button onPress={() => this.props.navigation.navigate('ModalWorkOrder', { profile: 'asd' })} style={styles.ButtonAdd}>
-          <Image source={require('../../resources/icons/plush-addnew.png')} />
+          <Image source={IMAGE.bt_addNew} />
         </Button>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -216,38 +223,22 @@ class TabWorkOrder extends Component {
           keyExtractor={(item, index) => item.id.toString()}
           data={list}
           onScroll={this.handleScroll}
-          // onScroll={Animated.event([
-          //   {
-          //     nativeEvent: { contentOffset: { y: this.state.scrollY } }
-          //   }
-          // ])}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
               onRefresh={() => this._onRefresh()}
-              title={'Refrech Data !!'}
               tintColor="#000"
               titleColor="#000"
             />
           }
           renderItem={({ item, index }) => this.renderItem(item, index)}
           ListEmptyComponent={() => {
-            return <EmptyItemList />;
+            return <EmptyItemList loadData={this.state.isLoadDataActive} />;
           }}
         />
       </View>
     );
   };
-
-  async _onEndReached() {
-    if (this.state.loadingMoreTabActive) {
-      return;
-    }
-    this.setState({ loadingMoreTabActive: true });
-    let start = await this.state.listWorkOrder.length;
-    let accessTokenAPI = this.props.account.accessTokenAPI;
-    await this.props.actions.notification.getListNotification(accessTokenAPI, start);
-  }
 
   _onRefresh() {
     let accessTokenApi = this.props.account.accessTokenAPI;
@@ -291,14 +282,13 @@ class TabWorkOrder extends Component {
             <RefreshControl
               refreshing={this.state.isRefreshingComplete}
               onRefresh={() => this._onRefreshTabComplete()}
-              title={'Refrech Data !!'}
               tintColor="#000"
               titleColor="#000"
             />
           }
           renderItem={({ item, index }) => this.renderItem(item, index)}
           ListEmptyComponent={() => {
-            return <EmptyItemList />;
+            return <EmptyItemList loadData={this.state.isLoadDataComplete} />;
           }}
         />
       </View>
@@ -309,10 +299,6 @@ class TabWorkOrder extends Component {
     let date = moment(item.dateCreate).format('l');
     let time = moment(item.dateCreate).format('LT');
     let encToken = this.props.account.encToken;
-    let image =
-      item.fileUrls && item.fileUrls.length > 0
-        ? `${item.fileUrls[0].fileUrl}&encToken=${encodeURIComponent(encToken)}`
-        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png';
     return (
       <Button
         onPress={() => this.clickDetail(item)}
@@ -335,18 +321,23 @@ class TabWorkOrder extends Component {
             </View>
             <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: 13, marginTop: 12 }}>{item.fullUnitCode}</Text>
           </View>
-          <Image style={{ width: 40, height: 40, borderRadius: 5 }} source={{ uri: image }} />
+          {item.fileUrls && item.fileUrls.length > 0 ? (
+            <Image
+              style={{ width: 40, height: 40, borderRadius: 5 }}
+              source={{ uri: `${item.fileUrls[0].fileUrl}&encToken=${encodeURIComponent(encToken)}` }}
+            />
+          ) : null}
         </View>
 
         <View
           style={{ flex: 1, marginVertical: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={require('../../resources/icons/clock.png')} />
+            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.clock} />
             <Text style={{ color: '#C9CDD4' }}>{time}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={require('../../resources/icons/calendar.png')} />
+            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.calendar} />
             <Text style={{ color: '#C9CDD4' }}>{date}</Text>
           </View>
           <View
@@ -363,7 +354,7 @@ class TabWorkOrder extends Component {
         <View
           style={{
             flex: 1,
-            backgroundColor: 'rgba(186,191,200,0.5)',
+            backgroundColor: item.lastComment ? '#A3C3F3' : '#D4D7DC',
             borderRadius: 5,
             flexDirection: 'row',
             alignItems: 'center',

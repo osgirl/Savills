@@ -5,7 +5,7 @@ import {
     Platform,
     Image,
     FlatList,
-    Dimensions,StatusBar
+    Dimensions, StatusBar
 } from 'react-native';
 
 import Button from "@components/button";
@@ -27,7 +27,7 @@ import IC_DROPDOWN from "@resources/icons/dropDown.png";
 const { width, height } = Dimensions.get('window');
 
 import Style from "./style";
-import resolution from '../../utils/resolution';
+import Resolution from '../../utils/resolution';
 
 import Language from "../../utils/language";
 
@@ -82,30 +82,32 @@ export default class extends Component {
             <Button
                 activeOpacity={1}
                 onPress={() => { }}
-                style={[{ marginHorizontal: 20, width: width - 40, backgroundColor: '#FFF', borderRadius: 5 }]}>
-                <View style={{ flexDirection: 'row', padding: 20, justifyContent: 'space-between', alignItems: 'center' }}>
+                style={[{ marginHorizontal: Resolution.scale(20), width: width - Resolution.scale(40), backgroundColor: '#FFF', borderRadius: 5 }]}>
+                <View style={{ flexDirection: 'row', padding: Resolution.scale(20), justifyContent: 'space-between', alignItems: 'center' }}>
                     <FastImage
-                        style={{ width: 50, height: 50, borderRadius: 50 / 2, }}
+                        style={{ width: Resolution.scale(50), height: Resolution.scale(50), borderRadius: Resolution.scale(50) / 2, }}
                         source={image}
                         resizeMode={'cover'}
                     />
-                    <View style={{ flexDirection: 'column', marginLeft: 20 }}>
+                    <View style={{ flexDirection: 'column', marginHorizontal: Resolution.scale(20), flex: 3 }}>
                         <Text
-                            numberOfLines={2} style={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold', width: resolution.scaleWidth(175) }}>
+                            numberOfLines={2} style={{ color: '#505E75', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold', width: Resolution.scaleWidth(175) }}>
                             {`${item.user.fullName} - ${item.user.customFields.JobTitle}`}
                         </Text>
                         <View style={{ flexDirection: 'column', }}>
                             <Text
-                                numberOfLines={1} style={{ color: '#BABFC8', fontSize: 10, fontFamily: 'OpenSans-Bold' }}>
+                                numberOfLines={1} style={{ color: '#BABFC8', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Bold' }}>
                                 {item.user.emailAddress}
                             </Text>
                             <Text
-                                numberOfLines={1} style={{ color: '#BABFC8', fontSize: 10, fontFamily: 'OpenSans-Bold' }}>
+                                numberOfLines={1} style={{ color: '#BABFC8', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Bold' }}>
                                 {item.user.phoneNumber}
                             </Text>
                         </View>
                     </View>
-                    <Button onPress={() => this._call(item.user.phoneNumber)}>
+                    <Button
+                        style={{ alignItems: 'flex-end' }}
+                        onPress={() => this._call(item.user.phoneNumber)}>
                         <Image source={IC_CALL} />
                     </Button>
                 </View>
@@ -128,9 +130,9 @@ export default class extends Component {
                     renderViewRight={
                         <Button
                             onPress={() => this.setState({ isModalSelectUnit: true })}
-                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
-                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                            <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}>
+                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
+                            <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
                         </Button>
                     }
                 />
@@ -144,9 +146,9 @@ export default class extends Component {
                     legacyImplementation={false}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                    ItemSeparatorComponent={() => <View style={{ height: Resolution.scale(10) }} />}
                     ListHeaderComponent={() => this.renderHeader()}
-                    ListFooterComponent={() => <View style={{ height: 20 }} />}
+                    ListFooterComponent={() => <View style={{ height: Resolution.scale(20) }} />}
                 />
                 <Modal
                     style={{ flex: 1, margin: 0 }}

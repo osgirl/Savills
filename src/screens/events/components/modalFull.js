@@ -14,6 +14,7 @@ import HeaderTitle from '@components/headerTitle';
 
 import Header from '@components/header';
 
+import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
 const { width, height } = Dimensions.get('window');
 
 class modalFull extends Component {
@@ -29,9 +30,11 @@ class modalFull extends Component {
 
     componentWillMount() {
         let dateSelected = this.props.dateSelected;
-        const accessTokenApi = this.props.account.accessTokenAPI;
-        const buildingID = this.props.units.unitActive.buildingId;
-        this.props.actions.events.getMyEventsOfDate(accessTokenApi, buildingID, dateSelected);
+        setTimeout(() => {
+            const accessTokenApi = this.props.account.accessTokenAPI;
+            const buildingID = this.props.units.unitActive.buildingId;
+            this.props.actions.events.getMyEventsOfDate(accessTokenApi, buildingID, dateSelected);
+        }, 300)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -40,7 +43,12 @@ class modalFull extends Component {
         }
     }
 
-
+    renderEmty() {
+        return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
+            <Image source={IC_EVENTEMTY} />
+            <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Không có sự kiện nào \n bạn quay lại lần sau nhé'}</Text>
+        </View>
+    }
 
     render() {
         return (
@@ -54,24 +62,30 @@ class modalFull extends Component {
                 <LinearGradient
                     colors={['#4A89E8', '#8FBCFF']}
                     start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                    style={{  }}>
+                    style={{}}>
                     <HeaderTitle title={this.props.dateSelected} />
                 </LinearGradient>
 
-                <FlatList
-                    alwaysBounceVertical={false}
-                    data={this.state.eventOfDate.length > 0 ? this.state.eventOfDate : []}
-                    keyExtractor={(item) => item.eventId + ''}
-                    renderItem={({ item, index }) => (
-                        this.renderItem(item)
-                    )}
-                    legacyImplementation={false}
-                    showsHorizontalScrollIndicator={false}
-                    showsVerticalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                    ListHeaderComponent={() => <View style={{ height: 20 }} />}
-                    ListFooterComponent={() => <View style={{ height: 20 }} />}
-                />
+                {
+                    this.props.events.eventsOfDate.result && this.props.events.eventsOfDate.result.totalCount <= 0 ?
+                        this.renderEmty() :
+                        <FlatList
+                            alwaysBounceVertical={false}
+                            data={this.state.eventOfDate.length > 0 ? this.state.eventOfDate : []}
+                            keyExtractor={(item) => item.eventId + ''}
+                            renderItem={({ item, index }) => (
+                                this.renderItem(item)
+                            )}
+                            legacyImplementation={false}
+                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
+                            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                            ListHeaderComponent={() => <View style={{ height: 20 }} />}
+                            ListFooterComponent={() => <View style={{ height: 20 }} />}
+                        />
+                }
+
+
                 <Modal
                     style={{ flex: 1, marginTop: 50, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
                     isVisible={this.state.isShowModal}>

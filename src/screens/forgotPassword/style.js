@@ -16,20 +16,20 @@ const style = StyleSheet.create({
         backgroundColor: '#F6F8FD'
     },
     txtTop: {
-        fontSize: 15,
+        fontSize: Resolution.scale(15),
         color: '#505E75',
         textAlign: 'center',
-        marginHorizontal: 60,
+        marginHorizontal: Resolution.scale(60),
         fontFamily: 'OpenSans-Bold',
-        lineHeight: 28
+        lineHeight: Resolution.scale(28)
     },
     btnSent: {
         // position: 'absolute',
         // bottom: Resolution.scaleHeight(100),
         // marginBottom: 100,
-        marginTop: 20,
-        width: width - 120,
-        marginHorizontal: 60
+        marginTop: Resolution.scale(20),
+        width: width - Resolution.scaleWidth(120),
+        marginHorizontal: Resolution.scale(60)
     },
     modalContent: {
         backgroundColor: "white",

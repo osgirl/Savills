@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import {
   View,
@@ -9,37 +9,42 @@ import {
   TouchableOpacity,
   TextInput,
   PixelRatio,
-  Modal,
   Animated,
   Platform,
-  KeyboardAvoidingView
+  Keyboard
 } from 'react-native';
+
 import LinearGradient from 'react-native-linear-gradient';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-picker';
-import Header from '@components/header';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
+import Modal from 'react-native-modal';
 import ImageViewer from 'react-native-image-zoom-viewer';
+
+import Header from '@components/header';
 import HeaderTitle from '@components/headerTitle';
-const { width } = Dimensions.get('window');
-import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
+import Loading from '@components/loading';
+import Resolution from '@utils/resolution';
+
 import Connect from '@stores';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+const { width } = Dimensions.get('window');
 const options = {
   title: 'Select Image',
   storageOptions: {
     skipBackup: true,
     path: 'images'
-  }
+  },
+  quality: 1,
+  maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
+  maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
 };
 
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-class ModalNewOrder extends Component {
+class ModalNewOrder extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,10 +55,12 @@ class ModalNewOrder extends Component {
       showImage: false,
       isShowModalConfirm: false,
       imageIndex: 0,
+      loading: false,
       scrollY: new Animated.Value(0),
       isShowTitleHeader: false,
       email: this.props.userProfile.profile.result.user.emailAddress,
-      sdt: this.props.userProfile.profile.result.user.phoneNumber
+      sdt: this.props.userProfile.profile.result.user.phoneNumber,
+      listArea: this.props.workOrder.listArea.result
     };
   }
 
@@ -61,7 +68,6 @@ class ModalNewOrder extends Component {
     let accessTokenAPI = nextProps.account.accessTokenAPI;
     const { id } = nextProps.userProfile.profile.result.user;
 
-    await nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
     if (
       nextProps.workOrder.createWorkorder &&
       nextProps.workOrder.createWorkorder.success &&
@@ -77,14 +83,18 @@ class ModalNewOrder extends Component {
           );
         }
       }
+      this.setState({ loading: false });
+      await nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
+      await this.props.navigation.goBack();
     }
-    await this.props.navigation.goBack();
   }
 
   actionCreateWorkOrder = () => {
+    this.setState({ loading: true, isShowModalConfirm: false });
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
+    let indexArea = this.state.listArea.filter(item => item.isCheck == true);
     let WorkOrder = {
       currentStatusId: 11,
       fullUnitName: `${fullUnitCode} - ${displayName}`,
@@ -95,8 +105,8 @@ class ModalNewOrder extends Component {
       description: this.state.comment,
       sourceId: 3,
       maintainanceTeamId: 1,
-      areaId: 50,
-      categoryId: 90,
+      areaId: indexArea[0].id,
+      categoryId: null,
       subCategoryId: null,
       contact: {
         fullName: name,
@@ -110,7 +120,12 @@ class ModalNewOrder extends Component {
   };
 
   changeArea(index) {
-    this.setState({ area: index });
+    let arr = this.state.listArea.slice();
+    arr.map(item => (item.isCheck = false));
+    arr[index].isCheck = true;
+    this.setState({
+      listArea: arr
+    });
   }
 
   getPhotos() {
@@ -165,12 +180,7 @@ class ModalNewOrder extends Component {
         : null;
     }
     return (
-      <Modal
-        visible={this.state.showImage}
-        transparent={false}
-        animationType="slide"
-        onRequestClose={() => this.setState({ showImage: false })}
-      >
+      <Modal visible={this.state.showImage} style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }}>
         <ImageViewer imageUrls={newData} index={this.state.imageIndex} />
         <TouchableOpacity
           onPress={() => this.setState({ showImage: false })}
@@ -229,13 +239,19 @@ class ModalNewOrder extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.showDetailImage()}
-        <ScrollView
-          scrollEventThrottle={16}
+        {this.state.loading ? <Loading /> : null}
+        <KeyboardAwareScrollView
+          innerRef={ref => (this.scroll = ref)}
+          keyboardShouldPersistTaps="handled"
+          extraHeight={0}
+          style={{ flex: 1 }}
+          enableOnAndroid
+          contentContainerStyle={{
+            minHeight: '100%'
+          }}
           onScroll={this.handleScroll}
-          contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
-          style={{ flex: 1, backgroundColor: '#F6F8FD' }}
         >
-          <KeyboardAwareScrollView>
+          <ScrollView contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
             <ItemScorll
               title={'Thông Tin'}
               view={
@@ -294,29 +310,59 @@ class ModalNewOrder extends Component {
                     justifyContent: 'space-around'
                   }}
                 >
-                  <TouchableOpacity activeOpacity={1} onPress={() => this.changeArea(0)} style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
-                    <Image
-                      source={
-                        this.state.area === 0
-                          ? require('../../../resources/icons/checked.png')
-                          : require('../../../resources/icons/check.png')
-                      }
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity activeOpacity={1} onPress={() => this.changeArea(1)} style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Công Cộng</Text>
-                    <Image
-                      source={
-                        this.state.area === 0
-                          ? require('../../../resources/icons/check.png')
-                          : require('../../../resources/icons/checked.png')
-                      }
-                    />
-                  </TouchableOpacity>
+                  {this.state.listArea && this.state.listArea.length > 0
+                    ? this.state.listArea.map((item, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          activeOpacity={1}
+                          onPress={() => this.changeArea(index)}
+                          style={{ flexDirection: 'row' }}
+                        >
+                          <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{item.name}</Text>
+                          <Image
+                            source={
+                              item.isCheck
+                                ? require('../../../resources/icons/checked.png')
+                                : require('../../../resources/icons/check.png')
+                            }
+                          />
+                        </TouchableOpacity>
+                      ))
+                    : null}
                 </View>
               }
             />
+            {this.state.indexArea2 ? (
+              <ItemScorll
+                title={'Danh mục đã chọn'}
+                view={
+                  <View
+                    style={{
+                      height: 110,
+                      width: null,
+                      flex: 1,
+                      borderRadius: 10,
+                      backgroundColor: '#FFF',
+                      padding: 20,
+                      justifyContent: 'space-around'
+                    }}
+                  >
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>
+                        {this.state.listAreaChilder[this.state.indexAreaChilder].name}
+                      </Text>
+                      <Image source={require('../../../resources/icons/checked.png')} />
+                    </View>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>
+                        {this.state.listArea2[this.state.indexArea2].name}
+                      </Text>
+                      <Image source={require('../../../resources/icons/checked.png')} />
+                    </View>
+                  </View>
+                }
+              />
+            ) : null}
             <ItemScorll
               title={'Hình Ảnh'}
               view={
@@ -348,16 +394,22 @@ class ModalNewOrder extends Component {
                     width: null,
                     padding: 10,
                     paddingTop: 20,
-                    marginBottom: 170
+                    marginBottom: 20
+                    // borderWidth: 1,
+                    // borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF'
                   }}
+                  returnKeyType="done"
+                  autoCapitalize="sentences"
+                  autoCorrect={true}
+                  onSubmitEditing={() => Keyboard.dismiss()}
                   multiline
                   placeholder={'Nhập nội dung ...'}
                   onChangeText={e => this.setState({ comment: e })}
                 />
               }
             />
-          </KeyboardAwareScrollView>
-        </ScrollView>
+          </ScrollView>
+        </KeyboardAwareScrollView>
         <View
           style={{
             width: width,
@@ -371,7 +423,13 @@ class ModalNewOrder extends Component {
         >
           <TouchableOpacity
             style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
-            onPress={() => this.setState({ isShowModalConfirm: true })}
+            onPress={() => {
+              if (this.state.comment.trim() === '') {
+                alert('Thiếu Comment');
+              } else {
+                this.setState({ isShowModalConfirm: true });
+              }
+            }}
           >
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>
           </TouchableOpacity>
@@ -406,16 +464,9 @@ class ModalNewOrder extends Component {
 
   renderModalConfirmBooking = () => {
     const { fullUnitCode } = this.props.units.unitActive;
-    const { phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
+    const { displayName } = this.props.userProfile.profile.result.user;
     return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={this.state.isShowModalConfirm}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}
-      >
+      <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} visible={this.state.isShowModalConfirm}>
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <View
             style={{
@@ -433,13 +484,11 @@ class ModalNewOrder extends Component {
             >
               <Image source={require('../../../resources/icons/close.png')} />
             </TouchableOpacity>
-            <Image
-              style={{ height: 50, width: null }}
-              resizeMode={'cover'}
-              source={{
-                uri:
-                  'https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Article+Image+Update/Triathlon/Build+Swimming+Endurance/carousel.jpg'
-              }}
+            <LinearGradient
+              colors={['#4A89E8', '#8FBCFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{ width: width, height: 50 }}
             />
             <ScrollView style={{ flex: 1, marginBottom: 100 }} showsVerticalScrollIndicator={false}>
               <ItemScorll
@@ -489,7 +538,15 @@ class ModalNewOrder extends Component {
                     showsHorizontalScrollIndicator={false}
                     horizontal
                   >
-                    {this.state.imageList.map((item, index) => this.renderItemImage(item, index))}
+                    {this.state.imageList.map((item, index) => {
+                      if (index === 0) {
+                        return;
+                      } else {
+                        return (
+                          <Image key={index} style={{ width: 90, height: 90, borderRadius: 10, margin: 10 }} source={item} />
+                        );
+                      }
+                    })}
                   </ScrollView>
                 }
               />
@@ -576,7 +633,7 @@ class ModalNewOrder extends Component {
   };
 }
 
-class ItemScorll extends Component {
+class ItemScorll extends PureComponent {
   render() {
     const { title, view } = this.props;
     return (

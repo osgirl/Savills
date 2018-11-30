@@ -35,7 +35,7 @@ import Button from '../../components/button';
 
 import IC_DROPDOWN from '../../resources/icons/dropDown.png';
 
-const HEADER_MAX_HEIGHT = Resolution.scale(70);
+const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -52,7 +52,7 @@ class TabBooking extends Component {
     };
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const buildingID = this.props.units.unitActive.buildingId;
     this.props.actions.booking.getListCategory(accessTokenApi, buildingID);
@@ -161,7 +161,7 @@ class TabBooking extends Component {
           <ScrollableTabView
             textStyle={{ fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}
             tabBarActiveTextColor={'#FFF'}
-            tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
+            tabBarInactiveTextColor={'rgba(255,255,255,0.9)'}
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
           >

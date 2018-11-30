@@ -186,6 +186,29 @@ export default class {
             image: require('@resources/icons/Events.png'),
         },
     ]
+
+    static dataPlaceholderFeedback = [
+        {
+            commentBoxId: 112321,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            commentBoxId: 21231213123,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            commentBoxId: 621122121,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+        {
+            commentBoxId: 7123123121,
+            title: "####",
+            image: require('@resources/icons/Events.png'),
+        },
+    ]
 }
 
 

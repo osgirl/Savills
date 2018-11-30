@@ -31,18 +31,18 @@ export default class ItemHomeComponent extends Component {
                     txtWidth={70}
                     onReady={this.props.loading}
                     bgColor={'#FFF'}
-                    animate='shine'>
+                    animate='fade'>
                     <Button
                         activeOpacity={0.6}
                         onPress={() => this.props.onPressItem()}
                         style={{}}>
                         <View style={Styles.container}>
                             <Image source={Utils.mapItemHome(this.props.image)} />
-                            <Text style={{ color: '#505E75', fontSize: 12, marginTop: Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                            <Text style={{ color: '#505E75', fontSize: Resolution.scale(12), marginTop: Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
                             {
                                 moduleCountByItem && moduleCountByItem.unreadCount > 0 ?
                                     <View style={{ backgroundColor: '#FFF', borderRadius: 10, position: 'absolute', top: (width - 60) / 8, right: (width - 60) / 8 }}>
-                                        <View style={{ backgroundColor: '#FF361A', borderRadius: 10, margin: 3 }}>
+                                        <View style={{ backgroundColor: '#FF361A', borderRadius: 10, margin: Resolution.scale(3) }}>
                                             <View style={{ justifyContent: 'center', alignItems: 'center', width: Resolution.scale(30) }}>
                                                 <Text style={{ color: '#FFFFFF', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(12) }}>{moduleCountByItem.unreadCount}</Text>
                                             </View>

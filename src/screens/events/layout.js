@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, StatusBar, TouchableOpacity } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
@@ -14,6 +14,7 @@ import IC_CALENDAR from '../../resources/icons/calendar.png';
 import IC_CLOCK from '../../resources/icons/clock.png';
 import IMG_CALENDAR_PH from '../../resources/icons/calendar-placehoder.png';
 import IC_DROPDOWN from '../../resources/icons/dropDown.png';
+import IC_EVENTEMTY from '../../resources/icons/Events_emty.png';
 import { ItemHorizontal } from '../../components/placeHolder';
 import Utils from '../../utils';
 
@@ -27,8 +28,10 @@ import ModalDetail from './components/modalDetail';
 import ModalFull from './components/modalFull';
 import ModalSelectUnit from '../../components/modalSelectUnit';
 
+import CalendarStrip from '@components/calendarAgenda';
 import Language from '../../utils/language';
 
+import moment from 'moment';
 import XDate from 'xdate';
 
 export default class Layout extends Component {
@@ -45,40 +48,15 @@ export default class Layout extends Component {
   }
 
   async _onPressDay(data) {
-    await this.setState({ dateSelected: data });
+    if (this.state.openFullCalendar) {
+      this.setState({ dateSelected: data });
+    } else {
+      let date = moment(data).format('YYYY-MM-DD');
+      this.setState({ dateSelected: date });
+    }
     this._openModalFull();
   }
 
-  renderHeader() {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    return (
-      <View>
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ paddingBottom: 10 }}>
-          <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
-
-          <Calendar
-            style={styles.calendar}
-            firstDay={1}
-            markedDates={this.state.overViewDate || {}}
-            onDayPress={data => this._onPressDay(data.dateString)}
-            theme={{
-              todayTextColor: '#343D4D',
-              arrowColor: '#FFF',
-              selectedDayBackgroundColor: '#FFF',
-              monthTextColor: '#FFF',
-              textSectionTitleColor: '#FFF',
-              textDayHeaderFontSize: 15,
-              textDayFontFamily: 'OpenSans-Regular',
-              textDayFontSize: 14
-            }}
-          />
-        </LinearGradient>
-        <View style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 20 }}>
-          <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>{LG.EVENTS_TXT_ALLTITLE}</Text>
-        </View>
-      </View>
-    );
-  }
 
   handleScroll = event => {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
@@ -96,16 +74,83 @@ export default class Layout extends Component {
           }
         }
       }
-    })(event);
+    }, { useNativeDriver: true })(event);
   };
+
+  renderHeader() {
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+
+    const headerHeight = this.state.scrollY.interpolate({
+      inputRange: [0, 20, 40],
+      outputRange: [40, 20, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
+
+    return (
+      <View style={{}}>
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
+          <Animated.View style={{ height: headerHeight }}>
+            <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
+          </Animated.View>
+          {this.state.openFullCalendar ? (
+            <View>
+              <Calendar
+                style={styles.calendar}
+                firstDay={1}
+                markedDates={this.state.overViewDate || {}}
+                onDayPress={data => this._onPressDay(data.dateString)}
+                theme={{
+                  todayTextColor: '#343D4D',
+                  arrowColor: '#FFF',
+                  selectedDayBackgroundColor: '#FFF',
+                  monthTextColor: '#FFF',
+                  textSectionTitleColor: '#FFF',
+                  textDayHeaderFontSize: 15,
+                  textDayFontFamily: 'OpenSans-Regular',
+                  textDayFontSize: 14
+                }}
+              />
+              <TouchableOpacity onPress={() => this.setState({ openFullCalendar: false })}>
+                <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/up.png')} />
+              </TouchableOpacity>
+            </View>
+          ) : (
+              <View>
+                <CalendarStrip
+                  selectedDate={this.state.selectedDate}
+                  onPressDate={date => {
+                    this._onPressDay(date);
+                  }}
+                  onPressGoToday={today => { }}
+                  onSwipeDown={() => { }}
+                  markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
+                />
+                <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
+                  <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/down.png')} />
+                </TouchableOpacity>
+              </View>
+            )}
+        </LinearGradient>
+      </View>
+    );
+  }
+
+  renderEmty() {
+    return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
+      <Image source={IC_EVENTEMTY} />
+      <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Không có sự kiện nào \n bạn quay lại lần sau nhé'}</Text>
+    </View>
+  }
+
 
   render() {
     let unitActive = this.props.units.unitActive;
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={styles.container}>
-        <StatusBar
-          barStyle="light-content"
-        />
+        <StatusBar barStyle="light-content" />
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}
@@ -120,28 +165,43 @@ export default class Layout extends Component {
           renderViewRight={
             <Button
               onPress={() => this._onpenModalSelectUnit()}
-              style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
             >
-              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-              <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
+                {unitActive.fullUnitCode}
+              </Text>
+              <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
             </Button>
           }
         />
-        {/* {this.renderHeader()} */}
-        <FlatList
-          data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
-          keyExtractor={item => item.eventId + ''}
-          renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
-          onScroll={this.handleScroll}
-          legacyImplementation={false}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          ListHeaderComponent={() => this.renderHeader()}
-          ListFooterComponent={() => <View style={{ height: 20 }} />}
-        />
+        {this.renderHeader()}
+        {
+          this.props.events.myEvents.result && this.props.events.myEvents.result.totalCount <= 0 ?
+            this.renderEmty() :
+            <FlatList
+              data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
+              keyExtractor={item => item.eventId + ''}
+              renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
+              onScroll={this.handleScroll}
+              legacyImplementation={false}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
+              ListHeaderComponent={() =>
+                <View
+                  style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}
+                >
+                  <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
+                    {LG.EVENTS_TXT_ALLTITLE}
+                  </Text>
+                </View>
+              }
+              ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
+            />
+        }
+
         <Modal
-          style={{ flex: 1, marginTop: 50, marginLeft: 0, marginRight: 0, marginBottom: 0, zIndex: 100 }}
+          style={{ flex: 1, marginTop: Resolution.scale(50), marginLeft: 0, marginRight: 0, marginBottom: 0 }}
           isVisible={this.state.isShowModalDetail}
         >
           <ModalDetail onClose={() => this._closeModalDetail()} itemEventSelected={this.state.itemEventSelect} />
@@ -168,25 +228,55 @@ export default class Layout extends Component {
       <ItemHorizontal key={'__PLD' + index} onReady={loading} bgColor={'#FFF'} animate="fade">
         <Button onPress={() => this._openModalDetail(item)} style={[styles.item, { flexDirection: 'row' }]}>
           <FastImage
-            style={{ width: 103, height: 103, borderRadius: 5, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+            style={{
+              width: Resolution.scaleWidth(103),
+              height: Resolution.scaleHeight(103),
+              borderRadius: 5,
+              borderBottomRightRadius: 0,
+              borderTopRightRadius: 0
+            }}
             source={image}
             resizeMode={'cover'}
           />
 
-          <View style={{ width: width - 143, flexDirection: 'column' }}>
-            <Text numberOfLines={2} style={{ fontSize: 13, fontWeight: '600', marginLeft: 20, marginRight: 20, marginTop: 20 }}>
+          <View style={{ width: width - Resolution.scale(140), flexDirection: 'column' }}>
+            <Text
+              numberOfLines={2}
+              style={{
+                fontSize: Resolution.scale(13),
+                fontFamily: 'OpenSans-Bold',
+                color: '#343D4D',
+                marginLeft: Resolution.scale(20),
+                marginRight: Resolution.scale(20),
+                marginTop: Resolution.scale(20)
+              }}
+            >
               {item.subject}
             </Text>
-            <View style={{ flexDirection: 'row', marginLeft: 20, marginTop: 10 }}>
+            <View style={{ flexDirection: 'row', marginLeft: Resolution.scale(20), marginTop: Resolution.scale(10) }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={IC_CLOCK} />
-                <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
+                <Text
+                  style={{
+                    marginLeft: Resolution.scale(10),
+                    fontSize: Resolution.scale(12),
+                    color: '#C9CDD4',
+                    fontFamily: 'OpenSans-Regular'
+                  }}
+                >
                   {startTime}
                 </Text>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: Resolution.scale(20) }}>
                 <Image source={IC_CALENDAR} style={{}} />
-                <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
+                <Text
+                  style={{
+                    marginLeft: Resolution.scale(10),
+                    fontSize: Resolution.scale(12),
+                    color: '#C9CDD4',
+                    fontFamily: 'OpenSans-Regular'
+                  }}
+                >
                   {'(' + this.converDate(item.startTime) + ' - ' + this.converDate(item.endTime) + ')'}
                 </Text>
               </View>
@@ -227,7 +317,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 5,
     width: width - 40,
-    marginHorizontal: 20
+    marginHorizontal: Resolution.scale(20)
   },
   emptyDate: {
     height: 15,

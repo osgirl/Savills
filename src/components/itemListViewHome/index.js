@@ -33,12 +33,12 @@ export default class ItemListHome extends Component {
                             style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View
                                 style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Image source={Utils.mapItemHomeCircle(this.props.image)} style={{ marginHorizontal: 20, marginVertical: 10 }} />
-                                <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                                <Image source={Utils.mapItemHomeCircle(this.props.image)} style={{ marginHorizontal: Resolution.scale(20), marginVertical: Resolution.scale(10) }} />
+                                <Text style={{ color: '#505E75', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
                             </View>
                             {
                                 moduleCountByItem && moduleCountByItem.unreadCount > 0 ?
-                                    <View style={{ marginHorizontal: 20, justifyContent: 'center' }}>
+                                    <View style={{ marginHorizontal: Resolution.scale(20), justifyContent: 'center' }}>
                                         <View style={{ backgroundColor: '#FF361A', borderRadius: 20, width: Resolution.scale(30), alignItems: 'center' }}>
                                             <Text style={{ color: '#FFFFFF', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(12) }}>{moduleCountByItem.unreadCount}</Text>
                                         </View>

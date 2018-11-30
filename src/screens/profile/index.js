@@ -79,7 +79,7 @@ class Profile extends Layout {
                 await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
                 break;
             case 'displayName':
-                tempProfile.displayName = this.state.itemSelectDisplay;
+                tempProfile.displayName = this.state.dataDisplayname[this.state.itemSelectDisplay];
                 await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
                 break;
             default:
@@ -96,8 +96,6 @@ class Profile extends Layout {
         let accessTokenApi = this.props.account.accessTokenAPI;
         this.props.actions.userProfile.changeAvatarProfile(accessTokenApi, file);
     }
-
-
 }
 
 export default Connect(Profile);

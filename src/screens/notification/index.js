@@ -51,7 +51,12 @@ class Notification extends layout {
     }
 
     _openModalSelectUnit() {
-        this.setState({ isModalSelectUnit: true })
+        this.setState({ isModalSelectUnit: true });
+    }
+
+    _closeModalSelectUnit() {
+        this.setState({ isModalSelectUnit: false });
+        this._onRefresh();
     }
 
 

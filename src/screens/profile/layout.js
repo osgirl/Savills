@@ -32,13 +32,13 @@ var PickerItem = Picker.Item;
 const { width, height } = Dimensions.get('window');
 
 let styleTextTitle = {
-    fontSize: 13,
+    fontSize: Resolution.scale(13),
     fontFamily: 'OpenSans-SemiBold',
     color: '#505E75'
 }
 
 let styleTextRight = {
-    fontSize: 13,
+    fontSize: Resolution.scale(13),
     fontFamily: 'OpenSans-SemiBold',
     color: '#4A89E8',
     textAlign: 'right'
@@ -57,10 +57,10 @@ export default class extends Component {
         return null;
     }
 
-    onPickerSelect(value) {
+    onPickerSelect(index) {
         try {
             this.setState({
-                itemSelectDisplay: value,
+                itemSelectDisplay: index,
             })
         } catch (error) {
             console.log(error)
@@ -70,7 +70,7 @@ export default class extends Component {
 
     renderModalContent = () => (
         <View style={[Style.modalContent, {}]}>
-            <Text style={{ marginTop: 40, fontSize: 15, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>
+            <Text style={{ marginTop: Resolution.scale(40), fontSize: Resolution.scale(15), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>
                 {
                     this.state.keyUpdate === 'sdt' ?
                         Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_PHONE :
@@ -89,21 +89,21 @@ export default class extends Component {
                         <TextInput
                             placeholder={'__'}
                             value={this.state.txtUpdate}
-                            style={{ fontSize: 22, fontFamily: 'OpenSans-Regular', color: '#505E75', width: width, textAlign: 'center' }}
+                            style={{ fontSize: Resolution.scale(22), fontFamily: 'OpenSans-Regular', color: '#505E75', width: width, textAlign: 'center' }}
                             onChangeText={(text) => this.setState({ txtUpdate: text })}
                         />
                     </View> :
                     <Picker
                         style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
                         selectedValue={this.state.itemSelectDisplay}
-                        itemStyle={{ color: "#333333", fontSize: 20, fontWeight: 'bold' }}
+                        itemStyle={{ color: "#333333", fontSize: Resolution.scale(20), fontWeight: 'bold' }}
                         onValueChange={(value) => this.onPickerSelect(value)}
                     >
                         {
                             this.state.dataDisplayname.map((item, index) => (
                                 <PickerItem
                                     label={item}
-                                    value={item}
+                                    value={index}
                                     key={"id_" + index}
                                 />
                             ))
@@ -173,138 +173,142 @@ export default class extends Component {
         let Unit = this.props.units.unitActive;
         let LG = Language.listLanguage[this.props.app.languegeLocal].data
         return (
-            <ScrollView
-                alwaysBounceVertical={false}
-                style={{ flex: 1 }}>
-                <StatusBar
-                    barStyle="light-content"
-                />
-                <View style={Style.container}>
-                    <View style={{ position: 'absolute', top: 0 }}>
-                        <FastImage
-                            style={Style.imgAvatar}
-                            source={this.state.avatar}
-                            resizeMode={'cover'}
-                        />
-                    </View>
-                    <LinearGradient
-                        start={{ x: 0.5, y: 0 }}
-                        colors={["rgba(0, 0, 0, 0.3)", "rgba(0, 0, 0, 0)"]}
-                        style={{
-                            height: 80,
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            flexDirection: 'row'
-                        }}
-                    >
-                        {/* <View style={Style.btnLeft}> */}
-                        <ButtonCustom
-                            background={'transparent'}
-                            haveMargin={false}
-                            onPress={this.props.onClose}
-                            icon={IC_CLOSE}
-                        />
-                        {/* </View> */}
-                        {/* <View style={Style.btnRight}> */}
-                        <ButtonCustom
-                            background={'transparent'}
-                            haveMargin={false}
-                            onPress={this.props.onSetting}
-                            icon={IC_SETTING}
-                        />
-                        {/* </View> */}
-
-
-                    </LinearGradient>
-                    <View style={Style.content}>
-                        <View style={{ marginVertical: 10, alignItems: 'flex-end' }}>
-                            <Button onPress={() => this.selectPhotoTapped()}>
-                                <Text style={{ color: '#FFF', fontFamily: 'OpenSans-Semibold', fontSize: 12 }}>{LG.PROFILE_TXT_CHANGEAVATAR}</Text>
-                            </Button>
-                        </View>
-                        <View style={Style.block1}>
-                            <View>
-                                <Text style={styleTextTitle}>{LG.PROFILE_TXT_UNIT}</Text>
-                                <Text style={[styleTextTitle, { marginVertical: 20 }]}>Mail</Text>
-                                <Text style={styleTextTitle}>{LG.PROFILE_TXT_PHONE}</Text>
-                            </View>
-                            <View>
-                                <Button
-                                    onPress={() => this._openModalSelectUnit()}
-                                >
-                                    <Text style={styleTextRight}>{Unit.fullUnitCode}</Text>
-                                </Button>
-                                <Text style={[styleTextRight, { marginVertical: 20, color: '#BABFC8' }]}>{this.state.profile.emailAddress}</Text>
-                                <Button
-                                    onPress={() => { this._openModalUpdate('sdt') }}
-                                >
-                                    <Text style={styleTextRight}>{this.state.profile.phoneNumber}</Text>
-                                </Button>
-                            </View>
-                        </View>
-                        <View style={Style.block2}>
-                            <View>
-                                <Text style={styleTextTitle}>{LG.PROFILE_TXT_FIRST}</Text>
-                                <Text style={[styleTextTitle, { marginVertical: 20 }]}>{LG.PROFILE_TXT_LAST}</Text>
-                                <Text style={styleTextTitle}>{LG.PROFILE_TXT_DISPLAY}</Text>
-                            </View>
-                            <View>
-                                <Button
-                                    onPress={() => { this._openModalUpdate('name') }}
-                                >
-                                    <Text style={styleTextRight}>{this.state.profile.name}</Text>
-                                </Button>
-                                <Button
-                                    onPress={() => { this._openModalUpdate('surname') }}
-                                >
-                                    <Text style={[styleTextRight, { marginVertical: 20 }]}>{this.state.profile.surname}</Text>
-                                </Button>
-                                <Button
-                                    onPress={() => { this._openModalUpdate('displayName') }}
-                                >
-                                    <Text style={styleTextRight}>{this.state.profile.displayName}</Text>
-                                </Button>
-                            </View>
-                        </View>
-
-                        <Button
-                            onPress={() => alert('SETTING')}
-                            style={Style.btnBlock}>
-                            <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{LG.PROFILE_BTN_SETTING}</Text>
-                        </Button>
-
-                        <Button
-                            onPress={() => this.props.onChangePassword()}
-                            style={[Style.btnBlock, { marginVertical: 10 }]}>
-                            <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{LG.PROFILE_BTN_CHANGEPASS}</Text>
-                        </Button>
-
-                        <Button
-                            onPress={() => this.props.onLogOut()}
-                            style={[Style.btnBlock, { marginVertical: 10, alignItems: 'center', marginBottom: 20 }]}>
-                            <Text style={[Style.txtBlock, { color: '#FF361A' }]}>{LG.PROFILE_BTN_LOGOUT}</Text>
-                        </Button>
-
-                    </View>
-                </View>
-                <Modal
-                    onBackdropPress={() => this.setState({ isShowModalUpdate: false })}
-                    isVisible={this.state.isShowModalUpdate}>
-                    {this.renderModalContent()}
-                </Modal>
-                {this.renderLoading()}
-                <Modal
-                    style={{ flex: 1, margin: 0 }}
-                    isVisible={this.state.isModalSelectUnit}>
-                    <ModalSelectUnit
-                        onClose={() => this.setState({ isModalSelectUnit: false })}
+            <View style={{ flex: 1 }}>
+                <ScrollView
+                    alwaysBounceVertical={false}
+                    showsVerticalScrollIndicator={false}
+                >
+                    <StatusBar
+                        barStyle="light-content"
                     />
-                </Modal>
-            </ScrollView>
+                    <View style={Style.container}>
+                        <View style={{ position: 'absolute', top: 0 }}>
+                            <FastImage
+                                style={Style.imgAvatar}
+                                source={this.state.avatar}
+                                resizeMode={'cover'}
+                            />
+                        </View>
+                        <View style={Style.content}>
+                            <View style={{ marginVertical: 10, alignItems: 'flex-end' }}>
+                                <Button onPress={() => this.selectPhotoTapped()}>
+                                    <Text style={{ color: '#FFF', fontFamily: 'OpenSans-Semibold', fontSize: Resolution.scale(12) }}>{LG.PROFILE_TXT_CHANGEAVATAR}</Text>
+                                </Button>
+                            </View>
+                            <View style={Style.block1}>
+                                <View>
+                                    <Text style={styleTextTitle}>{LG.PROFILE_TXT_UNIT}</Text>
+                                    <Text style={[styleTextTitle, { marginVertical: Resolution.scale(20) }]}>Mail</Text>
+                                    <Text style={styleTextTitle}>{LG.PROFILE_TXT_PHONE}</Text>
+                                </View>
+                                <View>
+                                    <Button
+                                        onPress={() => this._openModalSelectUnit()}
+                                    >
+                                        <Text style={styleTextRight}>{Unit.fullUnitCode}</Text>
+                                    </Button>
+                                    <Text style={[styleTextRight, { marginVertical: 20, color: '#BABFC8' }]}>{this.state.profile.emailAddress}</Text>
+                                    <Button
+                                        onPress={() => { this._openModalUpdate('sdt') }}
+                                    >
+                                        <Text style={styleTextRight}>{this.state.profile.phoneNumber}</Text>
+                                    </Button>
+                                </View>
+                            </View>
+                            <View style={Style.block2}>
+                                <View>
+                                    <Text style={styleTextTitle}>{LG.PROFILE_TXT_FIRST}</Text>
+                                    <Text style={[styleTextTitle, { marginVertical: 20 }]}>{LG.PROFILE_TXT_LAST}</Text>
+                                    <Text style={styleTextTitle}>{LG.PROFILE_TXT_DISPLAY}</Text>
+                                </View>
+                                <View>
+                                    <Button
+                                        onPress={() => { this._openModalUpdate('name') }}
+                                    >
+                                        <Text style={styleTextRight}>{this.state.profile.name}</Text>
+                                    </Button>
+                                    <Button
+                                        onPress={() => { this._openModalUpdate('surname') }}
+                                    >
+                                        <Text style={[styleTextRight, { marginVertical: 20 }]}>{this.state.profile.surname}</Text>
+                                    </Button>
+                                    <Button
+                                        onPress={() => { this._openModalUpdate('displayName') }}
+                                    >
+                                        <Text style={styleTextRight}>{this.state.profile.displayName}</Text>
+                                    </Button>
+                                </View>
+                            </View>
+
+                            <Button
+                                onPress={() => this.props.gotoSetting()}
+                                style={Style.btnBlock}>
+                                <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{LG.PROFILE_BTN_SETTING}</Text>
+                            </Button>
+
+                            <Button
+                                onPress={() => this.props.onChangePassword()}
+                                style={[Style.btnBlock, { marginVertical: 10 }]}>
+                                <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{LG.PROFILE_BTN_CHANGEPASS}</Text>
+                            </Button>
+
+                            <Button
+                                onPress={() => this.props.onLogOut()}
+                                style={[Style.btnBlock, { marginVertical: 10, alignItems: 'center', marginBottom: 20 }]}>
+                                <Text style={[Style.txtBlock, { color: '#FF361A' }]}>{LG.PROFILE_BTN_LOGOUT}</Text>
+                            </Button>
+
+                        </View>
+                    </View>
+                    <Modal
+                        onBackdropPress={() => this.setState({ isShowModalUpdate: false })}
+                        isVisible={this.state.isShowModalUpdate}>
+                        {this.renderModalContent()}
+                    </Modal>
+                    {this.renderLoading()}
+                    <Modal
+                        style={{ flex: 1, margin: 0 }}
+                        isVisible={this.state.isModalSelectUnit}>
+                        <ModalSelectUnit
+                            onClose={() => this.setState({ isModalSelectUnit: false })}
+                        />
+                    </Modal>
+                </ScrollView>
+                <LinearGradient
+                    start={{ x: 0.5, y: 0 }}
+                    colors={["rgba(0, 0, 0, 0.3)", "rgba(0, 0, 0, 0)"]}
+                    style={{
+                        height: 80,
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        flexDirection: 'row',
+                        overflow: 'hidden'
+                    }}
+                >
+                    {/* <View style={Style.btnLeft}> */}
+                    <ButtonCustom
+                        background={'transparent'}
+                        haveMargin={false}
+                        onPress={this.props.onClose}
+                        icon={IC_CLOSE}
+                    />
+                    {/* </View> */}
+                    {/* <View style={Style.btnRight}> */}
+                    <ButtonCustom
+                        background={'transparent'}
+                        haveMargin={false}
+                        onPress={() => this.props.gotoSetting()}
+                        icon={IC_SETTING}
+                    />
+                    {/* </View> */}
+
+
+                </LinearGradient>
+            </View>
         );
     }
 }

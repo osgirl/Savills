@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
-import { Text, View, Dimensions, Image } from 'react-native';
+import { Text, View, Dimensions, Image, ActivityIndicator } from 'react-native';
 const { width, height } = Dimensions.get('window');
 import { isIphoneX } from '@utils/func';
 
 export class emptyItemList extends Component {
   render() {
-    return (
+    const { loadData } = this.props;
+    return loadData ? (
+      <View
+        style={{
+          marginTop: height / 2 - (isIphoneX() ? 100 : 150),
+          width: width - 40,
+          alignItems: 'center'
+        }}
+      >
+        <ActivityIndicator color={'#CACACA'} size="large" />
+      </View>
+    ) : (
       <View
         style={{
           marginTop: height / 2 - (isIphoneX() ? 100 : 150),
