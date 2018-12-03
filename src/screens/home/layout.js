@@ -85,6 +85,7 @@ export default class extends Component {
     return (
       <View style={{ width: width, alignSelf: 'center' }}>
         <Button
+        disabled={this.props.userProfile.imageProfile.success ? false : true}
           onPress={() => {
             this._openProfile();
           }}

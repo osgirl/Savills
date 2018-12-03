@@ -20,6 +20,8 @@ import Utils from "../../utils";
 import Resolution from '../../utils/resolution';
 
 import { ItemHorizontal2 } from '../../components/placeHolder';
+import { ItemPlaceHolderH } from "../../components/placeHolderItem";
+
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -105,31 +107,39 @@ export default class extends Component {
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader()}
-        <FlatList
-          data={this.state.data.length > 0 ? this.state.data : Utils.dataPlaceholderFeedback}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => item.commentBoxId + '__' + index}
-          onScroll={this.handleScroll}
-          scrollEventThrottle={16}
-          renderItem={({ item, index }) => this.renderItem(item, index, this.state.data.length > 0 ? true : false)}
-          extraData={this.state}
-          refreshing={this.state.isRefresh}
-          onRefresh={() => this._onRefresh()}
-          onEndReached={() => this._onEndReached()}
-          onEndReachedThreshold={0.01}
-          legacyImplementation={false}
-          ListFooterComponent={() => this._FooterFlatlist()}
-        />
-        <View
-          style={{
-            backgroundColor: '#FFF',
-            width: width,
-            height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
-          }}
-        />
-        <Button onPress={() => this._openModalNew()} style={[Styles.ButtonAdd, {}]}>
-          <Image source={require('../../resources/icons/plush-addnew.png')} />
-        </Button>
+        {
+          this.state.data.length > 0 ?
+            <View>
+              <FlatList
+                data={this.state.data}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item, index) => item.commentBoxId + '__' + index}
+                onScroll={this.handleScroll}
+                scrollEventThrottle={16}
+                renderItem={({ item, index }) => this.renderItem(item, index)}
+                extraData={this.state}
+                refreshing={this.state.isRefresh}
+                onRefresh={() => this._onRefresh()}
+                onEndReached={() => this._onEndReached()}
+                onEndReachedThreshold={0.01}
+                legacyImplementation={false}
+                ListFooterComponent={() => this._FooterFlatlist()}
+              />
+              <View
+                style={{
+                  backgroundColor: '#FFF',
+                  width: width,
+                  height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
+                }}
+              />
+              <Button onPress={() => this._openModalNew()} style={[Styles.ButtonAdd, {}]}>
+                <Image source={require('../../resources/icons/plush-addnew.png')} />
+              </Button>
+            </View> : <ItemPlaceHolderH />
+
+        }
+
+
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
         </Modal>
@@ -143,98 +153,96 @@ export default class extends Component {
     );
   }
 
-  renderItem = (item, index, loading) => {
+  renderItem = (item, index) => {
     let date = moment(item.createdAt).format('l');
     let time = moment(item.createdAt).format('LT');
     return (
-      <ItemHorizontal2 key={'__PLD' + index} onReady={loading} bgColor={'#FFF'} animate="fade">
-        <Button
-          onPress={() => this._openModalDetail(item)}
-          style={{
-            width: width - Resolution.scale(40),
-            borderRadius: 10,
-            marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10),
-            backgroundColor: '#FFF',
-            padding: Resolution.scale(20),
-            marginHorizontal: Resolution.scale(20)
-          }}
-        >
-          <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View>
-              <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: Resolution.scaleWidth(70), alignItems: 'center' }}>
-                <Text
-                  style={{
-                    color: '#FFF',
-                    fontSize: Resolution.scale(12),
-                    fontWeight: 'bold',
-                    marginVertical: Resolution.scale(5),
-                    marginHorizontal: Resolution.scale(15)
-                  }}
-                >
-                  #{item.commentBoxId}
-                </Text>
-              </View>
-              <Text
-                style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13), marginTop: Resolution.scale(12) }}
-              >
-                {item.fullUnitCode}
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              flex: 1,
-              marginVertical: Resolution.scale(15),
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/clock.png')} />
-              <Text style={{ color: '#C9CDD4', fontSize: 12 }}>{time}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
-              <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
-            </View>
-            <View
-              style={{
-                borderRadius: 5,
-                backgroundColor: item && item.commentBoxStatus && item.commentBoxStatus.colorCode ? item.commentBoxStatus.colorCode : '#FFF'
-              }}
-            >
+      <Button
+        onPress={() => this._openModalDetail(item)}
+        style={{
+          width: width - Resolution.scale(40),
+          borderRadius: 10,
+          marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10),
+          backgroundColor: '#FFF',
+          padding: Resolution.scale(20),
+          marginHorizontal: Resolution.scale(20)
+        }}
+      >
+        <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: Resolution.scaleWidth(70), alignItems: 'center' }}>
               <Text
                 style={{
-                  color: '#F8F8F8',
-                  fontSize: Resolution.scale(10),
-                  paddingVertical: Resolution.scale(5),
+                  color: '#FFF',
+                  fontSize: Resolution.scale(12),
                   fontWeight: 'bold',
-                  paddingHorizontal: Resolution.scale(15)
+                  marginVertical: Resolution.scale(5),
+                  marginHorizontal: Resolution.scale(15)
                 }}
               >
-                {item && item.commentBoxStatus && item.commentBoxStatus.statusCode}
+                #{item.commentBoxId}
               </Text>
             </View>
+            <Text
+              style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13), marginTop: Resolution.scale(12) }}
+            >
+              {item.fullUnitCode}
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            marginVertical: Resolution.scale(15),
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/clock.png')} />
+            <Text style={{ color: '#C9CDD4', fontSize: 12 }}>{time}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
+            <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
           </View>
           <View
             style={{
-              flex: 1,
-              backgroundColor: item.lastComment ? '#A3C3F3' : '#D4D7DC',
               borderRadius: 5,
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingHorizontal: Resolution.scale(10),
-              paddingVertical: Resolution.scale(5)
+              backgroundColor: item && item.commentBoxStatus && item.commentBoxStatus.colorCode ? item.commentBoxStatus.colorCode : '#FFF'
             }}
           >
-            <Text style={{ flex: 1, color: '#FFF', fontSize: Resolution.scale(12), fontWeight: 'bold' }} numberOfLines={1}>
-              {item.lastComment ? item.lastComment : 'No comment'}
+            <Text
+              style={{
+                color: '#F8F8F8',
+                fontSize: Resolution.scale(10),
+                paddingVertical: Resolution.scale(5),
+                fontWeight: 'bold',
+                paddingHorizontal: Resolution.scale(15)
+              }}
+            >
+              {item && item.commentBoxStatus && item.commentBoxStatus.statusCode}
             </Text>
           </View>
-        </Button>
-      </ItemHorizontal2>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: item.lastComment ? '#A3C3F3' : '#D4D7DC',
+            borderRadius: 5,
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: Resolution.scale(10),
+            paddingVertical: Resolution.scale(5)
+          }}
+        >
+          <Text style={{ flex: 1, color: '#FFF', fontSize: Resolution.scale(12), fontWeight: 'bold' }} numberOfLines={1}>
+            {item.lastComment ? item.lastComment : 'No comment'}
+          </Text>
+        </View>
+      </Button>
     );
   };
 }

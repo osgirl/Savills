@@ -25,11 +25,7 @@ class Home extends layout {
       numcolumn: 2,
       moduleCount: [],
       DATA: [],
-<<<<<<< HEAD
-      registerToken: ''
-=======
       isRefresh: false
->>>>>>> developer
     };
     this.showCenter = false;
     if (Platform.OS === 'android') {
@@ -288,5 +284,6 @@ class Home extends layout {
     await this.props.navigation.navigate('Login');
   }
 }
+
 
 export default Connect(Home);

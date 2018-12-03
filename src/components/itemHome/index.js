@@ -33,6 +33,7 @@ export default class ItemHomeComponent extends Component {
                     bgColor={'#FFF'}
                     animate='fade'>
                     <Button
+                        disabled={this.props.loading ? false : true}
                         activeOpacity={0.6}
                         onPress={() => this.props.onPressItem()}
                         style={{}}>
