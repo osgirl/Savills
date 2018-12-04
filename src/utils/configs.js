@@ -3,11 +3,11 @@ import { Platform } from 'react-native';
 
 const configs = {
   VERSION: '1.0.0',
-  API: 'https://uat.spms.asia/core',
-  API_ACCOUNT: 'https://uat-accounts.spms.asia/api',
-  API_COMMON: 'https://uat.spms.asia/common',
-  API_BOOKING: 'https://uat.spms.asia/booking',
-  API_UPLOAD_IMAGE: 'https://uat-r.spms.asia/core',
+  API: 'http://uat.spms.asia/core',
+  API_ACCOUNT: 'http://uat-accounts.spms.asia/api',
+  API_COMMON: 'http://uat.spms.asia/common',
+  API_BOOKING: 'http://uat.spms.asia/booking',
+  API_UPLOAD_IMAGE: 'http://uat-r.spms.asia/core',
   Platform: Platform.OS,
   DEFAULT_WIDTH: 350,
   DEFAULT_HEIGHT: 680,

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "31918583407",
+    "firebase_url": "https://savilltest.firebaseio.com",
+    "project_id": "savilltest",
+    "storage_bucket": "savilltest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31918583407:android:66721ed82c964a95",
+        "android_client_info": {
+          "package_name": "com.savills"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31918583407-m0k7611977f4kvr9r97kni7v461v3r0c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzdlbJv89tJ6kkkhiJ9QnooEWh2EwPnWo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
