@@ -25,6 +25,7 @@ import HeaderTitle from '@components/headerTitle';
 import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
 import Connect from '@stores';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -56,7 +57,9 @@ class ModalDetailFeedback extends Component {
             categorySelectedId: null,
             isShowModalConfirm: false,
             isShowChat: false,
-            listComment: []
+            listComment: [],
+            imgSelected: null,
+            showImage: false
         };
     }
 
@@ -120,6 +123,7 @@ class ModalDetailFeedback extends Component {
                                     <WebView
                                         originWhitelist={['*']}
                                         source={{ html: items.content }}
+                                        scalesPageToFit={false}
                                     />
                                 </View>
                             }
@@ -172,17 +176,17 @@ class ModalDetailFeedback extends Component {
                         <HeaderTitle title={'Detail'} />
                     </LinearGradient>
                 </Animated.View>
+                {this.showDetailImage()}
             </View>
         );
     }
 
     renderItemImage = (item) => {
-        console.log('item___', item)
         if (item.fileUrl) {
             let encToken = this.props.account.encToken;
             let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
             return (
-                <TouchableOpacity onPress={() => this.setState({ showImage: true, imageIndex: index })}>
+                <TouchableOpacity onPress={() => this.setState({ showImage: true, imgSelected: image })}>
                     <Image
                         style={{ width: 90, height: 90, marginLeft: 20, borderRadius: 10 }}
                         resizeMode={'cover'}
@@ -200,6 +204,38 @@ class ModalDetailFeedback extends Component {
             );
         }
     };
+
+    showDetailImage() {
+        const newData = [];
+        {
+            this.state.imgSelected ? newData.push({ url: this.state.imgSelected }) : null;
+        }
+        return (
+            <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} visible={this.state.showImage}>
+                <ImageViewer imageUrls={newData} index={0} />
+                <TouchableOpacity
+                    onPress={() => this.setState({ showImage: false })}
+                    style={{
+                        position: 'absolute',
+                        top: 35,
+                        left: 20,
+                        width: 50,
+                        height: 50
+                    }}
+                >
+                    <Text
+                        style={{
+                            color: '#ffffff',
+                            fontSize: 18,
+                            backgroundColor: 'transparent'
+                        }}
+                    >
+                        Close
+              </Text>
+                </TouchableOpacity>
+            </Modal>
+        );
+    }
 
 }
 

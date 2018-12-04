@@ -61,8 +61,8 @@ export default class extends Component {
     let unitActive = this.props.units.unitActive;
 
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [-10, 40, 60],
-      outputRange: [60, 40, 0],
+      inputRange: [0, 60],
+      outputRange: [60, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
@@ -92,8 +92,9 @@ export default class extends Component {
             </Button>
           }
         />
+
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-          <Animated.View style={{ height: headerHeight }}>
+          <Animated.View style={{ height: headerHeight, backgroundColor: 'transparent' }}>
             <HeaderTitle title={'Feedback'} />
           </Animated.View>
         </LinearGradient>
@@ -109,13 +110,13 @@ export default class extends Component {
         {this.renderHeader()}
         {
           this.state.data.length > 0 ?
-            <View>
+            <View style={{ flex: 1 }}>
               <FlatList
                 data={this.state.data}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item, index) => item.commentBoxId + '__' + index}
                 onScroll={this.handleScroll}
-                scrollEventThrottle={16}
+                scrollEventThrottle={20}
                 renderItem={({ item, index }) => this.renderItem(item, index)}
                 extraData={this.state}
                 refreshing={this.state.isRefresh}
