@@ -15,7 +15,7 @@ export default class HeaderTitle extends Component {
     static defaultProps = {
         marginHorizontal: Resolution.scale(20),
         margintop: 0,
-        marginBottom: Resolution.scale(20),
+        marginBottom: Resolution.scale(0),
         marginVertical: 0
     };
 

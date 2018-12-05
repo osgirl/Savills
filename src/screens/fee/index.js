@@ -25,7 +25,7 @@ class Fee extends layout {
         this._getListUserFee();
     }
 
-    componentDidMount(){
+    componentDidMount() {
         let unitActive = this.props.units.unitActive;
         let accessTokenApi = this.props.account.accessTokenAPI;
         this.props.actions.fee.getListHistory(accessTokenApi, unitActive.fullUnitCode);
@@ -110,6 +110,11 @@ class Fee extends layout {
 
     _closeModalHistory() {
         this.setState({ isShowModalHistory: false });
+    }
+
+    _closeModalSelectUnit() {
+        this.setState({ isModalSelectUnit: false });
+        this._getListUserFee();
     }
 
 

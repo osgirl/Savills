@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, Platform } from 'react-native';
 
 import Connect from '@stores';
 import LinearGradient from 'react-native-linear-gradient';
@@ -14,9 +14,17 @@ import HeaderTitle from '@components/headerTitle';
 import { isIphoneX } from '@utils/func';
 import Utils from "@utils";
 
+import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
+
 import Header from '@components/header';
 
+import { ItemPlaceHolderH } from "@components/placeHolderItem";
+
 const { width, height } = Dimensions.get('window');
+
+const HEADER_MAX_HEIGHT = Platform.OS == 'ios' ? 140 : 120;
+const HEADER_MIN_HEIGHT = 75;
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class modalConfirm extends Component {
 
@@ -60,39 +68,34 @@ class modalConfirm extends Component {
         }, 200);
     }
 
+    renderEmty() {
+        return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
+            <Image source={IC_EVENTEMTY} />
+            <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Không có sự kiện nào \n bạn quay lại lần sau nhé'}</Text>
+        </View>
+    }
+
+
     render() {
-
-        const headerHeight = this.state.scrollY.interpolate({
-            inputRange: [0, 40, 60],
-            outputRange: [60, 40, 0],
-            extrapolate: 'clamp',
-            useNativeDriver: true
-        });
-
         return (
             <View style={[styles.container, {}]}>
+                {
+                    this.props.fee.history.result && this.props.fee.history.result.totalCount === 0 ?
+                        this.renderEmty() :
+                        this.state.data.length > 0 ?
+                            <FlatList
+                                showsVerticalScrollIndicator={false}
+                                data={this.state.data}
+                                renderItem={({ item, index }) => this.renderItem(item)}
+                                keyExtractor={(item, index) => item.id.toString()}
+                                onScroll={this.handleScroll}
+                                onEndReachedThreshold={0.01}
+                                scrollEventThrottle={16}
+                                ListFooterComponent={() => <View style={{ height: 20 }} />}
+                            /> : <ItemPlaceHolderH />
+                }
                 {this.renderHeader()}
-                <LinearGradient
-                    colors={['#4A89E8', '#8FBCFF']}
-                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-                    <Animated.View style={{ height: headerHeight }}>
-                        <HeaderTitle title={'History'} />
-                    </Animated.View>
-                </LinearGradient>
-
-                <FlatList
-                    showsVerticalScrollIndicator={false}
-                    data={this.state.data}
-                    renderItem={({ item, index }) => this.renderItem(item)}
-                    keyExtractor={(item, index) => item.id.toString()}
-                    onScroll={this.handleScroll}
-                    onEndReachedThreshold={0.01}
-                    scrollEventThrottle={16}
-                    ListFooterComponent={() => <View style={{ height: 20 }} />}
-                />
-
                 {this.renderModalDetail()}
-
             </View>
         );
     }
@@ -206,18 +209,41 @@ class modalConfirm extends Component {
     }
 
     renderHeader() {
-        return <Header
-            LinearGradient={true}
-            leftIcon={IC_CLOSE}
-            leftAction={() => this.props.onClose()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-                <View>
-                    <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'History'}</Text>
-                </View>
-            }
-        />
+        const headerHeight = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_SCROLL_DISTANCE],
+            outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+            extrapolate: 'clamp'
+        });
+
+        const opacity = this.state.scrollY.interpolate({
+            inputRange: [0, 25, 50],
+            outputRange: [1, 0.5, 0],
+            extrapolate: 'clamp'
+        });
+
+        return <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+            <Header
+                LinearGradient={true}
+                leftIcon={IC_CLOSE}
+                leftAction={() => this.props.onClose()}
+                headercolor={'transparent'}
+                showTitleHeader={this.state.isShowTitleHeader}
+                center={
+                    <View>
+                        <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'History'}</Text>
+                    </View>
+                }
+            />
+            <LinearGradient
+                colors={['#4A89E8', '#8FBCFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+            >
+                <Animated.View style={{ opacity: opacity }}>
+                    <HeaderTitle title={'History'} />
+                </Animated.View>
+            </LinearGradient>
+        </Animated.View>
     }
 
 }
