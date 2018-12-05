@@ -29,6 +29,25 @@ class Notification extends layout {
             await this.setState({ data: nextProps.notification.listNoti.items });
             await this.setState({ loadingMore: false, isRefresh: false })
         }
+
+        if (this.props.notification.updateRead !== nextProps.notification.updateRead && nextProps.notification.updateRead.success) {
+            let unitID = this.props.units.unitActive.unitId;
+            let accessTokenAPI = this.props.account.accessTokenAPI;
+            this.props.actions.notification.getListCountModule(accessTokenAPI, unitID);
+            this.props.actions.notification.getListNotification(accessTokenAPI);
+        }
+    }
+
+
+    _onClickItem(item) {
+        let accessTokenAPI = this.props.account.accessTokenAPI;
+        let tempArr = this.state.data;
+        let index = tempArr.findIndex((i => i.id == item.id));
+        if (index !== -1) {
+            tempArr[index].state = 1
+        }
+        this.setState({ data: tempArr })
+        this.props.actions.notification.updateRead(accessTokenAPI, item.id);
     }
 
     async _onRefresh() {

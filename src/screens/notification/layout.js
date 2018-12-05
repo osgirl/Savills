@@ -36,7 +36,7 @@ export default class extends Component {
     return (
       <View style={[Styles.item]}>
         {state === 0 ? <View style={{ backgroundColor: '#FF361A', position: 'absolute', top: Resolution.scale(20), right: Resolution.scale(20), width: Resolution.scale(8), height: Resolution.scale(8), borderRadius: 33 }} /> : null}
-        <Button onPress={() => { }} style={{ alignItems: 'flex-start' }}>
+        <Button onPress={() => this._onClickItem(item)} style={{ alignItems: 'flex-start' }}>
           <View style={{ marginHorizontal: Resolution.scale(20) }}>
             <View style={{ flexDirection: 'row', marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), justifyContent: 'space-between' }}>
               <View style={{ backgroundColor: state === 0 ? '#505E75' : '#BABFC8', borderRadius: 5 }}>
@@ -179,6 +179,7 @@ export default class extends Component {
           onRefresh={() => this._onRefresh()}
           onEndReached={() => this._onEndReached()}
           legacyImplementation={false}
+          extraData={this.state}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
