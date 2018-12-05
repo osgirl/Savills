@@ -2,8 +2,8 @@ import Types from './';
 import createReducer from '../';
 
 const INIT_STATE = ({
-    listInbox: { items: [], success: false, totalCount: 0 },
-    listInboxIsActive: { items: [], success: false, totalCount: 0 },
+    listInbox: { items: [], success: false, totalCount: null },
+    listInboxIsActive: { items: [], success: false, totalCount: null },
     setInboxActive: false,
     statusSetinbox: 0
 });
@@ -24,26 +24,17 @@ export default createReducer(INIT_STATE, {
     [Types.GET_LIST_INBOX_SUCCESS]: (state, action) => {
         try {
             let tempState;
-            let totalCount = action.response.result.totalCount;
-            let data = [...state.listInbox.items]
-            if (data.length >= totalCount) {
-                tempState = Object.assign(
-                    {},
-                    { ...state },
-                );
-            } else {
-                tempState = Object.assign(
-                    {},
-                    { ...state },
-                    {
-                        listInbox: {
-                            items: action.response.result.items,
-                            success: action.response.success,
-                            totalCount: action.response.result.totalCount
-                        },
+            tempState = Object.assign(
+                {},
+                { ...state },
+                {
+                    listInbox: {
+                        items: action.response.result.items,
+                        success: action.response.success,
+                        totalCount: action.response.result.totalCount
                     },
-                );
-            }
+                },
+            );
             return tempState;
         } catch (error) {
             console.log(error)
@@ -76,26 +67,17 @@ export default createReducer(INIT_STATE, {
     [Types.GET_LIST_INBOX_ISACTIVE_SUCCESS]: (state, action) => {
         try {
             let tempState;
-            let totalCount = action.response.result.totalCount;
-            let data = [...state.listInboxIsActive.items]
-            if (data.length >= totalCount) {
-                tempState = Object.assign(
-                    {},
-                    { ...state },
-                );
-            } else {
-                tempState = Object.assign(
-                    {},
-                    { ...state },
-                    {
-                        listInboxIsActive: {
-                            items: action.response.result.items,
-                            success: action.response.success,
-                            totalCount: action.response.result.totalCount
-                        },
+            tempState = Object.assign(
+                {},
+                { ...state },
+                {
+                    listInboxIsActive: {
+                        items: action.response.result.items,
+                        success: action.response.success,
+                        totalCount: action.response.result.totalCount
                     },
-                );
-            }
+                },
+            );
             return tempState;
         } catch (error) {
             console.log(error)

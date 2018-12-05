@@ -4,7 +4,8 @@ import createReducer from '../';
 const INIT_STATE = ({
     listNoti: { items: [], success: false },
     unreadCount: 0,
-    listCountModule: {}
+    listCountModule: {},
+    updateRead: {}
 });
 
 export default createReducer(INIT_STATE, {
@@ -92,6 +93,41 @@ export default createReducer(INIT_STATE, {
                 ...state,
                 listNoti: { items: [], success: false },
                 unreadCount: 0
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.UPDATE_READ]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.UPDATE_READ_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                updateRead: action.response,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.UPDATE_READ_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                updateRead: {},
             };
         } catch (error) {
             console.log(error)

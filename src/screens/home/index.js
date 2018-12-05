@@ -285,4 +285,5 @@ class Home extends layout {
   }
 }
 
+
 export default Connect(Home);

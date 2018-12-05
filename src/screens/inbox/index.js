@@ -28,9 +28,9 @@ class Inbox extends layout {
         }
     }
 
-    componentWillMount() {
-        this._getListInbox();
-        this._getListInboxIsActive();
+    async componentWillMount() {
+        await this._getListInbox(1);
+        await this._getListInboxIsActive(1);
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -45,7 +45,6 @@ class Inbox extends layout {
             await this.setState({ loadingMore: false, isRefresh: false })
         }
 
-
         if (this.props.inbox.listInboxIsActive.items !== nextProps.inbox.listInboxIsActive.items && nextProps.inbox.listInboxIsActive.success && this.state.isRefreshActive) {
             await this.setState({ dataIsActive: nextProps.inbox.listInboxIsActive.items });
             await this.setState({ isRefreshActive: false })
@@ -56,11 +55,10 @@ class Inbox extends layout {
             await this.setState({ loadingMoreInboxActive: false, isRefreshActive: false })
         }
 
-
         // setInboxActive
         if (this.props.inbox.setInboxActive !== nextProps.inbox.setInboxActive && nextProps.inbox.setInboxActive) {
-            this._onRefresh();
-            this._onRefreshIsActive();
+            this._onRefresh(1);
+            this._onRefreshIsActive(1);
         }
 
     }
@@ -70,21 +68,21 @@ class Inbox extends layout {
         this.props.actions.inbox.setInboxActive(accessTokenApi, inboxID);
     }
 
-    _getListInbox() {
+    _getListInbox(page = this.state.pageInbox) {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.inbox.getListInbox(accessTokenApi, this.state.pageInbox);
+        this.props.actions.inbox.getListInbox(accessTokenApi, page);
     }
 
-    _getListInboxIsActive() {
+    _getListInboxIsActive(page = this.state.pageInboxActive) {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.inbox.getListInboxIsActive(accessTokenApi, this.state.pageInboxActive);
+        this.props.actions.inbox.getListInboxIsActive(accessTokenApi, page);
     }
     async _onRefresh() {
         if (this.state.isRefresh) {
             return;
         }
         await this.setState({ isRefresh: true, pageInbox: 1 })
-        await this._getListInbox();
+        await this._getListInbox(1);
     }
 
     async _onRefreshIsActive() {
@@ -92,7 +90,7 @@ class Inbox extends layout {
             return;
         }
         await this.setState({ isRefreshActive: true, pageInboxActive: 1 })
-        await this._getListInboxIsActive();
+        await this._getListInboxIsActive(1);
     }
 
     async _onEndReached() {

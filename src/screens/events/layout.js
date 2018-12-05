@@ -179,6 +179,7 @@ export default class Layout extends Component {
           this.props.events.myEvents.result && this.props.events.myEvents.result.totalCount <= 0 ?
             this.renderEmty() :
             <FlatList
+              alwaysBounceVertical={false}
               data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
               keyExtractor={item => item.eventId + ''}
               renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
