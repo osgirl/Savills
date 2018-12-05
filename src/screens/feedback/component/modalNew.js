@@ -118,14 +118,46 @@ class ModalNewFeedback extends Component {
     }
   }
 
-  render() {
-    const { fullUnitCode } = this.props.units.unitActive;
-
+  renderHeader() {
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, HEADER_SCROLL_DISTANCE],
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
+
+    const opacity = this.state.scrollY.interpolate({
+      inputRange: [0, 25, 50],
+      outputRange: [1, 0.5, 0],
+      extrapolate: 'clamp'
+    });
+
+    return <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+      <Header
+        LinearGradient={true}
+        leftIcon={require('../../../resources/icons/close.png')}
+        leftAction={() => this.props.onClose()}
+        headercolor={'transparent'}
+        showTitleHeader={this.state.isShowTitleHeader}
+        center={
+          <View>
+            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'New Feedback'}</Text>
+          </View>
+        }
+      />
+      <LinearGradient
+        colors={['#4A89E8', '#8FBCFF']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+      >
+        <Animated.View style={{ opacity: opacity }}>
+          <HeaderTitle title={'New Feedback'} />
+        </Animated.View>
+      </LinearGradient>
+    </Animated.View>
+  }
+
+  render() {
+    const { fullUnitCode } = this.props.units.unitActive;
 
     let category = this.state.listCategory.filter(o => o.id === this.state.categorySelectedId);
 
@@ -277,28 +309,8 @@ class ModalNewFeedback extends Component {
           </TouchableOpacity>
         </View>
 
-        <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
-          <Header
-            LinearGradient={true}
-            leftIcon={require('../../../resources/icons/close.png')}
-            leftAction={() => this.props.onClose()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-              <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'New Feedback'}</Text>
-              </View>
-            }
-          />
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <HeaderTitle title={'New Feedback'} />
-          </LinearGradient>
-        </Animated.View>
 
+        {this.renderHeader()}
         {this.renderLoading()}
         {this.renderCategory()}
         {this.renderModalConfirm()}
