@@ -30,7 +30,7 @@ import Modal from 'react-native-modal';
 import Resolution from '@utils/resolution';
 import AnimatedHeader from '@components/animatedHeader';
 
-import IC_CHATEMTY from "@resources/icons/chat_emty.png";
+import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 
 const STAR_ON = require('@resources/icons/Star-big.png');
 const STAR_OFF = require('@resources/icons/Star.png');
@@ -314,163 +314,160 @@ class ModalEditOrder extends PureComponent {
     const { fullUnitCode, currentStatus, dateCreate, id, rating, description } = this.state.detailOrder;
     let date = moment(dateCreate).format('l');
     let time = moment(dateCreate).format('LT');
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    });
+    let tabIndex = this.props.navigation.getParam('tabIndex', false);
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size={'large'} color={'red'} />
       </View>
     ) : (
-        <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-          <AnimatedHeader
-            scrollY={this.state.scrollY}
-            label={`#${id}`}
-            goBack
-            goBackAction={() => this.props.navigation.goBack()}
-          />
-          <Animated.ScrollView
-            onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], { useNativeDriver: true })}
-            scrollEventThrottle={16}
-            bounces={false}
-            contentContainerStyle={{ zIndex: 1 }}
-            showsVerticalScrollIndicator={false}
-            style={{ flex: 1, backgroundColor: '#F6F8FD' }}
-          >
-            <View style={{ width: width, height: 50, zIndex: 999 }}>
-              <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
-            </View>
-            <ItemScorll
-              title={'Thông Tin'}
-              view={
-                <View
-                  style={{
-                    height: 200,
-                    width: null,
-                    flex: 1,
-                    borderRadius: 10,
-                    backgroundColor: '#FFF',
-                    padding: 20,
-                    justifyContent: 'space-around'
-                  }}
-                >
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
-                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{fullUnitCode}</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Trạng Thái</Text>
-                    <View
-                      style={{
-                        borderRadius: 5,
-                        backgroundColor: currentStatus.colorCode
-                      }}
-                    >
-                      <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
-                        {currentStatus.codeName}
-                      </Text>
-                    </View>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Ngày Gửi</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
-                        <Image
-                          style={{ marginRight: 10, width: 15, height: 15 }}
-                          source={require('../../../resources/icons/clock.png')}
-                        />
-                        <Text style={{ color: '#C9CDD4' }}>{time}</Text>
-                      </View>
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image
-                          style={{ marginRight: 10, width: 15, height: 15 }}
-                          source={require('../../../resources/icons/calendar.png')}
-                        />
-                        <Text style={{ color: '#C9CDD4' }}>{date}</Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Khu Vực</Text>
-                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>Căn Hộ</Text>
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        <AnimatedHeader
+          scrollY={this.state.scrollY}
+          label={`#${id}`}
+          goBack
+          goBackAction={() => this.props.navigation.goBack()}
+        />
+        <Animated.ScrollView
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], { useNativeDriver: true })}
+          scrollEventThrottle={16}
+          bounces={false}
+          contentContainerStyle={{ zIndex: 1 }}
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1, backgroundColor: '#F6F8FD' }}
+        >
+          <View style={{ width: width, height: 50, zIndex: 999 }}>
+            <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
+          </View>
+          <ItemScorll
+            title={'Thông Tin'}
+            view={
+              <View
+                style={{
+                  height: 200,
+                  width: null,
+                  flex: 1,
+                  borderRadius: 10,
+                  backgroundColor: '#FFF',
+                  padding: 20,
+                  justifyContent: 'space-around'
+                }}
+              >
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
+                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{fullUnitCode}</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Trạng Thái</Text>
+                  <View
+                    style={{
+                      borderRadius: 5,
+                      backgroundColor: currentStatus.colorCode
+                    }}
+                  >
+                    <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
+                      {currentStatus.codeName}
+                    </Text>
                   </View>
                 </View>
-              }
-            />
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Ngày Gửi</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+                      <Image
+                        style={{ marginRight: 10, width: 15, height: 15 }}
+                        source={require('../../../resources/icons/clock.png')}
+                      />
+                      <Text style={{ color: '#C9CDD4' }}>{time}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Image
+                        style={{ marginRight: 10, width: 15, height: 15 }}
+                        source={require('../../../resources/icons/calendar.png')}
+                      />
+                      <Text style={{ color: '#C9CDD4' }}>{date}</Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Khu Vực</Text>
+                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>Căn Hộ</Text>
+                </View>
+              </View>
+            }
+          />
+          <ItemScorll
+            title={'Người Phụ Trách'}
+            view={
+              <View
+                style={{
+                  height: 90,
+                  width: null,
+                  flex: 1,
+                  borderRadius: 10,
+                  backgroundColor: '#FFF',
+                  padding: 20,
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}
+              >
+                <Image
+                  style={{ width: 50, height: 50, borderRadius: 25 }}
+                  resizeMode={'cover'}
+                  source={require('../../../resources/icons/avatar-default.png')}
+                />
+                <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>Chưa có người phụ trách</Text>
+                <Image source={require('../../../resources/icons/call-disable.png')} />
+              </View>
+            }
+          />
+
+          {rating > 0 && description != '' ? (
             <ItemScorll
-              title={'Người Phụ Trách'}
+              title={'Bạn đã đánh giá dịch vụ'}
               view={
                 <View
                   style={{
-                    height: 90,
-                    width: null,
                     flex: 1,
-                    borderRadius: 10,
                     backgroundColor: '#FFF',
+                    borderRadius: 5,
+                    width: null,
                     padding: 20,
+                    height: 113,
                     flexDirection: 'row',
                     alignItems: 'center'
                   }}
                 >
-                  <Image
-                    style={{ width: 50, height: 50, borderRadius: 25 }}
-                    resizeMode={'cover'}
-                    source={require('../../../resources/icons/avatar-default.png')}
-                  />
-                  <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>Chưa có người phụ trách</Text>
-                  <Image source={require('../../../resources/icons/call-disable.png')} />
+                  <View>
+                    <Text style={{ color: '#505E75', fontSize: 60, fontWeight: 'bold' }}>{rating}.0</Text>
+                    <View style={{ flexDirection: 'row', alignSelf: 'center' }}>{this.renderStartDetail(rating)}</View>
+                  </View>
+                  <Text style={{ flex: 1, marginLeft: 10 }}>{description}</Text>
                 </View>
               }
             />
+          ) : null}
 
-            {rating > 0 && description != '' ? (
-              <ItemScorll
-                title={'Bạn đã đánh giá dịch vụ'}
-                view={
-                  <View
-                    style={{
-                      flex: 1,
-                      backgroundColor: '#FFF',
-                      borderRadius: 5,
-                      width: null,
-                      padding: 20,
-                      height: 113,
-                      flexDirection: 'row',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <View>
-                      <Text style={{ color: '#505E75', fontSize: 60, fontWeight: 'bold' }}>{rating}.0</Text>
-                      <View style={{ flexDirection: 'row', alignSelf: 'center' }}>{this.renderStartDetail(rating)}</View>
-                    </View>
-                    <Text style={{ flex: 1, marginLeft: 10 }}>{description}</Text>
-                  </View>
-                }
-              />
-            ) : null}
-
-            <ItemScorll
-              title={'Hình Ảnh'}
-              view={
-                <ScrollView
-                  style={{
-                    borderRadius: 10,
-                    paddingTop: 20,
-                    width: width - 40,
-                    height: 130,
-                    backgroundColor: '#FFF'
-                  }}
-                  showsHorizontalScrollIndicator={false}
-                  horizontal
-                >
+          <ItemScorll
+            title={'Hình Ảnh'}
+            view={
+              <ScrollView
+                style={{
+                  borderRadius: 10,
+                  paddingTop: 20,
+                  width: width - 40,
+                  height: 130,
+                  backgroundColor: '#FFF'
+                }}
+                showsHorizontalScrollIndicator={false}
+                horizontal
+              >
+                {tabIndex && tabIndex === 1 ? null : (
                   <TouchableOpacity
                     onPress={() => this.getPhotos()}
                     style={{
@@ -496,79 +493,84 @@ class ModalEditOrder extends PureComponent {
                         justifyContent: 'center'
                       }}
                     >
-                      <Image style={{ width: 25, height: 25 }} resizeMode={'cover'} source={require('@resources/icons/plus.png')} />
+                      <Image
+                        style={{ width: 25, height: 25 }}
+                        resizeMode={'cover'}
+                        source={require('@resources/icons/plus.png')}
+                      />
                     </View>
                   </TouchableOpacity>
-                  {this.state.arrImageOld.map((item, index) => this.renderItemImage(index, item))}
-                </ScrollView>
-              }
-            />
-            <ItemScorll
-              title={'Miêu Tả'}
-              view={
-                <TextInput
-                  style={{
-                    flex: 1,
-                    backgroundColor: '#FFF',
-                    borderRadius: 5,
-                    height: 100,
-                    width: null,
-                    padding: 10,
-                    paddingTop: 20,
-                    marginBottom: 20
-                  }}
-                  returnKeyType="done"
-                  autoCapitalize="sentences"
-                  autoCorrect={true}
-                  onSubmitEditing={() => Keyboard.dismiss()}
-                  value={this.state.description}
-                  multiline
-                  placeholder={'Nhập nội dung ...'}
-                  onChangeText={e => this.setState({ description: e })}
-                />
-              }
-            />
-          </Animated.ScrollView>
-          {this.renderFooter()}
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              bottom:
-                this.state.detailOrder.currentStatus &&
-                  (this.state.detailOrder.currentStatus.id == 11 || this.state.detailOrder.currentStatus.id == 13)
-                  ? 100
-                  : 20,
-              right: 20
-            }}
-            onPress={() => this.setState({ isShowChat: true })}
-          >
-            <Image source={require('../../../resources/icons/chat-big.png')} />
-            {this.props.workOrder.commentUnread &&
-              this.props.workOrder.commentUnread.success &&
-              this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
-                <View
-                  style={{
-                    width: 16,
-                    height: 16,
-                    backgroundColor: 'red',
-                    borderRadius: 8,
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
-                    {this.props.workOrder.commentUnread.result[0].unreadCount}
-                  </Text>
-                </View>
-              ) : null}
-          </TouchableOpacity>
-          {this.renderContentModalChat()}
-          {this.renderModalRating()}
-          {this.renderModalCancel()}
-          {/* <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+                )}
+                {this.state.arrImageOld.map((item, index) => this.renderItemImage(index, item))}
+              </ScrollView>
+            }
+          />
+          <ItemScorll
+            title={'Miêu Tả'}
+            view={
+              <TextInput
+                style={{
+                  flex: 1,
+                  backgroundColor: '#FFF',
+                  borderRadius: 5,
+                  height: 100,
+                  width: null,
+                  padding: 10,
+                  paddingTop: 20,
+                  marginBottom: 20
+                }}
+                returnKeyType="done"
+                autoCapitalize="sentences"
+                autoCorrect={true}
+                onSubmitEditing={() => Keyboard.dismiss()}
+                value={this.state.description}
+                multiline
+                placeholder={'Nhập nội dung ...'}
+                onChangeText={e => this.setState({ description: e })}
+              />
+            }
+          />
+        </Animated.ScrollView>
+        {this.renderFooter()}
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            bottom:
+              this.state.detailOrder.currentStatus &&
+              (this.state.detailOrder.currentStatus.id == 11 || this.state.detailOrder.currentStatus.id == 13)
+                ? 100
+                : 20,
+            right: 20
+          }}
+          onPress={() => this.setState({ isShowChat: true })}
+        >
+          <Image source={require('../../../resources/icons/chat-big.png')} />
+          {this.props.workOrder.commentUnread &&
+          this.props.workOrder.commentUnread.success &&
+          this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: 'red',
+                borderRadius: 8,
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
+                {this.props.workOrder.commentUnread.result[0].unreadCount}
+              </Text>
+            </View>
+          ) : null}
+        </TouchableOpacity>
+        {this.renderContentModalChat()}
+        {this.renderModalRating()}
+        {this.renderModalCancel()}
+        {/* <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
           <Header
             LinearGradient={true}
             leftIcon={require('../../../resources/icons/close.png')}
@@ -590,9 +592,9 @@ class ModalEditOrder extends PureComponent {
             <HeaderTitle title={`#${id}`} />
           </LinearGradient>
         </Animated.View> */}
-          {this.showDetailImage()}
-        </View>
-      );
+        {this.showDetailImage()}
+      </View>
+    );
   }
 
   renderFooter = () => {
@@ -767,17 +769,17 @@ class ModalEditOrder extends PureComponent {
     {
       this.state.arrImageOld && this.state.arrImageOld.length > 0
         ? this.state.arrImageOld.map(value => {
-          if (value == null) {
-            return;
-          }
-          if (value.fileUrl) {
-            newData.push({ url: `${value.fileUrl}&encToken=${encodeURIComponent(encToken)}` });
-          } else if (value.uri) {
-            newData.push({ url: value.uri });
-          } else {
-            newData.push({ url: value });
-          }
-        })
+            if (value == null) {
+              return;
+            }
+            if (value.fileUrl) {
+              newData.push({ url: `${value.fileUrl}&encToken=${encodeURIComponent(encToken)}` });
+            } else if (value.uri) {
+              newData.push({ url: value.uri });
+            } else {
+              newData.push({ url: value });
+            }
+          })
         : null;
     }
     return (
@@ -810,6 +812,7 @@ class ModalEditOrder extends PureComponent {
   renderContentModalChat() {
     let focusChat = {};
     let id = this.props.userProfile.profile.result.user.id;
+    let tabIndex = this.props.navigation.getParam('tabIndex', false);
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
         <View
@@ -855,7 +858,7 @@ class ModalEditOrder extends PureComponent {
         </Animated.View>
         <KeyboardAvoidingView behavior="position" enabled>
           <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
+            colors={tabIndex && tabIndex == 1 ? ['#626467', '#626467'] : ['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={[

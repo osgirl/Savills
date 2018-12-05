@@ -210,8 +210,8 @@ class TabWorkOrder extends PureComponent {
     );
   }
 
-  clickDetail = item => {
-    this.props.navigation.navigate('ModalEditOrder', { id: item.id });
+  clickDetail = (item, tabIndex) => {
+    this.props.navigation.navigate('ModalEditOrder', { id: item.id, tabIndex: tabIndex });
   };
 
   ViewTwo = list => {
@@ -231,7 +231,7 @@ class TabWorkOrder extends PureComponent {
               titleColor="#000"
             />
           }
-          renderItem={({ item, index }) => this.renderItem(item, index)}
+          renderItem={({ item, index }) => this.renderItem(item, index, 0)}
           ListEmptyComponent={() => {
             return <EmptyItemList loadData={this.state.isLoadDataActive} />;
           }}
@@ -286,7 +286,7 @@ class TabWorkOrder extends PureComponent {
               titleColor="#000"
             />
           }
-          renderItem={({ item, index }) => this.renderItem(item, index)}
+          renderItem={({ item, index }) => this.renderItem(item, index, 1)}
           ListEmptyComponent={() => {
             return <EmptyItemList loadData={this.state.isLoadDataComplete} />;
           }}
@@ -295,13 +295,13 @@ class TabWorkOrder extends PureComponent {
     );
   };
 
-  renderItem = (item, index) => {
+  renderItem = (item, index, tabIndex) => {
     let date = moment(item.dateCreate).format('l');
     let time = moment(item.dateCreate).format('LT');
     let encToken = this.props.account.encToken;
     return (
       <Button
-        onPress={() => this.clickDetail(item)}
+        onPress={() => this.clickDetail(item, tabIndex)}
         key={item.id}
         style={{
           width: width - 40,

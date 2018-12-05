@@ -27,7 +27,7 @@ import HeaderTitle from '@components/headerTitle';
 import Button from '@components/button';
 import Resolution from '@utils/resolution';
 
-import IC_CHATEMTY from "@resources/icons/chat_emty.png";
+import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
@@ -416,7 +416,7 @@ class ModalDetailBooking extends PureComponent {
         </View>
         <KeyboardAvoidingView behavior="position" enabled>
           <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
+            colors={tabIndex && tabIndex == 2 ? ['#626467', '#626467'] : ['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={Style.ViewButtonChat}
