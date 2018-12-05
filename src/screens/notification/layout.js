@@ -23,8 +23,8 @@ import Resolution from '../../utils/resolution';
 
 const { width } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = Resolution.scale(70);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === "android" ? 50 : 70);
+const HEADER_MAX_HEIGHT = Platform.OS == 'ios' ? 140 : 120;
+const HEADER_MIN_HEIGHT = 75;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default class extends Component {
@@ -108,77 +108,73 @@ export default class extends Component {
     }, { useNativeDriver: true })(event);
   };
 
-  render() {
+  renderHeader() {
     let unitActive = this.props.units.unitActive;
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 40, 60],
-      outputRange: [60, 40, 0],
-      extrapolate: 'clamp',
-      useNativeDriver: true
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      extrapolate: 'clamp'
     });
 
+    const opacity = this.state.scrollY.interpolate({
+      inputRange: [0, 25, 50],
+      outputRange: [1, 0.5, 0],
+      extrapolate: 'clamp'
+    });
+
+    return (
+      <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+        <Header
+          LinearGradient={true}
+          leftIcon={IC_BACK}
+          leftAction={() => this.props.onclose()}
+          headercolor={'transparent'}
+          showTitleHeader={this.state.isShowTitleHeader}
+          center={
+            <View>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.NOTIFICATION_TXT_TITLE}</Text>
+            </View>
+          }
+          renderViewRight={
+            <Button
+              onPress={() => this._openModalSelectUnit()}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
+            >
+              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
+              <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
+            </Button>
+          }
+        />
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          <Animated.View style={{ opacity: opacity }}>
+            <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
+          </Animated.View>
+        </LinearGradient>
+      </Animated.View>
+    );
+  }
+
+  render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar
           barStyle="light-content"
         />
 
-        {/* <Animated.View style={{ height: headerHeight }}> */}
-        <View>
-          <Header
-            LinearGradient={true}
-            leftIcon={IC_BACK}
-            leftAction={() => this.props.onclose()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-              <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.NOTIFICATION_TXT_TITLE}</Text>
-              </View>
-            }
-            renderViewRight={
-              <Button
-                onPress={() => this._openModalSelectUnit()}
-                style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
-              >
-                <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
-                <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
-              </Button>
-            }
-          />
-
-
-
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <Animated.View style={{ height: headerHeight }}>
-              {/* <Text style={{fontSize: 35, color: '#FFFF'}}>{LG.NOTIFICATION_TXT_TITLE}</Text> */}
-              <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
-            </Animated.View>
-          </LinearGradient>
-        </View>
-        {/* </Animated.View> */}
-
         <FlatList
           data={this.state.data}
           horizontal={false}
-          contentContainerStyle={{ alignItems: 'center' }}
+          contentContainerStyle={{ alignItems: 'center', marginTop: HEADER_MAX_HEIGHT }}
           keyExtractor={(item, index) => item.id + '__' + index}
           renderItem={({ item, index }) => this.renderItem(item)}
           onScroll={this.handleScroll}
           onEndReachedThreshold={0.01}
           scrollEventThrottle={16}
-          // refreshControl={
-          //   <RefreshControl
-          //     refreshing={this.state.isRefresh}
-          //     onRefresh={() => this._onRefresh()}
-          //   />
-          // }
           refreshing={this.state.isRefresh}
           onRefresh={() => this._onRefresh()}
           onEndReached={() => this._onEndReached()}
@@ -189,6 +185,8 @@ export default class extends Component {
           ListHeaderComponent={() => <View style={{ height: Resolution.scaleHeight(20), }} />}
           ListFooterComponent={() => this._FooterFlatlist()}
         />
+
+        {this.renderHeader()}
 
 
 

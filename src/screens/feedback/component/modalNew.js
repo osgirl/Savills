@@ -30,8 +30,8 @@ import Loading from "@components/loading";
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const HEADER_MAX_HEIGHT = Resolution.scale(140);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
+const HEADER_MAX_HEIGHT = Platform.OS == 'ios' ? 140 : 120;
+const HEADER_MIN_HEIGHT = 75;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class ModalNewFeedback extends Component {
@@ -118,14 +118,46 @@ class ModalNewFeedback extends Component {
     }
   }
 
-  render() {
-    const { fullUnitCode } = this.props.units.unitActive;
-
+  renderHeader() {
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, HEADER_SCROLL_DISTANCE],
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
+
+    const opacity = this.state.scrollY.interpolate({
+      inputRange: [0, 25, 50],
+      outputRange: [1, 0.5, 0],
+      extrapolate: 'clamp'
+    });
+
+    return <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+      <Header
+        LinearGradient={true}
+        leftIcon={require('../../../resources/icons/close.png')}
+        leftAction={() => this.props.onClose()}
+        headercolor={'transparent'}
+        showTitleHeader={this.state.isShowTitleHeader}
+        center={
+          <View>
+            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'New Feedback'}</Text>
+          </View>
+        }
+      />
+      <LinearGradient
+        colors={['#4A89E8', '#8FBCFF']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+      >
+        <Animated.View style={{ opacity: opacity }}>
+          <HeaderTitle title={'New Feedback'} />
+        </Animated.View>
+      </LinearGradient>
+    </Animated.View>
+  }
+
+  render() {
+    const { fullUnitCode } = this.props.units.unitActive;
 
     let category = this.state.listCategory.filter(o => o.id === this.state.categorySelectedId);
 
@@ -138,7 +170,7 @@ class ModalNewFeedback extends Component {
           contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
           style={{ flex: 1, backgroundColor: '#F6F8FD' }}
         >
-        <KeyboardAvoidingView behavior="position" enabled>
+          <KeyboardAvoidingView behavior="position" enabled>
             {
               this.state.listTypeFeedback && this.state.listTypeFeedback.length > 0 ?
                 <ItemScorll
@@ -225,7 +257,7 @@ class ModalNewFeedback extends Component {
               style={{ backgroundColor: '#FFF', marginVertical: Resolution.scale(20), marginHorizontal: Resolution.scale(20), borderRadius: 5 }}>
               <Text style={{ padding: Resolution.scale(20), color: '#4A89E8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{category.length > 0 ? category[0].name : 'Vấn đề phản hồi'}</Text>
             </Button>
-            
+
             <ItemScorll
               title={'Miêu Tả'}
               view={
@@ -277,28 +309,8 @@ class ModalNewFeedback extends Component {
           </TouchableOpacity>
         </View>
 
-        <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
-          <Header
-            LinearGradient={true}
-            leftIcon={require('../../../resources/icons/close.png')}
-            leftAction={() => this.props.onClose()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-              <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'New Feedback'}</Text>
-              </View>
-            }
-          />
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          // style={{ width: width, marginBottom: 20 }}
-          >
-            <HeaderTitle title={'New Feedback'} />
-          </LinearGradient>
-        </Animated.View>
+
+        {this.renderHeader()}
         {this.renderLoading()}
         {this.renderCategory()}
         {this.renderModalConfirm()}

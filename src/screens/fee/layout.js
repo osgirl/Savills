@@ -23,6 +23,9 @@ import IC_HISTORY from "../../resources/icons/history_fee.png";
 import IC_CHECK_WHITE from "../../resources/icons/check_fee.png";
 import IC_CHECKED_WHITE from "../../resources/icons/checked_white_fee.png";
 import Resolution from "../../utils/resolution";
+import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
+
+import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
 import { isIphoneX } from '@utils/func';
 
@@ -51,6 +54,13 @@ export default class extends Component {
             }
         }, { useNativeDriver: true })(event);
     };
+
+    renderEmty() {
+        return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
+            <Image source={IC_EVENTEMTY} />
+            <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Không có sự kiện nào \n bạn quay lại lần sau nhé'}</Text>
+        </View>
+    }
 
     render() {
         let unitActive = this.props.units.unitActive;
@@ -98,7 +108,6 @@ export default class extends Component {
         });
 
         let checkAll = this.props.fee.listUserFee.result && this.state.listFeeSelected.length === this.props.fee.listUserFee.result.items.length ? true : false;
-
 
         return (
             <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
@@ -178,26 +187,37 @@ export default class extends Component {
 
                 </LinearGradient>
 
-                <FlatList
-                    data={this.state.data}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item, index) => item[0].id + '__' + index}
-                    onScroll={this.handleScroll}
-                    scrollEventThrottle={16}
-                    renderItem={({ item, index }) => this.renderItem(item)}
-                    extraData={this.state}
-                />
+                {
+                    this.props.fee.listUserFee.result && this.props.fee.listUserFee.result.totalCount === 0 ?
+                        this.renderEmty() :
+                        this.state.data.length > 0 ?
+                            <FlatList
+                                data={this.state.data}
+                                showsVerticalScrollIndicator={false}
+                                keyExtractor={(item, index) => item[0].id + '__' + index}
+                                onScroll={this.handleScroll}
+                                scrollEventThrottle={16}
+                                renderItem={({ item, index }) => this.renderItem(item, index)}
+                                extraData={this.state}
+                            /> :
+                            <ItemPlaceHolderH />
+                }
 
-                <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40) }} />
-                <Button onPress={() => this._openModalConfirm()} style={[Styles.ButtonAdd, { backgroundColor: this.state.listFeeSelected.length > 0 ? '#01C772' : '#e0e0e0', }]}>
-                    <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
-                </Button>
+                {
+                    this.state.data.length > 0 ?
+                        <View>
+                            <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40) }} />
+                            <Button onPress={() => this._openModalConfirm()} style={[Styles.ButtonAdd, { backgroundColor: this.state.listFeeSelected.length > 0 ? '#01C772' : '#e0e0e0', }]}>
+                                <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
+                            </Button>
+                        </View> : null
+                }
 
                 <Modal
                     style={{ flex: 1, margin: 0 }}
                     isVisible={this.state.isModalSelectUnit}>
                     <ModalSelectUnit
-                        onClose={() => this.setState({ isModalSelectUnit: false })}
+                        onClose={() => this._closeModalSelectUnit()}
                     />
                 </Modal>
 
@@ -216,7 +236,7 @@ export default class extends Component {
         );
     }
 
-    renderItem(item, index) {
+    renderItem(item, index, loading) {
         return (
             <View>
                 <View style={{ marginHorizontal: Resolution.scale(20), marginVertical: Resolution.scale(20) }}>
