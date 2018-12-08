@@ -187,21 +187,25 @@ export default class extends Component {
                     }
                 />
                 {this.renderHeader()}
-                <FlatList
-                    alwaysBounceVertical={false}
-                    data={this.state.data || []}
-                    keyExtractor={(item) => item.user.id + ''}
-                    renderItem={({ item, index }) => (
-                        this.renderItem(item)
-                    )}
-                    onScroll={this.handleScroll}
-                    legacyImplementation={false}
-                    showsHorizontalScrollIndicator={false}
-                    showsVerticalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <View style={{ height: Resolution.scale(10) }} />}
-                    ListHeaderComponent={() => <View style={{ height: Resolution.scale(20) }} />}
-                    ListFooterComponent={() => <View style={{ height: Resolution.scale(20) }} />}
-                />
+                {
+                    this.props.units.employeesByOu && this.props.units.employeesByOu.success ?
+                        <FlatList
+                            alwaysBounceVertical={false}
+                            data={this.state.data || []}
+                            keyExtractor={(item) => item.user.id + ''}
+                            renderItem={({ item, index }) => (
+                                this.renderItem(item)
+                            )}
+                            onScroll={this.handleScroll}
+                            legacyImplementation={false}
+                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
+                            ItemSeparatorComponent={() => <View style={{ height: Resolution.scale(10) }} />}
+                            ListHeaderComponent={() => <View style={{ height: Resolution.scale(20) }} />}
+                            ListFooterComponent={() => <View style={{ height: Resolution.scale(20) }} />}
+                        /> : <ItemPlaceHolderH />
+                }
+
                 <Modal
                     style={{ flex: 1, margin: 0 }}
                     isVisible={this.state.isModalSelectUnit}>

@@ -23,10 +23,6 @@ import { ItemHorizontal2 } from '../../components/placeHolder';
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
 
-const HEADER_MAX_HEIGHT = Platform.OS == 'ios' ? 60 : 60;
-const HEADER_MIN_HEIGHT = 60;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
