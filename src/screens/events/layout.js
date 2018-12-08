@@ -57,24 +57,27 @@ export default class Layout extends Component {
     this._openModalFull();
   }
 
-
   handleScroll = event => {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
-      listener: event => {
-        if (event.nativeEvent.contentOffset.y > 50) {
-          if (!this.showCenter) {
-            this.showCenter = true;
-            this.props.navigation.setParams({ eventTitle: LG.EVENTS_TXT_TITLE });
-          }
-        } else {
-          if (this.showCenter) {
-            this.showCenter = false;
-            this.props.navigation.setParams({ eventTitle: null });
+    Animated.event(
+      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+      {
+        listener: event => {
+          if (event.nativeEvent.contentOffset.y > 50) {
+            if (!this.showCenter) {
+              this.showCenter = true;
+              this.props.navigation.setParams({ eventTitle: LG.EVENTS_TXT_TITLE });
+            }
+          } else {
+            if (this.showCenter) {
+              this.showCenter = false;
+              this.props.navigation.setParams({ eventTitle: null });
+            }
           }
         }
-      }
-    }, { useNativeDriver: true })(event);
+      },
+      { useNativeDriver: true }
+    )(event);
   };
 
   renderHeader() {
@@ -86,7 +89,6 @@ export default class Layout extends Component {
       extrapolate: 'clamp',
       useNativeDriver: true
     });
-
 
     return (
       <View style={{}}>
@@ -113,37 +115,58 @@ export default class Layout extends Component {
                 }}
               />
               <TouchableOpacity onPress={() => this.setState({ openFullCalendar: false })}>
-                <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/up.png')} />
+                <View
+                  style={{
+                    width: 50,
+                    height: 4,
+                    borderRadius: 2,
+                    backgroundColor: 'rgba(255,255,255,0.5)',
+                    alignSelf: 'center',
+                    marginBottom: 10
+                  }}
+                />
               </TouchableOpacity>
             </View>
           ) : (
-              <View>
-                <CalendarStrip
-                  selectedDate={this.state.selectedDate}
-                  onPressDate={date => {
-                    this._onPressDay(date);
+            <View>
+              <CalendarStrip
+                selectedDate={this.state.selectedDate}
+                onPressDate={date => {
+                  this._onPressDay(date);
+                }}
+                onPressGoToday={today => {}}
+                onSwipeDown={() => {}}
+                markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
+              />
+              <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
+                <View
+                  style={{
+                    width: 50,
+                    height: 4,
+                    borderRadius: 2,
+                    backgroundColor: 'rgba(255,255,255,0.5)',
+                    alignSelf: 'center',
+                    marginBottom: 10
                   }}
-                  onPressGoToday={today => { }}
-                  onSwipeDown={() => { }}
-                  markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
                 />
-                <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
-                  <Image style={{ alignSelf: 'center', marginBottom: 10 }} source={require('@resources/icons/down.png')} />
-                </TouchableOpacity>
-              </View>
-            )}
+              </TouchableOpacity>
+            </View>
+          )}
         </LinearGradient>
       </View>
     );
   }
 
   renderEmty() {
-    return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
-      <Image source={IC_EVENTEMTY} />
-      <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Không có sự kiện nào \n bạn quay lại lần sau nhé'}</Text>
-    </View>
+    return (
+      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
+        <Image source={IC_EVENTEMTY} />
+        <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+          {'Không có sự kiện nào \n bạn quay lại lần sau nhé'}
+        </Text>
+      </View>
+    );
   }
-
 
   render() {
     let unitActive = this.props.units.unitActive;
@@ -175,31 +198,35 @@ export default class Layout extends Component {
           }
         />
         {this.renderHeader()}
-        {
-          this.props.events.myEvents.result && this.props.events.myEvents.result.totalCount <= 0 ?
-            this.renderEmty() :
-            <FlatList
-              alwaysBounceVertical={false}
-              data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
-              keyExtractor={item => item.eventId + ''}
-              renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
-              onScroll={this.handleScroll}
-              legacyImplementation={false}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
-              ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
-              ListHeaderComponent={() =>
-                <View
-                  style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}
-                >
-                  <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
-                    {LG.EVENTS_TXT_ALLTITLE}
-                  </Text>
-                </View>
-              }
-              ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
-            />
-        }
+        {this.props.events.myEvents.result && this.props.events.myEvents.result.totalCount <= 0 ? (
+          this.renderEmty()
+        ) : (
+          <FlatList
+            alwaysBounceVertical={false}
+            data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
+            keyExtractor={item => item.eventId + ''}
+            renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
+            onScroll={this.handleScroll}
+            legacyImplementation={false}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
+            ListHeaderComponent={() => (
+              <View
+                style={{
+                  marginTop: Resolution.scale(20),
+                  marginBottom: Resolution.scale(10),
+                  marginHorizontal: Resolution.scale(20)
+                }}
+              >
+                <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
+                  {LG.EVENTS_TXT_ALLTITLE}
+                </Text>
+              </View>
+            )}
+            ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
+          />
+        )}
 
         <Modal
           style={{ flex: 1, marginTop: Resolution.scale(50), marginLeft: 0, marginRight: 0, marginBottom: 0 }}

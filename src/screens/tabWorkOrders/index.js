@@ -305,7 +305,7 @@ class TabWorkOrder extends PureComponent {
         key={item.id}
         style={{
           width: width - 40,
-          height: 170,
+          height: 160,
           borderRadius: 10,
           marginTop: index === 0 ? 20 : 10,
           backgroundColor: '#FFF',
@@ -329,16 +329,14 @@ class TabWorkOrder extends PureComponent {
           ) : null}
         </View>
 
-        <View
-          style={{ flex: 1, marginVertical: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
-        >
+        <View style={{ flex: 1, marginVertical: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.clock} />
-            <Text style={{ color: '#C9CDD4' }}>{time}</Text>
+            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{time}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.calendar} />
-            <Text style={{ color: '#C9CDD4' }}>{date}</Text>
+            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{date}</Text>
           </View>
           <View
             style={{
@@ -362,7 +360,7 @@ class TabWorkOrder extends PureComponent {
           }}
         >
           <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-            {item.lastComment}
+            {item.lastComment ? item.lastComment : 'No Comment'}
           </Text>
         </View>
       </Button>

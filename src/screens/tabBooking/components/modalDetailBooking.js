@@ -186,9 +186,10 @@ class ModalDetailBooking extends PureComponent {
       <View style={{ flex: 1 }}>
         <ScrollView
           scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
           onScroll={this.handleScroll}
-          style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: 70 }}
+          style={{ flex: 1, backgroundColor: '#F6F8FD' }}
         >
           <ItemScorll
             title={'Dịch Vụ'}
@@ -298,9 +299,8 @@ class ModalDetailBooking extends PureComponent {
               </View>
             }
           />
-          <View style={{ height: 50 }} />
         </ScrollView>
-
+        {/* start =====> Header */}
         <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
           <Header
             LinearGradient={true}
@@ -323,11 +323,12 @@ class ModalDetailBooking extends PureComponent {
             <HeaderTitle title={`#${reservationId}`} />
           </LinearGradient>
         </Animated.View>
-
+        {/* End =====> Header */}
+        {/* Start ======= Button show chat */}
         <TouchableOpacity
           style={{
             position: 'absolute',
-            bottom: 80,
+            bottom: tabIndex && tabIndex === 2 ? 20 : 80,
             right: 20
           }}
           onPress={() => this.setState({ isShowChat: true })}
@@ -355,22 +356,11 @@ class ModalDetailBooking extends PureComponent {
             </View>
           ) : null}
         </TouchableOpacity>
+        {/* End ======= Button show chat */}
         {this.renderContentModalChat()}
         {this.renderModalCancel()}
         {this.renderPopupCancelError()}
-        {tabIndex && tabIndex == 2 ? (
-          <View
-            style={{
-              position: 'absolute',
-              width: width,
-              height: 70,
-              backgroundColor: '#F6F8FD',
-              bottom: 0
-            }}
-          />
-        ) : (
-          this.renderFooter()
-        )}
+        {tabIndex && tabIndex == 2 ? null : this.renderFooter()}
       </View>
     );
   };
@@ -378,7 +368,7 @@ class ModalDetailBooking extends PureComponent {
   renderContentModalChat() {
     let tabIndex = this.props.navigation.getParam('index', false);
     let id = this.props.userProfile.profile.result.user.id;
-
+    let IdBooking = this.props.booking.detailBooking.result.reservationId;
     return (
       <Modal
         style={Style.ModalChatContain}
@@ -387,11 +377,11 @@ class ModalDetailBooking extends PureComponent {
         isVisible={this.state.isShowChat}
       >
         <View style={Style.ViewContainChat}>
-          <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
-            <Image source={IMAGE.closeBlack} />
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowChat: false })}>
+            <Image style={{ margin: 10 }} source={IMAGE.closeBlack} />
           </TouchableOpacity>
-          <Text>#676</Text>
-          <View />
+          <Text style={{ flex: 5, textAlign: 'center' }}>#{`${IdBooking}`}</Text>
+          <View style={{ flex: 1 }} />
         </View>
         <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: this.state.marginBottom }}>
           <FlatList
@@ -416,7 +406,7 @@ class ModalDetailBooking extends PureComponent {
         </View>
         <KeyboardAvoidingView behavior="position" enabled>
           <LinearGradient
-            colors={tabIndex && tabIndex == 2 ? ['#626467', '#626467'] : ['#4A89E8', '#8FBCFF']}
+            colors={tabIndex && tabIndex == 2 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={Style.ViewButtonChat}
@@ -551,11 +541,9 @@ const Style = StyleSheet.create({
     justifyContent: 'center'
   },
   footerContain: {
-    position: 'absolute',
     width: width,
     height: 70,
     backgroundColor: '#FFF',
-    bottom: 0,
     padding: 20,
     shadowColor: '#000',
     shadowOffset: { width: 1, height: 1 },

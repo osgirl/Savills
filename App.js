@@ -25,6 +25,7 @@ const Stack = createStackNavigator(stacks, {
     header: null,
     gesturesEnabled: false
   }),
+  
   transitionConfig: () => ({
     // transitionSpec: {
       // duration: 0,

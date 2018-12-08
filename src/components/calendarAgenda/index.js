@@ -28,24 +28,28 @@ const TODAY = new Date(_year, _month, _day); // FORMAT: Wed May 16 2018 00:00:00
 
 class DateItem extends PureComponent {
   render() {
-    const { showLunar } = this.props;
-    const { item, highlight, marked, onItemPress } = this.props;
+    const { item, highlight, onItemPress } = this.props;
     const solar = format(item, 'D');
     const highlightBgColor = '#FFF';
     const normalBgColor = 'transparent';
     const hightlightTextColor = '#4A89E8';
     const normalTextColor = '#FFF';
     return (
-      <View style={{ width: width / 7, height: 50 }}>
+      <View style={{ width: width / 7, height: 30 }}>
         <TouchableOpacity
           underlayColor="#008b8b"
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
           onPress={onItemPress}
         >
-          <View style={[{ borderRadius: 20 }, { backgroundColor: highlight ? highlightBgColor : normalBgColor }]}>
+          <View
+            style={[
+              { borderRadius: 13, width: 26, height: 26,alignItems:'center',justifyContent:'center' },
+              { backgroundColor: highlight ? highlightBgColor : normalBgColor }
+            ]}
+          >
             <Text
               style={[
-                { padding: highlight ? 8 : 0, fontWeight: '900', fontSize: 12 },
+                { padding: highlight ? 5 : 0, fontFamily: 'OpenSans-SemiBold', fontSize: 10 },
                 { color: highlight ? hightlightTextColor : normalTextColor }
               ]}
             >
@@ -211,7 +215,7 @@ class CalendarStrip extends Component {
     const marked = markedDate.map(ds => this._stringToDate(ds));
     return (
       <View style={styles.container} {...this._panResponder.panHandlers}>
-        {this._renderHeader()}
+        {/* {this._renderHeader()} */}
         <Weeks isChinese={isChinese} />
         <FlatList
           ref={ref => (this._calendar = ref)}
@@ -286,7 +290,7 @@ CalendarStrip.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     width,
-    height: 30 + 30 + 50
+    height: 20 + 50
   },
   header: {
     height: 30,

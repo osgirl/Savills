@@ -17,7 +17,7 @@ import Styles from './styles';
 
 import Utils from "../../utils";
 
-import Resolution from '../../utils/resolution';
+import Resolution from '@utils/resolution';
 
 import { ItemHorizontal2 } from '../../components/placeHolder';
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";

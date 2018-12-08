@@ -544,7 +544,7 @@ class ModalEditOrder extends PureComponent {
           }}
           onPress={() => this.setState({ isShowChat: true })}
         >
-          <Image source={require('../../../resources/icons/chat-big.png')} />
+          <Image source={require('@resources/icons/chat-big.png')} />
           {this.props.workOrder.commentUnread &&
           this.props.workOrder.commentUnread.success &&
           this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
@@ -813,6 +813,7 @@ class ModalEditOrder extends PureComponent {
     let focusChat = {};
     let id = this.props.userProfile.profile.result.user.id;
     let tabIndex = this.props.navigation.getParam('tabIndex', false);
+    let IdOrder = this.state.detailOrder.id;
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
         <View
@@ -828,11 +829,11 @@ class ModalEditOrder extends PureComponent {
             paddingHorizontal: 20
           }}
         >
-          <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
-            <Image source={require('../../../resources/icons/close-black.png')} />
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowChat: false })}>
+            <Image style={{ margin: 10 }} source={require('../../../resources/icons/close-black.png')} />
           </TouchableOpacity>
-          <Text>#676</Text>
-          <View />
+          <Text style={{ flex: 5, textAlign: 'center' }}>#{`${IdOrder}`}</Text>
+          <View style={{ flex: 1 }} />
         </View>
         <Animated.View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: this.state.marginBottom }}>
           <FlatList
@@ -858,7 +859,7 @@ class ModalEditOrder extends PureComponent {
         </Animated.View>
         <KeyboardAvoidingView behavior="position" enabled>
           <LinearGradient
-            colors={tabIndex && tabIndex == 1 ? ['#626467', '#626467'] : ['#4A89E8', '#8FBCFF']}
+            colors={tabIndex && tabIndex == 1 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={[

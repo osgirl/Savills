@@ -71,20 +71,20 @@ export function logoutNotification(accessTokenAPI) {
 
 export function getSetting(accessTokenAPI) {
   return {
-    type: Types.LOGOUT_NOTIFICATION,
+    type: Types.GET_SETTING,
     payload: {
-      api: Configs.API_ACCOUNT + '/core/api/services/app/Notification/GetNotificationSettings',
+      api: Configs.API + '/api/services/app/Notification/GetNotificationSettings',
       method: 'GET',
       token: accessTokenAPI
     }
   };
 }
 
-export function updateSetting(accessTokenAPI) {
+export function updateSetting(accessTokenAPI, dataSetting) {
   return {
-    type: Types.LOGOUT_NOTIFICATION,
+    type: Types.UPDATE_SETTINGS,
     payload: {
-      api: Configs.API_ACCOUNT + '/core/api/services/app/Notification/UpdateNotificationSettings',
+      api: Configs.API + '/api/services/app/Notification/UpdateNotificationSettings',
       method: 'PUT',
       token: accessTokenAPI,
       payload: {
@@ -92,65 +92,66 @@ export function updateSetting(accessTokenAPI) {
         notifications: [
           {
             name: 'Email.FeeStatement',
-            isSubscribed: true
+            isSubscribed: dataSetting.emailOne
           },
           {
             name: 'Notification.FeeStatement',
-            isSubscribed: true
+            isSubscribed: dataSetting.one
           },
           {
             name: 'Email.WorkOrders',
-            isSubscribed: true
+            isSubscribed: dataSetting.emailTwo
           },
           {
             name: 'Notification.WorkOrders',
-            isSubscribed: true
+            isSubscribed: dataSetting.two
           },
           {
             name: 'Email.Bookings',
-            isSubscribed: true
+            isSubscribed: dataSetting.emailThree
           },
           {
             name: 'Notification.Bookings',
-            isSubscribed: true
+            isSubscribed: dataSetting.three
           },
           {
             name: 'Email.Events',
-            isSubscribed: true
+            isSubscribed: dataSetting.emailFour
           },
           {
             name: 'Notification.Events',
-            isSubscribed: true
-          },
-          {
-            name: 'Email.Library'
-          },
-          {
-            name: 'Notification.Library',
-            isSubscribed: true
+            isSubscribed: dataSetting.four
           },
           {
             name: 'Email.Feedbacks',
-            isSubscribed: true
+            isSubscribed: dataSetting.emailFive
           },
           {
             name: 'Notification.Feedbacks',
-            isSubscribed: true
+            isSubscribed: dataSetting.five
           },
           {
             name: 'Email.Communication',
-            isSubscribed: true
+            isSubscribed: dataSetting.emailSix
           },
           {
             name: 'Notification.Communication',
-            isSubscribed: true
+            isSubscribed: dataSetting.six
           },
           {
             name: 'Email.Delivery',
-            isSubscribed: true
+            isSubscribed: dataSetting.emailSevent
           },
           {
             name: 'Notification.Delivery',
+            isSubscribed: dataSetting.sevent
+          },
+          {
+            name: 'Email.Library',
+            isSubscribed: true
+          },
+          {
+            name: 'Notification.Library',
             isSubscribed: true
           }
         ]

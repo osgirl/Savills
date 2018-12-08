@@ -189,16 +189,42 @@ class Home extends layout {
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
-    this.listTenNotification(accessTokenAPI);
+    // this.listTenNotification(accessTokenAPI);
+    this.pushNotification = this.setupPushNotification(this._handleNotificationOpen);
   }
 
-  listTenNotification = async accessTokenAPI => {
+  setupPushNotification = async handleNotification => {
+    let accessTokenAPI = this.props.account.accessTokenAPI;
     const uniqueId = DeviceInfo.getUniqueID();
     await PushNotification.configure({
       onRegister: token => {
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function(notification) {},
+      onNotification: function(notification) {
+        console.log('asdkasdljasdjasldjkasdasd', notification.foreground);
+        console.log('NOTIFICATION:', notification);
+
+        if (notification.foreground) {
+          if (notification.userInteraction) {
+            console.log('NOTIFICATION touched:', notification);
+            handleNotification(notification);
+          } else {
+            console.log('NOTIFICATION foreground userInteraction:', notification.userInteraction);
+            handleNotification(notification);
+          }
+        } else {
+          if (notification.userInteraction) {
+            console.log('NOTIFICATION touched:', notification);
+            handleNotification(notification);
+          } else {
+            console.log('NOTIFICATION userInteraction:', notification.userInteraction);
+            handleNotification(notification);
+          }
+        }
+
+        // required on iOS only (see fetchCompletionHandler docs: https://facebook.github.io/react-native/docs/pushnotificationios.html)
+        notification.finish(PushNotificationIOS.FetchResult.NoData);
+      },
       senderID: '31918583407',
       permissions: {
         alert: true,
@@ -208,6 +234,37 @@ class Home extends layout {
       popInitialNotification: true,
       requestPermissions: true
     });
+    return PushNotification;
+  };
+
+  _handleNotificationOpen = notification => {
+    console.log('asdasdasdasdasdasda', notification);
+    // try {
+    //   if (Platform.OS === 'ios') {
+    //     if (notification.data.news_or_deal.indexOf('d') !== -1) {
+    //       const { navigate } = this.props.navigation;
+    //       navigate('DealsDetailsScreen', {
+    //         type: 'Navigate',
+    //         routeName: 'DealsDetailsScreen',
+    //         params: {
+    //           itemid: notification.data.news_or_deal_id
+    //         }
+    //       });
+    //     }
+    //   } else {
+    // if (notification.data) {
+    const { navigate } = this.props.navigation;
+    navigate('Booking', {
+      type: 'Navigate',
+      routeName: 'Booking',
+      params: {
+        itemtype: 3010
+      }
+    });
+    // }
+    // } catch (error) {
+    //   Alert.alert('error', error);
+    // }
   };
 
   async _onRefresh() {
@@ -284,6 +341,5 @@ class Home extends layout {
     await this.props.navigation.navigate('Login');
   }
 }
-
 
 export default Connect(Home);

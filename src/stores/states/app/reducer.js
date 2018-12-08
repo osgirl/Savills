@@ -4,10 +4,34 @@ import createReducer from '../';
 const INIT_STATE = {
   listLanguege: {},
   languegeLocal: '',
-  notification: false
+  notification: false,
+  setting: false,
+  getSetting: false
 };
 
 export default createReducer(INIT_STATE, {
+  [Types.GET_SETTING_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        getSetting: action.response.result.notifications
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.UPDATE_SETTINGS_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        setting: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.REGISTER_NOTIFICATION_SUCCESS]: (state, action) => {
     try {
       return {
