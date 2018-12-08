@@ -130,14 +130,22 @@ class HeaderHome extends Component {
 											text={this.props.text}
 										/>
 										{
-											this.props.notiCount && this.props.notiCount > 0 ?
+											this.props.notiCount && this.props.notiCount > 10 ?
 												<View style={{ position: 'absolute', right: Resolution.scale(10), top: Resolution.scale(10) }}>
 													<View style={{ backgroundColor: '#FF361A', borderRadius: 33, justifyContent: 'center', alignItems: 'center' }}>
 														<View style={{ alignItems: 'center', alignSelf: 'center', justifyContent: 'center', }}>
 															<Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(9), fontFamily: 'OpenSans-Bold', alignSelf: 'center', textAlign: 'center', paddingHorizontal: Resolution.scale(3), paddingVertical: Resolution.scale(2) }}>{this.props.notiCount}</Text>
 														</View>
 													</View>
-												</View> : null
+												</View> :
+												this.props.notiCount && this.props.notiCount < 10 ?
+													<View style={{ position: 'absolute', right: Resolution.scale(10), top: Resolution.scale(10) }}>
+														<View style={{ backgroundColor: '#FF361A', width: Resolution.scale(18), height: Resolution.scale(18), borderRadius: 33, justifyContent: 'center', alignItems: 'center' }}>
+															<View style={{ alignItems: 'center', alignSelf: 'center', justifyContent: 'center' }}>
+																<Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(9), fontFamily: 'OpenSans-Bold', alignSelf: 'center', textAlign: 'center' }}>{this.props.notiCount}</Text>
+															</View>
+														</View>
+													</View> : null
 										}
 									</View>
 

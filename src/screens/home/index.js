@@ -22,7 +22,7 @@ class Home extends layout {
       loading: false,
       dataModule: [],
       profile: null,
-      numcolumn: 2,
+      numcolumn: 3,
       moduleCount: [],
       DATA: [],
       isRefresh: false
