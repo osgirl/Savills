@@ -50,11 +50,11 @@ export default class extends Component {
 
   _FooterFlatlist() {
     return this.state.loadingMore ? (
-      <View style={{ height: Resolution.scaleHeight(HEADER_MAX_HEIGHT + 30), justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ height: Resolution.scaleHeight(40), justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+        <View style={{ height: Resolution.scale(40) }} />
       );
   }
 
