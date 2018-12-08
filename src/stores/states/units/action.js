@@ -23,6 +23,20 @@ export function getEmployeesByOu(accessTokenAPI) {
     }
 }
 
+export function setUnitDefault(accessTokenAPI, unitID) {
+    return {
+        type: Types.SET_UNIT_DEFAULT,
+        payload: {
+            api: Configs.API + '/api/services/app/Units/SetUnitIsDefault',
+            method: 'POST',
+            token: accessTokenAPI,
+            payload: {
+                unitId: unitID
+            }
+        }
+    }
+}
+
 export function setUnitLocal(data) {
     return {
         type: Types.SET_UNITLOCAL,

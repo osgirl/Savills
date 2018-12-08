@@ -28,9 +28,10 @@ class modalSelectUnit extends Component {
         }
     }
 
-    _onPressProject(project) {
-        this.setState({ projectActive: project, loading: true })
-        this.props.actions.account.switchToUserAccount(this.props.account.accessToken, project.tenantId, project.id);
+    async  _onPressProject(project) {
+        await this.setState({ projectActive: project, loading: true })
+        await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, project.tenantId, project.id);
+        await this.props.actions.account.setTenantActive(project);
     }
 
     componentWillMount() {
@@ -99,18 +100,18 @@ class modalSelectUnit extends Component {
         let check = item.fullUnitCode === this.state.unitActive.fullUnitCode ? true : false;
         return <View style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}>
             {
-                check ?
-                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        <Image source={IC_APARTMENT_ACTIVE} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
-                        <Text style={{ color: '#FFF', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.fullUnitCode}</Text>
-                    </View> :
-                    <Button
-                        onPress={() => this.seletUnits(item)}
-                        style={{ alignItems: 'center', justifyContent: 'center' }}
-                    >
-                        <Image source={IC_APARTMENT} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
-                        <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.fullUnitCode}</Text>
-                    </Button>
+                // check ?
+                //     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                //         <Image source={IC_APARTMENT_ACTIVE} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
+                //         <Text style={{ color: '#FFF', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.fullUnitCode}</Text>
+                //     </View> :
+                <Button
+                    onPress={() => this.seletUnits(item)}
+                    style={{ alignItems: 'center', justifyContent: 'center' }}
+                >
+                    <Image source={IC_APARTMENT} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
+                    <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.fullUnitCode}</Text>
+                </Button>
             }
         </View>
     }
@@ -143,7 +144,9 @@ class modalSelectUnit extends Component {
 
         await this.props.actions.units.setUnitLocal(unit);
         await this.props.actions.units.getUnitLocal();
+        await this.props.actions.units.setUnitDefault(accessTokenApi, unit.unitId)
         this.setState({ loading: false });
+        console.log('_______', unit)
         this.props.onClose()
     }
 

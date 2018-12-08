@@ -22,7 +22,17 @@ function* getEmployeesByOu(action) {
   }
 }
 
+function* setUnitDefault(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.SET_UNIT_DEFAULT_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export default function* saga() {
   yield takeLatest(Types.GET_UNITS, getUnits);
   yield takeLatest(Types.GET_EMP_BYOU, getEmployeesByOu);
+  yield takeLatest(Types.SET_UNIT_DEFAULT, setUnitDefault);
 }

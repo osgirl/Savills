@@ -5,5 +5,6 @@ export default keymirror({
     SET_UNITLOCAL: null,
     GET_UNITLOCAL: null,
     SET_IS_GETUNIT: null,
-    GET_EMP_BYOU: null
+    GET_EMP_BYOU: null,
+    SET_UNIT_DEFAULT: null
 }, "UNITS_");

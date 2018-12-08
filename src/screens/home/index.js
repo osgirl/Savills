@@ -53,7 +53,7 @@ class Home extends layout {
         }
       });
       await this.setState({ dataModule: arrTemp });
-      if(this.state.isRefresh){
+      if (this.state.isRefresh) {
         await this.setState({ isRefresh: false });
       }
     }
@@ -143,7 +143,7 @@ class Home extends layout {
           key: 'Pages.Libraries',
           title: Language.listLanguage[language].data.HOME_TXT_E_LIBARY,
           moduleName: 'Library',
-          screen: ''
+          screen: 'Library'
         },
 
         {
@@ -198,7 +198,7 @@ class Home extends layout {
       onRegister: token => {
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function(notification) {},
+      onNotification: function (notification) { },
       senderID: '31918583407',
       permissions: {
         alert: true,
@@ -209,7 +209,7 @@ class Home extends layout {
       requestPermissions: true
     });
   };
-  
+
   async _onRefresh() {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     if (this.state.isRefresh) {

@@ -6,7 +6,8 @@ const INIT_STATE = ({
     unitActive: {},
     employeesByOu: {},
     statusGetUnit: 0,
-    isGetlisUnit: true
+    isGetlisUnit: true,
+    setUnitDefault: {}
 
 });
 
@@ -40,6 +41,40 @@ export default createReducer(INIT_STATE, {
             return {
                 ...state,
                 listUnits: {}
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+    [Types.SET_UNIT_DEFAULT]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.SET_UNIT_DEFAULT_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                setUnitDefault: action.response,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.SET_UNIT_DEFAULT_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                setUnitDefault: {}
             };
         } catch (error) {
             console.log(error)
