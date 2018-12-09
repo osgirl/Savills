@@ -267,6 +267,10 @@ class Home extends layout {
     // }
   };
 
+  mapNavigateToScreen = (navigate,notification) => {
+    // switch(notification.)
+  };
+
   async _onRefresh() {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     if (this.state.isRefresh) {

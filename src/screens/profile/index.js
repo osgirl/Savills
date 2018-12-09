@@ -11,6 +11,7 @@ class Profile extends Layout {
       isShowModalUpdate: false,
       profile: this.props.profile,
       txtUpdate: '',
+      modalSelectImage: false,
       keyUpdate: '',
       avatarSource: '',
       isModalSelectUnit: false,
@@ -43,7 +44,7 @@ class Profile extends Layout {
     ) {
       let accessTokenApi = this.props.account.accessTokenAPI;
       let img = nextProps.userProfile.uploadAvatar.result;
-      await this.props.actions.userProfile.updateAvatarProfile(accessTokenApi, img.fileName);
+      await this.props.actions.userProfile.updateAvatarProfile(accessTokenApi, img.fileName, img.width, img.height, 0, 0);
     }
 
     if (
@@ -104,6 +105,7 @@ class Profile extends Layout {
   }
 
   _uploadAvatar(file) {
+    this.setState({ modalSelectImage: false });
     let accessTokenApi = this.props.account.accessTokenAPI;
     this.props.actions.userProfile.changeAvatarProfile(accessTokenApi, file);
   }

@@ -18,7 +18,7 @@ import IC_GRIDVIEW from '../../resources/icons/Grid-view.png';
 import IC_LISTVIEW_ACTIVE from '../../resources/icons/list-view-active.png';
 import IC_LISTVIEW from '../../resources/icons/list-view.png';
 import IMG_AVATAR_DEFAULT from '../../resources/icons/avatar-default.png';
-import Resolution from "../../utils/resolution";
+import Resolution from '../../utils/resolution';
 
 import FastImage from '../../components/fastImage';
 import Placeholder from 'rn-placeholder';
@@ -33,7 +33,7 @@ const imgSize = 64;
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
@@ -68,11 +68,10 @@ export default class extends Component {
   };
 
   renderHeader() {
-
     const OpacityImage = this.state.scrollY.interpolate({
       inputRange: [0, 25, 50],
       outputRange: [1, 0.5, 0],
-      extrapolate: 'clamp',
+      extrapolate: 'clamp'
     });
 
     let User = this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
@@ -85,7 +84,7 @@ export default class extends Component {
     return (
       <View style={{ width: width, alignSelf: 'center' }}>
         <Button
-        disabled={this.props.userProfile.imageProfile.success ? false : true}
+          disabled={this.props.userProfile.imageProfile.success ? false : true}
           onPress={() => {
             this._openProfile();
           }}
@@ -178,7 +177,6 @@ export default class extends Component {
               onPress={this.props.navigation.getParam('openProfileHome')}
               style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}
             >
-
               <FastImage
                 style={{ width: Resolution.scale(30), height: Resolution.scale(30), borderRadius: Resolution.scale(30) / 2 }}
                 source={this.props.navigation.getParam('userAvatar')}
