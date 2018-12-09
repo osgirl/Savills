@@ -208,7 +208,7 @@ export default class extends Component {
             scrollEnabled={checkScrollEnabled}
             horizontal={false}
             key={this.state.numcolumn === 3 ? 'h' : 'v'}
-            contentContainerStyle={{ alignItems: 'flex-start', width: width - Resolution.scale(40), marginHorizontal: Resolution.scale(20) }}
+            contentContainerStyle={{ alignItems: 'flex-start', width: width, flex: 1, marginHorizontal: 20 }}
             keyExtractor={item => item.id + ''}
             numColumns={this.state.numcolumn || 3}
             renderItem={({ item, index }) =>
