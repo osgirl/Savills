@@ -24,7 +24,7 @@ class Inbox extends layout {
             isModalDetail: false,
             pageInbox: 1,
             pageInboxActive: 1,
-            itemSelected: null
+            inboxId: null
         }
     }
 
@@ -118,8 +118,8 @@ class Inbox extends layout {
     }
 
 
-    _openModalDetail(item) {
-        this.setState({ itemSelected: item, isModalDetail: true })
+    _openModalDetail(id) {
+        this.setState({ inboxId: id, isModalDetail: true })
     }
 
     _closeModalDetail() {

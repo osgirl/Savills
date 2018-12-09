@@ -34,6 +34,17 @@ export function getOverviewMyEvents(accessTokenAPI, fromDate, toDate) {
     }
 }
 
+export function getDetail(accessTokenAPI, eventID) {
+    return {
+        type: Types.GET_DETAIL,
+        payload: {
+            api: Configs.API_BOOKING + `/api/events/eventId?eventId=${eventID}`,
+            method: 'GET',
+            token: accessTokenAPI,
+        }
+    }
+}
+
 
 
 

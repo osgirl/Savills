@@ -8,7 +8,8 @@ const INIT_STATE = {
   createFeedback: {},
   listComment: {},
   commentUnread: {},
-  addComment: {}
+  addComment: {},
+  detailFeedback: {}
 };
 
 export default createReducer(INIT_STATE, {
@@ -195,5 +196,48 @@ export default createReducer(INIT_STATE, {
     } catch (error) {
       console.log(error);
     }
-  }
+  },
+
+  [Types.GET_DETAIL]: (state, action) => {
+    try {
+      return {
+        ...state
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.GET_DETAIL_SUCCESS]: (state, action) => {
+    try {
+      let tempState;
+      tempState = Object.assign(
+        {},
+        { ...state },
+        {
+          detailFeedback: action.response
+        }
+      );
+      return tempState;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.GET_DETAIL_FAIL]: (state, action) => {
+    try {
+      return {
+        ...state,
+        detailFeedback: {}
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+
+
+
+
+
 });

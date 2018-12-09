@@ -26,7 +26,7 @@ export default class ItemHomeComponent extends Component {
         let moduleName = this.props.moduleName;
         let moduleCountByItem = moduleCount && moduleCount.length > 0 ? moduleCount.find(e => e.moduleName === moduleName) : {}
         return (
-            <View style={[Styles.container, { ...Configs.Shadow }]}>
+            <View style={[Styles.container, { ...Configs.Shadow, marginLeft: this.props.index === 0 || this.props.index % 3 === 0 ? 0 : Resolution.scale(5) }]}>
                 <ItemHome
                     txtWidth={70}
                     onReady={this.props.loading}
@@ -60,7 +60,7 @@ export default class ItemHomeComponent extends Component {
 
                             {
                                 moduleCountByItem && moduleCountByItem.unreadCount > 0 ?
-                                    <View style={{ backgroundColor: '#FFF', borderRadius: 10, position: 'absolute', top: 10, right:  10 }}>
+                                    <View style={{ backgroundColor: '#FFF', borderRadius: 10, position: 'absolute', top: 10, right: 10 }}>
                                         <View style={{ backgroundColor: '#FF361A', borderRadius: 10, margin: Resolution.scale(3) }}>
                                             <View style={{ justifyContent: 'center', alignItems: 'center', width: Resolution.scale(30) }}>
                                                 <Text style={{ color: '#FFFFFF', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(12) }}>{moduleCountByItem.unreadCount}</Text>
@@ -94,7 +94,8 @@ const Styles = StyleSheet.create({
         width: (width - 60) / 3,
         height: (width - 60) / 3,
         backgroundColor: '#FFFFFF',
-        // margin: 10
-        margin: 5
+        marginRight: Resolution.scale(5),
+        marginTop: Resolution.scale(5),
+        marginBottom: Resolution.scale(5),
     }
 })

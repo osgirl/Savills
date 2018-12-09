@@ -4,7 +4,8 @@ import createReducer from '../';
 const INIT_STATE = ({
     myEvents: {},
     eventsOfDate: {},
-    overView: {}
+    overView: {},
+    eventDetail: {}
 });
 
 export default createReducer(INIT_STATE, {
@@ -105,6 +106,41 @@ export default createReducer(INIT_STATE, {
             return {
                 ...state,
                 overView: {},
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.GET_DETAIL]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_DETAIL_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                eventDetail: action.response,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_DETAIL_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                eventDetail: {},
             };
         } catch (error) {
             console.log(error)

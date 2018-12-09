@@ -143,7 +143,7 @@ export default class extends Component {
                     style={{ flex: 1, margin: 0 }}
                     isVisible={this.state.isModalDetail}>
                     <ModalDetail
-                        item={this.state.itemSelected}
+                        inboxId={this.state.inboxId}
                         onClose={() => this._closeModalDetail()}
                     />
                 </Modal>
@@ -206,7 +206,6 @@ export default class extends Component {
     }
 
     ViewInbox = list => {
-        console.log(list)
         return (
             this.props.inbox.listInbox.totalCount === 0 ?
                 this.renderEmty('new') :
@@ -285,7 +284,7 @@ export default class extends Component {
         return (
             <Button
                 activeOpacity={1}
-                onPress={() => this._openModalDetail(item)}
+                onPress={() => this._openModalDetail(item.id)}
                 key={item.id}
                 style={{
                     width: width - 40,

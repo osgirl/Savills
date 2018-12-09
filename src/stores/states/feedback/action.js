@@ -12,6 +12,17 @@ export function getListFeedback(accessTokenAPI, pageCount = 1, language = 'en', 
   };
 }
 
+export function getDetail(accessTokenAPI, commentBoxID) {
+  return {
+    type: Types.GET_DETAIL,
+    payload: {
+      api: Configs.API_BOOKING + `/api/commentboxes?commentBoxId=${commentBoxID}`,
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
 export function getListCategory(accessTokenAPI, language = 'en') {
   return {
     type: Types.GET_LIST_CATEGORY,

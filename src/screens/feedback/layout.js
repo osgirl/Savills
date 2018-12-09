@@ -162,7 +162,9 @@ export default class extends Component {
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
         </Modal>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalDetail}>
-          <ModaDetailFeedback itemSelected={this.state.itemSelected} onClose={() => this.setState({ isModalDetail: false })} />
+          <ModaDetailFeedback
+            commentBoxId={this.state.commentBoxId}
+            onClose={() => this.setState({ isModalDetail: false })} />
         </Modal>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNew}>
           <ModalNew onClose={() => this._onCloseModalNew()} />
@@ -176,7 +178,7 @@ export default class extends Component {
     let time = moment(item.createdAt).format('LT');
     return (
       <Button
-        onPress={() => this._openModalDetail(item)}
+        onPress={() => this._openModalDetail(item.commentBoxId)}
         style={{
           width: width - Resolution.scale(40),
           borderRadius: 10,
