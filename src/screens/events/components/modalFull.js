@@ -23,7 +23,7 @@ class modalFull extends Component {
         super(props);
         this.state = {
             isShowModal: false,
-            itemSelected: null,
+            eventId: null,
             eventOfDate: []
         }
     }
@@ -91,7 +91,7 @@ class modalFull extends Component {
                     isVisible={this.state.isShowModal}>
                     <ModalDetail
                         onClose={() => this.setState({ isShowModal: false })}
-                        itemEventSelected={this.state.itemSelected}
+                        id={this.state.eventId}
                         dateSelected={this.state.dateSelected}
                     />
                 </Modal>
@@ -107,7 +107,7 @@ class modalFull extends Component {
         let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
         return (
             <Button
-                onPress={() => this._openModal(item)}
+                onPress={() => this._openModal(item.eventId)}
                 style={[styles.item, { flexDirection: 'row', marginHorizontal: 20, width: width - 40, backgroundColor: '#FFF', borderRadius: 5 }]}>
                 <Image
                     source={{ uri: image }}
@@ -184,8 +184,8 @@ class modalFull extends Component {
         </LinearGradient>
     }
 
-    _openModal(item) {
-        this.setState({ itemSelected: item })
+    _openModal(id) {
+        this.setState({ eventId: id });
         this.setState({ isShowModal: true });
     }
 

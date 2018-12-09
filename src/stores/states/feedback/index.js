@@ -8,5 +8,6 @@ export default keymirror({
     GET_COMMENT_USER: null,
     GET_COMMENT_UNREAD: null,
     ADD_COMMENT_USER: null,
+    GET_DETAIL: null,
 
 }, "FEEDBACK_");

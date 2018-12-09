@@ -31,8 +31,18 @@ function* getOverviewMyEvents(action) {
   }
 }
 
+function* getDetail(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_DETAIL_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export default function* saga() {
   yield takeLatest(Types.GET_MY_EVENTS, getMyEvents);
   yield takeLatest(Types.GET_EVENTS_OF_DATE, getMyEventsOfDate);
   yield takeLatest(Types.GET_OVERVIEW, getOverviewMyEvents);
+  yield takeLatest(Types.GET_DETAIL, getDetail);
 }

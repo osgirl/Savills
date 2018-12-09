@@ -21,7 +21,7 @@ class Feedback extends layout {
             loadingMore: false,
             isModalNew: false,
             pageCount: 1,
-            itemSelected: null,
+            commentBoxId: null,
             scrollY: new Animated.Value(0),
         }
     }
@@ -76,8 +76,8 @@ class Feedback extends layout {
         this.setState({ isModalSelectUnit: true })
     }
 
-    _openModalDetail(item) {
-        this.setState({ itemSelected: item })
+    _openModalDetail(id) {
+        this.setState({ commentBoxId: id })
         this.setState({ isModalDetail: true })
     }
 

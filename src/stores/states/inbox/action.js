@@ -34,4 +34,15 @@ export function setInboxActive(accessTokenAPI, inboxId = 0) {
     }
 }
 
+export function getDetail(accessTokenAPI, inboxId = 0) {
+    return {
+        type: Types.GET_DETAIL,
+        payload: {
+            api: Configs.API + `/api/services/app/InboxUsers/GetInboxDetails?inboxId=${inboxId}`,
+            method: 'GET',
+            token: accessTokenAPI,
+        }
+    }
+}
+
 

@@ -104,6 +104,7 @@ class ModalNewFeedback extends Component {
   }
 
   _changeTypeFeedback(type) {
+    console.log(type)
     this.setState({ type: type })
   }
 
@@ -277,6 +278,7 @@ class ModalNewFeedback extends Component {
                     fontSize: Resolution.scale(14),
                     fontFamily: 'OpenSans-Regular'
                   }}
+                  returnKeyType={'done'}
                   multiline
                   placeholder={'Nhập nội dung ...'}
                   onChangeText={e => this.setState({ comment: e })}
@@ -401,24 +403,12 @@ class ModalNewFeedback extends Component {
                     }}
                   >
                     {
-                      this.state.listTypeFeedback.map((item, index) => (
-                        <TouchableOpacity
-                          disabled={true}
-                          key={index}
-                          activeOpacity={1}
-                          onPress={() => this._changeTypeFeedback(item.typeCode)}
-                          style={{ flexDirection: 'row' }}
-                        >
-                          <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}>{item.name}</Text>
-                          <Image
-                            source={
-                              item.typeCode == this.state.type
-                                ? require('../../../resources/icons/checked.png')
-                                : require('../../../resources/icons/check.png')
-                            }
-                          />
-                        </TouchableOpacity>
-                      ))
+                      <View
+                        style={{ flexDirection: 'row' }}
+                      >
+                        <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}>{this.state.type}</Text>
+                        <Image source={require('../../../resources/icons/checked.png')} />
+                      </View>
 
                     }
                   </View>

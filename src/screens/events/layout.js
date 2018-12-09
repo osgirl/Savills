@@ -232,7 +232,10 @@ export default class Layout extends Component {
           style={{ flex: 1, marginTop: Resolution.scale(50), marginLeft: 0, marginRight: 0, marginBottom: 0 }}
           isVisible={this.state.isShowModalDetail}
         >
-          <ModalDetail onClose={() => this._closeModalDetail()} itemEventSelected={this.state.itemEventSelect} />
+          <ModalDetail
+            onClose={() => this._closeModalDetail()}
+            id={this.state.eventId}
+          />
         </Modal>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowModalFull}>
           <ModalFull
@@ -254,7 +257,7 @@ export default class Layout extends Component {
     let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
     return (
       <ItemHorizontal key={'__PLD' + index} onReady={loading} bgColor={'#FFF'} animate="fade">
-        <Button onPress={() => this._openModalDetail(item)} style={[styles.item, { flexDirection: 'row' }]}>
+        <Button onPress={() => this._openModalDetail(item.eventId)} style={[styles.item, { flexDirection: 'row' }]}>
           <FastImage
             style={{
               width: Resolution.scaleWidth(103),

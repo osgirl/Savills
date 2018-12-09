@@ -20,7 +20,7 @@ class Events extends Layout {
       myEvent: [],
       isShowModalDetail: false,
       isShowModalFull: false,
-      itemEventSelect: null,
+      eventId: null,
       isModalSelectUnit: false,
       openFullCalendar: false
     };
@@ -51,8 +51,8 @@ class Events extends Layout {
     }
   }
 
-  async _openModalDetail(item) {
-    await this.setState({ itemEventSelect: item });
+  async _openModalDetail(id) {
+    await this.setState({ eventId: id });
     await this.setState({ isShowModalDetail: true });
   }
   _closeModalDetail() {

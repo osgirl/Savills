@@ -5,7 +5,8 @@ const INIT_STATE = ({
     listInbox: { items: [], success: false, totalCount: null },
     listInboxIsActive: { items: [], success: false, totalCount: null },
     setInboxActive: false,
-    statusSetinbox: 0
+    statusSetinbox: 0,
+    detailInbox: {}
 });
 
 export default createReducer(INIT_STATE, {
@@ -132,6 +133,47 @@ export default createReducer(INIT_STATE, {
             return {
                 ...state,
                 setInboxActive: false,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+
+    [Types.GET_DETAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_DETAIL_SUCCESS]: (state, action) => {
+        try {
+            let tempState;
+            tempState = Object.assign(
+                {},
+                { ...state },
+                {
+                    detailInbox: action.response,
+                },
+            );
+            return tempState;
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_DETAIL_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                detailInbox: {},
             };
         } catch (error) {
             console.log(error)
