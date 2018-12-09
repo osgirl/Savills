@@ -66,6 +66,10 @@ class TabWorkOrder extends PureComponent {
     setTimeout(() => {
       this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'COMPLETED', id);
     }, 1000);
+    let ida = this.props.navigation.getParam('params', false);
+    if (ida.itemtype) {
+      this.props.navigation.navigate('ModalEditOrder', { id: ida.itemtype });
+    }
   };
 
   componentWillReceiveProps = nextProps => {

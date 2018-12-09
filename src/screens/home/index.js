@@ -210,7 +210,7 @@ class Home extends layout {
             handleNotification(notification);
           } else {
             console.log('NOTIFICATION foreground userInteraction:', notification.userInteraction);
-            handleNotification(notification);
+            // handleNotification(notification);
           }
         } else {
           if (notification.userInteraction) {
@@ -254,13 +254,6 @@ class Home extends layout {
     //   } else {
     // if (notification.data) {
     const { navigate } = this.props.navigation;
-    // navigate('Booking', {
-    //   type: 'Navigate',
-    //   routeName: 'Booking',
-    //   params: {
-    //     itemtype: 3010
-    //   }
-    // });
     this.mapNavigateToScreen(navigate, notification);
     // }
     // } catch (error) {
