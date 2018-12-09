@@ -18,7 +18,7 @@ import IC_GRIDVIEW from '../../resources/icons/Grid-view.png';
 import IC_LISTVIEW_ACTIVE from '../../resources/icons/list-view-active.png';
 import IC_LISTVIEW from '../../resources/icons/list-view.png';
 import IMG_AVATAR_DEFAULT from '../../resources/icons/avatar-default.png';
-import Resolution from '../../utils/resolution';
+import Resolution from "../../utils/resolution";
 
 import FastImage from '../../components/fastImage';
 import Placeholder from 'rn-placeholder';
@@ -33,7 +33,7 @@ const imgSize = 64;
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -68,11 +68,12 @@ export default class extends Component {
   };
 
   renderHeader() {
+
     let checkEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
     const OpacityImage = this.state.scrollY.interpolate({
       inputRange: [0, 25, 50],
       outputRange: [1, 0.5, 0],
-      extrapolate: 'clamp'
+      extrapolate: 'clamp',
     });
 
     let User = this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
@@ -102,24 +103,25 @@ export default class extends Component {
 
           <Text style={Style.unitCode}>{Unit.fullUnitCode}</Text>
         </Button>
-        {checkEnabled ? (
-          <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
-            <Button
-              disabled={this.state.numcolumn === 3 ? true : false}
-              style={Style.btnGrid}
-              onPress={() => this._onChangeNumColumn('3')}
-            >
-              <Image source={this.state.numcolumn === 3 ? IC_GRIDVIEW_ACTIVE : IC_GRIDVIEW} />
-            </Button>
-            <Button
-              disabled={this.state.numcolumn !== 3 ? true : false}
-              style={Style.btnList}
-              onPress={() => this._onChangeNumColumn('1')}
-            >
-              <Image source={this.state.numcolumn !== 3 ? IC_LISTVIEW_ACTIVE : IC_LISTVIEW} />
-            </Button>
-          </View>
-        ) : null}
+        {
+          checkEnabled ?
+            <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+              <Button
+                disabled={this.state.numcolumn === 3 ? true : false}
+                style={Style.btnGrid}
+                onPress={() => this._onChangeNumColumn('3')}
+              >
+                <Image source={this.state.numcolumn === 3 ? IC_GRIDVIEW_ACTIVE : IC_GRIDVIEW} />
+              </Button>
+              <Button
+                disabled={this.state.numcolumn !== 3 ? true : false}
+                style={Style.btnList}
+                onPress={() => this._onChangeNumColumn('1')}
+              >
+                <Image source={this.state.numcolumn !== 3 ? IC_LISTVIEW_ACTIVE : IC_LISTVIEW} />
+              </Button>
+            </View> : null
+        }
       </View>
     );
   }
@@ -179,6 +181,7 @@ export default class extends Component {
               onPress={this.props.navigation.getParam('openProfileHome')}
               style={{ justifyContent: 'center', flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}
             >
+
               <FastImage
                 style={{ width: Resolution.scale(30), height: Resolution.scale(30), borderRadius: Resolution.scale(30) / 2 }}
                 source={this.props.navigation.getParam('userAvatar')}
@@ -205,11 +208,7 @@ export default class extends Component {
             scrollEnabled={checkScrollEnabled}
             horizontal={false}
             key={this.state.numcolumn === 3 ? 'h' : 'v'}
-            contentContainerStyle={{
-              alignItems: 'flex-start',
-              width: width - Resolution.scale(40),
-              marginHorizontal: Resolution.scale(20)
-            }}
+            contentContainerStyle={{ alignItems: 'flex-start', width: width, flex: 1, marginHorizontal: 20 }}
             keyExtractor={item => item.id + ''}
             numColumns={this.state.numcolumn || 3}
             renderItem={({ item, index }) =>
