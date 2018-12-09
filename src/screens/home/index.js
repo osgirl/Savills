@@ -22,7 +22,7 @@ class Home extends layout {
       loading: false,
       dataModule: [],
       profile: null,
-      numcolumn: 2,
+      numcolumn: 3,
       moduleCount: [],
       DATA: [],
       isRefresh: false
@@ -143,7 +143,7 @@ class Home extends layout {
           key: 'Pages.Libraries',
           title: Language.listLanguage[language].data.HOME_TXT_E_LIBARY,
           moduleName: 'Library',
-          screen: ''
+          screen: 'Library'
         },
 
         {
@@ -267,7 +267,7 @@ class Home extends layout {
     // }
   };
 
-  mapNavigateToScreen = (navigate,notification) => {
+  mapNavigateToScreen = (navigate, notification) => {
     // switch(notification.)
   };
 

@@ -13,6 +13,8 @@ import inbox from './states/inbox/reducer';
 import fee from './states/fee/reducer';
 import frontDesk from './states/frontDesk/reducer';
 import feedback from './states/feedback/reducer';
+import library from './states/library/reducer';
+
 export default combineReducers({
   frontDesk,
   booking,
@@ -26,5 +28,6 @@ export default combineReducers({
   notification,
   inbox,
   fee,
-  feedback
+  feedback,
+  library
 });

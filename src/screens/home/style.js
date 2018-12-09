@@ -31,7 +31,6 @@ const style = StyleSheet.create({
         marginTop: Resolution.scale(20),
         marginBottom: Resolution.scale(6),
         fontFamily: 'OpenSans-Bold',
-        marginHorizontal: Resolution.scaleWidth(60)
     },
     unitCode: {
         fontSize: Resolution.scale(18),

@@ -68,6 +68,7 @@ export default class extends Component {
   };
 
   renderHeader() {
+    let checkEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
     const OpacityImage = this.state.scrollY.interpolate({
       inputRange: [0, 25, 50],
       outputRange: [1, 0.5, 0],
@@ -82,7 +83,7 @@ export default class extends Component {
     let Unit = this.props.units.unitActive;
     var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
     return (
-      <View style={{ width: width, alignSelf: 'center' }}>
+      <View style={{ width: width - Resolution.scale(40), alignSelf: 'center' }}>
         <Button
           disabled={this.props.userProfile.imageProfile.success ? false : true}
           onPress={() => {
@@ -101,23 +102,24 @@ export default class extends Component {
 
           <Text style={Style.unitCode}>{Unit.fullUnitCode}</Text>
         </Button>
-        <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginHorizontal: 20 }}>
-          <Button
-            disabled={this.state.numcolumn === 2 ? true : false}
-            style={Style.btnGrid}
-            onPress={() => this._onChangeNumColumn('2')}
-          >
-            <Image source={this.state.numcolumn === 2 ? IC_GRIDVIEW_ACTIVE : IC_GRIDVIEW} />
-          </Button>
-          <Button
-            disabled={this.state.numcolumn !== 2 ? true : false}
-            style={Style.btnList}
-            onPress={() => this._onChangeNumColumn('1')}
-          >
-            <Image source={this.state.numcolumn !== 2 ? IC_LISTVIEW_ACTIVE : IC_LISTVIEW} />
-          </Button>
-        </View>
-        {/* </View> */}
+        {checkEnabled ? (
+          <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+            <Button
+              disabled={this.state.numcolumn === 3 ? true : false}
+              style={Style.btnGrid}
+              onPress={() => this._onChangeNumColumn('3')}
+            >
+              <Image source={this.state.numcolumn === 3 ? IC_GRIDVIEW_ACTIVE : IC_GRIDVIEW} />
+            </Button>
+            <Button
+              disabled={this.state.numcolumn !== 3 ? true : false}
+              style={Style.btnList}
+              onPress={() => this._onChangeNumColumn('1')}
+            >
+              <Image source={this.state.numcolumn !== 3 ? IC_LISTVIEW_ACTIVE : IC_LISTVIEW} />
+            </Button>
+          </View>
+        ) : null}
       </View>
     );
   }
@@ -163,7 +165,7 @@ export default class extends Component {
       this.props.userProfile.imageProfile.result.profilePicture;
     var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
     let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
-
+    let checkScrollEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
     return (
       <View style={Style.container}>
         <HeaderHome
@@ -200,11 +202,16 @@ export default class extends Component {
         <View style={{ flex: 1 }}>
           <FlatList
             data={data}
+            scrollEnabled={checkScrollEnabled}
             horizontal={false}
-            key={this.state.numcolumn === 2 ? 'h' : 'v'}
-            contentContainerStyle={{ alignItems: 'center', marginHorizontal: Resolution.scale(20) }}
+            key={this.state.numcolumn === 3 ? 'h' : 'v'}
+            contentContainerStyle={{
+              alignItems: 'flex-start',
+              width: width - Resolution.scale(40),
+              marginHorizontal: Resolution.scale(20)
+            }}
             keyExtractor={item => item.id + ''}
-            numColumns={this.state.numcolumn || 2}
+            numColumns={this.state.numcolumn || 3}
             renderItem={({ item, index }) =>
               this.renderItem(
                 item,

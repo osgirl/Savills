@@ -23,10 +23,6 @@ import { ItemHorizontal2 } from '../../components/placeHolder';
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
 
-const HEADER_MAX_HEIGHT = Platform.OS == 'ios' ? 140 : 120;
-const HEADER_MIN_HEIGHT = 75;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -35,7 +31,7 @@ export default class extends Component {
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          if (event.nativeEvent.contentOffset.y > 60) {
+          if (event.nativeEvent.contentOffset.y > 30) {
             if (!this.showCenter) {
               this.showCenter = true;
               this.setState({ isShowTitleHeader: true });
@@ -54,20 +50,20 @@ export default class extends Component {
 
   _FooterFlatlist() {
     return this.state.loadingMore ? (
-      <View style={{ height: Resolution.scaleHeight(HEADER_MAX_HEIGHT + 30), justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ height: Resolution.scaleHeight(40), justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+        <View style={{ height: Resolution.scale(40) }} />
       );
   }
 
-  renderHeader() {
+  renderTitle() {
     let unitActive = this.props.units.unitActive;
 
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      inputRange: [0, 30],
+      outputRange: [60, 0],
       extrapolate: 'clamp'
     });
 
@@ -78,53 +74,62 @@ export default class extends Component {
     });
 
     return (
-      <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
-        <Header
-          LinearGradient={true}
-          leftIcon={IC_BACK}
-          leftAction={() => this.props.navigation.goBack()}
-          headercolor={'transparent'}
-          showTitleHeader={this.state.isShowTitleHeader}
-          center={
-            <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Feedback'}</Text>
-            </View>
-          }
-          renderViewRight={
-            <Button
-              onPress={() => this._openModalSelectUnit()}
-              style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
-            >
-              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
-                {unitActive.fullUnitCode}
-              </Text>
-              <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
-            </Button>
-          }
-        />
-        <LinearGradient
-          colors={['#4A89E8', '#8FBCFF']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        >
-          <Animated.View style={{ opacity: opacity }}>
-            <HeaderTitle title={'Feedback'} />
-          </Animated.View>
-        </LinearGradient>
-      </Animated.View>
+      <View>
+        <Animated.View style={{ height: headerHeight }}>
+          <LinearGradient
+            colors={['#4A89E8', '#8FBCFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{ flex: 1 }}
+          >
+            <Animated.View style={{ opacity: opacity }}>
+              <HeaderTitle title={'Feedback'} />
+            </Animated.View>
+          </LinearGradient>
+        </Animated.View>
+      </View>
     );
+  }
+
+  renderHeader() {
+    let unitActive = this.props.units.unitActive;
+    return <Header
+      LinearGradient={true}
+      leftIcon={IC_BACK}
+      leftAction={() => this.props.navigation.goBack()}
+      headercolor={'transparent'}
+      showTitleHeader={this.state.isShowTitleHeader}
+      center={
+        <View>
+          <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Feedback'}</Text>
+        </View>
+      }
+      renderViewRight={
+        <Button
+          onPress={() => this._openModalSelectUnit()}
+          style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
+        >
+          <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
+            {unitActive.fullUnitCode}
+          </Text>
+          <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
+        </Button>
+      }
+    />
   }
 
   render() {
     let unitActive = this.props.units.unitActive;
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+
+        {this.renderHeader()}
+        {this.renderTitle()}
         <StatusBar barStyle="light-content" />
         {
           this.state.data.length > 0 ?
-            <View style={{ flex: 1}}>
+            <View style={{ flex: 1 }}>
               <FlatList
-                contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
                 data={this.state.data}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item, index) => item.commentBoxId + '__' + index}
@@ -162,7 +167,6 @@ export default class extends Component {
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNew}>
           <ModalNew onClose={() => this._onCloseModalNew()} />
         </Modal>
-        {this.renderHeader()}
       </View>
     );
   }

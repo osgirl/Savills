@@ -26,6 +26,7 @@ import DetailIntrustion from './frontDesk/components/DetailIntrustion';
 import DetailDelivery from './frontDesk/components/DetailDelivery';
 import Feedback from './feedback';
 import Setting from './setting';
+import Library from './library';
 
 
 export {
@@ -56,5 +57,7 @@ export {
   Inbox,
   Fee,
   Feedback,
-  Setting
+  Setting,
+  Library,
+
 };

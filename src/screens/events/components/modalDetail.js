@@ -8,6 +8,7 @@ import Button from "../../../components/button";
 import IC_CLOSE from "@resources/icons/close-black.png";
 import IC_CALENDAR from "@resources/icons/calendar.png";
 import IC_CLOCK from "@resources/icons/clock.png";
+import IC_LOCATION from "@resources/icons/location.png";
 
 const { width, height } = Dimensions.get('window');
 
@@ -33,16 +34,15 @@ class modalDetail extends Component {
         let image = `${itemEventSelected.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
         return (
             <View style={[styles.container, {}]}>
-                <View style={{ margin: 20 }}>
-                    <Button
-                        onPress={() => this.props.onClose()}
-                    >
-                        <Image source={IC_CLOSE} />
-                    </Button>
-                </View>
+                <Button
+                    style={{ padding: 20 }}
+                    onPress={() => this.props.onClose()}
+                >
+                    <Image source={IC_CLOSE} />
+                </Button>
                 <Image source={{ uri: image }}
                     style={{ height: Resolution.scaleHeight(222), width: width }}
-                    resizeMode={'cover'}
+                    resizeMode={'center'}
                 />
                 <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
                     <Text numberOfLines={2} style={{ fontSize: 16, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
@@ -69,7 +69,7 @@ class modalDetail extends Component {
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: 20 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Image source={IC_CLOCK} />
+                                <Image source={IC_LOCATION} />
                                 <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
                                     {itemEventSelected && itemEventSelected.location}
                                 </Text>

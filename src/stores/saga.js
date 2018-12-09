@@ -12,6 +12,7 @@ import inbox from './states/inbox/saga';
 import fee from './states/fee/saga';
 import frontDesk from './states/frontDesk/saga';
 import feedback from './states/feedback/saga';
+import library from './states/library/saga';
 
 export default function* sagaRoot() {
   yield all([
@@ -27,6 +28,8 @@ export default function* sagaRoot() {
     booking(),
     inbox(),
     fee(),
-    feedback()
+    feedback(),
+    library(),
+
   ]);
 }

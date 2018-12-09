@@ -11,6 +11,7 @@ import * as inbox from './states/inbox/action';
 import * as frontDesk from './states/frontDesk/action';
 import * as fee from './states/fee/action';
 import * as feedback from './states/feedback/action';
+import * as library from './states/library/action';
 
 export default {
   frontDesk,
@@ -25,5 +26,7 @@ export default {
   notification,
   inbox,
   fee,
-  feedback
+  feedback,
+  library,
+
 };

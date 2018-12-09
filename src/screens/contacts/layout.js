@@ -5,7 +5,7 @@ import {
     Platform,
     Image,
     FlatList,
-    Dimensions, StatusBar
+    Dimensions, StatusBar, Animated
 } from 'react-native';
 
 import Button from "@components/button";
@@ -23,6 +23,7 @@ import IC_CALL from "@resources/icons/Call-button.png";
 import Header from '@components/header'
 import IC_BACK from "@resources/icons/back-light.png";
 import IC_DROPDOWN from "@resources/icons/dropDown.png";
+import IC_AVATARDF from "../../resources/icons/avatar-default.png";
 
 const { width, height } = Dimensions.get('window');
 
@@ -30,6 +31,8 @@ import Style from "./style";
 import Resolution from '../../utils/resolution';
 
 import Language from "../../utils/language";
+
+import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
 export default class extends Component {
 
@@ -63,21 +66,59 @@ export default class extends Component {
         }
     }
 
+    handleScroll = event => {
+        Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            {
+                listener: event => {
+                    if (event.nativeEvent.contentOffset.y > 30) {
+                        if (!this.showCenter) {
+                            this.showCenter = true;
+                            this.setState({ isShowTitleHeader: true });
+                        }
+                    } else {
+                        if (this.showCenter) {
+                            this.showCenter = false;
+                            this.setState({ isShowTitleHeader: false });
+                        }
+                    }
+                }
+            },
+            { useNativeDriver: true }
+        )(event);
+    };
+
     renderHeader() {
-        let LG = Language.listLanguage[this.props.app.languegeLocal].data
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+
+        const headerHeight = this.state.scrollY.interpolate({
+            inputRange: [0, 30],
+            outputRange: [60, 0],
+            extrapolate: 'clamp'
+        });
+
+        const opacity = this.state.scrollY.interpolate({
+            inputRange: [0, 25, 50],
+            outputRange: [1, 0.5, 0],
+            extrapolate: 'clamp'
+        });
         return (
-            <LinearGradient
-                colors={['#4A89E8', '#8FBCFF']}
-                start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                style={{ marginBottom: 20 }}>
-                <HeaderTitle title={LG.CONTACTS_TXT_TITLE} />
-            </LinearGradient>
+            <Animated.View style={{ height: headerHeight }}>
+                <LinearGradient
+                    colors={['#4A89E8', '#8FBCFF']}
+                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                    style={{ flex: 1 }}>
+                    <Animated.View style={{ opacity: opacity }}>
+                        <HeaderTitle title={LG.CONTACTS_TXT_TITLE} />
+                    </Animated.View>
+                </LinearGradient>
+            </Animated.View>
         )
     }
 
     renderItem(item) {
         let encToken = this.props.account.encToken;
-        let image = `${item.user.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+        let image = item.user.fileUrl ? `${item.user.fileUrl}&encToken=${encodeURIComponent(encToken)}` : IC_AVATARDF;
         return (
             <Button
                 activeOpacity={1}
@@ -127,29 +168,44 @@ export default class extends Component {
                     leftIcon={IC_BACK}
                     leftAction={() => this.props.navigation.goBack()}
                     headercolor={'transparent'}
+                    showTitleHeader={this.state.isShowTitleHeader}
+                    center={
+                        <View>
+                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Feedback'}</Text>
+                        </View>
+                    }
                     renderViewRight={
                         <Button
-                            onPress={() => this.setState({ isModalSelectUnit: true })}
-                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}>
-                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
+                            onPress={() => this._openModalSelectUnit()}
+                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
+                        >
+                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
+                                {unitActive.fullUnitCode}
+                            </Text>
                             <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
                         </Button>
                     }
                 />
-                <FlatList
-                    alwaysBounceVertical={false}
-                    data={this.state.data || []}
-                    keyExtractor={(item) => item.user.id + ''}
-                    renderItem={({ item, index }) => (
-                        this.renderItem(item)
-                    )}
-                    legacyImplementation={false}
-                    showsHorizontalScrollIndicator={false}
-                    showsVerticalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <View style={{ height: Resolution.scale(10) }} />}
-                    ListHeaderComponent={() => this.renderHeader()}
-                    ListFooterComponent={() => <View style={{ height: Resolution.scale(20) }} />}
-                />
+                {this.renderHeader()}
+                {
+                    this.props.units.employeesByOu && this.props.units.employeesByOu.success ?
+                        <FlatList
+                            alwaysBounceVertical={false}
+                            data={this.state.data || []}
+                            keyExtractor={(item) => item.user.id + ''}
+                            renderItem={({ item, index }) => (
+                                this.renderItem(item)
+                            )}
+                            onScroll={this.handleScroll}
+                            legacyImplementation={false}
+                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
+                            ItemSeparatorComponent={() => <View style={{ height: Resolution.scale(10) }} />}
+                            ListHeaderComponent={() => <View style={{ height: Resolution.scale(20) }} />}
+                            ListFooterComponent={() => <View style={{ height: Resolution.scale(20) }} />}
+                        /> : <ItemPlaceHolderH />
+                }
+
                 <Modal
                     style={{ flex: 1, margin: 0 }}
                     isVisible={this.state.isModalSelectUnit}>

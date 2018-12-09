@@ -148,6 +148,7 @@ class ModalNewFeedback extends Component {
         colors={['#4A89E8', '#8FBCFF']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
+        style={{ flex: 1 }}
       >
         <Animated.View style={{ opacity: opacity }}>
           <HeaderTitle title={'New Feedback'} />
@@ -178,7 +179,7 @@ class ModalNewFeedback extends Component {
                   view={
                     <View
                       style={{
-                        height: Resolution.scaleHeight(110),
+                        // height: Resolution.scaleHeight(110),
                         width: null,
                         flex: 1,
                         borderRadius: 10,
@@ -193,7 +194,7 @@ class ModalNewFeedback extends Component {
                             key={index}
                             activeOpacity={1}
                             onPress={() => this._changeTypeFeedback(item.typeCode)}
-                            style={{ flexDirection: 'row' }}
+                            style={{ flexDirection: 'row', marginVertical: 5 }}
                           >
                             <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}>{item.name}</Text>
                             <Image
