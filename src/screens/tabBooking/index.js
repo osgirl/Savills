@@ -91,6 +91,13 @@ class TabBooking extends Component {
     )(event);
   };
 
+  changeStatusBar = () => {
+    if (this.state.isShowCategory || this.state.isModalSelectUnit) StatusBar.setHidden(true);
+    else {
+      StatusBar.setHidden(false);
+    }
+  };
+
   render() {
     let unitActive = this.props.units.unitActive;
 
@@ -119,6 +126,7 @@ class TabBooking extends Component {
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
+    this.changeStatusBar()
 
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>

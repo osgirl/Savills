@@ -202,7 +202,6 @@ export default class extends Component {
       <View style={{ flex: 1 }}>
         {this.modalCropsImage()}
         <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
-          <StatusBar barStyle="light-content" />
           <View style={Style.container}>
             <View style={{ position: 'absolute', top: 0 }}>
               <FastImage style={Style.imgAvatar} source={this.state.avatar} resizeMode={'cover'} />

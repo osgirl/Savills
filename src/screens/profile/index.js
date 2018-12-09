@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Connect from '@stores';
+import { StatusBar, Platform } from 'react-native';
 import Layout from './layout';
 import _ from 'lodash';
 
@@ -22,6 +23,15 @@ class Profile extends Layout {
       ],
       itemSelectDisplay: this.props.profile.displayName
     };
+    if (Platform.OS === 'android') {
+      StatusBar.setHidden(true);
+      StatusBar.setTranslucent(true);
+      StatusBar.setBackgroundColor('transparent');
+      StatusBar.setBarStyle('dark-content');
+    } else {
+      StatusBar.setHidden(false);
+      StatusBar.setBarStyle('dark-content');
+    }
   }
 
   componentDidMount() {

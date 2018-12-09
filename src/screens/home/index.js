@@ -30,8 +30,9 @@ class Home extends layout {
     this.showCenter = false;
     if (Platform.OS === 'android') {
       StatusBar.setHidden(false);
-      StatusBar.setBackgroundColor('#000');
-      StatusBar.setBarStyle('light-content');
+      StatusBar.setTranslucent(true);
+      StatusBar.setBackgroundColor('transparent');
+      StatusBar.setBarStyle('dark-content');
     } else {
       StatusBar.setHidden(false);
       StatusBar.setBarStyle('dark-content');
@@ -210,7 +211,7 @@ class Home extends layout {
             handleNotification(notification);
           } else {
             console.log('NOTIFICATION foreground userInteraction:', notification.userInteraction);
-            // handleNotification(notification);
+            handleNotification(notification);
           }
         } else {
           if (notification.userInteraction) {

@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  StatusBar,
   TextInput,
   PixelRatio,
   FlatList,
@@ -55,7 +56,8 @@ class ModalDetailBooking extends PureComponent {
       isShowTitleHeader: false,
       scrollY: new Animated.Value(0),
       popupError: false,
-      marginBottom: 0
+      marginBottom: 0,
+      isShowChat: false
     };
     this._keyboardDidHide = this._keyboardDidHide.bind(this);
     this._keyboardDidShow = this._keyboardDidShow.bind(this);
@@ -160,6 +162,13 @@ class ModalDetailBooking extends PureComponent {
     return this.state.loading ? null : this.renderDetail();
   }
 
+  changeStatusBar = () => {
+    if (this.state.isShowModalCancel || this.state.isShowChat) StatusBar.setHidden(true);
+    else {
+      StatusBar.setHidden(false);
+    }
+  };
+
   renderDetail = () => {
     const {
       amenity,
@@ -179,9 +188,8 @@ class ModalDetailBooking extends PureComponent {
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
-
+    this.changeStatusBar();
     let tabIndex = this.props.navigation.getParam('index', false);
-
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
