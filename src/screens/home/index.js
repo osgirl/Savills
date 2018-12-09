@@ -254,13 +254,14 @@ class Home extends layout {
     //   } else {
     // if (notification.data) {
     const { navigate } = this.props.navigation;
-    navigate('Booking', {
-      type: 'Navigate',
-      routeName: 'Booking',
-      params: {
-        itemtype: 3010
-      }
-    });
+    // navigate('Booking', {
+    //   type: 'Navigate',
+    //   routeName: 'Booking',
+    //   params: {
+    //     itemtype: 3010
+    //   }
+    // });
+    this.mapNavigateToScreen(navigate, notification);
     // }
     // } catch (error) {
     //   Alert.alert('error', error);
@@ -268,7 +269,45 @@ class Home extends layout {
   };
 
   mapNavigateToScreen = (navigate, notification) => {
-    // switch(notification.)
+    let routeName = '';
+    switch (parseInt(notification.type)) {
+      case 1:
+        routeName = 'Fee';
+        break;
+      case 2:
+        routeName = 'WorkOrder';
+        break;
+      case 3:
+        routeName = 'Booking';
+        break;
+      case 4:
+        routeName = 'Events';
+        break;
+      case 5:
+        routeName = 'Library';
+        break;
+      case 6:
+        routeName = 'Feedback';
+        break;
+      case 12:
+        routeName = 'FrontDesk';
+        break;
+      case 13:
+        routeName = 'FrontDesk';
+        break;
+      case 14:
+        routeName = 'Inbox';
+        break;
+      default:
+        routeName = 'Home';
+    }
+    navigate(routeName, {
+      type: 'Navigate',
+      routeName: routeName,
+      params: {
+        itemtype: parseInt(notification.parentid)
+      }
+    });
   };
 
   async _onRefresh() {
