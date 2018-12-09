@@ -79,6 +79,7 @@ class Header extends Component {
 					position: fixHeader ? 'absolute' : 'relative',
 					top: fixHeader && Platform.OS === "ios" ? 0 : 0,
 				}]}>
+				<View style={{marginTop: 20}} />
 				<View style={style.wrapper}>
 					<View style={{ width: width / 3, alignItems: 'flex-start' }}>
 						{
@@ -145,7 +146,7 @@ class Header extends Component {
 
 const style = StyleSheet.create({
 	container: {
-		height: Platform.OS === "ios" ? Resolution.scaleHeight(80) : Resolution.scaleHeight(60),
+		height: Resolution.scaleHeight(60) ,
 		justifyContent: 'center',
 	},
 	wrapper: {

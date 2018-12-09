@@ -205,10 +205,10 @@ export default class extends Component {
         <View style={{ flex: 1 }}>
           <FlatList
             data={data}
-            scrollEnabled={checkScrollEnabled}
+            scrollEnabled={true}
             horizontal={false}
             key={this.state.numcolumn === 3 ? 'h' : 'v'}
-            contentContainerStyle={{ alignItems: 'flex-start', width: width, flex: 1, marginHorizontal: 20 }}
+            contentContainerStyle={{ alignItems: 'flex-start', width: width, marginHorizontal: 20 }}
             keyExtractor={item => item.id + ''}
             numColumns={this.state.numcolumn || 3}
             renderItem={({ item, index }) =>

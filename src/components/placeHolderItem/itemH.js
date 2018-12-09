@@ -17,9 +17,13 @@ export default class extends Component {
 
     render() {
         return (
-            ['', '', '', '', ''].map(
-                (i, id) => <ItemHorizontal2 key={'H_' + id} onReady={false} bgColor={'#FFF'} animate="fade" />
-            )
+            <View style={{marginTop: 80}}>
+                {
+                     ['1', '2', '3', '4', '5'].map(
+                        (item) => <ItemHorizontal2 key={'H_' + item} onReady={false} bgColor={'#FFF'} animate="fade" />
+                    )
+                }
+            </View>
 
         );
     }

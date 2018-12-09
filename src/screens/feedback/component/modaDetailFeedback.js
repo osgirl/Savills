@@ -15,7 +15,8 @@ import {
   FlatList,
   Keyboard,
   KeyboardAvoidingView,
-  ActivityIndicator
+  ActivityIndicator,
+  StyleSheet
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -31,12 +32,13 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 import AnimatedHeader from '@components/animatedHeader';
 
 import IC_CHATEMTY from "@resources/icons/chat_emty.png";
+import IC_CLOSE from '@resources/icons/close.png';
 import Configs from '../../../utils/configs';
 
 const { width, height } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = Resolution.scale(140);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
+const HEADER_MIN_HEIGHT = 0;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class ModalDetailFeedback extends Component {
@@ -177,36 +179,63 @@ class ModalDetailFeedback extends Component {
     </View>
   }
 
+
+  renderHeader() {
+    const { commentBoxId} = this.props;
+    const headerTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [0, -HEADER_SCROLL_DISTANCE],
+      extrapolate: 'clamp',
+    });
+
+    const opacity = this.state.scrollY.interpolate({
+      inputRange: [0, 25, 50],
+      outputRange: [1, 0.5, 0],
+      extrapolate: 'clamp'
+    });
+    return <View style={{}}>
+    <Header
+      LinearGradient={true}
+      leftIcon={IC_CLOSE}
+      leftAction={() => this.props.onClose()}
+      headercolor={'transparent'}
+      showTitleHeader={this.state.isShowTitleHead}
+      center={
+        <View>
+          <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'# ' + commentBoxId}</Text>
+        </View>
+      }
+    />
+      <Animated.View style={[style.headerTitle, {transform: [{ translateY: headerTranslate }]}]}>
+          <LinearGradient
+            colors={['#4A89E8', '#8FBCFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{ flex: 1 }}
+          >
+            <Animated.View style={{ opacity: opacity }}>
+              <HeaderTitle title={'# ' + commentBoxId} />
+            </Animated.View>
+          </LinearGradient>
+        </Animated.View>
+    </View>
+  }
+
   render() {
     const { data } = this.state;
 
     let date = moment(data && data.createdAt).format('l');
     let time = moment(data && data.createdAt).format('LT');
 
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    });
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {this.renderHeader()}
         {
-          this.state.data ?
-            <View style={{ flex: 1 }}>
-              <AnimatedHeader
-                scrollY={this.state.scrollY}
-                label={`#${data.commentBoxId}`}
-                goBack
-                goBackAction={() => this.props.onClose()}
-              />
-              <View style={{ width: width, height: 50, zIndex: -1 }}>
-                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
-              </View>
-              <ScrollView
+             this.state.data  ? <ScrollView
                 alwaysBounceVertical={false}
                 scrollEventThrottle={16}
                 onScroll={this.handleScroll}
-                style={{ flex: 1, backgroundColor: '#F6F8FD' }}
+                contentContainerStyle={{paddingTop: HEADER_MAX_HEIGHT}}
               >
                 {
                   <ItemScorll
@@ -318,8 +347,7 @@ class ModalDetailFeedback extends Component {
                     </View>
                   }
                 />
-              </ScrollView>
-            </View> : this.renderLoading()
+              </ScrollView> : this.renderLoading()
         }
 
 
@@ -451,6 +479,18 @@ class ModalDetailFeedback extends Component {
     );
   }
 }
+
+const style = StyleSheet.create({
+  headerTitle: {
+    position: 'absolute',
+    top: 60,
+    left: 0,
+    right: 0,
+    overflow: 'hidden',
+    height: HEADER_MAX_HEIGHT,
+    zIndex: -1
+  },
+})
 
 class ItemScorll extends Component {
   render() {

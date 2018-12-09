@@ -87,7 +87,7 @@ class HeaderHome extends Component {
 					position: fixHeader ? 'absolute' : 'relative',
 					top: fixHeader && Platform.OS === "ios" ? 0 : 0,
 				}]}>
-
+				<View style={{marginTop: 20}} />
 				<View style={style.wrapper}>
 					<Animated.View style={Opacity}>
 						{this.props.renderViewLeft}
@@ -192,7 +192,7 @@ class HeaderHome extends Component {
 
 const style = StyleSheet.create({
 	container: {
-		height: Platform.OS === "ios" ? Resolution.scaleHeight(80) : Resolution.scaleHeight(60),
+		height: Resolution.scaleHeight(60) ,
 		justifyContent: 'center',
 	},
 	wrapper: {
