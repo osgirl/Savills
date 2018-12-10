@@ -4,7 +4,7 @@ import {
     Text,
     Platform,
     Image,
-    FlatList,
+    FlatList, RefreshControl,
     Dimensions, StatusBar, Animated
 } from 'react-native';
 
@@ -25,6 +25,8 @@ import IC_BACK from "@resources/icons/back-light.png";
 import IC_DROPDOWN from "@resources/icons/dropDown.png";
 import IC_AVATARDF from "../../resources/icons/avatar-default.png";
 
+import AnimatedTitle from "@components/animatedTitle";
+
 const { width, height } = Dimensions.get('window');
 
 import Style from "./style";
@@ -34,12 +36,15 @@ import Language from "../../utils/language";
 
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
+const HEADER_MAX_HEIGHT = 50;
+
 export default class extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            isRefresh: false
         }
     }
 
@@ -52,6 +57,14 @@ export default class extends Component {
         this.props.actions.units.getEmployeesByOu(accessTokenAPI);
     }
 
+    async _onRefresh() {
+        if (this.state.isRefresh) {
+            return;
+        }
+        await this.setState({ isRefresh: true });
+        await this._getEmployeesByOu();
+    }
+
     _call(number) {
         const args = {
             number: number,
@@ -62,7 +75,7 @@ export default class extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.units.employeesByOu !== nextProps.units.employeesByOu && nextProps.units.employeesByOu.success) {
-            this.setState({ data: nextProps.units.employeesByOu.result.items })
+            this.setState({ data: nextProps.units.employeesByOu.result.items, isRefresh: false });
         }
     }
 
@@ -71,7 +84,7 @@ export default class extends Component {
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
             {
                 listener: event => {
-                    if (event.nativeEvent.contentOffset.y > 30) {
+                    if (event.nativeEvent.contentOffset.y > 10) {
                         if (!this.showCenter) {
                             this.showCenter = true;
                             this.setState({ isShowTitleHeader: true });
@@ -89,31 +102,37 @@ export default class extends Component {
     };
 
     renderHeader() {
+        let unitActive = this.props.units.unitActive;
         let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-
-        const headerHeight = this.state.scrollY.interpolate({
-            inputRange: [0, 30],
-            outputRange: [60, 0],
-            extrapolate: 'clamp'
-        });
-
-        const opacity = this.state.scrollY.interpolate({
-            inputRange: [0, 25, 50],
-            outputRange: [1, 0.5, 0],
-            extrapolate: 'clamp'
-        });
-        return (
-            <Animated.View style={{ height: headerHeight }}>
-                <LinearGradient
-                    colors={['#4A89E8', '#8FBCFF']}
-                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                    style={{ flex: 1 }}>
-                    <Animated.View style={{ opacity: opacity }}>
-                        <HeaderTitle title={LG.CONTACTS_TXT_TITLE} />
-                    </Animated.View>
-                </LinearGradient>
-            </Animated.View>
-        )
+        return <View>
+            <Header
+                LinearGradient={true}
+                leftIcon={IC_BACK}
+                leftAction={() => this.props.navigation.goBack()}
+                headercolor={'transparent'}
+                showTitleHeader={this.state.isShowTitleHeader}
+                center={
+                    <View>
+                        <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.CONTACTS_TXT_TITLE}</Text>
+                    </View>
+                }
+                renderViewRight={
+                    <Button
+                        onPress={() => this._openModalSelectUnit()}
+                        style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
+                    >
+                        <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
+                            {unitActive.fullUnitCode}
+                        </Text>
+                        <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
+                    </Button>
+                }
+            />
+            <AnimatedTitle
+                scrollY={this.state.scrollY}
+                label={LG.CONTACTS_TXT_TITLE}
+            />
+        </View>
     }
 
     renderItem(item) {
@@ -163,39 +182,24 @@ export default class extends Component {
                 <StatusBar
                     barStyle="light-content"
                 />
-                <Header
-                    LinearGradient={true}
-                    leftIcon={IC_BACK}
-                    leftAction={() => this.props.navigation.goBack()}
-                    headercolor={'transparent'}
-                    showTitleHeader={this.state.isShowTitleHeader}
-                    center={
-                        <View>
-                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Feedback'}</Text>
-                        </View>
-                    }
-                    renderViewRight={
-                        <Button
-                            onPress={() => this._openModalSelectUnit()}
-                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
-                        >
-                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
-                                {unitActive.fullUnitCode}
-                            </Text>
-                            <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
-                        </Button>
-                    }
-                />
                 {this.renderHeader()}
                 {
                     this.props.units.employeesByOu && this.props.units.employeesByOu.success ?
                         <FlatList
-                            alwaysBounceVertical={false}
+                            // alwaysBounceVertical={false}
                             data={this.state.data || []}
                             keyExtractor={(item) => item.user.id + ''}
                             renderItem={({ item, index }) => (
                                 this.renderItem(item)
                             )}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={this.state.isRefresh}
+                                    onRefresh={() => this._onRefresh()}
+                                    // Android offset for RefreshControl
+                                    progressViewOffset={HEADER_MAX_HEIGHT}
+                                />
+                            }
                             onScroll={this.handleScroll}
                             legacyImplementation={false}
                             showsHorizontalScrollIndicator={false}
@@ -203,6 +207,12 @@ export default class extends Component {
                             ItemSeparatorComponent={() => <View style={{ height: Resolution.scale(10) }} />}
                             ListHeaderComponent={() => <View style={{ height: Resolution.scale(20) }} />}
                             ListFooterComponent={() => <View style={{ height: Resolution.scale(20) }} />}
+                            contentInset={{
+                                top: HEADER_MAX_HEIGHT,
+                            }}
+                            contentOffset={{
+                                y: -HEADER_MAX_HEIGHT,
+                            }}
                         /> : <ItemPlaceHolderH />
                 }
 

@@ -76,7 +76,7 @@ class HeaderHome extends Component {
 	}
 
 	renderContent() {
-		let fixHeader = this.props.headercolor === 'transparent' && !this.props.LinearGradient ? true : false;
+		let fixHeader = this.props.headercolor === 'transparent' ? true : false;
 		const Opacity = { opacity: this.state.fadeAnim };
 		const OpacityIcon = { opacity: this.state.fadeAnimIcon || 1 }
 		return (
@@ -85,9 +85,8 @@ class HeaderHome extends Component {
 				{
 					backgroundColor: this.props.headercolor,
 					position: fixHeader ? 'absolute' : 'relative',
-					top: fixHeader && Platform.OS === "ios" ? 0 : 0,
+					top: 20,
 				}]}>
-				<View style={{marginTop: 20}} />
 				<View style={style.wrapper}>
 					<Animated.View style={Opacity}>
 						{this.props.renderViewLeft}
@@ -192,18 +191,17 @@ class HeaderHome extends Component {
 
 const style = StyleSheet.create({
 	container: {
-		height: Resolution.scaleHeight(60) ,
+		height: Resolution.scaleHeight(60),
+		backgroundColor: 'black',
 		justifyContent: 'center',
+		zIndex: 1
 	},
 	wrapper: {
-		// backgroundColor: 'red',
 		width: width,
 		flexDirection: "row",
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		marginTop: Platform.OS === "ios" ? Resolution.scale(20) : 0,
 		height: Resolution.scaleHeight(60),
-		// paddingHorizontal: 10
 	},
 	titleContainer: {
 		flex: 1,

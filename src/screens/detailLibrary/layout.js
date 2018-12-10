@@ -16,7 +16,7 @@ import Styles from './styles';
 import Utils from "../../utils";
 
 import Resolution from '../../utils/resolution';
-
+import ModalDetail from "./component/modalDetail";
 import AnimatedTitle from "@components/animatedTitle";
 
 import { ItemHorizontal2 } from '../../components/placeHolder';
@@ -63,6 +63,7 @@ export default class extends Component {
 
   renderHeader() {
     let unitActive = this.props.units.unitActive;
+    let library = this.props.navigation.getParam('library', 'NO-ID');
     return (
       <View>
         <Header
@@ -73,7 +74,7 @@ export default class extends Component {
           showTitleHeader={this.state.isShowTitleHeader}
           center={
             <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Libary'}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{library.libraryName}</Text>
             </View>
           }
           renderViewRight={
@@ -91,7 +92,7 @@ export default class extends Component {
 
         <AnimatedTitle
           scrollY={this.state.scrollY}
-          label={'Libary'}
+          label={library.libraryName}
         />
 
       </View>
@@ -140,17 +141,21 @@ export default class extends Component {
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
         </Modal>
+        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowModalDetail}>
+          <ModalDetail
+            onClose={() => this._closeModalDetail()}
+          />
+        </Modal>
       </View>
     );
   }
 
   renderItem = (item, index) => {
     let date = moment(item.creationTime).format('l');
-    let checkOnpress = item.numberOfDocuments > 0 ? false : true;
     return (
       <Button
-        onPress={() => this._goDetail(item)}
-        disabled={checkOnpress}
+        // onPress={() => this._openModalDetail()}
+        onPress={() => this.setState({ isShowModalDetail: true })}
         style={{
           width: width - Resolution.scale(40),
           borderRadius: 10,
@@ -167,7 +172,7 @@ export default class extends Component {
             <Text
               style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}
             >
-              {item.libraryName}
+              {item.documentName}
             </Text>
           </View>
 
@@ -194,7 +199,7 @@ export default class extends Component {
         </View> */}
 
 
-      </Button>
+      </Button >
     );
   };
 }

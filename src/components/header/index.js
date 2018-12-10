@@ -79,7 +79,7 @@ class Header extends Component {
 					position: fixHeader ? 'absolute' : 'relative',
 					top: fixHeader && Platform.OS === "ios" ? 0 : 0,
 				}]}>
-				<View style={{marginTop: 20}} />
+				<View style={{ marginTop: 20 }} />
 				<View style={style.wrapper}>
 					<View style={{ width: width / 3, alignItems: 'flex-start' }}>
 						{
@@ -146,7 +146,7 @@ class Header extends Component {
 
 const style = StyleSheet.create({
 	container: {
-		height: Resolution.scaleHeight(60) ,
+		height: 80,
 		justifyContent: 'center',
 	},
 	wrapper: {
@@ -154,7 +154,7 @@ const style = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: 'center',
 		// justifyContent: 'space-around',
-		marginTop: Platform.OS === "ios" ? Resolution.scale(20) : 0,
+		// marginTop: Platform.OS === "ios" ? Resolution.scale(20) : 0,
 		height: Resolution.scaleHeight(60),
 	},
 	titleContainer: {

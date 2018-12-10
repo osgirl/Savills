@@ -30,9 +30,11 @@ import Loading from "@components/loading";
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const HEADER_MAX_HEIGHT = Platform.OS == 'ios' ? 140 : 120;
-const HEADER_MIN_HEIGHT = 75;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+import AnimatedTitle from "@components/animatedTitle";
+
+const HEADER_MAX_HEIGHT = 50;
+// const HEADER_MIN_HEIGHT = 75;
+// const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class ModalNewFeedback extends Component {
 
@@ -40,7 +42,9 @@ class ModalNewFeedback extends Component {
     super(props);
     this.state = {
       comment: '',
-      scrollY: new Animated.Value(0),
+      scrollY: new Animated.Value(
+        Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
+      ),
       isShowTitleHeader: false,
       listTypeFeedback: this.props.feedback.typeFeedback.result,
       projectTypes: [
@@ -70,7 +74,7 @@ class ModalNewFeedback extends Component {
   handleScroll = event => {
     Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
       listener: event => {
-        if (event.nativeEvent.contentOffset.y > 60) {
+        if (event.nativeEvent.contentOffset.y > 10) {
           if (!this.showCenter) {
             this.showCenter = true;
             this.setState({ isShowTitleHeader: true });
@@ -120,19 +124,7 @@ class ModalNewFeedback extends Component {
   }
 
   renderHeader() {
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    });
-
-    const opacity = this.state.scrollY.interpolate({
-      inputRange: [0, 25, 50],
-      outputRange: [1, 0.5, 0],
-      extrapolate: 'clamp'
-    });
-
-    return <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+    return <View>
       <Header
         LinearGradient={true}
         leftIcon={require('../../../resources/icons/close.png')}
@@ -145,17 +137,11 @@ class ModalNewFeedback extends Component {
           </View>
         }
       />
-      <LinearGradient
-        colors={['#4A89E8', '#8FBCFF']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={{ flex: 1 }}
-      >
-        <Animated.View style={{ opacity: opacity }}>
-          <HeaderTitle title={'New Feedback'} />
-        </Animated.View>
-      </LinearGradient>
-    </Animated.View>
+      <AnimatedTitle
+        scrollY={this.state.scrollY}
+        label={'New Feedback'}
+      />
+    </View>
   }
 
   render() {
@@ -165,12 +151,20 @@ class ModalNewFeedback extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {this.renderHeader()}
         <ScrollView
           alwaysBounceVertical={false}
           scrollEventThrottle={16}
           onScroll={this.handleScroll}
-          contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
-          style={{ flex: 1, backgroundColor: '#F6F8FD' }}
+          contentContainerStyle={{
+            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+          }}
+          contentInset={{
+            top: HEADER_MAX_HEIGHT,
+          }}
+          contentOffset={{
+            y: -HEADER_MAX_HEIGHT,
+          }}
         >
           <KeyboardAvoidingView behavior="position" enabled>
             {
@@ -285,8 +279,8 @@ class ModalNewFeedback extends Component {
                 />
               }
             />
-          </KeyboardAvoidingView>
-        </ScrollView>
+          </KeyboardAvoidingView >
+        </ScrollView >
         <View
           style={{
             width: width,
@@ -311,13 +305,10 @@ class ModalNewFeedback extends Component {
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>Gửi</Text>
           </TouchableOpacity>
         </View>
-
-
-        {this.renderHeader()}
         {this.renderLoading()}
         {this.renderCategory()}
         {this.renderModalConfirm()}
-      </View>
+      </View >
     );
   }
 

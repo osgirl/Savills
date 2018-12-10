@@ -27,6 +27,7 @@ import DetailDelivery from './frontDesk/components/DetailDelivery';
 import Feedback from './feedback';
 import Setting from './setting';
 import Library from './library';
+import DetailLibrary from './detailLibrary';
 
 
 export {
@@ -59,5 +60,5 @@ export {
   Feedback,
   Setting,
   Library,
-
+  DetailLibrary
 };

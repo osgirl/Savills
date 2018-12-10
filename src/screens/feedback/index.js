@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Platform } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
-
+import Resolution from '@utils/resolution';
 import _ from "lodash";
 
 import Language from "../../utils/language";
+
+const HEADER_MAX_HEIGHT = 50;
 
 class Feedback extends layout {
 
@@ -22,7 +24,9 @@ class Feedback extends layout {
             isModalNew: false,
             pageCount: 1,
             commentBoxId: null,
-            scrollY: new Animated.Value(0),
+            scrollY: new Animated.Value(
+                Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
+            ),
         }
     }
 
