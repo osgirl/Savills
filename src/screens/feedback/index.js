@@ -31,7 +31,11 @@ class Feedback extends layout {
     }
 
     componentWillMount() {
-        this._getList()
+        this._getList();
+        let ida = this.props.navigation.getParam('params', false);
+        if (ida.itemtype) {
+            this._openModalDetail(ida.itemtype);
+        }
     }
 
     componentDidMount() {

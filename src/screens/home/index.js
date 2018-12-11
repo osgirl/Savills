@@ -201,7 +201,7 @@ class Home extends layout {
       onRegister: token => {
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function(notification) {
+      onNotification: function (notification) {
         console.log('asdkasdljasdjasldjkasdasd', notification.foreground);
         console.log('NOTIFICATION:', notification);
 
