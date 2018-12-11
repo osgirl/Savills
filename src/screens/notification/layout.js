@@ -21,6 +21,10 @@ import IC_DEFAULT from '@resources/icons/default.png';
 import Language from '../../utils/language';
 import Resolution from '../../utils/resolution';
 
+import AnimatedTitle from "@components/animatedTitle";
+
+const HEADER_MAX_HEIGHT = 50;
+
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -89,7 +93,7 @@ export default class extends Component {
   handleScroll = event => {
     Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
       listener: event => {
-        if (event.nativeEvent.contentOffset.y > 30) {
+        if (event.nativeEvent.contentOffset.y > 10) {
           if (!this.showCenter) {
             this.showCenter = true;
             this.setState({ isShowTitleHeader: true });
@@ -104,61 +108,36 @@ export default class extends Component {
     }, { useNativeDriver: true })(event);
   };
 
-  renderTitle() {
-    let unitActive = this.props.units.unitActive;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 30],
-      outputRange: [60, 0],
-      extrapolate: 'clamp'
-    });
-
-    const opacity = this.state.scrollY.interpolate({
-      inputRange: [0, 25, 50],
-      outputRange: [1, 0.5, 0],
-      extrapolate: 'clamp'
-    });
-
-    return (
-      <Animated.View style={{ height: headerHeight }}>
-        <LinearGradient
-          colors={['#4A89E8', '#8FBCFF']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={{ flex: 1 }}
-        >
-          <Animated.View style={{ opacity: opacity }}>
-            <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
-          </Animated.View>
-        </LinearGradient>
-      </Animated.View>
-    );
-  }
-
   renderHeader() {
     let unitActive = this.props.units.unitActive;
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    return <Header
-      LinearGradient={true}
-      leftIcon={IC_BACK}
-      leftAction={() => this.props.onclose()}
-      headercolor={'transparent'}
-      showTitleHeader={this.state.isShowTitleHeader}
-      center={
-        <View>
-          <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.NOTIFICATION_TXT_TITLE}</Text>
-        </View>
-      }
-      renderViewRight={
-        <Button
-          onPress={() => this._openModalSelectUnit()}
-          style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
-        >
-          <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
-          <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
-        </Button>
-      }
-    />
+    return <View>
+      <Header
+        LinearGradient={true}
+        leftIcon={IC_BACK}
+        leftAction={() => this.props.onclose()}
+        headercolor={'transparent'}
+        showTitleHeader={this.state.isShowTitleHeader}
+        center={
+          <View>
+            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.NOTIFICATION_TXT_TITLE}</Text>
+          </View>
+        }
+        renderViewRight={
+          <Button
+            onPress={() => this._openModalSelectUnit()}
+            style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
+          >
+            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>{unitActive.fullUnitCode}</Text>
+            <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
+          </Button>
+        }
+      />
+      <AnimatedTitle
+        scrollY={this.state.scrollY}
+        label={LG.NOTIFICATION_TXT_TITLE}
+      />
+    </View>
   }
 
   render() {
@@ -168,18 +147,21 @@ export default class extends Component {
           barStyle="light-content"
         />
         {this.renderHeader()}
-        {this.renderTitle()}
+        {/* {this.renderTitle()} */}
         <FlatList
           data={this.state.data}
           horizontal={false}
-          contentContainerStyle={{ alignItems: 'center' }}
+          contentContainerStyle={{
+            alignItems: 'center',
+            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+          }}
           keyExtractor={(item, index) => item.id + '__' + index}
           renderItem={({ item, index }) => this.renderItem(item)}
           onScroll={this.handleScroll}
           onEndReachedThreshold={0.01}
           scrollEventThrottle={16}
-          refreshing={this.state.isRefresh}
-          onRefresh={() => this._onRefresh()}
+          // refreshing={this.state.isRefresh}
+          // onRefresh={() => this._onRefresh()}
           onEndReached={() => this._onEndReached()}
           legacyImplementation={false}
           extraData={this.state}
@@ -188,6 +170,20 @@ export default class extends Component {
           ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
           ListHeaderComponent={() => <View style={{ height: Resolution.scaleHeight(20), }} />}
           ListFooterComponent={() => this._FooterFlatlist()}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefresh}
+              onRefresh={() => this._onRefresh()}
+              // Android offset for RefreshControl
+              progressViewOffset={HEADER_MAX_HEIGHT}
+            />
+          }
+          contentInset={{
+            top: HEADER_MAX_HEIGHT,
+          }}
+          contentOffset={{
+            y: -HEADER_MAX_HEIGHT,
+          }}
         />
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>

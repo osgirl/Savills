@@ -3,13 +3,8 @@ import {
     Dimensions
 } from 'react-native';
 
-const {
-    height,
-    width
-} = Dimensions.get('window');
-import {
-    isIphoneX
-} from '@utils/func';
+const { height, width } = Dimensions.get('window');
+import { isIphoneX } from '@utils/func';
 
 import Resolution from "../../utils/resolution";
 
@@ -27,5 +22,5 @@ export default StyleSheet.create({
         // shadowOpacity: 0.3,
         alignItems: 'center',
         justifyContent: 'center'
-    },
+    }
 });

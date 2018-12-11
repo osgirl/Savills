@@ -15,7 +15,9 @@ import {
   FlatList,
   Keyboard,
   KeyboardAvoidingView,
-  ActivityIndicator
+  ActivityIndicator,
+  StyleSheet,
+  StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -31,12 +33,15 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 import AnimatedHeader from '@components/animatedHeader';
 
 import IC_CHATEMTY from "@resources/icons/chat_emty.png";
+import IC_CLOSE from '@resources/icons/close.png';
 import Configs from '../../../utils/configs';
 
 const { width, height } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = Resolution.scale(140);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
+import AnimatedTitle from "@components/animatedTitle";
+
+const HEADER_MAX_HEIGHT = 50;
+const HEADER_MIN_HEIGHT = 0;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class ModalDetailFeedback extends Component {
@@ -44,7 +49,9 @@ class ModalDetailFeedback extends Component {
     super(props);
     this.state = {
       comment: '',
-      scrollY: new Animated.Value(0),
+      scrollY: new Animated.Value(
+        Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
+      ),
       isShowTitleHeader: false,
       listTypeFeedback: this.props.feedback.typeFeedback.result,
       projectTypes: [{ name: 'HO', value: 'HO' }, { name: 'Project', value: 'PROJECT' }],
@@ -122,7 +129,7 @@ class ModalDetailFeedback extends Component {
   handleScroll = event => {
     Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
       listener: event => {
-        if (event.nativeEvent.contentOffset.y > 60) {
+        if (event.nativeEvent.contentOffset.y > 10) {
           if (!this.showCenter) {
             this.showCenter = true;
             this.setState({ isShowTitleHeader: true });
@@ -177,149 +184,170 @@ class ModalDetailFeedback extends Component {
     </View>
   }
 
+
+  renderHeader() {
+    const { commentBoxId } = this.props;
+
+    return <View>
+      <Header
+        isModal
+        LinearGradient={true}
+        leftIcon={IC_CLOSE}
+        leftAction={() => this.props.onClose()}
+        headercolor={'transparent'}
+        showTitleHeader={this.state.isShowTitleHead}
+        center={
+          <View>
+            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'# ' + commentBoxId}</Text>
+          </View>
+        }
+      />
+
+      <AnimatedTitle
+        scrollY={this.state.scrollY}
+        label={'# ' + commentBoxId}
+      />
+    </View>
+  }
+
   render() {
     const { data } = this.state;
 
     let date = moment(data && data.createdAt).format('l');
     let time = moment(data && data.createdAt).format('LT');
 
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    });
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        <StatusBar
+          hidden={Platform.OS === 'ios' ? false : true}
+        />
+        {this.renderHeader()}
         {
-          this.state.data ?
-            <View style={{ flex: 1 }}>
-              <AnimatedHeader
-                scrollY={this.state.scrollY}
-                label={`#${data.commentBoxId}`}
-                goBack
-                goBackAction={() => this.props.onClose()}
-              />
-              <View style={{ width: width, height: 50, zIndex: -1 }}>
-                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
-              </View>
-              <ScrollView
-                alwaysBounceVertical={false}
-                scrollEventThrottle={16}
-                onScroll={this.handleScroll}
-                style={{ flex: 1, backgroundColor: '#F6F8FD' }}
-              >
-                {
-                  <ItemScorll
-                    title={'Thông Tin'}
-                    view={
+          this.state.data ? <ScrollView
+            alwaysBounceVertical={false}
+            scrollEventThrottle={16}
+            onScroll={this.handleScroll}
+            contentContainerStyle={{
+              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+            }}
+            contentInset={{
+              top: HEADER_MAX_HEIGHT,
+            }}
+            contentOffset={{
+              y: -HEADER_MAX_HEIGHT,
+            }}
+          >
+            {
+              <ItemScorll
+                title={'Thông Tin'}
+                view={
+                  <View
+                    style={{
+                      height: Resolution.scaleHeight(200),
+                      width: null,
+                      flex: 1,
+                      borderRadius: 10,
+                      backgroundColor: '#FFF',
+                      padding: Resolution.scale(20),
+                      justifyContent: 'space-around'
+                    }}
+                  >
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                        Loại phản hồi
+                      </Text>
+                      <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                        {data.commentBoxType.name}
+                      </Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                        Vấn đề
+                      </Text>
+                      <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                        {data.commentBoxCategory.name}
+                      </Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                        Trạng Thái
+                      </Text>
                       <View
                         style={{
-                          height: Resolution.scaleHeight(200),
-                          width: null,
-                          flex: 1,
-                          borderRadius: 10,
-                          backgroundColor: '#FFF',
-                          padding: Resolution.scale(20),
-                          justifyContent: 'space-around'
+                          borderRadius: 5,
+                          backgroundColor: data.commentBoxStatus.colorCode
                         }}
                       >
-                        <View style={{ flexDirection: 'row' }}>
-                          <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
-                            Loại phản hồi
+                        <Text
+                          style={{
+                            color: '#FFF',
+                            fontSize: Resolution.scale(10),
+                            paddingVertical: Resolution.scale(5),
+                            fontFamily: 'OpenSans-SemiBold',
+                            paddingHorizontal: Resolution.scale(15)
+                          }}
+                        >
+                          {data.commentBoxStatus.name}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                        Ngày Gửi
                       </Text>
-                          <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
-                            {data.commentBoxType.name}
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between'
+                        }}
+                      >
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(10) }}>
+                          <Image
+                            style={{ marginRight: Resolution.scale(10), width: Resolution.scale(15), height: Resolution.scale(15) }}
+                            source={require('../../../resources/icons/clock.png')}
+                          />
+                          <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular' }}>
+                            {time}
                           </Text>
                         </View>
-
-                        <View style={{ flexDirection: 'row' }}>
-                          <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
-                            Vấn đề
-                      </Text>
-                          <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
-                            {data.commentBoxCategory.name}
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <Image
+                            style={{ marginRight: Resolution.scale(10), width: Resolution.scale(15), height: Resolution.scale(15) }}
+                            source={require('../../../resources/icons/calendar.png')}
+                          />
+                          <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular' }}>
+                            {date}
                           </Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row' }}>
-                          <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
-                            Trạng Thái
-                      </Text>
-                          <View
-                            style={{
-                              borderRadius: 5,
-                              backgroundColor: data.commentBoxStatus.colorCode
-                            }}
-                          >
-                            <Text
-                              style={{
-                                color: '#FFF',
-                                fontSize: Resolution.scale(10),
-                                paddingVertical: Resolution.scale(5),
-                                fontFamily: 'OpenSans-SemiBold',
-                                paddingHorizontal: Resolution.scale(15)
-                              }}
-                            >
-                              {data.commentBoxStatus.name}
-                            </Text>
-                          </View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row' }}>
-                          <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
-                            Ngày Gửi
-                      </Text>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                              justifyContent: 'space-between'
-                            }}
-                          >
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(10) }}>
-                              <Image
-                                style={{ marginRight: Resolution.scale(10), width: Resolution.scale(15), height: Resolution.scale(15) }}
-                                source={require('../../../resources/icons/clock.png')}
-                              />
-                              <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular' }}>
-                                {time}
-                              </Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                              <Image
-                                style={{ marginRight: Resolution.scale(10), width: Resolution.scale(15), height: Resolution.scale(15) }}
-                                source={require('../../../resources/icons/calendar.png')}
-                              />
-                              <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular' }}>
-                                {date}
-                              </Text>
-                            </View>
-                          </View>
                         </View>
                       </View>
-                    }
-                  />
-                }
-                <ItemScorll
-                  title={'Miêu Tả'}
-                  view={
-                    <View
-                      style={{
-                        flex: 1,
-                        backgroundColor: '#FFF',
-                        borderRadius: 5,
-                        width: null,
-                        padding: 10,
-                        minHeight: 100
-                        // marginBottom: rating > 0 && description != '' ? 0 : 200
-                      }}
-                    >
-                      <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Regular' }}>{data.description}</Text>
                     </View>
-                  }
-                />
-              </ScrollView>
-            </View> : this.renderLoading()
+                  </View>
+                }
+              />
+            }
+            <ItemScorll
+              title={'Miêu Tả'}
+              view={
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor: '#FFF',
+                    borderRadius: 5,
+                    width: null,
+                    padding: 10,
+                    minHeight: 100
+                    // marginBottom: rating > 0 && description != '' ? 0 : 200
+                  }}
+                >
+                  <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Regular' }}>{data.description}</Text>
+                </View>
+              }
+            />
+          </ScrollView> : this.renderLoading()
         }
 
 
@@ -451,6 +479,18 @@ class ModalDetailFeedback extends Component {
     );
   }
 }
+
+const style = StyleSheet.create({
+  headerTitle: {
+    position: 'absolute',
+    top: 80,
+    left: 0,
+    right: 0,
+    overflow: 'hidden',
+    height: HEADER_MAX_HEIGHT,
+    zIndex: -1
+  },
+})
 
 class ItemScorll extends Component {
   render() {

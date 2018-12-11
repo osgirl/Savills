@@ -19,7 +19,9 @@ export default class extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#FFF' }}>
                 <StatusBar
+                    hidden={true}
                     barStyle="light-content"
+
                 />
                 <Header
                     LinearGradient={true}

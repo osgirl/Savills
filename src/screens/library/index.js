@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Platform } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
 
@@ -15,7 +15,9 @@ class Libary extends layout {
             data: [],
             isRefresh: false,
             loadingMore: false,
-            scrollY: new Animated.Value(0),
+            scrollY: new Animated.Value(
+                Platform.OS === 'ios' ? -50 : 0,
+            ),
         }
     }
 
@@ -41,13 +43,13 @@ class Libary extends layout {
         this.props.actions.library.getList(accessTokenApi, languege);
     }
 
-    // async _onRefresh() {
-    //     if (this.state.isRefresh) {
-    //         return;
-    //     }
-    //     await this.setState({ isRefresh: true, pageCount: 1 })
-    //     this._getList();
-    // }
+    async _onRefresh() {
+        if (this.state.isRefresh) {
+            return;
+        }
+        await this.setState({ isRefresh: true })
+        await this._getList();
+    }
 
     // async _onEndReached() {
     //     if (this.state.loadingMore || this.state.pageCount == this.props.feedback.listFeedBack.pageCount) {
@@ -59,6 +61,11 @@ class Libary extends layout {
 
     _openModalSelectUnit() {
         this.setState({ isModalSelectUnit: true })
+    }
+
+    _goDetail(item) {
+        console.log(this.props)
+        this.props.navigation.navigate('DetailLibrary', { library: item });
     }
 
 }

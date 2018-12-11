@@ -11,3 +11,14 @@ export function getList(accessTokenAPI, culture = en) {
         }
     }
 }
+
+export function getDetail(accessTokenAPI, libraryId = 0, culture = en) {
+    return {
+        type: Types.GET_DETAIL,
+        payload: {
+            api: Configs.API + `/api/services/app/Library/GetLibraryDocumentByLibraryId?libraryId=${libraryId}&culture=${culture}`,
+            method: 'GET',
+            token: accessTokenAPI,
+        }
+    }
+}

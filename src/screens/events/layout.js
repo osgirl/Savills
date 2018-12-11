@@ -34,6 +34,8 @@ import Language from '../../utils/language';
 import moment from 'moment';
 import XDate from 'xdate';
 
+const HEADER_MAX_HEIGHT = 50;
+
 export default class Layout extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +65,7 @@ export default class Layout extends Component {
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          if (event.nativeEvent.contentOffset.y > 50) {
+          if (event.nativeEvent.contentOffset.y > 30) {
             if (!this.showCenter) {
               this.showCenter = true;
               this.props.navigation.setParams({ eventTitle: LG.EVENTS_TXT_TITLE });
@@ -83,6 +85,13 @@ export default class Layout extends Component {
   renderHeader() {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
+    const headerTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT],
+      outputRange: [0, -HEADER_MAX_HEIGHT],
+      extrapolate: 'clamp',
+    });
+
+
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, 20, 40],
       outputRange: [40, 20, 0],
@@ -91,11 +100,11 @@ export default class Layout extends Component {
     });
 
     return (
-      <View style={{}}>
+      <Animated.View style={{ transform: [{ translateY: headerTranslate }], zIndex: -1 }}>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-          <Animated.View style={{ height: headerHeight }}>
-            <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
-          </Animated.View>
+          {/* <Animated.View style={{ height: headerHeight }}> */}
+          <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
+          {/* </Animated.View> */}
           {this.state.openFullCalendar ? (
             <View>
               <Calendar
@@ -128,32 +137,32 @@ export default class Layout extends Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <View>
-              <CalendarStrip
-                selectedDate={this.state.selectedDate}
-                onPressDate={date => {
-                  this._onPressDay(date);
-                }}
-                onPressGoToday={today => {}}
-                onSwipeDown={() => {}}
-                markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
-              />
-              <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
-                <View
-                  style={{
-                    width: 50,
-                    height: 4,
-                    borderRadius: 2,
-                    backgroundColor: 'rgba(255,255,255,0.5)',
-                    alignSelf: 'center',
-                    marginBottom: 10
+              <View>
+                <CalendarStrip
+                  selectedDate={this.state.selectedDate}
+                  onPressDate={date => {
+                    this._onPressDay(date);
                   }}
+                  onPressGoToday={today => { }}
+                  onSwipeDown={() => { }}
+                  markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
                 />
-              </TouchableOpacity>
-            </View>
-          )}
+                <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
+                  <View
+                    style={{
+                      width: 50,
+                      height: 4,
+                      borderRadius: 2,
+                      backgroundColor: 'rgba(255,255,255,0.5)',
+                      alignSelf: 'center',
+                      marginBottom: 10
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
         </LinearGradient>
-      </View>
+      </Animated.View>
     );
   }
 
@@ -201,32 +210,32 @@ export default class Layout extends Component {
         {this.props.events.myEvents.result && this.props.events.myEvents.result.totalCount <= 0 ? (
           this.renderEmty()
         ) : (
-          <FlatList
-            alwaysBounceVertical={false}
-            data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
-            keyExtractor={item => item.eventId + ''}
-            renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
-            onScroll={this.handleScroll}
-            legacyImplementation={false}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
-            ListHeaderComponent={() => (
-              <View
-                style={{
-                  marginTop: Resolution.scale(20),
-                  marginBottom: Resolution.scale(10),
-                  marginHorizontal: Resolution.scale(20)
-                }}
-              >
-                <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
-                  {LG.EVENTS_TXT_ALLTITLE}
-                </Text>
-              </View>
-            )}
-            ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
-          />
-        )}
+            <FlatList
+              alwaysBounceVertical={false}
+              data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
+              keyExtractor={item => item.eventId + ''}
+              renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
+              onScroll={this.handleScroll}
+              legacyImplementation={false}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
+              ListHeaderComponent={() => (
+                <View
+                  style={{
+                    marginTop: Resolution.scale(20),
+                    marginBottom: Resolution.scale(10),
+                    marginHorizontal: Resolution.scale(20)
+                  }}
+                >
+                  <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
+                    {LG.EVENTS_TXT_ALLTITLE}
+                  </Text>
+                </View>
+              )}
+              ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
+            />
+          )}
 
         <Modal
           style={{ flex: 1, marginTop: Resolution.scale(50), marginLeft: 0, marginRight: 0, marginBottom: 0 }}

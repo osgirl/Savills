@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Animated, View, Text } from 'react-native';
+import { Animated, View, Text, Platform } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
 
 import _ from "lodash";
+
+const HEADER_MAX_HEIGHT = 50;
 
 class Notification extends layout {
 
@@ -14,7 +16,9 @@ class Notification extends layout {
             loadingMore: false,
             isShowTitleHeader: false,
             isModalSelectUnit: false,
-            scrollY: new Animated.Value(0),
+            scrollY: new Animated.Value(
+                Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
+            ),
             isRefresh: false
         }
     }

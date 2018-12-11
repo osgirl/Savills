@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, FlatList, Image, StatusBar, Dimensions, ActivityIndicator, Platform } from 'react-native';
+import { View, Text, Animated, FlatList, Image, StatusBar, Dimensions, ActivityIndicator, Platform, RefreshControl, StyleSheet } from 'react-native';
 import Header from '@components/header';
 import IC_BACK from '@resources/icons/back-light.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
@@ -19,8 +19,12 @@ import Utils from "../../utils";
 
 import Resolution from '@utils/resolution';
 
+import AnimatedTitle from "@components/animatedTitle";
+
 import { ItemHorizontal2 } from '../../components/placeHolder';
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";
+
+const HEADER_MAX_HEIGHT = 50;
 
 
 const { width } = Dimensions.get('window');
@@ -31,7 +35,7 @@ export default class extends Component {
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          if (event.nativeEvent.contentOffset.y > 30) {
+          if (event.nativeEvent.contentOffset.y > 10) {
             if (!this.showCenter) {
               this.showCenter = true;
               this.setState({ isShowTitleHeader: true });
@@ -58,91 +62,82 @@ export default class extends Component {
       );
   }
 
-  renderTitle() {
-    let unitActive = this.props.units.unitActive;
-
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 30],
-      outputRange: [60, 0],
-      extrapolate: 'clamp'
-    });
-
-    const opacity = this.state.scrollY.interpolate({
-      inputRange: [0, 25, 50],
-      outputRange: [1, 0.5, 0],
-      extrapolate: 'clamp'
-    });
-
-    return (
-      <View>
-        <Animated.View style={{ height: headerHeight }}>
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{ flex: 1 }}
-          >
-            <Animated.View style={{ opacity: opacity }}>
-              <HeaderTitle title={'Feedback'} />
-            </Animated.View>
-          </LinearGradient>
-        </Animated.View>
-      </View>
-    );
-  }
-
   renderHeader() {
     let unitActive = this.props.units.unitActive;
-    return <Header
-      LinearGradient={true}
-      leftIcon={IC_BACK}
-      leftAction={() => this.props.navigation.goBack()}
-      headercolor={'transparent'}
-      showTitleHeader={this.state.isShowTitleHeader}
-      center={
-        <View>
-          <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Feedback'}</Text>
-        </View>
-      }
-      renderViewRight={
-        <Button
-          onPress={() => this._openModalSelectUnit()}
-          style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
-        >
-          <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
-            {unitActive.fullUnitCode}
-          </Text>
-          <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
-        </Button>
-      }
-    />
+
+    return <View>
+      <Header
+        LinearGradient={true}
+        leftIcon={IC_BACK}
+        leftAction={() => this.props.navigation.goBack()}
+        headercolor={'transparent'}
+        showTitleHeader={this.state.isShowTitleHeader}
+        center={
+          <View>
+            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Feedback'}</Text>
+          </View>
+        }
+        renderViewRight={
+          <Button
+            onPress={() => this._openModalSelectUnit()}
+            style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
+          >
+            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
+              {unitActive.fullUnitCode}
+            </Text>
+            <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
+          </Button>
+        }
+      />
+      <AnimatedTitle
+        scrollY={this.state.scrollY}
+        label={'Feedback'}
+      />
+    </View>
   }
 
   render() {
-    let unitActive = this.props.units.unitActive;
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
 
         {this.renderHeader()}
-        {this.renderTitle()}
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="light-content"
+          hidden={false} />
         {
           this.state.data.length > 0 ?
             <View style={{ flex: 1 }}>
               <FlatList
                 data={this.state.data}
+                contentContainerStyle={{
+                  paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+                }}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item, index) => item.commentBoxId + '__' + index}
                 onScroll={this.handleScroll}
-                scrollEventThrottle={20}
+                scrollEventThrottle={1}
                 renderItem={({ item, index }) => this.renderItem(item, index)}
                 extraData={this.state}
-                refreshing={this.state.isRefresh}
-                onRefresh={() => this._onRefresh()}
                 onEndReached={() => this._onEndReached()}
                 onEndReachedThreshold={0.01}
                 legacyImplementation={false}
                 ListFooterComponent={() => this._FooterFlatlist()}
+                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                ListHeaderComponent={() => <View style={{ height: 20 }} />}
+
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.isRefresh}
+                    onRefresh={() => this._onRefresh()}
+                    // Android offset for RefreshControl
+                    progressViewOffset={HEADER_MAX_HEIGHT}
+                  />
+                }
+                contentInset={{
+                  top: HEADER_MAX_HEIGHT,
+                }}
+                contentOffset={{
+                  y: -HEADER_MAX_HEIGHT,
+                }}
               />
               <View
                 style={{
@@ -182,7 +177,6 @@ export default class extends Component {
         style={{
           width: width - Resolution.scale(40),
           borderRadius: 10,
-          marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10),
           backgroundColor: '#FFF',
           padding: Resolution.scale(20),
           marginHorizontal: Resolution.scale(20)
@@ -266,3 +260,15 @@ export default class extends Component {
     );
   };
 }
+
+const style = StyleSheet.create({
+  headerTitle: {
+    position: 'absolute',
+    top: 80,
+    left: 0,
+    right: 0,
+    overflow: 'hidden',
+    height: HEADER_MAX_HEIGHT,
+    zIndex: -1
+  },
+})

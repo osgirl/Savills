@@ -68,7 +68,6 @@ export default class extends Component {
   };
 
   renderHeader() {
-
     let checkEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
     const OpacityImage = this.state.scrollY.interpolate({
       inputRange: [0, 25, 50],
@@ -84,7 +83,7 @@ export default class extends Component {
     let Unit = this.props.units.unitActive;
     var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
     return (
-      <View style={{ width: width - Resolution.scale(40), alignSelf: 'center' }}>
+      <View style={{ width: width - Resolution.scale(40), alignSelf: 'center', marginTop: 20 }}>
         <Button
           disabled={this.props.userProfile.imageProfile.success ? false : true}
           onPress={() => {
@@ -205,10 +204,10 @@ export default class extends Component {
         <View style={{ flex: 1 }}>
           <FlatList
             data={data}
-            scrollEnabled={checkScrollEnabled}
+            scrollEnabled={true}
             horizontal={false}
             key={this.state.numcolumn === 3 ? 'h' : 'v'}
-            contentContainerStyle={{ alignItems: 'flex-start', width: width, flex: 1, marginHorizontal: 20 }}
+            contentContainerStyle={{ alignItems: 'flex-start', width: width, marginHorizontal: 20 }}
             keyExtractor={item => item.id + ''}
             numColumns={this.state.numcolumn || 3}
             renderItem={({ item, index }) =>
