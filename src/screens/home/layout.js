@@ -248,7 +248,10 @@ export default class extends Component {
         </Modal>
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowNoti}>
-          <Notification onclose={() => this._closeNoti()} />
+          <Notification
+            navigation={this.props.navigation}
+            onclose={() => this._closeNoti()}
+          />
         </Modal>
 
         {/* {this.renderLoading()} */}

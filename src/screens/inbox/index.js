@@ -31,6 +31,10 @@ class Inbox extends layout {
     async componentWillMount() {
         await this._getListInbox(1);
         await this._getListInboxIsActive(1);
+        let ida = this.props.navigation.getParam('params', false);
+        if (ida.itemtype) {
+            this._openModalDetail(ida.itemtype);
+        }
     }
 
     async componentWillReceiveProps(nextProps) {

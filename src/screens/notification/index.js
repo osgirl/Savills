@@ -52,6 +52,8 @@ class Notification extends layout {
         }
         this.setState({ data: tempArr })
         this.props.actions.notification.updateRead(accessTokenAPI, item.id);
+        // this.props.onClickItem(item.notification.data.properties);
+        this._handleNotification(item.notification);
     }
 
     async _onRefresh() {
@@ -81,6 +83,56 @@ class Notification extends layout {
         this.setState({ isModalSelectUnit: false });
         this._onRefresh();
     }
+
+    _handleNotification = (notification) => {
+        console.log('asdasdasdasdasdasda', notification);
+        this.mapNavigateToScreen(notification);
+    };
+
+    mapNavigateToScreen = (notification) => {
+        let routeName = '';
+        const type = notification.data.properties.Type ? notification.data.properties.Type : 0;
+        const itemtype = notification.data.properties.Id ? notification.data.properties.Id : 0;
+        switch (parseInt(type)) {
+            case 1:
+                routeName = 'Fee';
+                break;
+            case 2:
+                routeName = 'WorkOrder';
+                break;
+            case 3:
+                routeName = 'Booking';
+                break;
+            case 4:
+                routeName = 'Events';
+                break;
+            case 5:
+                routeName = 'Library';
+                break;
+            case 6:
+                routeName = 'Feedback';
+                break;
+            case 12:
+                routeName = 'FrontDesk';
+                break;
+            case 13:
+                routeName = 'FrontDesk';
+                break;
+            case 14:
+                routeName = 'Inbox';
+                break;
+            default:
+                routeName = 'Home';
+        }
+        this.props.navigation.navigate(routeName, {
+            type: 'Navigate',
+            routeName: routeName,
+            params: {
+                itemtype: parseInt(itemtype)
+            }
+        });
+        this.props.onclose()
+    };
 
 
 }
