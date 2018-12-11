@@ -13,7 +13,8 @@ import {
   Platform,
   PixelRatio,
   Keyboard,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -98,6 +99,13 @@ class ModalEditOrder extends PureComponent {
     this.setState({ marginBottom: 0 });
   }
 
+  changeStatusBar = () => {
+    if (this.state.isShowChat || this.state.showModalConfirmCancel || this.state.isShowRating) StatusBar.setHidden(true);
+    else {
+      StatusBar.setHidden(false);
+    }
+  };
+
   componentWillReceiveProps = async nextProps => {
     const { id } = this.props.userProfile.profile.result.user;
     let accessTokenAPI = this.props.account.accessTokenAPI;
@@ -125,15 +133,6 @@ class ModalEditOrder extends PureComponent {
       !nextProps.workOrder.isUpdateWorkOrder
     ) {
       nextProps.actions.workOrder.setFlagUpdateWorkOrder();
-      if (this.state.imageListBase64.length > 0) {
-        for (let i = 0; i < this.state.imageListBase64.length; i++) {
-          await nextProps.actions.workOrder.uploadImageWorkOrder(
-            accessTokenAPI,
-            this.state.imageListBase64[i],
-            nextProps.workOrder.workOrderDetail.result.guid
-          );
-        }
-      }
       this.setState({ showModalConfirmCancel: false }, () => {
         nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
         this.props.navigation.goBack();
@@ -286,6 +285,7 @@ class ModalEditOrder extends PureComponent {
   getPhotos() {
     let ListImage = this.state.arrImageOld.slice();
     let ListImageBase64 = this.state.imageListBase64.slice();
+    let accessTokenAPI = this.props.account.accessTokenAPI;
     ImagePicker.showImagePicker(options, response => {
       console.log('Response = ', response);
 
@@ -300,12 +300,15 @@ class ModalEditOrder extends PureComponent {
         const sourceBase64 = response.data;
         ListImageBase64.push(sourceBase64);
         ListImage.push(source);
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
         this.setState({
           imageListBase64: ListImageBase64,
           arrImageOld: ListImage
         });
+        this.props.actions.workOrder.uploadImageWorkOrder(
+          accessTokenAPI,
+          sourceBase64,
+          this.props.workOrder.workOrderDetail.result.guid
+        );
       }
     });
   }
@@ -315,6 +318,9 @@ class ModalEditOrder extends PureComponent {
     let date = moment(dateCreate).format('l');
     let time = moment(dateCreate).format('LT');
     let tabIndex = this.props.navigation.getParam('tabIndex', false);
+    {
+      this.changeStatusBar();
+    }
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size={'large'} color={'red'} />
@@ -857,7 +863,7 @@ class ModalEditOrder extends PureComponent {
             ListFooterComponent={() => <View style={{ marginBottom: 80 }} />}
           />
         </Animated.View>
-        <KeyboardAvoidingView behavior="position" enabled>
+        <KeyboardAvoidingView behavior="padding" enabled>
           <LinearGradient
             colors={tabIndex && tabIndex == 1 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }}
@@ -865,10 +871,10 @@ class ModalEditOrder extends PureComponent {
             style={[
               {
                 width: width - 40,
+                height: 50,
                 position: 'absolute',
                 bottom: 20,
                 left: 20,
-                height: 50,
                 borderRadius: 10
               },
               focusChat
