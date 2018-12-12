@@ -93,6 +93,7 @@ class Notification extends layout {
         let routeName = '';
         const type = notification.data.properties.Type ? notification.data.properties.Type : 0;
         const itemtype = notification.data.properties.Id ? notification.data.properties.Id : 0;
+        console.log('itemtype', itemtype)
         switch (parseInt(type)) {
             case 1:
                 routeName = 'Fee';
@@ -128,7 +129,7 @@ class Notification extends layout {
             type: 'Navigate',
             routeName: routeName,
             params: {
-                itemtype: parseInt(itemtype)
+                itemtype: itemtype
             }
         });
         this.props.onclose()

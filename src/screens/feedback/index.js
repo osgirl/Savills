@@ -30,19 +30,22 @@ class Feedback extends layout {
         }
     }
 
-    componentWillMount() {
+    componentWillMount = () => {
         this._getList();
-        let ida = this.props.navigation.getParam('params', false);
-        if (ida.itemtype) {
-            this._openModalDetail(ida.itemtype);
-        }
+
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         let accessTokenApi = this.props.account.accessTokenAPI;
         let languege = Language.listLanguage[this.props.app.languegeLocal].id
         this.props.actions.feedback.getListCategory(accessTokenApi, languege);
         this.props.actions.feedback.getTypeFeedback(accessTokenApi, languege);
+        let ida = this.props.navigation.getParam('params', false);
+        if (ida.itemtype) {
+            setTimeout(() => {
+                this._openModalDetail(ida.itemtype);
+            }, 300)
+        }
     }
 
     async componentWillReceiveProps(nextProps) {

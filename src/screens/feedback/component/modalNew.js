@@ -165,6 +165,7 @@ class ModalNewFeedback extends Component {
           contentOffset={{
             y: -HEADER_MAX_HEIGHT,
           }}
+          style={{zIndex: -3}}
         >
           <KeyboardAvoidingView behavior="position" enabled>
             {
