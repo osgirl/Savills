@@ -12,7 +12,7 @@ class Notification extends layout {
     constructor(props) {
         super(props);
         this.state = {
-            data: this.props.notification.listNoti.items,
+            data: [],
             loadingMore: false,
             isShowTitleHeader: false,
             isModalSelectUnit: false,
@@ -21,6 +21,13 @@ class Notification extends layout {
             ),
             isRefresh: false
         }
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            let accessTokenAPI = this.props.account.accessTokenAPI;
+            this.props.actions.notification.getListNotification(accessTokenAPI);
+        }, 300)
     }
 
     async componentWillReceiveProps(nextProps) {

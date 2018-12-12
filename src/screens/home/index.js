@@ -186,7 +186,6 @@ class Home extends layout {
   componentDidMount() {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     this.props.actions.utilities.getFAQ(accessTokenAPI);
-    this.props.actions.notification.getListNotification(accessTokenAPI);
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
@@ -333,7 +332,9 @@ class Home extends layout {
   }
 
   _openProfile() {
-    this.setState({ isShowProfile: true });
+    setTimeout(() => {
+      this.setState({ isShowProfile: true });
+    }, 100)
   }
 
   _closeProfile() {

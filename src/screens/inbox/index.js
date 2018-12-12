@@ -121,6 +121,8 @@ class Inbox extends layout {
 
     _closeModalSelectUnit() {
         this.setState({ isModalSelectUnit: false })
+        this._onRefresh();
+        this._onRefreshIsActive();
     }
 
 

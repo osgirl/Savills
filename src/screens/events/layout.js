@@ -93,15 +93,15 @@ export default class Layout extends Component {
 
 
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 20, 40],
-      outputRange: [40, 20, 0],
+      inputRange: [0, 70],
+      outputRange: [130, 85],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     return (
-      <Animated.View style={{ transform: [{ translateY: headerTranslate }], zIndex: -1 }}>
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
+      <Animated.View style={{ transform: [{ translateY: headerTranslate }], height: headerHeight, backgroundColor: 'red', zIndex: -2 }}>
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
           {/* <Animated.View style={{ height: headerHeight }}> */}
           <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
           {/* </Animated.View> */}
@@ -216,6 +216,8 @@ export default class Layout extends Component {
               keyExtractor={item => item.eventId + ''}
               renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
               onScroll={this.handleScroll}
+              contentContainerStyle={{ zIndex: 1 }}
+              style={{ zIndex: 200 }}
               legacyImplementation={false}
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
@@ -262,8 +264,11 @@ export default class Layout extends Component {
 
   renderItem(item, index, loading) {
     let encToken = this.props.account.encToken;
-    let startTime = this.converDateToTime(item.startTime);
     let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+
+    let startTime = moment(item.startTime).format('HH:mm');
+    let startDate = moment(item.startTime).format('DD/MM');
+    let endDate = moment(item.endTime).format('DD/MM');
     return (
       <ItemHorizontal key={'__PLD' + index} onReady={loading} bgColor={'#FFF'} animate="fade">
         <Button onPress={() => this._openModalDetail(item.eventId)} style={[styles.item, { flexDirection: 'row' }]}>
@@ -317,7 +322,7 @@ export default class Layout extends Component {
                     fontFamily: 'OpenSans-Regular'
                   }}
                 >
-                  {'(' + this.converDate(item.startTime) + ' - ' + this.converDate(item.endTime) + ')'}
+                  {'(' + startDate + ' - ' + endDate + ')'}
                 </Text>
               </View>
             </View>
@@ -357,7 +362,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 5,
     width: width - 40,
-    marginHorizontal: Resolution.scale(20)
+    marginHorizontal: Resolution.scale(20),
   },
   emptyDate: {
     height: 15,

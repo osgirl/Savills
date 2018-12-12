@@ -11,6 +11,8 @@ import IC_CLOCK from "@resources/icons/clock.png";
 import IC_LOCATION from "@resources/icons/location.png";
 import Configs from '../../../utils/configs';
 
+import moment from 'moment';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -64,6 +66,10 @@ class modalDetail extends Component {
         const { data } = this.state;
         let encToken = this.props.account.encToken;
         let image = data && `${data.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+        let startDate = data && moment(data.startTime).format('DD/MM/YYYY');
+        let endDate = data && moment(data.endTime).format('DD/MM/YYYY');
+        let startTime = data && moment(data.startTime).format('LT');
+        let endTime = data && moment(data.endTime).format('LT');
         return (
             <View style={[styles.container, {}]}>
                 <Button
@@ -91,14 +97,13 @@ class modalDetail extends Component {
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <Image source={IC_CLOCK} />
                                             <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
-                                                {this.converDateToTime(data && data.startTime) + ' - ' +
-                                                    this.converDateToTime(data && data.endTime)}
+                                                {startTime + ' - ' + endTime}
                                             </Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
                                             <Image source={IC_CALENDAR} style={{}} />
                                             <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
-                                                {'(' + this.converDate(data && data.startTime) + ' - ' + this.converDate(data && data.endTime) + ')'}
+                                                {'(' + startDate + ' - ' + endDate + ')'}
                                             </Text>
                                         </View>
                                     </View>

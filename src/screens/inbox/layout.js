@@ -153,12 +153,12 @@ export default class extends Component {
 
     renderEmty(name) {
         if (name === 'new' && this.props.inbox.listInbox.totalCount === 0) {
-            return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: Resolution.scale(60) }}>
+            return <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: Resolution.scale(60) }}>
                 <Image source={IC_INBOXEMTY} />
                 <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn mới'}</Text>
             </View>
         } else if (name === 'store' && this.props.inbox.listInboxIsActive.totalCount === 0) {
-            return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: Resolution.scale(60) }}>
+            return <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: Resolution.scale(60) }}>
                 <Image source={IC_INBOXEMTY} />
                 <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn nào đã lưu'}</Text>
             </View>
@@ -207,72 +207,78 @@ export default class extends Component {
 
     ViewInbox = list => {
         return (
-            this.props.inbox.listInbox.totalCount === 0 ?
-                this.renderEmty('new') :
-                list.length > 0 ?
-                    <View tabLabel="New" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-                        <SwipeListView
-                            useFlatList
-                            alwaysBounceVertical={false}
-                            showsVerticalScrollIndicator={false}
-                            scrollEventThrottle={16}
-                            keyExtractor={(item, index) => item.id.toString()}
-                            data={list}
-                            refreshing={this.state.isRefresh}
-                            onRefresh={() => this._onRefresh()}
-                            renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
-                            rightOpenValue={-80}
-                            renderItem={({ item, index }) => this.renderItem(item, index)}
-                            // ListEmptyComponent={() => this.renderEmty('new')}
-                            onScroll={this.handleScroll}
-                            scrollEventThrottle={16}
-                            onEndReachedThreshold={0.01}
-                            onEndReached={() => this._onEndReached()}
-                            legacyImplementation={false}
-                            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                            ListHeaderComponent={() => <View style={{ height: 20, }} />}
-                            ListFooterComponent={() => this._FooterFlatlist()}
-                        />
-                    </View> :
-                    <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-                        <ItemPlaceHolderH />
-                    </View>
+            <View tabLabel="New" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+                {
+                    this.props.inbox.listInbox.totalCount === 0 ?
+                        this.renderEmty('new') :
+                        list.length > 0 ?
+                            <SwipeListView
+                                useFlatList
+                                alwaysBounceVertical={false}
+                                showsVerticalScrollIndicator={false}
+                                scrollEventThrottle={16}
+                                keyExtractor={(item, index) => item.id.toString()}
+                                data={list}
+                                refreshing={this.state.isRefresh}
+                                onRefresh={() => this._onRefresh()}
+                                renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
+                                rightOpenValue={-80}
+                                renderItem={({ item, index }) => this.renderItem(item, index)}
+                                // ListEmptyComponent={() => this.renderEmty('new')}
+                                onScroll={this.handleScroll}
+                                scrollEventThrottle={16}
+                                onEndReachedThreshold={0.01}
+                                onEndReached={() => this._onEndReached()}
+                                legacyImplementation={false}
+                                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                                ListHeaderComponent={() => <View style={{ height: 20, }} />}
+                                ListFooterComponent={() => this._FooterFlatlist()}
+                            />
+                            :
+                            <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                                <ItemPlaceHolderH noMargin />
+                            </View>
+                }
+            </View>
 
         );
     };
 
     ViewStorage = list => {
         return (
-            this.props.inbox.listInboxIsActive.totalCount === 0 ?
-                this.renderEmty('store') :
-                list.length > 0 ?
-                    <View tabLabel="Storage" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-                        <SwipeListView
-                            useFlatList
-                            alwaysBounceVertical={false}
-                            showsVerticalScrollIndicator={false}
-                            scrollEventThrottle={16}
-                            keyExtractor={(item, index) => item.id.toString()}
-                            data={list}
-                            onScroll={this.handleScroll}
-                            scrollEventThrottle={16}
-                            refreshing={this.state.isRefreshActive}
-                            onRefresh={() => this._onRefreshIsActive()}
-                            // renderHiddenItem={(item, index) => this.renderHiddenRow(item, index)}
-                            // rightOpenValue={-80}
-                            renderItem={({ item, index }) => this.renderItem(item, index)}
-                            // ListEmptyComponent={() => this.renderEmty('store')}
-                            onEndReachedThreshold={0.01}
-                            onEndReached={() => this._onEndReachedInboxActive()}
-                            legacyImplementation={false}
-                            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                            ListHeaderComponent={() => <View style={{ height: 20, }} />}
-                            ListFooterComponent={() => this._FooterFlatlist()}
-                        />
-                    </View> :
-                    <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-                        <ItemPlaceHolderH />
-                    </View>
+            <View tabLabel="Storage" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+                {
+                    this.props.inbox.listInboxIsActive.totalCount === 0 ?
+                        this.renderEmty('store') :
+                        list.length > 0 ?
+                            <SwipeListView
+                                useFlatList
+                                alwaysBounceVertical={false}
+                                showsVerticalScrollIndicator={false}
+                                scrollEventThrottle={16}
+                                keyExtractor={(item, index) => item.id.toString()}
+                                data={list}
+                                onScroll={this.handleScroll}
+                                scrollEventThrottle={16}
+                                refreshing={this.state.isRefreshActive}
+                                onRefresh={() => this._onRefreshIsActive()}
+                                // renderHiddenItem={(item, index) => this.renderHiddenRow(item, index)}
+                                // rightOpenValue={-80}
+                                renderItem={({ item, index }) => this.renderItem(item, index)}
+                                // ListEmptyComponent={() => this.renderEmty('store')}
+                                onEndReachedThreshold={0.01}
+                                onEndReached={() => this._onEndReachedInboxActive()}
+                                legacyImplementation={false}
+                                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                                ListHeaderComponent={() => <View style={{ height: 20, }} />}
+                                ListFooterComponent={() => this._FooterFlatlist()}
+                            />
+                            :
+                            <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                                <ItemPlaceHolderH noMargin />
+                            </View>
+                }
+            </View>
         );
     };
 
