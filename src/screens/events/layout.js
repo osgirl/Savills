@@ -62,7 +62,7 @@ export default class Layout extends Component {
   handleScroll = event => {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     Animated.event(
-      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+      // [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
           if (event.nativeEvent.contentOffset.y > 30) {
@@ -82,31 +82,55 @@ export default class Layout extends Component {
     )(event);
   };
 
+  onScroll = e => {
+    const scrollSensitivity = 4;
+    const offset = e.nativeEvent.contentOffset.y / scrollSensitivity
+    this.state.scrollY.setValue(offset);
+  };
+
+  componentDidMount() {
+    this.state.scrollY.addListener(({ value }) => (this.offset = value));
+  }
+
+
   renderHeader() {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
     const headerTranslate = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_MAX_HEIGHT],
-      outputRange: [0, -HEADER_MAX_HEIGHT],
+      inputRange: [0, 20],
+      outputRange: [0, -50],
       extrapolate: 'clamp',
     });
 
-
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 70],
-      outputRange: [130, 85],
+    const testheight = this.state.scrollY.interpolate({
+      inputRange: [0, 20],
+      outputRange: [50, 0],
       extrapolate: 'clamp',
-      useNativeDriver: true
+      useNativeDriver: true,
+    });
+
+    const opacity = this.state.scrollY.interpolate({
+      inputRange: [0, 20],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true,
     });
 
     return (
-      <Animated.View style={{ transform: [{ translateY: headerTranslate }], height: headerHeight, backgroundColor: 'red', zIndex: -2 }}>
+      <Animated.View style={{ zIndex: -1 }}>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
-          {/* <Animated.View style={{ height: headerHeight }}> */}
-          <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
-          {/* </Animated.View> */}
+          <Animated.View style={{
+            transform: [{ translateY: headerTranslate }],
+            height: testheight,
+            opacity: opacity,
+          }}
+          >
+            <View style={{ position: 'absolute' }}>
+              <HeaderTitle title={LG.EVENTS_TXT_TITLE} />
+            </View>
+          </Animated.View>
           {this.state.openFullCalendar ? (
-            <View>
+            <View style={{}}>
               <Calendar
                 style={styles.calendar}
                 firstDay={1}
@@ -137,7 +161,7 @@ export default class Layout extends Component {
               </TouchableOpacity>
             </View>
           ) : (
-              <View>
+              <View style={{}}>
                 <CalendarStrip
                   selectedDate={this.state.selectedDate}
                   onPressDate={date => {
@@ -180,6 +204,13 @@ export default class Layout extends Component {
   render() {
     let unitActive = this.props.units.unitActive;
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -188,11 +219,11 @@ export default class Layout extends Component {
           leftIcon={IC_BACK}
           leftAction={() => this.props.navigation.goBack()}
           headercolor={'transparent'}
-          showTitleHeader={this.props.navigation.getParam('eventTitle') ? true : false}
+          showTitleHeader={true}
           center={
-            <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{this.props.navigation.getParam('eventTitle')}</Text>
-            </View>
+            <Animated.View style={{ opacity: isShow }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.EVENTS_TXT_TITLE}</Text>
+            </Animated.View>
           }
           renderViewRight={
             <Button
@@ -215,7 +246,7 @@ export default class Layout extends Component {
               data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
               keyExtractor={item => item.eventId + ''}
               renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
-              onScroll={this.handleScroll}
+              onScroll={this.onScroll}
               contentContainerStyle={{ zIndex: 1 }}
               style={{ zIndex: 200 }}
               legacyImplementation={false}

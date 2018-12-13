@@ -39,6 +39,7 @@ const style = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        zIndex: 10
     },
 })

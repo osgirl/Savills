@@ -188,6 +188,9 @@ export default class extends Component {
                         <FlatList
                             // alwaysBounceVertical={false}
                             data={this.state.data || []}
+                            contentContainerStyle={{
+                                paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+                            }}
                             keyExtractor={(item) => item.user.id + ''}
                             renderItem={({ item, index }) => (
                                 this.renderItem(item)

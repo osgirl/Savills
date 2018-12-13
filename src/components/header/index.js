@@ -148,6 +148,7 @@ const style = StyleSheet.create({
 	container: {
 		height: 80,
 		justifyContent: 'center',
+		zIndex: 4
 	},
 	wrapper: {
 		width: width,
