@@ -67,7 +67,7 @@ export default createReducer(INIT_STATE, {
             listOnGoing: action.response
           };
         }
-        case 'ACTIVE': {
+        case 'PROCESSING': {
           return {
             ...state,
             listActive: action.response

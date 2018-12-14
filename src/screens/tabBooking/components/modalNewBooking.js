@@ -99,7 +99,6 @@ class ModalNewBooking extends PureComponent {
     this.state.selected.map(item => {
       markedDateMap[item] = {
         selected: true,
-        // disableTouchEvent: true,
         selectedDotColor: 'orange',
         customStyles: {
           container: {
@@ -303,6 +302,7 @@ class ModalNewBooking extends PureComponent {
         <KeyboardAwareScrollView
           innerRef={ref => (this.scroll = ref)}
           keyboardShouldPersistTaps="handled"
+          extraHeight={200}
           showsVerticalScrollIndicator={false}
           style={{ flex: 1 }}
           enableOnAndroid
