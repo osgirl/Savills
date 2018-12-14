@@ -33,7 +33,9 @@ class Inbox extends layout {
         await this._getListInboxIsActive(1);
         let ida = this.props.navigation.getParam('params', false);
         if (ida.itemtype) {
-            this._openModalDetail(ida.itemtype);
+            setTimeout(() => {
+                this._openModalDetail(ida.itemtype);
+            }, 300)
         }
     }
 
@@ -119,6 +121,8 @@ class Inbox extends layout {
 
     _closeModalSelectUnit() {
         this.setState({ isModalSelectUnit: false })
+        this._onRefresh();
+        this._onRefreshIsActive();
     }
 
 

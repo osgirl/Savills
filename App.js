@@ -25,13 +25,13 @@ const Stack = createStackNavigator(stacks, {
     header: null,
     gesturesEnabled: false
   }),
-  
+
   transitionConfig: () => ({
-    // transitionSpec: {
-      // duration: 0,
-      // timing: Animated.timing,
+    transitionSpec: {
+      duration: 250,
+      timing: Animated.timing,
       // easing: Easing.step0
-    // }
+    }
   })
 });
 

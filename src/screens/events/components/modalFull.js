@@ -16,6 +16,7 @@ import Header from '@components/header';
 
 import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
 const { width, height } = Dimensions.get('window');
+import moment from 'moment';
 
 class modalFull extends Component {
 
@@ -102,9 +103,12 @@ class modalFull extends Component {
 
 
     renderItem(item) {
-        let startTime = this.converDateToTime(item.startTime)
         let encToken = this.props.account.encToken;
         let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+
+        let startTime = moment(item.startTime).format('HH:mm');
+        let startDate = moment(item.startTime).format('DD/MM');
+        let endDate = moment(item.endTime).format('DD/MM');
         return (
             <Button
                 onPress={() => this._openModal(item.eventId)}
@@ -127,7 +131,7 @@ class modalFull extends Component {
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
                             <Image source={IC_CALENDAR} style={{}} />
                             <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
-                                {'(' + this.converDate(item.startTime) + ' - ' + this.converDate(item.endTime) + ')'}
+                                {'(' + startDate + ' - ' + endDate + ')'}
                             </Text>
                         </View>
 

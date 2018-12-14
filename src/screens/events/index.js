@@ -30,7 +30,9 @@ class Events extends Layout {
     this._getEvent();
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
-      this._openModalDetail(ida.itemtype);
+      setTimeout(() => {
+        this._openModalDetail(ida.itemtype);
+      }, 300)
     }
   }
 

@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar, Image, RefreshControl, FlatList, Dimensions, Animated, ActivityIndicator } from 'react-native';
+import {
+    View,
+    Text,
+    StatusBar,
+    Image,
+    RefreshControl,
+    FlatList,
+    Dimensions,
+    Animated,
+    ActivityIndicator
+} from 'react-native';
 
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -8,303 +18,315 @@ import Header from '@components/header';
 import Button from '@components/button';
 import HeaderTitle from '@components/headerTitle';
 import moment from 'moment';
-import Resolution from '@utils/resolution';
-import FastImage from '@components/fastImage';
-import ModalSelectUnit from '@components/modalSelectUnit';
-import Modal from 'react-native-modal';
+import Resolution from "@utils/resolution";
+import FastImage from "@components/fastImage";
+import ModalSelectUnit from "@components/modalSelectUnit";
+import Modal from "react-native-modal";
 
 import IC_BACK from '@resources/icons/back-light.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
 import IC_STORAGE_GREEN from '@resources/icons/Storage_green.png';
 import IC_DEL from '@resources/icons/del.png';
 import IC_STORAGE from '@resources/icons/Storage.png';
-import IC_AVATAR_DF from '@resources/icons/avatar-default.png';
-import IC_NO_INBOX from '@resources/icons/inbox.png';
-import IC_INBOXEMTY from '@resources/icons/inbox_emty.png';
-import Configs from '.././../utils/configs';
-import { ItemPlaceHolderH } from '../../components/placeHolderItem';
+import IC_AVATAR_DF from "@resources/icons/avatar-default.png";
+import IC_NO_INBOX from "@resources/icons/inbox.png";
+import IC_INBOXEMTY from "@resources/icons/inbox_emty.png";
+import Configs from ".././../utils/configs";
+import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
-import ModalDetail from './components/modalDetail';
+
+import ModalDetail from "./components/modalDetail";
 
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
-  handleScroll = event => {
-    Animated.event(
-      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-      {
-        listener: event => {
-          if (event.nativeEvent.contentOffset.y > 40) {
-            if (!this.showCenter) {
-              this.showCenter = true;
-              this.setState({ isShowTitleHeader: true });
-            }
-          } else {
-            if (this.showCenter) {
-              this.showCenter = false;
-              this.setState({ isShowTitleHeader: false });
-            }
-          }
-        }
-      },
-      { useNativeDriver: true }
-    )(event);
-  };
 
-  render() {
-    let unitActive = this.props.units.unitActive;
+    handleScroll = event => {
+        Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            {
+                listener: event => {
+                    if (event.nativeEvent.contentOffset.y > 40) {
+                        if (!this.showCenter) {
+                            this.showCenter = true;
+                            this.setState({ isShowTitleHeader: true });
+                        }
+                    } else {
+                        if (this.showCenter) {
+                            this.showCenter = false;
+                            this.setState({ isShowTitleHeader: false });
+                        }
+                    }
+                }
+            },
+            { useNativeDriver: true }
+        )(event);
+    };
 
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 10, 40, 60],
-      outputRange: [60, 40, 10, 0],
-      extrapolate: 'clamp',
-      useNativeDriver: true
-    });
+    render() {
+        let unitActive = this.props.units.unitActive;
 
-    const fontSize = this.state.scrollY.interpolate({
-      inputRange: [0, 0, 100],
-      outputRange: [30, 30, 0],
-      extrapolate: 'clamp'
-    });
-    const opacityText = this.state.scrollY.interpolate({
-      inputRange: [0, 30, 60],
-      outputRange: [1, 0.5, 0],
-      extrapolate: 'clamp',
-      useNativeDriver: true
-    });
+        const headerHeight = this.state.scrollY.interpolate({
+            inputRange: [0, 10, 40, 60],
+            outputRange: [60, 40, 10, 0],
+            extrapolate: 'clamp',
+            useNativeDriver: true
+        });
 
-    const opacityText2 = this.state.scrollY.interpolate({
-      inputRange: [0, 60, 100],
-      outputRange: [1, 0.3, 0],
-      extrapolate: 'clamp'
-    });
+        const fontSize = this.state.scrollY.interpolate({
+            inputRange: [0, 0, 100],
+            outputRange: [30, 30, 0],
+            extrapolate: 'clamp'
+        });
+        const opacityText = this.state.scrollY.interpolate({
+            inputRange: [0, 30, 60],
+            outputRange: [1, 0.5, 0],
+            extrapolate: 'clamp',
+            useNativeDriver: true
+        });
 
-    return (
-      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <StatusBar barStyle="light-content" />
-        <Header
-          LinearGradient={true}
-          leftIcon={IC_BACK}
-          leftAction={() => this.props.navigation.goBack()}
-          headercolor={'transparent'}
-          showTitleHeader={this.state.isShowTitleHeader}
-          center={
-            <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Inbox</Text>
+        const opacityText2 = this.state.scrollY.interpolate({
+            inputRange: [0, 60, 100],
+            outputRange: [1, 0.3, 0],
+            extrapolate: 'clamp'
+        });
+
+        return (
+            <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                <StatusBar barStyle="light-content" />
+                <Header
+                    LinearGradient={true}
+                    leftIcon={IC_BACK}
+                    leftAction={() => this.props.navigation.goBack()}
+                    headercolor={'transparent'}
+                    showTitleHeader={this.state.isShowTitleHeader}
+                    center={
+                        <View>
+                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Inbox</Text>
+                        </View>
+                    }
+                    renderViewRight={
+                        <Button
+                            onPress={() => this.setState({ isModalSelectUnit: true })}
+                            style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
+                        >
+                            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+                            <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+                        </Button>
+                    }
+                />
+                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
+                    <Animated.View style={{ height: headerHeight }}>
+                        <Animated.View style={{ opacity: opacityText }}>
+                            <HeaderTitle title={'Inbox'} />
+                        </Animated.View>
+                    </Animated.View>
+                    <ScrollableTabView
+                        tabBarActiveTextColor={'#FFF'}
+                        tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
+                        tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
+                        tabBarBackgroundColor={'transparent'}
+                        locked={true}
+                    >
+                        {this.ViewInbox(this.state.data)}
+                        {this.ViewStorage(this.state.dataIsActive)}
+                    </ScrollableTabView>
+                </LinearGradient>
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isModalSelectUnit}>
+                    <ModalSelectUnit
+                        onClose={() => this._closeModalSelectUnit()}
+                    />
+                </Modal>
+                <Modal
+                    style={{ flex: 1, margin: 0 }}
+                    isVisible={this.state.isModalDetail}>
+                    <ModalDetail
+                        inboxId={this.state.inboxId}
+                        onClose={() => this._closeModalDetail()}
+                    />
+                </Modal>
             </View>
-          }
-          renderViewRight={
-            <Button
-              onPress={() => this.setState({ isModalSelectUnit: true })}
-              style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
-            >
-              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-              <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
-            </Button>
-          }
-        />
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
-          <Animated.View style={{ height: headerHeight }}>
-            <Animated.View style={{ opacity: opacityText }}>
-              <HeaderTitle title={'Inbox'} />
-            </Animated.View>
-          </Animated.View>
-          <ScrollableTabView
-            tabBarActiveTextColor={'#FFF'}
-            tabBarInactiveTextColor={'rgba(255,255,255,1)'}
-            tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
-            tabBarBackgroundColor={'transparent'}
-            locked={true}
-          >
-            {this.ViewInbox(this.state.data)}
-            {this.ViewStorage(this.state.dataIsActive)}
-          </ScrollableTabView>
-        </LinearGradient>
-        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
-          <ModalSelectUnit onClose={() => this._closeModalSelectUnit()} />
-        </Modal>
-        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalDetail}>
-          <ModalDetail inboxId={this.state.inboxId} onClose={() => this._closeModalDetail()} />
-        </Modal>
-      </View>
-    );
-  }
-
-  renderEmty(name) {
-    if (name === 'new' && this.props.inbox.listInbox.totalCount === 0) {
-      return (
-        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: Resolution.scale(60) }}>
-          <Image source={IC_INBOXEMTY} />
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
-            {'Chưa có tin nhắn mới'}
-          </Text>
-        </View>
-      );
-    } else if (name === 'store' && this.props.inbox.listInboxIsActive.totalCount === 0) {
-      return (
-        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: Resolution.scale(60) }}>
-          <Image source={IC_INBOXEMTY} />
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
-            {'Chưa có tin nhắn nào đã lưu'}
-          </Text>
-        </View>
-      );
-    } else {
-      <View style={{ alignItems: 'center', alignItems: 30 }}>
-        <ActivityIndicator size={'large'} color={Configs.colorMain} />
-      </View>;
+        );
     }
-  }
 
-  _FooterFlatlist() {
-    return this.state.loadingMore || this.state.loadingMoreInboxActive ? (
-      <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color={Configs.colorMain} />
-      </View>
-    ) : (
-      <View style={{ height: 20 }} />
-    );
-  }
-
-  renderHiddenRow(item, index) {
-    return (
-      <Button
-        onPress={() => this._setInboxActive(item.id)}
-        style={{
-          alignItems: 'center',
-          bottom: 0,
-          justifyContent: 'center',
-          position: 'absolute',
-          top: 0,
-          borderRadius: 5,
-          right: 0,
-          backgroundColor: '#C4EEE0',
-          width: 80
-          // marginTop: (index == 0 ? 20 : 10)
-        }}
-      >
-        <Image source={IC_STORAGE_GREEN} />
-      </Button>
-    );
-  }
-
-  ViewInbox = list => {
-    return this.props.inbox.listInbox.totalCount === 0 ? (
-      this.renderEmty('new')
-    ) : list.length > 0 ? (
-      <View tabLabel="New" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-        <SwipeListView
-          useFlatList
-          alwaysBounceVertical={false}
-          showsVerticalScrollIndicator={false}
-          scrollEventThrottle={16}
-          keyExtractor={(item, index) => item.id.toString()}
-          data={list}
-          refreshing={this.state.isRefresh}
-          onRefresh={() => this._onRefresh()}
-          renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
-          rightOpenValue={-80}
-          renderItem={({ item, index }) => this.renderItem(item, index)}
-          // ListEmptyComponent={() => this.renderEmty('new')}
-          onScroll={this.handleScroll}
-          scrollEventThrottle={16}
-          onEndReachedThreshold={0.01}
-          onEndReached={() => this._onEndReached()}
-          legacyImplementation={false}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          ListHeaderComponent={() => <View style={{ height: 20 }} />}
-          ListFooterComponent={() => this._FooterFlatlist()}
-        />
-      </View>
-    ) : (
-      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <ItemPlaceHolderH />
-      </View>
-    );
-  };
-
-  ViewStorage = list => {
-    return this.props.inbox.listInboxIsActive.totalCount === 0 ? (
-      this.renderEmty('store')
-    ) : list.length > 0 ? (
-      <View tabLabel="Storage" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-        <SwipeListView
-          useFlatList
-          alwaysBounceVertical={false}
-          showsVerticalScrollIndicator={false}
-          scrollEventThrottle={16}
-          keyExtractor={(item, index) => item.id.toString()}
-          data={list}
-          onScroll={this.handleScroll}
-          scrollEventThrottle={16}
-          refreshing={this.state.isRefreshActive}
-          onRefresh={() => this._onRefreshIsActive()}
-          // renderHiddenItem={(item, index) => this.renderHiddenRow(item, index)}
-          // rightOpenValue={-80}
-          renderItem={({ item, index }) => this.renderItem(item, index)}
-          // ListEmptyComponent={() => this.renderEmty('store')}
-          onEndReachedThreshold={0.01}
-          onEndReached={() => this._onEndReachedInboxActive()}
-          legacyImplementation={false}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          ListHeaderComponent={() => <View style={{ height: 20 }} />}
-          ListFooterComponent={() => this._FooterFlatlist()}
-        />
-      </View>
-    ) : (
-      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <ItemPlaceHolderH />
-      </View>
-    );
-  };
-
-  renderItem = (item, index) => {
-    let date = moment(item.creationTime).format('l');
-    let time = moment(item.creationTime).format('LT');
-    let encToken = this.props.account.encToken;
-    let image = item.fileUrl ? `${item.fileUrl.fileUrl}&encToken=${encodeURIComponent(encToken)}` : IC_AVATAR_DF;
-    return (
-      <Button
-        activeOpacity={1}
-        onPress={() => this._openModalDetail(item.id)}
-        key={item.id}
-        style={{
-          width: width - 40,
-          borderRadius: 5,
-          // marginTop: index === 0 ? 20 : 10,
-          backgroundColor: '#FFF',
-          padding: 20
-        }}
-      >
-        <View style={{ flexDirection: 'row' }}>
-          <FastImage style={{ width: 50, height: 50, borderRadius: 50 / 2 }} source={image} />
-          <View style={{ marginHorizontal: 20 }}>
-            <Text
-              style={{
-                fontFamily: 'OpenSans-Bold',
-                color: '#505E75',
-                textAlign: 'left',
-                marginRight: 20,
-                fontSize: 10,
-                lineHeight: 14
-              }}
-              numberOfLines={2}
-            >
-              {item.subject}
-            </Text>
-            <View style={{ flex: 1, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
-                <Image style={{ marginRight: 10 }} source={require('../../resources/icons/clock.png')} />
-                <Text style={{ color: '#C9CDD4', fontSize: 12 }}>{time}</Text>
-              </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image style={{ marginRight: 10 }} source={require('../../resources/icons/calendar.png')} />
-                <Text style={{ color: '#C9CDD4', fontSize: 12 }}>{date}</Text>
-              </View>
+    renderEmty(name) {
+        if (name === 'new' && this.props.inbox.listInbox.totalCount === 0) {
+            return <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: Resolution.scale(60) }}>
+                <Image source={IC_INBOXEMTY} />
+                <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn mới'}</Text>
             </View>
-          </View>
-        </View>
-      </Button>
-    );
-  };
+        } else if (name === 'store' && this.props.inbox.listInboxIsActive.totalCount === 0) {
+            return <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: Resolution.scale(60) }}>
+                <Image source={IC_INBOXEMTY} />
+                <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn nào đã lưu'}</Text>
+            </View>
+        } else {
+            <View style={{ alignItems: 'center', alignItems: 30 }}>
+                <ActivityIndicator
+                    size={'large'}
+                    color={Configs.colorMain}
+                />
+            </View>
+        }
+
+    }
+
+    _FooterFlatlist() {
+        return this.state.loadingMore || this.state.loadingMoreInboxActive ? (
+            <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color={Configs.colorMain} />
+            </View>
+        ) : (
+                <View style={{ height: 20 }} />
+            );
+    }
+
+    renderHiddenRow(item, index) {
+        return (
+            <Button onPress={() => this._setInboxActive(item.id)}
+                style={{
+                    alignItems: 'center',
+                    bottom: 0,
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    top: 0,
+                    borderRadius: 5,
+                    right: 0,
+                    backgroundColor: '#C4EEE0',
+                    width: 80
+                    // marginTop: (index == 0 ? 20 : 10)
+                }}>
+                <Image
+                    source={IC_STORAGE_GREEN}
+                />
+            </Button >
+        );
+    }
+
+    ViewInbox = list => {
+        return (
+            <View tabLabel="New" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+                {
+                    this.props.inbox.listInbox.totalCount === 0 ?
+                        this.renderEmty('new') :
+                        list.length > 0 ?
+                            <SwipeListView
+                                useFlatList
+                                alwaysBounceVertical={false}
+                                showsVerticalScrollIndicator={false}
+                                scrollEventThrottle={16}
+                                keyExtractor={(item, index) => item.id.toString()}
+                                data={list}
+                                refreshing={this.state.isRefresh}
+                                onRefresh={() => this._onRefresh()}
+                                renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
+                                rightOpenValue={-80}
+                                renderItem={({ item, index }) => this.renderItem(item, index)}
+                                // ListEmptyComponent={() => this.renderEmty('new')}
+                                onScroll={this.handleScroll}
+                                scrollEventThrottle={16}
+                                onEndReachedThreshold={0.01}
+                                onEndReached={() => this._onEndReached()}
+                                legacyImplementation={false}
+                                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                                ListHeaderComponent={() => <View style={{ height: 20, }} />}
+                                ListFooterComponent={() => this._FooterFlatlist()}
+                            />
+                            :
+                            <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                                <ItemPlaceHolderH noMargin />
+                            </View>
+                }
+            </View>
+
+        );
+    };
+
+    ViewStorage = list => {
+        return (
+            <View tabLabel="Storage" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+                {
+                    this.props.inbox.listInboxIsActive.totalCount === 0 ?
+                        this.renderEmty('store') :
+                        list.length > 0 ?
+                            <SwipeListView
+                                useFlatList
+                                alwaysBounceVertical={false}
+                                showsVerticalScrollIndicator={false}
+                                scrollEventThrottle={16}
+                                keyExtractor={(item, index) => item.id.toString()}
+                                data={list}
+                                onScroll={this.handleScroll}
+                                scrollEventThrottle={16}
+                                refreshing={this.state.isRefreshActive}
+                                onRefresh={() => this._onRefreshIsActive()}
+                                // renderHiddenItem={(item, index) => this.renderHiddenRow(item, index)}
+                                // rightOpenValue={-80}
+                                renderItem={({ item, index }) => this.renderItem(item, index)}
+                                // ListEmptyComponent={() => this.renderEmty('store')}
+                                onEndReachedThreshold={0.01}
+                                onEndReached={() => this._onEndReachedInboxActive()}
+                                legacyImplementation={false}
+                                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                                ListHeaderComponent={() => <View style={{ height: 20, }} />}
+                                ListFooterComponent={() => this._FooterFlatlist()}
+                            />
+                            :
+                            <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                                <ItemPlaceHolderH noMargin />
+                            </View>
+                }
+            </View>
+        );
+    };
+
+    renderItem = (item, index) => {
+        let date = moment(item.creationTime).format('l');
+        let time = moment(item.creationTime).format('LT');
+        let encToken = this.props.account.encToken;
+        let image = item.fileUrl ? `${item.fileUrl.fileUrl}&encToken=${encodeURIComponent(encToken)}` : IC_AVATAR_DF;
+        return (
+            <Button
+                activeOpacity={1}
+                onPress={() => this._openModalDetail(item.id)}
+                key={item.id}
+                style={{
+                    width: width - 40,
+                    borderRadius: 5,
+                    // marginTop: index === 0 ? 20 : 10,
+                    backgroundColor: '#FFF',
+                    padding: 20
+                }}
+            >
+
+                <View style={{ flexDirection: 'row' }}>
+                    <FastImage
+                        style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
+                        source={image}
+                    />
+                    <View style={{ marginHorizontal: 20 }}>
+                        <Text style={{ fontFamily: 'OpenSans-Bold', color: '#505E75', textAlign: 'left', marginRight: 20, fontSize: 10, lineHeight: 14 }} numberOfLines={2}>
+                            {item.subject}
+                        </Text>
+                        <View
+                            style={{ flex: 1, marginTop: 5, flexDirection: 'row', alignItems: 'center', }}
+                        >
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}>
+                                <Image style={{ marginRight: 10 }} source={require('../../resources/icons/clock.png')} />
+                                <Text style={{ color: '#C9CDD4', fontSize: 12 }}>{time}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Image style={{ marginRight: 10 }} source={require('../../resources/icons/calendar.png')} />
+                                <Text style={{ color: '#C9CDD4', fontSize: 12 }}>{date}</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                </View>
+            </Button >
+        );
+    };
 }
+

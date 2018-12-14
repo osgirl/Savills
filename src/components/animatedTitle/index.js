@@ -24,12 +24,14 @@ export default class AnimatedTitle extends Component {
       inputRange: [0, HEADER_SCROLL_DISTANCE],
       outputRange: [0, -HEADER_SCROLL_DISTANCE],
       extrapolate: 'clamp',
+      useNativeDriver: true
     });
 
     const opacity = scroll.interpolate({
       inputRange: [0, 25, 50],
       outputRange: [1, 0.5, 0],
-      extrapolate: 'clamp'
+      extrapolate: 'clamp',
+      useNativeDriver: true
     });
 
     return (

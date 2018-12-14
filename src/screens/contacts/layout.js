@@ -118,7 +118,7 @@ export default class extends Component {
                 }
                 renderViewRight={
                     <Button
-                        onPress={() => this._openModalSelectUnit()}
+                        onPress={() => this.setState({ isModalSelectUnit: true })}
                         style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
                     >
                         <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
@@ -188,6 +188,9 @@ export default class extends Component {
                         <FlatList
                             // alwaysBounceVertical={false}
                             data={this.state.data || []}
+                            contentContainerStyle={{
+                                paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+                            }}
                             keyExtractor={(item) => item.user.id + ''}
                             renderItem={({ item, index }) => (
                                 this.renderItem(item)

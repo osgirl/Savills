@@ -173,6 +173,7 @@ class Home extends layout {
     await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
     await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
     await this.props.actions.account.getUserSettings(accessTokenApi);
+    await this.props.actions.notification.getListNotification(accessTokenApi);
     if (unitID) {
       this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
     } else {
@@ -186,7 +187,6 @@ class Home extends layout {
   componentDidMount() {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     this.props.actions.utilities.getFAQ(accessTokenAPI);
-    this.props.actions.notification.getListNotification(accessTokenAPI);
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
@@ -332,7 +332,9 @@ class Home extends layout {
   }
 
   _openProfile() {
-    this.setState({ isShowProfile: true });
+    setTimeout(() => {
+      this.setState({ isShowProfile: true });
+    }, 100)
   }
 
   _closeProfile() {
