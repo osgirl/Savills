@@ -108,23 +108,6 @@ export default class extends Component {
       <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader()}
-
-        {/* <View style={{ padding: Resolution.scale(20) }}>
-          <Text style={Styles.titleHeader}>Thông báo chung</Text>
-          <View
-            style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 20, paddingBottom: 0, justifyContent: 'space-between' }}
-          >
-            <ViewSwitch text={'Thông báo tất cả'} one onToggle={tugle => console.log('asdasdsadjklasjdklsadas', tugle)} />
-            <ViewSwitch
-              text={'Nhận email khi có thông báo'}
-              one
-              onToggle={tugle => console.log('asdasdsadjklasjdklsadas', tugle)}
-            />
-          </View>
-        </View> */}
-
-        {/* Thông báo chi tiết */}
-
         <View style={{ padding: Resolution.scale(20) }}>
           <Text style={Styles.titleHeader}>Thông báo chi tiết</Text>
           <View

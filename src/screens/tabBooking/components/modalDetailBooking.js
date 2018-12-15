@@ -155,6 +155,7 @@ class ModalDetailBooking extends PureComponent {
         moduleId: 3
       };
       this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
+      this.flatList.scrollToEnd({ animated: true });
     }
   };
 
@@ -397,8 +398,8 @@ class ModalDetailBooking extends PureComponent {
             keyExtractor={(item, index) => item.id.toString()}
             style={{ flex: 1 }}
             ref={ref => (this.flatList = ref)}
-            onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
-            onLayout={() => this.flatList.scrollToEnd({ animated: true })}
+            // onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
+            // onLayout={() => this.flatList.scrollToEnd({ animated: true })}
             renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={id} />}
             ListEmptyComponent={() => {
               return (

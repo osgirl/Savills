@@ -210,19 +210,27 @@ class Home extends layout {
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
-    // this.listTenNotification(accessTokenAPI);
     this.pushNotification = this.setupPushNotification(this._handleNotificationOpen);
   }
+
+  pushNotiIOS = () => {
+    let accessTokenAPI = this.props.account.accessTokenAPI;
+    const uniqueId = DeviceInfo.getUniqueID();
+    PushNotificationIOS.addEventListener('register', token => {
+      this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token, uniqueId);
+    });
+    PushNotificationIOS.requestPermissions();
+  };
 
   setupPushNotification = async handleNotification => {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const uniqueId = DeviceInfo.getUniqueID();
     await PushNotification.configure({
       onRegister: token => {
+        console.log('asdkljasdklasjdlkasdas', token);
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function (notification) {
-        console.log('asdkasdljasdjasldjkasdasd', notification.foreground);
+      onNotification: function(notification) {
         console.log('NOTIFICATION:', notification);
 
         if (notification.foreground) {
@@ -259,23 +267,14 @@ class Home extends layout {
   };
 
   _handleNotificationOpen = notification => {
-    console.log('asdasdasdasdasdasda', notification);
-    // try {
-    //   if (Platform.OS === 'ios') {
-    //     if (notification.data.news_or_deal.indexOf('d') !== -1) {
-    //       const { navigate } = this.props.navigation;
-    //       navigate('DealsDetailsScreen', {
-    //         type: 'Navigate',
-    //         routeName: 'DealsDetailsScreen',
-    //         params: {
-    //           itemid: notification.data.news_or_deal_id
-    //         }
-    //       });
-    //     }
-    //   } else {
-    // if (notification.data) {
+    let notis = null;
+    if (notification.data) {
+      notis = notification.data;
+    } else {
+      notis = notification;
+    }
     const { navigate } = this.props.navigation;
-    this.mapNavigateToScreen(navigate, notification);
+    this.mapNavigateToScreen(navigate, notis);
     // }
     // } catch (error) {
     //   Alert.alert('error', error);

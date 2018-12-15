@@ -16,10 +16,11 @@ class TabActive extends PureComponent {
 
   componentDidMount() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    this.props.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
+    this.props.actions.booking.getListBooking(accessTokenApi, 'PROCESSING');
   }
 
   componentWillReceiveProps = nextProps => {
+    console.log('asdjasdjkahsdjkasdasd', nextProps.booking.listActive);
     if (nextProps.booking.listActive && nextProps.booking.listActive.success) {
       this.setState({ listData: nextProps.booking.listActive.result.items, isRefreshing: false, isLoadData: false });
     }

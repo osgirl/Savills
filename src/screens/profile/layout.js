@@ -129,15 +129,6 @@ export default class extends Component {
             height: Resolution.scaleHeight(180)
           }}
         >
-          <Text
-            style={{
-              fontSize: Resolution.scale(15),
-              color: '#505E75',
-              fontFamily: 'OpenSans-Bold'
-            }}
-          >
-            {`Select Image`}
-          </Text>
           <Button onPress={() => this.selectFromCamera()} style={{ marginVertical: 20 }}>
             <Text style={{ color: '#505E75', fontFamily: 'OpenSans-Bold', fontSize: 15, margin: 10 }}>Chọn từ máy ảnh</Text>
           </Button>
@@ -158,7 +149,6 @@ export default class extends Component {
       includeBase64: true,
       cropping: true
     }).then(image => {
-      console.log('asdklajsdkasjdlkasjdklasdasd', image);
       let from = new FormData();
       let file = {
         uri: image.path,

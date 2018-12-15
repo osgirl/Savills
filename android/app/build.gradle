@@ -153,7 +153,6 @@ android {
 dependencies {
     compile project(':react-native-image-crop-picker')
     implementation project(':react-native-device-info')
-//    implementation project(':react-native-firebase')
     implementation project(':react-native-push-notification')
     implementation project(':react-native-fast-image')
     implementation project(':react-native-image-picker')
@@ -165,6 +164,7 @@ dependencies {
     implementation ("com.android.support:support-v4:26.0.1") {
         force = true //<-- force dependency resolution to 26.0.1 in my case
     }
+    compile project(':react-native-view-overflow')
     
 }
 

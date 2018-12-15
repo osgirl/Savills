@@ -30,7 +30,7 @@ import Resolution from '@utils/resolution';
 import AlertWarning from '@components/alertWarning';
 import { isIphoneX } from '@utils/func';
 
-const HEADER_MAX_HEIGHT = Resolution.scale(isIphoneX() ? 135 : 120);
+const HEADER_MAX_HEIGHT = Resolution.scale(isIphoneX() ? 135 : Platform.OS === 'ios' ? 120 : 120);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const { width, height } = Dimensions.get('window');
@@ -99,7 +99,6 @@ class ModalNewBooking extends PureComponent {
     this.state.selected.map(item => {
       markedDateMap[item] = {
         selected: true,
-        // disableTouchEvent: true,
         selectedDotColor: 'orange',
         customStyles: {
           container: {
@@ -226,28 +225,18 @@ class ModalNewBooking extends PureComponent {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <Animated.View style={{ height: headerHeight }}>
-          <Header
-            LinearGradient={true}
-            leftIcon={IMAGE.close}
-            leftAction={() => this.props.close()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-              <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`Choose Amenity`}</Text>
-              </View>
-            }
-          />
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{ width: width, marginBottom: 20 }}
-          >
-            <HeaderTitle title={`Choose Amenity`} />
-          </LinearGradient>
-        </Animated.View>
+        <Header
+          LinearGradient={true}
+          leftIcon={IMAGE.close}
+          leftAction={() => this.props.close()}
+          headercolor={'transparent'}
+          showTitleHeader={true}
+          center={
+            <View>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`Choose Amenity`}</Text>
+            </View>
+          }
+        />
         {this.state.openFullCalendar ? (
           <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1.0, y: 0 }} colors={['#4A89E8', '#8FBCFF']}>
             <Calendar
@@ -313,12 +302,10 @@ class ModalNewBooking extends PureComponent {
         <KeyboardAwareScrollView
           innerRef={ref => (this.scroll = ref)}
           keyboardShouldPersistTaps="handled"
+          extraHeight={200}
+          showsVerticalScrollIndicator={false}
           style={{ flex: 1 }}
           enableOnAndroid
-          onScroll={this.handleScroll}
-          contentContainerStyle={{
-            minHeight: '100%'
-          }}
         >
           <ItemScorll
             title={'Dịch Vụ'}
@@ -353,7 +340,9 @@ class ModalNewBooking extends PureComponent {
             title={'Thời Gian'}
             renderLeft
             number={
-              this.props.booking.detailCategory && this.props.booking.detailCategory.result
+              this.props.booking.detailCategory &&
+              this.props.booking.detailCategory.result &&
+              this.props.booking.detailCategory.result.numOfExtendTimeSlot
                 ? this.props.booking.detailCategory.result.numOfExtendTimeSlot - this.state.arrSelected.length
                 : 0
             }
@@ -378,6 +367,9 @@ class ModalNewBooking extends PureComponent {
                       onPress={() => this.selectItem(index)}
                       key={index}
                       disabled={
+                        this.props.booking.detailCategory &&
+                        this.props.booking.detailCategory.result &&
+                        this.props.booking.detailCategory.result.numOfExtendTimeSlot &&
                         this.props.booking.detailCategory.result.numOfExtendTimeSlot == this.state.arrSelected.length &&
                         item.isCheck == false
                       }
@@ -468,7 +460,7 @@ class ModalNewBooking extends PureComponent {
                   backgroundColor: '#FFF',
                   padding: 20,
                   justifyContent: 'space-around',
-                  marginBottom: 120
+                  marginBottom: 20
                 }}
               >
                 <View style={{ flexDirection: 'row' }}>
@@ -479,7 +471,6 @@ class ModalNewBooking extends PureComponent {
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Mail</Text>
-                  {/* <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{emailAddress}</Text> */}
                   <TextInput
                     onChangeText={e => this.setState({ email: e })}
                     value={this.state.email}
@@ -495,18 +486,15 @@ class ModalNewBooking extends PureComponent {
                     underlineColorAndroid={'transparent'}
                     style={{ paddingTop: 0, color: '#4A89E8' }}
                   />
-                  {/* <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{phoneNumber}</Text> */}
                 </View>
               </View>
             }
           />
           <View
             style={{
-              position: 'absolute',
               width: width,
               height: 100,
               backgroundColor: '#FFF',
-              bottom: 0,
               paddingTop: 5,
               paddingBottom: 20,
               paddingHorizontal: 20
@@ -565,7 +553,13 @@ class ModalNewBooking extends PureComponent {
   }
 
   renderColorBooking = item => {
-    if (this.props.booking.detailCategory.result.numOfExtendTimeSlot == this.state.arrSelected.length && item.isCheck == false) {
+    if (
+      this.props.booking.detailCategory &&
+      this.props.booking.detailCategory.result &&
+      this.props.booking.detailCategory.result.numOfExtendTimeSlot &&
+      this.props.booking.detailCategory.result.numOfExtendTimeSlot == this.state.arrSelected.length &&
+      item.isCheck == false
+    ) {
       return '#dbdee2';
     } else if (item.isCheck) {
       return '#4A89E8';

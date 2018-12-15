@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00B1AE5F322D4284B6D8ECB7 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F53C22ACDE44CFB956B9786 /* libRNImagePicker.a */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };

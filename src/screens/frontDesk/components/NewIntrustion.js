@@ -348,7 +348,7 @@ class ModalNewOrder extends Component {
                     padding: 10,
                     paddingTop: 20,
                     marginBottom: 170,
-                    borderWidth: 1,
+                    borderWidth: 1
                     // borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF'
                   }}
                   multiline
@@ -376,7 +376,8 @@ class ModalNewOrder extends Component {
               if (this.state.comment.trim() === '') {
                 alert('Thiếu Comment');
               } else {
-                this.setState({ isShowModalConfirm: true });
+                // this.setState({ isShowModalConfirm: true });
+                alert('Chưa hiểu flow api');
               }
             }}
           >
@@ -393,7 +394,7 @@ class ModalNewOrder extends Component {
             showTitleHeader={this.state.isShowTitleHeader}
             center={
               <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'New Order'}</Text>
+                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'New Intrustion'}</Text>
               </View>
             }
           />

@@ -13,13 +13,15 @@ import {
   Platform,
   PixelRatio,
   Keyboard,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import ImagePicker from 'react-native-image-picker';
+import ViewOverflow from 'react-native-view-overflow';
 
 import Connect from '@stores';
 import moment from 'moment';
@@ -98,6 +100,13 @@ class ModalEditOrder extends PureComponent {
     this.setState({ marginBottom: 0 });
   }
 
+  changeStatusBar = () => {
+    if (this.state.isShowChat || this.state.showModalConfirmCancel || this.state.isShowRating) StatusBar.setHidden(true);
+    else {
+      StatusBar.setHidden(false);
+    }
+  };
+
   componentWillReceiveProps = async nextProps => {
     const { id } = this.props.userProfile.profile.result.user;
     let accessTokenAPI = this.props.account.accessTokenAPI;
@@ -125,15 +134,6 @@ class ModalEditOrder extends PureComponent {
       !nextProps.workOrder.isUpdateWorkOrder
     ) {
       nextProps.actions.workOrder.setFlagUpdateWorkOrder();
-      if (this.state.imageListBase64.length > 0) {
-        for (let i = 0; i < this.state.imageListBase64.length; i++) {
-          await nextProps.actions.workOrder.uploadImageWorkOrder(
-            accessTokenAPI,
-            this.state.imageListBase64[i],
-            nextProps.workOrder.workOrderDetail.result.guid
-          );
-        }
-      }
       this.setState({ showModalConfirmCancel: false }, () => {
         nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
         this.props.navigation.goBack();
@@ -166,6 +166,7 @@ class ModalEditOrder extends PureComponent {
         moduleId: 2
       };
       this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
+      this.flatList.scrollToEnd({ animated: true })
     }
   };
 
@@ -286,6 +287,7 @@ class ModalEditOrder extends PureComponent {
   getPhotos() {
     let ListImage = this.state.arrImageOld.slice();
     let ListImageBase64 = this.state.imageListBase64.slice();
+    let accessTokenAPI = this.props.account.accessTokenAPI;
     ImagePicker.showImagePicker(options, response => {
       console.log('Response = ', response);
 
@@ -300,12 +302,15 @@ class ModalEditOrder extends PureComponent {
         const sourceBase64 = response.data;
         ListImageBase64.push(sourceBase64);
         ListImage.push(source);
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
         this.setState({
           imageListBase64: ListImageBase64,
           arrImageOld: ListImage
         });
+        this.props.actions.workOrder.uploadImageWorkOrder(
+          accessTokenAPI,
+          sourceBase64,
+          this.props.workOrder.workOrderDetail.result.guid
+        );
       }
     });
   }
@@ -315,29 +320,31 @@ class ModalEditOrder extends PureComponent {
     let date = moment(dateCreate).format('l');
     let time = moment(dateCreate).format('LT');
     let tabIndex = this.props.navigation.getParam('tabIndex', false);
+    {
+      this.changeStatusBar();
+    }
+
+    const headerHeight = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      extrapolate: 'clamp'
+    });
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size={'large'} color={'red'} />
       </View>
     ) : (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <AnimatedHeader
-          scrollY={this.state.scrollY}
-          label={`#${id}`}
-          goBack
-          goBackAction={() => this.props.navigation.goBack()}
-        />
-        <Animated.ScrollView
-          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], { useNativeDriver: true })}
-          scrollEventThrottle={16}
-          bounces={false}
-          contentContainerStyle={{ zIndex: 1 }}
+        <KeyboardAwareScrollView
+          innerRef={ref => (this.scroll = ref)}
+          keyboardShouldPersistTaps="handled"
+          extraHeight={50}
           showsVerticalScrollIndicator={false}
+          onScroll={this.handleScroll}
           style={{ flex: 1, backgroundColor: '#F6F8FD' }}
+          enableOnAndroid
         >
-          <View style={{ width: width, height: 50, zIndex: 999 }}>
-            <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
-          </View>
+          <View style={{ width: width, height: 120, zIndex: 999, backgroundColor: 'transparent' }} />
           <ItemScorll
             title={'Thông Tin'}
             view={
@@ -530,7 +537,8 @@ class ModalEditOrder extends PureComponent {
               />
             }
           />
-        </Animated.ScrollView>
+          {/* </Animated.ScrollView> */}
+        </KeyboardAwareScrollView>
         {this.renderFooter()}
         <TouchableOpacity
           style={{
@@ -570,7 +578,7 @@ class ModalEditOrder extends PureComponent {
         {this.renderContentModalChat()}
         {this.renderModalRating()}
         {this.renderModalCancel()}
-        {/* <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+        <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
           <Header
             LinearGradient={true}
             leftIcon={require('../../../resources/icons/close.png')}
@@ -591,7 +599,7 @@ class ModalEditOrder extends PureComponent {
           >
             <HeaderTitle title={`#${id}`} />
           </LinearGradient>
-        </Animated.View> */}
+        </Animated.View>
         {this.showDetailImage()}
       </View>
     );
@@ -842,8 +850,8 @@ class ModalEditOrder extends PureComponent {
             keyExtractor={(item, index) => item.id.toString()}
             renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={id} />}
             ref={ref => (this.flatList = ref)}
-            onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
-            onLayout={() => this.flatList.scrollToEnd({ animated: true })}
+            // onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
+            // onLayout={() => this.flatList.scrollToEnd({ animated: true })}
             ListEmptyComponent={() => {
               return (
                 <View style={{ flex: 1, alignItems: 'center', marginTop: 100, height: isIphoneX() ? 500 : height - 150 }}>
@@ -857,24 +865,26 @@ class ModalEditOrder extends PureComponent {
             ListFooterComponent={() => <View style={{ marginBottom: 80 }} />}
           />
         </Animated.View>
-        <KeyboardAvoidingView behavior="position" enabled>
+        <KeyboardAvoidingView behavior="padding" enabled>
           <LinearGradient
             colors={tabIndex && tabIndex == 1 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={[
               {
+                zIndex: 1,
+                overflow: 'hidden',
                 width: width - 40,
+                height: 50,
                 position: 'absolute',
                 bottom: 20,
                 left: 20,
-                height: 50,
                 borderRadius: 10
               },
               focusChat
             ]}
           >
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, elevation: 1 }}>
               <TextInput
                 ref={input => {
                   this.textInput = input;
