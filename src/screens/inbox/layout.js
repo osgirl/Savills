@@ -63,14 +63,26 @@ export default class extends Component {
         )(event);
     };
 
+    onScroll = e => {
+        const scrollSensitivity = 4;
+        const offset = e.nativeEvent.contentOffset.y / scrollSensitivity
+        this.state.scrollY.setValue(offset);
+    };
+
     render() {
         let unitActive = this.props.units.unitActive;
 
         const headerHeight = this.state.scrollY.interpolate({
-            inputRange: [0, 10, 40, 60],
-            outputRange: [60, 40, 10, 0],
+            inputRange: [0, 10, 30],
+            outputRange: [60, 30, 0],
             extrapolate: 'clamp',
             useNativeDriver: true
+        });
+
+        const headerTranslate = this.state.scrollY.interpolate({
+            inputRange: [0, 30],
+            outputRange: [0, -50],
+            extrapolate: 'clamp',
         });
 
         const fontSize = this.state.scrollY.interpolate({
@@ -85,9 +97,9 @@ export default class extends Component {
             useNativeDriver: true
         });
 
-        const opacityText2 = this.state.scrollY.interpolate({
-            inputRange: [0, 60, 100],
-            outputRange: [1, 0.3, 0],
+        const opacityTextHeader = this.state.scrollY.interpolate({
+            inputRange: [0, 30],
+            outputRange: [0, 1],
             extrapolate: 'clamp'
         });
 
@@ -99,11 +111,11 @@ export default class extends Component {
                     leftIcon={IC_BACK}
                     leftAction={() => this.props.navigation.goBack()}
                     headercolor={'transparent'}
-                    showTitleHeader={this.state.isShowTitleHeader}
+                    showTitleHeader={true}
                     center={
-                        <View>
-                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Inbox</Text>
-                        </View>
+                        <Animated.View style={{ opacity: opacityTextHeader }}>
+                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Inbox'}</Text>
+                        </Animated.View>
                     }
                     renderViewRight={
                         <Button
@@ -115,12 +127,19 @@ export default class extends Component {
                         </Button>
                     }
                 />
-                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
-                    <Animated.View style={{ height: headerHeight }}>
-                        <Animated.View style={{ opacity: opacityText }}>
+                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ width: width, zIndex: -10 }}>
+                    <Animated.View
+                        style={{
+                            transform: [{ translateY: headerTranslate }],
+                            height: headerHeight,
+                        }}
+                    >
+                        <Animated.View style={{ opacity: opacityText, position: 'absolute', }}>
                             <HeaderTitle title={'Inbox'} />
                         </Animated.View>
                     </Animated.View>
+                </LinearGradient>
+                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1, zIndex: 1 }}>
                     <ScrollableTabView
                         tabBarActiveTextColor={'#FFF'}
                         tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
@@ -147,7 +166,7 @@ export default class extends Component {
                         onClose={() => this._closeModalDetail()}
                     />
                 </Modal>
-            </View>
+            </View >
         );
     }
 
@@ -207,33 +226,36 @@ export default class extends Component {
 
     ViewInbox = list => {
         return (
-            <View tabLabel="New" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+            <View tabLabel="New" style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
                 {
                     this.props.inbox.listInbox.totalCount === 0 ?
                         this.renderEmty('new') :
                         list.length > 0 ?
-                            <SwipeListView
-                                useFlatList
-                                alwaysBounceVertical={false}
-                                showsVerticalScrollIndicator={false}
-                                scrollEventThrottle={16}
-                                keyExtractor={(item, index) => item.id.toString()}
-                                data={list}
-                                refreshing={this.state.isRefresh}
-                                onRefresh={() => this._onRefresh()}
-                                renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
-                                rightOpenValue={-80}
-                                renderItem={({ item, index }) => this.renderItem(item, index)}
-                                // ListEmptyComponent={() => this.renderEmty('new')}
-                                onScroll={this.handleScroll}
-                                scrollEventThrottle={16}
-                                onEndReachedThreshold={0.01}
-                                onEndReached={() => this._onEndReached()}
-                                legacyImplementation={false}
-                                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                                ListHeaderComponent={() => <View style={{ height: 20, }} />}
-                                ListFooterComponent={() => this._FooterFlatlist()}
-                            />
+                            <View style={{ paddingHorizontal: 20 }}>
+                                <SwipeListView
+                                    useFlatList
+                                    alwaysBounceVertical={false}
+                                    showsVerticalScrollIndicator={false}
+                                    scrollEventThrottle={16}
+                                    keyExtractor={(item, index) => item.id.toString()}
+                                    data={list}
+                                    refreshing={this.state.isRefresh}
+                                    onRefresh={() => this._onRefresh()}
+                                    renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
+                                    rightOpenValue={-80}
+                                    renderItem={({ item, index }) => this.renderItem(item, index)}
+                                    // ListEmptyComponent={() => this.renderEmty('new')}
+                                    // onScroll={this.handleScroll}
+                                    onScroll={this.onScroll}
+                                    scrollEventThrottle={16}
+                                    onEndReachedThreshold={0.01}
+                                    onEndReached={() => this._onEndReached()}
+                                    legacyImplementation={false}
+                                    ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                                    ListHeaderComponent={() => <View style={{ height: 20, }} />}
+                                    ListFooterComponent={() => this._FooterFlatlist()}
+                                />
+                            </View>
                             :
                             <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
                                 <ItemPlaceHolderH noMargin />
@@ -258,7 +280,8 @@ export default class extends Component {
                                 scrollEventThrottle={16}
                                 keyExtractor={(item, index) => item.id.toString()}
                                 data={list}
-                                onScroll={this.handleScroll}
+                                // onScroll={this.handleScroll}
+                                onScroll={this.onScroll}
                                 scrollEventThrottle={16}
                                 refreshing={this.state.isRefreshActive}
                                 onRefresh={() => this._onRefreshIsActive()}
@@ -307,7 +330,14 @@ export default class extends Component {
                         source={image}
                     />
                     <View style={{ marginHorizontal: 20 }}>
-                        <Text style={{ fontFamily: 'OpenSans-Bold', color: '#505E75', textAlign: 'left', marginRight: 20, fontSize: 10, lineHeight: 14 }} numberOfLines={2}>
+                        <Text style={{
+                            fontFamily: 'OpenSans-Bold',
+                            color: item.state ? '#BABFC8' : '#343D4D',
+                            textAlign: 'left',
+                            marginRight: 20,
+                            fontSize: 10,
+                            lineHeight: 14
+                        }} numberOfLines={2}>
                             {item.subject}
                         </Text>
                         <View

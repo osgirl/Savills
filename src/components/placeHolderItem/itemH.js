@@ -20,7 +20,11 @@ export default class extends Component {
             <View style={{ marginTop: this.props.noMargin ? 20 : 60 }}>
                 {
                     ['1', '2', '3', '4', '5'].map(
-                        (item) => <ItemHorizontal2 key={'H_' + item} onReady={false} bgColor={'#FFF'} animate="fade" />
+                        (item) => <ItemHorizontal2 key={'H_' + item}
+                            onReady={false}
+                            bgColor={'#FFF'}
+                            animate="fade"
+                        />
                     )
                 }
             </View>

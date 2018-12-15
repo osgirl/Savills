@@ -67,6 +67,19 @@ class Inbox extends layout {
             this._onRefreshIsActive(1);
         }
 
+        // setInboxActive
+        if (this.props.inbox.setRead !== nextProps.inbox.setRead && nextProps.inbox.setRead.success) {
+            let accessTokenApi = this.props.account.accessTokenAPI;
+            let unitID = this.props.units.unitActive.unitId;
+            this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
+        }
+
+    }
+
+
+    _setInboxReaded(inboxID) {
+        let accessTokenApi = this.props.account.accessTokenAPI;
+        this.props.actions.inbox.setInboxRead(accessTokenApi, inboxID);
     }
 
     _setInboxActive(inboxID) {
@@ -126,8 +139,25 @@ class Inbox extends layout {
     }
 
 
-    _openModalDetail(id) {
-        this.setState({ inboxId: id, isModalDetail: true })
+    async _openModalDetail(id) {
+        this.setState({ inboxId: id, isModalDetail: true });
+        let tempArrInbox = this.state.data.slice();
+        let tempArrInboxActive = this.state.dataIsActive.slice();
+        if (tempArrInbox.length > 0) {
+            let inbox = await tempArrInbox.find(item => item.id === id) || null;
+            if (inbox !== null && !inbox.state) {
+                tempArrInbox[tempArrInbox.findIndex(i => i.id == inbox.id)].state = true;
+                await this.setState({ data: tempArrInbox })
+            }
+        }
+        if (tempArrInboxActive.length > 0) {
+            let inboxActive = await tempArrInboxActive.find(item => item.id === id) || null;
+            if (inboxActive !== null && !inboxActive.state) {
+                tempArrInboxActive[tempArrInboxActive.findIndex(i => i.id == inboxActive.id)].state = true;
+                await this.setState({ dataIsActive: tempArrInboxActive })
+            }
+        }
+        this._setInboxReaded(id);
     }
 
     _closeModalDetail() {

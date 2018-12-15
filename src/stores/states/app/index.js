@@ -9,7 +9,8 @@ export default keymirror(
 
     REGISTER_NOTIFICATION: null,
     UPDATE_SETTINGS: null,
-    GET_SETTING: null
+    GET_SETTING: null,
+    GET_MODULE_HOME: null
   },
   'APP_'
 );

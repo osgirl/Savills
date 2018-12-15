@@ -6,10 +6,22 @@ const INIT_STATE = {
   languegeLocal: '',
   notification: false,
   setting: false,
-  getSetting: false
+  getSetting: false,
+  moduleHome: false
 };
 
 export default createReducer(INIT_STATE, {
+  [Types.GET_MODULE_HOME_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        moduleHome: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.GET_SETTING_SUCCESS]: (state, action) => {
     try {
       return {

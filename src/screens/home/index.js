@@ -59,6 +59,22 @@ class Home extends layout {
       }
     }
 
+
+    if (this.props.app.moduleHome !== nextProps.app.moduleHome && nextProps.app.moduleHome.success) {
+      console.log('=-=-=-=', nextProps.app.moduleHome.result.modules)
+      const dataTemp = this.state.DATA.slice();
+      let a = nextProps.app.moduleHome.result.modules.map(item => {
+        dataTemp.map((itemData) => {
+          if (item === itemData.key) {
+            item = itemData;
+            console.log(item)
+          }
+        })
+      })
+      console.log('-=-=-=-=-', a)
+    }
+
+
     if (
       this.props.notification.listCountModule !== nextProps.notification.listCountModule &&
       nextProps.notification.listCountModule.success
@@ -173,6 +189,10 @@ class Home extends layout {
     await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
     await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
     await this.props.actions.account.getUserSettings(accessTokenApi);
+
+    await this.props.actions.app.getModuleHome(accessTokenApi);
+
+
     await this.props.actions.notification.getListNotification(accessTokenApi);
     if (unitID) {
       this.props.actions.notification.getListCountModule(accessTokenApi, unitID);

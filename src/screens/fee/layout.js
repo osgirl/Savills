@@ -3,7 +3,7 @@ import {
     View,
     Text,
     WebView, Image, Dimensions,
-    StatusBar, Animated, FlatList
+    StatusBar, Animated, FlatList, Platform
 } from 'react-native';
 import Header from '@components/header';
 import IC_BACK from "@resources/icons/back-light.png";
@@ -55,6 +55,13 @@ export default class extends Component {
         }, { useNativeDriver: true })(event);
     };
 
+    onScroll = e => {
+        const scrollSensitivity = 4;
+        const offset = e.nativeEvent.contentOffset.y / scrollSensitivity
+        this.state.scrollY.setValue(offset);
+    };
+
+
     renderEmty() {
         return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
             <Image source={IC_EVENTEMTY} />
@@ -65,47 +72,67 @@ export default class extends Component {
     render() {
         let unitActive = this.props.units.unitActive;
 
-        const headerHeight = this.state.scrollY.interpolate({
-            inputRange: [0, 30, 60],
-            outputRange: [60, 30, 0],
+        const headertitleHeight = this.state.scrollY.interpolate({
+            inputRange: [0, 20],
+            outputRange: [50, 0],
             extrapolate: 'clamp',
             useNativeDriver: true
+        });
+
+        const headertitleHeightTranslate = this.state.scrollY.interpolate({
+            inputRange: [0, 20],
+            outputRange: [0, -50],
+            extrapolate: 'clamp',
         });
 
         const opacityTextTitle = this.state.scrollY.interpolate({
-            inputRange: [0, 60, 100],
-            outputRange: [1, 0.5, 0],
+            inputRange: [0, 20],
+            outputRange: [1, 0],
             extrapolate: 'clamp',
             useNativeDriver: true
         });
 
-        const opacityViewPrice = this.state.scrollY.interpolate({
-            inputRange: [120, 140, 170],
-            outputRange: [0, 0.5, 1],
+        const opacityView1 = this.state.scrollY.interpolate({
+            inputRange: [20, 40],
+            outputRange: [1, 0],
             extrapolate: 'clamp',
             useNativeDriver: true
         });
 
-        const headerHeightViewPrice = this.state.scrollY.interpolate({
-            inputRange: [120, 140, 170],
-            outputRange: [0, 25, 50],
+        const opacityView2 = this.state.scrollY.interpolate({
+            inputRange: [0, 39, 40],
+            outputRange: [0, 0, 1],
             extrapolate: 'clamp',
             useNativeDriver: true
         });
 
-        const opacityTextPrice = this.state.scrollY.interpolate({
-            inputRange: [0, 60, 100],
-            outputRange: [1, 0.5, 0],
-            extrapolate: 'clamp',
-            useNativeDriver: true
-        });
+
+        // const headerHeightViewPrice = this.state.scrollY.interpolate({
+        //     inputRange: [120, 140, 170],
+        //     outputRange: [0, 25, 50],
+        //     extrapolate: 'clamp',
+        //     useNativeDriver: true
+        // });
+
 
         const headerHeightContentTop = this.state.scrollY.interpolate({
-            inputRange: [0, 60, 90, 120],
-            outputRange: [120, 90, 60, 0],
+            inputRange: [20, 40],
+            outputRange: [120, Platform.OS === 'ios' ? 60 : 50],
             extrapolate: 'clamp',
             useNativeDriver: true
         });
+
+        const opacityTextHeader = this.state.scrollY.interpolate({
+            inputRange: [0, 20],
+            outputRange: [0, 1],
+            extrapolate: 'clamp'
+        });
+
+        // const headerContentTopTranslate = this.state.scrollY.interpolate({
+        //     inputRange: [50, 51],
+        //     outputRange: [0, -51],
+        //     extrapolate: 'clamp',
+        // });
 
         let checkAll = this.props.fee.listUserFee.result && this.state.listFeeSelected.length === this.props.fee.listUserFee.result.items.length ? true : false;
 
@@ -119,11 +146,11 @@ export default class extends Component {
                     leftIcon={IC_BACK}
                     leftAction={() => this.props.navigation.goBack()}
                     headercolor={'transparent'}
-                    showTitleHeader={this.state.isShowTitleHeader}
+                    showTitleHeader={true}
                     center={
-                        <View>
-                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Fee</Text>
-                        </View>
+                        <Animated.View style={{ opacity: opacityTextHeader }}>
+                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Fee'}</Text>
+                        </Animated.View>
                     }
                     renderViewRight={
                         <Button
@@ -134,37 +161,52 @@ export default class extends Component {
                         </Button>
                     }
                 />
-                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
-                    <Animated.View style={{ height: headerHeight }}>
-                        <Animated.View style={{ opacity: opacityTextTitle }}>
+
+                {/* title top */}
+                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ zIndex: -2 }}>
+                    <Animated.View style={{
+                        height: headertitleHeight,
+                        transform: [{ translateY: headertitleHeightTranslate }],
+                    }}>
+                        <Animated.View style={{ opacity: opacityTextTitle, position: 'absolute', }}>
                             <HeaderTitle title={'Fee'} />
                         </Animated.View>
                     </Animated.View>
-                    <Animated.View style={{ height: headerHeightContentTop }}>
-                        <Animated.View style={{ marginTop: Resolution.scale(20), alignItems: 'center', opacity: opacityTextPrice }}>
+                </LinearGradient>
+
+                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ zIndex: -2 }}>
+                    <Animated.View style={{
+                        height: headerHeightContentTop,
+                        // transform: [{ translateY: headerContentTopTranslate }],
+                        // backgroundColor: 'red'
+                    }}>
+
+                        <Animated.View style={{ marginTop: Resolution.scale(20), alignItems: 'center', opacity: opacityView1 }}>
                             <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold' }}>October / 2018</Text>
-                            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <Text style={{ fontSize: Resolution.scale(35), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>{Utils.convertNumber(this.state.totalPay)}</Text>
-                                <Text style={{ fontSize: Resolution.scale(20), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginLeft: Resolution.scale(10), paddingBottom: Resolution.scale(5) }}>VND</Text>
+                                <Text style={{ fontSize: Resolution.scale(20), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginLeft: Resolution.scale(10) }}>VND</Text>
                             </View>
                             <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5 }}>{unitActive.fullUnitCode}</Text>
                         </Animated.View>
-                    </Animated.View>
 
-                    <Animated.View style={{ height: headerHeightViewPrice, opacity: opacityViewPrice, justifyContent: 'center' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: Resolution.scale(20) }}>
-                            <View style={{}}>
-                                <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text>
-                                <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5, textAlign: 'left' }}>{unitActive.fullUnitCode}</Text>
+                        <Animated.View style={{ opacity: opacityView2, position: 'absolute', left: 0, right: 0 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: Resolution.scale(20), height: 60 }}>
+                                <View style={{}}>
+                                    <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text>
+                                    <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5, textAlign: 'left' }}>{unitActive.fullUnitCode}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', alignSelf: 'center' }}>
+                                    <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginRight: Resolution.scale(10), paddingBottom: Resolution.scale(5) }}>VND</Text>
+                                    <Text style={{ fontSize: Resolution.scale(22), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>{Utils.convertNumber(this.state.totalPay)}</Text>
+                                </View>
                             </View>
-                            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                                <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginRight: Resolution.scale(10), paddingBottom: Resolution.scale(5) }}>VND</Text>
-                                <Text style={{ fontSize: Resolution.scale(22), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>{Utils.convertNumber(this.state.totalPay)}</Text>
-                            </View>
-                        </View>
+                        </Animated.View>
+
                     </Animated.View>
+                </LinearGradient>
 
-
+                <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
                     <View
                         style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: Resolution.scale(20), paddingVertical: Resolution.scale(10) }}>
                         <Button
@@ -184,7 +226,6 @@ export default class extends Component {
                             <Image source={IC_HISTORY} />
                         </Button>
                     </View>
-
                 </LinearGradient>
 
                 {
@@ -192,15 +233,17 @@ export default class extends Component {
                         this.renderEmty() :
                         this.state.data.length > 0 ?
                             <FlatList
+                                alwaysBounceVertical={false}
                                 data={this.state.data}
                                 showsVerticalScrollIndicator={false}
                                 keyExtractor={(item, index) => item[0].id + '__' + index}
-                                onScroll={this.handleScroll}
+                                // onScroll={this.handleScroll}
+                                onScroll={this.onScroll}
                                 scrollEventThrottle={16}
                                 renderItem={({ item, index }) => this.renderItem(item, index)}
                                 extraData={this.state}
                             /> :
-                            <ItemPlaceHolderH />
+                            <ItemPlaceHolderH noMargin />
                 }
 
                 {
@@ -232,7 +275,7 @@ export default class extends Component {
                         onClose={() => this._closeModalHistory()}
                     />
                 </Modal>
-            </View>
+            </View >
         );
     }
 
@@ -250,20 +293,42 @@ export default class extends Component {
                         return <Button key={data.id + 'itemFee____' + index}
                             onPress={() => this._addItemListFeeSelected(data)}
                             style={{ padding: Resolution.scale(20), backgroundColor: '#FFFFFF', borderRadius: 5, marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1 }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                                     <Image source={check ? IC_CHECKED : IC_CHECK_BLUE} style={{ marginRight: Resolution.scale(20) }} />
                                     <View style={{ width: width - Resolution.scaleWidth(165) }}>
                                         <Text numberOfLines={1} style={{ fontSize: Resolution.scale(12), color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>{data.description}</Text>
                                         <Text numberOfLines={1} style={{ fontSize: Resolution.scale(13), color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>{data.fullUnitCode}</Text>
                                     </View>
                                 </View>
-                                <View>
-                                    <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>{'$' + data.totalAmount}</Text>
+                                <View style={{ flex: 0.5, alignItems: 'flex-end' }}>
+                                    <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>{'$' + Utils.convertNumber(data.totalAmount)}</Text>
                                 </View>
                             </View>
                         </Button>
                     })
+
+                    // ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((data, index) => {
+                    //     let check = this.state.listFeeSelected.some(e => e.id === data.id);
+                    //     return <Button key={data.id + 'itemFee____' + index}
+                    //         onPress={() => this._addItemListFeeSelected(data)}
+                    //         style={{ padding: Resolution.scale(20), backgroundColor: '#FFFFFF', borderRadius: 5, marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}>
+
+                    //         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1 }}>
+                    //             <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                    //                 <Image source={check ? IC_CHECKED : IC_CHECK_BLUE} style={{ marginRight: Resolution.scale(20) }} />
+                    //                 <View style={{ width: width - Resolution.scaleWidth(165) }}>
+                    //                     <Text numberOfLines={1} style={{ fontSize: Resolution.scale(12), color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>{data}</Text>
+                    //                     <Text numberOfLines={1} style={{ fontSize: Resolution.scale(13), color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>{data}</Text>
+                    //                 </View>
+                    //             </View>
+                    //             <View style={{ flex: 0.5, alignItems: 'flex-end' }}>
+                    //                 <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>{'$' + data}</Text>
+                    //             </View>
+                    //         </View>
+                    //     </Button>
+                    // })
                 }
             </View>
         )

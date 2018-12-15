@@ -21,17 +21,18 @@ import Header from '@components/header';
 import { ItemPlaceHolderH } from "@components/placeHolderItem";
 
 const { width, height } = Dimensions.get('window');
+import AnimatedTitle from "@components/animatedTitle";
 
-const HEADER_MAX_HEIGHT = Platform.OS == 'ios' ? 140 : 120;
-const HEADER_MIN_HEIGHT = 75;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+const HEADER_MAX_HEIGHT = 50;
 
 class modalConfirm extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            scrollY: new Animated.Value(0),
+            scrollY: new Animated.Value(
+                Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
+            ),
             isShowTitleHeader: false,
             isShowModal: false,
             isShowModalDetail: false,
@@ -43,19 +44,19 @@ class modalConfirm extends Component {
 
     handleScroll = event => {
         Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
-            listener: event => {
-                if (event.nativeEvent.contentOffset.y > 50) {
-                    if (!this.showCenter) {
-                        this.showCenter = true;
-                        this.setState({ isShowTitleHeader: true });
-                    }
-                } else {
-                    if (this.showCenter) {
-                        this.showCenter = false;
-                        this.setState({ isShowTitleHeader: false });
-                    }
-                }
-            }
+            // listener: event => {
+            //     if (event.nativeEvent.contentOffset.y > 50) {
+            //         if (!this.showCenter) {
+            //             this.showCenter = true;
+            //             this.setState({ isShowTitleHeader: true });
+            //         }
+            //     } else {
+            //         if (this.showCenter) {
+            //             this.showCenter = false;
+            //             this.setState({ isShowTitleHeader: false });
+            //         }
+            //     }
+            // }
         }, { useNativeDriver: true })(event);
     };
 
@@ -71,7 +72,7 @@ class modalConfirm extends Component {
     renderEmty() {
         return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
             <Image source={IC_EVENTEMTY} />
-            <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Không có sự kiện nào \n bạn quay lại lần sau nhé'}</Text>
+            <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Không lịch sử đơn hàng nào'}</Text>
         </View>
     }
 
@@ -79,6 +80,7 @@ class modalConfirm extends Component {
     render() {
         return (
             <View style={[styles.container, {}]}>
+                {this.renderHeader()}
                 {
                     this.props.fee.history.result && this.props.fee.history.result.totalCount === 0 ?
                         this.renderEmty() :
@@ -91,10 +93,18 @@ class modalConfirm extends Component {
                                 onScroll={this.handleScroll}
                                 onEndReachedThreshold={0.01}
                                 scrollEventThrottle={16}
+                                contentContainerStyle={{
+                                    paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+                                }}
+                                contentInset={{
+                                    top: HEADER_MAX_HEIGHT,
+                                }}
+                                contentOffset={{
+                                    y: -HEADER_MAX_HEIGHT,
+                                }}
                                 ListFooterComponent={() => <View style={{ height: 20 }} />}
                             /> : <ItemPlaceHolderH />
                 }
-                {this.renderHeader()}
                 {this.renderModalDetail()}
             </View>
         );
@@ -209,41 +219,31 @@ class modalConfirm extends Component {
     }
 
     renderHeader() {
-        const headerHeight = this.state.scrollY.interpolate({
-            inputRange: [0, HEADER_SCROLL_DISTANCE],
-            outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+        const opacityTextHeader = this.state.scrollY.interpolate({
+            inputRange: [0, 10],
+            outputRange: [0, 1],
             extrapolate: 'clamp'
         });
 
-        const opacity = this.state.scrollY.interpolate({
-            inputRange: [0, 25, 50],
-            outputRange: [1, 0.5, 0],
-            extrapolate: 'clamp'
-        });
-
-        return <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
+        return <View>
             <Header
                 LinearGradient={true}
                 leftIcon={IC_CLOSE}
                 leftAction={() => this.props.onClose()}
                 headercolor={'transparent'}
-                showTitleHeader={this.state.isShowTitleHeader}
+                showTitleHeader={true}
                 center={
-                    <View>
+                    <Animated.View style={{ opacity: opacityTextHeader }}>
                         <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'History'}</Text>
-                    </View>
+                    </Animated.View>
                 }
             />
-            <LinearGradient
-                colors={['#4A89E8', '#8FBCFF']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-            >
-                <Animated.View style={{ opacity: opacity }}>
-                    <HeaderTitle title={'History'} />
-                </Animated.View>
-            </LinearGradient>
-        </Animated.View>
+
+            <AnimatedTitle
+                scrollY={this.state.scrollY}
+                label={'# History'}
+            />
+        </View>
     }
 
 }

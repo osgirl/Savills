@@ -204,7 +204,7 @@ export default class extends Component {
         <View style={{ flex: 1 }}>
           <FlatList
             data={data}
-            scrollEnabled={true}
+            scrollEnabled={checkScrollEnabled}
             horizontal={false}
             key={this.state.numcolumn === 3 ? 'h' : 'v'}
             contentContainerStyle={{ alignItems: 'flex-start', width: width, marginHorizontal: 20 }}

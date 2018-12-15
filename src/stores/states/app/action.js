@@ -69,6 +69,17 @@ export function logoutNotification(accessTokenAPI) {
   };
 }
 
+export function getModuleHome(accessTokenAPI) {
+  return {
+    type: Types.GET_MODULE_HOME,
+    payload: {
+      api: Configs.API + '/api/services/app/UserSetting/GetUserAuthConfig',
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
 export function getSetting(accessTokenAPI) {
   return {
     type: Types.GET_SETTING,

@@ -34,13 +34,14 @@ let styleTextRight = {
   fontSize: Resolution.scale(13),
   fontFamily: 'OpenSans-SemiBold',
   color: '#4A89E8',
-  textAlign: 'right'
+  textAlign: 'right',
+  flex: 1
 };
 
 export default class extends Component {
   renderLoading() {
     if (this.props.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.props.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.props.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -63,12 +64,12 @@ export default class extends Component {
         {this.state.keyUpdate === 'sdt'
           ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_PHONE
           : this.state.keyUpdate === 'name'
-          ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_FIRST
-          : this.state.keyUpdate === 'surname'
-          ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST
-          : this.state.keyUpdate === 'displayName'
-          ? 'Display name'
-          : ''}
+            ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_FIRST
+            : this.state.keyUpdate === 'surname'
+              ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST
+              : this.state.keyUpdate === 'displayName'
+                ? 'Display name'
+                : ''}
       </Text>
       {this.state.keyUpdate !== 'displayName' ? (
         <View>
@@ -86,17 +87,17 @@ export default class extends Component {
           />
         </View>
       ) : (
-        <Picker
-          style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
-          selectedValue={this.state.itemSelectDisplay}
-          itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
-          onValueChange={value => this.onPickerSelect(value)}
-        >
-          {this.state.dataDisplayname.map((item, index) => (
-            <PickerItem label={item} value={index} key={'id_' + index} />
-          ))}
-        </Picker>
-      )}
+          <Picker
+            style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
+            selectedValue={this.state.itemSelectDisplay}
+            itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
+            onValueChange={value => this.onPickerSelect(value)}
+          >
+            {this.state.dataDisplayname.map((item, index) => (
+              <PickerItem label={item} value={index} key={'id_' + index} />
+            ))}
+          </Picker>
+        )}
 
       <Button style={{ width: Resolution.scaleWidth(255), marginBottom: 40 }} onPress={() => this._updateProfile()}>
         <LinearGradient
@@ -147,6 +148,8 @@ export default class extends Component {
       </Modal>
     );
   };
+
+
 
   selectFromCamera = () => {
     ImagePicker.openCamera({
@@ -215,16 +218,18 @@ export default class extends Component {
                 </Button>
               </View>
               <View style={Style.block1}>
-                <View>
+                <View style={{ flex: 0.55 }}>
                   <Text style={styleTextTitle}>{LG.PROFILE_TXT_UNIT}</Text>
                   <Text style={[styleTextTitle, { marginVertical: Resolution.scale(20) }]}>Mail</Text>
                   <Text style={styleTextTitle}>{LG.PROFILE_TXT_PHONE}</Text>
                 </View>
-                <View>
+                <View style={{ flex: 1 }}>
                   <Button onPress={() => this._openModalSelectUnit()}>
-                    <Text style={styleTextRight}>{Unit.fullUnitCode}</Text>
+                    <Text numberOfLines={1} style={styleTextRight}>{Unit.fullUnitCode}</Text>
                   </Button>
-                  <Text style={[styleTextRight, { marginVertical: 20, color: '#BABFC8' }]}>
+                  <Text
+                    numberOfLines={2}
+                    style={[styleTextRight, { marginVertical: 20, color: '#BABFC8' }]}>
                     {this.state.profile.emailAddress}
                   </Text>
                   <Button
@@ -232,37 +237,37 @@ export default class extends Component {
                       this._openModalUpdate('sdt');
                     }}
                   >
-                    <Text style={styleTextRight}>{this.state.profile.phoneNumber}</Text>
+                    <Text numberOfLines={2} style={styleTextRight}>{this.state.profile.phoneNumber}</Text>
                   </Button>
                 </View>
               </View>
               <View style={Style.block2}>
-                <View>
+                <View style={{ flex: 0.55 }}>
                   <Text style={styleTextTitle}>{LG.PROFILE_TXT_FIRST}</Text>
                   <Text style={[styleTextTitle, { marginVertical: 20 }]}>{LG.PROFILE_TXT_LAST}</Text>
                   <Text style={styleTextTitle}>{LG.PROFILE_TXT_DISPLAY}</Text>
                 </View>
-                <View>
+                <View style={{ flex: 1 }}>
                   <Button
                     onPress={() => {
                       this._openModalUpdate('name');
                     }}
                   >
-                    <Text style={styleTextRight}>{this.state.profile.name}</Text>
+                    <Text numberOfLines={2} style={styleTextRight}>{this.state.profile.name}</Text>
                   </Button>
                   <Button
                     onPress={() => {
                       this._openModalUpdate('surname');
                     }}
                   >
-                    <Text style={[styleTextRight, { marginVertical: 20 }]}>{this.state.profile.surname}</Text>
+                    <Text numberOfLines={2} style={[styleTextRight, { marginVertical: 20 }]}>{this.state.profile.surname}</Text>
                   </Button>
                   <Button
                     onPress={() => {
                       this._openModalUpdate('displayName');
                     }}
                   >
-                    <Text style={styleTextRight}>{this.state.profile.displayName}</Text>
+                    <Text numberOfLines={2} style={styleTextRight}>{this.state.profile.displayName}</Text>
                   </Button>
                 </View>
               </View>
@@ -318,6 +323,7 @@ export default class extends Component {
           />
           {/* </View> */}
         </LinearGradient>
+
       </View>
     );
   }

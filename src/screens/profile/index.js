@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Connect from '@stores';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform, Alert } from 'react-native';
 import Layout from './layout';
 import _ from 'lodash';
 
@@ -15,6 +15,7 @@ class Profile extends Layout {
       modalSelectImage: false,
       keyUpdate: '',
       avatarSource: '',
+      messageError: '',
       isModalSelectUnit: false,
       avatar: this.props.imageProfile,
       dataDisplayname: [
@@ -46,6 +47,19 @@ class Profile extends Layout {
     ) {
       let accessTokenApi = this.props.account.accessTokenAPI;
       this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
+      this.setState({ isShowModalUpdate: false });
+    }
+
+    if (this.props.userProfile.updateUserProfile !== nextProps.userProfile.updateUserProfile &&
+      !nextProps.userProfile.updateUserProfile.success) {
+      Alert.alert(
+        'Alert Title',
+        nextProps.userProfile.updateUserProfile.error.message,
+        [
+          { text: 'OK' },
+        ],
+        { cancelable: false }
+      )
     }
 
     if (
@@ -89,25 +103,25 @@ class Profile extends Layout {
     let accessTokenApi = this.props.account.accessTokenAPI;
     switch (this.state.keyUpdate) {
       case 'sdt':
-        tempProfile.phoneNumber = this.state.txtUpdate;
+        // tempProfile.phoneNumber = this.state.txtUpdate;
         await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
         break;
       case 'name':
-        tempProfile.name = this.state.txtUpdate;
+        // tempProfile.name = this.state.txtUpdate;
         await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
         break;
       case 'surname':
-        tempProfile.surname = this.state.txtUpdate;
+        // tempProfile.surname = this.state.txtUpdate;
         await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
         break;
       case 'displayName':
-        tempProfile.displayName = this.state.dataDisplayname[this.state.itemSelectDisplay];
+        // tempProfile.displayName = this.state.dataDisplayname[this.state.itemSelectDisplay];
         await this.props.actions.userProfile.updateCurrentUserProfile(accessTokenApi, tempProfile);
         break;
       default:
         break;
     }
-    this.setState({ isShowModalUpdate: false, profile: tempProfile });
+    // this.setState({ isShowModalUpdate: false });
   }
 
   _openModalSelectUnit() {
@@ -119,6 +133,7 @@ class Profile extends Layout {
     let accessTokenApi = this.props.account.accessTokenAPI;
     this.props.actions.userProfile.changeAvatarProfile(accessTokenApi, file);
   }
+
 }
 
 export default Connect(Profile);
