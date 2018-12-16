@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
   TextInput,
   PixelRatio,
   // Modal,
@@ -57,7 +58,7 @@ class ModalNewFeedback extends Component {
       type: '',
       typeProject: '',
       categorySelectedId: null,
-      isShowModalConfirm: false
+      isShowModalConfirm: false,
     };
   }
 
@@ -316,7 +317,6 @@ class ModalNewFeedback extends Component {
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>Gửi</Text>
           </TouchableOpacity>
         </View>
-        {this.renderLoading()}
         {this.renderCategory()}
         {this.renderModalConfirm()}
       </View >
@@ -450,7 +450,11 @@ class ModalNewFeedback extends Component {
                 end={{ x: 1, y: 0 }}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
               >
-                <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
+                {
+                  this.state.loading ?
+                    <ActivityIndicator size={'small'} color={'#FFF'} /> :
+                    <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
+                }
               </LinearGradient>
             </Button>
           </View>
@@ -458,16 +462,6 @@ class ModalNewFeedback extends Component {
       </Modal>
     );
   };
-
-  renderLoading() {
-    if (this.state.loading) {
-      return <Loading
-        visible={this.state.loading}
-        onRequestClose={() => { }}
-      />
-    }
-    return null;
-  }
 
   renderItemChilder = (item, index) => {
     return (

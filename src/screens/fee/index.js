@@ -21,14 +21,15 @@ class Fee extends layout {
         }
     }
 
-    componentWillMount() {
-        this._getListUserFee();
-    }
+    // componentWillMount() {
+    // this._getListUserFee();
+    // }
 
     componentDidMount() {
-        let unitActive = this.props.units.unitActive;
-        let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.fee.getListHistory(accessTokenApi, unitActive.fullUnitCode);
+        this._getListUserFee();
+        // let unitActive = this.props.units.unitActive;
+        // let accessTokenApi = this.props.account.accessTokenAPI;
+        // this.props.actions.fee.getListHistory(accessTokenApi, unitActive.fullUnitCode);
     }
 
     componentWillReceiveProps(nextProps) {

@@ -30,12 +30,8 @@ class Feedback extends layout {
         }
     }
 
-    componentWillMount = () => {
-        this._getList();
-
-    }
-
     componentDidMount = () => {
+        this._getList();
         let accessTokenApi = this.props.account.accessTokenAPI;
         let languege = Language.listLanguage[this.props.app.languegeLocal].id
         this.props.actions.feedback.getListCategory(accessTokenApi, languege);

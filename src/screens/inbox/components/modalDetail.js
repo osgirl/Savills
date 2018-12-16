@@ -19,21 +19,23 @@ import HeaderTitle from '@components/headerTitle';
 import Resolution from '../../../utils/resolution';
 import Connect from '@stores';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import HTML from 'react-native-render-html';
+import AnimatedTitle from "@components/animatedTitle";
 
 import _ from 'lodash';
 import Configs from '../../../utils/configs';
 
 const { width, height } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = Resolution.scale(140);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+const HEADER_MAX_HEIGHT = 50;
 
 class ModalDetailFeedback extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      scrollY: new Animated.Value(0),
+      scrollY: new Animated.Value(
+        Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
+      ),
       imgSelected: null,
       showImage: false,
       data: null
@@ -42,23 +44,10 @@ class ModalDetailFeedback extends Component {
 
   handleScroll = event => {
     Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
-      listener: event => {
-        if (event.nativeEvent.contentOffset.y > 60) {
-          if (!this.showCenter) {
-            this.showCenter = true;
-            this.setState({ isShowTitleHeader: true });
-          }
-        } else {
-          if (this.showCenter) {
-            this.showCenter = false;
-            this.setState({ isShowTitleHeader: false });
-          }
-        }
-      }
     })(event);
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { accessTokenAPI } = this.props.account;
     const { inboxId } = this.props;
     setTimeout(() => {
@@ -83,89 +72,90 @@ class ModalDetailFeedback extends Component {
   render() {
     const { data } = this.state;
 
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
     });
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        <Header
+          LinearGradient={true}
+          leftIcon={require('../../../resources/icons/close.png')}
+          leftAction={() => this.props.onClose()}
+          headercolor={'transparent'}
+          showTitleHeader={true}
+          center={
+            <Animated.View style={{ opacity: isShow }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Detail'}</Text>
+            </Animated.View>
+          }
+        />
+        <AnimatedTitle
+          scrollY={this.state.scrollY}
+          label={'Detail'}
+        />
         {data ? (
           <ScrollView
-            alwaysBounceVertical={false}
-            scrollEventThrottle={16}
+            scrollEventThrottle={1}
             onScroll={this.handleScroll}
-            contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
-            style={{ flex: 1, backgroundColor: '#F6F8FD' }}
+            contentContainerStyle={{
+              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+            }}
+            contentInset={{
+              top: HEADER_MAX_HEIGHT,
+            }}
+            contentOffset={{
+              y: -HEADER_MAX_HEIGHT,
+            }}
           >
-            {data.content && (
-              <ItemScorll
-                title={'Nội dung'}
-                view={
-                  <View
-                    style={{
-                      height: Resolution.scaleHeight(280),
-                      width: null,
-                      flex: 1,
-                      borderRadius: 10,
-                      backgroundColor: '#FFF',
-                      padding: Resolution.scale(20),
-                      justifyContent: 'space-around'
-                    }}
-                  >
-                    <WebView originWhitelist={['*']} source={{ html: data.content }} scalesPageToFit={false} />
-                  </View>
-                }
-              />
-            )}
-            {data.fileUrl && (
-              <ItemScorll
-                title={'Hình Ảnh'}
-                view={
-                  <ScrollView
-                    style={{
-                      borderRadius: 10,
-                      paddingTop: 20,
-                      width: width - 40,
-                      height: Resolution.scaleHeight(130),
-                      backgroundColor: '#FFF'
-                    }}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal
-                  >
-                    {this.renderItemImage(data.fileUrl)}
-                  </ScrollView>
-                }
-              />
-            )}
+            <View>
+              {data.content && (
+                <ItemScorll
+                  title={'Nội dung'}
+                  view={
+                    <View
+                      style={{
+                        width: null,
+                        flex: 1,
+                        borderRadius: 10,
+                        backgroundColor: '#FFF',
+                        padding: Resolution.scale(20),
+                        // justifyContent: 'space-around'
+                      }}
+                    >
+                      <HTML html={data.content} imagesMaxWidth={width} />
+                      {/* <WebView originWhitelist={['*']} source={{ html: data.content }} scalesPageToFit={false} /> */}
+                    </View>
+                  }
+                />
+              )}
+              {data.fileUrl && (
+                <ItemScorll
+                  title={'Hình Ảnh'}
+                  view={
+                    <ScrollView
+                      style={{
+                        borderRadius: 10,
+                        paddingTop: 20,
+                        marginBottom: 40,
+                        // height: Resolution.scaleHeight(1000),
+                        backgroundColor: '#FFF'
+                      }}
+                      showsHorizontalScrollIndicator={false}
+                      horizontal
+                    >
+                      {this.renderItemImage(data.fileUrl)}
+                    </ScrollView>
+                  }
+                />
+              )}
+            </View>
           </ScrollView>
         ) : (
-          this.renderLoading()
-        )}
-
-        <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
-          <Header
-            LinearGradient={true}
-            leftIcon={require('../../../resources/icons/close.png')}
-            leftAction={() => this.props.onClose()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-              <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Detail'}</Text>
-              </View>
-            }
-          />
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{ width: width, paddingBottom: 20 }}
-          >
-            <HeaderTitle title={'Detail'} />
-          </LinearGradient>
-        </Animated.View>
+            this.renderLoading()
+          )}
         {this.showDetailImage()}
       </View>
     );
@@ -235,7 +225,7 @@ class ItemScorll extends Component {
       <View style={{ marginHorizontal: Resolution.scale(20) }}>
         <Text
           style={{
-            marginTop: Resolution.scale(20),
+            paddingTop: Resolution.scale(20),
             marginBottom: Resolution.scale(10),
             color: '#505E75',
             fontSize: Resolution.scale(14),

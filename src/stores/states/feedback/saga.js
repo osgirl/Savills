@@ -77,6 +77,15 @@ function* getDetail(action) {
   }
 }
 
+function* updateStatus(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.UPDATE_STATUS_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export default function* saga() {
   yield takeLatest(Types.GET_LIST_FEEDBACK, getListFeedback);
   yield takeLatest(Types.GET_LIST_CATEGORY, getListCategory);
@@ -86,4 +95,5 @@ export default function* saga() {
   yield takeLatest(Types.GET_COMMENT_UNREAD, getCommentUnread);
   yield takeLatest(Types.ADD_COMMENT_USER, addCommentUser);
   yield takeLatest(Types.GET_DETAIL, getDetail);
+  yield takeLatest(Types.UPDATE_STATUS, updateStatus);
 }

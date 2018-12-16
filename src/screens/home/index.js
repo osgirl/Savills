@@ -44,34 +44,37 @@ class Home extends layout {
   }
 
   async componentWillReceiveProps(nextProps) {
-    if (this.props.account.userSettings !== nextProps.account.userSettings && nextProps.account.userSettings.success) {
-      let dataGrantedPermissions = nextProps.account.userSettings.result.auth.grantedPermissions;
-      let accessTokenApi = this.props.account.accessTokenAPI;
-      let arrTemp = [];
-      this.state.DATA.map(item => {
-        if (item.key in dataGrantedPermissions && dataGrantedPermissions[item.key]) {
-          arrTemp.push(item);
-        }
-      });
-      await this.setState({ dataModule: arrTemp });
-      if (this.state.isRefresh) {
-        await this.setState({ isRefresh: false });
-      }
-    }
+    // if (this.props.account.userSettings !== nextProps.account.userSettings && nextProps.account.userSettings.success) {
+    //   let dataGrantedPermissions = nextProps.account.userSettings.result.auth.grantedPermissions;
+    //   let accessTokenApi = this.props.account.accessTokenAPI;
+    //   let arrTemp = [];
+    //   this.state.DATA.map(item => {
+    //     if (item.key in dataGrantedPermissions && dataGrantedPermissions[item.key]) {
+    //       arrTemp.push(item);
+    //     }
+    //   });
+    //   await this.setState({ dataModule: arrTemp });
+    //   if (this.state.isRefresh) {
+    //     await this.setState({ isRefresh: false });
+    //   }
+    // }
 
 
     if (this.props.app.moduleHome !== nextProps.app.moduleHome && nextProps.app.moduleHome.success) {
-      console.log('=-=-=-=', nextProps.app.moduleHome.result.modules)
       const dataTemp = this.state.DATA.slice();
-      let a = nextProps.app.moduleHome.result.modules.map(item => {
+      let arrMaptemp = [];
+      nextProps.app.moduleHome.result.modules.map(item => {
         dataTemp.map((itemData) => {
           if (item === itemData.key) {
             item = itemData;
-            console.log(item)
+            arrMaptemp.push(item);
           }
         })
       })
-      console.log('-=-=-=-=-', a)
+      await this.setState({ dataModule: arrMaptemp });
+      if (this.state.isRefresh) {
+        await this.setState({ isRefresh: false });
+      }
     }
 
 
@@ -100,7 +103,7 @@ class Home extends layout {
       DATA: [
         {
           id: 1,
-          key: 'Pages.Resident',
+          key: 'Pages.CalendarEvents',
           title: Language.listLanguage[language].data.HOME_TXT_EVENTS,
           moduleName: 'Events',
           screen: 'Events'
@@ -184,16 +187,6 @@ class Home extends layout {
   async componentWillMount() {
     let accessTokenApi = this.props.account.accessTokenAPI;
     let unitID = this.props.units.unitActive.unitId;
-    await this._setData(this.props.app.languegeLocal);
-    await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
-    await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
-    await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
-    await this.props.actions.account.getUserSettings(accessTokenApi);
-
-    await this.props.actions.app.getModuleHome(accessTokenApi);
-
-
-    await this.props.actions.notification.getListNotification(accessTokenApi);
     if (unitID) {
       this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
     } else {
@@ -201,6 +194,14 @@ class Home extends layout {
         this.props.actions.notification.getListCountModule(accessTokenApi, this.props.units.unitActive.unitId);
       });
     }
+    await this.props.actions.notification.getListNotification(accessTokenApi);
+    await this._setData(this.props.app.languegeLocal);
+    await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
+    await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
+    await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
+    await this.props.actions.app.getModuleHome(accessTokenApi);
+    // await this.props.actions.account.getUserSettings(accessTokenApi);
+
     await this.props.actions.account.getTenantActive();
   }
 
@@ -230,7 +231,7 @@ class Home extends layout {
         console.log('asdkljasdklasjdlkasdas', token);
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function(notification) {
+      onNotification: function (notification) {
         console.log('NOTIFICATION:', notification);
 
         if (notification.foreground) {
@@ -329,7 +330,8 @@ class Home extends layout {
       return;
     }
     await this.setState({ isRefresh: true });
-    await this.props.actions.account.getUserSettings(accessTokenAPI);
+    await this.props.actions.app.getModuleHome(accessTokenAPI);
+    // await this.props.actions.account.getUserSettings(accessTokenAPI);
   }
 
   onBackButtonPressAndroid = () => {

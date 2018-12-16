@@ -9,7 +9,8 @@ const INIT_STATE = {
   listComment: {},
   commentUnread: {},
   addComment: {},
-  detailFeedback: {}
+  detailFeedback: {},
+  updateStatus: {}
 };
 
 export default createReducer(INIT_STATE, {
@@ -236,7 +237,42 @@ export default createReducer(INIT_STATE, {
   },
 
 
+  [Types.UPDATE_STATUS]: (state, action) => {
+    try {
+      return {
+        ...state
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
+  [Types.UPDATE_STATUS_SUCCESS]: (state, action) => {
+    try {
+      let tempState;
+      tempState = Object.assign(
+        {},
+        { ...state },
+        {
+          updateStatus: action.response
+        }
+      );
+      return tempState;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.UPDATE_STATUS_FAIL]: (state, action) => {
+    try {
+      return {
+        ...state,
+        updateStatus: {}
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
 
 

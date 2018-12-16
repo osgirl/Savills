@@ -192,7 +192,7 @@ export default class extends Component {
     let Unit = this.props.units.unitActive;
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, width: width, height: height }}>
         {this.modalCropsImage()}
         <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
           <View style={Style.container}>
@@ -302,7 +302,7 @@ export default class extends Component {
           }}
         >
           {/* <View style={Style.btnLeft}> */}
-          <ButtonCustom background={'transparent'} haveMargin={false} onPress={this.props.onClose} icon={IC_CLOSE} />
+          <ButtonCustom background={'transparent'} haveMargin={false} onPress={() => this._closeModalProfile()} icon={IC_CLOSE} />
           {/* </View> */}
           {/* <View style={Style.btnRight}> */}
           <ButtonCustom

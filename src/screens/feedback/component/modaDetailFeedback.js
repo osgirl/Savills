@@ -35,6 +35,7 @@ import AnimatedHeader from '@components/animatedHeader';
 import IC_CHATEMTY from "@resources/icons/chat_emty.png";
 import IC_CLOSE from '@resources/icons/close.png';
 import Configs from '../../../utils/configs';
+import Language from "@utils/language";
 
 const { width, height } = Dimensions.get('window');
 
@@ -53,6 +54,7 @@ class ModalDetailFeedback extends Component {
         Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
       ),
       isShowTitleHeader: false,
+      showModalConfirmCancel: false,
       listTypeFeedback: this.props.feedback.typeFeedback.result,
       projectTypes: [{ name: 'HO', value: 'HO' }, { name: 'Project', value: 'PROJECT' }],
       listCategory: this.props.feedback.listCategory.result || [],
@@ -63,7 +65,8 @@ class ModalDetailFeedback extends Component {
       isShowModalConfirm: false,
       isShowChat: false,
       listComment: [],
-      data: null
+      data: null,
+      loadingUpdateStatus: false
     };
 
     this._keyboardDidHide = this._keyboardDidHide.bind(this);
@@ -71,24 +74,18 @@ class ModalDetailFeedback extends Component {
 
   }
 
-  componentWillMount() {
+  _getDetail() {
     const { commentBoxId } = this.props;
     let accessTokenApi = this.props.account.accessTokenAPI;
     setTimeout(() => {
       this.props.actions.feedback.getDetail(accessTokenApi, commentBoxId);
-    }, 300);
+    }, 300)
   }
 
   componentDidMount() {
+    this._getDetail()
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
-
-    // const { itemSelected } = this.props;
-    // let accessTokenApi = this.props.account.accessTokenAPI;
-    // setTimeout(() => {
-    //   this.props.actions.feedback.getCommentUnread(accessTokenApi, commentBoxId, 6);
-    //   this.props.actions.feedback.getCommentUser(accessTokenApi, itemSelected.guid);
-    // }, 200);
   }
 
   _keyboardDidShow() {
@@ -102,6 +99,7 @@ class ModalDetailFeedback extends Component {
   componentWillReceiveProps(nextProps) {
     const { itemSelected } = this.props;
     let accessTokenApi = this.props.account.accessTokenAPI;
+    let languege = Language.listLanguage[this.props.app.languegeLocal].id
 
     if (this.props.feedback.detailFeedback &&
       this.props.feedback.detailFeedback.result !== nextProps.feedback.detailFeedback.result &&
@@ -124,6 +122,20 @@ class ModalDetailFeedback extends Component {
       this.textInput.clear();
       this.props.actions.feedback.getCommentUser(accessTokenApi, nextProps.feedback.detailFeedback.result.guid);
     }
+
+    if (this.props.feedback.updateStatus !== nextProps.feedback.updateStatus && nextProps.feedback.updateStatus.success) {
+      this._getDetail();
+      this.setState({ loadingUpdateStatus: false, showModalConfirmCancel: false });
+      this.props.onRefresh();
+      this.getModuleCount();
+    }
+
+  }
+
+  getModuleCount() {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    let unitID = this.props.units.unitActive.unitId;
+    this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
   }
 
   handleScroll = event => {
@@ -143,6 +155,17 @@ class ModalDetailFeedback extends Component {
       }
     })(event);
   };
+
+  async _updateStatus() {
+    let languege = Language.listLanguage[this.props.app.languegeLocal].id
+    if (this.state.loadingUpdateStatus) {
+      return;
+    }
+    this.setState({ loadingUpdateStatus: true });
+    let accessTokenAPI = this.props.account.accessTokenAPI;
+    const { data } = this.state;
+    this.props.actions.feedback.updateStatus(accessTokenAPI, data.commentBoxId, "DELETED", languege);
+  }
 
   addComment = () => {
     if (this.state.comment.trim() === '' || this.state.data === null) {
@@ -210,6 +233,104 @@ class ModalDetailFeedback extends Component {
     </View>
   }
 
+  renderModalCancel = () => {
+    return (
+      <Modal
+        style={{ flex: 1, margin: 0 }}
+        isVisible={this.state.showModalConfirmCancel}
+      >
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View
+            style={{
+              width: width - 40,
+              height: 120,
+              borderRadius: 10,
+              backgroundColor: '#FFF',
+              marginHorizontal: 20,
+              alignItems: 'center',
+              padding: 20
+            }}
+          >
+            <Text style={{ marginBottom: 20, color: '#BABFC8', fontFamily: 'Opensans-SemiBold', fontSize: 14 }}>
+              Bạn muốn hủy feedback này
+            </Text>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <TouchableOpacity
+                onPress={() => this.setState({ showModalConfirmCancel: false })}
+                style={{ flex: 1, backgroundColor: '#FFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
+              >
+                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>Quay Lại</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this._updateStatus()}
+                style={{
+                  flex: 1,
+                  marginLeft: 20
+                }}
+              >
+                <LinearGradient
+                  colors={['#4A89E8', '#8FBCFF']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10 }}
+                >
+                  {
+                    this.state.loadingUpdateStatus ?
+                      <ActivityIndicator size={'small'} color={'#FFF'} />
+                      :
+                      <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
+                  }
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
+
+  changeStatusBar = () => {
+    if (this.state.showModalConfirmCancel) StatusBar.setHidden(true);
+    else {
+      StatusBar.setHidden(false);
+    }
+  };
+
+  renderFooter() {
+    let status = this.state.data && this.state.data.commentBoxStatus.id || 0;
+    if (status === 1) {
+      return <View
+        style={{
+          width: width,
+          height: 80,
+          backgroundColor: '#FFF',
+          padding: 20,
+          flexDirection: 'row',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.16,
+          position: 'absolute', bottom: 0, left: 0, right: 0
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            backgroundColor: '#343D4D',
+            borderRadius: 5,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: 20
+          }}
+          onPress={() => this.setState({ showModalConfirmCancel: true })}
+        >
+          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hủy</Text>
+        </TouchableOpacity>
+      </View>
+    }
+    return null;
+  }
+
   render() {
     const { data } = this.state;
 
@@ -222,6 +343,7 @@ class ModalDetailFeedback extends Component {
           hidden={Platform.OS === 'ios' ? false : true}
         />
         {this.renderHeader()}
+        {this.changeStatusBar()}
         {
           this.state.data ? <ScrollView
             alwaysBounceVertical={false}
@@ -350,7 +472,8 @@ class ModalDetailFeedback extends Component {
           </ScrollView> : this.renderLoading()
         }
 
-
+        {this.renderFooter()}
+        {this.renderModalCancel()}
 
         <Button
           style={{

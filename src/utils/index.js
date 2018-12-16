@@ -41,7 +41,7 @@ export default class {
     static mapItemHome(name) {
         let icon;
         switch (name) {
-            case 'Pages.Resident':
+            case 'Pages.CalendarEvents':
                 icon = Events
                 break;
             case 'Pages.Resident.Booking':
@@ -87,7 +87,7 @@ export default class {
     static mapItemHomeCircle(name) {
         let icon;
         switch (name) {
-            case 'Pages.Resident':
+            case 'Pages.CalendarEvents':
                 icon = Circle_Events
                 break;
             case 'Pages.Resident.Booking':

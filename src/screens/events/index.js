@@ -26,7 +26,7 @@ class Events extends Layout {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this._getEvent();
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {

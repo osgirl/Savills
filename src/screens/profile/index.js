@@ -24,20 +24,14 @@ class Profile extends Layout {
       ],
       itemSelectDisplay: this.props.profile.displayName
     };
-    if (Platform.OS === 'android') {
-      StatusBar.setHidden(true);
-      StatusBar.setTranslucent(true);
-      StatusBar.setBackgroundColor('transparent');
-      StatusBar.setBarStyle('dark-content');
-    } else {
-      StatusBar.setHidden(false);
-      StatusBar.setBarStyle('dark-content');
-    }
+    StatusBar.setHidden(true);
   }
 
   componentDidMount() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    this.props.actions.app.getSetting(accessTokenApi);
+    setTimeout(() => {
+      this.props.actions.app.getSetting(accessTokenApi);
+    }, 300)
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -132,6 +126,12 @@ class Profile extends Layout {
     this.setState({ modalSelectImage: false });
     let accessTokenApi = this.props.account.accessTokenAPI;
     this.props.actions.userProfile.changeAvatarProfile(accessTokenApi, file);
+  }
+
+  _closeModalProfile() {
+    this.props.onClose();
+    StatusBar.setHidden(false);
+
   }
 
 }

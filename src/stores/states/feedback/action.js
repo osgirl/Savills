@@ -45,6 +45,21 @@ export function getTypeFeedback(accessTokenAPI, language = 'en') {
   };
 }
 
+export function updateStatus(accessTokenAPI, id = 0, statusCode = "DELETED", language = 'en') {
+  return {
+    type: Types.UPDATE_STATUS,
+    payload: {
+      api: Configs.API_BOOKING + `/api/commentboxes/${id}?culture=${language}`,
+      method: 'PUT',
+      token: accessTokenAPI,
+      payload: {
+        id,
+        statusCode,
+      }
+    }
+  };
+}
+
 export function createFeedback(
   accessTokenAPI,
   commentBoxSourceId = 0,

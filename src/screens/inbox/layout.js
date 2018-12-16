@@ -320,7 +320,8 @@ export default class extends Component {
                     borderRadius: 5,
                     // marginTop: index === 0 ? 20 : 10,
                     backgroundColor: '#FFF',
-                    padding: 20
+                    padding: 20,
+
                 }}
             >
 
@@ -329,14 +330,13 @@ export default class extends Component {
                         style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
                         source={image}
                     />
-                    <View style={{ marginHorizontal: 20 }}>
+                    <View style={{ paddingHorizontal: 20 }}>
                         <Text style={{
-                            fontFamily: 'OpenSans-Bold',
+                            fontFamily: 'OpenSans-SemiBold',
                             color: item.state ? '#BABFC8' : '#343D4D',
                             textAlign: 'left',
-                            marginRight: 20,
-                            fontSize: 10,
-                            lineHeight: 14
+                            marginRight: Resolution.scale(20),
+                            fontSize: Resolution.scale(12),
                         }} numberOfLines={2}>
                             {item.subject}
                         </Text>

@@ -123,7 +123,6 @@ export default class extends Component {
                 ListFooterComponent={() => this._FooterFlatlist()}
                 ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
                 ListHeaderComponent={() => <View style={{ height: 20 }} />}
-
                 refreshControl={
                   <RefreshControl
                     refreshing={this.state.isRefresh}
@@ -159,7 +158,9 @@ export default class extends Component {
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalDetail}>
           <ModaDetailFeedback
             commentBoxId={this.state.commentBoxId}
-            onClose={() => this.setState({ isModalDetail: false })} />
+            onClose={() => this.setState({ isModalDetail: false })}
+            onRefresh={() => this._onRefresh()}
+          />
         </Modal>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNew}>
           <ModalNew onClose={() => this._onCloseModalNew()} />

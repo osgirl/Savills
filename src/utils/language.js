@@ -35,7 +35,7 @@ export default class {
         HOME_TXT_E_LIBARY: 'Libary',
         HOME_TXT_CONTACTS: 'Contacts',
         HOME_TXT_FRONTDESK: 'Frontdesk',
-        HOME_TXT_FREE: 'Free',
+        HOME_TXT_FREE: 'Fee',
         HOME_TXT_INVOICE: 'Invoice',
         HOME_TXT_FAQ: 'FAQ',
 

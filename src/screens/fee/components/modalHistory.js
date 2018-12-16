@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, Platform } from 'react-native';
+import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, Platform, ScrollView } from 'react-native';
 
 import Connect from '@stores';
 import LinearGradient from 'react-native-linear-gradient';
@@ -33,30 +33,38 @@ class modalConfirm extends Component {
             scrollY: new Animated.Value(
                 Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
             ),
+            scrollYDetail: new Animated.Value(
+                Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
+            ),
             isShowTitleHeader: false,
             isShowModal: false,
             isShowModalDetail: false,
-            data: this.props.fee.history.result.items || [],
+            data: [],
             itemSelected: null
+        }
+    }
+
+    componentDidMount() {
+        let unitActive = this.props.units.unitActive;
+        let accessTokenApi = this.props.account.accessTokenAPI;
+        setTimeout(() => {
+            this.props.actions.fee.getListHistory(accessTokenApi, unitActive.fullUnitCode);
+        }, 300)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.fee.history !== nextProps.fee.history && nextProps.fee.history.success) {
+            this.setState({ data: nextProps.fee.history.result.items })
         }
     }
 
 
     handleScroll = event => {
         Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
-            // listener: event => {
-            //     if (event.nativeEvent.contentOffset.y > 50) {
-            //         if (!this.showCenter) {
-            //             this.showCenter = true;
-            //             this.setState({ isShowTitleHeader: true });
-            //         }
-            //     } else {
-            //         if (this.showCenter) {
-            //             this.showCenter = false;
-            //             this.setState({ isShowTitleHeader: false });
-            //         }
-            //     }
-            // }
+        }, { useNativeDriver: true })(event);
+    };
+    handleScrollDetail = event => {
+        Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollYDetail } } }], {
         }, { useNativeDriver: true })(event);
     };
 
@@ -69,12 +77,14 @@ class modalConfirm extends Component {
         }, 200);
     }
 
+
     renderEmty() {
         return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
             <Image source={IC_EVENTEMTY} />
             <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Không lịch sử đơn hàng nào'}</Text>
         </View>
     }
+
 
 
     render() {
@@ -118,25 +128,25 @@ class modalConfirm extends Component {
                 <Text style={{ fontSize: 14, color: '#505E75', fontFamily: 'OpenSans-Bold', marginVertical: 10 }}>{date}</Text>
                 <Button
                     onPress={() => this._openModalDetail(item)}
-                    style={[styles.item, { flexDirection: 'row', borderRadius: 5, }]}>
-                    <View style={{ width: width - 40, flexDirection: 'column', backgroundColor: '#FFFFFF', borderRadius: 5, padding: 20 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    style={{ flexDirection: 'row', borderRadius: 5, }}>
+                    <View style={{ flexDirection: 'column', backgroundColor: '#FFFFFF', borderRadius: 5, padding: 20, flex: 1 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1 }}>
                             <Text
-                                numberOfLines={2} style={{ fontSize: 13, fontFamily: 'OpenSans-SemiBold', color: '#BABFC8' }}>
+                                numberOfLines={2} style={{ fontSize: 13, flex: 0.4, fontFamily: 'OpenSans-SemiBold', color: '#BABFC8' }}>
                                 {'Invoice #'}
                             </Text>
                             <Text
-                                numberOfLines={2} style={{ fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
-                                {item.id}
+                                numberOfLines={2} style={{ flex: 1, fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D', textAlign: 'right' }}>
+                                {item.receiptNumber}
                             </Text>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, flex: 1 }}>
                             <Text
-                                numberOfLines={2} style={{ fontSize: 13, fontFamily: 'OpenSans-SemiBold', color: '#DEDEDE' }}>
+                                numberOfLines={2} style={{ fontSize: 13, fontFamily: 'OpenSans-SemiBold', color: '#DEDEDE', flex: 0.4 }}>
                                 {item.fullUnitCode}
                             </Text>
                             <Text
-                                numberOfLines={2} style={{ fontSize: 14, fontFamily: 'OpenSans-Bold', color: '#BABFC8' }}>
+                                numberOfLines={2} style={{ fontSize: 14, fontFamily: 'OpenSans-Bold', color: '#BABFC8', flex: 1, textAlign: 'right' }}>
                                 {Utils.convertNumber(item.paidAmount) + ' VND'}
                             </Text>
                         </View>
@@ -150,70 +160,76 @@ class modalConfirm extends Component {
         const { detailHistory } = this.props.fee;
         return <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowModalDetail}>
             <View style={{ backgroundColor: '#F6F8FD', flex: 1, borderRadius: 5 }}>
-                <LinearGradient
-                    colors={['#4A89E8', '#8FBCFF']}
-                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-                    <Button
-                        onPress={() => this.setState({ isShowModalDetail: false })}
-                        style={{ paddingTop: 40, paddingHorizontal: 20 }}>
-                        <Image source={IC_CLOSE} style={{ marginBottom: 20 }} />
-                        <HeaderTitle title={'Detail'} marginHorizontal={0} marginVertical={20} />
-                    </Button>
-                </LinearGradient>
+                {this.renderHeaderDetail()}
+                <ScrollView
+                    alwaysBounceVertical={false}
+                    scrollEventThrottle={16}
+                    onScroll={this.handleScrollDetail}
+                    contentContainerStyle={{
+                        paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+                    }}
+                    contentInset={{
+                        top: HEADER_MAX_HEIGHT,
+                    }}
+                    contentOffset={{
+                        y: -HEADER_MAX_HEIGHT,
+                    }}
+                >
 
-                <View style={{ padding: 20 }}>
-                    <View style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: 20 }}>
-                            <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>Receipt No:</Text>
-                            <Text style={{ marginLeft: 40, fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory && detailHistory.receiptNumber}</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20 }}>
-                            <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>Receipt:</Text>
-                            <View>
-                                <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory.feePayer && detailHistory.feePayer.email}</Text>
-                                <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 14, marginTop: 20, textAlign: 'right', color: '#505E75' }}>{detailHistory.feePayer && detailHistory.feePayer.phoneNumber}</Text>
+                    <View style={{ padding: 20, flex: 1 }}>
+                        <View style={{ backgroundColor: '#FFF', borderRadius: 5, padding: Resolution.scale(20) }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1 }}>
+                                <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8', }}>Receipt No:</Text>
+                                <Text style={{ flex: 1, fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory && detailHistory.receiptNumber}</Text>
                             </View>
-                        </View>
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingBottom: 20 }}>
-                            <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>Method:</Text>
-                            <Text style={{ marginLeft: 40, fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory.paymentChanel && detailHistory.paymentChanel.name}</Text>
-                        </View>
-
-                        <View style={{ width: width - 80, height: 1, backgroundColor: '#DEDEDE', opacity: 0.5, marginHorizontal: 20 }} />
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20 }}>
-                            <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>In Total:</Text>
-                            <Text style={{ marginLeft: 40, fontFamily: 'OpenSans-Bold', fontSize: 20, textAlign: 'right', color: '#505E75' }}>{detailHistory.incommingDetails && Utils.convertNumber(detailHistory.paidAmount) + ' VND'}</Text>
-                        </View>
-                    </View>
-                </View>
-
-                <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 15, color: '#BABFC8', marginHorizontal: 20, marginBottom: 20 }}>Details</Text>
-
-                <View style={{ paddingHorizontal: 20 }}>
-                    {
-                        detailHistory.incommingDetails && detailHistory.incommingDetails.map(data => {
-                            return <View key={data.incomingId + '__'}
-                                style={{ padding: 20, backgroundColor: '#FFFFFF', borderRadius: 5, marginBottom: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <View style={{ width: width - 165 }}>
-                                            <Text numberOfLines={1} style={{ fontSize: 12, color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>{data.feeDetail.description}</Text>
-                                            <Text numberOfLines={1} style={{ fontSize: 13, color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>{data.feeDetail.fullUnitCode}</Text>
-                                        </View>
-                                    </View>
-                                    <View>
-                                        <Text style={{ color: '#BABFC8', fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}>{'$' + data.feeDetail.totalAmount}</Text>
-                                    </View>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingVertical: Resolution.scale(20) }}>
+                                <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>Receipt:</Text>
+                                <View style={{ flex: 1, }}>
+                                    <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory.feePayer && detailHistory.feePayer.email}</Text>
+                                    <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory.feePayer && detailHistory.feePayer.phoneNumber}</Text>
                                 </View>
                             </View>
-                        })
-                    }
-                </View>
 
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', }}>
+                                <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>Method:</Text>
+                                <Text style={{ flex: 1, fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory.paymentChanel && detailHistory.paymentChanel.name}</Text>
+                            </View>
+
+                            <View style={{ width: width - 80, height: 1, backgroundColor: '#DEDEDE', opacity: 0.5, marginHorizontal: Resolution.scale(20), marginVertical: Resolution.scale(20) }} />
+
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>In Total:</Text>
+                                <Text style={{ flex: 1, fontFamily: 'OpenSans-Bold', fontSize: 20, textAlign: 'right', color: '#505E75' }}>{detailHistory.incommingDetails && Utils.convertNumber(detailHistory.paidAmount) + ' VND'}</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 15, color: '#BABFC8', marginHorizontal: 20, marginBottom: 20 }}>Details</Text>
+
+                    <View style={{ paddingHorizontal: 20 }}>
+                        {
+                            detailHistory.incommingDetails && detailHistory.incommingDetails.map(data => {
+                                console.log(data)
+                                return <View key={data.incomingId + '__'}
+                                    style={{ padding: 20, backgroundColor: '#FFFFFF', borderRadius: 5, marginBottom: 10 }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            <View style={{ width: width - 165 }}>
+                                                <Text numberOfLines={1} style={{ fontSize: 12, color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>{data.feeDetail.description}</Text>
+                                                <Text numberOfLines={1} style={{ fontSize: 13, color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>{data.feeDetail.fullUnitCode}</Text>
+                                            </View>
+                                        </View>
+                                        <View>
+                                            <Text style={{ color: '#BABFC8', fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}>{'VND ' + Utils.convertNumber(data.paidAmount)}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            })
+                        }
+                    </View>
+                </ScrollView>
             </View>
         </Modal>
     }
@@ -241,7 +257,35 @@ class modalConfirm extends Component {
 
             <AnimatedTitle
                 scrollY={this.state.scrollY}
-                label={'# History'}
+                label={'History'}
+            />
+        </View>
+    }
+
+    renderHeaderDetail() {
+        const opacityTextHeader = this.state.scrollYDetail.interpolate({
+            inputRange: [0, 10],
+            outputRange: [0, 1],
+            extrapolate: 'clamp'
+        });
+
+        return <View>
+            <Header
+                LinearGradient={true}
+                leftIcon={IC_CLOSE}
+                leftAction={() => this.setState({ isShowModalDetail: false })}
+                headercolor={'transparent'}
+                showTitleHeader={true}
+                center={
+                    <Animated.View style={{ opacity: opacityTextHeader }}>
+                        <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Detail'}</Text>
+                    </Animated.View>
+                }
+            />
+
+            <AnimatedTitle
+                scrollY={this.state.scrollYDetail}
+                label={'Detail'}
             />
         </View>
     }
