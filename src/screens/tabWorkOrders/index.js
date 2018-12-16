@@ -277,11 +277,8 @@ class TabWorkOrder extends PureComponent {
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => item.id.toString()}
           data={list}
-          onScroll={Animated.event([
-            {
-              nativeEvent: { contentOffset: { y: this.state.scrollY } }
-            }
-          ])}
+          onScroll={this.handleScroll}
+          onEndReachedThreshold={0.01}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshingComplete}
@@ -353,21 +350,54 @@ class TabWorkOrder extends PureComponent {
             </Text>
           </View>
         </View>
+        {this.renderViewComment(item, item.unreadCommentCount)}
+      </Button>
+    );
+  };
+
+  renderViewComment = (item, count) => {
+    return count > 0 ? (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#A3C3F3',
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10
+        }}
+      >
+        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+          {item.lastComment ? item.lastComment : 'No Comment'}
+        </Text>
         <View
           style={{
-            flex: 1,
-            backgroundColor: item.lastComment ? '#A3C3F3' : '#D4D7DC',
-            borderRadius: 5,
-            flexDirection: 'row',
+            width: 15,
+            height: 15,
+            backgroundColor: 'red',
+            borderRadius: 8,
             alignItems: 'center',
-            paddingHorizontal: 10
+            justifyContent: 'center'
           }}
         >
-          <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-            {item.lastComment ? item.lastComment : 'No Comment'}
-          </Text>
+          <Text style={{ fontWeight: 'bold', color: '#FFF', fontSize: 9 }}>{count}</Text>
         </View>
-      </Button>
+      </View>
+    ) : (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#dcdee3',
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10
+        }}
+      >
+        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+          {item.lastComment ? item.lastComment : 'No Comment'}
+        </Text>
+      </View>
     );
   };
 }

@@ -29,6 +29,7 @@ import Connect from '@stores';
 import Resolution from '@utils/resolution';
 import AlertWarning from '@components/alertWarning';
 import { isIphoneX } from '@utils/func';
+import Loading from '@components/loading';
 
 const HEADER_MAX_HEIGHT = Resolution.scale(isIphoneX() ? 135 : Platform.OS === 'ios' ? 120 : 120);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
@@ -57,7 +58,8 @@ class ModalNewBooking extends PureComponent {
       sdt: this.props.userProfile.profile.result.user.phoneNumber,
       loading: false,
       isModalError: false,
-      openFullCalendar: false
+      openFullCalendar: false,
+      loadDingCallCalendar: false
     };
   }
 
@@ -80,7 +82,7 @@ class ModalNewBooking extends PureComponent {
       arr.map(item => {
         (item.isCheck = false), (item.isFlag = false);
       });
-      this.setState({ listBooking: arr });
+      this.setState({ listBooking: arr, loadDingCallCalendar: false });
     }
     if (nextProps.booking.createNewBooking && nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.props.actions.booking.setFlagCreateBooking();
@@ -177,21 +179,6 @@ class ModalNewBooking extends PureComponent {
     this.setState({ listBooking: arr, arrSelected: arrSelect });
   };
 
-  async _onPressDay(data) {
-    let accessTokenApi = this.props.account.accessTokenAPI;
-    // let item = this.props.navigation.getParam('item', null);
-    let item = this.props.item;
-    await this.setState({ selected: [data], listBooking: [], arrSelected: [], selectedDate: moment.utc(data).toDate() }, () => {
-      let data = {
-        // emenityId: 75,
-        emenityId: item.amenityId,
-        fromDate: this.state.selected,
-        toDate: this.state.selected
-      };
-      this.props.actions.booking.getListBookingOption(accessTokenApi, data);
-    });
-  }
-
   handleScroll = event => {
     Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
       listener: event => {
@@ -208,6 +195,37 @@ class ModalNewBooking extends PureComponent {
         }
       }
     })(event);
+  };
+
+  async _onPressDay(data) {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    // let item = this.props.navigation.getParam('item', null);
+    let item = this.props.item;
+    await this.setState(
+      { selected: [data], listBooking: [], arrSelected: [], selectedDate: moment.utc(data).toDate(), loadDingCallCalendar: true },
+      () => {
+        let data = {
+          emenityId: item.amenityId,
+          fromDate: this.state.selected,
+          toDate: this.state.selected
+        };
+        this.props.actions.booking.getListBookingOption(accessTokenApi, data);
+      }
+    );
+  }
+
+  onPresTripDay = date => {
+    console.log('askdljaskdlasjdklasjdklasda', date);
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    let item = this.props.item;
+    let data = {
+      emenityId: item.amenityId,
+      fromDate: moment(date).format('YYYY-MM-DD'),
+      toDate: moment(date).format('YYYY-MM-DD')
+    };
+    this.setState({ selectedDate: date, loadDingCallCalendar: true }, () => {
+      this.props.actions.booking.getListBookingOption(accessTokenApi, data);
+    });
   };
 
   render() {
@@ -274,7 +292,7 @@ class ModalNewBooking extends PureComponent {
             <CalendarStrip
               selectedDate={this.state.selectedDate}
               onPressDate={date => {
-                this.setState({ selectedDate: date });
+                this.onPresTripDay(date);
               }}
               onPressGoToday={today => {
                 this.setState({ selectedDate: today });
@@ -539,6 +557,7 @@ class ModalNewBooking extends PureComponent {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
+        <Loading visible={this.state.loadDingCallCalendar} />
         {this.state.listBooking && this.state.listBooking.length > 0 ? this.renderModalConfirmBooking() : null}
         {this.props.booking.detailCategory && this.props.booking.detailCategory.result ? this.renderModalRegulations() : null}
         {this.props.booking.createNewBooking && this.props.booking.createNewBooking.error ? (

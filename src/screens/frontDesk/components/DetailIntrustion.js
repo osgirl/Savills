@@ -23,6 +23,7 @@ import ItemComment from '@components/itemComment';
 import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
 import Resolution from '@utils/resolution';
+import Configs from '@utils/configs';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { isIphoneX } from 'react-native-iphone-x-helper';
@@ -200,7 +201,7 @@ class ModalEditOrder extends Component {
 
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size={'large'} color={'blue'} />
+        <ActivityIndicator size={'large'} color={Configs.colorMain} />
       </View>
     ) : (
       <View style={{ flex: 1 }}>
