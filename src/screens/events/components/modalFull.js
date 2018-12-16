@@ -128,9 +128,17 @@ class modalFull extends Component {
                                 {startTime}
                             </Text>
                         </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10, flex: 1, }}>
                             <Image source={IC_CALENDAR} style={{}} />
-                            <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
+                            <Text
+                                numberOfLines={1}
+                                style={{
+                                    marginLeft: 10,
+                                    fontSize: 12,
+                                    color: '#C9CDD4',
+                                    fontFamily: 'OpenSans-Regular',
+                                    flex: 1
+                                }}>
                                 {'(' + startDate + ' - ' + endDate + ')'}
                             </Text>
                         </View>

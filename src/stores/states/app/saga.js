@@ -22,6 +22,15 @@ function* getSetting(action) {
   }
 }
 
+function* getModuleHome(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_MODULE_HOME_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 function* setNotification(action) {
   let response = yield call(API.request, action.payload);
   yield put({ ...action, type: Types.REGISTER_NOTIFICATION_SUCCESS, response });
@@ -31,4 +40,5 @@ export default function* saga() {
   yield takeLatest(Types.GET_SETTING, getSetting);
   yield takeLatest(Types.UPDATE_SETTINGS, updateSetting);
   yield takeLatest(Types.REGISTER_NOTIFICATION, setNotification);
+  yield takeLatest(Types.GET_MODULE_HOME, getModuleHome);
 }

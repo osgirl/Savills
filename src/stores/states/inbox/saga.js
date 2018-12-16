@@ -40,10 +40,20 @@ function* getDetail(action) {
   }
 }
 
+function* setRead(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.SET_READ_INBOX_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 
 export default function* saga() {
   yield takeLatest(Types.GET_LIST_INBOX, getListInbox);
   yield takeLatest(Types.GET_LIST_INBOX_ISACTIVE, getListInboxIsActive);
   yield takeLatest(Types.SET_INBOX_ACTIVE, setInboxActive);
   yield takeLatest(Types.GET_DETAIL, getDetail);
+  yield takeLatest(Types.SET_READ_INBOX, setRead);
 }

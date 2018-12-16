@@ -45,4 +45,15 @@ export function getDetail(accessTokenAPI, inboxId = 0) {
     }
 }
 
+export function setInboxRead(accessTokenAPI, inboxId = 0) {
+    return {
+        type: Types.SET_READ_INBOX,
+        payload: {
+            api: Configs.API + `/api/services/app/InboxUsers/SetInboxAsRead?inboxId=${inboxId}`,
+            method: 'POST',
+            token: accessTokenAPI,
+        }
+    }
+}
+
 

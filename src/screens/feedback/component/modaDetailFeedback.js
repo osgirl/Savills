@@ -419,7 +419,7 @@ class ModalDetailFeedback extends Component {
             data={this.state.listComment}
             style={{ flex: 1 }}
             keyExtractor={(item, index) => item.commentBoxId}
-            renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={item.userId} />}
+            renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={item.creatorUserId} />}
             ref={ref => (this.flatList = ref)}
             onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
             onLayout={() => this.flatList.scrollToEnd({ animated: true })}

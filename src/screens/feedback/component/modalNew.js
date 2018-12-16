@@ -13,7 +13,8 @@ import {
   Animated,
   Platform,
   FlatList,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -165,9 +166,10 @@ class ModalNewFeedback extends Component {
           contentOffset={{
             y: -HEADER_MAX_HEIGHT,
           }}
-          style={{zIndex: -3}}
+          style={{ zIndex: -3 }}
         >
-          <KeyboardAvoidingView behavior="position" enabled>
+          {/* <KeyboardAvoidingView behavior="position" enabled> */}
+          <KeyboardAwareScrollView extraScrollHeight={50}>
             {
               this.state.listTypeFeedback && this.state.listTypeFeedback.length > 0 ?
                 <ItemScorll
@@ -274,13 +276,17 @@ class ModalNewFeedback extends Component {
                     fontFamily: 'OpenSans-Regular'
                   }}
                   returnKeyType={'done'}
+                  autoCapitalize="sentences"
+                  autoCorrect={true}
+                  onSubmitEditing={() => Keyboard.dismiss()}
                   multiline
                   placeholder={'Nhập nội dung ...'}
                   onChangeText={e => this.setState({ comment: e })}
                 />
               }
             />
-          </KeyboardAvoidingView >
+            {/* </KeyboardAvoidingView> */}
+          </KeyboardAwareScrollView>
         </ScrollView >
         <View
           style={{
@@ -296,7 +302,11 @@ class ModalNewFeedback extends Component {
           <TouchableOpacity
             style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
             onPress={() => {
-              if (this.state.comment.trim() === '') {
+              if (this.state.type.trim() === '') {
+                alert('Thiếu Loại phản hồi');
+              } else if (this.state.categorySelectedId === null) {
+                alert('Thiếu vấn đề phản hồi');
+              } else if (this.state.comment.trim() === '') {
                 alert('Thiếu Comment');
               } else {
                 this.setState({ isShowModalConfirm: true });
