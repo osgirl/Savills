@@ -30,6 +30,7 @@ import Resolution from '@utils/resolution';
 import Modal from 'react-native-modal';
 
 import ModalSelectUnit from '@components/modalSelectUnit';
+import { ItemPlaceHolderH } from '@components/placeHolderItem';
 
 const IMAGE = {
   dropDown: require('@resources/icons/dropDown.png'),
@@ -220,26 +221,32 @@ class TabWorkOrder extends PureComponent {
 
   ViewTwo = list => {
     return (
-      <View tabLabel="Đang xử lý" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          scrollEventThrottle={16}
-          keyExtractor={(item, index) => item.id.toString()}
-          data={list}
-          onScroll={this.handleScroll}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefreshing}
-              onRefresh={() => this._onRefresh()}
-              tintColor="#000"
-              titleColor="#000"
+      <View tabLabel="Đang xử lý" style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {list.length > 0 ? (
+          <View style={{ flex: 1, paddingHorizontal: 20 }}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              scrollEventThrottle={16}
+              keyExtractor={(item, index) => item.id.toString()}
+              data={list}
+              onScroll={this.handleScroll}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isRefreshing}
+                  onRefresh={() => this._onRefresh()}
+                  tintColor="#000"
+                  titleColor="#000"
+                />
+              }
+              renderItem={({ item, index }) => this.renderItem(item, index, 0)}
+              ListEmptyComponent={() => {
+                return <EmptyItemList loadData={this.state.isLoadDataActive} />;
+              }}
             />
-          }
-          renderItem={({ item, index }) => this.renderItem(item, index, 0)}
-          ListEmptyComponent={() => {
-            return <EmptyItemList loadData={this.state.isLoadDataActive} />;
-          }}
-        />
+          </View>
+        ) : (
+          <ItemPlaceHolderH />
+        )}
       </View>
     );
   };
@@ -272,26 +279,32 @@ class TabWorkOrder extends PureComponent {
 
   ViewThree = list => {
     return (
-      <View tabLabel="Hoàn tất" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => item.id.toString()}
-          data={list}
-          onScroll={this.handleScroll}
-          onEndReachedThreshold={0.01}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefreshingComplete}
-              onRefresh={() => this._onRefreshTabComplete()}
-              tintColor="#000"
-              titleColor="#000"
+      <View tabLabel="Hoàn tất" style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {list.length > 0 ? (
+          <View style={{ flex: 1, paddingHorizontal: 20 }}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => item.id.toString()}
+              data={list}
+              onScroll={this.handleScroll}
+              onEndReachedThreshold={0.01}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isRefreshingComplete}
+                  onRefresh={() => this._onRefreshTabComplete()}
+                  tintColor="#000"
+                  titleColor="#000"
+                />
+              }
+              renderItem={({ item, index }) => this.renderItem(item, index, 1)}
+              ListEmptyComponent={() => {
+                return <EmptyItemList loadData={this.state.isLoadDataComplete} />;
+              }}
             />
-          }
-          renderItem={({ item, index }) => this.renderItem(item, index, 1)}
-          ListEmptyComponent={() => {
-            return <EmptyItemList loadData={this.state.isLoadDataComplete} />;
-          }}
-        />
+          </View>
+        ) : (
+          <ItemPlaceHolderH />
+        )}
       </View>
     );
   };

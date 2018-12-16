@@ -41,7 +41,7 @@ let styleTextRight = {
 export default class extends Component {
   renderLoading() {
     if (this.props.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.props.loading} onRequestClose={() => { }} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.props.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
@@ -64,12 +64,12 @@ export default class extends Component {
         {this.state.keyUpdate === 'sdt'
           ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_PHONE
           : this.state.keyUpdate === 'name'
-            ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_FIRST
-            : this.state.keyUpdate === 'surname'
-              ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST
-              : this.state.keyUpdate === 'displayName'
-                ? 'Display name'
-                : ''}
+          ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_FIRST
+          : this.state.keyUpdate === 'surname'
+          ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST
+          : this.state.keyUpdate === 'displayName'
+          ? 'Display name'
+          : ''}
       </Text>
       {this.state.keyUpdate !== 'displayName' ? (
         <View>
@@ -87,17 +87,17 @@ export default class extends Component {
           />
         </View>
       ) : (
-          <Picker
-            style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
-            selectedValue={this.state.itemSelectDisplay}
-            itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
-            onValueChange={value => this.onPickerSelect(value)}
-          >
-            {this.state.dataDisplayname.map((item, index) => (
-              <PickerItem label={item} value={index} key={'id_' + index} />
-            ))}
-          </Picker>
-        )}
+        <Picker
+          style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
+          selectedValue={this.state.itemSelectDisplay}
+          itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
+          onValueChange={value => this.onPickerSelect(value)}
+        >
+          {this.state.dataDisplayname.map((item, index) => (
+            <PickerItem label={item} value={index} key={'id_' + index} />
+          ))}
+        </Picker>
+      )}
 
       <Button style={{ width: Resolution.scaleWidth(255), marginBottom: 40 }} onPress={() => this._updateProfile()}>
         <LinearGradient
@@ -125,11 +125,10 @@ export default class extends Component {
             alignItems: 'center',
             borderRadius: 14,
             borderColor: 'rgba(0, 0, 0, 0.1)',
-            paddingVertical: 20,
-            height: Resolution.scaleHeight(180)
+            paddingVertical: 20
           }}
         >
-          <Button onPress={() => this.selectFromCamera()} style={{ marginVertical: 20 }}>
+          <Button onPress={() => this.selectFromCamera()}>
             <Text style={{ color: '#505E75', fontFamily: 'OpenSans-Bold', fontSize: 15, margin: 10 }}>Chọn từ máy ảnh</Text>
           </Button>
           <Button onPress={() => this.selectFromStorage()}>
@@ -139,8 +138,6 @@ export default class extends Component {
       </Modal>
     );
   };
-
-
 
   selectFromCamera = () => {
     ImagePicker.openCamera({
@@ -215,11 +212,11 @@ export default class extends Component {
                 </View>
                 <View style={{ flex: 1 }}>
                   <Button onPress={() => this._openModalSelectUnit()}>
-                    <Text numberOfLines={1} style={styleTextRight}>{Unit.fullUnitCode}</Text>
+                    <Text numberOfLines={1} style={styleTextRight}>
+                      {Unit.fullUnitCode}
+                    </Text>
                   </Button>
-                  <Text
-                    numberOfLines={2}
-                    style={[styleTextRight, { marginVertical: 20, color: '#BABFC8' }]}>
+                  <Text numberOfLines={2} style={[styleTextRight, { marginVertical: 20, color: '#BABFC8' }]}>
                     {this.state.profile.emailAddress}
                   </Text>
                   <Button
@@ -227,7 +224,9 @@ export default class extends Component {
                       this._openModalUpdate('sdt');
                     }}
                   >
-                    <Text numberOfLines={2} style={styleTextRight}>{this.state.profile.phoneNumber}</Text>
+                    <Text numberOfLines={2} style={styleTextRight}>
+                      {this.state.profile.phoneNumber}
+                    </Text>
                   </Button>
                 </View>
               </View>
@@ -243,21 +242,27 @@ export default class extends Component {
                       this._openModalUpdate('name');
                     }}
                   >
-                    <Text numberOfLines={2} style={styleTextRight}>{this.state.profile.name}</Text>
+                    <Text numberOfLines={2} style={styleTextRight}>
+                      {this.state.profile.name}
+                    </Text>
                   </Button>
                   <Button
                     onPress={() => {
                       this._openModalUpdate('surname');
                     }}
                   >
-                    <Text numberOfLines={2} style={[styleTextRight, { marginVertical: 20 }]}>{this.state.profile.surname}</Text>
+                    <Text numberOfLines={2} style={[styleTextRight, { marginVertical: 20 }]}>
+                      {this.state.profile.surname}
+                    </Text>
                   </Button>
                   <Button
                     onPress={() => {
                       this._openModalUpdate('displayName');
                     }}
                   >
-                    <Text numberOfLines={2} style={styleTextRight}>{this.state.profile.displayName}</Text>
+                    <Text numberOfLines={2} style={styleTextRight}>
+                      {this.state.profile.displayName}
+                    </Text>
                   </Button>
                 </View>
               </View>
@@ -313,7 +318,6 @@ export default class extends Component {
           />
           {/* </View> */}
         </LinearGradient>
-
       </View>
     );
   }

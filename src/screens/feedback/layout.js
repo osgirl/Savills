@@ -30,7 +30,6 @@ import Styles from './styles';
 import Utils from '../../utils';
 
 import Resolution from '@utils/resolution';
-
 import AnimatedTitle from '@components/animatedTitle';
 
 import { ItemHorizontal2 } from '../../components/placeHolder';
