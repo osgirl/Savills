@@ -69,8 +69,15 @@ class ModalNewFeedback extends Component {
       }
       await this.setState({ loading: false });
       await this.props.onClose();
+      this.getModuleCount();
 
     }
+  }
+
+  getModuleCount() {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    let unitID = this.props.units.unitActive.unitId;
+    this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
   }
 
   handleScroll = event => {
