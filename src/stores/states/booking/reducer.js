@@ -7,9 +7,9 @@ const INIT_STATE = {
   listBookingOption: false,
   detailBooking: false,
   changeStatusBooking: false,
-  listComplete: false,
-  listOnGoing: false,
-  listActive: false,
+  listComplete: { items: [], pageCount: 0, success: false },
+  listOnGoing: { items: [], pageCount: 0, success: false },
+  listActive: { items: [], pageCount: 0, success: false },
   detailCategory: false,
 
   isCreateBooking: true,
@@ -58,19 +58,31 @@ export default createReducer(INIT_STATE, {
         case 'HISTORY': {
           return {
             ...state,
-            listComplete: action.response
+            listComplete: {
+              items: action.response.result.items,
+              success: action.response.success,
+              pageCount: action.response.result.pageCount
+            }
           };
         }
         case 'ONGOING': {
           return {
             ...state,
-            listOnGoing: action.response
+            listOnGoing: {
+              items: action.response.result.items,
+              success: action.response.success,
+              pageCount: action.response.result.pageCount
+            }
           };
         }
         case 'PROCESSING': {
           return {
             ...state,
-            listActive: action.response
+            listActive: {
+              items: action.response.result.items,
+              success: action.response.success,
+              pageCount: action.response.result.pageCount
+            }
           };
         }
         default: {

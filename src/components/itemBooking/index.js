@@ -9,8 +9,11 @@ import Resolution from '@utils/resolution';
 export class ItemBooking extends Component {
   render() {
     const { item, index, action, disableAction } = this.props;
-    let date = moment(item.createdAt).format('l');
-    let time = moment(item.createdAt).format('LT');
+    let date = moment(item.startDate).format('DD/MM');
+    let date2 = moment(item.endDate).format('DD/MM');
+    let time = moment(item.startDate).format('HH:mm');
+    let time2 = moment(item.endDate).format('HH:mm');
+    console.log('asdklajsdklasdjklasdjaksdjaskdjasld', time + '/' + time2);
     return (
       <Buttom
         onPress={() => action()}
@@ -73,11 +76,11 @@ export class ItemBooking extends Component {
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image style={{ marginRight: Resolution.scale(10) }} source={require('@resources/icons/clock.png')} />
-            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{time}</Text>
+            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{`${time}-${time2}`}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image style={{ marginRight: Resolution.scale(10) }} source={require('@resources/icons/calendar.png')} />
-            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{date}</Text>
+            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{`(${date}-${date2})`}</Text>
           </View>
           <View
             style={{
@@ -90,35 +93,56 @@ export class ItemBooking extends Component {
             </Text>
           </View>
         </View>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: item.lastComment ? '#A3C3F3' : '#D4D7DC',
-            borderRadius: 5,
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 10
-          }}
-        >
-          <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-            {item.lastComment ? item.lastComment : 'No Comment'}
-          </Text>
-          {/* <View
-            style={{
-              width: 15,
-              height: 15,
-              backgroundColor: 'red',
-              borderRadius: 8,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Text style={{ fontWeight: 'bold', color: '#FFF', fontSize: 9 }}>1</Text>
-          </View> */}
-        </View>
+        {this.renderViewComment(item, item.unreadCommentCount)}
       </Buttom>
     );
   }
+
+  renderViewComment = (item, count) => {
+    return count > 0 ? (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#A3C3F3',
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10
+        }}
+      >
+        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+          {item.lastComment ? item.lastComment : 'No Comment'}
+        </Text>
+        <View
+          style={{
+            width: 15,
+            height: 15,
+            backgroundColor: 'red',
+            borderRadius: 8,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Text style={{ fontWeight: 'bold', color: '#FFF', fontSize: 9 }}>{count}</Text>
+        </View>
+      </View>
+    ) : (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#dcdee3',
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10
+        }}
+      >
+        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+          {item.lastComment ? item.lastComment : 'No Comment'}
+        </Text>
+      </View>
+    );
+  };
 }
 
 export default ItemBooking;

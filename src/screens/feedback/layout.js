@@ -1,5 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, FlatList, Image, StatusBar, Dimensions, ActivityIndicator, Platform, RefreshControl, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Animated,
+  FlatList,
+  Image,
+  StatusBar,
+  Dimensions,
+  ActivityIndicator,
+  Platform,
+  RefreshControl,
+  StyleSheet
+} from 'react-native';
 import Header from '@components/header';
 import IC_BACK from '@resources/icons/back-light.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
@@ -15,17 +27,15 @@ import Modal from 'react-native-modal';
 import ModalNew from './component/modalNew';
 import Styles from './styles';
 
-import Utils from "../../utils";
+import Utils from '../../utils';
 
 import Resolution from '@utils/resolution';
-
-import AnimatedTitle from "@components/animatedTitle";
+import AnimatedTitle from '@components/animatedTitle';
 
 import { ItemHorizontal2 } from '../../components/placeHolder';
-import { ItemPlaceHolderH } from "../../components/placeHolderItem";
+import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 
 const HEADER_MAX_HEIGHT = 50;
-
 
 const { width } = Dimensions.get('window');
 
@@ -58,48 +68,46 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(40) }} />
-      );
+      <View style={{ height: Resolution.scale(40) }} />
+    );
   }
 
   renderHeader() {
     let unitActive = this.props.units.unitActive;
 
-    return <View>
-      <Header
-        LinearGradient={true}
-        leftIcon={IC_BACK}
-        leftAction={() => this.props.navigation.goBack()}
-        headercolor={'transparent'}
-        showTitleHeader={this.state.isShowTitleHeader}
-        center={
-          <View>
-            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Feedback'}</Text>
-          </View>
-        }
-        renderViewRight={
-          <Button
-            onPress={() => this._openModalSelectUnit()}
-            style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
-          >
-            <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
-              {unitActive.fullUnitCode}
-            </Text>
-            <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
-          </Button>
-        }
-      />
-      <AnimatedTitle
-        scrollY={this.state.scrollY}
-        label={'Feedback'}
-      />
-    </View>
+    return (
+      <View>
+        <Header
+          LinearGradient={true}
+          leftIcon={IC_BACK}
+          leftAction={() => this.props.navigation.goBack()}
+          headercolor={'transparent'}
+          showTitleHeader={this.state.isShowTitleHeader}
+          center={
+            <View>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Feedback'}</Text>
+            </View>
+          }
+          renderViewRight={
+            <Button
+              onPress={() => this._openModalSelectUnit()}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
+            >
+              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
+                {unitActive.fullUnitCode}
+              </Text>
+              <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
+            </Button>
+          }
+        />
+        <AnimatedTitle scrollY={this.state.scrollY} label={'Feedback'} />
+      </View>
+    );
   }
 
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-
         {this.renderHeader()}
         <StatusBar barStyle="light-content"
           hidden={false} />
@@ -226,7 +234,8 @@ export default class extends Component {
           <View
             style={{
               borderRadius: 5,
-              backgroundColor: item && item.commentBoxStatus && item.commentBoxStatus.colorCode ? item.commentBoxStatus.colorCode : '#FFF'
+              backgroundColor:
+                item && item.commentBoxStatus && item.commentBoxStatus.colorCode ? item.commentBoxStatus.colorCode : '#FFF'
             }}
           >
             <Text
@@ -242,22 +251,56 @@ export default class extends Component {
             </Text>
           </View>
         </View>
+        {this.renderViewComment(item, item.unreadCommentCount)}
+      </Button>
+    );
+  };
+
+  renderViewComment = (item, count) => {
+    return count > 0 ? (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#A3C3F3',
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingVertical: Resolution.scale(5)
+        }}
+      >
+        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+          {item.lastComment ? item.lastComment : 'No Comment'}
+        </Text>
         <View
           style={{
-            flex: 1,
-            backgroundColor: item.lastComment ? '#A3C3F3' : '#D4D7DC',
-            borderRadius: 5,
-            flexDirection: 'row',
+            width: 15,
+            height: 15,
+            backgroundColor: 'red',
+            borderRadius: 8,
             alignItems: 'center',
-            paddingHorizontal: Resolution.scale(10),
-            paddingVertical: Resolution.scale(5)
+            justifyContent: 'center'
           }}
         >
-          <Text style={{ flex: 1, color: '#FFF', fontSize: Resolution.scale(12), fontWeight: 'bold' }} numberOfLines={1}>
-            {item.lastComment ? item.lastComment : 'No comment'}
-          </Text>
+          <Text style={{ fontWeight: 'bold', color: '#FFF', fontSize: 9 }}>{count}</Text>
         </View>
-      </Button>
+      </View>
+    ) : (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#dcdee3',
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingVertical: Resolution.scale(5)
+        }}
+      >
+        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+          {item.lastComment ? item.lastComment : 'No Comment'}
+        </Text>
+      </View>
     );
   };
 }
@@ -271,5 +314,5 @@ const style = StyleSheet.create({
     overflow: 'hidden',
     height: HEADER_MAX_HEIGHT,
     zIndex: -1
-  },
-})
+  }
+});

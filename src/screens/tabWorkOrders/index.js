@@ -30,6 +30,7 @@ import Resolution from '@utils/resolution';
 import Modal from 'react-native-modal';
 
 import ModalSelectUnit from '@components/modalSelectUnit';
+import { ItemPlaceHolderH } from '@components/placeHolderItem';
 
 const IMAGE = {
   dropDown: require('@resources/icons/dropDown.png'),
@@ -220,26 +221,32 @@ class TabWorkOrder extends PureComponent {
 
   ViewTwo = list => {
     return (
-      <View tabLabel="Đang xử lý" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          scrollEventThrottle={16}
-          keyExtractor={(item, index) => item.id.toString()}
-          data={list}
-          onScroll={this.handleScroll}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefreshing}
-              onRefresh={() => this._onRefresh()}
-              tintColor="#000"
-              titleColor="#000"
+      <View tabLabel="Đang xử lý" style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {list.length > 0 ? (
+          <View style={{ flex: 1, paddingHorizontal: 20 }}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              scrollEventThrottle={16}
+              keyExtractor={(item, index) => item.id.toString()}
+              data={list}
+              onScroll={this.handleScroll}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isRefreshing}
+                  onRefresh={() => this._onRefresh()}
+                  tintColor="#000"
+                  titleColor="#000"
+                />
+              }
+              renderItem={({ item, index }) => this.renderItem(item, index, 0)}
+              ListEmptyComponent={() => {
+                return <EmptyItemList loadData={this.state.isLoadDataActive} />;
+              }}
             />
-          }
-          renderItem={({ item, index }) => this.renderItem(item, index, 0)}
-          ListEmptyComponent={() => {
-            return <EmptyItemList loadData={this.state.isLoadDataActive} />;
-          }}
-        />
+          </View>
+        ) : (
+          <ItemPlaceHolderH />
+        )}
       </View>
     );
   };
@@ -272,29 +279,32 @@ class TabWorkOrder extends PureComponent {
 
   ViewThree = list => {
     return (
-      <View tabLabel="Hoàn tất" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => item.id.toString()}
-          data={list}
-          onScroll={Animated.event([
-            {
-              nativeEvent: { contentOffset: { y: this.state.scrollY } }
-            }
-          ])}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefreshingComplete}
-              onRefresh={() => this._onRefreshTabComplete()}
-              tintColor="#000"
-              titleColor="#000"
+      <View tabLabel="Hoàn tất" style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {list.length > 0 ? (
+          <View style={{ flex: 1, paddingHorizontal: 20 }}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => item.id.toString()}
+              data={list}
+              onScroll={this.handleScroll}
+              onEndReachedThreshold={0.01}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isRefreshingComplete}
+                  onRefresh={() => this._onRefreshTabComplete()}
+                  tintColor="#000"
+                  titleColor="#000"
+                />
+              }
+              renderItem={({ item, index }) => this.renderItem(item, index, 1)}
+              ListEmptyComponent={() => {
+                return <EmptyItemList loadData={this.state.isLoadDataComplete} />;
+              }}
             />
-          }
-          renderItem={({ item, index }) => this.renderItem(item, index, 1)}
-          ListEmptyComponent={() => {
-            return <EmptyItemList loadData={this.state.isLoadDataComplete} />;
-          }}
-        />
+          </View>
+        ) : (
+          <ItemPlaceHolderH />
+        )}
       </View>
     );
   };
@@ -353,21 +363,54 @@ class TabWorkOrder extends PureComponent {
             </Text>
           </View>
         </View>
+        {this.renderViewComment(item, item.unreadCommentCount)}
+      </Button>
+    );
+  };
+
+  renderViewComment = (item, count) => {
+    return count > 0 ? (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#A3C3F3',
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10
+        }}
+      >
+        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+          {item.lastComment ? item.lastComment : 'No Comment'}
+        </Text>
         <View
           style={{
-            flex: 1,
-            backgroundColor: item.lastComment ? '#A3C3F3' : '#D4D7DC',
-            borderRadius: 5,
-            flexDirection: 'row',
+            width: 15,
+            height: 15,
+            backgroundColor: 'red',
+            borderRadius: 8,
             alignItems: 'center',
-            paddingHorizontal: 10
+            justifyContent: 'center'
           }}
         >
-          <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-            {item.lastComment ? item.lastComment : 'No Comment'}
-          </Text>
+          <Text style={{ fontWeight: 'bold', color: '#FFF', fontSize: 9 }}>{count}</Text>
         </View>
-      </Button>
+      </View>
+    ) : (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#dcdee3',
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10
+        }}
+      >
+        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
+          {item.lastComment ? item.lastComment : 'No Comment'}
+        </Text>
+      </View>
     );
   };
 }

@@ -1,28 +1,45 @@
 import React, { PureComponent } from 'react';
-import { View, FlatList, RefreshControl } from 'react-native';
+import { View, FlatList, RefreshControl, ActivityIndicator, StatusBar, Platform } from 'react-native';
 import Connect from '@stores';
 import EmptyItemList from '@components/emptyItemList';
 import ItemBooking from '@components/itemBooking';
+import Resolution from '@utils/resolution';
+import Configs from '@utils/configs';
+import { ItemPlaceHolderH } from '@components/placeHolderItem';
 
-class TabActive extends PureComponent {
+class TabProcess extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       listData: [],
       isRefreshing: false,
-      isLoadData: true
+      isLoadData: true,
+      isRefresh: false,
+      pageCount: 1,
+      loadingMore: false
     };
   }
 
   componentDidMount() {
-    let accessTokenApi = this.props.account.accessTokenAPI;
-    this.props.actions.booking.getListBooking(accessTokenApi, 'PROCESSING');
+    this._getList();
   }
 
-  componentWillReceiveProps = nextProps => {
-    console.log('asdjasdjkahsdjkasdasd', nextProps.booking.listActive);
-    if (nextProps.booking.listActive && nextProps.booking.listActive.success) {
-      this.setState({ listData: nextProps.booking.listActive.result.items, isRefreshing: false, isLoadData: false });
+  componentWillReceiveProps = async nextProps => {
+    if (
+      this.props.booking.listActive.items !== nextProps.booking.listActive.items &&
+      nextProps.booking.listActive.success &&
+      this.state.isRefresh
+    ) {
+      await this.setState({ listData: nextProps.booking.listActive.items });
+      await this.setState({ isRefresh: false });
+    }
+    if (
+      this.props.booking.listActive.items !== nextProps.booking.listActive.items &&
+      nextProps.booking.listActive.success &&
+      !this.state.isRefresh
+    ) {
+      await this.setState({ listData: this.state.listData.concat(nextProps.booking.listActive.items) });
+      await this.setState({ loadingMore: false, isRefresh: false });
     }
   };
 
@@ -35,6 +52,11 @@ class TabActive extends PureComponent {
           data={this.state.listData}
           renderItem={({ item, index }) => <ItemBooking item={item} index={index} action={() => this.clickDetail(item)} />}
           onScroll={this.props.onScroll}
+          onEndReached={() => this._onEndReached()}
+          onEndReachedThreshold={0.01}
+          // scrollEventThrottle={1}
+          // ListFooterComponent={() => this._FooterFlatlist()}
+          legacyImplementation={false}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
@@ -43,6 +65,9 @@ class TabActive extends PureComponent {
               titleColor="#000"
             />
           }
+          contentContainerStyle={{
+            paddingTop: Platform.OS !== 'ios' ? 50 : 0
+          }}
           ListEmptyComponent={() => {
             return <EmptyItemList loadData={this.state.isLoadData} />;
           }}
@@ -51,23 +76,42 @@ class TabActive extends PureComponent {
     );
   }
 
-  renderFooter = () => {};
-
-  _onRefresh() {
-    let accessTokenApi = this.props.account.accessTokenAPI;
-    this.setState(
-      {
-        isRefreshing: true
-      },
-      () => {
-        this.props.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
-      }
+  _FooterFlatlist() {
+    return this.state.loadingMore ? (
+      <View style={{ height: Resolution.scaleHeight(40), justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={Configs.colorMain} />
+      </View>
+    ) : (
+      <View style={{ height: Resolution.scale(40) }} />
     );
   }
+
+  async _onEndReached() {
+    if (this.state.loadingMore || this.state.pageCount == this.props.booking.listActive.pageCount) {
+      return;
+    }
+    await this.setState({ loadingMore: true, pageCount: this.state.pageCount + 1 });
+    await this._getList(this.state.pageCount);
+  }
+
+  _onRefresh = async () => {
+    if (this.state.isRefresh) {
+      return;
+    }
+    await this.setState({ isRefresh: true, pageCount: 1 });
+    this._getList();
+  };
+
+  _getList() {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    this.props.actions.booking.getListBooking(accessTokenApi, 'PROCESSING', this.state.pageCount);
+  }
+
+  renderFooter = () => {};
 
   clickDetail = item => {
     this.props.navigation.navigate('ModalDetailBooking', { id: item.reservationId });
   };
 }
 
-export default Connect(TabActive);
+export default Connect(TabProcess);

@@ -31,6 +31,7 @@ import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
 import Resolution from '@utils/resolution';
 import AnimatedHeader from '@components/animatedHeader';
+import Configs from '@utils/configs'
 
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 
@@ -331,7 +332,7 @@ class ModalEditOrder extends PureComponent {
     });
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size={'large'} color={'red'} />
+        <ActivityIndicator size={'large'} color={Configs.colorMain} />
       </View>
     ) : (
         <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
