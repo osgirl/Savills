@@ -103,67 +103,67 @@ export function updateSetting(accessTokenAPI, dataSetting) {
         notifications: [
           {
             name: 'Email.FeeStatement',
-            isSubscribed: dataSetting.emailOne
+            isSubscribed: dataSetting.emailFee
           },
           {
             name: 'Notification.FeeStatement',
-            isSubscribed: dataSetting.one
+            isSubscribed: dataSetting.fee
           },
           {
             name: 'Email.WorkOrders',
-            isSubscribed: dataSetting.emailTwo
+            isSubscribed: dataSetting.emailWorkOrder
           },
           {
             name: 'Notification.WorkOrders',
-            isSubscribed: dataSetting.two
+            isSubscribed: dataSetting.workOrder
           },
           {
             name: 'Email.Bookings',
-            isSubscribed: dataSetting.emailThree
+            isSubscribed: dataSetting.emailBooking
           },
           {
             name: 'Notification.Bookings',
-            isSubscribed: dataSetting.three
+            isSubscribed: dataSetting.booking
           },
           {
             name: 'Email.Events',
-            isSubscribed: dataSetting.emailFour
+            isSubscribed: dataSetting.emailEvent
           },
           {
             name: 'Notification.Events',
-            isSubscribed: dataSetting.four
+            isSubscribed: dataSetting.event
           },
           {
             name: 'Email.Feedbacks',
-            isSubscribed: dataSetting.emailFive
+            isSubscribed: dataSetting.emailFeedback
           },
           {
             name: 'Notification.Feedbacks',
-            isSubscribed: dataSetting.five
+            isSubscribed: dataSetting.feedback
           },
           {
             name: 'Email.Communication',
-            isSubscribed: dataSetting.emailSix
+            isSubscribed: dataSetting.emailCommunication
           },
           {
             name: 'Notification.Communication',
-            isSubscribed: dataSetting.six
+            isSubscribed: dataSetting.communication
           },
           {
             name: 'Email.Delivery',
-            isSubscribed: dataSetting.emailSevent
+            isSubscribed: dataSetting.emailDelivery
           },
           {
             name: 'Notification.Delivery',
-            isSubscribed: dataSetting.sevent
+            isSubscribed: dataSetting.delivery
           },
           {
-            name: 'Email.Library',
-            isSubscribed: true
+            name: 'Email.Inboxes',
+            isSubscribed: dataSetting.emailInbox
           },
           {
-            name: 'Notification.Library',
-            isSubscribed: true
+            name: 'Notification.Inboxes',
+            isSubscribed: dataSetting.inbox
           }
         ]
       }

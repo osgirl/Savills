@@ -123,7 +123,7 @@ class ModalNewBooking extends PureComponent {
     let flag = arr[index].isCheck || false;
     let position = arrSelect.indexOf(index);
     if (
-      this.state.arrSelected.length === this.props.booking.detailCategory.result.numOfExtendTimeSlot &&
+      this.state.arrSelected.length === this.props.booking.detailCategory.result.numOfExtendTimeSlot + 1 &&
       arr[index].isCheck === false
     ) {
       return;
@@ -230,7 +230,6 @@ class ModalNewBooking extends PureComponent {
 
   render() {
     let dataSelected = this.mapObjectSelected();
-    // let item = this.props.navigation.getParam('item', null);
     let item = this.props.item;
     const { fullUnitCode } = this.props.units.unitActive;
     const { displayName } = this.props.userProfile.profile.result.user;
@@ -361,8 +360,8 @@ class ModalNewBooking extends PureComponent {
               this.props.booking.detailCategory &&
               this.props.booking.detailCategory.result &&
               this.props.booking.detailCategory.result.numOfExtendTimeSlot
-                ? this.props.booking.detailCategory.result.numOfExtendTimeSlot - this.state.arrSelected.length
-                : 0
+                ? this.props.booking.detailCategory.result.numOfExtendTimeSlot - this.state.arrSelected.length + 1
+                : 1
             }
             view={
               <View
@@ -373,7 +372,6 @@ class ModalNewBooking extends PureComponent {
                   backgroundColor: '#FFF',
                   padding: 20,
                   paddingVertical: 15,
-                  // justifyContent: 'space-around',
                   flexDirection: 'row',
                   flexWrap: 'wrap'
                 }}
@@ -388,7 +386,7 @@ class ModalNewBooking extends PureComponent {
                         this.props.booking.detailCategory &&
                         this.props.booking.detailCategory.result &&
                         this.props.booking.detailCategory.result.numOfExtendTimeSlot &&
-                        this.props.booking.detailCategory.result.numOfExtendTimeSlot == this.state.arrSelected.length &&
+                        this.props.booking.detailCategory.result.numOfExtendTimeSlot + 1 == this.state.arrSelected.length &&
                         item.isCheck == false
                       }
                       style={{
@@ -576,7 +574,7 @@ class ModalNewBooking extends PureComponent {
       this.props.booking.detailCategory &&
       this.props.booking.detailCategory.result &&
       this.props.booking.detailCategory.result.numOfExtendTimeSlot &&
-      this.props.booking.detailCategory.result.numOfExtendTimeSlot == this.state.arrSelected.length &&
+      this.props.booking.detailCategory.result.numOfExtendTimeSlot + 1 == this.state.arrSelected.length &&
       item.isCheck == false
     ) {
       return '#dbdee2';

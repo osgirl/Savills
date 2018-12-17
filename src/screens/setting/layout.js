@@ -87,23 +87,25 @@ export default class extends Component {
   }
 
   render() {
-    let unitActive = this.props.units.unitActive;
     let {
-      one,
-      two,
-      three,
-      four,
-      five,
-      six,
-      sevent,
-      emailOne,
-      emailTwo,
-      emailThree,
-      emailFour,
-      emailFive,
-      emailSix,
-      emailSevent
+      fee,
+      workOrder,
+      booking,
+      event,
+      feedback,
+      communication,
+      delivery,
+      inbox,
+      emailFee,
+      emailWorkOrder,
+      emailBooking,
+      emailEvent,
+      emailFeedback,
+      emailCommunication,
+      emailDelivery,
+      emailInbox
     } = this.state.dataSetting;
+    const setting = this.props.app.getSetting;
     return (
       <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
@@ -113,54 +115,69 @@ export default class extends Component {
           <View
             style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 20, paddingBottom: 0, justifyContent: 'space-between' }}
           >
+            {/* Fee */}
             <ViewSwitch
-              text={'Thông báo phí'}
-              noti={one}
-              email={emailOne}
-              onToggleEmail={tugle => this.changeNoti('emailOne', tugle)}
-              onToggle={tugle => this.changeNoti('one', tugle)}
+              text={setting[0].displayName}
+              noti={fee}
+              email={emailFee}
+              onToggleEmail={tugle => this.changeNoti('emailFee', tugle)}
+              onToggle={tugle => this.changeNoti('fee', tugle)}
             />
+            {/* WorkOrder */}
             <ViewSwitch
-              text={'Thông báo yêu cầu công việc'}
-              noti={two}
-              email={emailTwo}
-              onToggle={tugle => this.changeNoti('two', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailTwo', tugle)}
+              text={setting[1].displayName}
+              noti={workOrder}
+              email={emailWorkOrder}
+              onToggle={tugle => this.changeNoti('workOrder', tugle)}
+              onToggleEmail={tugle => this.changeNoti('emailWorkOrder', tugle)}
             />
+            {/* Booking */}
             <ViewSwitch
-              text={'Thông báo đặt tiền ích'}
-              noti={three}
-              email={emailThree}
-              onToggle={tugle => this.changeNoti('three', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailThree', tugle)}
+              text={setting[2].displayName}
+              noti={booking}
+              email={emailBooking}
+              onToggle={tugle => this.changeNoti('booking', tugle)}
+              onToggleEmail={tugle => this.changeNoti('emailBooking', tugle)}
             />
+            {/* event */}
             <ViewSwitch
-              text={'Thông báo sự kiện mới'}
-              noti={four}
-              email={emailFour}
-              onToggle={tugle => this.changeNoti('four', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailFour', tugle)}
+              text={setting[3].displayName}
+              noti={event}
+              email={emailEvent}
+              onToggle={tugle => this.changeNoti('event', tugle)}
+              onToggleEmail={tugle => this.changeNoti('emailEvent', tugle)}
             />
+            {/* FeedBack */}
             <ViewSwitch
-              text={'Thông báo phản hồi'}
-              noti={five}
-              email={emailFive}
-              onToggle={tugle => this.changeNoti('five', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailFive', tugle)}
+              text={setting[5].displayName}
+              noti={feedback}
+              email={emailFeedback}
+              onToggle={tugle => this.changeNoti('feedback', tugle)}
+              onToggleEmail={tugle => this.changeNoti('emailFeedback', tugle)}
             />
+            {/* Communication ===> chat */}
             <ViewSwitch
-              text={'Thông báo khi có trả lời bình luận'}
-              noti={six}
-              email={emailSix}
-              onToggle={tugle => this.changeNoti('six', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailSix', tugle)}
+              text={setting[6].displayName}
+              noti={communication}
+              email={emailCommunication}
+              onToggle={tugle => this.changeNoti('communication', tugle)}
+              onToggleEmail={tugle => this.changeNoti('emailCommunication', tugle)}
             />
+            {/* Delivery */}
             <ViewSwitch
-              text={'Thông báo có hàng hóa kí gửi'}
-              noti={sevent}
-              email={emailSevent}
-              onToggle={tugle => this.changeNoti('sevent', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailSevent', tugle)}
+              text={setting[7].displayName}
+              noti={delivery}
+              email={emailDelivery}
+              onToggle={tugle => this.changeNoti('delivery', tugle)}
+              onToggleEmail={tugle => this.changeNoti('emailDelivery', tugle)}
+            />
+            {/* Inbox */}
+            <ViewSwitch
+              text={setting[8].displayName}
+              noti={inbox}
+              email={emailInbox}
+              onToggle={tugle => this.changeNoti('inbox', tugle)}
+              onToggleEmail={tugle => this.changeNoti('emailInbox', tugle)}
             />
           </View>
         </View>
