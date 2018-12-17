@@ -7,7 +7,7 @@ import Button from '@components/button';
 import LinearGradient from 'react-native-linear-gradient';
 const { width } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = 50;
+const HEADER_MAX_HEIGHT = 60;
 const HEADER_MIN_HEIGHT = 0;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 

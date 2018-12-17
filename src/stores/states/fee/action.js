@@ -35,5 +35,21 @@ export function getDetailHistory(accessTokenAPI, receiptId = 0) {
 }
 
 
+export function createOrder(accessTokenAPI, DeviceTypeId = 1, listDetailID) {
+    return {
+        type: Types.CREATE_ORDER,
+        payload: {
+            api: Configs.API + `/api/services/app/Payment/CreateOrderMobile`,
+            method: 'POST',
+            token: accessTokenAPI,
+            DeviceTypeId,
+            payload: {
+                feeDetailIds: listDetailID
+            }
+        }
+    }
+}
+
+
 
 
