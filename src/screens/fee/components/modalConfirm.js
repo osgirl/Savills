@@ -44,7 +44,12 @@ class modalConfirm extends Component {
         if (this.props.fee.createOrder !== nextProps.fee.createOrder && nextProps.fee.createOrder.success) {
             let orderXML = nextProps.fee.createOrder.result.orderXml;
             let orderChecksum = nextProps.fee.createOrder.result.orderChecksum;
-            this._payment(orderXML, orderChecksum);
+            let accessTokenApi = nextProps.account.accessTokenAPI;
+            let orderId = nextProps.fee.createOrder.result.orderId;
+            this._payment(orderXML, orderChecksum, (response) => {
+                this.props.actions.fee.getOrderId(accessTokenApi, orderId);
+                console.log('response__________', response)
+            });
         }
     }
 
@@ -59,8 +64,8 @@ class modalConfirm extends Component {
         this.props.actions.fee.createOrder(accessTokenApi, deviceID, listID)
     }
 
-    _payment = (orderXML, orderChecksum) => {
-        Payoo.pay();
+    _payment = (orderXML, orderChecksum, callback) => {
+        Payoo.pay(orderXML, orderChecksum, callback);
     }
 
     render() {
@@ -107,12 +112,10 @@ class modalConfirm extends Component {
                             <View style={{ flex: 1 }}>
                                 <Text style={{ textAlign: 'left', color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Item Summary</Text>
                                 <Text style={{ textAlign: 'left', paddingVertical: Resolution.scale(20), color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Service Fee</Text>
-                                {/* <Text style={{ textAlign: 'left', color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Rouding</Text> */}
                             </View>
                             <View style={{ flex: 0.8 }}>
                                 <Text numberOfLines={1} style={{ textAlign: 'right', fontSize: Resolution.scale(13), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>{Utils.convertNumber(summary) + ' VND'}</Text>
                                 <Text numberOfLines={1} style={{ textAlign: 'right', paddingVertical: Resolution.scale(20), fontSize: Resolution.scale(13), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>{Utils.convertNumber(serviceFee) + ' VND'}</Text>
-                                {/* <Text style={{ textAlign: 'right', fontSize: Resolution.scale(13), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>0.00 VND</Text> */}
                             </View>
                         </View>
                         <View style={{ backgroundColor: '#E6EEFB', flexDirection: 'row', marginHorizontal: Resolution.scale(10), borderRadius: 5, marginBottom: Resolution.scale(20), justifyContent: 'space-between', alignItems: 'center', }}>
@@ -148,11 +151,13 @@ class modalConfirm extends Component {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: index === 0 ? 0 : Resolution.scale(20), flex: 1 }}>
                         <View style={{ flex: 1 }}>
                             <Text
-                                numberOfLines={2} style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold', width: width - Resolution.scaleWidth(160) }}>
-                                {item.description}
+                                numberOfLines={2} style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold', }}>
+                                {item.feeType.typeName}
                             </Text>
                         </View>
-                        <View style={{ flex: 0.8 }}>
+                        <View style={{
+                            flex: 0.7,
+                        }}>
                             <Text
                                 numberOfLines={2}
                                 style={{
@@ -161,17 +166,17 @@ class modalConfirm extends Component {
                                     textAlign: 'right'
                                 }}
                             >
-                                {Utils.convertNumber(item.amount) + ' VND'}
+                                {Utils.convertNumber(item.debitAmount) + ' VND'}
                             </Text>
                         </View>
                     </View>
                     <Text
-                        numberOfLines={1}
+                        numberOfLines={2}
                         style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold', }}>
-                        {item.quantity + ' x ' + Utils.convertNumber(item.unitPrice)}
+                        {item.description}
                     </Text>
-                </View>
-            </View>
+                </View >
+            </View >
         );
     }
 

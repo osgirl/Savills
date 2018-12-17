@@ -297,9 +297,9 @@ export default class extends Component {
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                                     <Image source={check ? IC_CHECKED : IC_CHECK_BLUE} style={{ marginRight: Resolution.scale(20) }} />
-                                    <View style={{ width: width - Resolution.scaleWidth(165) }}>
-                                        <Text numberOfLines={1} style={{ fontSize: Resolution.scale(12), color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>{data.description}</Text>
-                                        <Text numberOfLines={1} style={{ fontSize: Resolution.scale(13), color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>{data.fullUnitCode}</Text>
+                                    <View style={{}}>
+                                        <Text numberOfLines={2} style={{ flex: 0.6, fontSize: Resolution.scale(12), color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>{data.feeType.typeName}</Text>
+                                        <Text numberOfLines={2} style={{ flex: 0.6, fontSize: Resolution.scale(13), color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>{data.fullUnitCode}</Text>
                                     </View>
                                 </View>
                                 <View style={{ flex: 0.5, alignItems: 'flex-end' }}>

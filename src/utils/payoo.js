@@ -4,17 +4,15 @@ export default class Payoo {
 
   static payooSdk = Platform.OS == 'ios' ? NativeModules.PayooSDKiOSManager : NativeModules.PayooSDKAndroidModule;
 
-  static pay(sdkAuth, amount, email, phone, callback) {
-    // sdkInfo.Lang = Lang.GetCurrentLang().Id;
-    // sdkInfo.Email = AppData.getUserInfo().AccountInfo.Email;
-    // sdkInfo.Phone = AppData.getUserInfo().AccountInfo.HandPhone;
-    // sdkInfo.PayooOrderXML = orderXML;
-    // sdkInfo.PayooOrderChecksum = checksum;
+  static pay(OrderXML, OrderChecksum, callback) {
 
     let sdkInfo = {}
-    sdkInfo.Lang = 1
-    sdkInfo.Email = 'teo@gmail.com'
-    sdkInfo.Phone = '0971742301'
+    sdkInfo.Language = 0;
+    sdkInfo.MerchantID = '799';
+    sdkInfo.MerchantShareKey = '3b15455cf91c99a224ff32b43f0b5dc0';
+    sdkInfo.PayooOrderChecksum = OrderChecksum;
+    sdkInfo.PayooOrderXML = OrderXML;
+
     this.payooSdk.pay(JSON.parse(JSON.stringify(sdkInfo)))
       .then((response) => {
         if (callback) {
