@@ -12,6 +12,8 @@
 #import <React/RCTPushNotificationManager.h>
 #import <UserNotifications/UserNotifications.h>
 
+@import PayooSDK;
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -69,6 +71,11 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
   NSLog(@"User Info : %@",notification.request.content.userInfo);
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
+}
+
+// Payment
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  return [Payoo application:app open:url options:options];
 }
 
 @end

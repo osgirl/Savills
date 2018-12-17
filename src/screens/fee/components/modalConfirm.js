@@ -13,6 +13,7 @@ import Modal from "react-native-modal";
 import HeaderTitle from '@components/headerTitle';
 import { isIphoneX } from '@utils/func';
 import Utils from "../../../utils";
+import Payoo from "../../../utils/payoo";
 
 import Header from '@components/header';
 import AnimatedTitle from "@components/animatedTitle";
@@ -38,6 +39,29 @@ class modalConfirm extends Component {
         Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
         }, { useNativeDriver: true })(event);
     };
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.fee.createOrder !== nextProps.fee.createOrder && nextProps.fee.createOrder.success) {
+            let orderXML = nextProps.fee.createOrder.result.orderXml;
+            let orderChecksum = nextProps.fee.createOrder.result.orderChecksum;
+            this._payment(orderXML, orderChecksum);
+        }
+    }
+
+    _createOrder = () => {
+        const accessTokenApi = this.props.account.accessTokenAPI;
+        const deviceID = Platform.OS === 'ios' ? 1 : 0;
+        const { listFeeSelected } = this.props;
+        let listID = [];
+        listFeeSelected.map((item) => {
+            listID.push(item.id);
+        })
+        this.props.actions.fee.createOrder(accessTokenApi, deviceID, listID)
+    }
+
+    _payment = (orderXML, orderChecksum) => {
+        Payoo.pay();
+    }
 
     render() {
         let data = this.props.listFeeSelected || []
@@ -103,8 +127,10 @@ class modalConfirm extends Component {
                 </ScrollView>
                 <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40) }} />
                 <Button
-                    disabled={true}
-                    onPress={() => { }} style={styles.ButtonAdd}>
+                    // disabled={true}
+                    onPress={() => this._createOrder()}
+                    style={styles.ButtonAdd}
+                >
                     <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
                 </Button>
             </View>
@@ -135,7 +161,7 @@ class modalConfirm extends Component {
                                     textAlign: 'right'
                                 }}
                             >
-                                {Utils.convertNumber(item.totalAmount) + ' VND'}
+                                {Utils.convertNumber(item.amount) + ' VND'}
                             </Text>
                         </View>
                     </View>
@@ -194,8 +220,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: isIphoneX() ? 30 : 20,
         left: width / 2 - 25,
-        // backgroundColor: '#01C772',
-        backgroundColor: '#e0e0e0',
+        backgroundColor: '#01C772',
+        // backgroundColor: '#e0e0e0',
         // shadowColor: '#4DD49A',
         // shadowOffset: { width: 3, height: 6 },
         // shadowOpacity: 0.3,
