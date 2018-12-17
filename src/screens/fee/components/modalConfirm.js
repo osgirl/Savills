@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, Animated, Platform } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, Image, Animated, Platform, ActivityIndicator } from 'react-native';
 
 import Connect from '@stores';
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,6 +17,10 @@ import Payoo from "../../../utils/payoo";
 
 import Header from '@components/header';
 import AnimatedTitle from "@components/animatedTitle";
+import Loading from "@components/loading";
+
+import ModalFaild from "./modalFaild";
+import Configs from '../../../utils/configs';
 
 const HEADER_MAX_HEIGHT = 50;
 
@@ -31,7 +35,9 @@ class modalConfirm extends Component {
             scrollY: new Animated.Value(
                 Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
             ),
-            isShowTitleHeader: false
+            isShowTitleHeader: false,
+            isShowModalFaild: false,
+            loading: false,
         }
     }
 
@@ -40,20 +46,38 @@ class modalConfirm extends Component {
         }, { useNativeDriver: true })(event);
     };
 
+    _openModalFaild = () => {
+        setTimeout(() => {
+            this.setState({ isShowModalFaild: true })
+        }, 200);
+    }
+
     componentWillReceiveProps(nextProps) {
         if (this.props.fee.createOrder !== nextProps.fee.createOrder && nextProps.fee.createOrder.success) {
+            this.setState({ loading: false })
             let orderXML = nextProps.fee.createOrder.result.orderXml;
             let orderChecksum = nextProps.fee.createOrder.result.orderChecksum;
             let accessTokenApi = nextProps.account.accessTokenAPI;
             let orderId = nextProps.fee.createOrder.result.orderId;
             this._payment(orderXML, orderChecksum, (response) => {
                 this.props.actions.fee.getOrderId(accessTokenApi, orderId);
+                if (response.status === 0) {
+                    this.props.onClose();
+                    setTimeout(() => {
+                        this.props.onSuccess();
+                    }, 300)
+                } else {
+                    setTimeout(() => {
+                        this._openModalFaild();
+                    }, 300)
+                }
                 console.log('response__________', response)
             });
         }
     }
 
-    _createOrder = () => {
+    _createOrder = async () => {
+        await this.setState({ loading: true })
         const accessTokenApi = this.props.account.accessTokenAPI;
         const deviceID = Platform.OS === 'ios' ? 1 : 0;
         const { listFeeSelected } = this.props;
@@ -61,7 +85,7 @@ class modalConfirm extends Component {
         listFeeSelected.map((item) => {
             listID.push(item.id);
         })
-        this.props.actions.fee.createOrder(accessTokenApi, deviceID, listID)
+        await this.props.actions.fee.createOrder(accessTokenApi, deviceID, listID);
     }
 
     _payment = (orderXML, orderChecksum, callback) => {
@@ -130,12 +154,22 @@ class modalConfirm extends Component {
                 </ScrollView>
                 <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40) }} />
                 <Button
-                    // disabled={true}
+                    disabled={this.state.loading}
                     onPress={() => this._createOrder()}
-                    style={styles.ButtonAdd}
+                    style={[styles.ButtonAdd, { backgroundColor: this.state.loading ? '#e0e0e0' : '#01C772' }]}
                 >
-                    <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
+                    {
+                        this.state.loading ?
+                            <ActivityIndicator size="small" color={Configs.colorMain} /> :
+                            <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
+                    }
+
                 </Button>
+                <ModalFaild
+                    isVisible={this.state.isShowModalFaild}
+                    onClose={() => this.setState({ isShowModalFaild: false })}
+                    message="thanh toán không thành công !"
+                />
             </View>
         );
     }
@@ -225,7 +259,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: isIphoneX() ? 30 : 20,
         left: width / 2 - 25,
-        backgroundColor: '#01C772',
+        // backgroundColor: '#01C772',
         // backgroundColor: '#e0e0e0',
         // shadowColor: '#4DD49A',
         // shadowOffset: { width: 3, height: 6 },

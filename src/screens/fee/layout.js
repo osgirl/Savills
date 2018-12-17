@@ -3,7 +3,7 @@ import {
     View,
     Text,
     WebView, Image, Dimensions,
-    StatusBar, Animated, FlatList, Platform
+    StatusBar, Animated, FlatList, Platform, RefreshControl
 } from 'react-native';
 import Header from '@components/header';
 import IC_BACK from "@resources/icons/back-light.png";
@@ -24,6 +24,8 @@ import IC_CHECK_WHITE from "../../resources/icons/check_fee.png";
 import IC_CHECKED_WHITE from "../../resources/icons/checked_white_fee.png";
 import Resolution from "../../utils/resolution";
 import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
+import ModalSuccess from "./components/modalSuccess";
+import ModalReceip from "./components/modalReceip";
 
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
@@ -33,7 +35,8 @@ import Utils from "../../utils";
 
 import Styles from "./styles";
 
-const { width } = Dimensions.get('window');
+
+const { width, height } = Dimensions.get('window');
 
 export default class extends Component {
 
@@ -235,6 +238,12 @@ export default class extends Component {
                             <FlatList
                                 alwaysBounceVertical={false}
                                 data={this.state.data}
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={this.state.isRefesh}
+                                        onRefresh={() => this._onRefresh()}
+                                    />
+                                }
                                 showsVerticalScrollIndicator={false}
                                 keyExtractor={(item, index) => item[0].id + '__' + index}
                                 // onScroll={this.handleScroll}
@@ -267,6 +276,7 @@ export default class extends Component {
                 <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowModalConfirm}>
                     <ModalConfirm
                         onClose={() => this._closeModalConfirm()}
+                        onSuccess={() => this._openModalSuccess()}
                         listFeeSelected={this.state.listFeeSelected}
                     />
                 </Modal>
@@ -275,7 +285,20 @@ export default class extends Component {
                         onClose={() => this._closeModalHistory()}
                     />
                 </Modal>
-            </View >
+                <Modal isVisible={this.state.isShowModalSuccess} style={{ flex: 1, margin: 0, height: height }}>
+                    <ModalSuccess
+                        onClose={() => this._closeModalSuccess()}
+                        goDetail={(id) => this._openDetailOrder(id)}
+                        message="Thanh  toán thành công ."
+                    />
+                </Modal>
+                <Modal isVisible={this.state.isShowModalDetail} style={{ flex: 1, margin: 0, height: height }}>
+                    <ModalReceip
+                        idReceip={this.state.idReceip}
+                        onClose={() => this.setState({ isShowModalDetail: false })}
+                    />
+                </Modal>
+            </View>
         );
     }
 
@@ -308,27 +331,6 @@ export default class extends Component {
                             </View>
                         </Button>
                     })
-
-                    // ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((data, index) => {
-                    //     let check = this.state.listFeeSelected.some(e => e.id === data.id);
-                    //     return <Button key={data.id + 'itemFee____' + index}
-                    //         onPress={() => this._addItemListFeeSelected(data)}
-                    //         style={{ padding: Resolution.scale(20), backgroundColor: '#FFFFFF', borderRadius: 5, marginBottom: Resolution.scale(10), marginHorizontal: Resolution.scale(20) }}>
-
-                    //         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1 }}>
-                    //             <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                    //                 <Image source={check ? IC_CHECKED : IC_CHECK_BLUE} style={{ marginRight: Resolution.scale(20) }} />
-                    //                 <View style={{ width: width - Resolution.scaleWidth(165) }}>
-                    //                     <Text numberOfLines={1} style={{ fontSize: Resolution.scale(12), color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>{data}</Text>
-                    //                     <Text numberOfLines={1} style={{ fontSize: Resolution.scale(13), color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>{data}</Text>
-                    //                 </View>
-                    //             </View>
-                    //             <View style={{ flex: 0.5, alignItems: 'flex-end' }}>
-                    //                 <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>{'$' + data}</Text>
-                    //             </View>
-                    //         </View>
-                    //     </Button>
-                    // })
                 }
             </View>
         )
