@@ -13,30 +13,28 @@ class Fee extends layout {
             isModalSelectUnit: false,
             isShowModalConfirm: false,
             isShowModalHistory: false,
+            isShowModalSuccess: false,
             isShowTitleHeader: false,
+            isShowModalDetail: false,
             data: [],
+            isRefesh: false,
             listFeeSelected: [],
             totalPay: 0,
+            isShowModalReceip: false,
+            idReceip: null,
             scrollY: new Animated.Value(0),
         }
     }
 
-    // componentWillMount() {
-    // this._getListUserFee();
-    // }
-
     componentDidMount() {
         this._getListUserFee();
-        // let unitActive = this.props.units.unitActive;
-        // let accessTokenApi = this.props.account.accessTokenAPI;
-        // this.props.actions.fee.getListHistory(accessTokenApi, unitActive.fullUnitCode);
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.fee.listUserFee !== nextProps.fee.listUserFee && nextProps.fee.listUserFee.success) {
             let items = nextProps.fee.listUserFee.result.items || [];
             const dataMap = _.groupBy(items, 'packageId');
-            this.setState({ data: _.toArray(dataMap) });
+            this.setState({ data: _.toArray(dataMap), isRefesh: false });
         }
     }
 
@@ -45,6 +43,16 @@ class Fee extends layout {
         let accessTokenApi = this.props.account.accessTokenAPI;
         this.props.actions.fee.getListUserFees(accessTokenApi, unitActive.fullUnitCode);
     }
+
+
+    _onRefresh() {
+        if (this.state.isRefesh) {
+            return;
+        }
+        this.setState({ isRefesh: true });
+        this._getListUserFee();
+    }
+
 
 
     groupBy(arr, prop) {
@@ -93,9 +101,26 @@ class Fee extends layout {
         this._calTotalPay();
     }
 
+    _openDetailOrder(id) {
+        this.setState({ idReceip: id })
+        if (this.state.isShowModalSuccess) {
+            this.setState({ isShowModalSuccess: false });
+        }
+        setTimeout(() => {
+            this.setState({ isShowModalDetail: true });
+        }, 200);
+    }
 
+    _openModalSuccess() {
+        this.setState({ isShowModalSuccess: true })
+        setTimeout(() => {
+            this._onRefresh();
+        }, 300)
+    }
 
-
+    _closeModalSuccess() {
+        this.setState({ isShowModalSuccess: false })
+    }
 
     _openModalConfirm() {
         this.setState({ isShowModalConfirm: true });

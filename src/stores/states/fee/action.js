@@ -50,6 +50,15 @@ export function createOrder(accessTokenAPI, DeviceTypeId = 1, listDetailID) {
     }
 }
 
-
+export function getOrderId(accessTokenAPI, orderId = 0, language = 'en') {
+    return {
+        type: Types.GET_ORDER_ID,
+        payload: {
+            api: Configs.API + `/api/services/app/Payment/GetOrder?orderId=${orderId}&culture=${language}`,
+            method: 'GET',
+            token: accessTokenAPI,
+        }
+    }
+}
 
 

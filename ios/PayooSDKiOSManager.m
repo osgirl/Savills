@@ -12,16 +12,15 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)input
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
   
-//  NSString* merchantId = @"";
-//  if ([input objectForKey:@"MerchantID"] != [NSNull null]) {
-//    merchantId = "813";
-//
-//  }
-//  NSString *merchantShareKey = @"";
-//  if ([input objectForKey:@"MerchantShareKey"] != [NSNull null]) {
-//    merchantShareKey = "5754f8a5f373aa955ccf3a8f69f75b25";
-//  }
-  
+  NSString* merchantId = @"";
+  if ([input objectForKey:@"MerchantID"] != [NSNull null]) {
+    merchantId = [input objectForKey:@"MerchantID"];
+    
+  }
+  NSString *merchantShareKey = @"";
+  if ([input objectForKey:@"MerchantShareKey"] != [NSNull null]) {
+    merchantShareKey = [input objectForKey:@"MerchantShareKey"];
+  }
   NSString *checksum = @"";
   if ([input objectForKey:@"PayooOrderChecksum"] != [NSNull null]){
     checksum = [input objectForKey:@"PayooOrderChecksum"];
@@ -42,13 +41,13 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)input
     phone = [input objectForKey:@"Phone"];
   }
   
-  enum Language language = [[input objectForKey:@"1"] integerValue];
+  enum Language language = [[input objectForKey:@"Language"] integerValue];
   [PayooSDKAppearance setNavigationBarBackgroundColor:[UIColor colorWithRed:157.0/255.0 green:47.0/255.0 blue:110.0/255.0 alpha:1.0]];
   self.order = [[OrderRequest alloc] initWithOrderInfo:orderXML checksum:checksum];
   dispatch_async(dispatch_get_main_queue(), ^{
     @try {
-      [PayooSDKConfiguration setWithMerchantId:@"799"
-                                     secretKey:@"3b15455cf91c99a224ff32b43f0b5dc0"];
+      [PayooSDKConfiguration setWithMerchantId:merchantId
+                                     secretKey:merchantShareKey];
       [PayooSDKConfiguration setEnvironment:EnvironmentDevelopment];
       [PayooSDKConfiguration setLanguage:language];
       
