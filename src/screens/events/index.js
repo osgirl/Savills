@@ -14,7 +14,7 @@ class Events extends Layout {
     this.state = {
       scrollY: new Animated.Value(0),
       selectedDate: new Date(),
-      dateSelected: '',
+      dateSelected: null,
       overViewDate: {},
       items: {},
       myEvent: [],
@@ -22,7 +22,8 @@ class Events extends Layout {
       isShowModalFull: false,
       eventId: null,
       isModalSelectUnit: false,
-      openFullCalendar: false
+      openFullCalendar: false,
+      loadingFetching: false
     };
   }
 
@@ -37,6 +38,7 @@ class Events extends Layout {
   }
 
   _getEvent() {
+    this.setState({ loadingFetching: true });
     const accessTokenApi = this.props.account.accessTokenAPI;
     const buildingID = this.props.units.unitActive.buildingId;
     let date = new Date();
@@ -48,13 +50,35 @@ class Events extends Layout {
 
   async componentWillReceiveProps(nextProps) {
     if (this.props.events.myEvents !== nextProps.events.myEvents && nextProps.events.myEvents.success) {
-      this.setState({ myEvent: nextProps.events.myEvents.result.items });
+      this.setState({ myEvent: nextProps.events.myEvents.result.items, loadingFetching: false });
     }
+    if (this.props.events.myEvents !== nextProps.events.myEvents && !nextProps.events.myEvents.success) {
+      this.setState({ loadingFetching: false });
+    }
+
+    //selected date
+    if (this.props.events.eventsOfDate !== nextProps.events.eventsOfDate && nextProps.events.eventsOfDate.success) {
+      this.setState({ myEvent: nextProps.events.eventsOfDate.result.items, loadingFetching: false })
+    }
+
+    if (this.props.events.eventsOfDate !== nextProps.events.eventsOfDate && !nextProps.events.eventsOfDate.success) {
+      this.setState({ loadingFetching: false })
+    }
+
+
+
     if (this.props.events.overView !== nextProps.events.overView && nextProps.events.overView.success) {
       let tempOverView = await nextProps.events.overView.result;
       let objectOverview = this.mapObjectSelected(tempOverView);
       this.setState({ overViewDate: objectOverview });
     }
+  }
+
+  _getEventsToDate(date) {
+    this.setState({ loadingFetching: true });
+    const accessTokenApi = this.props.account.accessTokenAPI;
+    const buildingID = this.props.units.unitActive.buildingId;
+    this.props.actions.events.getMyEventsOfDate(accessTokenApi, buildingID, date);
   }
 
   async _openModalDetail(id) {

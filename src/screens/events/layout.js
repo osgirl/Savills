@@ -13,6 +13,8 @@ const { width, height } = Dimensions.get('window');
 import IC_CALENDAR from '../../resources/icons/calendar.png';
 import IC_CLOCK from '../../resources/icons/clock.png';
 import IMG_CALENDAR_PH from '../../resources/icons/calendar-placehoder.png';
+import IC_CALENDAR_ARROR from '../../resources/icons/arrow_calendar.png';
+import IC_CALENDAR_ARROR_UP from '../../resources/icons/arrow_up_calendar.png';
 import IC_DROPDOWN from '../../resources/icons/dropDown.png';
 import IC_EVENTEMTY from '../../resources/icons/Events_emty.png';
 import { ItemHorizontal } from '../../components/placeHolder';
@@ -27,7 +29,7 @@ import Resolution from '../../utils/resolution';
 import ModalDetail from './components/modalDetail';
 import ModalFull from './components/modalFull';
 import ModalSelectUnit from '../../components/modalSelectUnit';
-
+import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 import CalendarStrip from '@components/calendarAgenda';
 import Language from '../../utils/language';
 
@@ -37,6 +39,7 @@ import XDate from 'xdate';
 const HEADER_MAX_HEIGHT = 50;
 
 export default class Layout extends Component {
+
   constructor(props) {
     super(props);
     XDate.locales['fr'] = {
@@ -47,44 +50,22 @@ export default class Layout extends Component {
     };
 
     XDate.defaultLocale = 'fr';
+    this.check = false;
   }
 
   async _onPressDay(data) {
-    if (this.state.openFullCalendar) {
-      this.setState({ dateSelected: data });
-    } else {
-      let date = moment(data).format('YYYY-MM-DD');
-      this.setState({ dateSelected: date });
-    }
-    this._openModalFull();
+    let date = moment(data).format('YYYY-MM-DD');
+    await this.setState({ dateSelected: date });
+    await this._getEventsToDate(date);
+    // this._openModalFull();
   }
-
-  handleScroll = event => {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    Animated.event(
-      // [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-      {
-        listener: event => {
-          if (event.nativeEvent.contentOffset.y > 30) {
-            if (!this.showCenter) {
-              this.showCenter = true;
-              this.props.navigation.setParams({ eventTitle: LG.EVENTS_TXT_TITLE });
-            }
-          } else {
-            if (this.showCenter) {
-              this.showCenter = false;
-              this.props.navigation.setParams({ eventTitle: null });
-            }
-          }
-        }
-      },
-      { useNativeDriver: true }
-    )(event);
-  };
 
   onScroll = e => {
     const scrollSensitivity = 4;
     const offset = e.nativeEvent.contentOffset.y / scrollSensitivity
+    if (offset > 19 && this.state.openFullCalendar) {
+      this.setState({ openFullCalendar: false })
+    }
     this.state.scrollY.setValue(offset);
   };
 
@@ -115,6 +96,8 @@ export default class Layout extends Component {
       extrapolate: 'clamp',
       useNativeDriver: true,
     });
+
+
 
     return (
       <Animated.View style={{ zIndex: -1 }}>
@@ -150,14 +133,12 @@ export default class Layout extends Component {
               <TouchableOpacity onPress={() => this.setState({ openFullCalendar: false })}>
                 <View
                   style={{
-                    width: 50,
-                    height: 4,
-                    borderRadius: 2,
-                    backgroundColor: 'rgba(255,255,255,0.5)',
                     alignSelf: 'center',
-                    marginBottom: 10
+                    marginBottom: 10,
                   }}
-                />
+                >
+                  <Image source={IC_CALENDAR_ARROR_UP} />
+                </View>
               </TouchableOpacity>
             </View>
           ) : (
@@ -174,14 +155,12 @@ export default class Layout extends Component {
                 <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
                   <View
                     style={{
-                      width: 50,
-                      height: 4,
-                      borderRadius: 2,
-                      backgroundColor: 'rgba(255,255,255,0.5)',
                       alignSelf: 'center',
                       marginBottom: 10
                     }}
-                  />
+                  >
+                    <Image source={IC_CALENDAR_ARROR} />
+                  </View>
                 </TouchableOpacity>
               </View>
             )}
@@ -238,37 +217,41 @@ export default class Layout extends Component {
           }
         />
         {this.renderHeader()}
-        {this.props.events.myEvents.result && this.props.events.myEvents.result.totalCount <= 0 ? (
-          this.renderEmty()
-        ) : (
-            <FlatList
-              alwaysBounceVertical={false}
-              data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
-              keyExtractor={item => item.eventId + ''}
-              renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
-              onScroll={this.onScroll}
-              contentContainerStyle={{ zIndex: 1 }}
-              style={{ zIndex: 200 }}
-              legacyImplementation={false}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
-              ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
-              ListHeaderComponent={() => (
-                <View
-                  style={{
-                    marginTop: Resolution.scale(20),
-                    marginBottom: Resolution.scale(10),
-                    marginHorizontal: Resolution.scale(20)
-                  }}
-                >
-                  <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
-                    {LG.EVENTS_TXT_ALLTITLE}
-                  </Text>
-                </View>
-              )}
-              ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
-            />
-          )}
+
+        {
+          this.state.loadingFetching ?
+            <ItemPlaceHolderH noMargin /> :
+            !this.state.loadingFetching && this.state.myEvent.length <= 0 ?
+              this.renderEmty() :
+              <FlatList
+                alwaysBounceVertical={false}
+                data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
+                keyExtractor={item => item.eventId + ''}
+                renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
+                onScroll={this.onScroll}
+                contentContainerStyle={{ zIndex: 1 }}
+                style={{ zIndex: 200 }}
+                legacyImplementation={false}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+                ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
+                ListHeaderComponent={() => (
+                  <View
+                    style={{
+                      marginTop: Resolution.scale(20),
+                      marginBottom: Resolution.scale(10),
+                      marginHorizontal: Resolution.scale(20)
+                    }}
+                  >
+                    <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
+                      {this.state.dateSelected ?
+                        moment(this.state.dateSelected).format('DD-MM-YYYY').toString() : LG.EVENTS_TXT_ALLTITLE}
+                    </Text>
+                  </View>
+                )}
+                ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
+              />
+        }
 
         <Modal
           style={{ flex: 1, marginTop: Resolution.scale(50), marginLeft: 0, marginRight: 0, marginBottom: 0 }}
