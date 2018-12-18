@@ -32,14 +32,14 @@ import Connect from '@stores';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import AnimatedHeader from '@components/animatedHeader';
 
-import IC_CHATEMTY from "@resources/icons/chat_emty.png";
+import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 import IC_CLOSE from '@resources/icons/close.png';
 import Configs from '../../../utils/configs';
-import Language from "@utils/language";
+import Language from '@utils/language';
 
 const { width, height } = Dimensions.get('window');
 
-import AnimatedTitle from "@components/animatedTitle";
+import AnimatedTitle from '@components/animatedTitle';
 
 const HEADER_MAX_HEIGHT = 50;
 const HEADER_MIN_HEIGHT = 0;
@@ -50,9 +50,7 @@ class ModalDetailFeedback extends Component {
     super(props);
     this.state = {
       comment: '',
-      scrollY: new Animated.Value(
-        Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
-      ),
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isShowTitleHeader: false,
       showModalConfirmCancel: false,
       listTypeFeedback: this.props.feedback.typeFeedback.result,
@@ -71,7 +69,6 @@ class ModalDetailFeedback extends Component {
 
     this._keyboardDidHide = this._keyboardDidHide.bind(this);
     this._keyboardDidShow = this._keyboardDidShow.bind(this);
-
   }
 
   _getDetail() {
@@ -79,11 +76,11 @@ class ModalDetailFeedback extends Component {
     let accessTokenApi = this.props.account.accessTokenAPI;
     setTimeout(() => {
       this.props.actions.feedback.getDetail(accessTokenApi, commentBoxId);
-    }, 300)
+    }, 300);
   }
 
   componentDidMount() {
-    this._getDetail()
+    this._getDetail();
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
@@ -99,18 +96,19 @@ class ModalDetailFeedback extends Component {
   componentWillReceiveProps(nextProps) {
     const { itemSelected } = this.props;
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id
+    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
 
-    if (this.props.feedback.detailFeedback &&
+    if (
+      this.props.feedback.detailFeedback &&
       this.props.feedback.detailFeedback.result !== nextProps.feedback.detailFeedback.result &&
-      nextProps.feedback.detailFeedback.success) {
+      nextProps.feedback.detailFeedback.success
+    ) {
       this.setState({ data: nextProps.feedback.detailFeedback.result });
       this.props.actions.feedback.getCommentUnread(accessTokenApi, nextProps.feedback.detailFeedback.result.commentBoxId, 6);
       this.props.actions.feedback.getCommentUser(accessTokenApi, nextProps.feedback.detailFeedback.result.guid);
     }
 
-    if (this.props.feedback.listComment !== nextProps.feedback.listComment &&
-      nextProps.feedback.listComment.success) {
+    if (this.props.feedback.listComment !== nextProps.feedback.listComment && nextProps.feedback.listComment.success) {
       this.setState({ listComment: nextProps.feedback.listComment.result.items });
     }
 
@@ -129,7 +127,6 @@ class ModalDetailFeedback extends Component {
       this.props.onRefresh();
       this.getModuleCount();
     }
-
   }
 
   getModuleCount() {
@@ -157,14 +154,14 @@ class ModalDetailFeedback extends Component {
   };
 
   async _updateStatus() {
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id
+    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
     if (this.state.loadingUpdateStatus) {
       return;
     }
     this.setState({ loadingUpdateStatus: true });
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { data } = this.state;
-    this.props.actions.feedback.updateStatus(accessTokenAPI, data.commentBoxId, "DELETED", languege);
+    this.props.actions.feedback.updateStatus(accessTokenAPI, data.commentBoxId, 'DELETED', languege);
   }
 
   addComment = () => {
@@ -202,43 +199,40 @@ class ModalDetailFeedback extends Component {
   }
 
   renderLoading() {
-    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size={"small"} color={Configs.colorMain} />
-    </View>
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size={'small'} color={Configs.colorMain} />
+      </View>
+    );
   }
-
 
   renderHeader() {
     const { commentBoxId } = this.props;
 
-    return <View>
-      <Header
-        isModal
-        LinearGradient={true}
-        leftIcon={IC_CLOSE}
-        leftAction={() => this.props.onClose()}
-        headercolor={'transparent'}
-        showTitleHeader={this.state.isShowTitleHead}
-        center={
-          <View>
-            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'# ' + commentBoxId}</Text>
-          </View>
-        }
-      />
+    return (
+      <View>
+        <Header
+          isModal
+          LinearGradient={true}
+          leftIcon={IC_CLOSE}
+          leftAction={() => this.props.onClose()}
+          headercolor={'transparent'}
+          showTitleHeader={this.state.isShowTitleHead}
+          center={
+            <View>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'# ' + commentBoxId}</Text>
+            </View>
+          }
+        />
 
-      <AnimatedTitle
-        scrollY={this.state.scrollY}
-        label={'# ' + commentBoxId}
-      />
-    </View>
+        <AnimatedTitle scrollY={this.state.scrollY} label={'# ' + commentBoxId} />
+      </View>
+    );
   }
 
   renderModalCancel = () => {
     return (
-      <Modal
-        style={{ flex: 1, margin: 0 }}
-        isVisible={this.state.showModalConfirmCancel}
-      >
+      <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.showModalConfirmCancel}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <View
             style={{
@@ -274,12 +268,11 @@ class ModalDetailFeedback extends Component {
                   end={{ x: 1, y: 0 }}
                   style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10 }}
                 >
-                  {
-                    this.state.loadingUpdateStatus ?
-                      <ActivityIndicator size={'small'} color={'#FFF'} />
-                      :
-                      <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
-                  }
+                  {this.state.loadingUpdateStatus ? (
+                    <ActivityIndicator size={'small'} color={'#FFF'} />
+                  ) : (
+                    <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
+                  )}
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -289,7 +282,6 @@ class ModalDetailFeedback extends Component {
     );
   };
 
-
   changeStatusBar = () => {
     if (this.state.showModalConfirmCancel) StatusBar.setHidden(true);
     else {
@@ -298,35 +290,40 @@ class ModalDetailFeedback extends Component {
   };
 
   renderFooter() {
-    let status = this.state.data && this.state.data.commentBoxStatus.id || 0;
+    let status = (this.state.data && this.state.data.commentBoxStatus.id) || 0;
     if (status === 1) {
-      return <View
-        style={{
-          width: width,
-          height: 80,
-          backgroundColor: '#FFF',
-          padding: 20,
-          flexDirection: 'row',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.16,
-          position: 'absolute', bottom: 0, left: 0, right: 0
-        }}
-      >
-        <TouchableOpacity
+      return (
+        <View
           style={{
-            flex: 1,
-            backgroundColor: '#343D4D',
-            borderRadius: 5,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginLeft: 20
+            width: width,
+            height: 80,
+            backgroundColor: '#FFF',
+            padding: 20,
+            flexDirection: 'row',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.16,
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0
           }}
-          onPress={() => this.setState({ showModalConfirmCancel: true })}
         >
-          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hủy</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              backgroundColor: '#343D4D',
+              borderRadius: 5,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: 20
+            }}
+            onPress={() => this.setState({ showModalConfirmCancel: true })}
+          >
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hủy</Text>
+          </TouchableOpacity>
+        </View>
+      );
     }
     return null;
   }
@@ -339,24 +336,22 @@ class ModalDetailFeedback extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <StatusBar
-          hidden={Platform.OS === 'ios' ? false : true}
-        />
+        <StatusBar hidden={Platform.OS === 'ios' ? false : true} />
         {this.renderHeader()}
         {this.changeStatusBar()}
-        {
-          this.state.data ? <ScrollView
+        {this.state.data ? (
+          <ScrollView
             alwaysBounceVertical={false}
             scrollEventThrottle={16}
             onScroll={this.handleScroll}
             contentContainerStyle={{
-              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
             }}
             contentInset={{
-              top: HEADER_MAX_HEIGHT,
+              top: HEADER_MAX_HEIGHT
             }}
             contentOffset={{
-              y: -HEADER_MAX_HEIGHT,
+              y: -HEADER_MAX_HEIGHT
             }}
           >
             {
@@ -375,7 +370,9 @@ class ModalDetailFeedback extends Component {
                     }}
                   >
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                      <Text
+                        style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
+                      >
                         Loại phản hồi
                       </Text>
                       <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
@@ -384,7 +381,9 @@ class ModalDetailFeedback extends Component {
                     </View>
 
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                      <Text
+                        style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
+                      >
                         Vấn đề
                       </Text>
                       <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
@@ -393,7 +392,9 @@ class ModalDetailFeedback extends Component {
                     </View>
 
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                      <Text
+                        style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
+                      >
                         Trạng Thái
                       </Text>
                       <View
@@ -417,7 +418,9 @@ class ModalDetailFeedback extends Component {
                     </View>
 
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                      <Text
+                        style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
+                      >
                         Ngày Gửi
                       </Text>
                       <View
@@ -429,7 +432,11 @@ class ModalDetailFeedback extends Component {
                       >
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(10) }}>
                           <Image
-                            style={{ marginRight: Resolution.scale(10), width: Resolution.scale(15), height: Resolution.scale(15) }}
+                            style={{
+                              marginRight: Resolution.scale(10),
+                              width: Resolution.scale(15),
+                              height: Resolution.scale(15)
+                            }}
                             source={require('../../../resources/icons/clock.png')}
                           />
                           <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular' }}>
@@ -438,7 +445,11 @@ class ModalDetailFeedback extends Component {
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                           <Image
-                            style={{ marginRight: Resolution.scale(10), width: Resolution.scale(15), height: Resolution.scale(15) }}
+                            style={{
+                              marginRight: Resolution.scale(10),
+                              width: Resolution.scale(15),
+                              height: Resolution.scale(15)
+                            }}
                             source={require('../../../resources/icons/calendar.png')}
                           />
                           <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular' }}>
@@ -469,8 +480,10 @@ class ModalDetailFeedback extends Component {
                 </View>
               }
             />
-          </ScrollView> : this.renderLoading()
-        }
+          </ScrollView>
+        ) : (
+          this.renderLoading()
+        )}
 
         {this.renderFooter()}
         {this.renderModalCancel()}
@@ -506,10 +519,7 @@ class ModalDetailFeedback extends Component {
           )}
         </Button>
 
-        {
-          this.state.data ?
-            this.renderContentModalChat() : null
-        }
+        {this.state.data ? this.renderContentModalChat() : null}
       </View>
     );
   }
@@ -532,7 +542,7 @@ class ModalDetailFeedback extends Component {
           }}
         >
           <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
-            <Image source={require('../../../resources/icons/close-black.png')} />
+            <Image style={{ margin: 10 }} source={require('../../../resources/icons/close-black.png')} />
           </TouchableOpacity>
           <Text>{'# ' + this.state.data && this.state.data.commentBoxId}</Text>
           <View />
@@ -542,7 +552,9 @@ class ModalDetailFeedback extends Component {
             data={this.state.listComment}
             style={{ flex: 1 }}
             keyExtractor={(item, index) => item.commentBoxId}
-            renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={item.creatorUserId} />}
+            renderItem={({ item, index }) => (
+              <ItemComment {...this.props} index={index} item={item} idUser={item.creatorUserId} />
+            )}
             ref={ref => (this.flatList = ref)}
             onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
             onLayout={() => this.flatList.scrollToEnd({ animated: true })}
@@ -612,8 +624,8 @@ const style = StyleSheet.create({
     overflow: 'hidden',
     height: HEADER_MAX_HEIGHT,
     zIndex: -1
-  },
-})
+  }
+});
 
 class ItemScorll extends Component {
   render() {

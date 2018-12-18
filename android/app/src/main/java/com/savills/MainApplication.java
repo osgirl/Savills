@@ -38,9 +38,10 @@ public class MainApplication extends Application implements ReactApplication {
             new ReactNativePushNotificationPackage(),
             new FastImageViewPackage(),
             new ImagePickerPackage(),
-          new LinearGradientPackage(),
-          new ReactNativeWheelPickerPackage(),
-              new RNViewOverflowPackage()
+            new LinearGradientPackage(),
+            new ReactNativeWheelPickerPackage(),
+            new RNViewOverflowPackage(),
+            new PayooSDKPackage()
 
       );
     }

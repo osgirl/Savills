@@ -415,7 +415,7 @@ class ModalNewBooking extends PureComponent {
                       ) : null}
                       <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
                         item.startTime
-                      ).format('hh:mm')}-${moment(item.endTime).format('hh:mm')}`}</Text>
+                      ).format('HH:mm')}-${moment(item.endTime).format('HH:mm')}`}</Text>
                     </TouchableOpacity>
                   ) : (
                     <View
@@ -736,7 +736,7 @@ class ModalNewBooking extends PureComponent {
                       {startTime && startTime != undefined && endTime && endTime != undefined ? (
                         <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
                           startTime
-                        ).format('hh:mm')}-${moment(endTime).format('hh:mm')}`}</Text>
+                        ).format('HH:mm')}-${moment(endTime).format('HH:mm')}`}</Text>
                       ) : null}
                     </TouchableOpacity>
                   </View>
