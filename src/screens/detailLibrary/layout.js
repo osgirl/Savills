@@ -144,6 +144,7 @@ export default class extends Component {
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowModalDetail}>
           <ModalDetail
             onClose={() => this._closeModalDetail()}
+            itemSelected={this.state.itemSelected}
           />
         </Modal>
       </View>
@@ -154,8 +155,7 @@ export default class extends Component {
     let date = moment(item.creationTime).format('l');
     return (
       <Button
-        // onPress={() => this._openModalDetail()}
-        onPress={() => this.setState({ isShowModalDetail: true })}
+        onPress={() => this._openModalDetail(item)}
         style={{
           width: width - Resolution.scale(40),
           borderRadius: 10,

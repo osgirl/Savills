@@ -16,6 +16,7 @@ class DetailLibary extends layout {
             isRefresh: false,
             loadingMore: false,
             isShowModalDetail: false,
+            itemSelected: null,
             scrollY: new Animated.Value(
                 Platform.OS === 'ios' ? -50 : 0,
             ),
@@ -57,8 +58,8 @@ class DetailLibary extends layout {
         this.setState({ isShowModalDetail: false })
     }
 
-    _openModalDetail() {
-        console.log('-----')
+    _openModalDetail(item) {
+        this.setState({ itemSelected: item })
         this.setState({ isShowModalDetail: true })
     }
 

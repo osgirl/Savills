@@ -13,6 +13,7 @@ import {
 import { SafeAreaView } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import ButtonCustom from "../buttonCustom";
+import { isIphoneX } from '@utils/func';
 import Connect from '@stores';
 
 import Resolution from "../../utils/resolution";
@@ -191,8 +192,7 @@ class HeaderHome extends Component {
 
 const style = StyleSheet.create({
 	container: {
-		height: Resolution.scaleHeight(60),
-		backgroundColor: 'black',
+		height: (isIphoneX() ? Resolution.scaleHeight(80) : Resolution.scaleHeight(60)),
 		justifyContent: 'center',
 		zIndex: 1
 	},

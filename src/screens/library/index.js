@@ -64,7 +64,6 @@ class Libary extends layout {
     }
 
     _goDetail(item) {
-        console.log(this.props)
         this.props.navigation.navigate('DetailLibrary', { library: item });
     }
 
