@@ -4,7 +4,9 @@ import createReducer from '../';
 const INIT_STATE = ({
     listUserFee: {},
     history: {},
-    detailHistory: {}
+    detailHistory: {},
+    createOrder: {},
+    orderDetail: {}
 });
 
 export default createReducer(INIT_STATE, {
@@ -107,6 +109,76 @@ export default createReducer(INIT_STATE, {
             return {
                 ...state,
                 detailHistory: {},
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.CREATE_ORDER]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.CREATE_ORDER_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                createOrder: action.response,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.CREATE_ORDER_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                createOrder: {},
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.GET_ORDER_ID]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_ORDER_ID_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                orderDetail: action.response,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_ORDER_ID_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                orderDetail: {},
             };
         } catch (error) {
             console.log(error)

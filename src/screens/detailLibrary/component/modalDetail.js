@@ -13,6 +13,8 @@ import HeaderTitle from '@components/headerTitle';
 
 import Header from '@components/header';
 
+import HTML from 'react-native-render-html';
+
 import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
 const { width, height } = Dimensions.get('window');
 
@@ -25,6 +27,7 @@ class ModalDetail extends Component {
   }
 
   render() {
+    console.log()
     return (
       <View style={[styles.container, {}]}>
         <Header
@@ -40,7 +43,7 @@ class ModalDetail extends Component {
           <HeaderTitle title={'Detail'} />
         </LinearGradient>
 
-
+        <HTML />
 
       </View>
     );

@@ -15,7 +15,7 @@ class DetailLibary extends layout {
             data: [],
             isRefresh: false,
             loadingMore: false,
-            isShowModalDetail: true,
+            isShowModalDetail: false,
             scrollY: new Animated.Value(
                 Platform.OS === 'ios' ? -50 : 0,
             ),
