@@ -49,9 +49,6 @@ class TabInComming extends PureComponent {
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => item.reservationId.toString()}
           data={this.state.listData}
-          contentContainerStyle={{
-            paddingTop: Platform.OS !== 'ios' ? 50 : 0
-          }}
           renderItem={({ item, index }) => <ItemBooking item={item} index={index} action={() => this.clickDetail(item)} />}
           onScroll={this.props.onScroll}
           onEndReached={() => this._onEndReached()}

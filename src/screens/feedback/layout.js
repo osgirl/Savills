@@ -247,7 +247,7 @@ export default class extends Component {
                 paddingHorizontal: Resolution.scale(15)
               }}
             >
-              {item && item.commentBoxStatus && item.commentBoxStatus.statusCode}
+              {item && item.commentBoxStatus && item.commentBoxStatus.name}
             </Text>
           </View>
         </View>

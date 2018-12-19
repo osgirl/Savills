@@ -1,5 +1,4 @@
 package com.savills;
-
 import android.graphics.Color;
 import android.util.Log;
 
@@ -15,6 +14,8 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.bridge.NativeModule;
 
 import com.google.gson.Gson;
+import com.savills.LocaleHelper;
+import com.savills.R;
 
 import vn.payoo.paymentsdk.PaymentConfig;
 import vn.payoo.paymentsdk.PayooMerchant;
@@ -70,7 +71,7 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
         PaymentConfig configure = PaymentConfig.newBuilder().withLocale(LocaleHelper.getLocale(getReactApplicationContext(), lang == 0 ? PayooPaymentSDK.LOCALE_VI : PayooPaymentSDK.LOCALE_EN))
                 .withCustomerEmail(email)
                 .withCustomerPhone(phone)
-                .withThemeResId(R.style.PayooSdkTheme_Blue)
+                .withThemeResId(R.style.PayooSdkTheme_Pink)
                 .build();
         PayooPaymentSDK.pay(getCurrentActivity(),order,configure);
     }

@@ -215,7 +215,6 @@ class ModalNewBooking extends PureComponent {
   }
 
   onPresTripDay = date => {
-    console.log('askdljaskdlasjdklasjdklasda', date);
     let accessTokenApi = this.props.account.accessTokenAPI;
     let item = this.props.item;
     let data = {
@@ -223,7 +222,7 @@ class ModalNewBooking extends PureComponent {
       fromDate: moment(date).format('YYYY-MM-DD'),
       toDate: moment(date).format('YYYY-MM-DD')
     };
-    this.setState({ selectedDate: date, loadDingCallCalendar: true }, () => {
+    this.setState({ listBooking: [], arrSelected: [], selectedDate: date, loadDingCallCalendar: true }, () => {
       this.props.actions.booking.getListBookingOption(accessTokenApi, data);
     });
   };
