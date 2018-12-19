@@ -50,6 +50,9 @@ allprojects {
         // ADD THIS
         maven { url "https://jitpack.io" }
         google()
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 

@@ -180,7 +180,8 @@ class ModalDetailBooking extends PureComponent {
       remark,
       reservationId,
       endDate,
-      startDate
+      startDate,
+      paymentStatus = null
     } = this.props.booking.detailBooking.result;
     let date = moment(createdAt).format('l');
 
@@ -230,7 +231,6 @@ class ModalDetailBooking extends PureComponent {
             view={
               <View
                 style={{
-                  height: 180,
                   width: null,
                   flex: 1,
                   borderRadius: 10,
@@ -245,7 +245,7 @@ class ModalDetailBooking extends PureComponent {
                     style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}
                   >{`${fullUnitId}-${name}`}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
                   <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Trạng Thái</Text>
                   <View
                     style={{
@@ -281,12 +281,25 @@ class ModalDetailBooking extends PureComponent {
                     </View>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Thời gian</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13, marginVertical: 10 }}>
+                    Thời gian
+                  </Text>
                   <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{`${moment(startDate).format(
                     'hh:mm'
                   )} - ${moment(endDate).format('hh:mm')}`}</Text>
                 </View>
+
+                {paymentStatus === null ? null : (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Thanh Toán</Text>
+                    <View style={{ backgroundColor: paymentStatus.colorCode, borderRadius: 5 }}>
+                      <Text style={{ marginVertical: 4, marginHorizontal: 15, color: '#FFF', fontWeight: 'bold', fontSize: 10 }}>
+                        {paymentStatus && paymentStatus.name ? paymentStatus.name : 'paid'}
+                      </Text>
+                    </View>
+                  </View>
+                )}
               </View>
             }
           />

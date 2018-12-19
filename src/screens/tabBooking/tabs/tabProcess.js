@@ -65,9 +65,6 @@ class TabProcess extends PureComponent {
               titleColor="#000"
             />
           }
-          contentContainerStyle={{
-            paddingTop: Platform.OS !== 'ios' ? 50 : 0
-          }}
           ListEmptyComponent={() => {
             return <EmptyItemList loadData={this.state.isLoadData} />;
           }}
