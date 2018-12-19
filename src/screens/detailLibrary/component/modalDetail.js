@@ -77,6 +77,8 @@ class ModalDetail extends Component {
     const encToken = this.props.account.encToken;
     const file = itemSelected.file && `${itemSelected.file.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
     console.log('-=-=-', file)
+    console.warn(file);
+    // TODO ANH THINH
     return (
       <View style={[styles.container, {}]}>
         {this.renderHeader()}
@@ -91,9 +93,13 @@ class ModalDetail extends Component {
           {
             file ?
               <WebView
-                automaticallyAdjustContentInsets
-                url={file}
-              /> : <View>
+                source={{ uri: file }}
+                style={{ flex: 1 }}
+              />
+              // <HTML
+              //   uri={file.toString()}
+              // />
+              : <View>
                 <ActivityIndicator size={'large'} color={Configs.colorMain} />
               </View>
           }

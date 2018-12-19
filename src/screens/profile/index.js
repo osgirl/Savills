@@ -122,6 +122,10 @@ class Profile extends Layout {
     this.setState({ isModalSelectUnit: true });
   }
 
+  _closeModalSelectUnit() {
+    this.setState({ isModalSelectUnit: false });
+    this.props.onRefresh();
+  }
   _uploadAvatar(file) {
     this.setState({ modalSelectImage: false });
     let accessTokenApi = this.props.account.accessTokenAPI;

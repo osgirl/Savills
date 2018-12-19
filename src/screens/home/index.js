@@ -326,11 +326,13 @@ class Home extends layout {
 
   async _onRefresh() {
     let accessTokenAPI = this.props.account.accessTokenAPI;
+    let unitID = this.props.units.unitActive.unitId;
     if (this.state.isRefresh) {
       return;
     }
     await this.setState({ isRefresh: true });
     await this.props.actions.app.getModuleHome(accessTokenAPI);
+    // await this.props.actions.notification.getListCountModule(accessTokenAPI, unitID)
     // await this.props.actions.account.getUserSettings(accessTokenAPI);
   }
 
