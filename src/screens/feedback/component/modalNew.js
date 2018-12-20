@@ -212,6 +212,13 @@ class ModalNewFeedback extends Component {
                           </TouchableOpacity>
                         ))
 
+                      }
+                    </View>
+                  }
+                />
+                : null
+            }
+
             {/* <ItemScorll
               title={'Gửi phản hồi'}
               view={
