@@ -363,40 +363,13 @@ class TabWorkOrder extends PureComponent {
             </Text>
           </View>
         </View>
-        {this.renderViewComment(item, item.unreadCommentCount)}
+        {this.renderViewComment(item)}
       </Button>
     );
   };
 
-  renderViewComment = (item, count) => {
-    return count > 0 ? (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#A3C3F3',
-          borderRadius: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 10
-        }}
-      >
-        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-          {item.lastComment ? item.lastComment : 'No Comment'}
-        </Text>
-        <View
-          style={{
-            width: 15,
-            height: 15,
-            backgroundColor: 'red',
-            borderRadius: 8,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Text style={{ fontWeight: 'bold', color: '#FFF', fontSize: 9 }}>{count}</Text>
-        </View>
-      </View>
-    ) : (
+  renderViewComment = item => {
+    return (
       <View
         style={{
           flex: 1,
@@ -408,7 +381,7 @@ class TabWorkOrder extends PureComponent {
         }}
       >
         <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-          {item.lastComment ? item.lastComment : 'No Comment'}
+          {item.description && item.description.trim() !== '' ? item.description.trim() : 'No Description'}
         </Text>
       </View>
     );

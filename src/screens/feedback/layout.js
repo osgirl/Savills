@@ -109,56 +109,55 @@ export default class extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.renderHeader()}
-        <StatusBar barStyle="light-content"
-          hidden={false} />
-        {
-          this.state.data.length > 0 ?
-            <View style={{ flex: 1 }}>
-              <FlatList
-                data={this.state.data}
-                contentContainerStyle={{
-                  paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
-                }}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={(item, index) => item.commentBoxId + '__' + index}
-                onScroll={this.handleScroll}
-                scrollEventThrottle={1}
-                renderItem={({ item, index }) => this.renderItem(item, index)}
-                extraData={this.state}
-                onEndReached={() => this._onEndReached()}
-                onEndReachedThreshold={0.01}
-                legacyImplementation={false}
-                ListFooterComponent={() => this._FooterFlatlist()}
-                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                ListHeaderComponent={() => <View style={{ height: 20 }} />}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={this.state.isRefresh}
-                    onRefresh={() => this._onRefresh()}
-                    // Android offset for RefreshControl
-                    progressViewOffset={HEADER_MAX_HEIGHT}
-                  />
-                }
-                contentInset={{
-                  top: HEADER_MAX_HEIGHT,
-                }}
-                contentOffset={{
-                  y: -HEADER_MAX_HEIGHT,
-                }}
-              />
-              <View
-                style={{
-                  backgroundColor: '#FFF',
-                  width: width,
-                  height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
-                }}
-              />
-              <Button onPress={() => this._openModalNew()} style={[Styles.ButtonAdd, {}]}>
-                <Image source={require('../../resources/icons/plush-addnew.png')} />
-              </Button>
-            </View> : <ItemPlaceHolderH />
-
-        }
+        <StatusBar barStyle="light-content" hidden={false} />
+        {this.state.data.length > 0 ? (
+          <View style={{ flex: 1 }}>
+            <FlatList
+              data={this.state.data}
+              contentContainerStyle={{
+                paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+              }}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => item.commentBoxId + '__' + index}
+              onScroll={this.handleScroll}
+              scrollEventThrottle={1}
+              renderItem={({ item, index }) => this.renderItem(item, index)}
+              extraData={this.state}
+              onEndReached={() => this._onEndReached()}
+              onEndReachedThreshold={0.01}
+              legacyImplementation={false}
+              ListFooterComponent={() => this._FooterFlatlist()}
+              ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+              ListHeaderComponent={() => <View style={{ height: 20 }} />}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isRefresh}
+                  onRefresh={() => this._onRefresh()}
+                  // Android offset for RefreshControl
+                  progressViewOffset={HEADER_MAX_HEIGHT}
+                />
+              }
+              contentInset={{
+                top: HEADER_MAX_HEIGHT
+              }}
+              contentOffset={{
+                y: -HEADER_MAX_HEIGHT
+              }}
+            />
+            <View
+              style={{
+                backgroundColor: '#FFF',
+                width: width,
+                height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
+              }}
+            />
+            <Button onPress={() => this._openModalNew()} style={[Styles.ButtonAdd, {}]}>
+              <Image source={require('../../resources/icons/plush-addnew.png')} />
+            </Button>
+          </View>
+        ) : (
+          <ItemPlaceHolderH />
+        )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -247,45 +246,17 @@ export default class extends Component {
                 paddingHorizontal: Resolution.scale(15)
               }}
             >
-              {item && item.commentBoxStatus && item.commentBoxStatus.statusCode}
+              {item && item.commentBoxStatus && item.commentBoxStatus.name}
             </Text>
           </View>
         </View>
-        {this.renderViewComment(item, item.unreadCommentCount)}
+        {this.renderViewComment(item)}
       </Button>
     );
   };
 
-  renderViewComment = (item, count) => {
-    return count > 0 ? (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#A3C3F3',
-          borderRadius: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 10,
-          paddingVertical: Resolution.scale(5)
-        }}
-      >
-        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-          {item.lastComment ? item.lastComment : 'No Comment'}
-        </Text>
-        <View
-          style={{
-            width: 15,
-            height: 15,
-            backgroundColor: 'red',
-            borderRadius: 8,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Text style={{ fontWeight: 'bold', color: '#FFF', fontSize: 9 }}>{count}</Text>
-        </View>
-      </View>
-    ) : (
+  renderViewComment = item => {
+    return (
       <View
         style={{
           flex: 1,
@@ -298,7 +269,7 @@ export default class extends Component {
         }}
       >
         <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-          {item.lastComment ? item.lastComment : 'No Comment'}
+          {item.description && item.description.trim() !== '' ? item.description.trim() : 'No Description'}
         </Text>
       </View>
     );

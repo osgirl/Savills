@@ -59,24 +59,22 @@ class Home extends layout {
     //   }
     // }
 
-
     if (this.props.app.moduleHome !== nextProps.app.moduleHome && nextProps.app.moduleHome.success) {
       const dataTemp = this.state.DATA.slice();
       let arrMaptemp = [];
       nextProps.app.moduleHome.result.modules.map(item => {
-        dataTemp.map((itemData) => {
+        dataTemp.map(itemData => {
           if (item === itemData.key) {
             item = itemData;
             arrMaptemp.push(item);
           }
-        })
-      })
+        });
+      });
       await this.setState({ dataModule: arrMaptemp });
       if (this.state.isRefresh) {
         await this.setState({ isRefresh: false });
       }
     }
-
 
     if (
       this.props.notification.listCountModule !== nextProps.notification.listCountModule &&
@@ -200,6 +198,7 @@ class Home extends layout {
     await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
     await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
     await this.props.actions.app.getModuleHome(accessTokenApi);
+    await this.props.actions.app.getLanguageApp(accessTokenApi);
     // await this.props.actions.account.getUserSettings(accessTokenApi);
 
     await this.props.actions.account.getTenantActive();
@@ -231,7 +230,7 @@ class Home extends layout {
         console.log('asdkljasdklasjdlkasdas', token);
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function (notification) {
+      onNotification: function(notification) {
         console.log('NOTIFICATION:', notification);
 
         if (notification.foreground) {
@@ -358,7 +357,7 @@ class Home extends layout {
   _openProfile() {
     setTimeout(() => {
       this.setState({ isShowProfile: true });
-    }, 100)
+    }, 100);
   }
 
   _closeProfile() {

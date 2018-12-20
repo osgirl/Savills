@@ -12,6 +12,7 @@ export default keymirror(
     UPDATE_IMAGE_WORKORDER: null,
     GET_LIST_AREA: null,
     GET_COMMENT_UNREAD: null,
+    DELETE_IMAGE_WORKORDER: null,
 
     FLAG_UPDATE_WORKODER: null,
     FLAG_CREATE_WORKORDER: null,

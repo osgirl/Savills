@@ -126,8 +126,7 @@ class TabBooking extends Component {
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
-    this.changeStatusBar()
-
+    // this.changeStatusBar()
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <StatusBar barStyle="light-content" />

@@ -48,7 +48,6 @@ class TabComplete extends PureComponent {
       <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          alwaysBounceVertical={false}
           keyExtractor={(item, index) => item.reservationId.toString()}
           data={this.state.listData}
           extraData={this.state}

@@ -9,4 +9,12 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="PayooSdkTheme.Blue" parent="AppTheme">
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_dark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="PayooSdkTheme_Pink"></style>
+
 </resources>
