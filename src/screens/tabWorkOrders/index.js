@@ -326,6 +326,26 @@ class TabWorkOrder extends PureComponent {
           padding: 20
         }}
       >
+        {item.unreadCommentCount > 0 ? (
+          <View
+            style={{
+              width: 20,
+              height: 20,
+              backgroundColor: 'red',
+              position: 'absolute',
+              top: 10,
+              right: 10,
+              borderRadius: 10,
+              zIndex: 1,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Text style={{ fontSize: 12, color: '#FFF', fontWeight: 'bold' }}>
+              {item.unreadCommentCount > 9 ? '+9' : item.unreadCommentCount}
+            </Text>
+          </View>
+        ) : null}
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
             <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: 70 }}>

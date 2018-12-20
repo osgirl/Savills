@@ -12,7 +12,8 @@ import {
   Animated,
   ActivityIndicator,
   Keyboard,
-  Platform
+  Platform,
+  DeviceEventEmitter
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -84,11 +85,14 @@ class ModalNewBooking extends PureComponent {
       });
       this.setState({ listBooking: arr, loadDingCallCalendar: false });
     }
+    if (nextProps.booking.listBookingOption && nextProps.booking.listBookingOption.success == false) {
+      this.setState({ isModalError: true, loadDingCallCalendar: false });
+    }
     if (nextProps.booking.createNewBooking && nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.props.actions.booking.setFlagCreateBooking();
-      this.props.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
       this.setState({ isShowModalConfirm: false, loading: false });
       this.props.goBack();
+      DeviceEventEmitter.emit('UpdateList', {});
     }
     if (nextProps.booking.createNewBooking && !nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.props.actions.booking.setFlagCreateBooking();
@@ -233,12 +237,13 @@ class ModalNewBooking extends PureComponent {
     const { fullUnitCode } = this.props.units.unitActive;
     const { displayName } = this.props.userProfile.profile.result.user;
 
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    });
-
+    let numberSlot =
+      this.props.booking.detailCategory &&
+      this.props.booking.detailCategory.result &&
+      this.props.booking.detailCategory.result.numOfExtendTimeSlot
+        ? this.props.booking.detailCategory.result.numOfExtendTimeSlot + 1
+        : 1;
+    console.log('asdaksjdajsdklasjdlaksdjlkasda', numberSlot);
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <Header
@@ -354,13 +359,7 @@ class ModalNewBooking extends PureComponent {
           <ItemScorll
             title={'Thời Gian'}
             renderLeft
-            number={
-              this.props.booking.detailCategory &&
-              this.props.booking.detailCategory.result &&
-              this.props.booking.detailCategory.result.numOfExtendTimeSlot
-                ? this.props.booking.detailCategory.result.numOfExtendTimeSlot - this.state.arrSelected.length + 1
-                : 1
-            }
+            number={numberSlot - this.state.arrSelected.length}
             view={
               <View
                 style={{
@@ -380,13 +379,7 @@ class ModalNewBooking extends PureComponent {
                       activeOpacity={0.9}
                       onPress={() => this.selectItem(index)}
                       key={index}
-                      disabled={
-                        this.props.booking.detailCategory &&
-                        this.props.booking.detailCategory.result &&
-                        this.props.booking.detailCategory.result.numOfExtendTimeSlot &&
-                        this.props.booking.detailCategory.result.numOfExtendTimeSlot + 1 == this.state.arrSelected.length &&
-                        item.isCheck == false
-                      }
+                      disabled={numberSlot == this.state.arrSelected.length && item.isCheck == false}
                       style={{
                         width: 85,
                         height: 22,
@@ -556,13 +549,11 @@ class ModalNewBooking extends PureComponent {
         <Loading visible={this.state.loadDingCallCalendar} />
         {this.renderModalConfirmBooking()}
         {this.props.booking.detailCategory && this.props.booking.detailCategory.result ? this.renderModalRegulations() : null}
-        {this.props.booking.createNewBooking && this.props.booking.createNewBooking.error ? (
-          <AlertWarning
-            clickAction={() => this.setState({ isModalError: false, loading: false })}
-            isVisible={this.state.isModalError}
-            message={this.props.booking.createNewBooking.error.message}
-          />
-        ) : null}
+        <AlertWarning
+          clickAction={() => this.setState({ isModalError: false, loading: false })}
+          isVisible={this.state.isModalError}
+          message={this.props.booking.message}
+        />
       </View>
     );
   }
@@ -831,8 +822,9 @@ class ItemScorll extends PureComponent {
             {title}
           </Text>
           {renderLeft ? (
-            <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 14, fontWeight: 'bold' }}>
-              <Text style={{ color: '#FF361A' }}>{number}</Text> Slot
+            <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 10 }}>
+              Bạn được chọn
+              <Text style={{ color: '#FF361A', fontSize: 14, fontSize: 14, fontWeight: 'bold' }}>{` ${number} `}</Text> Slot
             </Text>
           ) : null}
         </View>

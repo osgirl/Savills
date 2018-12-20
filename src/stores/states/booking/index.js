@@ -7,7 +7,9 @@ export default keymirror(
     GET_LIST_BOOKING_OPTION: null,
     GET_DETAIL_BOOKING: null,
     CHANGE_STATUS_BOOKING: null,
-    GET_LIST_BOOKING: null,
+    GET_LIST_BOOKING_PROCESS: null,
+    GET_LIST_BOOKING_COMMING: null,
+    GET_LIST_BOOKING_COMPLETE: null,
     GET_DETAIL_CATEGORY: null,
 
     FLAG_CREATE_BOOKING: null,

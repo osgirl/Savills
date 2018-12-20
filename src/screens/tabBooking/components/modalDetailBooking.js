@@ -14,7 +14,8 @@ import {
   Platform,
   Keyboard,
   StyleSheet,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  DeviceEventEmitter
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { isIphoneX } from 'react-native-iphone-x-helper';
@@ -107,8 +108,8 @@ class ModalDetailBooking extends PureComponent {
       !nextProps.booking.isChangeStatus
     ) {
       nextProps.actions.booking.setFlagChangeStatus();
-      nextProps.actions.booking.getListBooking(accessTokenApi, 'ACTIVE');
       nextProps.navigation.goBack();
+      DeviceEventEmitter.emit('UpdateList', {});
     }
     if (
       nextProps.workOrder.addComment &&

@@ -57,23 +57,42 @@ function* changeStatusBooking(action) {
   try {
     let response = yield call(API.request, action.payload);
     yield put({ ...action, type: Types.CHANGE_STATUS_BOOKING_SUCCESS, response });
+  } catch (e) {}
+}
+
+function* getListBookingProcess(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_LIST_BOOKING_PROCESS_SUCCESS, response });
   } catch (e) {
-    console.log('asdasdjasdhaskdhaskjdasda', e);
+    console.log(e);
   }
 }
 
-function* getListBooking(action) {
+function* getListBookingComming(action) {
   try {
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.GET_LIST_BOOKING_SUCCESS, response });
+    yield put({ ...action, type: Types.GET_LIST_BOOKING_COMMING_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+function* getListBookingComplete(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_LIST_BOOKING_COMPLETE_SUCCESS, response });
   } catch (e) {
     console.log(e);
   }
 }
 
 export default function* saga() {
+  yield takeLatest(Types.GET_LIST_BOOKING_PROCESS, getListBookingProcess);
+  yield takeLatest(Types.GET_LIST_BOOKING_COMMING, getListBookingComming);
+  yield takeLatest(Types.GET_LIST_BOOKING_COMPLETE, getListBookingComplete);
+
   yield takeLatest(Types.GET_DETAIL_CATEGORY, getDetailCategory);
-  yield takeLatest(Types.GET_LIST_BOOKING, getListBooking);
   yield takeLatest(Types.CHANGE_STATUS_BOOKING, changeStatusBooking);
   yield takeLatest(Types.GET_DETAIL_BOOKING, getDetailBooking);
   yield takeLatest(Types.GET_LIST_BOOKING_OPTION, getListBookingOption);

@@ -176,9 +176,9 @@ class TabBooking extends Component {
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
           >
-            <TabProcess onScroll={this.handleScroll} tabLabel={'Đang Xử Lý'} {...this.props} actions={() => this.clickDetail()} />
-            <TabInComming onScroll={this.handleScroll} tabLabel={'Sắp Tới'} {...this.props} actions={() => this.clickDetail()} />
-            <TabComplete onScroll={this.handleScroll} tabLabel={'Hoàn Tất'} {...this.props} actions={() => this.clickDetail()} />
+            <TabProcess onScroll={this.handleScroll} tabLabel={'Đang Xử Lý'} {...this.props} />
+            <TabInComming onScroll={this.handleScroll} tabLabel={'Sắp Tới'} {...this.props} />
+            <TabComplete onScroll={this.handleScroll} tabLabel={'Hoàn Tất'} {...this.props} />
           </ScrollableTabView>
         </LinearGradient>
         <View

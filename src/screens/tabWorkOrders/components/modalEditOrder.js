@@ -71,7 +71,6 @@ class ModalEditOrder extends PureComponent {
       showModalConfirmCancel: false,
       showImage: false,
       imageList: [],
-      imageListBase64: [],
       arrImageOld: [],
       marginBottom: 0
     };
@@ -147,6 +146,13 @@ class ModalEditOrder extends PureComponent {
     ) {
       this.textInput.clear();
       this.props.actions.workOrder.getCommentUser(accessTokenAPI, nextProps.workOrder.workOrderDetail.result.guid);
+    }
+    if (
+      nextProps.workOrder.uploadImage &&
+      nextProps.workOrder.uploadImage.success &&
+      this.props.workOrder.uploadImage != nextProps.workOrder.uploadImage
+    ) {
+      this.setState({ arrImageOld: this.state.arrImageOld.concat(nextProps.workOrder.uploadImage.result) });
     }
   };
 
@@ -287,7 +293,6 @@ class ModalEditOrder extends PureComponent {
 
   getPhotos() {
     let ListImage = this.state.arrImageOld.slice();
-    let ListImageBase64 = this.state.imageListBase64.slice();
     let accessTokenAPI = this.props.account.accessTokenAPI;
     ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
@@ -296,10 +301,7 @@ class ModalEditOrder extends PureComponent {
       } else {
         const source = { uri: response.uri };
         const sourceBase64 = response.data;
-        ListImageBase64.push(sourceBase64);
-        ListImage.push(source);
         this.setState({
-          imageListBase64: ListImageBase64,
           arrImageOld: ListImage
         });
         this.props.actions.workOrder.uploadImageWorkOrder(
@@ -319,7 +321,6 @@ class ModalEditOrder extends PureComponent {
     {
       this.changeStatusBar();
     }
-
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, HEADER_SCROLL_DISTANCE],
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
@@ -657,14 +658,20 @@ class ModalEditOrder extends PureComponent {
   };
 
   renderItemImage = (index, item) => {
+    let tabIndex = this.props.navigation.getParam('tabIndex', false);
     if (item.fileUrl) {
       let encToken = this.props.account.encToken;
       let image = `${item.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
       return (
         <TouchableOpacity key={index} onPress={() => this.setState({ showImage: true, imageIndex: index })}>
-          <TouchableOpacity style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }} onPress={() => this.deleteImage(index)}>
-            <Image style={{ width: 20, height: 20 }} source={require('@resources/icons/close-image.png')} />
-          </TouchableOpacity>
+          {tabIndex === 0 ? (
+            <TouchableOpacity
+              style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}
+              onPress={() => this.deleteImage(item, index)}
+            >
+              <Image style={{ width: 20, height: 20 }} source={require('@resources/icons/close-image.png')} />
+            </TouchableOpacity>
+          ) : null}
           <Image
             style={{ width: 90, height: 90, borderRadius: 10, margin: 10 }}
             resizeMode={'cover'}
@@ -674,21 +681,15 @@ class ModalEditOrder extends PureComponent {
           />
         </TouchableOpacity>
       );
-    } else {
-      return (
-        <TouchableOpacity key={index} onPress={() => this.setState({ showImage: true, imageIndex: index })}>
-          <TouchableOpacity style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }} onPress={() => this.deleteImage(index)}>
-            <Image style={{ width: 20, height: 20 }} source={require('@resources/icons/close-image.png')} />
-          </TouchableOpacity>
-          <Image style={{ width: 90, height: 90, borderRadius: 10, margin: 10 }} resizeMode={'cover'} source={item} />
-        </TouchableOpacity>
-      );
     }
   };
 
-  deleteImage = () => {
+  deleteImage = (item, index) => {
     let accessTokenAPI = this.props.account.accessTokenAPI;
-    this.props.actions.workOrder.deleteImageWorkOrder(accessTokenAPI, 5);
+    let arrTemp = this.state.arrImageOld.slice();
+    arrTemp.splice(index, 1);
+    this.setState({ arrImageOld: arrTemp });
+    this.props.actions.workOrder.deleteImageWorkOrder(accessTokenAPI, item.id);
   };
 
   voteProduct(data) {

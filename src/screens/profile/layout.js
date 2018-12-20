@@ -189,10 +189,10 @@ export default class extends Component {
     let Unit = this.props.units.unitActive;
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
-    let languageKey = this.props.app.languegeLocal === 0 ? "enLanguages" : "vnLanguages"
+    let languageKey = this.props.app.languegeLocal === 0 ? 'enLanguages' : 'vnLanguages';
     console.log('askdasdjasdkajsdlkajdklajsdasd', this.props.app.languegeLocal);
     // console.log('asdkjasdlasjdklasjdklsajdlksjda', this.props.app.listLanguage.result[languageKey]);
-
+    StatusBar.setHidden(false);
     return (
       <View style={{ flex: 1, width: width, height: height }}>
         {this.modalCropsImage()}

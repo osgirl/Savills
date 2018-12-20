@@ -32,17 +32,6 @@ export default class extends Component {
           leftIcon={IC_BACK}
           leftAction={() => this.props.navigation.goBack()}
           headercolor={'transparent'}
-          renderViewRight={
-            <Button
-              onPress={() => this.setState({ isModalSelectUnit: true })}
-              style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
-            >
-              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
-                {unitActive.fullUnitCode}
-              </Text>
-              <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
-            </Button>
-          }
         />
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
           <Animated.View style={{ height: 60 }}>
@@ -112,7 +101,11 @@ export default class extends Component {
         <StatusBar barStyle="light-content" />
         {this.renderHeader()}
         <View style={{ padding: Resolution.scale(20) }}>
-          <Text style={Styles.titleHeader}>Thông báo chi tiết</Text>
+          <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row',marginBottom:5 }}>
+            <Text style={Styles.titleHeader}>Thông báo chi tiết</Text>
+            <Image source={require('@resources/icons/notify_setting.png')} />
+            <Image style={{ marginHorizontal: 30 }} source={require('@resources/icons/mail_setting.png')} />
+          </View>
           <View
             style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 20, paddingBottom: 0, justifyContent: 'space-between' }}
           >

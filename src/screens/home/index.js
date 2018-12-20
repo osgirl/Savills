@@ -213,15 +213,6 @@ class Home extends layout {
     this.pushNotification = this.setupPushNotification(this._handleNotificationOpen);
   }
 
-  pushNotiIOS = () => {
-    let accessTokenAPI = this.props.account.accessTokenAPI;
-    const uniqueId = DeviceInfo.getUniqueID();
-    PushNotificationIOS.addEventListener('register', token => {
-      this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token, uniqueId);
-    });
-    PushNotificationIOS.requestPermissions();
-  };
-
   setupPushNotification = async handleNotification => {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const uniqueId = DeviceInfo.getUniqueID();
@@ -236,7 +227,7 @@ class Home extends layout {
         if (notification.foreground) {
           if (notification.userInteraction) {
             console.log('NOTIFICATION touched:', notification);
-            handleNotification(notification);
+            // handleNotification(notification);
           } else {
             console.log('NOTIFICATION foreground userInteraction:', notification.userInteraction);
             handleNotification(notification);
@@ -387,7 +378,9 @@ class Home extends layout {
   }
 
   async _logOut() {
+    let accessTokenAPI = this.props.account.accessTokenAPI;
     await this.setState({ loading: true });
+    // await this.props.actions.app.logoutNoti(accessTokenAPI);
     await this.props.actions.account.logOut('');
     await this.props.actions.units.setUnitLocal({});
     await this.props.actions.account.setTenantLocal({});

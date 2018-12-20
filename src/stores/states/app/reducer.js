@@ -12,6 +12,16 @@ const INIT_STATE = {
 };
 
 export default createReducer(INIT_STATE, {
+  [Types.LOGOUT_NOTI_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.GET_LANGUAGE_APP_SUCCESS]: (state, action) => {
     try {
       return {
