@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, FlatList, RefreshControl, ActivityIndicator, StatusBar, Platform } from 'react-native';
+import { View, FlatList, RefreshControl, ActivityIndicator, StatusBar, Platform, DeviceEventEmitter } from 'react-native';
 import Connect from '@stores';
 import EmptyItemList from '@components/emptyItemList';
 import ItemBooking from '@components/itemBooking';
@@ -12,7 +12,6 @@ class TabProcess extends PureComponent {
     super(props);
     this.state = {
       listData: [],
-      isRefreshing: false,
       isLoadData: true,
       isRefresh: false,
       pageCount: 1,
@@ -20,16 +19,22 @@ class TabProcess extends PureComponent {
     };
   }
 
+  componentWillMount = () => {
+    this._getList();
+  };
+
   componentDidMount() {
+    DeviceEventEmitter.addListener('UpdateList', e => this._onRefresh());
     this._getList();
   }
 
-  componentWillReceiveProps = async nextProps => {
+  async componentWillReceiveProps(nextProps) {
     if (
-      this.props.booking.listActive.items !== nextProps.booking.listActive.items &&
       nextProps.booking.listActive.success &&
+      this.props.booking.listActive.items !== nextProps.booking.listActive.items &&
       this.state.isRefresh
     ) {
+      console.log('asdkajsdklasjdalksdasdasd', 'vao tab');
       await this.setState({ listData: nextProps.booking.listActive.items });
       await this.setState({ isRefresh: false });
     }
@@ -41,25 +46,30 @@ class TabProcess extends PureComponent {
       await this.setState({ listData: this.state.listData.concat(nextProps.booking.listActive.items) });
       await this.setState({ loadingMore: false, isRefresh: false });
     }
-  };
+  }
 
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => item.reservationId.toString()}
+          keyExtractor={(item, index) => item.reservationId + '___' + index}
           data={this.state.listData}
-          renderItem={({ item, index }) => <ItemBooking item={item} index={index} action={() => this.clickDetail(item)} />}
+          extraData={this.state}
+          renderItem={({ item, index }) => (
+            <ItemBooking key={item.reservationId} item={item} index={index} action={() => this.clickDetail(item)} />
+          )}
           onScroll={this.props.onScroll}
+          legacyImplementation={false}
           onEndReached={() => this._onEndReached()}
+          scrollEventThrottle={1}
           onEndReachedThreshold={0.01}
           // scrollEventThrottle={1}
           // ListFooterComponent={() => this._FooterFlatlist()}
           legacyImplementation={false}
           refreshControl={
             <RefreshControl
-              refreshing={this.state.isRefreshing}
+              refreshing={this.state.isRefresh}
               onRefresh={() => this._onRefresh()}
               tintColor="#000"
               titleColor="#000"
@@ -101,7 +111,7 @@ class TabProcess extends PureComponent {
 
   _getList() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    this.props.actions.booking.getListBooking(accessTokenApi, 'PROCESSING', this.state.pageCount);
+    this.props.actions.booking.getListBookingProcess(accessTokenApi, this.state.pageCount);
   }
 
   renderFooter = () => {};

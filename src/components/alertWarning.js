@@ -23,9 +23,6 @@ export class alertWarning extends Component {
             <Image source={require('@resources/icons/warning.png')} />
             <Text style={{ marginVertical: 10, color: '#505E75', fontSize: 13, fontFamily: 'OpenSans-Bold' }}>Sorry!</Text>
             <Text style={{ marginBottom: 20, color: '#BABFC8', fontFamily: 'OpenSans-Regular', textAlign: 'center' }}>
-              {/* {this.props.booking.changeStatusBooking && !this.props.booking.changeStatusBooking.success
-                ? this.props.booking.changeStatusBooking.error.message
-                : ''} */}
               {message}
             </Text>
             <Button style={{ width: width - 80, marginHorizontal: 20, height: 50 }} onPress={() => this.props.clickAction()}>

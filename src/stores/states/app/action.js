@@ -53,27 +53,22 @@ export function registerNotification(accessTokenAPI, deviceTypeId, deviceToken, 
   };
 }
 
-export function logoutNotification(accessTokenAPI) {
-  return {
-    type: Types.LOGOUT_NOTIFICATION,
-    payload: {
-      api: Configs.API_ACCOUNT + '/api/TokenAuth/Logout',
-      method: 'POST',
-      token: accessTokenAPI,
-      payload: {
-        deviceTypeId: 0,
-        deviceToken: 'string',
-        deviceCode: 'string'
-      }
-    }
-  };
-}
-
 export function getModuleHome(accessTokenAPI) {
   return {
     type: Types.GET_MODULE_HOME,
     payload: {
       api: Configs.API + '/api/services/app/UserSetting/GetUserAuthConfig',
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
+export function logoutNoti(accessTokenAPI) {
+  return {
+    type: Types.LOGOUT_NOTI,
+    payload: {
+      api: Configs.API + '/api/TokenAuth/Logout',
       method: 'GET',
       token: accessTokenAPI
     }

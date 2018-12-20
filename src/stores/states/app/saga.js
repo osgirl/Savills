@@ -45,7 +45,14 @@ function* setNotification(action) {
   yield put({ ...action, type: Types.REGISTER_NOTIFICATION_SUCCESS, response });
 }
 
+function* logoutNoti(action) {
+  // console.log('asdklasjdajsdklasjdlkasda', action);
+  let response = yield call(API.request, action.payload);
+  yield put({ ...action, type: Types.LOGOUT_NOTI_SUCCESS, response });
+}
+
 export default function* saga() {
+  yield takeLatest(Types.LOGOUT_NOTI, logoutNoti);
   yield takeLatest(Types.GET_LANGUAGE_APP, getLanguageApp);
   yield takeLatest(Types.GET_SETTING, getSetting);
   yield takeLatest(Types.UPDATE_SETTINGS, updateSetting);

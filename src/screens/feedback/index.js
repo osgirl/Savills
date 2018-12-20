@@ -16,7 +16,6 @@ class Feedback extends layout {
             data: [],
             isModalSelectUnit: false,
             isShowTitleHeader: false,
-            isModalSelectUnit: false,
             isModalDetail: false,
             isRefresh: false,
             isModalNew: false,
@@ -34,24 +33,24 @@ class Feedback extends layout {
     componentDidMount = () => {
         this._getList();
         let accessTokenApi = this.props.account.accessTokenAPI;
-        let languege = Language.listLanguage[this.props.app.languegeLocal].id
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id;
         this.props.actions.feedback.getListCategory(accessTokenApi, languege);
         this.props.actions.feedback.getTypeFeedback(accessTokenApi, languege);
         let ida = this.props.navigation.getParam('params', false);
         if (ida.itemtype) {
             setTimeout(() => {
                 this._openModalDetail(ida.itemtype);
-            }, 300)
+            }, 300);
         }
-    }
+    };
     async componentWillReceiveProps(nextProps) {
         if (
             nextProps.feedback.listFeedBack.success &&
             this.props.feedback.listFeedBack.items !== nextProps.feedback.listFeedBack.items &&
             this.state.isRefresh
         ) {
-            await this.setState({ data: nextProps.feedback.listFeedBack.items });
             await this.setState({ isRefresh: false });
+            await this.setState({ data: nextProps.feedback.listFeedBack.items });
         }
 
         if (
@@ -62,6 +61,7 @@ class Feedback extends layout {
             await this.setState({ data: this.state.data.concat(nextProps.feedback.listFeedBack.items) });
             await this.setState({ loadingMore: false, isRefresh: false });
         }
+
     }
 
     _getList() {

@@ -101,7 +101,7 @@ class TabComplete extends PureComponent {
 
   _getList() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    this.props.actions.booking.getListBooking(accessTokenApi, 'HISTORY', this.state.pageCount);
+    this.props.actions.booking.getListBookingComplete(accessTokenApi, this.state.pageCount);
   }
 
   clickDetail = (item, tabIndex) => {

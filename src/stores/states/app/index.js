@@ -3,7 +3,7 @@ import keymirror from '@utils/keymirror';
 export default keymirror(
   {
     GET_LANGUAGE: null,
-
+    LOGOUT_NOTI: null,
     SET_LANGUAGE_LOCAL: null,
     GET_LANGUAGE_LOCAL: null,
     GET_LANGUAGE_APP: null,

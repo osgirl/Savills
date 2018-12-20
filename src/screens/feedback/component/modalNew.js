@@ -28,49 +28,45 @@ const { width } = Dimensions.get('window');
 import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
 import Connect from '@stores';
-import Loading from "@components/loading";
+import Loading from '@components/loading';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import AlertWarning from '@components/alertWarning';
 
-import AnimatedTitle from "@components/animatedTitle";
+import AnimatedTitle from '@components/animatedTitle';
 
 const HEADER_MAX_HEIGHT = 60;
 
 import Language from '../../../utils/language';
 
 class ModalNewFeedback extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       comment: '',
-      scrollY: new Animated.Value(
-        Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
-      ),
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isShowTitleHeader: false,
       listTypeFeedback: this.props.feedback.typeFeedback.result,
-      projectTypes: [
-        { name: 'HO', value: 'HO' },
-        { name: 'Project', value: 'PROJECT' }
-      ],
+      projectTypes: [{ name: 'HO', value: 'HO' }, { name: 'Project', value: 'PROJECT' }],
       listCategory: this.props.feedback.listCategory.result || [],
       isShowCategory: false,
       type: '',
       typeProject: '',
       categorySelectedId: null,
       isShowModalConfirm: false,
+      isModalError: false,
+      messageWarning: ''
     };
   }
 
   async componentWillReceiveProps(nextProps) {
     if (this.props.feedback.createFeedback !== nextProps.feedback.createFeedback && nextProps.feedback.createFeedback.success) {
       if (this.state.isShowModalConfirm) {
-        await this.setState({ isShowModalConfirm: false })
+        await this.setState({ isShowModalConfirm: false });
       }
       await this.setState({ loading: false });
       await this.props.onClose();
       this.getModuleCount();
-
     }
   }
 
@@ -119,18 +115,18 @@ class ModalNewFeedback extends Component {
   }
 
   _changeTypeFeedback(type) {
-    console.log(type)
-    this.setState({ type: type })
+    console.log(type);
+    this.setState({ type: type });
   }
 
   _changeProjectType(type) {
-    this.setState({ typeProject: type })
+    this.setState({ typeProject: type });
   }
 
   _selectCategory(id) {
-    this.setState({ categorySelectedId: id })
+    this.setState({ categorySelectedId: id });
     if (this.state.isShowCategory) {
-      this.setState({ isShowCategory: false })
+      this.setState({ isShowCategory: false });
     }
   }
 
@@ -169,13 +165,13 @@ class ModalNewFeedback extends Component {
           scrollEventThrottle={16}
           onScroll={this.handleScroll}
           contentContainerStyle={{
-            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
           }}
           contentInset={{
-            top: HEADER_MAX_HEIGHT,
+            top: HEADER_MAX_HEIGHT
           }}
           contentOffset={{
-            y: -HEADER_MAX_HEIGHT,
+            y: -HEADER_MAX_HEIGHT
           }}
           style={{ zIndex: -3 }}
         >
@@ -215,13 +211,6 @@ class ModalNewFeedback extends Component {
                             />
                           </TouchableOpacity>
                         ))
-
-                      }
-                    </View>
-                  }
-                />
-                : null
-            }
 
             {/* <ItemScorll
               title={'Gửi phản hồi'}
@@ -298,7 +287,7 @@ class ModalNewFeedback extends Component {
             />
             {/* </KeyboardAvoidingView> */}
           </KeyboardAwareScrollView>
-        </ScrollView >
+        </ScrollView>
         <View
           style={{
             width: width,
@@ -327,9 +316,14 @@ class ModalNewFeedback extends Component {
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>{LG.FB_CREATE_BTNSEND}</Text>
           </TouchableOpacity>
         </View>
+        <AlertWarning
+          clickAction={() => this.setState({ isModalError: false })}
+          isVisible={this.state.isModalError}
+          message={this.state.messageWarning}
+        />
         {this.renderCategory()}
         {this.renderModalConfirm()}
-      </View >
+      </View>
     );
   }
 
@@ -417,13 +411,14 @@ class ModalNewFeedback extends Component {
                     }}
                   >
                     {
-                      <View
-                        style={{ flexDirection: 'row' }}
-                      >
-                        <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}>{this.state.type}</Text>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text
+                          style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}
+                        >
+                          {this.state.type}
+                        </Text>
                         <Image source={require('../../../resources/icons/checked.png')} />
                       </View>
-
                     }
                   </View>
                 }
@@ -453,7 +448,13 @@ class ModalNewFeedback extends Component {
               />
             </ScrollView>
             <Button
-              style={{ position: 'absolute', bottom: Resolution.scale(20), left: Resolution.scale(20), width: width - 80, height: Resolution.scale(50) }}
+              style={{
+                position: 'absolute',
+                bottom: Resolution.scale(20),
+                left: Resolution.scale(20),
+                width: width - 80,
+                height: Resolution.scale(50)
+              }}
               onPress={() => this._createFeedback()}
             >
               <LinearGradient
@@ -490,14 +491,15 @@ class ModalNewFeedback extends Component {
           marginVertical: Resolution.scale(5),
           alignItems: 'center',
           backgroundColor: '#FFF',
-          paddingHorizontal: Resolution.scale(20),
+          paddingHorizontal: Resolution.scale(20)
         }}
       >
-        <Text style={{ flex: 1, color: '#343D4D', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(13) }}>{item.name}</Text>
+        <Text style={{ flex: 1, color: '#343D4D', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(13) }}>
+          {item.name}
+        </Text>
       </TouchableOpacity>
     );
   };
-
 }
 
 class ItemScorll extends Component {
@@ -505,7 +507,17 @@ class ItemScorll extends Component {
     const { title, view } = this.props;
     return (
       <View style={{ marginHorizontal: Resolution.scale(20) }}>
-        <Text style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), color: '#505E75', fontSize: Resolution.scale(14), fontWeight: 'bold' }}>{title}</Text>
+        <Text
+          style={{
+            marginTop: Resolution.scale(20),
+            marginBottom: Resolution.scale(10),
+            color: '#505E75',
+            fontSize: Resolution.scale(14),
+            fontWeight: 'bold'
+          }}
+        >
+          {title}
+        </Text>
         {this.props.view}
       </View>
     );

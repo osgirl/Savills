@@ -191,7 +191,7 @@ export default class extends Component {
 
     let languageKey = this.props.app.languegeLocal === 0 ? "enLanguages" : "vnLanguages"
     // console.log('asdkjasdlasjdklasjdklsajdlksjda', this.props.app.listLanguage.result[languageKey]);
-
+    StatusBar.setHidden(false);
     return (
       <View style={{ flex: 1, width: width, height: height }}>
         {this.modalCropsImage()}

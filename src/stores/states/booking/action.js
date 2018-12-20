@@ -88,13 +88,36 @@ export function changeStatusBooking(accessTokenAPI, id) {
 }
 
 // lấy danh sách 3 tab
-export function getListBooking(accessTokenAPI, status, page = 1) {
+export function getListBookingProcess(accessTokenAPI, page = 1) {
   return {
-    type: Types.GET_LIST_BOOKING,
+    type: Types.GET_LIST_BOOKING_PROCESS,
     payload: {
-      api: Configs.API_BOOKING + `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=${status}`,
+      api: Configs.API_BOOKING + `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=PROCESSING`,
       method: 'GET',
-      status: status,
+      token: accessTokenAPI
+    }
+  };
+}
+
+// lấy danh sách 3 tab
+export function getListBookingInComming(accessTokenAPI, page = 1) {
+  return {
+    type: Types.GET_LIST_BOOKING_COMMING,
+    payload: {
+      api: Configs.API_BOOKING + `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=ONGOING`,
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
+// lấy danh sách 3 tab
+export function getListBookingComplete(accessTokenAPI, page = 1) {
+  return {
+    type: Types.GET_LIST_BOOKING_COMPLETE,
+    payload: {
+      api: Configs.API_BOOKING + `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=HISTORY`,
+      method: 'GET',
       token: accessTokenAPI
     }
   };
