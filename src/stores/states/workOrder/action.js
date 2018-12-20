@@ -25,6 +25,17 @@ export function getListArea(accessTokenAPI) {
   };
 }
 
+export function deleteImageWorkOrder(accessTokenAPI, id) {
+  return {
+    type: Types.DELETE_IMAGE_WORKORDER,
+    payload: {
+      api: Configs.API + `/api/File/DeleteFile?fileId=${id}`,
+      method: 'DELETE',
+      token: accessTokenAPI
+    }
+  };
+}
+
 export function createWorkOrder(accessTokenAPI, WorkOrder) {
   return {
     type: Types.CREATE_WORK_ORDER,

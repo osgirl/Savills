@@ -5,18 +5,7 @@ import { isIphoneX } from '@utils/func';
 
 export class emptyItemList extends Component {
   render() {
-    const { loadData } = this.props;
-    return loadData ? (
-      <View
-        style={{
-          marginTop: height / 2 - (isIphoneX() ? 100 : 150),
-          width: width - 40,
-          alignItems: 'center'
-        }}
-      >
-        <ActivityIndicator color={'#CACACA'} size="large" />
-      </View>
-    ) : (
+    return (
       <View
         style={{
           marginTop: height / 2 - (isIphoneX() ? 100 : 150),

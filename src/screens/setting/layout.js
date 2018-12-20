@@ -56,6 +56,7 @@ export default class extends Component {
   onPickerSelect(index) {
     try {
       this.props.actions.app.setLanguageLocal(index.toString());
+      this.props.actions.app.getLanguageLocal();
       this.setState({
         selectedItem: index
       });
@@ -238,7 +239,6 @@ export default class extends Component {
 class ViewSwitch extends React.Component {
   render() {
     const { noti, onToggle, onToggleEmail, text, style, email } = this.props;
-
     return (
       <View
         style={[

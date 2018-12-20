@@ -80,6 +80,17 @@ export function getModuleHome(accessTokenAPI) {
   };
 }
 
+export function getLanguageApp(accessTokenAPI) {
+  return {
+    type: Types.GET_LANGUAGE_APP,
+    payload: {
+      api: Configs.API + '/api/services/app/Language/GetClientSourceLanguageTexts?sourceName=MobileSource&sorting=key%20asc',
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
 export function getSetting(accessTokenAPI) {
   return {
     type: Types.GET_SETTING,

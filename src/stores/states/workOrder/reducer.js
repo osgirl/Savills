@@ -29,6 +29,16 @@ export default createReducer(INIT_STATE, {
     }
   },
 
+  [Types.DELETE_IMAGE_WORKORDER_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.GET_LIST_AREA_SUCCESS]: (state, action) => {
     try {
       return {

@@ -316,7 +316,6 @@ class ModalNewBooking extends PureComponent {
           </LinearGradient>
         )}
         <KeyboardAwareScrollView
-          innerRef={ref => (this.scroll = ref)}
           keyboardShouldPersistTaps="handled"
           extraHeight={200}
           showsVerticalScrollIndicator={false}
@@ -555,7 +554,7 @@ class ModalNewBooking extends PureComponent {
           </View>
         </KeyboardAwareScrollView>
         <Loading visible={this.state.loadDingCallCalendar} />
-        {this.state.listBooking && this.state.listBooking.length > 0 ? this.renderModalConfirmBooking() : null}
+        {this.renderModalConfirmBooking()}
         {this.props.booking.detailCategory && this.props.booking.detailCategory.result ? this.renderModalRegulations() : null}
         {this.props.booking.createNewBooking && this.props.booking.createNewBooking.error ? (
           <AlertWarning

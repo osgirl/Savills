@@ -7,10 +7,22 @@ const INIT_STATE = {
   notification: false,
   setting: false,
   getSetting: false,
-  moduleHome: false
+  moduleHome: false,
+  listLanguage: false
 };
 
 export default createReducer(INIT_STATE, {
+  [Types.GET_LANGUAGE_APP_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        listLanguage: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.GET_MODULE_HOME_SUCCESS]: (state, action) => {
     try {
       return {

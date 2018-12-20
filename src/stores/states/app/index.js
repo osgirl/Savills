@@ -6,7 +6,7 @@ export default keymirror(
 
     SET_LANGUAGE_LOCAL: null,
     GET_LANGUAGE_LOCAL: null,
-
+    GET_LANGUAGE_APP: null,
     REGISTER_NOTIFICATION: null,
     UPDATE_SETTINGS: null,
     GET_SETTING: null,

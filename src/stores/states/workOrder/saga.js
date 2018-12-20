@@ -22,6 +22,15 @@ function* getListArea(action) {
   }
 }
 
+function* deleteImageWorkOrder(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.DELETE_IMAGE_WORKORDER_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 function* detailWorkOrder(action) {
   try {
     let response = yield call(API.request, action.payload);
@@ -95,6 +104,7 @@ function* getCommentUnread(action) {
 }
 
 export default function* saga() {
+  yield takeLatest(Types.DELETE_IMAGE_WORKORDER, deleteImageWorkOrder);
   yield takeLatest(Types.GET_COMMENT_UNREAD, getCommentUnread);
   yield takeLatest(Types.GET_LIST_AREA, getListArea);
   yield takeLatest(Types.UPDATE_WORK_ORDER, updateWorkOrder);
