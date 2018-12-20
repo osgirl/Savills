@@ -36,7 +36,7 @@ import Language from '../../utils/language';
 import moment from 'moment';
 import XDate from 'xdate';
 
-const HEADER_MAX_HEIGHT = 50;
+const HEADER_MAX_HEIGHT = 60;
 
 export default class Layout extends Component {
 
@@ -134,7 +134,9 @@ export default class Layout extends Component {
                 <View
                   style={{
                     alignSelf: 'center',
+                    alignItems: 'center',
                     marginBottom: 10,
+                    width: 100
                   }}
                 >
                   <Image source={IC_CALENDAR_ARROR_UP} />
@@ -156,7 +158,9 @@ export default class Layout extends Component {
                   <View
                     style={{
                       alignSelf: 'center',
-                      marginBottom: 10
+                      alignItems: 'center',
+                      marginBottom: 10,
+                      width: 100
                     }}
                   >
                     <Image source={IC_CALENDAR_ARROR} />

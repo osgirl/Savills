@@ -190,7 +190,6 @@ export default class extends Component {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
     let languageKey = this.props.app.languegeLocal === 0 ? "enLanguages" : "vnLanguages"
-    console.log('askdasdjasdkajsdlkajdklajsdasd', this.props.app.languegeLocal);
     // console.log('asdkjasdlasjdklasjdklsajdlksjda', this.props.app.listLanguage.result[languageKey]);
 
     return (

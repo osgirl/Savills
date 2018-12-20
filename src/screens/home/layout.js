@@ -33,7 +33,7 @@ const imgSize = 64;
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -85,7 +85,7 @@ export default class extends Component {
     return (
       <View style={{ width: width - Resolution.scale(40), alignSelf: 'center', marginTop: 20 }}>
         <Button
-          disabled={this.props.userProfile.imageProfile.success ? false : true}
+          disabled={this.props.userProfile.imageProfile.success && checkEnabled ? false : true}
           onPress={() => {
             this._openProfile();
           }}

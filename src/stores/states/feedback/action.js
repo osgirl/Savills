@@ -1,7 +1,7 @@
 import Types from './';
 import Configs from '../../../utils/configs';
 
-export function getListFeedback(accessTokenAPI, pageCount = 1, language = 'en', pageSize = 10) {
+export function getListFeedback(accessTokenAPI, language = 'en', pageCount = 1, pageSize = 10) {
   return {
     type: Types.GET_LIST_FEEDBACK,
     payload: {
@@ -12,11 +12,11 @@ export function getListFeedback(accessTokenAPI, pageCount = 1, language = 'en', 
   };
 }
 
-export function getDetail(accessTokenAPI, commentBoxID) {
+export function getDetail(accessTokenAPI, language, commentBoxID) {
   return {
     type: Types.GET_DETAIL,
     payload: {
-      api: Configs.API_BOOKING + `/api/commentboxes?commentBoxId=${commentBoxID}`,
+      api: Configs.API_BOOKING + `/api/commentboxes?commentBoxId=${commentBoxID}&culture=${language}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -62,6 +62,7 @@ export function updateStatus(accessTokenAPI, id = 0, statusCode = "DELETED", lan
 
 export function createFeedback(
   accessTokenAPI,
+  language = 'en',
   commentBoxSourceId = 0,
   buildingId = 0,
   userId = 0,
@@ -75,7 +76,7 @@ export function createFeedback(
   return {
     type: Types.CREATE_FEEDBACK,
     payload: {
-      api: Configs.API_BOOKING + `/api/commentboxes/member?culture=en`,
+      api: Configs.API_BOOKING + `/api/commentboxes/member?culture=${language}`,
       method: 'POST',
       token: accessTokenAPI,
       payload: {

@@ -4,7 +4,7 @@ import {
     Animated,
     Platform
 } from 'react-native';
-
+import Language from '../../utils/language';
 import _ from "lodash";
 
 class Inbox extends layout {
@@ -15,15 +15,22 @@ class Inbox extends layout {
             isShowTitleHeader: false,
             data: [],
             dataIsActive: [],
+            dataToManager: [],
             isRefresh: false,
             isRefreshActive: false,
             loadingMore: false,
             loadingMoreInboxActive: false,
+            isModalNew: false,
             scrollY: new Animated.Value(0),
             isModalSelectUnit: false,
             isModalDetail: false,
             pageInbox: 1,
             pageInboxActive: 1,
+
+            pageInboxToManager: 1,
+            isRefreshToManager: false,
+            loadingMoreToManager: false,
+
             inboxId: null
         }
     }
@@ -31,6 +38,7 @@ class Inbox extends layout {
     async componentWillMount() {
         await this._getListInbox(1);
         await this._getListInboxIsActive(1);
+        await this._getInboxToManager(1);
         let ida = this.props.navigation.getParam('params', false);
         if (ida.itemtype) {
             setTimeout(() => {
@@ -61,6 +69,16 @@ class Inbox extends layout {
             await this.setState({ loadingMoreInboxActive: false, isRefreshActive: false })
         }
 
+        //data to manager
+        if (this.props.inbox.listInboxToManager.items !== nextProps.inbox.listInboxToManager.items && nextProps.inbox.listInboxToManager.success && this.state.isRefreshToManager) {
+            await this.setState({ dataToManager: nextProps.inbox.listInboxToManager.items });
+            await this.setState({ isRefreshToManager: false })
+        }
+        if (this.props.inbox.listInboxToManager.items !== nextProps.inbox.listInboxToManager.items && nextProps.inbox.listInboxToManager.success && !this.state.isRefreshToManager) {
+            await this.setState({ dataToManager: this.state.dataToManager.concat(nextProps.inbox.listInboxToManager.items) });
+            await this.setState({ loadingMoreToManager: false, isRefreshToManager: false })
+        }
+
         // setInboxActive
         if (this.props.inbox.setInboxActive !== nextProps.inbox.setInboxActive && nextProps.inbox.setInboxActive) {
             this._onRefresh(1);
@@ -79,22 +97,32 @@ class Inbox extends layout {
 
     _setInboxReaded(inboxID) {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.inbox.setInboxRead(accessTokenApi, inboxID);
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id
+        this.props.actions.inbox.setInboxRead(accessTokenApi, languege, inboxID);
     }
 
     _setInboxActive(inboxID) {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.inbox.setInboxActive(accessTokenApi, inboxID);
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id
+        this.props.actions.inbox.setInboxActive(accessTokenApi, languege, inboxID);
+    }
+
+    _getInboxToManager(page = this.state.pageInboxToManager) {
+        let accessTokenApi = this.props.account.accessTokenAPI;
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id
+        this.props.actions.inbox.getInboxToManagement(accessTokenApi, languege, page);
     }
 
     _getListInbox(page = this.state.pageInbox) {
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.inbox.getListInbox(accessTokenApi, page);
+        this.props.actions.inbox.getListInbox(accessTokenApi, languege, page);
     }
 
     _getListInboxIsActive(page = this.state.pageInboxActive) {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.inbox.getListInboxIsActive(accessTokenApi, page);
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id
+        this.props.actions.inbox.getListInboxIsActive(accessTokenApi, languege, page);
     }
     async _onRefresh() {
         if (this.state.isRefresh) {
@@ -136,6 +164,13 @@ class Inbox extends layout {
         this.setState({ isModalSelectUnit: false })
         this._onRefresh();
         this._onRefreshIsActive();
+    }
+
+    _onCloseModalNew() {
+        this.setState({ isModalNew: false })
+    }
+    _openModalNew() {
+        this.setState({ isModalNew: true })
     }
 
 

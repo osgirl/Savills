@@ -4,6 +4,33 @@ import { call, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
 import Types from './';
 import API from '../../../utils/api';
 
+function* addInbox(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.ADD_INBOX_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function* getInboxFromManagement(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_LIST_INBOX_FROM_MANAGER_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function* getInboxToManagement(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_LIST_INBOX_TO_MANAGER_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 function* getListInbox(action) {
   try {
     let response = yield call(API.request, action.payload);
@@ -56,4 +83,7 @@ export default function* saga() {
   yield takeLatest(Types.SET_INBOX_ACTIVE, setInboxActive);
   yield takeLatest(Types.GET_DETAIL, getDetail);
   yield takeLatest(Types.SET_READ_INBOX, setRead);
+  yield takeLatest(Types.GET_LIST_INBOX_FROM_MANAGER, getInboxFromManagement);
+  yield takeLatest(Types.GET_LIST_INBOX_TO_MANAGER, getInboxToManagement);
+  yield takeLatest(Types.ADD_INBOX, addInbox);
 }

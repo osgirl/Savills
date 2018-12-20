@@ -3,14 +3,144 @@ import createReducer from '../';
 
 const INIT_STATE = ({
     listInbox: { items: [], success: false, totalCount: null },
+    listInboxFromManager: { items: [], success: false, totalCount: null },
+    listInboxToManager: { items: [], success: false, totalCount: null },
     listInboxIsActive: { items: [], success: false, totalCount: null },
     setInboxActive: false,
+    addInbox: {},
     statusSetinbox: 0,
     detailInbox: {},
     setRead: {}
 });
 
 export default createReducer(INIT_STATE, {
+
+    [Types.ADD_INBOX]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.ADD_INBOX_SUCCESS]: (state, action) => {
+        try {
+            let tempState;
+            tempState = Object.assign(
+                {},
+                { ...state },
+                {
+                    addInbox: action.response
+                },
+            );
+            return tempState;
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.ADD_INBOX_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                addInbox: {},
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.GET_LIST_INBOX_TO_MANAGER]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_LIST_INBOX_TO_MANAGER_SUCCESS]: (state, action) => {
+        try {
+            let tempState;
+            tempState = Object.assign(
+                {},
+                { ...state },
+                {
+                    listInboxToManager: {
+                        items: action.response.result.items,
+                        success: action.response.success,
+                        totalCount: action.response.result.totalCount
+                    },
+                },
+            );
+            return tempState;
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_LIST_INBOX_TO_MANAGER_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                listInboxToManager: {},
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.GET_LIST_INBOX_FROM_MANAGER]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_LIST_INBOX_FROM_MANAGER_SUCCESS]: (state, action) => {
+        try {
+            let tempState;
+            tempState = Object.assign(
+                {},
+                { ...state },
+                {
+                    listInboxFromManager: {
+                        items: action.response.result.items,
+                        success: action.response.success,
+                        totalCount: action.response.result.totalCount
+                    },
+                },
+            );
+            return tempState;
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_LIST_INBOX_FROM_MANAGER_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                listInboxFromManager: {},
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
 
     [Types.GET_LIST_INBOX]: (state, action) => {
         try {

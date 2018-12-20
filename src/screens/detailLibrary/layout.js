@@ -23,7 +23,7 @@ import { ItemHorizontal2 } from '../../components/placeHolder';
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
 
-const HEADER_MAX_HEIGHT = 50;
+const HEADER_MAX_HEIGHT = 60;
 
 const { width } = Dimensions.get('window');
 

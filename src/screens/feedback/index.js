@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 import Language from '../../utils/language';
 
-const HEADER_MAX_HEIGHT = 50;
+const HEADER_MAX_HEIGHT = 60;
 
 class Feedback extends layout {
     constructor(props) {
@@ -67,7 +67,7 @@ class Feedback extends layout {
     _getList() {
         let accessTokenApi = this.props.account.accessTokenAPI;
         let languege = Language.listLanguage[this.props.app.languegeLocal].id;
-        this.props.actions.feedback.getListFeedback(accessTokenApi, this.state.pageCount, languege);
+        this.props.actions.feedback.getListFeedback(accessTokenApi, languege, this.state.pageCount);
     }
 
     async _onRefresh() {

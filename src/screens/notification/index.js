@@ -5,7 +5,7 @@ import layout from './layout';
 
 import _ from "lodash";
 
-const HEADER_MAX_HEIGHT = 50;
+const HEADER_MAX_HEIGHT = 60;
 
 class Notification extends layout {
 
@@ -139,7 +139,7 @@ class Notification extends layout {
                 itemtype: itemtype
             }
         });
-        this.props.onclose()
+        this.props.onclose();
     };
 
 

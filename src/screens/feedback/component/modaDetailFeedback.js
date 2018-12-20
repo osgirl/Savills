@@ -35,15 +35,14 @@ import AnimatedHeader from '@components/animatedHeader';
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 import IC_CLOSE from '@resources/icons/close.png';
 import Configs from '../../../utils/configs';
-import Language from '@utils/language';
 
 const { width, height } = Dimensions.get('window');
 
 import AnimatedTitle from '@components/animatedTitle';
 
-const HEADER_MAX_HEIGHT = 50;
-const HEADER_MIN_HEIGHT = 0;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+import Language from '../../../utils/language';
+
+const HEADER_MAX_HEIGHT = 60;
 
 class ModalDetailFeedback extends Component {
   constructor(props) {
@@ -74,8 +73,9 @@ class ModalDetailFeedback extends Component {
   _getDetail() {
     const { commentBoxId } = this.props;
     let accessTokenApi = this.props.account.accessTokenAPI;
+    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
     setTimeout(() => {
-      this.props.actions.feedback.getDetail(accessTokenApi, commentBoxId);
+      this.props.actions.feedback.getDetail(accessTokenApi, languege, commentBoxId);
     }, 300);
   }
 
@@ -271,8 +271,8 @@ class ModalDetailFeedback extends Component {
                   {this.state.loadingUpdateStatus ? (
                     <ActivityIndicator size={'small'} color={'#FFF'} />
                   ) : (
-                    <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
-                  )}
+                      <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
+                    )}
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -290,6 +290,7 @@ class ModalDetailFeedback extends Component {
   };
 
   renderFooter() {
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     let status = (this.state.data && this.state.data.commentBoxStatus.id) || 0;
     if (status === 1) {
       return (
@@ -320,7 +321,7 @@ class ModalDetailFeedback extends Component {
             }}
             onPress={() => this.setState({ showModalConfirmCancel: true })}
           >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hủy</Text>
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{LG.FB_DT_BTNCANCLE}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -330,7 +331,7 @@ class ModalDetailFeedback extends Component {
 
   render() {
     const { data } = this.state;
-
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     let date = moment(data && data.createdAt).format('l');
     let time = moment(data && data.createdAt).format('LT');
 
@@ -356,7 +357,7 @@ class ModalDetailFeedback extends Component {
           >
             {
               <ItemScorll
-                title={'Thông Tin'}
+                title={LG.FB_DT_DESCRIPTION}
                 view={
                   <View
                     style={{
@@ -373,7 +374,7 @@ class ModalDetailFeedback extends Component {
                       <Text
                         style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
                       >
-                        Loại phản hồi
+                        {LG.FB_DT_TYPE}
                       </Text>
                       <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
                         {data.commentBoxType.name}
@@ -384,7 +385,7 @@ class ModalDetailFeedback extends Component {
                       <Text
                         style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
                       >
-                        Vấn đề
+                        {LG.FB_DT_PROBLEM}
                       </Text>
                       <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
                         {data.commentBoxCategory.name}
@@ -395,7 +396,7 @@ class ModalDetailFeedback extends Component {
                       <Text
                         style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
                       >
-                        Trạng Thái
+                        {LG.FB_DT_STATUS}
                       </Text>
                       <View
                         style={{
@@ -421,7 +422,7 @@ class ModalDetailFeedback extends Component {
                       <Text
                         style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
                       >
-                        Ngày Gửi
+                        {LG.FB_DT_DAY}
                       </Text>
                       <View
                         style={{
@@ -463,7 +464,7 @@ class ModalDetailFeedback extends Component {
               />
             }
             <ItemScorll
-              title={'Miêu Tả'}
+              title={LG.FB_DT_depict}
               view={
                 <View
                   style={{
@@ -482,8 +483,8 @@ class ModalDetailFeedback extends Component {
             />
           </ScrollView>
         ) : (
-          this.renderLoading()
-        )}
+            this.renderLoading()
+          )}
 
         {this.renderFooter()}
         {this.renderModalCancel()}

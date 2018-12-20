@@ -1,11 +1,11 @@
 import Types from './';
 import Configs from '../../../utils/configs';
 
-export function getMyEvents(accessTokenAPI, buildingId, fromDate, toDate) {
+export function getMyEvents(accessTokenAPI, buildingId, language = vi) {
     return {
         type: Types.GET_MY_EVENTS,
         payload: {
-            api: Configs.API_BOOKING + `/api/events/myevents?buildingId=${buildingId}&fromDate=${fromDate}&toDate=${toDate}`,
+            api: Configs.API_BOOKING + `/api/events/myevents?buildingId=${buildingId}&culture=${language}`,
             method: 'GET',
             token: accessTokenAPI,
         }

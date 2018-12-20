@@ -18,12 +18,13 @@ import Utils from "../../utils";
 import Resolution from '../../utils/resolution';
 
 import AnimatedTitle from "@components/animatedTitle";
+import Language from '../../utils/language';
 
 import { ItemHorizontal2 } from '../../components/placeHolder';
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
 
-const HEADER_MAX_HEIGHT = 50;
+const HEADER_MAX_HEIGHT = 60;
 
 const { width } = Dimensions.get('window');
 
@@ -63,6 +64,7 @@ export default class extends Component {
 
   renderHeader() {
     let unitActive = this.props.units.unitActive;
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View>
         <Header
@@ -73,7 +75,7 @@ export default class extends Component {
           showTitleHeader={this.state.isShowTitleHeader}
           center={
             <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Libary'}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.LB_TITLEHEADER}</Text>
             </View>
           }
           renderViewRight={
@@ -91,7 +93,7 @@ export default class extends Component {
 
         <AnimatedTitle
           scrollY={this.state.scrollY}
-          label={'Libary'}
+          label={LG.LB_TITLEHEADER}
         />
 
       </View>

@@ -8,6 +8,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Calendar } from '../../components/calendars';
 import Layout from './layout';
 
+import Language from '../../utils/language';
+
 class Events extends Layout {
   constructor(props) {
     super(props);
@@ -39,12 +41,13 @@ class Events extends Layout {
 
   _getEvent() {
     this.setState({ loadingFetching: true });
+    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
     const accessTokenApi = this.props.account.accessTokenAPI;
     const buildingID = this.props.units.unitActive.buildingId;
     let date = new Date();
     let firstDay = new Date(date.getFullYear(), 0, 1);
     let lastDay = new Date(date.getFullYear(), 12, 31);
-    this.props.actions.events.getMyEvents(accessTokenApi, buildingID, this.timeToString(firstDay), this.timeToString(lastDay));
+    this.props.actions.events.getMyEvents(accessTokenApi, buildingID, languege);
     this.props.actions.events.getOverviewMyEvents(accessTokenApi, this.timeToString(firstDay), this.timeToString(lastDay));
   }
 

@@ -27,7 +27,8 @@ import Configs from '../../../utils/configs';
 
 const { width, height } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = 50;
+const HEADER_MAX_HEIGHT = 60;
+import Language from '../../../utils/language';
 
 class ModalDetailFeedback extends Component {
   constructor(props) {
@@ -50,8 +51,9 @@ class ModalDetailFeedback extends Component {
   componentDidMount() {
     const { accessTokenAPI } = this.props.account;
     const { inboxId } = this.props;
+    let languege = Language.listLanguage[this.props.app.languegeLocal].id
     setTimeout(() => {
-      this.props.actions.inbox.getDetail(accessTokenAPI, inboxId);
+      this.props.actions.inbox.getDetail(accessTokenAPI, languege, inboxId);
     }, 300);
   }
 
@@ -71,6 +73,7 @@ class ModalDetailFeedback extends Component {
 
   render() {
     const { data } = this.state;
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
     const isShow = this.state.scrollY.interpolate({
       inputRange: [0, 15],
@@ -88,13 +91,13 @@ class ModalDetailFeedback extends Component {
           showTitleHeader={true}
           center={
             <Animated.View style={{ opacity: isShow }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Detail'}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.IB_DT_TITLEHEADER}</Text>
             </Animated.View>
           }
         />
         <AnimatedTitle
           scrollY={this.state.scrollY}
-          label={'Detail'}
+          label={LG.IB_DT_TITLEHEADER}
         />
         {data ? (
           <ScrollView
@@ -113,7 +116,7 @@ class ModalDetailFeedback extends Component {
             <View>
               {data.content && (
                 <ItemScorll
-                  title={'Nội dung'}
+                  title={LG.IB_DT_DESCRIPT}
                   view={
                     <View
                       style={{
@@ -133,7 +136,7 @@ class ModalDetailFeedback extends Component {
               )}
               {data.fileUrl && (
                 <ItemScorll
-                  title={'Hình Ảnh'}
+                  title={LG.IB_DT_IMAGE}
                   view={
                     <ScrollView
                       style={{

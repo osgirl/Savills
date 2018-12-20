@@ -25,7 +25,9 @@ import ModalReceip from "./modalReceip";
 const { width, height } = Dimensions.get('window');
 import AnimatedTitle from "@components/animatedTitle";
 
-const HEADER_MAX_HEIGHT = 50;
+import Language from '../../../utils/language';
+
+const HEADER_MAX_HEIGHT = 60;
 
 class modalHistory extends Component {
 
@@ -49,8 +51,9 @@ class modalHistory extends Component {
     componentDidMount() {
         let unitActive = this.props.units.unitActive;
         let accessTokenApi = this.props.account.accessTokenAPI;
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id;
         setTimeout(() => {
-            this.props.actions.fee.getListHistory(accessTokenApi, unitActive.fullUnitCode);
+            this.props.actions.fee.getListHistory(accessTokenApi, languege, unitActive.fullUnitCode);
         }, 300)
     }
 
@@ -164,6 +167,8 @@ class modalHistory extends Component {
             extrapolate: 'clamp'
         });
 
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+
         return <View>
             <Header
                 LinearGradient={true}
@@ -173,14 +178,14 @@ class modalHistory extends Component {
                 showTitleHeader={true}
                 center={
                     <Animated.View style={{ opacity: opacityTextHeader }}>
-                        <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'History'}</Text>
+                        <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FEE_HT_TXTHEADER}</Text>
                     </Animated.View>
                 }
             />
 
             <AnimatedTitle
                 scrollY={this.state.scrollY}
-                label={'History'}
+                label={LG.FEE_HT_TXTHEADER}
             />
         </View>
     }
