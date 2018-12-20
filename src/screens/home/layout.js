@@ -237,6 +237,7 @@ export default class extends Component {
             loading={this.state.loading}
             profile={User}
             imageProfile={avatar}
+            onRefresh={() => this._onRefresh()}
           />
         </Modal>
 
