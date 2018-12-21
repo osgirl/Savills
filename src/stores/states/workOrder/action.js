@@ -1,14 +1,27 @@
 import Types from './';
 import Configs from '../../../utils/configs';
-export function getWorkOrderList(accessTokenAPI, sort, memberId) {
+export function getWorkOrderListActive(accessTokenAPI, memberId) {
+  console.log('asdasdkalsdjalskdjaslkda', accessTokenAPI, memberId);
   return {
-    type: Types.GET_LIST_WORKORDER,
+    type: Types.GET_LIST_WORKORDER_ACTIVE,
     payload: {
       api:
         Configs.API +
-        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=1&pageSize=100&groupStatus=${sort}`,
+        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=1&pageSize=100&groupStatus=ACTIVE`,
       method: 'GET',
-      sort: sort,
+      token: accessTokenAPI
+    }
+  };
+}
+
+export function getWorkOrderListComplete(accessTokenAPI, memberId) {
+  return {
+    type: Types.GET_LIST_WORKORDER_COMPLETE,
+    payload: {
+      api:
+        Configs.API +
+        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=1&pageSize=100&groupStatus=COMPLETED`,
+      method: 'GET',
       token: accessTokenAPI
     }
   };

@@ -63,10 +63,8 @@ class TabWorkOrder extends PureComponent {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const { id } = this.props.userProfile.profile.result.user;
     this.props.actions.workOrder.getListArea(accessTokenApi);
-    this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'ACTIVE', id);
-    setTimeout(() => {
-      this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'COMPLETED', id);
-    }, 1000);
+    this.props.actions.workOrder.getWorkOrderListActive(accessTokenApi, id);
+    this.props.actions.workOrder.getWorkOrderListComplete(accessTokenApi, id);
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalEditOrder', { id: ida.itemtype });
@@ -74,24 +72,11 @@ class TabWorkOrder extends PureComponent {
   };
 
   componentWillReceiveProps = nextProps => {
-    if (
-      nextProps.workOrder &&
-      nextProps.workOrder.listActive &&
-      nextProps.workOrder.listActive.success &&
-      !nextProps.workOrder.isGetListWorkOrder
-    ) {
-      nextProps.actions.workOrder.setFlagGetWorkOrderList();
+    if (this.props.workOrder.listActive !== nextProps.workOrder.listActive && nextProps.workOrder.listActive.success) {
       this.setState({ listWorkOrder: nextProps.workOrder.listActive.result.items, isRefreshing: false, isLoadDataActive: false });
-      let arr = nextProps.workOrder.listActive.result.items.map(a => a.id);
     }
 
-    if (
-      nextProps.workOrder &&
-      nextProps.workOrder.listComplete &&
-      nextProps.workOrder.listComplete.success &&
-      !nextProps.workOrder.isGetListWorkOrder
-    ) {
-      nextProps.actions.workOrder.setFlagGetWorkOrderList();
+    if (this.props.workOrder.listComplete !== nextProps.workOrder.listComplete && nextProps.workOrder.listComplete.success) {
       this.setState({
         listWorkOrderComplete: nextProps.workOrder.listComplete.result.items,
         isRefreshingComplete: false,
@@ -245,8 +230,8 @@ class TabWorkOrder extends PureComponent {
             />
           </View>
         ) : (
-            <ItemPlaceHolderH noMargin />
-          )}
+          <ItemPlaceHolderH noMargin />
+        )}
       </View>
     );
   };
@@ -259,7 +244,7 @@ class TabWorkOrder extends PureComponent {
         isRefreshing: true
       },
       () => {
-        this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'ACTIVE', id);
+        this.props.actions.workOrder.getWorkOrderListActive(accessTokenApi, id);
       }
     );
   }
@@ -272,7 +257,7 @@ class TabWorkOrder extends PureComponent {
         isRefreshingComplete: true
       },
       () => {
-        this.props.actions.workOrder.getWorkOrderList(accessTokenApi, 'COMPLETED', id);
+        this.props.actions.workOrder.getWorkOrderListComplete(accessTokenApi, id);
       }
     );
   }
@@ -303,8 +288,8 @@ class TabWorkOrder extends PureComponent {
             />
           </View>
         ) : (
-            <ItemPlaceHolderH noMargin />
-          )}
+          <ItemPlaceHolderH noMargin />
+        )}
       </View>
     );
   };

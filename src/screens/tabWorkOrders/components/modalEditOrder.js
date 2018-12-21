@@ -14,7 +14,8 @@ import {
   PixelRatio,
   Keyboard,
   KeyboardAvoidingView,
-  StatusBar
+  StatusBar,
+  Linking
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -326,6 +327,7 @@ class ModalEditOrder extends PureComponent {
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp'
     });
+
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size={'large'} color={Configs.colorMain} />
@@ -408,26 +410,56 @@ class ModalEditOrder extends PureComponent {
           <ItemScorll
             title={'Người Phụ Trách'}
             view={
-              <View
-                style={{
-                  height: 90,
-                  width: null,
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: '#FFF',
-                  padding: 20,
-                  flexDirection: 'row',
-                  alignItems: 'center'
-                }}
-              >
-                <Image
-                  style={{ width: 50, height: 50, borderRadius: 25 }}
-                  resizeMode={'cover'}
-                  source={require('../../../resources/icons/avatar-default.png')}
-                />
-                <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>Chưa có người phụ trách</Text>
-                <Image source={require('../../../resources/icons/call-disable.png')} />
-              </View>
+              this.state.detailOrder && this.state.detailOrder.employee ? (
+                <View
+                  style={{
+                    height: 90,
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Image
+                    style={{ width: 50, height: 50, borderRadius: 25 }}
+                    resizeMode={'cover'}
+                    source={require('../../../resources/icons/avatar-default.png')}
+                  />
+                  <View style={{ flex: 1, alignItems: 'center' }}>
+                    <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>{this.state.detailOrder.employee.fullName}</Text>
+                    <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>
+                      {this.state.detailOrder.employee.phoneNumber}
+                    </Text>
+                  </View>
+                  <TouchableOpacity onPress={() => Linking.openURL(`tel:${this.state.detailOrder.employee.phoneNumber}`)}>
+                    <Image source={require('../../../resources/icons/Call-button.png')} />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View
+                  style={{
+                    height: 90,
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Image
+                    style={{ width: 50, height: 50, borderRadius: 25 }}
+                    resizeMode={'cover'}
+                    source={require('../../../resources/icons/avatar-default.png')}
+                  />
+                  <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>Chưa có người phụ trách</Text>
+                  <Image source={require('../../../resources/icons/call-disable.png')} />
+                </View>
+              )
             }
           />
 

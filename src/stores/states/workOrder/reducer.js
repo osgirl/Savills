@@ -105,32 +105,40 @@ export default createReducer(INIT_STATE, {
       console.log(error);
     }
   },
-
-  [Types.GET_LIST_WORKORDER_SUCCESS]: (state, action) => {
+  // get list
+  [Types.GET_LIST_WORKORDER_ACTIVE_SUCCESS]: (state, action) => {
     try {
-      switch (action.payload.sort) {
-        case 'ACTIVE': {
-          return {
-            ...state,
-            listActive: action.response,
-            isGetListWorkOrder: false
-          };
+      let tempState;
+      tempState = Object.assign(
+        {},
+        { ...state },
+        {
+          listActive: action.response
         }
-        case 'COMPLETED': {
-          return {
-            ...state,
-            listComplete: action.response,
-            isGetListWorkOrder: false
-          };
-        }
-        default: {
-          return { ...state };
-        }
-      }
+      );
+      return tempState;
     } catch (error) {
       console.log(error);
     }
   },
+
+  [Types.GET_LIST_WORKORDER_COMPLETE_SUCCESS]: (state, action) => {
+    try {
+      let tempState;
+      tempState = Object.assign(
+        {},
+        { ...state },
+        {
+          listComplete: action.response
+        }
+      );
+      return tempState;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  // end get list
 
   [Types.CREATE_WORK_ORDER_SUCCESS]: (state, action) => {
     try {
