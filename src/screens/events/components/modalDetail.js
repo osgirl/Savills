@@ -83,17 +83,17 @@ class modalDetail extends Component {
                         <View>
                             <Image source={{ uri: image }}
                                 style={{ height: Resolution.scaleHeight(222), width: width }}
-                                resizeMode={'center'}
+                                resizeMode={'contain'}
                             />
                             <View style={{ marginHorizontal: 20, marginVertical: 20 }}>
                                 <Text numberOfLines={2} style={{ fontSize: 16, fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
                                     {data && data.subject}
                                 </Text>
-                                <Text numberOfLines={2} style={{ fontSize: 12, fontFamily: 'OpenSans-Regular', color: '#505E75', marginBottom: 20, marginTop: 10 }}>
+                                {/* <Text numberOfLines={2} style={{ fontSize: 12, fontFamily: 'OpenSans-Regular', color: '#505E75', marginBottom: 20, marginTop: 10 }}>
                                     asd das dasdas  asdasd asd d asd asd dsa sa dads asd das dasdas  asdasd asd d asd asd dsa sa dads asd das dasdas  asdasd asd d asd asd dsa sa dads asd das dasdas  asdasd asd d asd asd dsa sa dadsasd das dasdas  asdasd asd d asd asd dsa sa dads
-                                </Text>
+                                </Text> */}
                                 <View>
-                                    <View style={{ flexDirection: 'row' }}>
+                                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <Image source={IC_CLOCK} />
                                             <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
