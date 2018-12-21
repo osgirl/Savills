@@ -4,6 +4,7 @@ import Connect from '@stores';
 import layout from './layout';
 
 import _ from "lodash";
+import Language from '../../utils/language';
 
 class Fee extends layout {
 
@@ -28,6 +29,12 @@ class Fee extends layout {
 
     componentDidMount() {
         this._getListUserFee();
+        let ida = this.props.navigation.getParam('params', false);
+        if (ida.itemtype) {
+            setTimeout(() => {
+                this._openDetailOrder(ida.itemtype);
+            }, 300)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -41,7 +48,8 @@ class Fee extends layout {
     _getListUserFee() {
         let unitActive = this.props.units.unitActive;
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.fee.getListUserFees(accessTokenApi, unitActive.fullUnitCode);
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+        this.props.actions.fee.getListUserFees(accessTokenApi, languege, unitActive.fullUnitCode);
     }
 
 

@@ -25,7 +25,9 @@ const { width, height } = Dimensions.get('window');
 import AnimatedTitle from "@components/animatedTitle";
 import Configs from '../../../utils/configs';
 
-const HEADER_MAX_HEIGHT = 50;
+import Language from '../../../utils/language';
+
+const HEADER_MAX_HEIGHT = 60;
 
 class modalReceip extends Component {
 
@@ -52,8 +54,9 @@ class modalReceip extends Component {
     _getDetail() {
         const { idReceip } = this.props;
         let accessTokenApi = this.props.account.accessTokenAPI;
+        let languege = Language.listLanguage[this.props.app.languegeLocal].id;
         setTimeout(() => {
-            this.props.actions.fee.getDetailHistory(accessTokenApi, idReceip);
+            this.props.actions.fee.getDetailHistory(accessTokenApi, languege, idReceip);
         }, 300)
     }
 
@@ -67,12 +70,13 @@ class modalReceip extends Component {
     render() {
         const { detailHistory } = this.props.fee;
 
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
         return (
             <View style={{ backgroundColor: '#F6F8FD', flex: 1 }}>
                 {this.renderHeaderDetail()}
                 <AnimatedTitle
                     scrollY={this.state.scrollYDetail}
-                    label={'Detail'}
+                    label={LG.FEE_RECEIPT_TITLEHEADER}
                 />
                 {
                     _.isEmpty(detailHistory) ?
@@ -96,12 +100,12 @@ class modalReceip extends Component {
                                 <View style={{ padding: 20, flex: 1 }}>
                                     <View style={{ backgroundColor: '#FFF', borderRadius: 5, padding: Resolution.scale(20) }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1 }}>
-                                            <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8', }}>Receipt No:</Text>
+                                            <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8', }}>{LG.FEE_RECEIPT_NO + ' :'}</Text>
                                             <Text style={{ flex: 1, fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory && detailHistory.receiptNumber}</Text>
                                         </View>
 
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingVertical: Resolution.scale(20) }}>
-                                            <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>Receipt:</Text>
+                                            <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>{LG.FEE_RECEIPT + ' :'}</Text>
                                             <View style={{ flex: 1, }}>
                                                 <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory.feePayer && detailHistory.feePayer.email}</Text>
                                                 <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory.feePayer && detailHistory.feePayer.phoneNumber}</Text>
@@ -109,20 +113,20 @@ class modalReceip extends Component {
                                         </View>
 
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', }}>
-                                            <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>Method:</Text>
+                                            <Text style={{ flex: 0.5, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>{LG.FEE_RECEIPT_METHOD + ' :'}</Text>
                                             <Text style={{ flex: 1, fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>{detailHistory.paymentChanel && detailHistory.paymentChanel.name}</Text>
                                         </View>
 
                                         <View style={{ width: width - 80, height: 1, backgroundColor: '#DEDEDE', opacity: 0.5, marginHorizontal: Resolution.scale(20), marginVertical: Resolution.scale(20) }} />
 
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>In Total:</Text>
+                                            <Text style={{ flex: 0.4, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>{LG.FEE_RECEIPT_TOTAL + ' :'}</Text>
                                             <Text style={{ flex: 1, fontFamily: 'OpenSans-Bold', fontSize: 20, textAlign: 'right', color: '#505E75' }}>{detailHistory.incommingDetails && Utils.convertNumber(detailHistory.paidAmount) + ' VND'}</Text>
                                         </View>
                                     </View>
                                 </View>
 
-                                <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 15, color: '#BABFC8', marginHorizontal: 20, marginBottom: 20 }}>Details</Text>
+                                <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 15, color: '#BABFC8', marginHorizontal: 20, marginBottom: 20 }}>{LG.FEE_RECEIPT_TITLE_DETAIL}</Text>
 
                                 <View style={{ paddingHorizontal: 20 }}>
                                     {
@@ -159,6 +163,8 @@ class modalReceip extends Component {
             extrapolate: 'clamp'
         });
 
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+
         return <View>
             <Header
                 LinearGradient={true}
@@ -168,7 +174,7 @@ class modalReceip extends Component {
                 showTitleHeader={true}
                 center={
                     <Animated.View style={{ opacity: opacityTextHeader }}>
-                        <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Detail'}</Text>
+                        <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FEE_RECEIPT_TITLEHEADER}</Text>
                     </Animated.View>
                 }
             />

@@ -36,7 +36,7 @@ import Language from "../../utils/language";
 
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";
 
-const HEADER_MAX_HEIGHT = 50;
+const HEADER_MAX_HEIGHT = 60;
 
 export default class extends Component {
 

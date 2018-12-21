@@ -28,5 +28,5 @@ export default keymirror({
     LOGOUT: null,
     USER_SETTING: null,
     CHANGE_PASSWORD: null,
-    
+
 }, "ACCOUNT_");

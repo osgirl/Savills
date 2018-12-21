@@ -35,6 +35,8 @@ import Utils from "../../utils";
 
 import Styles from "./styles";
 
+import Language from '../../utils/language';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -137,8 +139,11 @@ export default class extends Component {
         //     extrapolate: 'clamp',
         // });
 
-        let checkAll = this.props.fee.listUserFee.result && this.state.listFeeSelected.length === this.props.fee.listUserFee.result.items.length ? true : false;
+        // TODO LANGUAGE LOCAL
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
+        let checkAll = this.props.fee.listUserFee.result && this.state.listFeeSelected.length === this.props.fee.listUserFee.result.items.length ? true : false;
+        let checkDisabledPay = this.state.listFeeSelected.length <= 0 ? true : false;
         return (
             <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
                 <StatusBar
@@ -152,7 +157,7 @@ export default class extends Component {
                     showTitleHeader={true}
                     center={
                         <Animated.View style={{ opacity: opacityTextHeader }}>
-                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Fee'}</Text>
+                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FEE_TXT_FEE}</Text>
                         </Animated.View>
                     }
                     renderViewRight={
@@ -172,7 +177,7 @@ export default class extends Component {
                         transform: [{ translateY: headertitleHeightTranslate }],
                     }}>
                         <Animated.View style={{ opacity: opacityTextTitle, position: 'absolute', }}>
-                            <HeaderTitle title={'Fee'} />
+                            <HeaderTitle title={LG.FEE_TXT_FEE} />
                         </Animated.View>
                     </Animated.View>
                 </LinearGradient>
@@ -213,18 +218,19 @@ export default class extends Component {
                     <View
                         style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: Resolution.scale(20), paddingVertical: Resolution.scale(10) }}>
                         <Button
+
                             onPress={() => this._addAllitem()}
                             style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Image source={checkAll ? IC_CHECKED_WHITE : IC_CHECK_WHITE} style={{ marginRight: Resolution.scale(20) }} />
                             <Text style={{ fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
-                                Tất cả
+                                {LG.FEE_TITLE_BTN_CHECKALL}
                             </Text>
                         </Button>
                         <Button
                             onPress={() => this._openModalHistory()}
                             style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Semibold', color: '#FFF', marginRight: Resolution.scale(20) }}>
-                                Lịch sử
+                                {LG.FEE_TITLE_BTN_HISTORY}
                             </Text>
                             <Image source={IC_HISTORY} />
                         </Button>
@@ -259,7 +265,9 @@ export default class extends Component {
                     this.state.data.length > 0 ?
                         <View>
                             <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40) }} />
-                            <Button onPress={() => this._openModalConfirm()} style={[Styles.ButtonAdd, { backgroundColor: this.state.listFeeSelected.length > 0 ? '#01C772' : '#e0e0e0', }]}>
+                            <Button
+                                disabled={checkDisabledPay}
+                                onPress={() => this._openModalConfirm()} style={[Styles.ButtonAdd, { backgroundColor: this.state.listFeeSelected.length > 0 ? '#01C772' : '#e0e0e0', }]}>
                                 <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
                             </Button>
                         </View> : null

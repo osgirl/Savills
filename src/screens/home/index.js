@@ -221,7 +221,7 @@ class Home extends layout {
         console.log('asdkljasdklasjdlkasdas', token);
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function(notification) {
+      onNotification: function (notification) {
         console.log('NOTIFICATION:', notification);
 
         if (notification.foreground) {
@@ -322,8 +322,7 @@ class Home extends layout {
     }
     await this.setState({ isRefresh: true });
     await this.props.actions.app.getModuleHome(accessTokenAPI);
-    // await this.props.actions.notification.getListCountModule(accessTokenAPI, unitID)
-    // await this.props.actions.account.getUserSettings(accessTokenAPI);
+    await this.props.actions.notification.getListNotification(accessTokenAPI);
   }
 
   onBackButtonPressAndroid = () => {
@@ -346,9 +345,11 @@ class Home extends layout {
   }
 
   _openProfile() {
-    setTimeout(() => {
-      this.setState({ isShowProfile: true });
-    }, 100);
+    if (this.props.userProfile.imageProfile.success) {
+      setTimeout(() => {
+        this.setState({ isShowProfile: true });
+      }, 100);
+    }
   }
 
   _closeProfile() {

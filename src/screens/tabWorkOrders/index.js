@@ -245,8 +245,8 @@ class TabWorkOrder extends PureComponent {
             />
           </View>
         ) : (
-          <ItemPlaceHolderH />
-        )}
+            <ItemPlaceHolderH noMargin />
+          )}
       </View>
     );
   };
@@ -303,8 +303,8 @@ class TabWorkOrder extends PureComponent {
             />
           </View>
         ) : (
-          <ItemPlaceHolderH />
-        )}
+            <ItemPlaceHolderH noMargin />
+          )}
       </View>
     );
   };

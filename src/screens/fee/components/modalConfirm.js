@@ -22,7 +22,9 @@ import Loading from "@components/loading";
 import ModalFaild from "./modalFaild";
 import Configs from '../../../utils/configs';
 
-const HEADER_MAX_HEIGHT = 50;
+import Language from '../../../utils/language';
+
+const HEADER_MAX_HEIGHT = 60;
 
 const { width, height } = Dimensions.get('window');
 
@@ -94,7 +96,7 @@ class modalConfirm extends Component {
 
     render() {
         let data = this.props.listFeeSelected || []
-
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
         let serviceFee = 0;
         let summary = 0;
         let total = 0;
@@ -134,8 +136,8 @@ class modalConfirm extends Component {
                     <View style={{ marginHorizontal: Resolution.scale(20), backgroundColor: '#FFF', borderRadius: 5, marginTop: Resolution.scale(20), marginBottom: Resolution.scale(40) }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: Resolution.scale(20), paddingHorizontal: Resolution.scale(20) }}>
                             <View style={{ flex: 1 }}>
-                                <Text style={{ textAlign: 'left', color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Item Summary</Text>
-                                <Text style={{ textAlign: 'left', paddingVertical: Resolution.scale(20), color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>Service Fee</Text>
+                                <Text style={{ textAlign: 'left', color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{LG.FEE_DO_SUMMARY}</Text>
+                                <Text style={{ textAlign: 'left', paddingVertical: Resolution.scale(20), color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{LG.FEE_DO_SERVICE_FEE}</Text>
                             </View>
                             <View style={{ flex: 0.8 }}>
                                 <Text numberOfLines={1} style={{ textAlign: 'right', fontSize: Resolution.scale(13), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>{Utils.convertNumber(summary) + ' VND'}</Text>
@@ -144,7 +146,7 @@ class modalConfirm extends Component {
                         </View>
                         <View style={{ backgroundColor: '#E6EEFB', flexDirection: 'row', marginHorizontal: Resolution.scale(10), borderRadius: 5, marginBottom: Resolution.scale(20), justifyContent: 'space-between', alignItems: 'center', }}>
                             <Text style={{ padding: Resolution.scale(10), color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
-                                Total
+                                {LG.FEE_DO_TXT_TOTAL}
                             </Text>
                             <Text style={{ flex: 1, fontSize: Resolution.scale(16), color: '#505E75', fontFamily: 'OpenSans-Bold', textAlign: "right" }}>
                                 {Utils.convertNumber(total) + ' VND'}
@@ -216,6 +218,7 @@ class modalConfirm extends Component {
 
     renderHeader() {
         let dateSelected = this.props.dateSelected;
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
         return <View>
             <Header
                 LinearGradient={true}
@@ -225,13 +228,13 @@ class modalConfirm extends Component {
                 showTitleHeader={this.state.isShowTitleHeader}
                 center={
                     <View>
-                        <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Detail order'}</Text>
+                        <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FEE_DO_TITLEHEADER}</Text>
                     </View>
                 }
             />
             <AnimatedTitle
                 scrollY={this.state.scrollY}
-                label={"Detail Order"}
+                label={LG.FEE_DO_TITLEHEADER}
             />
         </View>
     }

@@ -189,8 +189,7 @@ export default class extends Component {
     let Unit = this.props.units.unitActive;
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
-    let languageKey = this.props.app.languegeLocal === 0 ? 'enLanguages' : 'vnLanguages';
-    console.log('askdasdjasdkajsdlkajdklajsdasd', this.props.app.languegeLocal);
+    let languageKey = this.props.app.languegeLocal === 0 ? "enLanguages" : "vnLanguages"
     // console.log('asdkjasdlasjdklasjdklsajdlksjda', this.props.app.listLanguage.result[languageKey]);
     StatusBar.setHidden(false);
     return (

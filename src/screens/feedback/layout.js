@@ -35,7 +35,9 @@ import AnimatedTitle from '@components/animatedTitle';
 import { ItemHorizontal2 } from '../../components/placeHolder';
 import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 
-const HEADER_MAX_HEIGHT = 50;
+import Language from '../../utils/language';
+
+const HEADER_MAX_HEIGHT = 60;
 
 const { width } = Dimensions.get('window');
 
@@ -68,13 +70,13 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(40) }} />
-    );
+        <View style={{ height: Resolution.scale(40) }} />
+      );
   }
 
   renderHeader() {
     let unitActive = this.props.units.unitActive;
-
+    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View>
         <Header
@@ -85,7 +87,7 @@ export default class extends Component {
           showTitleHeader={this.state.isShowTitleHeader}
           center={
             <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Feedback'}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FB_TITLEHEADER}</Text>
             </View>
           }
           renderViewRight={
@@ -100,7 +102,7 @@ export default class extends Component {
             </Button>
           }
         />
-        <AnimatedTitle scrollY={this.state.scrollY} label={'Feedback'} />
+        <AnimatedTitle scrollY={this.state.scrollY} label={LG.FB_TITLEHEADER} />
       </View>
     );
   }
@@ -156,8 +158,8 @@ export default class extends Component {
             </Button>
           </View>
         ) : (
-          <ItemPlaceHolderH />
-        )}
+            <ItemPlaceHolderH />
+          )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />

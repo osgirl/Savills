@@ -32,8 +32,12 @@ import IC_AVATAR_DF from "@resources/icons/avatar-default.png";
 import IC_NO_INBOX from "@resources/icons/inbox.png";
 import IC_INBOXEMTY from "@resources/icons/inbox_emty.png";
 import Configs from ".././../utils/configs";
+import ModalNew from "./components/modalNew";
 import { ItemPlaceHolderH } from "../../components/placeHolderItem";
+import { isIphoneX } from '@utils/func';
+import Styles from "./styles";
 
+import Language from '../../utils/language';
 
 import ModalDetail from "./components/modalDetail";
 
@@ -71,6 +75,7 @@ export default class extends Component {
 
     render() {
         let unitActive = this.props.units.unitActive;
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
 
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 10, 30],
@@ -114,7 +119,7 @@ export default class extends Component {
                     showTitleHeader={true}
                     center={
                         <Animated.View style={{ opacity: opacityTextHeader }}>
-                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Inbox'}</Text>
+                            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.IB_TITLEHEADER}</Text>
                         </Animated.View>
                     }
                     renderViewRight={
@@ -135,7 +140,7 @@ export default class extends Component {
                         }}
                     >
                         <Animated.View style={{ opacity: opacityText, position: 'absolute', }}>
-                            <HeaderTitle title={'Inbox'} />
+                            <HeaderTitle title={LG.IB_TITLEHEADER} />
                         </Animated.View>
                     </Animated.View>
                 </LinearGradient>
@@ -148,7 +153,9 @@ export default class extends Component {
                         locked={true}
                     >
                         {this.ViewInbox(this.state.data)}
+                        {this.ViewSend(this.state.dataToManager)}
                         {this.ViewStorage(this.state.dataIsActive)}
+
                     </ScrollableTabView>
                 </LinearGradient>
                 <Modal
@@ -165,6 +172,9 @@ export default class extends Component {
                         inboxId={this.state.inboxId}
                         onClose={() => this._closeModalDetail()}
                     />
+                </Modal>
+                <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNew}>
+                    <ModalNew onClose={() => this._onCloseModalNew()} />
                 </Modal>
             </View >
         );
@@ -225,8 +235,9 @@ export default class extends Component {
     }
 
     ViewInbox = list => {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
         return (
-            <View tabLabel="New" style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+            <View tabLabel={LG.IB_TITLE_TAB_NEW} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
                 {
                     this.props.inbox.listInbox.totalCount === 0 ?
                         this.renderEmty('new') :
@@ -267,8 +278,9 @@ export default class extends Component {
     };
 
     ViewStorage = list => {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
         return (
-            <View tabLabel="Storage" style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+            <View tabLabel={LG.IB_TITLE_TAB_STORE} style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
                 {
                     this.props.inbox.listInboxIsActive.totalCount === 0 ?
                         this.renderEmty('store') :
@@ -301,6 +313,56 @@ export default class extends Component {
                                 <ItemPlaceHolderH noMargin />
                             </View>
                 }
+            </View>
+        );
+    };
+
+    ViewSend = list => {
+        let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+        return (
+            <View tabLabel={LG.IB_TITLE_TAB_SEND} style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+                {
+                    this.props.inbox.listInboxIsActive.totalCount === 0 ?
+                        this.renderEmty('store') :
+                        list.length > 0 ?
+                            <SwipeListView
+                                useFlatList
+                                alwaysBounceVertical={false}
+                                showsVerticalScrollIndicator={false}
+                                scrollEventThrottle={16}
+                                keyExtractor={(item, index) => item.id.toString()}
+                                data={list}
+                                // onScroll={this.handleScroll}
+                                onScroll={this.onScroll}
+                                scrollEventThrottle={16}
+                                refreshing={this.state.isRefreshActive}
+                                onRefresh={() => this._onRefreshIsActive()}
+                                // renderHiddenItem={(item, index) => this.renderHiddenRow(item, index)}
+                                // rightOpenValue={-80}
+                                renderItem={({ item, index }) => this.renderItem(item, index)}
+                                // ListEmptyComponent={() => this.renderEmty('store')}
+                                onEndReachedThreshold={0.01}
+                                onEndReached={() => this._onEndReachedInboxActive()}
+                                legacyImplementation={false}
+                                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                                ListHeaderComponent={() => <View style={{ height: 20, }} />}
+                                ListFooterComponent={() => this._FooterFlatlist()}
+                            />
+                            :
+                            <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                                <ItemPlaceHolderH noMargin />
+                            </View>
+                }
+                <View
+                    style={{
+                        backgroundColor: '#FFF',
+                        width: width,
+                        height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
+                    }}
+                />
+                <Button onPress={() => this._openModalNew()} style={[Styles.ButtonAdd, {}]}>
+                    <Image source={require('../../resources/icons/plush-addnew.png')} />
+                </Button>
             </View>
         );
     };
