@@ -31,7 +31,8 @@ import Resolution from '@utils/resolution';
 import AlertWarning from '@components/alertWarning';
 import { isIphoneX } from '@utils/func';
 import Loading from '@components/loading';
-
+import IC_CALENDAR_ARROR from '@resources/icons/arrow_calendar.png';
+import IC_CALENDAR_ARROR_UP from '@resources/icons/arrow_up_calendar.png';
 const HEADER_MAX_HEIGHT = Resolution.scale(isIphoneX() ? 135 : Platform.OS === 'ios' ? 120 : 120);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -280,14 +281,12 @@ class ModalNewBooking extends PureComponent {
             <Button onPress={() => this.setState({ openFullCalendar: false })}>
               <View
                 style={{
-                  width: 50,
-                  height: 4,
-                  borderRadius: 2,
-                  backgroundColor: 'rgba(255,255,255,0.5)',
                   alignSelf: 'center',
                   marginBottom: 10
                 }}
-              />
+              >
+                <Image source={IC_CALENDAR_ARROR_UP} />
+              </View>
             </Button>
           </LinearGradient>
         ) : (
@@ -309,14 +308,12 @@ class ModalNewBooking extends PureComponent {
             <Button onPress={() => this.setState({ openFullCalendar: true })}>
               <View
                 style={{
-                  width: 50,
-                  height: 4,
-                  borderRadius: 2,
-                  backgroundColor: 'rgba(255,255,255,0.5)',
                   alignSelf: 'center',
                   marginBottom: 10
                 }}
-              />
+              >
+                <Image source={IC_CALENDAR_ARROR} />
+              </View>
             </Button>
           </LinearGradient>
         )}
