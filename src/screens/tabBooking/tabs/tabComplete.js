@@ -53,6 +53,7 @@ class TabComplete extends PureComponent {
           extraData={this.state}
           renderItem={({ item, index }) => <ItemBooking item={item} index={index} action={() => this.clickDetail(item, 2)} />}
           onScroll={this.props.onScroll}
+          scrollEventThrottle={16}
           onEndReached={() => this._onEndReached()}
           onEndReachedThreshold={0.01}
           // ListFooterComponent={() => this._FooterFlatlist()}
@@ -79,8 +80,8 @@ class TabComplete extends PureComponent {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(40) }} />
-    );
+        <View style={{ height: Resolution.scale(40) }} />
+      );
   }
 
   async _onEndReached() {

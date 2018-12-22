@@ -17,7 +17,7 @@ import {
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
-
+import HeaderTitle from '@components/headerTitle';
 import Header from '@components/header';
 import { isIphoneX } from '@utils/func';
 
@@ -72,26 +72,16 @@ class TabWorkOrder extends PureComponent {
     }
   };
 
-  componentWillReceiveProps = nextProps => {};
+  componentWillReceiveProps = nextProps => { };
 
   handleScroll = event => {
+    const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          if (event.nativeEvent.contentOffset.y > 40) {
-            if (!this.showCenter) {
-              this.showCenter = true;
-              this.setState({ isShowTitleHeader: true });
-              // this.props.navigation.setParams({ eventTitle: 'Events' });
-            }
-          } else {
-            if (this.showCenter) {
-              this.showCenter = false;
-              // this.props.navigation.setParams({ eventTitle: null });
-              this.setState({ isShowTitleHeader: false });
-            }
-          }
+          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity
+          this.state.scrollY.setValue(offset);
         }
       },
       { useNativeDriver: true }
@@ -102,58 +92,105 @@ class TabWorkOrder extends PureComponent {
     let unitActive = this.props.units.unitActive;
 
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 10, 40, 60],
-      outputRange: [60, 40, 10, 0],
+      inputRange: [0, 10, 30],
+      outputRange: [60, 30, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
+    const headerTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, 30],
+      outputRange: [0, -50],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
+    const fontSize = this.state.scrollY.interpolate({
+      inputRange: [0, 0, 100],
+      outputRange: [30, 30, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
     const opacityText = this.state.scrollY.interpolate({
-      inputRange: [0, 60, 100],
+      inputRange: [0, 30, 60],
       outputRange: [1, 0.5, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
-    const opacityText2 = this.state.scrollY.interpolate({
-      inputRange: [0, 60, 100],
-      outputRange: [1, 0.3, 0],
-      extrapolate: 'clamp'
+    const opacityTextHeader = this.state.scrollY.interpolate({
+      inputRange: [0, 30],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+      useNativeDriver: true
     });
 
-    const headerHeight2 = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    });
+    // const headerHeight = this.state.scrollY.interpolate({
+    //   inputRange: [0, 10, 40, 60],
+    //   outputRange: [60, 40, 10, 0],
+    //   extrapolate: 'clamp',
+    //   useNativeDriver: true
+    // });
+    // const opacityText = this.state.scrollY.interpolate({
+    //   inputRange: [0, 60, 100],
+    //   outputRange: [1, 0.5, 0],
+    //   extrapolate: 'clamp',
+    //   useNativeDriver: true
+    // });
+
+    // const opacityText2 = this.state.scrollY.interpolate({
+    //   inputRange: [0, 60, 100],
+    //   outputRange: [1, 0.3, 0],
+    //   extrapolate: 'clamp'
+    // });
+
+    // const headerHeight2 = this.state.scrollY.interpolate({
+    //   inputRange: [0, HEADER_SCROLL_DISTANCE],
+    //   outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+    //   extrapolate: 'clamp'
+    // });
 
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Animated.View style={[{ height: headerHeight2 }]}>
-          <Header
-            LinearGradient={true}
-            leftIcon={IC_BACK}
-            leftAction={() => this.props.navigation.goBack()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-              <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Yêu Cầu</Text>
-              </View>
-            }
-            renderViewRight={
-              <Button
-                onPress={() => this.setState({ isModalSelectUnit: true })}
-                style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
-              >
-                <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                <Image source={IMAGE.dropDown} style={{ marginLeft: 10 }} />
-              </Button>
-            }
-          />
-        </Animated.View>
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
-          <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
+        <Header
+          LinearGradient={true}
+          leftIcon={IC_BACK}
+          leftAction={() => this.props.navigation.goBack()}
+          headercolor={'transparent'}
+          showTitleHeader={true}
+          center={
+            <Animated.View style={{ opacity: opacityTextHeader }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Yêu Cầu</Text>
+            </Animated.View>
+          }
+          renderViewRight={
+            <Button
+              onPress={() => this.setState({ isModalSelectUnit: true })}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
+            >
+              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+              <Image source={IMAGE.dropDown} style={{ marginLeft: 10 }} />
+            </Button>
+          }
+        />
+
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ width: width, zIndex: -10 }}>
+          <Animated.View
+            style={{
+              transform: [{ translateY: headerTranslate }],
+              height: headerHeight,
+            }}
+          >
+            <Animated.View style={{ opacity: opacityText, position: 'absolute', }}>
+              <HeaderTitle title={'Yêu Cầu'} />
+            </Animated.View>
+          </Animated.View>
+        </LinearGradient>
+
+
+        {/* <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}> */}
+        {/* <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
             <Animated.Text
               style={{
                 fontSize: 30,
@@ -166,7 +203,9 @@ class TabWorkOrder extends PureComponent {
             >
               Yêu Cầu
             </Animated.Text>
-          </Animated.View>
+          </Animated.View> */}
+        {/* </LinearGradient> */}
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1, zIndex: 1 }}>
           <ScrollableTabView
             tabBarActiveTextColor={'#FFF'}
             tabBarInactiveTextColor={'rgba(255,255,255,0.9)'}
@@ -217,7 +256,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 6 },
     shadowOpacity: 0.3,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    zIndex: 10,
   }
 });
 

@@ -8,7 +8,7 @@ import {
     FlatList,
     Dimensions,
     Animated,
-    ActivityIndicator
+    ActivityIndicator, Platform
 } from 'react-native';
 
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
@@ -46,31 +46,17 @@ const { width } = Dimensions.get('window');
 export default class extends Component {
 
     handleScroll = event => {
+        const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
         Animated.event(
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
             {
                 listener: event => {
-                    if (event.nativeEvent.contentOffset.y > 40) {
-                        if (!this.showCenter) {
-                            this.showCenter = true;
-                            this.setState({ isShowTitleHeader: true });
-                        }
-                    } else {
-                        if (this.showCenter) {
-                            this.showCenter = false;
-                            this.setState({ isShowTitleHeader: false });
-                        }
-                    }
+                    const offset = event.nativeEvent.contentOffset.y / scrollSensitivity
+                    this.state.scrollY.setValue(offset);
                 }
             },
             { useNativeDriver: true }
         )(event);
-    };
-
-    onScroll = e => {
-        const scrollSensitivity = 4;
-        const offset = e.nativeEvent.contentOffset.y / scrollSensitivity
-        this.state.scrollY.setValue(offset);
     };
 
     render() {
@@ -88,12 +74,14 @@ export default class extends Component {
             inputRange: [0, 30],
             outputRange: [0, -50],
             extrapolate: 'clamp',
+            useNativeDriver: true
         });
 
         const fontSize = this.state.scrollY.interpolate({
             inputRange: [0, 0, 100],
             outputRange: [30, 30, 0],
-            extrapolate: 'clamp'
+            extrapolate: 'clamp',
+            useNativeDriver: true
         });
         const opacityText = this.state.scrollY.interpolate({
             inputRange: [0, 30, 60],
@@ -105,7 +93,8 @@ export default class extends Component {
         const opacityTextHeader = this.state.scrollY.interpolate({
             inputRange: [0, 30],
             outputRange: [0, 1],
-            extrapolate: 'clamp'
+            extrapolate: 'clamp',
+            useNativeDriver: true
         });
 
         return (
@@ -147,7 +136,7 @@ export default class extends Component {
                 <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1, zIndex: 1 }}>
                     <ScrollableTabView
                         tabBarActiveTextColor={'#FFF'}
-                        tabBarInactiveTextColor={'rgba(255,255,255,0.5)'}
+                        tabBarInactiveTextColor={'rgba(255,255,255,0.9)'}
                         tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
                         tabBarBackgroundColor={'transparent'}
                         locked={true}
@@ -261,9 +250,7 @@ export default class extends Component {
                                     renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
                                     rightOpenValue={-80}
                                     renderItem={({ item, index }) => this.renderItem(item, index)}
-                                    // ListEmptyComponent={() => this.renderEmty('new')}
-                                    // onScroll={this.handleScroll}
-                                    onScroll={this.onScroll}
+                                    onScroll={this.handleScroll}
                                     scrollEventThrottle={16}
                                     onEndReachedThreshold={0.01}
                                     onEndReached={() => this._onEndReached()}
@@ -298,15 +285,11 @@ export default class extends Component {
                                 scrollEventThrottle={16}
                                 keyExtractor={(item, index) => item.id.toString()}
                                 data={list}
-                                // onScroll={this.handleScroll}
-                                onScroll={this.onScroll}
+                                onScroll={this.handleScroll}
                                 scrollEventThrottle={16}
                                 refreshing={this.state.isRefreshActive}
                                 onRefresh={() => this._onRefreshIsActive()}
-                                // renderHiddenItem={(item, index) => this.renderHiddenRow(item, index)}
-                                // rightOpenValue={-80}
                                 renderItem={({ item, index }) => this.renderItem(item, index)}
-                                // ListEmptyComponent={() => this.renderEmty('store')}
                                 onEndReachedThreshold={0.01}
                                 onEndReached={() => this._onEndReachedInboxActive()}
                                 legacyImplementation={false}
@@ -338,7 +321,7 @@ export default class extends Component {
                                 scrollEventThrottle={16}
                                 keyExtractor={(item, index) => item.id.toString()}
                                 data={list}
-                                onScroll={this.onScroll}
+                                onScroll={this.handleScroll}
                                 scrollEventThrottle={16}
                                 refreshing={this.state.isRefreshActive}
                                 onRefresh={() => this._onRefreshInBoxToManager()}

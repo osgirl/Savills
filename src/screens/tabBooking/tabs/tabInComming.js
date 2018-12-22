@@ -52,7 +52,7 @@ class TabInComming extends PureComponent {
           renderItem={({ item, index }) => <ItemBooking item={item} index={index} action={() => this.clickDetail(item)} />}
           onScroll={this.props.onScroll}
           onEndReached={() => this._onEndReached()}
-          scrollEventThrottle={1}
+          scrollEventThrottle={16}
           onEndReachedThreshold={0.01}
           extraData={this.state}
           legacyImplementation={false}
@@ -79,8 +79,8 @@ class TabInComming extends PureComponent {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(40) }} />
-    );
+        <View style={{ height: Resolution.scale(40) }} />
+      );
   }
 
   async _onEndReached() {

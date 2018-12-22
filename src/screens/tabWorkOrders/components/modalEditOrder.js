@@ -36,12 +36,12 @@ import Configs from '@utils/configs';
 
 import ModalChat from "../../../components/modalChat";
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
+import AnimatedTitle from '@components/animatedTitle';
 
 const STAR_ON = require('@resources/icons/Star-big.png');
 const STAR_OFF = require('@resources/icons/Star.png');
-const HEADER_MAX_HEIGHT = Resolution.scale(140);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+const HEADER_MAX_HEIGHT = 60;
 
 const options = {
   title: 'Select Image',
@@ -68,7 +68,7 @@ class ModalEditOrder extends PureComponent {
       vote: 0,
       description: '',
       comment: '',
-      scrollY: new Animated.Value(0),
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isShowTitleHeader: false,
       showModalConfirmCancel: false,
       showImage: false,
@@ -180,22 +180,37 @@ class ModalEditOrder extends PureComponent {
   };
 
   handleScroll = event => {
-    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
-      listener: event => {
-        if (event.nativeEvent.contentOffset.y > 60) {
-          if (!this.showCenter) {
-            this.showCenter = true;
-            this.setState({ isShowTitleHeader: true });
-          }
-        } else {
-          if (this.showCenter) {
-            this.showCenter = false;
-            this.setState({ isShowTitleHeader: false });
-          }
+    Animated.event(
+      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+      {
+        listener: event => {
+          const offset = event.nativeEvent.contentOffset.y
+          this.state.scrollY.setValue(offset);
         }
-      }
-    })(event);
+      },
+      { useNativeDriver: true }
+    )(event);
   };
+
+  // handleScrollEndDrag = event => {
+  //   Animated.event(
+  //     [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+  //     {
+  //       listener: event => {
+  //         const offset = event.nativeEvent.contentOffset.y
+  //         if (offset > -35 && offset < 0) {
+  //           this.state.scrollY.setValue(0);
+  //           this.scroll.scrollTo({ x: 0, y: 0 })
+  //         }
+  //         if (offset < -35 && offset > -HEADER_MAX_HEIGHT) {
+  //           this.state.scrollY.setValue(0);
+  //           this.scroll.scrollTo({ x: 0, y: -HEADER_MAX_HEIGHT })
+  //         }
+  //       }
+  //     },
+  //     { useNativeDriver: true }
+  //   )(event);
+  // }
 
   renderModalCancel = () => {
     return (
@@ -323,11 +338,6 @@ class ModalEditOrder extends PureComponent {
     {
       this.changeStatusBar();
     }
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    });
 
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -335,16 +345,25 @@ class ModalEditOrder extends PureComponent {
       </View>
     ) : (
         <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+          {this.renderHeader(id)}
           <KeyboardAwareScrollView
+            scrollEventThrottle={16}
+            contentContainerStyle={{
+              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+            }}
+            contentInset={{
+              top: HEADER_MAX_HEIGHT
+            }}
+            contentOffset={{
+              y: -HEADER_MAX_HEIGHT
+            }}
             innerRef={ref => (this.scroll = ref)}
             keyboardShouldPersistTaps="handled"
-            extraHeight={50}
             showsVerticalScrollIndicator={false}
             onScroll={this.handleScroll}
-            style={{ flex: 1, backgroundColor: '#F6F8FD' }}
+            // onScrollEndDrag={this.handleScrollEndDrag}
             enableOnAndroid
           >
-            <View style={{ width: width, height: 120, zIndex: 999, backgroundColor: 'transparent' }} />
             <ItemScorll
               title={'Thông Tin'}
               view={
@@ -609,39 +628,43 @@ class ModalEditOrder extends PureComponent {
           {this.renderContentModalChat()}
           {this.renderModalRating()}
           {this.renderModalCancel()}
-          <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
-            <Header
-              LinearGradient={true}
-              leftIcon={require('../../../resources/icons/close.png')}
-              leftAction={() => this.props.navigation.goBack()}
-              renderViewRight={
-                <TouchableOpacity
-                  onPress={() => this.changeStatusWorkOrder(currentStatus.id)}
-                  style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}
-                >
-                  <Text style={{ color: '#FFF', fontSize: 15, fontWeight: 'bold', marginRight: 20 }}>Lưu</Text>
-                </TouchableOpacity>
-              }
-              headercolor={'transparent'}
-              showTitleHeader={this.state.isShowTitleHeader}
-              center={
-                <View>
-                  <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`#${id}`}</Text>
-                </View>
-              }
-            />
-            <LinearGradient
-              colors={['#4A89E8', '#8FBCFF']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={{ width: width, marginBottom: 20 }}
-            >
-              <HeaderTitle title={`#${id}`} />
-            </LinearGradient>
-          </Animated.View>
           {this.showDetailImage()}
         </View>
       );
+  }
+
+  renderHeader(id) {
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 60],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
+    return (
+      <View>
+        <Header
+          isModal
+          LinearGradient={true}
+          leftIcon={require('../../../resources/icons/close.png')}
+          leftAction={() => this.props.navigation.goBack()}
+          renderViewRight={
+            <TouchableOpacity
+              onPress={() => this.changeStatusWorkOrder(currentStatus.id)}
+              style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}
+            >
+              <Text style={{ color: '#FFF', fontSize: 15, fontWeight: 'bold', marginRight: 20 }}>Lưu</Text>
+            </TouchableOpacity>
+          }
+          headercolor={'transparent'}
+          showTitleHeader={true}
+          center={
+            <Animated.View style={{ opacity: isShow }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`# ${id}`}</Text>
+            </Animated.View>
+          }
+        />
+        <AnimatedTitle scrollY={this.state.scrollY} label={'# ' + id} />
+      </View>
+    );
   }
 
   renderFooter = () => {

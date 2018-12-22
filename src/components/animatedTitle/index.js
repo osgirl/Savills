@@ -35,7 +35,9 @@ export default class AnimatedTitle extends Component {
     });
 
     return (
-      <Animated.View style={[Style.headerTitle, { transform: [{ translateY: headerTranslate }] }]}>
+      <Animated.View style={[Style.headerTitle,
+      { transform: [{ translateY: headerTranslate }] }
+      ]}>
         <LinearGradient
           colors={['#4A89E8', '#8FBCFF']}
           start={{ x: 0, y: 0 }}
