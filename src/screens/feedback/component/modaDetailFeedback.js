@@ -529,10 +529,12 @@ class ModalDetailFeedback extends Component {
   }
 
   renderContentModalChat() {
+    let id = this.props.userProfile.profile.result.user.id;
     return (
       <ModalChat
         isVisible={this.state.isShowChat}
         title={this.state.data && this.state.data.commentBoxId}
+        idUser={id}
         listComment={this.state.listComment}
         editableTextInput={this.state.data && this.state.data.statusCode !== 'SUBMITTED' ? true : false}
         disabledBtn={this.state.comment.trim().length > 0 ? false : true}

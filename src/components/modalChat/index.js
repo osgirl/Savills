@@ -18,7 +18,9 @@ export default class ModalChat extends Component {
   }
 
   render() {
-    const { title, listComment, editableTextInput, disabledBtn, opacityBtnSend, isVisible, refTextInout } = this.props;
+    const { title, listComment, editableTextInput,
+      disabledBtn, opacityBtnSend, isVisible,
+      colors, refTextInout, idUser } = this.props;
     return (
       <Modal style={{ flex: 1, margin: 0, paddingTop: 50, height: height, width: width }} isVisible={isVisible}>
         <View style={{ flex: 1, backgroundColor: '#FFF', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
@@ -63,7 +65,7 @@ export default class ModalChat extends Component {
               (items, index) => ({ ...items[index], nextMessage: index - 1 < 0 ? {} : items[index - 1] }) //eslint-disable-line
             }
             renderItem={({ item, index }) => (
-              <ItemComment {...this.props} index={index} item={item} idUser={item.creatorUserId} />
+              <ItemComment {...this.props} index={index} item={item} idUser={idUser} />
             )}
             // onEndReached={this.handleLoadMore}
             // onEndReachedThreshold={0.9}
@@ -71,7 +73,7 @@ export default class ModalChat extends Component {
             style={{ flex: 1 }}
           />
           <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
+            colors={colors ? colors : ['#4A89E8', '#8FBCFF']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={[

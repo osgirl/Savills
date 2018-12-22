@@ -31,6 +31,9 @@ import Resolution from '@utils/resolution';
 
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 
+import ModalChat from "../../../components/modalChat";
+
+
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -156,7 +159,7 @@ class ModalDetailBooking extends PureComponent {
         moduleId: 3
       };
       this.props.actions.workOrder.addCommentUser(accessTokenAPI, comment);
-      this.flatList.scrollToEnd({ animated: true });
+      // this.flatList.scrollToEnd({ animated: true });
     }
   };
 
@@ -358,26 +361,26 @@ class ModalDetailBooking extends PureComponent {
         >
           <Image source={IMAGE.chatBig} />
           {this.props.workOrder.commentUnread &&
-          this.props.workOrder.commentUnread.success &&
-          this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
-            <View
-              style={{
-                width: 16,
-                height: 16,
-                backgroundColor: 'red',
-                borderRadius: 8,
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
-                {this.props.workOrder.commentUnread.result[0].unreadCount}
-              </Text>
-            </View>
-          ) : null}
+            this.props.workOrder.commentUnread.success &&
+            this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
+              <View
+                style={{
+                  width: 16,
+                  height: 16,
+                  backgroundColor: 'red',
+                  borderRadius: 8,
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
+                  {this.props.workOrder.commentUnread.result[0].unreadCount}
+                </Text>
+              </View>
+            ) : null}
         </TouchableOpacity>
         {/* End ======= Button show chat */}
         {this.renderContentModalChat()}
@@ -392,69 +395,89 @@ class ModalDetailBooking extends PureComponent {
     let tabIndex = this.props.navigation.getParam('index', false);
     let id = this.props.userProfile.profile.result.user.id;
     let IdBooking = this.props.booking.detailBooking.result.reservationId;
+
     return (
-      <Modal
-        style={Style.ModalChatContain}
-        keyboardDismissMode="on-drag"
-        keyboardShouldPersistTaps={'always'}
+      <ModalChat
         isVisible={this.state.isShowChat}
-      >
-        <View style={Style.ViewContainChat}>
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowChat: false })}>
-            <Image style={{ margin: 10 }} source={IMAGE.closeBlack} />
-          </TouchableOpacity>
-          <Text style={{ flex: 5, textAlign: 'center' }}>#{`${IdBooking}`}</Text>
-          <View style={{ flex: 1 }} />
-        </View>
-        <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: this.state.marginBottom }}>
-          <FlatList
-            data={this.state.listChat}
-            keyExtractor={(item, index) => item.id.toString()}
-            style={{ flex: 1 }}
-            ref={ref => (this.flatList = ref)}
-            // onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
-            // onLayout={() => this.flatList.scrollToEnd({ animated: true })}
-            renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={id} />}
-            ListEmptyComponent={() => {
-              return (
-                <View style={{ flex: 1, height: isIphoneX() ? 500 : height - 150, alignItems: 'center', marginTop: 100 }}>
-                  <Image source={IC_CHATEMTY} />
-                  <Text
-                    style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
-                  >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
-                </View>
-              );
-            }}
-          />
-        </View>
-        <KeyboardAvoidingView behavior="position" enabled>
-          <LinearGradient
-            colors={tabIndex && tabIndex == 2 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={Style.ViewButtonChat}
-          >
-            <View style={Style.ViewButton}>
-              <TextInput
-                ref={input => {
-                  this.textInput = input;
-                }}
-                editable={tabIndex && tabIndex == 2 ? false : true}
-                returnKeyType={'send'}
-                style={{ flex: 1, color: '#FFF' }}
-                onChangeText={e => this.setState({ chatText: e })}
-                onSubmitEditing={() => this.addComment()}
-                placeholderTextColor={'rgba(255,255,255,0.7)'}
-                placeholder={'Nhập tin nhắn ...'}
-              />
-              <TouchableOpacity disabled={this.state.chatText.trim() == '' ? true : false} onPress={() => this.addComment()}>
-                <Image style={{ opacity: this.state.chatText.trim() == '' ? 0.5 : 1 }} source={IMAGE.sendMessage} />
-              </TouchableOpacity>
-            </View>
-          </LinearGradient>
-        </KeyboardAvoidingView>
-      </Modal>
-    );
+        title={IdBooking}
+        idUser={id}
+        listComment={this.state.listChat}
+        editableTextInput={tabIndex && tabIndex == 2 ? false : true}
+        disabledBtn={this.state.chatText.trim() == '' ? true : false}
+        addComment={() => this.addComment()}
+        onChangeText={(text) => this.setState({ chatText: text })}
+        opacityBtnSend={this.state.chatText.trim() == '' ? 0.5 : 1}
+        onClose={() => this.setState({ isShowChat: false })}
+        refTextInout={
+          input => {
+            this.textInput = input;
+          }
+        }
+      />
+    )
+    // return (
+    //   <Modal
+    //     style={Style.ModalChatContain}
+    //     keyboardDismissMode="on-drag"
+    //     keyboardShouldPersistTaps={'always'}
+    //     isVisible={this.state.isShowChat}
+    //   >
+    //     <View style={Style.ViewContainChat}>
+    //       <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowChat: false })}>
+    //         <Image style={{ margin: 10 }} source={IMAGE.closeBlack} />
+    //       </TouchableOpacity>
+    //       <Text style={{ flex: 5, textAlign: 'center' }}>#{`${IdBooking}`}</Text>
+    //       <View style={{ flex: 1 }} />
+    //     </View>
+    //     <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: this.state.marginBottom }}>
+    //       <FlatList
+    //         data={this.state.listChat}
+    //         keyExtractor={(item, index) => item.id.toString()}
+    //         style={{ flex: 1 }}
+    //         ref={ref => (this.flatList = ref)}
+    //         // onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
+    //         // onLayout={() => this.flatList.scrollToEnd({ animated: true })}
+    //         renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={id} />}
+    //         ListEmptyComponent={() => {
+    //           return (
+    //             <View style={{ flex: 1, height: isIphoneX() ? 500 : height - 150, alignItems: 'center', marginTop: 100 }}>
+    //               <Image source={IC_CHATEMTY} />
+    //               <Text
+    //                 style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
+    //               >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
+    //             </View>
+    //           );
+    //         }}
+    //       />
+    //     </View>
+    //     <KeyboardAvoidingView behavior="position" enabled>
+    //       <LinearGradient
+    //         colors={tabIndex && tabIndex == 2 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
+    //         start={{ x: 0, y: 0 }}
+    //         end={{ x: 1, y: 0 }}
+    //         style={Style.ViewButtonChat}
+    //       >
+    //         <View style={Style.ViewButton}>
+    //           <TextInput
+    //             ref={input => {
+    //               this.textInput = input;
+    //             }}
+    //             editable={tabIndex && tabIndex == 2 ? false : true}
+    //             returnKeyType={'send'}
+    //             style={{ flex: 1, color: '#FFF' }}
+    //             onChangeText={e => this.setState({ chatText: e })}
+    //             onSubmitEditing={() => this.addComment()}
+    //             placeholderTextColor={'rgba(255,255,255,0.7)'}
+    //             placeholder={'Nhập tin nhắn ...'}
+    //           />
+    //           <TouchableOpacity disabled={this.state.chatText.trim() == '' ? true : false} onPress={() => this.addComment()}>
+    //             <Image style={{ opacity: this.state.chatText.trim() == '' ? 0.5 : 1 }} source={IMAGE.sendMessage} />
+    //           </TouchableOpacity>
+    //         </View>
+    //       </LinearGradient>
+    //     </KeyboardAvoidingView>
+    //   </Modal>
+    // );
   }
 
   renderModalCancel = () => {
