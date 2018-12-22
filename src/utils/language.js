@@ -122,6 +122,7 @@ export default class {
 
         IB_DT_TITLEHEADER: 'Detail',
         IB_DT_DESCRIPT: 'Description',
+        IB_DT_TITLE: 'Title',
         IB_DT_IMAGE: 'Image',
 
         IB_CR_TITLEHEADER: 'New Inbox',
@@ -306,6 +307,7 @@ export default class {
 
         IB_DT_TITLEHEADER: 'Chi tiết',
         IB_DT_DESCRIPT: 'Thông tin',
+        IB_DT_TITLE: 'Tiêu Đề',
         IB_DT_IMAGE: 'Hình ảnh',
 
         IB_CR_TITLEHEADER: 'Tạo mới',
@@ -314,6 +316,7 @@ export default class {
         IB_CR_TITLE_BTN: 'Gửi',
         IB_CR_ENTER_TITLE: 'Nhập tiêu đề',
         IB_CR_ENTER_DESCRIPT: 'Nhập nội dung',
+
 
         //LIBARY
         LB_TITLEHEADER: 'Thư viện',

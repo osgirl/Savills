@@ -114,6 +114,25 @@ class ModalDetailFeedback extends Component {
             }}
           >
             <View>
+              {data.subject && (
+                <ItemScorll
+                  title={LG.IB_DT_TITLE}
+                  view={
+                    <View
+                      style={{
+                        width: null,
+                        flex: 1,
+                        borderRadius: 10,
+                        backgroundColor: '#FFF',
+                        padding: Resolution.scale(20),
+                        // justifyContent: 'space-around'
+                      }}
+                    >
+                      <HTML html={data.subject} imagesMaxWidth={width} />
+                    </View>
+                  }
+                />
+              )}
               {data.content && (
                 <ItemScorll
                   title={LG.IB_DT_DESCRIPT}

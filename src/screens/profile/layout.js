@@ -224,6 +224,7 @@ export default class extends Component {
                     {this.state.profile.emailAddress}
                   </Text>
                   <Button
+                    disabled={true}
                     onPress={() => {
                       this._openModalUpdate('sdt');
                     }}
@@ -242,6 +243,7 @@ export default class extends Component {
                 </View>
                 <View style={{ flex: 1 }}>
                   <Button
+                    disabled={true}
                     onPress={() => {
                       this._openModalUpdate('name');
                     }}
@@ -251,6 +253,7 @@ export default class extends Component {
                     </Text>
                   </Button>
                   <Button
+                    disabled={true}
                     onPress={() => {
                       this._openModalUpdate('surname');
                     }}
@@ -260,6 +263,7 @@ export default class extends Component {
                     </Text>
                   </Button>
                   <Button
+                    disabled={true}
                     onPress={() => {
                       this._openModalUpdate('displayName');
                     }}

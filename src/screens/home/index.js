@@ -44,20 +44,6 @@ class Home extends layout {
   }
 
   async componentWillReceiveProps(nextProps) {
-    // if (this.props.account.userSettings !== nextProps.account.userSettings && nextProps.account.userSettings.success) {
-    //   let dataGrantedPermissions = nextProps.account.userSettings.result.auth.grantedPermissions;
-    //   let accessTokenApi = this.props.account.accessTokenAPI;
-    //   let arrTemp = [];
-    //   this.state.DATA.map(item => {
-    //     if (item.key in dataGrantedPermissions && dataGrantedPermissions[item.key]) {
-    //       arrTemp.push(item);
-    //     }
-    //   });
-    //   await this.setState({ dataModule: arrTemp });
-    //   if (this.state.isRefresh) {
-    //     await this.setState({ isRefresh: false });
-    //   }
-    // }
 
     if (this.props.app.moduleHome !== nextProps.app.moduleHome && nextProps.app.moduleHome.success) {
       const dataTemp = this.state.DATA.slice();
@@ -199,8 +185,6 @@ class Home extends layout {
     await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
     await this.props.actions.app.getModuleHome(accessTokenApi);
     await this.props.actions.app.getLanguageApp(accessTokenApi);
-    // await this.props.actions.account.getUserSettings(accessTokenApi);
-
     await this.props.actions.account.getTenantActive();
   }
 
@@ -383,8 +367,8 @@ class Home extends layout {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     await this.setState({ loading: true });
     await this.props.actions.app.logoutNoti(accessTokenAPI);
-    await this.props.actions.account.logOut('');
     await this.props.actions.units.setUnitLocal({});
+    await this.props.actions.account.logOut('');
     await this.props.actions.account.setTenantLocal({});
     await this.props.actions.account.setAccessTokenLocal('');
     await this.props.actions.account.setAccessApiTokenLocal('');

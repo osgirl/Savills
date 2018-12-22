@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Dimensions, StyleSheet, Image } from 'react-native';
 import moment from 'moment';
+import Connect from '@stores';
 const { width } = Dimensions.get('window');
 
 class ItemComment extends Component {
@@ -79,4 +80,4 @@ const styles = StyleSheet.create({
     fontSize: 12
   }
 });
-export default ItemComment;
+export default Connect(ItemComment);

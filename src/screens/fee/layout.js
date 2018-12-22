@@ -190,7 +190,7 @@ export default class extends Component {
                     }}>
 
                         <Animated.View style={{ marginTop: Resolution.scale(20), alignItems: 'center', opacity: opacityView1 }}>
-                            <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold' }}>October / 2018</Text>
+                            {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold' }}>October / 2018</Text> */}
                             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                 <Text style={{ fontSize: Resolution.scale(35), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>{Utils.convertNumber(this.state.totalPay)}</Text>
                                 <Text style={{ fontSize: Resolution.scale(20), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginLeft: Resolution.scale(10) }}>VND</Text>
@@ -201,8 +201,8 @@ export default class extends Component {
                         <Animated.View style={{ opacity: opacityView2, position: 'absolute', left: 0, right: 0 }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: Resolution.scale(20), height: 60 }}>
                                 <View style={{}}>
-                                    <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text>
-                                    <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5, textAlign: 'left' }}>{unitActive.fullUnitCode}</Text>
+                                    {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text> */}
+                                    <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 1, textAlign: 'left' }}>{unitActive.fullUnitCode}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', alignSelf: 'center' }}>
                                     <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginRight: Resolution.scale(10), paddingBottom: Resolution.scale(5) }}>VND</Text>
@@ -243,7 +243,7 @@ export default class extends Component {
                         this.state.data.length > 0 ?
                             <FlatList
                                 alwaysBounceVertical={false}
-                                data={this.state.data}
+                                data={this.state.data.reverse()}
                                 refreshControl={
                                     <RefreshControl
                                         refreshing={this.state.isRefesh}

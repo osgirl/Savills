@@ -182,14 +182,20 @@ export default class extends Component {
 
     renderEmty(name) {
         if (name === 'new' && this.props.inbox.listInbox.totalCount === 0) {
-            return <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: Resolution.scale(60) }}>
+            return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                 <Image source={IC_INBOXEMTY} />
                 <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn mới'}</Text>
             </View>
         } else if (name === 'store' && this.props.inbox.listInboxIsActive.totalCount === 0) {
-            return <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: Resolution.scale(60) }}>
+            return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                 <Image source={IC_INBOXEMTY} />
                 <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn nào đã lưu'}</Text>
+            </View>
+        }
+        else if (name === 'send' && this.props.inbox.listInboxToManager.totalCount === 0) {
+            return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+                <Image source={IC_INBOXEMTY} />
+                <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn nào đã gửi'}</Text>
             </View>
         } else {
             <View style={{ alignItems: 'center', alignItems: 30 }}>
@@ -239,7 +245,7 @@ export default class extends Component {
         return (
             <View tabLabel={LG.IB_TITLE_TAB_NEW} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
                 {
-                    this.props.inbox.listInbox.totalCount === 0 ?
+                    this.props.inbox.listInboxFromManager.totalCount === 0 ?
                         this.renderEmty('new') :
                         list.length > 0 ?
                             <View style={{ paddingHorizontal: 20 }}>
@@ -323,7 +329,7 @@ export default class extends Component {
             <View tabLabel={LG.IB_TITLE_TAB_SEND} style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
                 {
                     this.props.inbox.listInboxIsActive.totalCount === 0 ?
-                        this.renderEmty('store') :
+                        this.renderEmty('send') :
                         list.length > 0 ?
                             <SwipeListView
                                 useFlatList
@@ -332,17 +338,15 @@ export default class extends Component {
                                 scrollEventThrottle={16}
                                 keyExtractor={(item, index) => item.id.toString()}
                                 data={list}
-                                // onScroll={this.handleScroll}
                                 onScroll={this.onScroll}
                                 scrollEventThrottle={16}
                                 refreshing={this.state.isRefreshActive}
-                                onRefresh={() => this._onRefreshIsActive()}
-                                // renderHiddenItem={(item, index) => this.renderHiddenRow(item, index)}
-                                // rightOpenValue={-80}
+                                onRefresh={() => this._onRefreshInBoxToManager()}
                                 renderItem={({ item, index }) => this.renderItem(item, index)}
-                                // ListEmptyComponent={() => this.renderEmty('store')}
+                                renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
+                                rightOpenValue={-80}
                                 onEndReachedThreshold={0.01}
-                                onEndReached={() => this._onEndReachedInboxActive()}
+                                onEndReached={() => this._onEndReachedInboxToManager()}
                                 legacyImplementation={false}
                                 ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
                                 ListHeaderComponent={() => <View style={{ height: 20, }} />}
