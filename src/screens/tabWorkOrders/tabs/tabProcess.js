@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, FlatList, RefreshControl, ActivityIndicator, StatusBar } from 'react-native';
+import { View, FlatList, RefreshControl, ActivityIndicator, StatusBar, DeviceEventEmitter } from 'react-native';
 import moment from 'moment';
 import Connect from '@stores';
 import EmptyItemList from '@components/emptyItemList';
@@ -41,6 +41,7 @@ class TabComplete extends PureComponent {
   };
 
   componentDidMount() {
+    DeviceEventEmitter.addListener('UpdateList', e => this._onRefresh());
     this._getList();
   }
 

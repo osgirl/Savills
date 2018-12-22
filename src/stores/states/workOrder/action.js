@@ -1,6 +1,6 @@
 import Types from './';
 import Configs from '../../../utils/configs';
-export function getWorkOrderListActive(accessTokenAPI, memberId, pageCount) {
+export function getWorkOrderListActive(accessTokenAPI, memberId, pageCount = 1) {
   return {
     type: Types.GET_LIST_WORKORDER_ACTIVE,
     payload: {
