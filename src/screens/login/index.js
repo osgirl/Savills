@@ -32,18 +32,18 @@ class Login extends layout {
         }
 
         this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-			BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
-		);
+            BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        );
     }
 
     componentWillMount() {
         // console.log('____', this.props)
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-			BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
-		);
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        );
     }
 
     async componentWillReceiveProps(nextProps) {
@@ -77,12 +77,14 @@ class Login extends layout {
                 await this.props.actions.userProfile.getCurrentLoginInformations(nextProps.account.linkedAccountAuthenticate.result.accessToken);
                 await this.props.actions.userProfile.getImageUserProfile(nextProps.account.linkedAccountAuthenticate.result.accessToken);
                 await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
+                await this.props.actions.notification.getListNotification(nextProps.account.linkedAccountAuthenticate.result.accessToken);
                 await this.props.actions.account.setIsAccessTokenAPI(true);
             }
 
             if (this.props.units.listUnits !== nextProps.units.listUnits && nextProps.units.listUnits.success && !nextProps.units.isGetlisUnit) {
                 if (nextProps.units.listUnits.result.items && nextProps.units.listUnits.result.items.length === 1) {
                     await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.result.items[0]);
+                    await this.props.actions.notification.getListCountModule(nextProps.account.linkedAccountAuthenticate.result.accessToken, nextProps.units.listUnits.result.items[0].unitId);
                     await this.props.navigation.navigate('Home');
                     this.setState({ loading: false })
                     this.props.actions.units.setIsGetlisUnit(true);
@@ -97,6 +99,7 @@ class Login extends layout {
                     })
                     if (unitTemp && unitTemp !== null) {
                         this.props.actions.units.setUnitLocal(unitTemp);
+                        this.props.actions.notification.getListCountModule(accessTokenAPI, unitTemp.unitId);
                         this.props.navigation.navigate('Home');
                         this.props.actions.units.setIsGetlisUnit(true);
                         this.setState({ loading: false, unMount: false })

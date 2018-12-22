@@ -14,6 +14,7 @@ import {
   Platform,
   FlatList,
   Keyboard,
+  VirtualizedList,
   KeyboardAvoidingView,
   ActivityIndicator,
   StyleSheet,
@@ -31,6 +32,8 @@ import Button from '@components/button';
 import Connect from '@stores';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import AnimatedHeader from '@components/animatedHeader';
+
+import ModalChat from "@components/modalChat";
 
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 import IC_CLOSE from '@resources/icons/close.png';
@@ -526,92 +529,23 @@ class ModalDetailFeedback extends Component {
   }
 
   renderContentModalChat() {
-    let focusChat = {};
     return (
-      <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
-        <View
-          style={{
-            width: width,
-            height: 50,
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            flexDirection: 'row',
-            backgroundColor: '#FFF',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingHorizontal: 20
-          }}
-        >
-          <TouchableOpacity onPress={() => this.setState({ isShowChat: false })}>
-            <Image style={{ margin: 10 }} source={require('../../../resources/icons/close-black.png')} />
-          </TouchableOpacity>
-          <Text>{'# ' + this.state.data && this.state.data.commentBoxId}</Text>
-          <View />
-        </View>
-        <Animated.View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: this.state.marginBottom }}>
-          <FlatList
-            data={this.state.listComment}
-            style={{ flex: 1 }}
-            keyExtractor={(item, index) => item.commentBoxId}
-            renderItem={({ item, index }) => (
-              <ItemComment {...this.props} index={index} item={item} idUser={item.creatorUserId} />
-            )}
-            ref={ref => (this.flatList = ref)}
-            onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
-            onLayout={() => this.flatList.scrollToEnd({ animated: true })}
-            ListEmptyComponent={() => {
-              return (
-                <View style={{ flex: 1, alignItems: 'center', marginTop: 100, height: isIphoneX() ? 500 : height - 150 }}>
-                  <Image source={IC_CHATEMTY} />
-                  <Text
-                    style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
-                  >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
-                </View>
-              );
-            }}
-            ListFooterComponent={() => <View style={{ marginBottom: 80 }} />}
-          />
-        </Animated.View>
-        <KeyboardAvoidingView behavior="position" enabled>
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={[
-              {
-                width: width - 40,
-                position: 'absolute',
-                bottom: 20,
-                left: 20,
-                height: 50,
-                borderRadius: 10
-              },
-              focusChat
-            ]}
-          >
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
-              <TextInput
-                ref={input => {
-                  this.textInput = input;
-                }}
-                editable={this.state.data && this.state.data.statusCode !== 'SUBMITTED' ? true : false}
-                returnKeyType={'send'}
-                style={{ flex: 1, color: '#FFF' }}
-                onSubmitEditing={() => this.addComment()}
-                onChangeText={e => this.setState({ comment: e })}
-                placeholderTextColor={'rgba(255,255,255,0.7)'}
-                placeholder={'Nhập tin nhắn ...'}
-              />
-              <TouchableOpacity disabled={this.state.comment.trim() == '' ? true : false} onPress={() => this.addComment()}>
-                <Image
-                  style={{ opacity: this.state.comment.trim() == '' ? 0.5 : 1 }}
-                  source={require('../../../resources/icons/send-mess.png')}
-                />
-              </TouchableOpacity>
-            </View>
-          </LinearGradient>
-        </KeyboardAvoidingView>
-      </Modal>
+      <ModalChat
+        isVisible={this.state.isShowChat}
+        title={this.state.data && this.state.data.commentBoxId}
+        listComment={this.state.listComment}
+        editableTextInput={this.state.data && this.state.data.statusCode !== 'SUBMITTED' ? true : false}
+        disabledBtn={this.state.comment.trim().length > 0 ? false : true}
+        addComment={() => this.addComment()}
+        onChangeText={(text) => this.setState({ comment: text })}
+        opacityBtnSend={this.state.comment.trim() == '' ? 0.5 : 1}
+        onClose={() => this.setState({ isShowChat: false })}
+        refTextInout={
+          input => {
+            this.textInput = input;
+          }
+        }
+      />
     );
   }
 }

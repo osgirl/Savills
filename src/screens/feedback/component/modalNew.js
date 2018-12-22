@@ -15,7 +15,7 @@ import {
   Platform,
   FlatList,
   KeyboardAvoidingView,
-  Keyboard
+  Keyboard, Alert
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -74,6 +74,16 @@ class ModalNewFeedback extends Component {
     let accessTokenApi = this.props.account.accessTokenAPI;
     let unitID = this.props.units.unitActive.unitId;
     this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
+  }
+
+  _alertError = (Title) => {
+    Alert.alert(
+      Title,
+      [
+        { text: 'OK' },
+      ],
+      { cancelable: false }
+    )
   }
 
   handleScroll = event => {
@@ -310,11 +320,14 @@ class ModalNewFeedback extends Component {
             style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
             onPress={() => {
               if (this.state.type.trim() === '') {
-                alert(LG.FB_ALERT_NO_TYPE);
+                this._alertError(LG.FB_ALERT_NO_TYPE);
+                // alert(LG.FB_ALERT_NO_TYPE);
               } else if (this.state.categorySelectedId === null) {
-                alert(LG.FB_ALERT_NO_FEEDBACK);
+                this._alertError(LG.FB_ALERT_NO_FEEDBACK);
+                // alert(LG.FB_ALERT_NO_FEEDBACK);
               } else if (this.state.comment.trim() === '') {
-                alert(LG.FB_ALERT_NO_PROBLEM);
+                this._alertError(LG.FB_ALERT_NO_PROBLEM);
+                // alert(LG.FB_ALERT_NO_PROBLEM);
               } else {
                 this.setState({ isShowModalConfirm: true });
               }

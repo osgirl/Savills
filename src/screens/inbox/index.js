@@ -49,13 +49,13 @@ class Inbox extends layout {
 
     async componentWillReceiveProps(nextProps) {
 
-        if (this.props.inbox.listInbox.items !== nextProps.inbox.listInbox.items && nextProps.inbox.listInbox.success && this.state.isRefresh) {
-            await this.setState({ data: nextProps.inbox.listInbox.items });
+        if (this.props.inbox.listInboxFromManager.items !== nextProps.inbox.listInboxFromManager.items && nextProps.inbox.listInboxFromManager.success && this.state.isRefresh) {
+            await this.setState({ data: nextProps.inbox.listInboxFromManager.items });
             await this.setState({ isRefresh: false })
         }
 
-        if (this.props.inbox.listInbox.items !== nextProps.inbox.listInbox.items && nextProps.inbox.listInbox.success && !this.state.isRefresh) {
-            await this.setState({ data: this.state.data.concat(nextProps.inbox.listInbox.items) });
+        if (this.props.inbox.listInboxFromManager.items !== nextProps.inbox.listInboxFromManager.items && nextProps.inbox.listInboxFromManager.success && !this.state.isRefresh) {
+            await this.setState({ data: this.state.data.concat(nextProps.inbox.listInboxFromManager.items) });
             await this.setState({ loadingMore: false, isRefresh: false })
         }
 
@@ -83,6 +83,7 @@ class Inbox extends layout {
         if (this.props.inbox.setInboxActive !== nextProps.inbox.setInboxActive && nextProps.inbox.setInboxActive) {
             this._onRefresh(1);
             this._onRefreshIsActive(1);
+            this._onRefreshInBoxToManager(1);
         }
 
         // setInboxActive
@@ -116,7 +117,8 @@ class Inbox extends layout {
     _getListInbox(page = this.state.pageInbox) {
         let languege = Language.listLanguage[this.props.app.languegeLocal].id
         let accessTokenApi = this.props.account.accessTokenAPI;
-        this.props.actions.inbox.getListInbox(accessTokenApi, languege, page);
+        // this.props.actions.inbox.getListInbox(accessTokenApi, languege, page);
+        this.props.actions.inbox.getInboxFromManagement(accessTokenApi, languege, page);
     }
 
     _getListInboxIsActive(page = this.state.pageInboxActive) {
@@ -140,8 +142,28 @@ class Inbox extends layout {
         await this._getListInboxIsActive(1);
     }
 
+
+    //Inbox Tomanager
+    async _onRefreshInBoxToManager() {
+        if (this.state.isRefreshToManager) {
+            return;
+        }
+        await this.setState({ isRefreshToManager: true, pageInboxToManager: 1 })
+        await this._getInboxToManager(1);
+    }
+
+    async _onEndReachedInboxToManager() {
+        let totalCount = this.props.inbox.listInboxToManager.totalCount;
+        if (this.state.loadingMoreToManager || totalCount === this.state.dataToManager.length) {
+            return;
+        }
+        await this.setState({ loadingMoreToManager: true, pageInboxToManager: this.state.pageInboxToManager + 1 });
+        await this._getInboxToManager(this.state.pageInboxToManager);
+    }
+    ///
+
     async _onEndReached() {
-        let totalCount = this.props.inbox.listInbox.totalCount;
+        let totalCount = this.props.inbox.listInboxFromManager.totalCount;
         if (this.state.loadingMore || totalCount === this.state.data.length) {
             return;
         }
