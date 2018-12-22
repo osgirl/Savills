@@ -20,14 +20,14 @@ import moment from 'moment';
 
 import Header from '@components/header';
 import { isIphoneX } from '@utils/func';
-
+import HeaderTitle from '@components/headerTitle';
 import Button from '@components/button';
-import EmptyItemList from '@components/emptyItemList';
 
 import IC_BACK from '@resources/icons/back-light.png';
 const { width } = Dimensions.get('window');
 import Resolution from '@utils/resolution';
 import Modal from 'react-native-modal';
+import IC_DROPDOWN from '../../resources/icons/dropDown.png';
 
 import ModalSelectUnit from '@components/modalSelectUnit';
 import { ItemPlaceHolderH } from '@components/placeHolderItem';
@@ -41,10 +41,6 @@ const IMAGE = {
 
 import TabProcess from './tabs/tabProcess';
 import TabComplete from './tabs/tabComplete';
-
-const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class TabWorkOrder extends PureComponent {
   constructor(props) {
@@ -107,72 +103,80 @@ class TabWorkOrder extends PureComponent {
       extrapolate: 'clamp',
       useNativeDriver: true
     });
+
     const opacityText = this.state.scrollY.interpolate({
-      inputRange: [0, 60, 100],
+      inputRange: [0, 30, 60],
       outputRange: [1, 0.5, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
-    const opacityText2 = this.state.scrollY.interpolate({
-      inputRange: [0, 60, 100],
-      outputRange: [1, 0.3, 0],
+    const headerTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, 30],
+      outputRange: [0, -50],
       extrapolate: 'clamp'
     });
 
-    const headerHeight2 = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+    const opacityTextHeader = this.state.scrollY.interpolate({
+      inputRange: [0, 30],
+      outputRange: [0, 1],
       extrapolate: 'clamp'
     });
 
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Animated.View style={[{ height: headerHeight2 }]}>
-          <Header
-            LinearGradient={true}
-            leftIcon={IC_BACK}
-            leftAction={() => this.props.navigation.goBack()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-              <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Yêu Cầu</Text>
-              </View>
-            }
-            renderViewRight={
-              <Button
-                onPress={() => this.setState({ isModalSelectUnit: true })}
-                style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
-              >
-                <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                <Image source={IMAGE.dropDown} style={{ marginLeft: 10 }} />
-              </Button>
-            }
-          />
-        </Animated.View>
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
-          <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
-            <Animated.Text
-              style={{
-                fontSize: 30,
-                fontFamily: 'OpenSans-Bold',
-                color: '#FFF',
-                marginLeft: 20,
-                marginBottom: 0,
-                opacity: opacityText2
-              }}
+        <Header
+          LinearGradient={true}
+          leftIcon={IC_BACK}
+          leftAction={() => this.props.navigation.goBack()}
+          headercolor={'transparent'}
+          showTitleHeader={true}
+          center={
+            <Animated.View style={{ opacity: opacityTextHeader }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Yêu cầu</Text>
+            </Animated.View>
+          }
+          renderViewRight={
+            <Button
+              onPress={() => this.setState({ isModalSelectUnit: true })}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
             >
-              Yêu Cầu
-            </Animated.Text>
+              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+              <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+            </Button>
+          }
+        />
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ width: width, zIndex: -10 }}
+        >
+          <Animated.View
+            style={{
+              transform: [{ translateY: headerTranslate }],
+              height: headerHeight
+            }}
+          >
+            <Animated.View style={{ opacity: opacityText, position: 'absolute' }}>
+              <HeaderTitle title={'Yên cầu'} />
+            </Animated.View>
           </Animated.View>
+        </LinearGradient>
+
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ flex: 1, zIndex: 1 }}
+        >
           <ScrollableTabView
+            textStyle={{ fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}
             tabBarActiveTextColor={'#FFF'}
             tabBarInactiveTextColor={'rgba(255,255,255,0.9)'}
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
-            backgroundColor={'#FFF'}
           >
             <TabProcess onScroll={this.handleScroll} tabLabel={'Đang xủ lý'} {...this.props} />
             <TabComplete onScroll={this.handleScroll} tabLabel={'Hoàn tất'} {...this.props} />
@@ -206,6 +210,7 @@ const styles = StyleSheet.create({
     marginBottom: 0
   },
   ButtonAdd: {
+    zIndex: 1,
     borderRadius: 25,
     width: 50,
     height: 50,

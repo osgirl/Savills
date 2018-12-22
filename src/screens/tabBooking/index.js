@@ -10,7 +10,8 @@ import {
   StyleSheet,
   StatusBar,
   Animated,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native';
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
@@ -32,19 +33,14 @@ import ModalNewBooking from './components/modalNewBooking';
 import Resolution from '@utils/resolution';
 
 import Button from '../../components/button';
-
 import IC_DROPDOWN from '../../resources/icons/dropDown.png';
-
-const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class TabBooking extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isShowCategory: false,
-      listCategory: [],
+      listCategory: false,
       scrollY: new Animated.Value(0),
       isModalSelectUnit: false,
       isModalNewBooking: false,
@@ -53,9 +49,6 @@ class TabBooking extends Component {
   }
 
   componentDidMount = () => {
-    let accessTokenApi = this.props.account.accessTokenAPI;
-    const buildingID = this.props.units.unitActive.buildingId;
-    this.props.actions.booking.getListCategory(accessTokenApi, buildingID);
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalDetailBooking', { id: ida.itemtype });
@@ -109,66 +102,70 @@ class TabBooking extends Component {
     });
 
     const opacityText = this.state.scrollY.interpolate({
-      inputRange: [0, 60, 100],
+      inputRange: [0, 30, 60],
       outputRange: [1, 0.5, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
-    const opacityText2 = this.state.scrollY.interpolate({
-      inputRange: [0, 60, 100],
-      outputRange: [1, 0.3, 0],
+    const headerTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, 30],
+      outputRange: [0, -50],
       extrapolate: 'clamp'
     });
 
-    const headerHeight2 = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+    const opacityTextHeader = this.state.scrollY.interpolate({
+      inputRange: [0, 30],
+      outputRange: [0, 1],
       extrapolate: 'clamp'
     });
-    // this.changeStatusBar()
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <StatusBar barStyle="light-content" />
-        <Animated.View style={[{ height: headerHeight2 }]}>
-          <Header
-            LinearGradient={true}
-            leftIcon={IC_BACK}
-            leftAction={() => this.props.navigation.goBack()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-              <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Đặt tiện ích</Text>
-              </View>
-            }
-            renderViewRight={
-              <Button
-                onPress={() => this.setState({ isModalSelectUnit: true })}
-                style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
-              >
-                <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
-                <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
-              </Button>
-            }
-          />
-        </Animated.View>
-
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
-          <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
-            <Animated.Text
-              style={{
-                fontSize: 30,
-                fontFamily: 'OpenSans-Bold',
-                color: '#FFF',
-                marginLeft: 20,
-                marginBottom: 0,
-                opacity: opacityText2
-              }}
+        <Header
+          LinearGradient={true}
+          leftIcon={IC_BACK}
+          leftAction={() => this.props.navigation.goBack()}
+          headercolor={'transparent'}
+          showTitleHeader={true}
+          center={
+            <Animated.View style={{ opacity: opacityTextHeader }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Đặt tiện ích</Text>
+            </Animated.View>
+          }
+          renderViewRight={
+            <Button
+              onPress={() => this.setState({ isModalSelectUnit: true })}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
             >
-              Đặt tiện ích
-            </Animated.Text>
+              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+              <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
+            </Button>
+          }
+        />
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ width: width, zIndex: -10 }}
+        >
+          <Animated.View
+            style={{
+              transform: [{ translateY: headerTranslate }],
+              height: headerHeight
+            }}
+          >
+            <Animated.View style={{ opacity: opacityText, position: 'absolute' }}>
+              <HeaderTitle title={'Đặt tiện ích'} />
+            </Animated.View>
           </Animated.View>
+        </LinearGradient>
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ flex: 1, zIndex: 1 }}
+        >
           <ScrollableTabView
             textStyle={{ fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}
             tabBarActiveTextColor={'#FFF'}
@@ -192,11 +189,12 @@ class TabBooking extends Component {
           }}
         />
         <TouchableOpacity
-          onPress={() => this.setState({ isShowCategory: true })}
+          onPress={() => this.clickShowCategory()}
           style={{
             borderRadius: 25,
             width: 50,
             height: 50,
+            zIndex: 1,
             position: 'absolute',
             bottom: isIphoneX() ? 30 : 20,
             left: width / 2 - 25,
@@ -226,15 +224,20 @@ class TabBooking extends Component {
     );
   }
 
+  clickShowCategory = () => {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    this.setState({ isShowCategory: true, listCategory: false });
+    setTimeout(() => {
+      const buildingID = this.props.units.unitActive.buildingId;
+      this.props.actions.booking.getListCategory(accessTokenApi, buildingID);
+    }, 200);
+  };
+
   changeCategory = () => {
     this.setState({ isModalNewBooking: false });
     setTimeout(() => {
       this.setState({ isShowCategory: true });
     }, 500);
-  };
-
-  clickDetail = () => {
-    this.props.navigation.navigate('ModalDetailBooking');
   };
 
   renderModalCategory() {
@@ -264,13 +267,19 @@ class TabBooking extends Component {
             <View />
           </View>
           <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            <FlatList
-              data={this.state.listCategory}
-              keyExtractor={(item, index) => item.amenityId.toString()}
-              renderItem={({ item, index }) => (
-                <ItemCategory index={index} item={item} actins={() => this.gotoCreateBooking(item)} />
-              )}
-            />
+            {this.state.listCategory ? (
+              <FlatList
+                data={this.state.listCategory}
+                keyExtractor={(item, index) => item.amenityId.toString()}
+                renderItem={({ item, index }) => (
+                  <ItemCategory index={index} item={item} actins={() => this.gotoCreateBooking(item)} />
+                )}
+              />
+            ) : (
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <ActivityIndicator size={'large'} color={configs.colorMain} />
+              </View>
+            )}
           </View>
         </View>
       </Modal>
