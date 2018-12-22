@@ -28,15 +28,13 @@ import Header from '@components/header';
 import HeaderTitle from '@components/headerTitle';
 import Button from '@components/button';
 import Resolution from '@utils/resolution';
-
+import AnimatedTitle from '@components/animatedTitle';
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 
 import ModalChat from "../../../components/modalChat";
 
 
-const HEADER_MAX_HEIGHT = Resolution.scale(140);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+const HEADER_MAX_HEIGHT = 60;
 const { width, height } = Dimensions.get('window');
 
 const IMAGE = {
@@ -58,7 +56,7 @@ class ModalDetailBooking extends PureComponent {
       listChat: [],
       chatText: '',
       isShowTitleHeader: false,
-      scrollY: new Animated.Value(0),
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       popupError: false,
       marginBottom: 0,
       isShowChat: false
@@ -125,21 +123,16 @@ class ModalDetailBooking extends PureComponent {
   }
 
   handleScroll = event => {
-    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
-      listener: event => {
-        if (event.nativeEvent.contentOffset.y > 60) {
-          if (!this.showCenter) {
-            this.showCenter = true;
-            this.setState({ isShowTitleHeader: true });
-          }
-        } else {
-          if (this.showCenter) {
-            this.showCenter = false;
-            this.setState({ isShowTitleHeader: false });
-          }
+    Animated.event(
+      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+      {
+        listener: event => {
+          const offset = event.nativeEvent.contentOffset.y
+          this.state.scrollY.setValue(offset);
         }
-      }
-    })(event);
+      },
+      { useNativeDriver: true }
+    )(event);
   };
 
   addComment = () => {
@@ -189,21 +182,24 @@ class ModalDetailBooking extends PureComponent {
     } = this.props.booking.detailBooking.result;
     let date = moment(createdAt).format('l');
 
-    const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, HEADER_SCROLL_DISTANCE],
-      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-      extrapolate: 'clamp'
-    });
     this.changeStatusBar();
     let tabIndex = this.props.navigation.getParam('index', false);
     return (
       <View style={{ flex: 1 }}>
+        {this.renderHeader(reservationId)}
         <ScrollView
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ marginTop: HEADER_MAX_HEIGHT }}
+          contentContainerStyle={{
+            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+          }}
+          contentInset={{
+            top: HEADER_MAX_HEIGHT
+          }}
+          contentOffset={{
+            y: -HEADER_MAX_HEIGHT
+          }}
           onScroll={this.handleScroll}
-          style={{ flex: 1, backgroundColor: '#F6F8FD' }}
         >
           <ItemScorll
             title={'Dịch Vụ'}
@@ -326,30 +322,6 @@ class ModalDetailBooking extends PureComponent {
             }
           />
         </ScrollView>
-        {/* start =====> Header */}
-        <Animated.View style={{ height: headerHeight, position: 'absolute', top: 0, left: 0, right: 0, overflow: 'hidden' }}>
-          <Header
-            LinearGradient={true}
-            leftIcon={IMAGE.close}
-            leftAction={() => this.props.navigation.goBack()}
-            headercolor={'transparent'}
-            showTitleHeader={this.state.isShowTitleHeader}
-            center={
-              <View>
-                <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`#${reservationId}`}</Text>
-              </View>
-            }
-          />
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{ width: width, marginBottom: 20 }}
-          >
-            <HeaderTitle title={`#${reservationId}`} />
-          </LinearGradient>
-        </Animated.View>
-        {/* End =====> Header */}
         {/* Start ======= Button show chat */}
         <TouchableOpacity
           style={{
@@ -390,6 +362,32 @@ class ModalDetailBooking extends PureComponent {
       </View>
     );
   };
+
+  renderHeader(id) {
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 60],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
+    return (
+      <View>
+        <Header
+          isModal
+          LinearGradient={true}
+          leftIcon={IMAGE.close}
+          leftAction={() => this.props.navigation.goBack()}
+          headercolor={'transparent'}
+          showTitleHeader={true}
+          center={
+            <Animated.View style={{ opacity: isShow }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`# ${id}`}</Text>
+            </Animated.View>
+          }
+        />
+        <AnimatedTitle scrollY={this.state.scrollY} label={'# ' + id} />
+      </View>
+    );
+  }
 
   renderContentModalChat() {
     let tabIndex = this.props.navigation.getParam('index', false);

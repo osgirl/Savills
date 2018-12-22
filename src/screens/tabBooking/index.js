@@ -10,8 +10,7 @@ import {
   StyleSheet,
   StatusBar,
   Animated,
-  Platform,
-  ActivityIndicator
+  Platform
 } from 'react-native';
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
@@ -33,14 +32,19 @@ import ModalNewBooking from './components/modalNewBooking';
 import Resolution from '@utils/resolution';
 
 import Button from '../../components/button';
+
 import IC_DROPDOWN from '../../resources/icons/dropDown.png';
+
+const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
+const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class TabBooking extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isShowCategory: false,
-      listCategory: false,
+      listCategory: [],
       scrollY: new Animated.Value(0),
       isModalSelectUnit: false,
       isModalNewBooking: false,
@@ -49,6 +53,9 @@ class TabBooking extends Component {
   }
 
   componentDidMount = () => {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    const buildingID = this.props.units.unitActive.buildingId;
+    this.props.actions.booking.getListCategory(accessTokenApi, buildingID);
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalDetailBooking', { id: ida.itemtype });
@@ -63,21 +70,13 @@ class TabBooking extends Component {
   }
 
   handleScroll = event => {
+    const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          if (event.nativeEvent.contentOffset.y > 40) {
-            if (!this.showCenter) {
-              this.showCenter = true;
-              this.setState({ isShowTitleHeader: true });
-            }
-          } else {
-            if (this.showCenter) {
-              this.showCenter = false;
-              this.setState({ isShowTitleHeader: false });
-            }
-          }
+          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity
+          this.state.scrollY.setValue(offset);
         }
       },
       { useNativeDriver: true }
@@ -95,15 +94,8 @@ class TabBooking extends Component {
     let unitActive = this.props.units.unitActive;
 
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 10, 40, 60],
-      outputRange: [60, 40, 10, 0],
-      extrapolate: 'clamp',
-      useNativeDriver: true
-    });
-
-    const opacityText = this.state.scrollY.interpolate({
-      inputRange: [0, 30, 60],
-      outputRange: [1, 0.5, 0],
+      inputRange: [0, 10, 30],
+      outputRange: [60, 30, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
@@ -111,14 +103,56 @@ class TabBooking extends Component {
     const headerTranslate = this.state.scrollY.interpolate({
       inputRange: [0, 30],
       outputRange: [0, -50],
-      extrapolate: 'clamp'
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
+    const fontSize = this.state.scrollY.interpolate({
+      inputRange: [0, 0, 100],
+      outputRange: [30, 30, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+    const opacityText = this.state.scrollY.interpolate({
+      inputRange: [0, 30, 60],
+      outputRange: [1, 0.5, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
     });
 
     const opacityTextHeader = this.state.scrollY.interpolate({
       inputRange: [0, 30],
       outputRange: [0, 1],
-      extrapolate: 'clamp'
+      extrapolate: 'clamp',
+      useNativeDriver: true
     });
+
+    // const headerHeight = this.state.scrollY.interpolate({
+    //   inputRange: [0, 10, 40, 60],
+    //   outputRange: [60, 40, 10, 0],
+    //   extrapolate: 'clamp',
+    //   useNativeDriver: true
+    // });
+
+    // const opacityText = this.state.scrollY.interpolate({
+    //   inputRange: [0, 60, 100],
+    //   outputRange: [1, 0.5, 0],
+    //   extrapolate: 'clamp',
+    //   useNativeDriver: true
+    // });
+
+    // const opacityText2 = this.state.scrollY.interpolate({
+    //   inputRange: [0, 60, 100],
+    //   outputRange: [1, 0.3, 0],
+    //   extrapolate: 'clamp'
+    // });
+
+    // const headerHeight2 = this.state.scrollY.interpolate({
+    //   inputRange: [0, HEADER_SCROLL_DISTANCE],
+    //   outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+    //   extrapolate: 'clamp'
+    // });
+    // this.changeStatusBar()
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <StatusBar barStyle="light-content" />
@@ -143,29 +177,37 @@ class TabBooking extends Component {
             </Button>
           }
         />
-        <LinearGradient
-          colors={['#4A89E8', '#8FBCFF']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={{ width: width, zIndex: -10 }}
-        >
+
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ width: width, zIndex: -10 }}>
           <Animated.View
             style={{
               transform: [{ translateY: headerTranslate }],
-              height: headerHeight
+              height: headerHeight,
             }}
           >
-            <Animated.View style={{ opacity: opacityText, position: 'absolute' }}>
+            <Animated.View style={{ opacity: opacityText, position: 'absolute', }}>
               <HeaderTitle title={'Đặt tiện ích'} />
             </Animated.View>
           </Animated.View>
         </LinearGradient>
-        <LinearGradient
-          colors={['#4A89E8', '#8FBCFF']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={{ flex: 1, zIndex: 1 }}
-        >
+
+        {/* <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}> */}
+        {/* <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
+            <Animated.Text
+              style={{
+                fontSize: 30,
+                fontFamily: 'OpenSans-Bold',
+                color: '#FFF',
+                marginLeft: 20,
+                marginBottom: 0,
+                opacity: opacityText2
+              }}
+            >
+              Đặt tiện ích
+            </Animated.Text>
+          </Animated.View> */}
+
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1, zIndex: 1 }}>
           <ScrollableTabView
             textStyle={{ fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}
             tabBarActiveTextColor={'#FFF'}
@@ -189,12 +231,11 @@ class TabBooking extends Component {
           }}
         />
         <TouchableOpacity
-          onPress={() => this.clickShowCategory()}
+          onPress={() => this.setState({ isShowCategory: true })}
           style={{
             borderRadius: 25,
             width: 50,
             height: 50,
-            zIndex: 1,
             position: 'absolute',
             bottom: isIphoneX() ? 30 : 20,
             left: width / 2 - 25,
@@ -203,7 +244,8 @@ class TabBooking extends Component {
             shadowOffset: { width: 3, height: 6 },
             shadowOpacity: 0.3,
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            zIndex: 10
           }}
         >
           <Image source={require('../../resources/icons/plush-addnew.png')} />
@@ -224,20 +266,15 @@ class TabBooking extends Component {
     );
   }
 
-  clickShowCategory = () => {
-    let accessTokenApi = this.props.account.accessTokenAPI;
-    this.setState({ isShowCategory: true, listCategory: false });
-    setTimeout(() => {
-      const buildingID = this.props.units.unitActive.buildingId;
-      this.props.actions.booking.getListCategory(accessTokenApi, buildingID);
-    }, 200);
-  };
-
   changeCategory = () => {
     this.setState({ isModalNewBooking: false });
     setTimeout(() => {
       this.setState({ isShowCategory: true });
     }, 500);
+  };
+
+  clickDetail = () => {
+    this.props.navigation.navigate('ModalDetailBooking');
   };
 
   renderModalCategory() {
@@ -267,19 +304,13 @@ class TabBooking extends Component {
             <View />
           </View>
           <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            {this.state.listCategory ? (
-              <FlatList
-                data={this.state.listCategory}
-                keyExtractor={(item, index) => item.amenityId.toString()}
-                renderItem={({ item, index }) => (
-                  <ItemCategory index={index} item={item} actins={() => this.gotoCreateBooking(item)} />
-                )}
-              />
-            ) : (
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <ActivityIndicator size={'large'} color={configs.colorMain} />
-              </View>
-            )}
+            <FlatList
+              data={this.state.listCategory}
+              keyExtractor={(item, index) => item.amenityId.toString()}
+              renderItem={({ item, index }) => (
+                <ItemCategory index={index} item={item} actins={() => this.gotoCreateBooking(item)} />
+              )}
+            />
           </View>
         </View>
       </Modal>

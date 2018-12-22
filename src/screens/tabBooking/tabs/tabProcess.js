@@ -62,7 +62,7 @@ class TabProcess extends PureComponent {
           onScroll={this.props.onScroll}
           legacyImplementation={false}
           onEndReached={() => this._onEndReached()}
-          scrollEventThrottle={1}
+          scrollEventThrottle={16}
           onEndReachedThreshold={0.01}
           // scrollEventThrottle={1}
           // ListFooterComponent={() => this._FooterFlatlist()}
@@ -89,8 +89,8 @@ class TabProcess extends PureComponent {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(40) }} />
-    );
+        <View style={{ height: Resolution.scale(40) }} />
+      );
   }
 
   async _onEndReached() {
@@ -114,7 +114,7 @@ class TabProcess extends PureComponent {
     this.props.actions.booking.getListBookingProcess(accessTokenApi, this.state.pageCount);
   }
 
-  renderFooter = () => {};
+  renderFooter = () => { };
 
   clickDetail = item => {
     this.props.navigation.navigate('ModalDetailBooking', { id: item.reservationId });
