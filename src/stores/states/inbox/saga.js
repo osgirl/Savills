@@ -76,6 +76,33 @@ function* setRead(action) {
   }
 }
 
+function* getCommentUser(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_COMMENT_USER_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function* getCommentUnread(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_COMMENT_UNREAD_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function* addCommentUser(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.ADD_COMMENT_USER_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 
 export default function* saga() {
   yield takeLatest(Types.GET_LIST_INBOX, getListInbox);
@@ -86,4 +113,8 @@ export default function* saga() {
   yield takeLatest(Types.GET_LIST_INBOX_FROM_MANAGER, getInboxFromManagement);
   yield takeLatest(Types.GET_LIST_INBOX_TO_MANAGER, getInboxToManagement);
   yield takeLatest(Types.ADD_INBOX, addInbox);
+
+  yield takeLatest(Types.GET_COMMENT_USER, getCommentUser);
+  yield takeLatest(Types.GET_COMMENT_UNREAD, getCommentUnread);
+  yield takeLatest(Types.ADD_COMMENT_USER, addCommentUser);
 }

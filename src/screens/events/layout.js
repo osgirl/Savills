@@ -57,6 +57,11 @@ export default class Layout extends Component {
     let date = moment(data).format('YYYY-MM-DD');
     await this.setState({ dateSelected: date });
     await this._getEventsToDate(date);
+
+    let tempOverView = await this.props.events.overView.result;
+    let objectOverview = this.mapObjectSelected(tempOverView, date);
+    this.setState({ overViewDate: objectOverview });
+
     // this._openModalFull();
   }
 
@@ -97,8 +102,6 @@ export default class Layout extends Component {
       useNativeDriver: true,
     });
 
-
-
     return (
       <Animated.View style={{ zIndex: -1 }}>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
@@ -117,7 +120,7 @@ export default class Layout extends Component {
               <Calendar
                 style={styles.calendar}
                 firstDay={1}
-                markedDates={this.state.overViewDate || {}}
+                markedDates={this.state.overViewDate}
                 onDayPress={data => this._onPressDay(data.dateString)}
                 theme={{
                   todayTextColor: '#343D4D',
@@ -146,7 +149,7 @@ export default class Layout extends Component {
           ) : (
               <View style={{}}>
                 <CalendarStrip
-                  selectedDate={this.state.selectedDate}
+                  selectedDate={this.state.dateSelected ? this.state.dateSelected : new Date()}
                   onPressDate={date => {
                     this._onPressDay(date);
                   }}
