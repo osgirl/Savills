@@ -15,7 +15,8 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   StatusBar,
-  Linking
+  Linking,
+  DeviceEventEmitter
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -136,7 +137,7 @@ class ModalEditOrder extends PureComponent {
     ) {
       nextProps.actions.workOrder.setFlagUpdateWorkOrder();
       this.setState({ showModalConfirmCancel: false }, () => {
-        nextProps.actions.workOrder.getWorkOrderListActive(accessTokenAPI, id);
+        DeviceEventEmitter.emit('UpdateList', {});
         this.props.navigation.goBack();
       });
     }
