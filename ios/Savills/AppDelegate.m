@@ -20,6 +20,7 @@
 {
   NSURL *jsCodeLocation;
 
+  
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 //  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
@@ -72,6 +73,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   NSLog(@"User Info : %@",notification.request.content.userInfo);
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
 }
+
 
 // Payment
 //- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {

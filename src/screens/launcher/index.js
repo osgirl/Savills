@@ -15,7 +15,7 @@ class Launcher extends layout {
     await this.props.actions.account.getTenantLocal();
     await this.props.actions.account.getAccessApiTokenLocal();
     await this.props.actions.account.getEncTokenLocal();
-
+    await this.props.actions.app.getLanguageApp();
     await this.props.actions.units.getUnitLocal();
 
     await this.props.actions.app.getLanguageLocal();

@@ -84,7 +84,7 @@ class ModalNewOrder extends PureComponent {
         }
       }
       this.setState({ loading: false });
-      await nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
+      await nextProps.actions.workOrder.getWorkOrderListActive(accessTokenAPI, id);
       await this.props.navigation.goBack();
     }
   }

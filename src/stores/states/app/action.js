@@ -76,13 +76,12 @@ export function logoutNoti(accessTokenAPI) {
   };
 }
 
-export function getLanguageApp(accessTokenAPI) {
+export function getLanguageApp() {
   return {
     type: Types.GET_LANGUAGE_APP,
     payload: {
       api: Configs.API + '/api/services/app/Language/GetClientSourceLanguageTexts?sourceName=MobileSource&sorting=key%20asc',
-      method: 'GET',
-      token: accessTokenAPI
+      method: 'GET'
     }
   };
 }

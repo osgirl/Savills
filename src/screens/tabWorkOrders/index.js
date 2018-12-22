@@ -39,6 +39,9 @@ const IMAGE = {
   calendar: require('@resources/icons/calendar.png')
 };
 
+import TabProcess from './tabs/tabProcess';
+import TabComplete from './tabs/tabComplete';
+
 const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -63,27 +66,13 @@ class TabWorkOrder extends PureComponent {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const { id } = this.props.userProfile.profile.result.user;
     this.props.actions.workOrder.getListArea(accessTokenApi);
-    this.props.actions.workOrder.getWorkOrderListActive(accessTokenApi, id);
-    this.props.actions.workOrder.getWorkOrderListComplete(accessTokenApi, id);
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalEditOrder', { id: ida.itemtype });
     }
   };
 
-  componentWillReceiveProps = nextProps => {
-    if (this.props.workOrder.listActive !== nextProps.workOrder.listActive && nextProps.workOrder.listActive.success) {
-      this.setState({ listWorkOrder: nextProps.workOrder.listActive.result.items, isRefreshing: false, isLoadDataActive: false });
-    }
-
-    if (this.props.workOrder.listComplete !== nextProps.workOrder.listComplete && nextProps.workOrder.listComplete.success) {
-      this.setState({
-        listWorkOrderComplete: nextProps.workOrder.listComplete.result.items,
-        isRefreshingComplete: false,
-        isLoadDataComplete: false
-      });
-    }
-  };
+  componentWillReceiveProps = nextProps => {};
 
   handleScroll = event => {
     Animated.event(
@@ -185,8 +174,8 @@ class TabWorkOrder extends PureComponent {
             tabBarBackgroundColor={'transparent'}
             backgroundColor={'#FFF'}
           >
-            {this.ViewTwo(this.state.listWorkOrder)}
-            {this.ViewThree(this.state.listWorkOrderComplete)}
+            <TabProcess onScroll={this.handleScroll} tabLabel={'Đang xủ lý'} {...this.props} />
+            <TabComplete onScroll={this.handleScroll} tabLabel={'Hoàn tất'} {...this.props} />
           </ScrollableTabView>
         </LinearGradient>
         <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
@@ -202,194 +191,6 @@ class TabWorkOrder extends PureComponent {
 
   clickDetail = (item, tabIndex) => {
     this.props.navigation.navigate('ModalEditOrder', { id: item.id, tabIndex: tabIndex });
-  };
-
-  ViewTwo = list => {
-    return (
-      <View tabLabel="Đang xử lý" style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {list.length > 0 ? (
-          <View style={{ flex: 1, paddingHorizontal: 20 }}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              scrollEventThrottle={16}
-              keyExtractor={(item, index) => item.id.toString()}
-              data={list}
-              onScroll={this.handleScroll}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.isRefreshing}
-                  onRefresh={() => this._onRefresh()}
-                  tintColor="#000"
-                  titleColor="#000"
-                />
-              }
-              renderItem={({ item, index }) => this.renderItem(item, index, 0)}
-              ListEmptyComponent={() => {
-                return <EmptyItemList loadData={this.state.isLoadDataActive} />;
-              }}
-            />
-          </View>
-        ) : (
-          <ItemPlaceHolderH noMargin />
-        )}
-      </View>
-    );
-  };
-
-  _onRefresh() {
-    let accessTokenApi = this.props.account.accessTokenAPI;
-    const { id } = this.props.userProfile.profile.result.user;
-    this.setState(
-      {
-        isRefreshing: true
-      },
-      () => {
-        this.props.actions.workOrder.getWorkOrderListActive(accessTokenApi, id);
-      }
-    );
-  }
-
-  _onRefreshTabComplete() {
-    let accessTokenApi = this.props.account.accessTokenAPI;
-    const { id } = this.props.userProfile.profile.result.user;
-    this.setState(
-      {
-        isRefreshingComplete: true
-      },
-      () => {
-        this.props.actions.workOrder.getWorkOrderListComplete(accessTokenApi, id);
-      }
-    );
-  }
-
-  ViewThree = list => {
-    return (
-      <View tabLabel="Hoàn tất" style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {list.length > 0 ? (
-          <View style={{ flex: 1, paddingHorizontal: 20 }}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item, index) => item.id.toString()}
-              data={list}
-              onScroll={this.handleScroll}
-              onEndReachedThreshold={0.01}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.isRefreshingComplete}
-                  onRefresh={() => this._onRefreshTabComplete()}
-                  tintColor="#000"
-                  titleColor="#000"
-                />
-              }
-              renderItem={({ item, index }) => this.renderItem(item, index, 1)}
-              ListEmptyComponent={() => {
-                return <EmptyItemList loadData={this.state.isLoadDataComplete} />;
-              }}
-            />
-          </View>
-        ) : (
-          <ItemPlaceHolderH noMargin />
-        )}
-      </View>
-    );
-  };
-
-  renderItem = (item, index, tabIndex) => {
-    let date = moment(item.dateCreate).format('l');
-    let time = moment(item.dateCreate).format('LT');
-    let encToken = this.props.account.encToken;
-    return (
-      <Button
-        onPress={() => this.clickDetail(item, tabIndex)}
-        key={item.id}
-        style={{
-          width: width - 40,
-          height: 160,
-          borderRadius: 10,
-          marginTop: index === 0 ? 20 : 10,
-          backgroundColor: '#FFF',
-          padding: 20
-        }}
-      >
-        {item.unreadCommentCount > 0 ? (
-          <View
-            style={{
-              width: 20,
-              height: 20,
-              backgroundColor: 'red',
-              position: 'absolute',
-              top: 10,
-              right: 10,
-              borderRadius: 10,
-              zIndex: 1,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Text style={{ fontSize: 12, color: '#FFF', fontWeight: 'bold' }}>
-              {item.unreadCommentCount > 9 ? '+9' : item.unreadCommentCount}
-            </Text>
-          </View>
-        ) : null}
-        <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: 70 }}>
-              <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
-                #{item.id}
-              </Text>
-            </View>
-            <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: 13, marginTop: 12 }}>{item.fullUnitCode}</Text>
-          </View>
-          {item.fileUrls && item.fileUrls.length > 0 ? (
-            <Image
-              style={{ width: 40, height: 40, borderRadius: 5 }}
-              source={{ uri: `${item.fileUrls[0].fileUrl}&encToken=${encodeURIComponent(encToken)}` }}
-            />
-          ) : null}
-        </View>
-
-        <View style={{ flex: 1, marginVertical: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.clock} />
-            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{time}</Text>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.calendar} />
-            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{date}</Text>
-          </View>
-          <View
-            style={{
-              borderRadius: 5,
-              backgroundColor: item.currentStatus.colorCode
-            }}
-          >
-            <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
-              {item.currentStatus.codeName}
-            </Text>
-          </View>
-        </View>
-        {this.renderViewComment(item)}
-      </Button>
-    );
-  };
-
-  renderViewComment = item => {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#dcdee3',
-          borderRadius: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 10
-        }}
-      >
-        <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-          {item.description && item.description.trim() !== '' ? item.description.trim() : 'No Description'}
-        </Text>
-      </View>
-    );
   };
 }
 

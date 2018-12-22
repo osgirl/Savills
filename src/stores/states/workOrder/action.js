@@ -1,26 +1,25 @@
 import Types from './';
 import Configs from '../../../utils/configs';
-export function getWorkOrderListActive(accessTokenAPI, memberId) {
-  console.log('asdasdkalsdjalskdjaslkda', accessTokenAPI, memberId);
+export function getWorkOrderListActive(accessTokenAPI, memberId, pageCount) {
   return {
     type: Types.GET_LIST_WORKORDER_ACTIVE,
     payload: {
       api:
         Configs.API +
-        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=1&pageSize=100&groupStatus=ACTIVE`,
+        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=ACTIVE`,
       method: 'GET',
       token: accessTokenAPI
     }
   };
 }
 
-export function getWorkOrderListComplete(accessTokenAPI, memberId) {
+export function getWorkOrderListComplete(accessTokenAPI, memberId, pageCount) {
   return {
     type: Types.GET_LIST_WORKORDER_COMPLETE,
     payload: {
       api:
         Configs.API +
-        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=1&pageSize=100&groupStatus=COMPLETED`,
+        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=COMPLETED`,
       method: 'GET',
       token: accessTokenAPI
     }
