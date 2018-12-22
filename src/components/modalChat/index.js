@@ -18,7 +18,9 @@ export default class ModalChat extends Component {
   }
 
   render() {
-    const { title, listComment, editableTextInput, disabledBtn, opacityBtnSend, isVisible, refTextInout } = this.props;
+    const { title, listComment, editableTextInput,
+      disabledBtn, opacityBtnSend, isVisible,
+      colors, refTextInout, idUser } = this.props;
     return (
       <Modal style={{ flex: 1, margin: 0, paddingTop: 50, height: height, width: width }} isVisible={isVisible}>
         <View style={{ flex: 1, backgroundColor: '#FFF', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
@@ -63,47 +65,54 @@ export default class ModalChat extends Component {
               (items, index) => ({ ...items[index], nextMessage: index - 1 < 0 ? {} : items[index - 1] }) //eslint-disable-line
             }
             renderItem={({ item, index }) => (
-              <ItemComment {...this.props} index={index} item={item} idUser={item.creatorUserId} />
+              <ItemComment {...this.props} index={index} item={item} idUser={idUser} />
             )}
             // onEndReached={this.handleLoadMore}
             // onEndReachedThreshold={0.9}
             windowSize={9}
             style={{ flex: 1 }}
           />
-          <LinearGradient
-            colors={['#4A89E8', '#8FBCFF']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={[
-              {
-                width: width - 40,
-                marginHorizontal: 20,
-                marginBottom: 20,
-                height: 50,
-                borderRadius: 10
-              },
-            ]}
+          <KeyboardAvoidingView
+            enabled
+            behavior={(Platform.OS === 'ios') ? 'padding' : null}
+            keyboardVerticalOffset={Platform.select({ ios: 50, android: 0 })}
           >
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
-              <TextInput
-                ref={refTextInout}
-                editable={editableTextInput}
-                returnKeyType={'send'}
-                style={{ flex: 1, color: '#FFF' }}
-                onSubmitEditing={() => this.props.addComment()}
-                onChangeText={e => this.props.onChangeText(e)}
-                placeholderTextColor={'rgba(255,255,255,0.7)'}
-                placeholder={'Nhập tin nhắn ...'}
-              />
-              <TouchableOpacity disabled={disabledBtn} onPress={() => this.props.addComment()}>
-                <Image
-                  style={{ opacity: opacityBtnSend }}
-                  source={IC_SEND}
+            <LinearGradient
+              colors={colors ? colors : ['#4A89E8', '#8FBCFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={[
+                {
+                  width: width - 40,
+                  marginHorizontal: 20,
+                  marginBottom: 20,
+                  height: 50,
+                  borderRadius: 10
+                },
+              ]}
+            >
+
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+                <TextInput
+                  ref={refTextInout}
+                  editable={editableTextInput}
+                  returnKeyType={'send'}
+                  style={{ flex: 1, color: '#FFF' }}
+                  onSubmitEditing={() => this.props.addComment()}
+                  onChangeText={e => this.props.onChangeText(e)}
+                  placeholderTextColor={'rgba(255,255,255,0.7)'}
+                  placeholder={'Nhập tin nhắn ...'}
                 />
-              </TouchableOpacity>
-            </View>
-          </LinearGradient>
-          {
+                <TouchableOpacity disabled={disabledBtn} onPress={() => this.props.addComment()}>
+                  <Image
+                    style={{ opacity: opacityBtnSend }}
+                    source={IC_SEND}
+                  />
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </KeyboardAvoidingView>
+          {/* {
             Platform.OS === 'ios' ?
               <KeyboardAvoidingView
                 enabled
@@ -111,7 +120,7 @@ export default class ModalChat extends Component {
                 keyboardVerticalOffset={50}
               />
               : null
-          }
+          } */}
         </View>
       </Modal>
     );
