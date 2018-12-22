@@ -86,8 +86,12 @@ class ModalNewBooking extends PureComponent {
       });
       this.setState({ listBooking: arr, loadDingCallCalendar: false });
     }
-    if (nextProps.booking.listBookingOption && nextProps.booking.listBookingOption.success == false) {
-      this.setState({ isModalError: true, loadDingCallCalendar: false });
+    if (
+      nextProps.booking.listBookingOption &&
+      !nextProps.booking.listBookingOption.success &&
+      this.props.booking.listBookingOption !== nextProps.booking.listBookingOption
+    ) {
+      this.setState({ loadDingCallCalendar: false, isModalError: true });
     }
     if (nextProps.booking.createNewBooking && nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.props.actions.booking.setFlagCreateBooking();
@@ -244,7 +248,6 @@ class ModalNewBooking extends PureComponent {
       this.props.booking.detailCategory.result.numOfExtendTimeSlot
         ? this.props.booking.detailCategory.result.numOfExtendTimeSlot + 1
         : 1;
-    console.log('asdaksjdajsdklasjdlaksdjlkasda', numberSlot);
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <Header
