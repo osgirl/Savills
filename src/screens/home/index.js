@@ -205,7 +205,7 @@ class Home extends layout {
         console.log('asdkljasdklasjdlkasdas', token);
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function (notification) {
+      onNotification: function(notification) {
         console.log('NOTIFICATION:', notification);
 
         if (notification.foreground) {
@@ -367,7 +367,7 @@ class Home extends layout {
   async _logOut() {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     await this.setState({ loading: true });
-    // await this.props.actions.app.logoutNoti(accessTokenAPI);
+    await this.props.actions.app.logoutNoti(accessTokenAPI);
     await this.props.actions.units.setUnitLocal({});
     await this.props.actions.account.logOut('');
     await this.props.actions.account.setTenantLocal({});

@@ -4,10 +4,20 @@ import { call, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
 import Types from './';
 import API from '../../../utils/api';
 
-function* getWorkOrderList(action) {
+function* getWorkOrderListActive(action) {
   try {
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.GET_LIST_WORKORDER_SUCCESS, response });
+    console.log('asdkljasdkajsdlkasjdasddasd', response);
+    yield put({ ...action, type: Types.GET_LIST_WORKORDER_ACTIVE_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+function* getWorkOrderListComplete(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_LIST_WORKORDER_COMPLETE_SUCCESS, response });
   } catch (e) {
     console.log(e);
   }
@@ -113,6 +123,7 @@ export default function* saga() {
   yield takeLatest(Types.GET_COMMENT_USER, getListComment);
   yield takeLatest(Types.GET_LIST_CATEGORY, getListCategory);
   yield takeLatest(Types.CREATE_WORK_ORDER, createlWorkOrder);
-  yield takeLatest(Types.GET_LIST_WORKORDER, getWorkOrderList);
+  yield takeLatest(Types.GET_LIST_WORKORDER_ACTIVE, getWorkOrderListActive);
+  yield takeLatest(Types.GET_LIST_WORKORDER_COMPLETE, getWorkOrderListComplete);
   yield takeLatest(Types.DETAIL_WORK_ORDER, detailWorkOrder);
 }

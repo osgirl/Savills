@@ -11,6 +11,7 @@ class ItemComment extends Component {
     let times = moment(creationTime).fromNow();
     let encToken = this.props.account.encToken;
     let image = `${fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+
     if (id == creatorUserId) {
       return (
         <View style={styles.contain}>
@@ -22,9 +23,16 @@ class ItemComment extends Component {
         </View>
       );
     } else {
+      console.log('asdkjasdkljasdkajsldasda', 'vao day');
       return (
         <View style={styles.containAdmin}>
-          <Image style={[styles.imageAvatar]} resizeMode={'cover'} source={{ uri: image }} />
+          <Image
+            style={[styles.imageAvatar]}
+            resizeMode={'cover'}
+            source={{
+              uri: image
+            }}
+          />
           <View style={[styles.viewChat, { backgroundColor: '#4A89E8' }]}>
             <Text style={[styles.textContent, { color: '#FFF' }]}>{content}</Text>
             <Text style={[styles.textTime, { color: 'rgba(255,255,255,0.5)' }]}>{times}</Text>

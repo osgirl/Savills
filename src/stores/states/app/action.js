@@ -69,8 +69,9 @@ export function logoutNoti(accessTokenAPI) {
     type: Types.LOGOUT_NOTI,
     payload: {
       api: Configs.API + '/api/TokenAuth/Logout',
-      method: 'GET',
-      token: accessTokenAPI
+      method: 'POST',
+      token: accessTokenAPI,
+      payload: {}
     }
   };
 }

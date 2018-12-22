@@ -2,7 +2,8 @@ import keymirror from '@utils/keymirror';
 
 export default keymirror(
   {
-    GET_LIST_WORKORDER: null,
+    GET_LIST_WORKORDER_ACTIVE: null,
+    GET_LIST_WORKORDER_COMPLETE: null,
     CREATE_WORK_ORDER: null,
     DETAIL_WORK_ORDER: null,
     GET_LIST_CATEGORY: null,
