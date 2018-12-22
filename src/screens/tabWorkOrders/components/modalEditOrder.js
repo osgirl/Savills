@@ -137,7 +137,7 @@ class ModalEditOrder extends PureComponent {
     ) {
       nextProps.actions.workOrder.setFlagUpdateWorkOrder();
       this.setState({ showModalConfirmCancel: false }, () => {
-        nextProps.actions.workOrder.getWorkOrderList(accessTokenAPI, 'ACTIVE', id);
+        nextProps.actions.workOrder.getWorkOrderListActive(accessTokenAPI, id);
         this.props.navigation.goBack();
       });
     }

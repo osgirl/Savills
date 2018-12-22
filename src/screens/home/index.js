@@ -202,7 +202,6 @@ class Home extends layout {
     const uniqueId = DeviceInfo.getUniqueID();
     await PushNotification.configure({
       onRegister: token => {
-        console.log('asdkljasdklasjdlkasdas', token);
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
       onNotification: function(notification) {

@@ -15,7 +15,7 @@ export default createReducer(INIT_STATE, {
   [Types.LOGOUT_NOTI_SUCCESS]: (state, action) => {
     try {
       return {
-        ...state,
+        ...state
       };
     } catch (error) {
       console.log(error);
@@ -26,7 +26,7 @@ export default createReducer(INIT_STATE, {
     try {
       return {
         ...state,
-        listLanguage: action.response
+        listLanguage: action.response.result
       };
     } catch (error) {
       console.log(error);

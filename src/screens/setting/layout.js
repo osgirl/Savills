@@ -59,7 +59,7 @@ export default class extends Component {
       <View>
         <View style={Styles.modalContent}>
           <Text style={{ fontSize: Resolution.scale(13), fontFamily: 'OpenSans-Bold', marginTop: Resolution.scale(20) }}>
-            Select Language
+            {Language.listLanguage[this.props.app.languegeLocal].data.SELECT_LANGUAGE}
           </Text>
           <Picker
             style={{ width: width - Resolution.scaleWidth(20), flex: 1, justifyContent: 'center' }}
@@ -96,13 +96,18 @@ export default class extends Component {
       emailInbox
     } = this.state.dataSetting;
     const setting = this.props.app.getSetting;
+
+    let languages = this.props.app.listLanguage['vnLanguages'];
+
+    let language = Language.listLanguage[this.props.app.languegeLocal].data;
+
     return (
       <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader()}
         <View style={{ padding: Resolution.scale(20) }}>
-          <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row',marginBottom:5 }}>
-            <Text style={Styles.titleHeader}>Thông báo chi tiết</Text>
+          <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginBottom: 5 }}>
+            <Text style={Styles.titleHeader}>{language.ST_DETAIL_NOTI}</Text>
             <Image source={require('@resources/icons/notify_setting.png')} />
             <Image style={{ marginHorizontal: 30 }} source={require('@resources/icons/mail_setting.png')} />
           </View>
@@ -178,7 +183,7 @@ export default class extends Component {
 
         {/* ====== Thông báo chi tiết ======= */}
         <View style={{ padding: Resolution.scale(20) }}>
-          <Text style={Styles.titleHeader}>Ngôn ngữ</Text>
+          <Text style={Styles.titleHeader}>{language.ST_LANGUAGE}</Text>
           <Button onPress={() => this._toggleModalLanguage()} style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
             <View
               style={{

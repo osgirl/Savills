@@ -72,7 +72,6 @@ export default class {
         //CONTACTS
         CONTACTS_TXT_TITLE: 'Contacts',
 
-
         // FEE
         FEE_TXT_FEE: 'Fee',
         FEE_TITLE_BTN_CHECKALL: 'All',
@@ -137,8 +136,12 @@ export default class {
         LB_TITLEHEADER: 'Libary',
 
         //NOTIFICATION
-        NOTIFICATION_TXT_TITLE: 'Notification'
+        NOTIFICATION_TXT_TITLE: 'Notification',
 
+        SELECT_LANGUAGE: 'Select Language',
+
+        ST_DETAIL_NOTI: 'DETAIL_NOTIFICATION',
+        ST_LANGUAGE: 'Language'
         //WORKORDER
         //BOOKING
       }
@@ -276,8 +279,6 @@ export default class {
         FB_DT_depict: 'Miêu tả',
         FB_DT_BTNCANCLE: 'Hủy',
 
-
-
         // FEE
         FEE_TXT_FEE: 'Phí',
         FEE_TITLE_BTN_CHECKALL: 'Tắt cả',
@@ -320,9 +321,6 @@ export default class {
         //LIBARY
         LB_TITLEHEADER: 'Thư viện',
 
-
-
-
         //COMMON:
 
         NO_COMMENT: 'Không có tin nhắn',
@@ -343,7 +341,9 @@ export default class {
         DESCRIPT: 'Miêu Tả',
         CHAT_EMPTY: 'Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi',
         CONFIRM: 'Xác nhận',
-        ACCEPT: 'Chấp nhận'
+        ACCEPT: 'Chấp nhận',
+
+        SELECT_LANGUAGE: 'Chọn ngôn ngữ'
       }
     }
   ];

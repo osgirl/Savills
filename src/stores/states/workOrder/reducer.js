@@ -3,8 +3,8 @@ import createReducer from '../';
 
 const INIT_STATE = {
   workOrderDetail: false,
-  listActive: false,
-  listComplete: false,
+  listActive: { items: [], pageCount: 0, success: false },
+  listComplete: { items: [], pageCount: 0, success: false },
   listComment: false,
   addComment: false,
   uploadImage: false,
@@ -113,7 +113,11 @@ export default createReducer(INIT_STATE, {
         {},
         { ...state },
         {
-          listActive: action.response
+          listActive: {
+            items: action.response.result.items,
+            success: action.response.success,
+            totalCount: action.response.result.totalCount
+          }
         }
       );
       return tempState;
@@ -129,7 +133,11 @@ export default createReducer(INIT_STATE, {
         {},
         { ...state },
         {
-          listComplete: action.response
+          listComplete: {
+            items: action.response.result.items,
+            success: action.response.success,
+            totalCount: action.response.result.totalCount
+          }
         }
       );
       return tempState;
