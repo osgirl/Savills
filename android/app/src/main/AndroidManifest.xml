@@ -20,6 +20,7 @@
       android:theme="@style/AppTheme">
         <activity
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
             android:name="vn.payoo.paymentsdk.ui.PayooPaymentSdkActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

@@ -68,9 +68,6 @@ class ModalDetailFeedback extends Component {
       data: null,
       loadingUpdateStatus: false
     };
-
-    this._keyboardDidHide = this._keyboardDidHide.bind(this);
-    this._keyboardDidShow = this._keyboardDidShow.bind(this);
   }
 
   _getDetail() {
@@ -84,16 +81,6 @@ class ModalDetailFeedback extends Component {
 
   componentDidMount() {
     this._getDetail();
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
-  }
-
-  _keyboardDidShow() {
-    this.setState({ marginBottom: 250 });
-  }
-
-  _keyboardDidHide() {
-    this.setState({ marginBottom: 0 });
   }
 
   componentWillReceiveProps(nextProps) {
