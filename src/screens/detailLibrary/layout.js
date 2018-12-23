@@ -109,6 +109,7 @@ export default class extends Component {
           this.state.data.length > 0 ?
             // <View style={{ flex: 1 }}>
             <FlatList
+              alwaysBounceVertical={false}
               contentContainerStyle={{
                 paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
               }}
@@ -167,37 +168,33 @@ export default class extends Component {
         }}
       >
 
-        <View style={{ flex: 1 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text
-              style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}
-            >
-              {item.documentName}
-            </Text>
-          </View>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <Image source={Utils.mapImageLibary(item.file.mimeType)} style={{ flex: 0.2 }} />
+          <View style={{ marginLeft: 20 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text
+                style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}
+              >
+                {item.documentName}
+              </Text>
+            </View>
 
-          <View
-            style={{
-              flex: 1,
-              marginTop: Resolution.scale(10),
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
-              <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
+            <View
+              style={{
+                flex: 1,
+                marginTop: Resolution.scale(10),
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
+                <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
+              </View>
             </View>
           </View>
         </View>
-
-        {/* <View style={{ justifyContent: 'center' }}>
-          <View style={{ backgroundColor: 'red', borderRadius: 30, width: 25, height: 25, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>{'2'}</Text>
-          </View>
-        </View> */}
-
 
       </Button >
     );

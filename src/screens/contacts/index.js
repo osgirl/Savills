@@ -8,7 +8,7 @@ class Contacts extends Layout {
     super(props);
     this.state = {
       isModalSelectUnit: false,
-      scrollY: new Animated.Value(Platform.OS === 'ios' ? -50 : 0)
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -60 : 0)
     };
   }
 }

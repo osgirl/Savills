@@ -36,7 +36,7 @@ class ModalDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      scrollY: new Animated.Value(Platform.OS === 'ios' ? -50 : 0)
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -60 : 0)
     };
   }
 
@@ -105,10 +105,10 @@ class ModalDetail extends Component {
               scalesPageToFit={true}
             />
           ) : (
-            <View>
-              <ActivityIndicator size={'large'} color={Configs.colorMain} />
-            </View>
-          )}
+              <View>
+                <ActivityIndicator size={'large'} color={Configs.colorMain} />
+              </View>
+            )}
         </View>
       </View>
     );

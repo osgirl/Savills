@@ -28,6 +28,11 @@ import Circle_Frontdesk from "../resources/icons/Circle-Frontdesk.png";
 import Circle_Contacts from "../resources/icons/Circle-Contacts.png";
 import Circle_FAQ from "../resources/icons/Circle-FAQ.png";
 
+//Libary Item
+import Image_Libary from "../resources/icons/ImageLibary.png";
+import PDF_Libary from "../resources/icons/PDFLibary.png";
+import Default_Libary from "../resources/icons/defaultLibary.png";
+
 export default class {
 
 
@@ -36,6 +41,22 @@ export default class {
             x = 0;
         }
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    static mapImageLibary(name) {
+        let icon;
+        switch (name) {
+            case 'image/png':
+                icon = Image_Libary;
+                break;
+            case 'application/pdf':
+                icon = PDF_Libary;
+                break;
+            default:
+                icon = Default_Libary;
+                break;
+        }
+        return icon;
     }
 
     static mapItemHome(name) {
