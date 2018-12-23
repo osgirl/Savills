@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, Image, StatusBar, Dimensions, ScrollView } from 'react-native';
+import { View, Text, Animated, Image, StatusBar, Dimensions, ScrollView, Platform } from 'react-native';
 import Header from '@components/header';
 import IC_BACK from '@resources/icons/close.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
@@ -11,7 +11,7 @@ import ButtonSwitch from '../../components/buttonSwitch';
 import HeaderTitle from '@components/headerTitle';
 import Picker from 'react-native-wheel-picker';
 import LinearGradient from 'react-native-linear-gradient';
-
+import AnimatedTitle from '@components/animatedTitle';
 import Resolution from '../../utils/resolution';
 
 import Styles from './styles';
@@ -21,10 +21,40 @@ import Language from '@utils/language';
 const { width, height } = Dimensions.get('window');
 
 var PickerItem = Picker.Item;
+const HEADER_MAX_HEIGHT = 60;
+
 
 export default class extends Component {
+
+  handleScroll = event => {
+    Animated.event(
+      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+      {
+        listener: event => {
+          // if (event.nativeEvent.contentOffset.y > 10) {
+          //   if (!this.showCenter) {
+          //     this.showCenter = true;
+          //     this.setState({ isShowTitleHeader: true });
+          //   }
+          // } else {
+          //   if (this.showCenter) {
+          //     this.showCenter = false;
+          //     this.setState({ isShowTitleHeader: false });
+          //   }
+          // }
+        }
+      },
+      { useNativeDriver: true }
+    )(event);
+  };
+
   renderHeader() {
-    let unitActive = this.props.units.unitActive;
+    // let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
     return (
       <View>
         <Header
@@ -32,12 +62,14 @@ export default class extends Component {
           leftIcon={IC_BACK}
           leftAction={() => this.props.navigation.goBack()}
           headercolor={'transparent'}
+          showTitleHeader={true}
+          center={
+            <Animated.View style={{ opacity: isShow }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Settings'}</Text>
+            </Animated.View>
+          }
         />
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-          <Animated.View style={{ height: 60 }}>
-            <HeaderTitle title={'Settings'} />
-          </Animated.View>
-        </LinearGradient>
+        <AnimatedTitle scrollY={this.state.scrollY} label={'Settings'} />
       </View>
     );
   }
@@ -104,10 +136,22 @@ export default class extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.renderHeader()}
-        <ScrollView >
+        <ScrollView
+          scrollEventThrottle={16}
+          onScroll={this.handleScroll}
+          contentContainerStyle={{
+            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+          }}
+          contentInset={{
+            top: HEADER_MAX_HEIGHT
+          }}
+          contentOffset={{
+            y: -HEADER_MAX_HEIGHT
+          }}
+        >
           <StatusBar barStyle="light-content" />
           <View style={{ padding: Resolution.scale(20) }}>
-            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginBottom: 5 }}>
+            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginBottom: 10 }}>
               <Text style={Styles.titleHeader}>{language.ST_DETAIL_NOTI}</Text>
               <Image source={require('@resources/icons/notify_setting.png')} />
               <Image style={{ marginHorizontal: 30 }} source={require('@resources/icons/mail_setting.png')} />
@@ -183,8 +227,8 @@ export default class extends Component {
           </View>
 
           {/* ====== Thông báo chi tiết ======= */}
-          <View style={{ padding: Resolution.scale(20) }}>
-            <Text style={Styles.titleHeader}>{language.ST_LANGUAGE}</Text>
+          <View style={{ padding: Resolution.scale(20), marginBottom: 40 }}>
+            <Text style={[Styles.titleHeader, { marginBottom: 10 }]}>{language.ST_LANGUAGE}</Text>
             <Button onPress={() => this._toggleModalLanguage()} style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
               <View
                 style={{

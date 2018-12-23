@@ -47,17 +47,17 @@ export default class extends Component {
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          if (event.nativeEvent.contentOffset.y > 10) {
-            if (!this.showCenter) {
-              this.showCenter = true;
-              this.setState({ isShowTitleHeader: true });
-            }
-          } else {
-            if (this.showCenter) {
-              this.showCenter = false;
-              this.setState({ isShowTitleHeader: false });
-            }
-          }
+          // if (event.nativeEvent.contentOffset.y > 10) {
+          //   if (!this.showCenter) {
+          //     this.showCenter = true;
+          //     this.setState({ isShowTitleHeader: true });
+          //   }
+          // } else {
+          //   if (this.showCenter) {
+          //     this.showCenter = false;
+          //     this.setState({ isShowTitleHeader: false });
+          //   }
+          // }
         }
       },
       { useNativeDriver: true }
@@ -77,6 +77,11 @@ export default class extends Component {
   renderHeader() {
     let unitActive = this.props.units.unitActive;
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
     return (
       <View>
         <Header
@@ -84,11 +89,11 @@ export default class extends Component {
           leftIcon={IC_BACK}
           leftAction={() => this.props.navigation.goBack()}
           headercolor={'transparent'}
-          showTitleHeader={this.state.isShowTitleHeader}
+          showTitleHeader={true}
           center={
-            <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FB_TITLEHEADER}</Text>
-            </View>
+            <Animated.View style={{ opacity: isShow }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.EVENTS_TXT_TITLE}</Text>
+            </Animated.View>
           }
           renderViewRight={
             <Button

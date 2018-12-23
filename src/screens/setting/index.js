@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Platform } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
-
 import _ from 'lodash';
+const HEADER_MAX_HEIGHT = 60;
 
 class Setting extends layout {
   constructor(props) {
     super(props);
     this.timeOut = null;
     let setting = this.props.app.getSetting;
-    console.log('adskajdslajsdlkasdasda',setting)
+    console.log('adskajdslajsdlkasdasda', setting)
     this.state = {
       isModalSelectUnit: false,
-      scrollY: new Animated.Value(0),
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       selectedItem: this.props.app.languegeLocal,
       dataSetting: {
         emailFee: setting[9].isSubscribed,
