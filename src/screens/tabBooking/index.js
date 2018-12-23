@@ -75,7 +75,7 @@ class TabBooking extends Component {
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity
+          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity;
           this.state.scrollY.setValue(offset);
         }
       },
@@ -92,7 +92,7 @@ class TabBooking extends Component {
 
   render() {
     let unitActive = this.props.units.unitActive;
-
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, 10, 30],
       outputRange: [60, 30, 0],
@@ -127,32 +127,6 @@ class TabBooking extends Component {
       useNativeDriver: true
     });
 
-    // const headerHeight = this.state.scrollY.interpolate({
-    //   inputRange: [0, 10, 40, 60],
-    //   outputRange: [60, 40, 10, 0],
-    //   extrapolate: 'clamp',
-    //   useNativeDriver: true
-    // });
-
-    // const opacityText = this.state.scrollY.interpolate({
-    //   inputRange: [0, 60, 100],
-    //   outputRange: [1, 0.5, 0],
-    //   extrapolate: 'clamp',
-    //   useNativeDriver: true
-    // });
-
-    // const opacityText2 = this.state.scrollY.interpolate({
-    //   inputRange: [0, 60, 100],
-    //   outputRange: [1, 0.3, 0],
-    //   extrapolate: 'clamp'
-    // });
-
-    // const headerHeight2 = this.state.scrollY.interpolate({
-    //   inputRange: [0, HEADER_SCROLL_DISTANCE],
-    //   outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-    //   extrapolate: 'clamp'
-    // });
-    // this.changeStatusBar()
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <StatusBar barStyle="light-content" />
@@ -164,7 +138,7 @@ class TabBooking extends Component {
           showTitleHeader={true}
           center={
             <Animated.View style={{ opacity: opacityTextHeader }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Đặt tiện ích</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.BK_CREATE_UTILITI}</Text>
             </Animated.View>
           }
           renderViewRight={
@@ -178,36 +152,30 @@ class TabBooking extends Component {
           }
         />
 
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ width: width, zIndex: -10 }}>
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ width: width, zIndex: -10 }}
+        >
           <Animated.View
             style={{
               transform: [{ translateY: headerTranslate }],
-              height: headerHeight,
+              height: headerHeight
             }}
           >
-            <Animated.View style={{ opacity: opacityText, position: 'absolute', }}>
-              <HeaderTitle title={'Đặt tiện ích'} />
+            <Animated.View style={{ opacity: opacityText, position: 'absolute' }}>
+              <HeaderTitle title={languages.BK_CREATE_UTILITI} />
             </Animated.View>
           </Animated.View>
         </LinearGradient>
 
-        {/* <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}> */}
-        {/* <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
-            <Animated.Text
-              style={{
-                fontSize: 30,
-                fontFamily: 'OpenSans-Bold',
-                color: '#FFF',
-                marginLeft: 20,
-                marginBottom: 0,
-                opacity: opacityText2
-              }}
-            >
-              Đặt tiện ích
-            </Animated.Text>
-          </Animated.View> */}
-
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1, zIndex: 1 }}>
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ flex: 1, zIndex: 1 }}
+        >
           <ScrollableTabView
             textStyle={{ fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}
             tabBarActiveTextColor={'#FFF'}
@@ -215,9 +183,9 @@ class TabBooking extends Component {
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
           >
-            <TabProcess onScroll={this.handleScroll} tabLabel={'Đang Xử Lý'} {...this.props} />
-            <TabInComming onScroll={this.handleScroll} tabLabel={'Sắp Tới'} {...this.props} />
-            <TabComplete onScroll={this.handleScroll} tabLabel={'Hoàn Tất'} {...this.props} />
+            <TabProcess onScroll={this.handleScroll} tabLabel={languages.BK_TAB_PROCESS} {...this.props} />
+            <TabInComming onScroll={this.handleScroll} tabLabel={languages.BK_TAB_INCOMMING} {...this.props} />
+            <TabComplete onScroll={this.handleScroll} tabLabel={languages.BK_TAB_COMPLETE} {...this.props} />
           </ScrollableTabView>
         </LinearGradient>
         <View

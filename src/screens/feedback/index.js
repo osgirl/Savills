@@ -10,99 +10,99 @@ import Language from '../../utils/language';
 const HEADER_MAX_HEIGHT = 60;
 
 class Feedback extends layout {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: [],
-            isModalSelectUnit: false,
-            isShowTitleHeader: false,
-            isModalDetail: false,
-            isRefresh: false,
-            isModalNew: false,
-            loadingMore: false,
-            pageCount: 1,
-            commentBoxId: null,
-            scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0)
-        };
-    }
-
-    componentWillMount = () => {
-        this._getList();
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      isModalSelectUnit: false,
+      isShowTitleHeader: false,
+      isModalDetail: false,
+      isRefresh: false,
+      isModalNew: false,
+      loadingMore: false,
+      pageCount: 1,
+      commentBoxId: null,
+      isLoadData: true,
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0)
     };
+  }
 
-    componentDidMount = () => {
-        this._getList();
-        let accessTokenApi = this.props.account.accessTokenAPI;
-        let languege = Language.listLanguage[this.props.app.languegeLocal].id;
-        this.props.actions.feedback.getListCategory(accessTokenApi, languege);
-        this.props.actions.feedback.getTypeFeedback(accessTokenApi, languege);
-        let ida = this.props.navigation.getParam('params', false);
-        if (ida.itemtype) {
-            setTimeout(() => {
-                this._openModalDetail(ida.itemtype);
-            }, 300);
-        }
-    };
-    async componentWillReceiveProps(nextProps) {
-        if (
-            nextProps.feedback.listFeedBack.success &&
-            this.props.feedback.listFeedBack.items !== nextProps.feedback.listFeedBack.items &&
-            this.state.isRefresh
-        ) {
-            await this.setState({ isRefresh: false });
-            await this.setState({ data: nextProps.feedback.listFeedBack.items });
-        }
+  componentWillMount = () => {
+    this._getList();
+  };
 
-        if (
-            this.props.feedback.listFeedBack.items !== nextProps.feedback.listFeedBack.items &&
-            nextProps.feedback.listFeedBack.success &&
-            !this.state.isRefresh
-        ) {
-            await this.setState({ data: this.state.data.concat(nextProps.feedback.listFeedBack.items) });
-            await this.setState({ loadingMore: false, isRefresh: false });
-        }
-
+  componentDidMount = () => {
+    this._getList();
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    this.props.actions.feedback.getListCategory(accessTokenApi, languege);
+    this.props.actions.feedback.getTypeFeedback(accessTokenApi, languege);
+    let ida = this.props.navigation.getParam('params', false);
+    if (ida.itemtype) {
+      setTimeout(() => {
+        this._openModalDetail(ida.itemtype);
+      }, 300);
+    }
+  };
+  async componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.feedback.listFeedBack.success &&
+      this.props.feedback.listFeedBack.items !== nextProps.feedback.listFeedBack.items &&
+      this.state.isRefresh
+    ) {
+      await this.setState({ isRefresh: false });
+      await this.setState({ data: nextProps.feedback.listFeedBack.items, isLoadData: false });
     }
 
-    _getList() {
-        let accessTokenApi = this.props.account.accessTokenAPI;
-        let languege = Language.listLanguage[this.props.app.languegeLocal].id;
-        this.props.actions.feedback.getListFeedback(accessTokenApi, languege, this.state.pageCount);
+    if (
+      this.props.feedback.listFeedBack.items !== nextProps.feedback.listFeedBack.items &&
+      nextProps.feedback.listFeedBack.success &&
+      !this.state.isRefresh
+    ) {
+      await this.setState({ data: this.state.data.concat(nextProps.feedback.listFeedBack.items) });
+      await this.setState({ loadingMore: false, isRefresh: false, isLoadData: false });
     }
+  }
 
-    async _onRefresh() {
-        if (this.state.isRefresh) {
-            return;
-        }
-        await this.setState({ isRefresh: true, pageCount: 1 });
-        this._getList();
-    }
+  _getList() {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    this.props.actions.feedback.getListFeedback(accessTokenApi, languege, this.state.pageCount);
+  }
 
-    async _onEndReached() {
-        if (this.state.loadingMore || this.state.pageCount == this.props.feedback.listFeedBack.pageCount) {
-            return;
-        }
-        await this.setState({ loadingMore: true, pageCount: this.state.pageCount + 1 });
-        await this._getList(this.state.pageCount);
+  async _onRefresh() {
+    if (this.state.isRefresh) {
+      return;
     }
+    await this.setState({ isRefresh: true, pageCount: 1, isLoadData: true });
+    this._getList();
+  }
 
-    _openModalSelectUnit() {
-        this.setState({ isModalSelectUnit: true });
+  async _onEndReached() {
+    if (this.state.loadingMore || this.state.pageCount == this.props.feedback.listFeedBack.pageCount) {
+      return;
     }
+    await this.setState({ loadingMore: true, pageCount: this.state.pageCount + 1 });
+    await this._getList(this.state.pageCount);
+  }
 
-    _openModalDetail(id) {
-        this.setState({ commentBoxId: id });
-        this.setState({ isModalDetail: true });
-    }
+  _openModalSelectUnit() {
+    this.setState({ isModalSelectUnit: true });
+  }
 
-    _openModalNew() {
-        this.setState({ isModalNew: true });
-    }
+  _openModalDetail(id) {
+    this.setState({ commentBoxId: id });
+    this.setState({ isModalDetail: true });
+  }
 
-    _onCloseModalNew() {
-        this.setState({ isModalNew: false });
-        this._onRefresh();
-    }
+  _openModalNew() {
+    this.setState({ isModalNew: true });
+  }
+
+  _onCloseModalNew() {
+    this.setState({ isModalNew: false });
+    this._onRefresh();
+  }
 }
 
 export default Connect(Feedback);

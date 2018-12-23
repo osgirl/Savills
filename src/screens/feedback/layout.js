@@ -26,7 +26,7 @@ import ModaDetailFeedback from './component/modaDetailFeedback';
 import Modal from 'react-native-modal';
 import ModalNew from './component/modalNew';
 import Styles from './styles';
-
+import EmptyItemList from '@components/emptyItemList';
 import Utils from '../../utils';
 
 import Resolution from '@utils/resolution';
@@ -70,8 +70,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(40) }} />
-      );
+      <View style={{ height: Resolution.scale(40) }} />
+    );
   }
 
   renderHeader() {
@@ -112,7 +112,7 @@ export default class extends Component {
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.renderHeader()}
         <StatusBar barStyle="light-content" hidden={false} />
-        {this.state.data.length > 0 ? (
+        {this.state.isLoadData === false ? (
           <View style={{ flex: 1 }}>
             <FlatList
               data={this.state.data}
@@ -139,6 +139,13 @@ export default class extends Component {
                   progressViewOffset={HEADER_MAX_HEIGHT}
                 />
               }
+              ListEmptyComponent={() => {
+                return (
+                  <EmptyItemList
+                    message={`Bạn chưa có phản hồi tạo phẩn hồi \n ở đây nhé!`}
+                  />
+                );
+              }}
               contentInset={{
                 top: HEADER_MAX_HEIGHT
               }}
@@ -158,8 +165,8 @@ export default class extends Component {
             </Button>
           </View>
         ) : (
-            <ItemPlaceHolderH />
-          )}
+          <ItemPlaceHolderH />
+        )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -214,7 +221,7 @@ export default class extends Component {
         ) : null}
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: Resolution.scaleWidth(70), alignItems: 'center' }}>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75' }}>
               <Text
                 style={{
                   color: '#FFF',

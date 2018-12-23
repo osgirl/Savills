@@ -184,7 +184,6 @@ class Home extends layout {
     await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
     await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
     await this.props.actions.app.getModuleHome(accessTokenApi);
-    await this.props.actions.app.getLanguageApp(accessTokenApi);
     await this.props.actions.account.getTenantActive();
   }
 

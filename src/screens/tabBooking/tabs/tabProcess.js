@@ -24,7 +24,7 @@ class TabProcess extends PureComponent {
   };
 
   componentDidMount() {
-    DeviceEventEmitter.addListener('UpdateList', e => this._onRefresh());
+    DeviceEventEmitter.addListener('UpdateListBooking', e => this._onRefresh());
     this._getList();
   }
 
@@ -34,8 +34,7 @@ class TabProcess extends PureComponent {
       this.props.booking.listActive.items !== nextProps.booking.listActive.items &&
       this.state.isRefresh
     ) {
-      console.log('asdkajsdklasjdalksdasdasd', 'vao tab');
-      await this.setState({ listData: nextProps.booking.listActive.items });
+      await this.setState({ listData: nextProps.booking.listActive.items, isLoadData: false });
       await this.setState({ isRefresh: false });
     }
     if (
@@ -44,41 +43,45 @@ class TabProcess extends PureComponent {
       !this.state.isRefresh
     ) {
       await this.setState({ listData: this.state.listData.concat(nextProps.booking.listActive.items) });
-      await this.setState({ loadingMore: false, isRefresh: false });
+      await this.setState({ loadingMore: false, isRefresh: false, isLoadData: false });
     }
   }
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => item.reservationId + '___' + index}
-          data={this.state.listData}
-          extraData={this.state}
-          renderItem={({ item, index }) => (
-            <ItemBooking key={item.reservationId} item={item} index={index} action={() => this.clickDetail(item)} />
-          )}
-          onScroll={this.props.onScroll}
-          legacyImplementation={false}
-          onEndReached={() => this._onEndReached()}
-          scrollEventThrottle={16}
-          onEndReachedThreshold={0.01}
-          // scrollEventThrottle={1}
-          // ListFooterComponent={() => this._FooterFlatlist()}
-          legacyImplementation={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefresh}
-              onRefresh={() => this._onRefresh()}
-              tintColor="#000"
-              titleColor="#000"
-            />
-          }
-          ListEmptyComponent={() => {
-            return <EmptyItemList loadData={this.state.isLoadData} />;
-          }}
-        />
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {this.state.isLoadData == false ? (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => item.reservationId + '___' + index}
+            data={this.state.listData}
+            extraData={this.state}
+            renderItem={({ item, index }) => (
+              <ItemBooking key={item.reservationId} item={item} index={index} action={() => this.clickDetail(item)} />
+            )}
+            onScroll={this.props.onScroll}
+            legacyImplementation={false}
+            onEndReached={() => this._onEndReached()}
+            scrollEventThrottle={16}
+            onEndReachedThreshold={0.01}
+            // scrollEventThrottle={1}
+            // ListFooterComponent={() => this._FooterFlatlist()}
+            legacyImplementation={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefresh}
+                onRefresh={() => this._onRefresh()}
+                tintColor="#000"
+                titleColor="#000"
+              />
+            }
+            ListEmptyComponent={() => {
+              return <EmptyItemList message={'Bạn chưa có booking nào \n hãy tạo ngay cho mình \n ở đây nhé !'} />;
+            }}
+          />
+        ) : (
+          <ItemPlaceHolderH noMargin />
+        )}
       </View>
     );
   }
@@ -89,8 +92,8 @@ class TabProcess extends PureComponent {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(40) }} />
-      );
+      <View style={{ height: Resolution.scale(40) }} />
+    );
   }
 
   async _onEndReached() {
@@ -105,7 +108,7 @@ class TabProcess extends PureComponent {
     if (this.state.isRefresh) {
       return;
     }
-    await this.setState({ isRefresh: true, pageCount: 1 });
+    await this.setState({ isRefresh: true, pageCount: 1, isLoadData: true });
     this._getList();
   };
 
@@ -114,7 +117,7 @@ class TabProcess extends PureComponent {
     this.props.actions.booking.getListBookingProcess(accessTokenApi, this.state.pageCount);
   }
 
-  renderFooter = () => { };
+  renderFooter = () => {};
 
   clickDetail = item => {
     this.props.navigation.navigate('ModalDetailBooking', { id: item.reservationId });

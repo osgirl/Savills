@@ -35,7 +35,7 @@ import Resolution from '@utils/resolution';
 import AnimatedHeader from '@components/animatedHeader';
 import Configs from '@utils/configs';
 
-import ModalChat from "../../../components/modalChat";
+import ModalChat from '../../../components/modalChat';
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 import AnimatedTitle from '@components/animatedTitle';
 
@@ -44,6 +44,8 @@ const STAR_OFF = require('@resources/icons/Star.png');
 
 const HEADER_MAX_HEIGHT = 60;
 
+const { width, height } = Dimensions.get('window');
+
 const options = {
   title: 'Select Image',
   storageOptions: {
@@ -51,11 +53,10 @@ const options = {
     path: 'images'
   },
   quality: 1,
-  maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
-  maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
+  maxWidth: width, // photos only
+  maxHeight: height // photos only
 };
 
-const { width, height } = Dimensions.get('window');
 class ModalEditOrder extends PureComponent {
   constructor(props) {
     super(props);
@@ -138,7 +139,7 @@ class ModalEditOrder extends PureComponent {
     ) {
       nextProps.actions.workOrder.setFlagUpdateWorkOrder();
       this.setState({ showModalConfirmCancel: false }, () => {
-        DeviceEventEmitter.emit('UpdateList', {});
+        DeviceEventEmitter.emit('UpdateListWorkOrder', {});
         this.props.navigation.goBack();
       });
     }
@@ -185,7 +186,7 @@ class ModalEditOrder extends PureComponent {
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          const offset = event.nativeEvent.contentOffset.y
+          const offset = event.nativeEvent.contentOffset.y;
           this.state.scrollY.setValue(offset);
         }
       },
@@ -193,27 +194,7 @@ class ModalEditOrder extends PureComponent {
     )(event);
   };
 
-  // handleScrollEndDrag = event => {
-  //   Animated.event(
-  //     [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-  //     {
-  //       listener: event => {
-  //         const offset = event.nativeEvent.contentOffset.y
-  //         if (offset > -35 && offset < 0) {
-  //           this.state.scrollY.setValue(0);
-  //           this.scroll.scrollTo({ x: 0, y: 0 })
-  //         }
-  //         if (offset < -35 && offset > -HEADER_MAX_HEIGHT) {
-  //           this.state.scrollY.setValue(0);
-  //           this.scroll.scrollTo({ x: 0, y: -HEADER_MAX_HEIGHT })
-  //         }
-  //       }
-  //     },
-  //     { useNativeDriver: true }
-  //   )(event);
-  // }
-
-  renderModalCancel = () => {
+  renderModalCancel = languages => {
     return (
       <Modal
         style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }}
@@ -232,14 +213,16 @@ class ModalEditOrder extends PureComponent {
             }}
           >
             <Text style={{ marginBottom: 20, color: '#BABFC8', fontFamily: 'Opensans-SemiBold', fontSize: 14 }}>
-              Bạn muốn hủy order này
+              {languages.WO_CANCEL_ORDER}
             </Text>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() => this.setState({ showModalConfirmCancel: false })}
                 style={{ flex: 1, backgroundColor: '#FFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
               >
-                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>Quay Lại</Text>
+                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>
+                  {languages.WO_DETAIL_BACK}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this.changeStatusWorkOrder(16)}
@@ -254,7 +237,9 @@ class ModalEditOrder extends PureComponent {
                   end={{ x: 1, y: 0 }}
                   style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10 }}
                 >
-                  <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
+                  <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                    {languages.WO_DETAIL_APPROVE}
+                  </Text>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -340,306 +325,309 @@ class ModalEditOrder extends PureComponent {
       this.changeStatusBar();
     }
 
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+
     return this.state.loading ? (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size={'large'} color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-          {this.renderHeader(id)}
-          <KeyboardAwareScrollView
-            scrollEventThrottle={16}
-            contentContainerStyle={{
-              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
-            }}
-            contentInset={{
-              top: HEADER_MAX_HEIGHT
-            }}
-            contentOffset={{
-              y: -HEADER_MAX_HEIGHT
-            }}
-            innerRef={ref => (this.scroll = ref)}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-            onScroll={this.handleScroll}
-            // onScrollEndDrag={this.handleScrollEndDrag}
-            enableOnAndroid
-          >
-            <ItemScorll
-              title={'Thông Tin'}
-              view={
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {this.renderHeader(id, languages, tabIndex)}
+        <KeyboardAwareScrollView
+          scrollEventThrottle={16}
+          contentContainerStyle={{
+            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+          }}
+          contentInset={{
+            top: HEADER_MAX_HEIGHT
+          }}
+          contentOffset={{
+            y: -HEADER_MAX_HEIGHT
+          }}
+          innerRef={ref => (this.scroll = ref)}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          onScroll={this.handleScroll}
+          enableOnAndroid
+        >
+          <ItemScorll
+            title={languages.WO_DETAIL_INFO}
+            view={
+              <View
+                style={{
+                  height: 200,
+                  width: null,
+                  flex: 1,
+                  borderRadius: 10,
+                  backgroundColor: '#FFF',
+                  padding: 20,
+                  justifyContent: 'space-around'
+                }}
+              >
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_DETAIL_APARTMENT}</Text>
+                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{fullUnitCode}</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_DETAIL_STATUS}</Text>
+                  <View
+                    style={{
+                      borderRadius: 5,
+                      backgroundColor: currentStatus.colorCode
+                    }}
+                  >
+                    <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
+                      {currentStatus.codeName}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_DETAIL_DAYSEND}</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+                      <Image
+                        style={{ marginRight: 10, width: 15, height: 15 }}
+                        source={require('../../../resources/icons/clock.png')}
+                      />
+                      <Text style={{ color: '#C9CDD4' }}>{time}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Image
+                        style={{ marginRight: 10, width: 15, height: 15 }}
+                        source={require('../../../resources/icons/calendar.png')}
+                      />
+                      <Text style={{ color: '#C9CDD4' }}>{date}</Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_DETAIL_AREA}</Text>
+                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{languages.WO_DETAIL_APARTEMENT}</Text>
+                </View>
+              </View>
+            }
+          />
+          <ItemScorll
+            title={languages.WO_DETAIL_PERSON}
+            view={
+              this.state.detailOrder && this.state.detailOrder.employee ? (
                 <View
                   style={{
-                    height: 200,
+                    height: 90,
                     width: null,
                     flex: 1,
                     borderRadius: 10,
                     backgroundColor: '#FFF',
                     padding: 20,
-                    justifyContent: 'space-around'
+                    flexDirection: 'row',
+                    alignItems: 'center'
                   }}
                 >
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
-                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{fullUnitCode}</Text>
+                  <Image
+                    style={{ width: 50, height: 50, borderRadius: 25 }}
+                    resizeMode={'cover'}
+                    source={require('../../../resources/icons/avatar-default.png')}
+                  />
+                  <View style={{ flex: 1, alignItems: 'center' }}>
+                    <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>{this.state.detailOrder.employee.fullName}</Text>
+                    <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>
+                      {this.state.detailOrder.employee.phoneNumber}
+                    </Text>
                   </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Trạng Thái</Text>
-                    <View
-                      style={{
-                        borderRadius: 5,
-                        backgroundColor: currentStatus.colorCode
-                      }}
-                    >
-                      <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
-                        {currentStatus.codeName}
-                      </Text>
-                    </View>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Ngày Gửi</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
-                        <Image
-                          style={{ marginRight: 10, width: 15, height: 15 }}
-                          source={require('../../../resources/icons/clock.png')}
-                        />
-                        <Text style={{ color: '#C9CDD4' }}>{time}</Text>
-                      </View>
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image
-                          style={{ marginRight: 10, width: 15, height: 15 }}
-                          source={require('../../../resources/icons/calendar.png')}
-                        />
-                        <Text style={{ color: '#C9CDD4' }}>{date}</Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Khu Vực</Text>
-                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>Căn Hộ</Text>
-                  </View>
+                  <TouchableOpacity onPress={() => Linking.openURL(`tel:${this.state.detailOrder.employee.phoneNumber}`)}>
+                    <Image source={require('../../../resources/icons/Call-button.png')} />
+                  </TouchableOpacity>
                 </View>
-              }
-            />
-            <ItemScorll
-              title={'Người Phụ Trách'}
-              view={
-                this.state.detailOrder && this.state.detailOrder.employee ? (
-                  <View
-                    style={{
-                      height: 90,
-                      width: null,
-                      flex: 1,
-                      borderRadius: 10,
-                      backgroundColor: '#FFF',
-                      padding: 20,
-                      flexDirection: 'row',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Image
-                      style={{ width: 50, height: 50, borderRadius: 25 }}
-                      resizeMode={'cover'}
-                      source={require('../../../resources/icons/avatar-default.png')}
-                    />
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                      <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>{this.state.detailOrder.employee.fullName}</Text>
-                      <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>
-                        {this.state.detailOrder.employee.phoneNumber}
-                      </Text>
-                    </View>
-                    <TouchableOpacity onPress={() => Linking.openURL(`tel:${this.state.detailOrder.employee.phoneNumber}`)}>
-                      <Image source={require('../../../resources/icons/Call-button.png')} />
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                    <View
-                      style={{
-                        height: 90,
-                        width: null,
-                        flex: 1,
-                        borderRadius: 10,
-                        backgroundColor: '#FFF',
-                        padding: 20,
-                        flexDirection: 'row',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <Image
-                        style={{ width: 50, height: 50, borderRadius: 25 }}
-                        resizeMode={'cover'}
-                        source={require('../../../resources/icons/avatar-default.png')}
-                      />
-                      <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>Chưa có người phụ trách</Text>
-                      <Image source={require('../../../resources/icons/call-disable.png')} />
-                    </View>
-                  )
-              }
-            />
-
-            {rating > 0 && description != '' ? (
-              <ItemScorll
-                title={'Bạn đã đánh giá dịch vụ'}
-                view={
-                  <View
-                    style={{
-                      flex: 1,
-                      backgroundColor: '#FFF',
-                      borderRadius: 5,
-                      width: null,
-                      padding: 20,
-                      height: 113,
-                      flexDirection: 'row',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <View>
-                      <Text style={{ color: '#505E75', fontSize: 60, fontWeight: 'bold' }}>{rating}.0</Text>
-                      <View style={{ flexDirection: 'row', alignSelf: 'center' }}>{this.renderStartDetail(rating)}</View>
-                    </View>
-                    <Text style={{ flex: 1, marginLeft: 10 }}>{description}</Text>
-                  </View>
-                }
-              />
-            ) : null}
-
-            <ItemScorll
-              title={'Hình Ảnh'}
-              view={
-                <ScrollView
+              ) : (
+                <View
                   style={{
+                    height: 90,
+                    width: null,
+                    flex: 1,
                     borderRadius: 10,
-                    paddingTop: 10,
-                    width: width - 40,
-                    height: 130,
-                    backgroundColor: '#FFF'
+                    backgroundColor: '#FFF',
+                    padding: 20,
+                    flexDirection: 'row',
+                    alignItems: 'center'
                   }}
-                  showsHorizontalScrollIndicator={false}
-                  horizontal
                 >
-                  {tabIndex && tabIndex === 1 ? null : (
-                    <TouchableOpacity
-                      onPress={() => this.getPhotos()}
-                      style={{
-                        width: 90,
-                        height: 90,
-                        marginLeft: 20,
-                        borderRadius: 10,
-                        margin: 10,
-                        backgroundColor: '#F6F8FD',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: 50,
-                          height: 50,
-                          backgroundColor: '#FFF',
-                          borderRadius: 25,
-                          shadowColor: '#000',
-                          shadowOffset: { width: 1, height: 2 },
-                          shadowOpacity: 0.16,
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}
-                      >
-                        <Image
-                          style={{ width: 25, height: 25 }}
-                          resizeMode={'cover'}
-                          source={require('@resources/icons/plus.png')}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  )}
-                  {this.state.arrImageOld.map((item, index) => this.renderItemImage(index, item))}
-                </ScrollView>
-              }
-            />
+                  <Image
+                    style={{ width: 50, height: 50, borderRadius: 25 }}
+                    resizeMode={'cover'}
+                    source={require('../../../resources/icons/avatar-default.png')}
+                  />
+                  <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>{languages.WO_DETAIL_NOPERSON}</Text>
+                  <Image source={require('../../../resources/icons/call-disable.png')} />
+                </View>
+              )
+            }
+          />
+
+          {rating > 0 && description != '' ? (
             <ItemScorll
-              title={'Miêu Tả'}
+              title={languages.WO_DETAIL_REVIEWED}
               view={
-                <TextInput
+                <View
                   style={{
                     flex: 1,
                     backgroundColor: '#FFF',
                     borderRadius: 5,
-                    height: 100,
                     width: null,
-                    padding: 10,
-                    paddingTop: 20,
-                    marginBottom: 20
-                  }}
-                  returnKeyType="done"
-                  autoCapitalize="sentences"
-                  autoCorrect={true}
-                  onSubmitEditing={() => Keyboard.dismiss()}
-                  value={this.state.description}
-                  multiline
-                  placeholder={'Nhập nội dung ...'}
-                  onChangeText={e => this.setState({ description: e })}
-                />
-              }
-            />
-            {/* </Animated.ScrollView> */}
-          </KeyboardAwareScrollView>
-          {this.renderFooter()}
-          <TouchableOpacity
-            style={{
-              position: 'absolute',
-              bottom:
-                this.state.detailOrder.currentStatus &&
-                  (this.state.detailOrder.currentStatus.id == 11 || this.state.detailOrder.currentStatus.id == 13)
-                  ? 100
-                  : 20,
-              right: 20
-            }}
-            onPress={() => this.setState({ isShowChat: true })}
-          >
-            <Image source={require('@resources/icons/chat-big.png')} />
-            {this.props.workOrder.commentUnread &&
-              this.props.workOrder.commentUnread.success &&
-              this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
-                <View
-                  style={{
-                    width: 16,
-                    height: 16,
-                    backgroundColor: 'red',
-                    borderRadius: 8,
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    padding: 20,
+                    height: 113,
+                    flexDirection: 'row',
+                    alignItems: 'center'
                   }}
                 >
-                  <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
-                    {this.props.workOrder.commentUnread.result[0].unreadCount}
-                  </Text>
+                  <View>
+                    <Text style={{ color: '#505E75', fontSize: 60, fontWeight: 'bold' }}>{rating}.0</Text>
+                    <View style={{ flexDirection: 'row', alignSelf: 'center' }}>{this.renderStartDetail(rating)}</View>
+                  </View>
+                  <Text style={{ flex: 1, marginLeft: 10 }}>{description}</Text>
                 </View>
-              ) : null}
-          </TouchableOpacity>
-          {this.renderContentModalChat()}
-          {this.renderModalRating()}
-          {this.renderModalCancel()}
-          {this.showDetailImage()}
-        </View>
-      );
+              }
+            />
+          ) : null}
+
+          <ItemScorll
+            title={languages.WO_DETAIL_IMAGE}
+            view={
+              <ScrollView
+                style={{
+                  borderRadius: 10,
+                  paddingTop: 10,
+                  width: width - 40,
+                  height: 130,
+                  backgroundColor: '#FFF'
+                }}
+                showsHorizontalScrollIndicator={false}
+                horizontal
+              >
+                {tabIndex && tabIndex === 1 ? null : (
+                  <TouchableOpacity
+                    onPress={() => this.getPhotos()}
+                    style={{
+                      width: 90,
+                      height: 90,
+                      marginLeft: 20,
+                      borderRadius: 10,
+                      margin: 10,
+                      backgroundColor: '#F6F8FD',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: 50,
+                        height: 50,
+                        backgroundColor: '#FFF',
+                        borderRadius: 25,
+                        shadowColor: '#000',
+                        shadowOffset: { width: 1, height: 2 },
+                        shadowOpacity: 0.16,
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Image
+                        style={{ width: 25, height: 25 }}
+                        resizeMode={'cover'}
+                        source={require('@resources/icons/plus.png')}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                )}
+                {this.state.arrImageOld.map((item, index) => this.renderItemImage(index, item))}
+              </ScrollView>
+            }
+          />
+          <ItemScorll
+            title={languages.WO_DETAIL_DES}
+            view={
+              <TextInput
+                style={{
+                  flex: 1,
+                  backgroundColor: '#FFF',
+                  borderRadius: 5,
+                  height: 100,
+                  width: null,
+                  padding: 10,
+                  paddingTop: 20,
+                  marginBottom: 20
+                }}
+                returnKeyType="done"
+                autoCapitalize="sentences"
+                autoCorrect={true}
+                onSubmitEditing={() => Keyboard.dismiss()}
+                value={this.state.description}
+                multiline
+                placeholder={languages.WO_DETAIL_CONTENT}
+                onChangeText={e => this.setState({ description: e })}
+              />
+            }
+          />
+          {/* </Animated.ScrollView> */}
+        </KeyboardAwareScrollView>
+        {this.renderFooter(languages)}
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            bottom:
+              this.state.detailOrder.currentStatus &&
+              (this.state.detailOrder.currentStatus.id == 11 || this.state.detailOrder.currentStatus.id == 13)
+                ? 100
+                : 20,
+            right: 20
+          }}
+          onPress={() => this.setState({ isShowChat: true })}
+        >
+          <Image source={require('@resources/icons/chat-big.png')} />
+          {this.props.workOrder.commentUnread &&
+          this.props.workOrder.commentUnread.success &&
+          this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: 'red',
+                borderRadius: 8,
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
+                {this.props.workOrder.commentUnread.result[0].unreadCount}
+              </Text>
+            </View>
+          ) : null}
+        </TouchableOpacity>
+        {this.renderContentModalChat(languages)}
+        {this.renderModalRating(languages)}
+        {this.renderModalCancel(languages)}
+        {this.showDetailImage()}
+      </View>
+    );
   }
 
-  renderHeader(id) {
+  renderHeader(id, languages, tabIndex) {
     const isShow = this.state.scrollY.interpolate({
       inputRange: [0, 60],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: 'clamp'
     });
+    let currentStatus = this.state.detailOrder.currentStatus;
+
     return (
       <View>
         <Header
@@ -648,12 +636,16 @@ class ModalEditOrder extends PureComponent {
           leftIcon={require('../../../resources/icons/close.png')}
           leftAction={() => this.props.navigation.goBack()}
           renderViewRight={
-            <TouchableOpacity
-              onPress={() => this.changeStatusWorkOrder(currentStatus.id)}
-              style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}
-            >
-              <Text style={{ color: '#FFF', fontSize: 15, fontWeight: 'bold', marginRight: 20 }}>Lưu</Text>
-            </TouchableOpacity>
+            tabIndex == 0 ? (
+              <TouchableOpacity
+                onPress={() => this.changeStatusWorkOrder(currentStatus.id)}
+                style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}
+              >
+                <Text style={{ color: '#FFF', fontSize: 15, fontWeight: 'bold', marginRight: 20 }}>
+                  {languages.WO_DETAIL_SAVE}
+                </Text>
+              </TouchableOpacity>
+            ) : null
           }
           headercolor={'transparent'}
           showTitleHeader={true}
@@ -668,7 +660,7 @@ class ModalEditOrder extends PureComponent {
     );
   }
 
-  renderFooter = () => {
+  renderFooter = languages => {
     if (
       this.state.detailOrder.currentStatus &&
       (this.state.detailOrder.currentStatus.id == 11 || this.state.detailOrder.currentStatus.id == 13)
@@ -690,7 +682,7 @@ class ModalEditOrder extends PureComponent {
             onPress={() => this.setState({ isShowRating: true })}
             style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
           >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hoàn Tất</Text>
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.WO_DETAIL_COMPLETE}</Text>
           </TouchableOpacity>
           {this.state.detailOrder.currentStatus.id == 11 ? (
             <TouchableOpacity
@@ -704,7 +696,7 @@ class ModalEditOrder extends PureComponent {
               }}
               onPress={() => this.setState({ showModalConfirmCancel: true })}
             >
-              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Hủy</Text>
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.WO_DETAIL_CANCEL}</Text>
             </TouchableOpacity>
           ) : null}
         </View>
@@ -763,7 +755,7 @@ class ModalEditOrder extends PureComponent {
     );
   };
 
-  renderModalRating = () => {
+  renderModalRating = languages => {
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} isVisible={this.state.isShowRating}>
         <KeyboardAwareScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -788,9 +780,9 @@ class ModalEditOrder extends PureComponent {
                 {this.state.vote}
                 .0
               </Text>
-              <Text
-                style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10, fontSize: 14 }}
-              >{`Hãy đánh giá dịch vụ của \n Chúng tôi`}</Text>
+              <Text style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10, fontSize: 14 }}>{`${
+                languages.WO_REVIEW_SERVICE
+              }`}</Text>
               <View
                 style={{
                   width: width - 40,
@@ -814,7 +806,7 @@ class ModalEditOrder extends PureComponent {
                   padding: 10,
                   paddingTop: 10
                 }}
-                placeholder={'Nhập nội dung nhận xét'}
+                placeholder={languages.WO_DETAIL_CONTENT_REVIEW}
                 multiline
                 returnKeyType="done"
                 autoCapitalize="sentences"
@@ -835,7 +827,7 @@ class ModalEditOrder extends PureComponent {
                     justifyContent: 'center'
                   }}
                 >
-                  <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Send</Text>
+                  <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.WO_DETAIL_SEND}</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -851,17 +843,17 @@ class ModalEditOrder extends PureComponent {
     {
       this.state.arrImageOld && this.state.arrImageOld.length > 0
         ? this.state.arrImageOld.map(value => {
-          if (value == null) {
-            return;
-          }
-          if (value.fileUrl) {
-            newData.push({ url: `${value.fileUrl}&encToken=${encodeURIComponent(encToken)}` });
-          } else if (value.uri) {
-            newData.push({ url: value.uri });
-          } else {
-            newData.push({ url: value });
-          }
-        })
+            if (value == null) {
+              return;
+            }
+            if (value.fileUrl) {
+              newData.push({ url: `${value.fileUrl}&encToken=${encodeURIComponent(encToken)}` });
+            } else if (value.uri) {
+              newData.push({ url: value.uri });
+            } else {
+              newData.push({ url: value });
+            }
+          })
         : null;
     }
     return (
@@ -891,120 +883,31 @@ class ModalEditOrder extends PureComponent {
     );
   }
 
-  renderContentModalChat() {
+  renderContentModalChat(languages) {
     let focusChat = {};
     let id = this.props.userProfile.profile.result.user.id;
     let tabIndex = this.props.navigation.getParam('tabIndex', false);
     let IdOrder = this.state.detailOrder.id;
-
 
     return (
       <ModalChat
         isVisible={this.state.isShowChat}
         title={IdOrder}
         idUser={id}
+        placeHolderText={languages.BK_DETAIL_CHAT}
         listComment={this.state.listComment}
         editableTextInput={this.state.detailOrder.currentStatus.id === 11 ? true : false}
         disabledBtn={this.state.comment.trim() == '' ? true : false}
         addComment={() => this.addComment()}
-        onChangeText={(text) => this.setState({ comment: text })}
+        onChangeText={text => this.setState({ comment: text })}
         opacityBtnSend={this.state.comment.trim() == '' ? 0.5 : 1}
         colors={tabIndex && tabIndex == 1 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
         onClose={() => this.setState({ isShowChat: false })}
-        refTextInout={
-          input => {
-            this.textInput = input;
-          }
-        }
+        refTextInout={input => {
+          this.textInput = input;
+        }}
       />
-    )
-
-    // return (
-    //   <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 50 }} isVisible={this.state.isShowChat}>
-    //     <View
-    //       style={{
-    //         width: width,
-    //         height: 50,
-    //         borderTopLeftRadius: 10,
-    //         borderTopRightRadius: 10,
-    //         flexDirection: 'row',
-    //         backgroundColor: '#FFF',
-    //         alignItems: 'center',
-    //         justifyContent: 'space-between',
-    //         paddingHorizontal: 20
-    //       }}
-    //     >
-    //       <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowChat: false })}>
-    //         <Image style={{ margin: 10 }} source={require('../../../resources/icons/close-black.png')} />
-    //       </TouchableOpacity>
-    //       <Text style={{ flex: 5, textAlign: 'center' }}>#{`${IdOrder}`}</Text>
-    //       <View style={{ flex: 1 }} />
-    //     </View>
-    //     <Animated.View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: this.state.marginBottom }}>
-    //       <FlatList
-    //         data={this.state.listComment}
-    //         style={{ flex: 1 }}
-    //         keyExtractor={(item, index) => item.id.toString()}
-    //         renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={id} />}
-    //         ref={ref => (this.flatList = ref)}
-    //         // onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
-    //         // onLayout={() => this.flatList.scrollToEnd({ animated: true })}
-    //         ListEmptyComponent={() => {
-    //           return (
-    //             <View style={{ flex: 1, alignItems: 'center', marginTop: 100, height: isIphoneX() ? 500 : height - 150 }}>
-    //               <Image source={IC_CHATEMTY} />
-    //               <Text
-    //                 style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
-    //               >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
-    //             </View>
-    //           );
-    //         }}
-    //         ListFooterComponent={() => <View style={{ marginBottom: 80 }} />}
-    //       />
-    //     </Animated.View>
-    //     <KeyboardAvoidingView behavior="padding" enabled>
-    //       <LinearGradient
-    //         colors={tabIndex && tabIndex == 1 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
-    //         start={{ x: 0, y: 0 }}
-    //         end={{ x: 1, y: 0 }}
-    //         style={[
-    //           {
-    //             zIndex: 1,
-    //             overflow: 'hidden',
-    //             width: width - 40,
-    //             height: 50,
-    //             position: 'absolute',
-    //             bottom: 20,
-    //             left: 20,
-    //             borderRadius: 10
-    //           },
-    //           focusChat
-    //         ]}
-    //       >
-    //         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, elevation: 1 }}>
-    //           <TextInput
-    //             ref={input => {
-    //               this.textInput = input;
-    //             }}
-    //             editable={this.state.detailOrder.currentStatus.id === 11 ? true : false}
-    //             returnKeyType={'send'}
-    //             style={{ flex: 1, color: '#FFF' }}
-    //             onSubmitEditing={() => this.addComment()}
-    //             onChangeText={e => this.setState({ comment: e })}
-    //             placeholderTextColor={'rgba(255,255,255,0.7)'}
-    //             placeholder={'Nhập tin nhắn ...'}
-    //           />
-    //           <TouchableOpacity disabled={this.state.comment.trim() == '' ? true : false} onPress={() => this.addComment()}>
-    //             <Image
-    //               style={{ opacity: this.state.comment.trim() == '' ? 0.5 : 1 }}
-    //               source={require('../../../resources/icons/send-mess.png')}
-    //             />
-    //           </TouchableOpacity>
-    //         </View>
-    //       </LinearGradient>
-    //     </KeyboardAvoidingView>
-    //   </Modal>
-    // );
+    );
   }
 }
 

@@ -8,14 +8,19 @@ class ItemComment extends Component {
   render() {
     const { content, creationTime, creatorUserId, fileUrl } = this.props.item;
     let id = this.props.idUser;
-    let times = moment(creationTime).fromNow();
+    let times = moment(creationTime).format('hh:mm:ss - DD-MM-YYYY');
     let encToken = this.props.account.encToken;
     let image = `${fileUrl}&encToken=${encodeURIComponent(encToken)}`;
 
     if (id == creatorUserId) {
       return (
         <View style={styles.contain}>
-          <View style={styles.imageAvatar} />
+          <View style={styles.imageAvatar}>
+            <Image
+              style={{ flex: 1 }}
+              source={{ uri: 'http://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png' }}
+            />
+          </View>
           <View style={styles.viewChat}>
             <Text style={styles.textContent}>{content}</Text>
             <Text style={styles.textTime}>{times}</Text>
@@ -23,16 +28,8 @@ class ItemComment extends Component {
         </View>
       );
     } else {
-      console.log('asdkjasdkljasdkajsldasda', 'vao day');
       return (
         <View style={styles.containAdmin}>
-          <Image
-            style={[styles.imageAvatar]}
-            resizeMode={'cover'}
-            source={{
-              uri: image
-            }}
-          />
           <View style={[styles.viewChat, { backgroundColor: '#4A89E8' }]}>
             <Text style={[styles.textContent, { color: '#FFF' }]}>{content}</Text>
             <Text style={[styles.textTime, { color: 'rgba(255,255,255,0.5)' }]}>{times}</Text>

@@ -24,6 +24,7 @@ export class ItemWorkOrder extends Component {
         key={item.id}
         style={{
           width: width - 40,
+          marginHorizontal: 20,
           height: 160,
           borderRadius: 10,
           marginTop: index === 0 ? 20 : 10,
@@ -53,7 +54,7 @@ export class ItemWorkOrder extends Component {
         ) : null}
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75', width: 70 }}>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75'}}>
               <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
                 #{item.id}
               </Text>

@@ -23,7 +23,7 @@ const { width, height } = Dimensions.get('window');
 var PickerItem = Picker.Item;
 
 export default class extends Component {
-  renderHeader() {
+  renderHeader(languages) {
     let unitActive = this.props.units.unitActive;
     return (
       <View>
@@ -35,7 +35,7 @@ export default class extends Component {
         />
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
           <Animated.View style={{ height: 60 }}>
-            <HeaderTitle title={'Settings'} />
+            <HeaderTitle title={languages.PROFILE_BTN_SETTING} />
           </Animated.View>
         </LinearGradient>
       </View>
@@ -44,11 +44,13 @@ export default class extends Component {
 
   onPickerSelect(index) {
     try {
+      let accessTokenApi = this.props.account.accessTokenAPI;
       this.props.actions.app.setLanguageLocal(index.toString());
       this.props.actions.app.getLanguageLocal();
       this.setState({
         selectedItem: index
       });
+      this.props.actions.app.getSetting(accessTokenApi, index);
     } catch (error) {
       console.log(error);
     }
@@ -97,17 +99,14 @@ export default class extends Component {
     } = this.state.dataSetting;
     const setting = this.props.app.getSetting;
 
-    let languages = this.props.app.listLanguage['vnLanguages'];
-
-    let language = Language.listLanguage[this.props.app.languegeLocal].data;
-
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
-        {this.renderHeader()}
+        {this.renderHeader(languages)}
         <View style={{ padding: Resolution.scale(20) }}>
           <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginBottom: 5 }}>
-            <Text style={Styles.titleHeader}>{language.ST_DETAIL_NOTI}</Text>
+            <Text style={Styles.titleHeader}>{languages.ST_DETAIL_NOTI}</Text>
             <Image source={require('@resources/icons/notify_setting.png')} />
             <Image style={{ marginHorizontal: 30 }} source={require('@resources/icons/mail_setting.png')} />
           </View>
@@ -183,7 +182,7 @@ export default class extends Component {
 
         {/* ====== Thông báo chi tiết ======= */}
         <View style={{ padding: Resolution.scale(20) }}>
-          <Text style={Styles.titleHeader}>{language.ST_LANGUAGE}</Text>
+          <Text style={Styles.titleHeader}>{languages.ST_LANGUAGE}</Text>
           <Button onPress={() => this._toggleModalLanguage()} style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
             <View
               style={{

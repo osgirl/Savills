@@ -24,14 +24,13 @@ class Profile extends Layout {
       ],
       itemSelectDisplay: this.props.profile.displayName
     };
-    StatusBar.setHidden(true);
   }
 
   componentDidMount() {
     let accessTokenApi = this.props.account.accessTokenAPI;
     setTimeout(() => {
-      this.props.actions.app.getSetting(accessTokenApi);
-    }, 300)
+      this.props.actions.app.getSetting(accessTokenApi, this.props.app.languegeLocal);
+    }, 300);
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -44,16 +43,11 @@ class Profile extends Layout {
       this.setState({ isShowModalUpdate: false });
     }
 
-    if (this.props.userProfile.updateUserProfile !== nextProps.userProfile.updateUserProfile &&
-      !nextProps.userProfile.updateUserProfile.success) {
-      Alert.alert(
-        'Alert Title',
-        nextProps.userProfile.updateUserProfile.error.message,
-        [
-          { text: 'OK' },
-        ],
-        { cancelable: false }
-      )
+    if (
+      this.props.userProfile.updateUserProfile !== nextProps.userProfile.updateUserProfile &&
+      !nextProps.userProfile.updateUserProfile.success
+    ) {
+      Alert.alert('Alert Title', nextProps.userProfile.updateUserProfile.error.message, [{ text: 'OK' }], { cancelable: false });
     }
 
     if (
@@ -134,10 +128,7 @@ class Profile extends Layout {
 
   _closeModalProfile() {
     this.props.onClose();
-    StatusBar.setHidden(false);
-
   }
-
 }
 
 export default Connect(Profile);

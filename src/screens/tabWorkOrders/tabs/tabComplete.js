@@ -6,6 +6,7 @@ import EmptyItemList from '@components/emptyItemList';
 import ItemWorkOrder from '@components/itemWorkOrder';
 import Resolution from '@utils/resolution';
 import Configs from '@utils/configs';
+import { ItemPlaceHolderH } from '@components/placeHolderItem';
 
 class TabComplete extends PureComponent {
   constructor(props) {
@@ -27,7 +28,7 @@ class TabComplete extends PureComponent {
       this.state.isRefresh
     ) {
       await this.setState({ listData: nextProps.workOrder.listComplete.items });
-      await this.setState({ isRefresh: false });
+      await this.setState({ isRefresh: false, isLoadData: false });
     }
 
     if (
@@ -36,7 +37,7 @@ class TabComplete extends PureComponent {
       !this.state.isRefresh
     ) {
       await this.setState({ listData: this.state.listData.concat(nextProps.workOrder.listComplete.items) });
-      await this.setState({ loadingMore: false, isRefresh: false });
+      await this.setState({ loadingMore: false, isRefresh: false, isLoadData: false });
     }
   };
 
@@ -46,32 +47,36 @@ class TabComplete extends PureComponent {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => item.id.toString()}
-          data={this.state.listData}
-          extraData={this.state}
-          renderItem={({ item, index }) => (
-            <ItemWorkOrder {...this.props} item={item} key={index} action={() => this.gotoDetail(item, 1)} />
-          )}
-          onScroll={this.props.onScroll}
-          onEndReached={() => this._onEndReached()}
-          onEndReachedThreshold={0.01}
-          // ListFooterComponent={() => this._FooterFlatlist()}
-          legacyImplementation={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefreshing}
-              onRefresh={() => this._onRefresh()}
-              tintColor="#000"
-              titleColor="#000"
-            />
-          }
-          ListEmptyComponent={() => {
-            return <EmptyItemList loadData={this.state.isLoadData} />;
-          }}
-        />
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {this.state.isLoadData === false ? (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => item.id.toString()}
+            data={this.state.listData}
+            extraData={this.state}
+            renderItem={({ item, index }) => (
+              <ItemWorkOrder {...this.props} item={item} key={index} action={() => this.gotoDetail(item, 1)} />
+            )}
+            onScroll={this.props.onScroll}
+            onEndReached={() => this._onEndReached()}
+            onEndReachedThreshold={0.01}
+            // ListFooterComponent={() => this._FooterFlatlist()}
+            legacyImplementation={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefreshing}
+                onRefresh={() => this._onRefresh()}
+                tintColor="#000"
+                titleColor="#000"
+              />
+            }
+            ListEmptyComponent={() => {
+              return <EmptyItemList message={"Bạn chưa có workOrder nào \n hãy tạo ngay cho mình \n ở đây nhé !"} />;
+            }}
+          />
+        ) : (
+          <ItemPlaceHolderH noMargin />
+        )}
       </View>
     );
   }
@@ -102,7 +107,7 @@ class TabComplete extends PureComponent {
     if (this.state.isRefresh) {
       return;
     }
-    await this.setState({ isRefresh: true, pageCount: 1 });
+    await this.setState({ isRefresh: true, pageCount: 1, isLoadData: true });
     this._getList();
   };
 

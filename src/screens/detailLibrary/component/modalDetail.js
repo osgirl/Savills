@@ -100,7 +100,7 @@ class ModalDetail extends Component {
               javaScriptEnabled={true}
               builtInZoomControls={false}
               source={{
-                uri: `https://drive.google.com/viewerng/viewer?embedded=true&url=https://easychair.org/publications/easychair.docx`
+                uri: file
               }}
               scalesPageToFit={true}
             />

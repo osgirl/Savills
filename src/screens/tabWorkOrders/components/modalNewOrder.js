@@ -11,7 +11,8 @@ import {
   PixelRatio,
   Animated,
   Platform,
-  Keyboard
+  Keyboard,
+  DeviceEventEmitter
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -28,7 +29,7 @@ import Resolution from '@utils/resolution';
 import AnimatedTitle from '@components/animatedTitle';
 import Connect from '@stores';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const options = {
   title: 'Select Image',
   storageOptions: {
@@ -36,8 +37,8 @@ const options = {
     path: 'images'
   },
   quality: 1,
-  maxWidth: PixelRatio.getPixelSizeForLayoutSize(300), // photos only
-  maxHeight: PixelRatio.getPixelSizeForLayoutSize(150) // photos only
+  maxWidth: width, // photos only
+  maxHeight: height // photos only
 };
 
 const HEADER_MAX_HEIGHT = 60;
@@ -82,7 +83,7 @@ class ModalNewOrder extends PureComponent {
         }
       }
       this.setState({ loading: false });
-      await nextProps.actions.workOrder.getWorkOrderListActive(accessTokenAPI, id);
+      DeviceEventEmitter.emit('UpdateListWorkOrder', {});
       await this.props.navigation.goBack();
     }
   }
@@ -143,8 +144,6 @@ class ModalNewOrder extends PureComponent {
         const sourceBase64 = response.data;
         ListImageBase64.push(sourceBase64);
         ListImage.push(source);
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
         this.setState({
           imageListBase64: ListImageBase64,
           imageList: ListImage
@@ -166,15 +165,15 @@ class ModalNewOrder extends PureComponent {
     {
       this.state.imageList && this.state.imageList.length > 0
         ? this.state.imageList.map(value => {
-          if (value == null) {
-            return;
-          }
-          if (value.uri) {
-            newData.push({ url: value.uri });
-          } else {
-            newData.push({ url: value });
-          }
-        })
+            if (value == null) {
+              return;
+            }
+            if (value.uri) {
+              newData.push({ url: value.uri });
+            } else {
+              newData.push({ url: value });
+            }
+          })
         : null;
     }
     return (
@@ -209,7 +208,7 @@ class ModalNewOrder extends PureComponent {
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          const offset = event.nativeEvent.contentOffset.y
+          const offset = event.nativeEvent.contentOffset.y;
           this.state.scrollY.setValue(offset);
         }
       },
@@ -220,21 +219,16 @@ class ModalNewOrder extends PureComponent {
   render() {
     const { fullUnitCode } = this.props.units.unitActive;
     const { phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {this.renderHeader()}
+        {this.renderHeader(languages)}
         {this.showDetailImage()}
         {this.state.loading ? <Loading /> : null}
         <KeyboardAwareScrollView
-          innerRef={ref => (this.scroll = ref)}
-          keyboardShouldPersistTaps="handled"
-          extraHeight={0}
-          style={{ flex: 1 }}
-          enableOnAndroid
           scrollEventThrottle={16}
           contentContainerStyle={{
-            minHeight: '100%',
             paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
           }}
           contentInset={{
@@ -243,11 +237,15 @@ class ModalNewOrder extends PureComponent {
           contentOffset={{
             y: -HEADER_MAX_HEIGHT
           }}
+          innerRef={ref => (this.scroll = ref)}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
           onScroll={this.handleScroll}
+          enableOnAndroid
         >
           <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
             <ItemScorll
-              title={'Thông Tin'}
+              title={languages.WO_NEW_INFO}
               view={
                 <View
                   style={{
@@ -261,7 +259,7 @@ class ModalNewOrder extends PureComponent {
                   }}
                 >
                   <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Căn Hộ</Text>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_NEW_APARTMENT}</Text>
                     <Text
                       underlineColorAndroid={'transparent'}
                       style={{ color: '#BABFC8', fontWeight: '500' }}
@@ -269,7 +267,6 @@ class ModalNewOrder extends PureComponent {
                   </View>
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Mail</Text>
-                    {/* <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{emailAddress}</Text> */}
                     <TextInput
                       onChangeText={e => this.setState({ email: e })}
                       value={this.state.email}
@@ -278,8 +275,7 @@ class ModalNewOrder extends PureComponent {
                     />
                   </View>
                   <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>SĐT</Text>
-                    {/* <Text style={{ color: '#4A89E8', fontWeight: '500' }}>{phoneNumber}</Text> */}
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_NEW_PHONE}</Text>
                     <TextInput
                       onChangeText={e => this.setState({ sdt: e })}
                       value={this.state.sdt}
@@ -291,7 +287,7 @@ class ModalNewOrder extends PureComponent {
               }
             />
             <ItemScorll
-              title={'Khu Vực'}
+              title={languages.WO_NEW_AREA}
               view={
                 <View
                   style={{
@@ -306,59 +302,28 @@ class ModalNewOrder extends PureComponent {
                 >
                   {this.state.listArea && this.state.listArea.length > 0
                     ? this.state.listArea.map((item, index) => (
-                      <TouchableOpacity
-                        key={index}
-                        activeOpacity={1}
-                        onPress={() => this.changeArea(index)}
-                        style={{ flexDirection: 'row' }}
-                      >
-                        <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{item.name}</Text>
-                        <Image
-                          source={
-                            item.isCheck
-                              ? require('../../../resources/icons/checked.png')
-                              : require('../../../resources/icons/check.png')
-                          }
-                        />
-                      </TouchableOpacity>
-                    ))
+                        <TouchableOpacity
+                          key={index}
+                          activeOpacity={1}
+                          onPress={() => this.changeArea(index)}
+                          style={{ flexDirection: 'row' }}
+                        >
+                          <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{item.name}</Text>
+                          <Image
+                            source={
+                              item.isCheck
+                                ? require('../../../resources/icons/checked.png')
+                                : require('../../../resources/icons/check.png')
+                            }
+                          />
+                        </TouchableOpacity>
+                      ))
                     : null}
                 </View>
               }
             />
-            {this.state.indexArea2 ? (
-              <ItemScorll
-                title={'Danh mục đã chọn'}
-                view={
-                  <View
-                    style={{
-                      height: 110,
-                      width: null,
-                      flex: 1,
-                      borderRadius: 10,
-                      backgroundColor: '#FFF',
-                      padding: 20,
-                      justifyContent: 'space-around'
-                    }}
-                  >
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>
-                        {this.state.listAreaChilder[this.state.indexAreaChilder].name}
-                      </Text>
-                      <Image source={require('../../../resources/icons/checked.png')} />
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>
-                        {this.state.listArea2[this.state.indexArea2].name}
-                      </Text>
-                      <Image source={require('../../../resources/icons/checked.png')} />
-                    </View>
-                  </View>
-                }
-              />
-            ) : null}
             <ItemScorll
-              title={'Hình Ảnh'}
+              title={languages.WO_NEW_IMAGE}
               view={
                 <ScrollView
                   style={{
@@ -377,7 +342,7 @@ class ModalNewOrder extends PureComponent {
             />
 
             <ItemScorll
-              title={'Miêu Tả'}
+              title={languages.WO_NEW_DES}
               view={
                 <TextInput
                   style={{
@@ -389,15 +354,13 @@ class ModalNewOrder extends PureComponent {
                     padding: 10,
                     paddingTop: 20,
                     marginBottom: 20
-                    // borderWidth: 1,
-                    // borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF'
                   }}
                   returnKeyType="done"
                   autoCapitalize="sentences"
                   autoCorrect={true}
                   onSubmitEditing={() => Keyboard.dismiss()}
                   multiline
-                  placeholder={'Nhập nội dung ...'}
+                  placeholder={languages.WO_NEW_CONTENT}
                   onChangeText={e => this.setState({ comment: e })}
                 />
               }
@@ -425,19 +388,19 @@ class ModalNewOrder extends PureComponent {
               }
             }}
           >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.WO_NEW_SEND}</Text>
           </TouchableOpacity>
         </View>
-        {this.renderModalConfirmBooking()}
+        {this.renderModalConfirmBooking(languages)}
       </View>
     );
   }
 
-  renderHeader() {
+  renderHeader(languages) {
     const isShow = this.state.scrollY.interpolate({
       inputRange: [0, 60],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: 'clamp'
     });
     return (
       <View>
@@ -449,16 +412,16 @@ class ModalNewOrder extends PureComponent {
           showTitleHeader={true}
           center={
             <Animated.View style={{ opacity: isShow }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'New Order'}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.WO_NEW_NEW}</Text>
             </Animated.View>
           }
         />
-        <AnimatedTitle scrollY={this.state.scrollY} label={'New Order'} />
+        <AnimatedTitle scrollY={this.state.scrollY} label={languages.WO_NEW_NEW} />
       </View>
     );
   }
 
-  renderModalConfirmBooking = () => {
+  renderModalConfirmBooking = languages => {
     const { fullUnitCode } = this.props.units.unitActive;
     const { displayName } = this.props.userProfile.profile.result.user;
     return (
@@ -488,7 +451,7 @@ class ModalNewOrder extends PureComponent {
             />
             <ScrollView style={{ flex: 1, marginBottom: 100 }} showsVerticalScrollIndicator={false}>
               <ItemScorll
-                title={'Thông Tin'}
+                title={languages.WO_NEW_INFO}
                 view={
                   <View
                     style={{
@@ -500,7 +463,9 @@ class ModalNewOrder extends PureComponent {
                     }}
                   >
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Căn Hộ</Text>
+                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.WO_NEW_APARTMENT}
+                      </Text>
                       <Text
                         style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}
                       >{`${fullUnitCode}-${displayName}`}</Text>
@@ -510,18 +475,24 @@ class ModalNewOrder extends PureComponent {
                       <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.email}</Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>SĐT</Text>
+                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.WO_NEW_PHONE}
+                      </Text>
                       <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.sdt}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Khu Vực</Text>
-                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Ngoài Nhà</Text>
+                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.WO_NEW_AREA}
+                      </Text>
+                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.WO_NEW_INTSITE}
+                      </Text>
                     </View>
                   </View>
                 }
               />
               <ItemScorll
-                title={'Hình Ảnh'}
+                title={languages.WO_NEW_IMAGE}
                 view={
                   <ScrollView
                     style={{
@@ -547,7 +518,7 @@ class ModalNewOrder extends PureComponent {
                 }
               />
               <ItemScorll
-                title={'Miêu Tả'}
+                title={languages.WO_NEW_DES}
                 view={
                   <View
                     style={{
@@ -574,7 +545,7 @@ class ModalNewOrder extends PureComponent {
                 end={{ x: 1, y: 0 }}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
               >
-                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
+                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>{languages.WO_NEW_SEND}</Text>
               </LinearGradient>
             </Button>
           </View>

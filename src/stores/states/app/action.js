@@ -86,11 +86,12 @@ export function getLanguageApp() {
   };
 }
 
-export function getSetting(accessTokenAPI) {
+export function getSetting(accessTokenAPI, language = 0) {
+  let lang = language === 0 ? 'en' : 'vi';
   return {
     type: Types.GET_SETTING,
     payload: {
-      api: Configs.API + '/api/services/app/Notification/GetNotificationSettings',
+      api: Configs.API + `/api/services/app/Notification/GetNotificationSettings?culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }

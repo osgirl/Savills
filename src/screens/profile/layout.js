@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Platform, TextInput, Image, Dimensions, ScrollView, StatusBar } from 'react-native';
+import { View, Text, Platform, TextInput, Image, Dimensions, ScrollView } from 'react-native';
 
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -41,7 +41,7 @@ let styleTextRight = {
 export default class extends Component {
   renderLoading() {
     if (this.props.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.props.loading} onRequestClose={() => { }} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.props.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
@@ -64,12 +64,12 @@ export default class extends Component {
         {this.state.keyUpdate === 'sdt'
           ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_PHONE
           : this.state.keyUpdate === 'name'
-            ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_FIRST
-            : this.state.keyUpdate === 'surname'
-              ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST
-              : this.state.keyUpdate === 'displayName'
-                ? 'Display name'
-                : ''}
+          ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_FIRST
+          : this.state.keyUpdate === 'surname'
+          ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST
+          : this.state.keyUpdate === 'displayName'
+          ? 'Display name'
+          : ''}
       </Text>
       {this.state.keyUpdate !== 'displayName' ? (
         <View>
@@ -87,17 +87,17 @@ export default class extends Component {
           />
         </View>
       ) : (
-          <Picker
-            style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
-            selectedValue={this.state.itemSelectDisplay}
-            itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
-            onValueChange={value => this.onPickerSelect(value)}
-          >
-            {this.state.dataDisplayname.map((item, index) => (
-              <PickerItem label={item} value={index} key={'id_' + index} />
-            ))}
-          </Picker>
-        )}
+        <Picker
+          style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
+          selectedValue={this.state.itemSelectDisplay}
+          itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
+          onValueChange={value => this.onPickerSelect(value)}
+        >
+          {this.state.dataDisplayname.map((item, index) => (
+            <PickerItem label={item} value={index} key={'id_' + index} />
+          ))}
+        </Picker>
+      )}
 
       <Button style={{ width: Resolution.scaleWidth(255), marginBottom: 40 }} onPress={() => this._updateProfile()}>
         <LinearGradient
@@ -187,11 +187,7 @@ export default class extends Component {
   render() {
     // let avatar = this.props.imageProfile;
     let Unit = this.props.units.unitActive;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-
-    let languageKey = this.props.app.languegeLocal === 0 ? "enLanguages" : "vnLanguages"
-    // console.log('asdkjasdlasjdklasjdklsajdlksjda', this.props.app.listLanguage.result[languageKey]);
-    StatusBar.setHidden(false);
+    let LG = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={{ flex: 1, width: width, height: height }}>
         {this.modalCropsImage()}
@@ -296,8 +292,7 @@ export default class extends Component {
           </Modal>
           {this.renderLoading()}
           <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
-            <ModalSelectUnit
-              onClose={() => this._closeModalSelectUnit()} />
+            <ModalSelectUnit onClose={() => this._closeModalSelectUnit()} />
           </Modal>
         </ScrollView>
         <LinearGradient

@@ -97,7 +97,7 @@ class ModalNewBooking extends PureComponent {
       this.props.actions.booking.setFlagCreateBooking();
       this.setState({ isShowModalConfirm: false, loading: false });
       this.props.goBack();
-      DeviceEventEmitter.emit('UpdateList', {});
+      DeviceEventEmitter.emit('UpdateListBooking', {});
     }
     if (nextProps.booking.createNewBooking && !nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.props.actions.booking.setFlagCreateBooking();
@@ -248,6 +248,8 @@ class ModalNewBooking extends PureComponent {
       this.props.booking.detailCategory.result.numOfExtendTimeSlot
         ? this.props.booking.detailCategory.result.numOfExtendTimeSlot + 1
         : 1;
+
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <Header
@@ -258,7 +260,7 @@ class ModalNewBooking extends PureComponent {
           showTitleHeader={true}
           center={
             <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`Choose Amenity`}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.BK_CHOOSE_AMENITY}</Text>
             </View>
           }
         />
@@ -328,7 +330,7 @@ class ModalNewBooking extends PureComponent {
           enableOnAndroid
         >
           <ItemScorll
-            title={'Dịch Vụ'}
+            title={languages.BK_SERVICES}
             view={
               <View
                 style={{
@@ -351,14 +353,15 @@ class ModalNewBooking extends PureComponent {
                   {item.amenityName}
                 </Text>
                 <Button onPress={() => this.props.changeCategory()}>
-                  <Text style={{ color: '#4A89E8', fontSize: 13 }}>Change</Text>
+                  <Text style={{ color: '#4A89E8', fontSize: 13 }}>{languages.BK_NEW_CHANGE}</Text>
                 </Button>
               </View>
             }
           />
           <ItemScorll
-            title={'Thời Gian'}
+            title={languages.BK_NEW_TIME}
             renderLeft
+            languages={languages}
             number={numberSlot - this.state.arrSelected.length}
             view={
               <View
@@ -432,7 +435,7 @@ class ModalNewBooking extends PureComponent {
             }
           />
           <ItemScorll
-            title={'Miêu Tả'}
+            title={languages.BK_NEW_DES}
             view={
               <TextInput
                 style={{
@@ -450,13 +453,13 @@ class ModalNewBooking extends PureComponent {
                 autoCorrect={true}
                 onSubmitEditing={() => Keyboard.dismiss()}
                 multiline
-                placeholder={'Nhập nội dung ...'}
+                placeholder={languages.BK_NEW_CONTENT}
                 onChangeText={e => this.setState({ comment: e })}
               />
             }
           />
           <ItemScorll
-            title={'Thông Tin'}
+            title={languages.BK_NEW_INFO}
             view={
               <View
                 style={{
@@ -471,7 +474,9 @@ class ModalNewBooking extends PureComponent {
                 }}
               >
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Căn Hộ</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                    {languages.BK_NEW_APARTEMENT}
+                  </Text>
                   <Text
                     style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}
                   >{`${fullUnitCode}-${displayName}`}</Text>
@@ -486,7 +491,9 @@ class ModalNewBooking extends PureComponent {
                   />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>SĐT</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                    {languages.BK_NEW_PHONE}
+                  </Text>
                   <TextInput
                     onChangeText={e => this.setState({ sdt: e })}
                     value={this.state.sdt}
@@ -510,14 +517,16 @@ class ModalNewBooking extends PureComponent {
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
               <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowRegulations: true })}>
                 <Text style={{ color: '#4A89E8', fontSize: 12, textDecorationLine: 'underline', fontFamily: 'OpenSans-Italic' }}>
-                  Chi tiết quy định
+                  {languages.BK_NEW_DETAIL_RULE}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this.setState({ checkConfirm: !this.state.checkConfirm })}
                 style={{ flexDirection: 'row', alignItems: 'center' }}
               >
-                <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>Chấp Nhận</Text>
+                <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>
+                  {languages.BK_NEW_ACCEPTED}
+                </Text>
                 <Image
                   style={{ marginLeft: 5, width: 17, height: 17 }}
                   source={
@@ -542,13 +551,15 @@ class ModalNewBooking extends PureComponent {
                 this.setState({ isShowModalConfirm: true });
               }}
             >
-              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>Gửi</Text>
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.BK_NEW_SEND}</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
         <Loading visible={this.state.loadDingCallCalendar} />
-        {this.renderModalConfirmBooking()}
-        {this.props.booking.detailCategory && this.props.booking.detailCategory.result ? this.renderModalRegulations() : null}
+        {this.renderModalConfirmBooking(languages)}
+        {this.props.booking.detailCategory && this.props.booking.detailCategory.result
+          ? this.renderModalRegulations(languages)
+          : null}
         <AlertWarning
           clickAction={() => this.setState({ isModalError: false, loading: false })}
           isVisible={this.state.isModalError}
@@ -574,7 +585,7 @@ class ModalNewBooking extends PureComponent {
     }
   };
 
-  renderModalRegulations = () => {
+  renderModalRegulations = languages => {
     const { display, remark, policyNote, amenityName } = this.props.booking.detailCategory.result;
     return (
       <Modal
@@ -598,12 +609,16 @@ class ModalNewBooking extends PureComponent {
                 <Text
                   style={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold', alignSelf: 'center', marginBottom: 20 }}
                 >
-                  Dịch Vụ
+                  {languages.BK_SERVICES}
                 </Text>
                 <Text style={{ color: '#BABFC8', fontSize: 14, fontFamily: 'OpenSans-Regular' }}>{amenityName}</Text>
-                <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>Policies</Text>
+                <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>
+                  {languages.BK_NEW_POLICIES}
+                </Text>
                 <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-Regular', fontSize: 14 }}>{`${policyNote}`}</Text>
-                <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>Remark</Text>
+                <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-Bold', fontSize: 14, marginVertical: 20 }}>
+                  {languages.BK_NEW_REMARK}
+                </Text>
                 <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-Regular', fontSize: 14 }}>{remark}</Text>
               </ScrollView>
             </View>
@@ -624,7 +639,9 @@ class ModalNewBooking extends PureComponent {
                 end={{ x: 1, y: 0 }}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
               >
-                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Xác Nhận</Text>
+                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                  {languages.BK_NEW_CONFIRM}
+                </Text>
               </LinearGradient>
             </Button>
           </View>
@@ -633,7 +650,7 @@ class ModalNewBooking extends PureComponent {
     );
   };
 
-  renderModalConfirmBooking = () => {
+  renderModalConfirmBooking = languages => {
     const { fullUnitCode } = this.props.units.unitActive;
     const { phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
     let listSelect = this.state.listBooking.filter(e => e.isCheck == true);
@@ -668,7 +685,7 @@ class ModalNewBooking extends PureComponent {
             <Image style={{ height: 100, width: null }} resizeMode={'cover'} source={require('@resources/image/Swim.png')} />
             <ScrollView style={{ flex: 1 }}>
               <ItemScorll
-                title={'Thông Tin'}
+                title={languages.BK_NEW_INFO}
                 view={
                   <View
                     style={{
@@ -680,7 +697,9 @@ class ModalNewBooking extends PureComponent {
                     }}
                   >
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Căn Hộ</Text>
+                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.BK_NEW_APARTEMENT}
+                      </Text>
                       <Text
                         style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}
                       >{`${fullUnitCode}-${displayName}`}</Text>
@@ -690,14 +709,16 @@ class ModalNewBooking extends PureComponent {
                       <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.email}</Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>SĐT</Text>
+                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.BK_NEW_PHONE}
+                      </Text>
                       <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.sdt}</Text>
                     </View>
                   </View>
                 }
               />
               <ItemScorll
-                title={'Thời Gian'}
+                title={languages.BK_NEW_TIME}
                 view={
                   <View
                     style={{
@@ -732,7 +753,7 @@ class ModalNewBooking extends PureComponent {
                 }
               />
               <ItemScorll
-                title={'Miêu Tả'}
+                title={languages.BK_NEW_DES}
                 view={
                   <View
                     style={{
@@ -763,7 +784,7 @@ class ModalNewBooking extends PureComponent {
                 {this.state.loading ? (
                   <ActivityIndicator animating={this.state.loading} color={'#FFF'} />
                 ) : (
-                  <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
+                  <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>{languages.BK_NEW_SEND}</Text>
                 )}
               </LinearGradient>
             </Button>
@@ -814,7 +835,7 @@ class ModalNewBooking extends PureComponent {
 
 class ItemScorll extends PureComponent {
   render() {
-    const { title, renderLeft, number } = this.props;
+    const { title, renderLeft, number, languages } = this.props;
     return (
       <View style={{ marginHorizontal: 20 }}>
         <View style={{ flexDirection: 'row' }}>
@@ -823,7 +844,7 @@ class ItemScorll extends PureComponent {
           </Text>
           {renderLeft ? (
             <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 10 }}>
-              Bạn được chọn
+              {languages.BK_NEW_SELECTED}
               <Text style={{ color: '#FF361A', fontSize: 14, fontSize: 14, fontWeight: 'bold' }}>{` ${number} `}</Text> Slot
             </Text>
           ) : null}

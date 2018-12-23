@@ -334,7 +334,7 @@ export default class extends Component {
                                     </View>
                                 </View>
                                 <View style={{ flex: 0.5, alignItems: 'flex-end' }}>
-                                    <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>{'$' + Utils.convertNumber(data.totalAmount)}</Text>
+                                    <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>{Utils.convertNumber(data.totalAmount) + "đ"}</Text>
                                 </View>
                             </View>
                         </Button>

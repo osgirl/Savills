@@ -31,8 +31,7 @@ import Resolution from '@utils/resolution';
 import AnimatedTitle from '@components/animatedTitle';
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 
-import ModalChat from "../../../components/modalChat";
-
+import ModalChat from '../../../components/modalChat';
 
 const HEADER_MAX_HEIGHT = 60;
 const { width, height } = Dimensions.get('window');
@@ -110,7 +109,7 @@ class ModalDetailBooking extends PureComponent {
     ) {
       nextProps.actions.booking.setFlagChangeStatus();
       nextProps.navigation.goBack();
-      DeviceEventEmitter.emit('UpdateList', {});
+      DeviceEventEmitter.emit('UpdateListBooking', {});
     }
     if (
       nextProps.workOrder.addComment &&
@@ -127,7 +126,7 @@ class ModalDetailBooking extends PureComponent {
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          const offset = event.nativeEvent.contentOffset.y
+          const offset = event.nativeEvent.contentOffset.y;
           this.state.scrollY.setValue(offset);
         }
       },
@@ -180,7 +179,10 @@ class ModalDetailBooking extends PureComponent {
       startDate,
       paymentStatus = null
     } = this.props.booking.detailBooking.result;
-    let date = moment(createdAt).format('l');
+    let date = moment(startDate).format('l');
+    let createDate = moment(createdAt).format('l');
+
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
     this.changeStatusBar();
     let tabIndex = this.props.navigation.getParam('index', false);
@@ -202,7 +204,7 @@ class ModalDetailBooking extends PureComponent {
           onScroll={this.handleScroll}
         >
           <ItemScorll
-            title={'Dịch Vụ'}
+            title={languages.BK_SERVICES}
             view={
               <View
                 style={{
@@ -227,7 +229,7 @@ class ModalDetailBooking extends PureComponent {
             }
           />
           <ItemScorll
-            title={'Thông Tin'}
+            title={languages.BK_DETAIL_INFOMATION}
             view={
               <View
                 style={{
@@ -240,13 +242,17 @@ class ModalDetailBooking extends PureComponent {
                 }}
               >
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Căn Hộ</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                    {languages.BK_DETAIL_APARTMENT}
+                  </Text>
                   <Text
                     style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}
                   >{`${fullUnitId}-${name}`}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Trạng Thái</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                    {languages.BK_DETAIL_STATUS}
+                  </Text>
                   <View
                     style={{
                       borderRadius: 5,
@@ -267,7 +273,9 @@ class ModalDetailBooking extends PureComponent {
                   </View>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Ngày</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                    {languages.BK_DETAIL_DATE}
+                  </Text>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -281,9 +289,16 @@ class ModalDetailBooking extends PureComponent {
                     </View>
                   </View>
                 </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                    {languages.BK_DETAIL_CREATE_DAY}
+                  </Text>
+                  <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.calendar} />
+                  <Text style={{ color: '#C9CDD4', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{createDate}</Text>
+                </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13, marginVertical: 10 }}>
-                    Thời gian
+                    {languages.BK_DETAIL_TIME}
                   </Text>
                   <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{`${moment(startDate).format(
                     'hh:mm'
@@ -292,7 +307,9 @@ class ModalDetailBooking extends PureComponent {
 
                 {paymentStatus === null ? null : (
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Thanh Toán</Text>
+                    <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                      {languages.BK_DETAIL_PAY}
+                    </Text>
                     <View style={{ backgroundColor: paymentStatus.colorCode, borderRadius: 5 }}>
                       <Text style={{ marginVertical: 4, marginHorizontal: 15, color: '#FFF', fontWeight: 'bold', fontSize: 10 }}>
                         {paymentStatus && paymentStatus.name ? paymentStatus.name : 'paid'}
@@ -304,7 +321,7 @@ class ModalDetailBooking extends PureComponent {
             }
           />
           <ItemScorll
-            title={'Miêu Tả'}
+            title={languages.BK_DETAIL_DES}
             view={
               <View
                 style={{
@@ -333,32 +350,32 @@ class ModalDetailBooking extends PureComponent {
         >
           <Image source={IMAGE.chatBig} />
           {this.props.workOrder.commentUnread &&
-            this.props.workOrder.commentUnread.success &&
-            this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
-              <View
-                style={{
-                  width: 16,
-                  height: 16,
-                  backgroundColor: 'red',
-                  borderRadius: 8,
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
-                  {this.props.workOrder.commentUnread.result[0].unreadCount}
-                </Text>
-              </View>
-            ) : null}
+          this.props.workOrder.commentUnread.success &&
+          this.props.workOrder.commentUnread.result[0].unreadCount > 0 ? (
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: 'red',
+                borderRadius: 8,
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
+                {this.props.workOrder.commentUnread.result[0].unreadCount}
+              </Text>
+            </View>
+          ) : null}
         </TouchableOpacity>
         {/* End ======= Button show chat */}
-        {this.renderContentModalChat()}
-        {this.renderModalCancel()}
+        {this.renderContentModalChat(languages)}
+        {this.renderModalCancel(languages)}
         {this.renderPopupCancelError()}
-        {tabIndex && tabIndex == 2 ? null : this.renderFooter()}
+        {tabIndex && tabIndex == 2 ? null : this.renderFooter(languages)}
       </View>
     );
   };
@@ -367,7 +384,7 @@ class ModalDetailBooking extends PureComponent {
     const isShow = this.state.scrollY.interpolate({
       inputRange: [0, 60],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: 'clamp'
     });
     return (
       <View>
@@ -389,7 +406,7 @@ class ModalDetailBooking extends PureComponent {
     );
   }
 
-  renderContentModalChat() {
+  renderContentModalChat(languages) {
     let tabIndex = this.props.navigation.getParam('index', false);
     let id = this.props.userProfile.profile.result.user.id;
     let IdBooking = this.props.booking.detailBooking.result.reservationId;
@@ -399,94 +416,33 @@ class ModalDetailBooking extends PureComponent {
         isVisible={this.state.isShowChat}
         title={IdBooking}
         idUser={id}
+        colors={tabIndex === 2 ? ['#dedede', '#dedede'] : ['#4A89E8', '#8FBCFF']}
+        placeHolderText={languages.BK_DETAIL_CHAT}
         listComment={this.state.listChat}
         editableTextInput={tabIndex && tabIndex == 2 ? false : true}
         disabledBtn={this.state.chatText.trim() == '' ? true : false}
         addComment={() => this.addComment()}
-        onChangeText={(text) => this.setState({ chatText: text })}
+        onChangeText={text => this.setState({ chatText: text })}
         opacityBtnSend={this.state.chatText.trim() == '' ? 0.5 : 1}
         onClose={() => this.setState({ isShowChat: false })}
-        refTextInout={
-          input => {
-            this.textInput = input;
-          }
-        }
+        refTextInout={input => {
+          this.textInput = input;
+        }}
       />
-    )
-    // return (
-    //   <Modal
-    //     style={Style.ModalChatContain}
-    //     keyboardDismissMode="on-drag"
-    //     keyboardShouldPersistTaps={'always'}
-    //     isVisible={this.state.isShowChat}
-    //   >
-    //     <View style={Style.ViewContainChat}>
-    //       <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ isShowChat: false })}>
-    //         <Image style={{ margin: 10 }} source={IMAGE.closeBlack} />
-    //       </TouchableOpacity>
-    //       <Text style={{ flex: 5, textAlign: 'center' }}>#{`${IdBooking}`}</Text>
-    //       <View style={{ flex: 1 }} />
-    //     </View>
-    //     <View style={{ flex: 1, backgroundColor: '#F6F8FD', paddingBottom: this.state.marginBottom }}>
-    //       <FlatList
-    //         data={this.state.listChat}
-    //         keyExtractor={(item, index) => item.id.toString()}
-    //         style={{ flex: 1 }}
-    //         ref={ref => (this.flatList = ref)}
-    //         // onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
-    //         // onLayout={() => this.flatList.scrollToEnd({ animated: true })}
-    //         renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={id} />}
-    //         ListEmptyComponent={() => {
-    //           return (
-    //             <View style={{ flex: 1, height: isIphoneX() ? 500 : height - 150, alignItems: 'center', marginTop: 100 }}>
-    //               <Image source={IC_CHATEMTY} />
-    //               <Text
-    //                 style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}
-    //               >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
-    //             </View>
-    //           );
-    //         }}
-    //       />
-    //     </View>
-    //     <KeyboardAvoidingView behavior="position" enabled>
-    //       <LinearGradient
-    //         colors={tabIndex && tabIndex == 2 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
-    //         start={{ x: 0, y: 0 }}
-    //         end={{ x: 1, y: 0 }}
-    //         style={Style.ViewButtonChat}
-    //       >
-    //         <View style={Style.ViewButton}>
-    //           <TextInput
-    //             ref={input => {
-    //               this.textInput = input;
-    //             }}
-    //             editable={tabIndex && tabIndex == 2 ? false : true}
-    //             returnKeyType={'send'}
-    //             style={{ flex: 1, color: '#FFF' }}
-    //             onChangeText={e => this.setState({ chatText: e })}
-    //             onSubmitEditing={() => this.addComment()}
-    //             placeholderTextColor={'rgba(255,255,255,0.7)'}
-    //             placeholder={'Nhập tin nhắn ...'}
-    //           />
-    //           <TouchableOpacity disabled={this.state.chatText.trim() == '' ? true : false} onPress={() => this.addComment()}>
-    //             <Image style={{ opacity: this.state.chatText.trim() == '' ? 0.5 : 1 }} source={IMAGE.sendMessage} />
-    //           </TouchableOpacity>
-    //         </View>
-    //       </LinearGradient>
-    //     </KeyboardAvoidingView>
-    //   </Modal>
-    // );
+    );
   }
 
-  renderModalCancel = () => {
+  renderModalCancel = languages => {
     return (
       <Modal style={Style.ModalCancel} isVisible={this.state.isShowModalCancel}>
         <View style={Style.ViewCancelContain}>
           <View style={Style.ViewSmall}>
-            <Text style={Style.TextCancelContain}>Bạn muốn hủy sự kiện này</Text>
+            <Text style={Style.TextCancelContain}>{languages.BK_CANCEL_BK}</Text>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <TouchableOpacity onPress={() => this.setState({ isShowModalCancel: false })} style={Style.TouchBackCancel}>
-                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>Quay Lại</Text>
+                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>
+                  {languages.BK_CANCEL_BACK}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.cancelBooking()} style={Style.TouchCancel}>
                 <LinearGradient
@@ -495,7 +451,7 @@ class ModalDetailBooking extends PureComponent {
                   end={{ x: 1, y: 0 }}
                   style={Style.ViewCancel}
                 >
-                  <Text style={Style.TextCancel}>Đồng ý</Text>
+                  <Text style={Style.TextCancel}>{languages.BK_CANCEL_AGREE}</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -532,11 +488,11 @@ class ModalDetailBooking extends PureComponent {
     this.props.navigation.goBack();
   };
 
-  renderFooter = () => {
+  renderFooter = languages => {
     return (
       <View style={Style.footerContain}>
         <TouchableOpacity onPress={() => this.setState({ isShowModalCancel: true })} style={Style.buttonFooter}>
-          <Text style={Style.textFooter}>Hủy</Text>
+          <Text style={Style.textFooter}>{languages.BK_DETAIL_CANCEL}</Text>
         </TouchableOpacity>
       </View>
     );

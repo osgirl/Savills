@@ -10,7 +10,6 @@ class Setting extends layout {
     super(props);
     this.timeOut = null;
     let setting = this.props.app.getSetting;
-    console.log('adskajdslajsdlkasdasda',setting)
     this.state = {
       isModalSelectUnit: false,
       scrollY: new Animated.Value(0),

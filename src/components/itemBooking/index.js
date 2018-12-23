@@ -20,6 +20,7 @@ export class ItemBooking extends Component {
         style={{
           width: width - Resolution.scale(40),
           height: Resolution.scale(170),
+          marginHorizontal: Resolution.scale(20),
           borderRadius: 10,
           marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10),
           backgroundColor: '#FFF',

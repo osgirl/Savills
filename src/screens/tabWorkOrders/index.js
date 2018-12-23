@@ -72,7 +72,7 @@ class TabWorkOrder extends PureComponent {
     }
   };
 
-  componentWillReceiveProps = nextProps => { };
+  componentWillReceiveProps = nextProps => {};
 
   handleScroll = event => {
     const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
@@ -80,7 +80,7 @@ class TabWorkOrder extends PureComponent {
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity
+          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity;
           this.state.scrollY.setValue(offset);
         }
       },
@@ -90,7 +90,7 @@ class TabWorkOrder extends PureComponent {
 
   render() {
     let unitActive = this.props.units.unitActive;
-
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, 10, 30],
       outputRange: [60, 30, 0],
@@ -125,31 +125,6 @@ class TabWorkOrder extends PureComponent {
       useNativeDriver: true
     });
 
-    // const headerHeight = this.state.scrollY.interpolate({
-    //   inputRange: [0, 10, 40, 60],
-    //   outputRange: [60, 40, 10, 0],
-    //   extrapolate: 'clamp',
-    //   useNativeDriver: true
-    // });
-    // const opacityText = this.state.scrollY.interpolate({
-    //   inputRange: [0, 60, 100],
-    //   outputRange: [1, 0.5, 0],
-    //   extrapolate: 'clamp',
-    //   useNativeDriver: true
-    // });
-
-    // const opacityText2 = this.state.scrollY.interpolate({
-    //   inputRange: [0, 60, 100],
-    //   outputRange: [1, 0.3, 0],
-    //   extrapolate: 'clamp'
-    // });
-
-    // const headerHeight2 = this.state.scrollY.interpolate({
-    //   inputRange: [0, HEADER_SCROLL_DISTANCE],
-    //   outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-    //   extrapolate: 'clamp'
-    // });
-
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -161,7 +136,7 @@ class TabWorkOrder extends PureComponent {
           showTitleHeader={true}
           center={
             <Animated.View style={{ opacity: opacityTextHeader }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>Yêu Cầu</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.WO_REQUEST}</Text>
             </Animated.View>
           }
           renderViewRight={
@@ -175,37 +150,29 @@ class TabWorkOrder extends PureComponent {
           }
         />
 
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ width: width, zIndex: -10 }}>
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ width: width, zIndex: -10 }}
+        >
           <Animated.View
             style={{
               transform: [{ translateY: headerTranslate }],
-              height: headerHeight,
+              height: headerHeight
             }}
           >
-            <Animated.View style={{ opacity: opacityText, position: 'absolute', }}>
-              <HeaderTitle title={'Yêu Cầu'} />
+            <Animated.View style={{ opacity: opacityText, position: 'absolute' }}>
+              <HeaderTitle title={languages.WO_REQUEST} />
             </Animated.View>
           </Animated.View>
         </LinearGradient>
-
-
-        {/* <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}> */}
-        {/* <Animated.View style={{ height: headerHeight, opacity: opacityText, paddingBottom: 10 }}>
-            <Animated.Text
-              style={{
-                fontSize: 30,
-                fontFamily: 'OpenSans-Bold',
-                color: '#FFF',
-                marginLeft: 20,
-                marginBottom: 0,
-                opacity: opacityText2
-              }}
-            >
-              Yêu Cầu
-            </Animated.Text>
-          </Animated.View> */}
-        {/* </LinearGradient> */}
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1, zIndex: 1 }}>
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ flex: 1, zIndex: 1 }}
+        >
           <ScrollableTabView
             tabBarActiveTextColor={'#FFF'}
             tabBarInactiveTextColor={'rgba(255,255,255,0.9)'}
@@ -213,8 +180,8 @@ class TabWorkOrder extends PureComponent {
             tabBarBackgroundColor={'transparent'}
             backgroundColor={'#FFF'}
           >
-            <TabProcess onScroll={this.handleScroll} tabLabel={'Đang xủ lý'} {...this.props} />
-            <TabComplete onScroll={this.handleScroll} tabLabel={'Hoàn tất'} {...this.props} />
+            <TabProcess onScroll={this.handleScroll} tabLabel={languages.WO_TAB_PROCESS} {...this.props} />
+            <TabComplete onScroll={this.handleScroll} tabLabel={languages.WO_TAB_COMPLETE} {...this.props} />
           </ScrollableTabView>
         </LinearGradient>
         <View style={{ backgroundColor: '#FFF', width: width, height: isIphoneX() ? 60 : 40 }} />
@@ -257,7 +224,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 10,
+    zIndex: 10
   }
 });
 

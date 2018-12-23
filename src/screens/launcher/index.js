@@ -8,6 +8,9 @@ class Launcher extends layout {
   constructor(props) {
     super(props);
     StatusBar.setHidden(true);
+    this.state = {
+      language: 0
+    };
   }
 
   async componentWillMount() {
@@ -22,17 +25,22 @@ class Launcher extends layout {
     if (this.props.app.languegeLocal.length <= 0) {
       await this.props.actions.app.setLanguageLocal('0');
     }
+  }
 
-    if (
-      this.props.account.accessToken.length > 0 &&
-      this.props.account.accessTokenAPI.length > 0 &&
-      this.props.account.encToken.length > 0 &&
-      !_.isEmpty(this.props.account.tenantLocal) &&
-      !_.isEmpty(this.props.units.unitActive)
-    ) {
-      this.props.navigation.navigate('Home');
-    } else {
-      this.props.navigation.navigate('Login');
+  componentWillReceiveProps(nextProps) {
+    if (this.state.language === 0 && nextProps.app.listLanguage && nextProps.app.listLanguage.length > 0) {
+      this.setState({ language: 1 });
+      if (
+        this.props.account.accessToken.length > 0 &&
+        this.props.account.accessTokenAPI.length > 0 &&
+        this.props.account.encToken.length > 0 &&
+        !_.isEmpty(this.props.account.tenantLocal) &&
+        !_.isEmpty(this.props.units.unitActive)
+      ) {
+        this.props.navigation.navigate('Home');
+      } else {
+        this.props.navigation.navigate('Login');
+      }
     }
   }
 }

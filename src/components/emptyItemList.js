@@ -5,6 +5,7 @@ import { isIphoneX } from '@utils/func';
 
 export class emptyItemList extends Component {
   render() {
+    const { message } = this.props;
     return (
       <View
         style={{
@@ -15,7 +16,7 @@ export class emptyItemList extends Component {
       >
         <Text
           style={{ color: '#505E75', fontSize: 15, fontFamily: 'OpenSans-Bold', textAlign: 'center' }}
-        >{`Bạn chưa dùng tiện ích nào \n chọn ngay cho mình dịch vụ tốt \n nhất ở đây nhé!`}</Text>
+        >{message}</Text>
         <Image style={{ marginTop: 20, marginRight: 50 }} source={require('@resources/icons/addnew-pls.png')} />
       </View>
     );
