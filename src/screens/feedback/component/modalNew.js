@@ -78,10 +78,9 @@ class ModalNewFeedback extends Component {
 
   _alertError = (Title) => {
     Alert.alert(
+      'Error',
       Title,
-      [
-        { text: 'OK' },
-      ],
+      { text: 'OK', onPress: () => { } },
       { cancelable: false }
     )
   }
@@ -351,7 +350,7 @@ class ModalNewFeedback extends Component {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
       <Modal
-        style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 70 }}
+        style={{ flex: 1, margin: 0, paddingTop: 20 }}
         isVisible={this.state.isShowCategory}
       >
         <View style={{ flex: 1 }}>
@@ -421,7 +420,6 @@ class ModalNewFeedback extends Component {
                 view={
                   <View
                     style={{
-                      height: Resolution.scaleHeight(110),
                       width: null,
                       flex: 1,
                       borderRadius: 10,

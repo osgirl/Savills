@@ -102,117 +102,119 @@ export default class extends Component {
     let language = Language.listLanguage[this.props.app.languegeLocal].data;
 
     return (
-      <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <StatusBar barStyle="light-content" />
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.renderHeader()}
-        <View style={{ padding: Resolution.scale(20) }}>
-          <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginBottom: 5 }}>
-            <Text style={Styles.titleHeader}>{language.ST_DETAIL_NOTI}</Text>
-            <Image source={require('@resources/icons/notify_setting.png')} />
-            <Image style={{ marginHorizontal: 30 }} source={require('@resources/icons/mail_setting.png')} />
-          </View>
-          <View
-            style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 20, paddingBottom: 0, justifyContent: 'space-between' }}
-          >
-            {/* Fee */}
-            <ViewSwitch
-              text={setting[0].displayName}
-              noti={fee}
-              email={emailFee}
-              onToggleEmail={tugle => this.changeNoti('emailFee', tugle)}
-              onToggle={tugle => this.changeNoti('fee', tugle)}
-            />
-            {/* WorkOrder */}
-            <ViewSwitch
-              text={setting[1].displayName}
-              noti={workOrder}
-              email={emailWorkOrder}
-              onToggle={tugle => this.changeNoti('workOrder', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailWorkOrder', tugle)}
-            />
-            {/* Booking */}
-            <ViewSwitch
-              text={setting[2].displayName}
-              noti={booking}
-              email={emailBooking}
-              onToggle={tugle => this.changeNoti('booking', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailBooking', tugle)}
-            />
-            {/* event */}
-            <ViewSwitch
-              text={setting[3].displayName}
-              noti={event}
-              email={emailEvent}
-              onToggle={tugle => this.changeNoti('event', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailEvent', tugle)}
-            />
-            {/* FeedBack */}
-            <ViewSwitch
-              text={setting[5].displayName}
-              noti={feedback}
-              email={emailFeedback}
-              onToggle={tugle => this.changeNoti('feedback', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailFeedback', tugle)}
-            />
-            {/* Communication ===> chat */}
-            <ViewSwitch
-              text={setting[6].displayName}
-              noti={communication}
-              email={emailCommunication}
-              onToggle={tugle => this.changeNoti('communication', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailCommunication', tugle)}
-            />
-            {/* Delivery */}
-            <ViewSwitch
-              text={setting[7].displayName}
-              noti={delivery}
-              email={emailDelivery}
-              onToggle={tugle => this.changeNoti('delivery', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailDelivery', tugle)}
-            />
-            {/* Inbox */}
-            <ViewSwitch
-              text={setting[8].displayName}
-              noti={inbox}
-              email={emailInbox}
-              onToggle={tugle => this.changeNoti('inbox', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailInbox', tugle)}
-            />
-          </View>
-        </View>
-
-        {/* ====== Thông báo chi tiết ======= */}
-        <View style={{ padding: Resolution.scale(20) }}>
-          <Text style={Styles.titleHeader}>{language.ST_LANGUAGE}</Text>
-          <Button onPress={() => this._toggleModalLanguage()} style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
-            <View
-              style={{
-                padding: Resolution.scale(20),
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                alignItems: 'center'
-              }}
-            >
-              <Text>{Language.listLanguage[this.state.selectedItem].title}</Text>
-              <Image source={IC_ARROWRIGHT} />
+        <ScrollView >
+          <StatusBar barStyle="light-content" />
+          <View style={{ padding: Resolution.scale(20) }}>
+            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginBottom: 5 }}>
+              <Text style={Styles.titleHeader}>{language.ST_DETAIL_NOTI}</Text>
+              <Image source={require('@resources/icons/notify_setting.png')} />
+              <Image style={{ marginHorizontal: 30 }} source={require('@resources/icons/mail_setting.png')} />
             </View>
-          </Button>
-        </View>
+            <View
+              style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 20, paddingBottom: 0, justifyContent: 'space-between' }}
+            >
+              {/* Fee */}
+              <ViewSwitch
+                text={setting[0].displayName}
+                noti={fee}
+                email={emailFee}
+                onToggleEmail={tugle => this.changeNoti('emailFee', tugle)}
+                onToggle={tugle => this.changeNoti('fee', tugle)}
+              />
+              {/* WorkOrder */}
+              <ViewSwitch
+                text={setting[1].displayName}
+                noti={workOrder}
+                email={emailWorkOrder}
+                onToggle={tugle => this.changeNoti('workOrder', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailWorkOrder', tugle)}
+              />
+              {/* Booking */}
+              <ViewSwitch
+                text={setting[2].displayName}
+                noti={booking}
+                email={emailBooking}
+                onToggle={tugle => this.changeNoti('booking', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailBooking', tugle)}
+              />
+              {/* event */}
+              <ViewSwitch
+                text={setting[3].displayName}
+                noti={event}
+                email={emailEvent}
+                onToggle={tugle => this.changeNoti('event', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailEvent', tugle)}
+              />
+              {/* FeedBack */}
+              <ViewSwitch
+                text={setting[5].displayName}
+                noti={feedback}
+                email={emailFeedback}
+                onToggle={tugle => this.changeNoti('feedback', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailFeedback', tugle)}
+              />
+              {/* Communication ===> chat */}
+              <ViewSwitch
+                text={setting[6].displayName}
+                noti={communication}
+                email={emailCommunication}
+                onToggle={tugle => this.changeNoti('communication', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailCommunication', tugle)}
+              />
+              {/* Delivery */}
+              <ViewSwitch
+                text={setting[7].displayName}
+                noti={delivery}
+                email={emailDelivery}
+                onToggle={tugle => this.changeNoti('delivery', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailDelivery', tugle)}
+              />
+              {/* Inbox */}
+              <ViewSwitch
+                text={setting[8].displayName}
+                noti={inbox}
+                email={emailInbox}
+                onToggle={tugle => this.changeNoti('inbox', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailInbox', tugle)}
+              />
+            </View>
+          </View>
 
-        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
-          <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
-        </Modal>
-        <Modal
-          onBackdropPress={() => this._toggleModalLanguage()}
-          isVisible={this.state.isModalLanguage}
-          style={{
-            justifyContent: 'flex-end',
-            margin: Resolution.scale(20)
-          }}
-        >
-          {this.renderModalLanguage()}
-        </Modal>
-      </ScrollView>
+          {/* ====== Thông báo chi tiết ======= */}
+          <View style={{ padding: Resolution.scale(20) }}>
+            <Text style={Styles.titleHeader}>{language.ST_LANGUAGE}</Text>
+            <Button onPress={() => this._toggleModalLanguage()} style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
+              <View
+                style={{
+                  padding: Resolution.scale(20),
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}
+              >
+                <Text>{Language.listLanguage[this.state.selectedItem].title}</Text>
+                <Image source={IC_ARROWRIGHT} />
+              </View>
+            </Button>
+          </View>
+
+          <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
+            <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
+          </Modal>
+          <Modal
+            onBackdropPress={() => this._toggleModalLanguage()}
+            isVisible={this.state.isModalLanguage}
+            style={{
+              justifyContent: 'flex-end',
+              margin: Resolution.scale(20)
+            }}
+          >
+            {this.renderModalLanguage()}
+          </Modal>
+        </ScrollView>
+      </View>
     );
   }
 

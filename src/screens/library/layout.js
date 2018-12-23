@@ -189,11 +189,15 @@ export default class extends Component {
           </View>
         </View>
 
-        {/* <View style={{ justifyContent: 'center' }}>
-          <View style={{ backgroundColor: 'red', borderRadius: 30, width: 25, height: 25, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>{'2'}</Text>
-          </View>
-        </View> */}
+        {
+          item.numberOfDocuments !== 0 ?
+            <View style={{ justifyContent: 'center' }}>
+              <View style={{ backgroundColor: 'red', borderRadius: 30, width: 25, height: 25, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>{item.numberOfDocuments}</Text>
+              </View>
+            </View> : null
+        }
+
 
 
       </Button>

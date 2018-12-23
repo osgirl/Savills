@@ -186,7 +186,7 @@ export default class extends Component {
                 {
                     this.props.units.employeesByOu && this.props.units.employeesByOu.success ?
                         <FlatList
-                            // alwaysBounceVertical={false}
+                            alwaysBounceVertical={false}
                             data={this.state.data || []}
                             contentContainerStyle={{
                                 paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,

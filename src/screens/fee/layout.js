@@ -111,15 +111,6 @@ export default class extends Component {
             useNativeDriver: true
         });
 
-
-        // const headerHeightViewPrice = this.state.scrollY.interpolate({
-        //     inputRange: [120, 140, 170],
-        //     outputRange: [0, 25, 50],
-        //     extrapolate: 'clamp',
-        //     useNativeDriver: true
-        // });
-
-
         const headerHeightContentTop = this.state.scrollY.interpolate({
             inputRange: [20, 40],
             outputRange: [120, Platform.OS === 'ios' ? 60 : 50],
@@ -133,11 +124,6 @@ export default class extends Component {
             extrapolate: 'clamp'
         });
 
-        // const headerContentTopTranslate = this.state.scrollY.interpolate({
-        //     inputRange: [50, 51],
-        //     outputRange: [0, -51],
-        //     extrapolate: 'clamp',
-        // });
 
         // TODO LANGUAGE LOCAL
         let LG = Language.listLanguage[this.props.app.languegeLocal].data;
@@ -200,12 +186,12 @@ export default class extends Component {
 
                         <Animated.View style={{ opacity: opacityView2, position: 'absolute', left: 0, right: 0 }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: Resolution.scale(20), height: 60 }}>
-                                <View style={{}}>
+                                <View style={{ justifyContent: 'center', alignSelf: 'center' }}>
                                     {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text> */}
-                                    <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 1, textAlign: 'left' }}>{unitActive.fullUnitCode}</Text>
+                                    <Text style={{ fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 1, textAlign: 'left' }}>{unitActive.fullUnitCode}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', alignSelf: 'center' }}>
-                                    <Text style={{ fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginRight: Resolution.scale(10), paddingBottom: Resolution.scale(5) }}>VND</Text>
+                                    <Text style={{ fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Semibold', color: '#FFF', textAlign: 'right', marginRight: Resolution.scale(10), paddingBottom: Resolution.scale(5) }}>VND</Text>
                                     <Text style={{ fontSize: Resolution.scale(22), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>{Utils.convertNumber(this.state.totalPay)}</Text>
                                 </View>
                             </View>

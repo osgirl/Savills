@@ -10,6 +10,7 @@ import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 import IC_CLOSE from '@resources/icons/close-black.png';
 import IC_SEND from '@resources/icons/send-mess.png';
 import ItemComment from '../itemComment';
+import resolution from '../../utils/resolution';
 const { width, height } = Dimensions.get('window');
 
 export default class ModalChat extends Component {
@@ -22,8 +23,8 @@ export default class ModalChat extends Component {
       disabledBtn, opacityBtnSend, isVisible,
       colors, refTextInout, idUser } = this.props;
     return (
-      <Modal style={{ flex: 1, margin: 0, paddingTop: 50, height: height, width: width }} isVisible={isVisible}>
-        <View style={{ flex: 1, backgroundColor: '#FFF', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
+      <Modal style={{ flex: 1, margin: 0, paddingTop: 20, height: height, width: width }} isVisible={isVisible}>
+        <View style={{ flex: 1, backgroundColor: '#F6F8FD', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
           <View
             style={{
               width: width,
@@ -69,13 +70,14 @@ export default class ModalChat extends Component {
             )}
             // onEndReached={this.handleLoadMore}
             // onEndReachedThreshold={0.9}
+            ListFooterComponent={() => <View style={{ height: resolution.scale(10) }} />}
             windowSize={9}
             style={{ flex: 1 }}
           />
           <KeyboardAvoidingView
             enabled
             behavior={(Platform.OS === 'ios') ? 'padding' : null}
-            keyboardVerticalOffset={Platform.select({ ios: 50, android: 0 })}
+            keyboardVerticalOffset={Platform.select({ ios: 20, android: 0 })}
           >
             <LinearGradient
               colors={colors ? colors : ['#4A89E8', '#8FBCFF']}

@@ -16,7 +16,7 @@ class Libary extends layout {
             isRefresh: false,
             loadingMore: false,
             scrollY: new Animated.Value(
-                Platform.OS === 'ios' ? -50 : 0,
+                Platform.OS === 'ios' ? -60 : 0,
             ),
         }
     }
