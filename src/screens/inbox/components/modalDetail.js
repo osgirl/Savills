@@ -21,7 +21,8 @@ import Connect from '@stores';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import HTML from 'react-native-render-html';
 import AnimatedTitle from "@components/animatedTitle";
-
+import ModalChat from "@components/modalChat";
+import Button from '@components/button';
 import _ from 'lodash';
 import Configs from '../../../utils/configs';
 
@@ -39,7 +40,11 @@ class ModalDetailFeedback extends Component {
       ),
       imgSelected: null,
       showImage: false,
-      data: null
+      data: null,
+
+      isShowChat: false,
+      comment: '',
+      listComment: [],
     };
   }
 
@@ -58,9 +63,27 @@ class ModalDetailFeedback extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    let accessTokenApi = this.props.account.accessTokenAPI;
     if (this.props.inbox.detailInbox.result !== nextProps.inbox.detailInbox.result && nextProps.inbox.detailInbox.success) {
       this.setState({ data: nextProps.inbox.detailInbox.result });
+      this.props.actions.inbox.getCommentUnread(accessTokenApi, nextProps.inbox.detailInbox.result.id, 14);
+      this.props.actions.inbox.getCommentUser(accessTokenApi, nextProps.inbox.detailInbox.result.guid);
     }
+
+    if (this.props.inbox.listComment !== nextProps.inbox.listComment && nextProps.inbox.listComment.success) {
+      this.setState({ listComment: nextProps.inbox.listComment.result.items });
+    }
+
+    if (
+      nextProps.inbox.addComment &&
+      nextProps.inbox.addComment.success &&
+      this.props.inbox.addComment != nextProps.inbox.addComment
+    ) {
+      this.textInput.clear();
+      this.props.actions.inbox.getCommentUser(accessTokenApi, nextProps.inbox.detailInbox.result.guid);
+    }
+
+
   }
 
   renderLoading() {
@@ -70,6 +93,25 @@ class ModalDetailFeedback extends Component {
       </View>
     );
   }
+
+  addComment = () => {
+    if (this.state.comment.trim() === '' || this.state.data === null) {
+      return;
+    } else {
+      let accessTokenAPI = this.props.account.accessTokenAPI;
+      const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
+      let comment = {
+        conversationId: this.state.data.guid,
+        content: this.state.comment,
+        typeId: null,
+        isPrivate: false,
+        userName: displayName,
+        profilePictureId: profilePictureId,
+        moduleId: 14
+      };
+      this.props.actions.inbox.addCommentUser(accessTokenAPI, comment);
+    }
+  };
 
   render() {
     const { data } = this.state;
@@ -178,8 +220,61 @@ class ModalDetailFeedback extends Component {
         ) : (
             this.renderLoading()
           )}
+        <Button
+          style={{
+            position: 'absolute',
+            bottom: 50,
+            right: 20
+          }}
+          onPress={() => this.setState({ isShowChat: true })}
+        >
+          <Image source={require('../../../resources/icons/chat-big.png')} />
+          {this.props.inbox.commentUnread.result && this.props.inbox.commentUnread.result[0].unreadCount > 0 && (
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: 'red',
+                borderRadius: 8,
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
+                {this.props.inbox.commentUnread.result[0].unreadCount}
+              </Text>
+            </View>
+          )}
+        </Button>
         {this.showDetailImage()}
+        {this.renderContentModalChat()}
       </View>
+    );
+  }
+
+  renderContentModalChat() {
+    let id = this.props.userProfile.profile.result.user.id;
+    return (
+      <ModalChat
+        isVisible={this.state.isShowChat}
+        title={this.state.data && this.state.data.id}
+        idUser={id}
+        listComment={this.state.listComment}
+        editableTextInput={this.state.data ? true : false}
+        disabledBtn={this.state.comment.trim().length > 0 ? false : true}
+        addComment={() => this.addComment()}
+        onChangeText={(text) => this.setState({ comment: text })}
+        opacityBtnSend={this.state.comment.trim() == '' ? 0.5 : 1}
+        onClose={() => this.setState({ isShowChat: false })}
+        refTextInout={
+          input => {
+            this.textInput = input;
+          }
+        }
+      />
     );
   }
 

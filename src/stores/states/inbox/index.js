@@ -10,5 +10,9 @@ export default keymirror({
     GET_LIST_INBOX_FROM_MANAGER: null,
     GET_LIST_INBOX_TO_MANAGER: null,
 
+    GET_COMMENT_USER: null,
+    GET_COMMENT_UNREAD: null,
+    ADD_COMMENT_USER: null,
+
 
 }, "INBOX_");

@@ -104,7 +104,7 @@ class Events extends Layout {
     return date.toISOString().split('T')[0];
   }
 
-  mapObjectSelected(arrDate) {
+  mapObjectSelected(arrDate, dataSeleted) {
     let markedDateMap = {};
     let tempEvents = [];
     let currDate = this.timeToString(new Date());
@@ -116,7 +116,7 @@ class Events extends Layout {
     });
     tempEvents.map(item => {
       let date = this.timeToString(item.eventDate);
-      if (date === currDate) {
+      if (date === dataSeleted) {
         markedDateMap[date] = {
           selected: true,
           marked: true,

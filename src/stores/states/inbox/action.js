@@ -93,4 +93,48 @@ export function addInbox(accessTokenAPI, subject = '', content = '') {
     }
 }
 
+// comment
+export function getCommentUser(accessTokenAPI, language, conversationId) {
+    return {
+        type: Types.GET_COMMENT_USER,
+        payload: {
+            api: Configs.API_COMMON + `/api/conversations?conversationId=${conversationId}&isPrivate=false&culture=${language}`,
+            method: 'GET',
+            token: accessTokenAPI
+        }
+    };
+}
+
+export function getCommentUnread(accessTokenAPI, id, idModules) {
+    return {
+        type: Types.GET_COMMENT_UNREAD,
+        payload: {
+            api: Configs.API + `/api/services/app/Notification/GetUserNotificationCommentUnread?entityIds=${id}&moduleId=${idModules}`,
+            method: 'GET',
+            token: accessTokenAPI
+        }
+    };
+}
+
+export function addCommentUser(accessTokenAPI, comment) {
+    return {
+        type: Types.ADD_COMMENT_USER,
+        payload: {
+            api: Configs.API_COMMON + '/api/conversations',
+            method: 'POST',
+            payload: {
+                conversationId: comment.conversationId,
+                content: comment.content,
+                typeId: null,
+                isPrivate: false,
+                userName: comment.userName,
+                profilePictureId: comment.profilePictureId,
+                moduleId: comment.moduleId
+            },
+            token: accessTokenAPI
+        }
+    };
+}
+
+
 
