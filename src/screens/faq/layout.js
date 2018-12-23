@@ -3,7 +3,7 @@ import {
     View,
     Text,
     WebView, Image,
-    StatusBar
+    StatusBar, ActivityIndicator
 } from 'react-native';
 import Header from '@components/header';
 import IC_BACK from "@resources/icons/close.png";
@@ -11,6 +11,7 @@ import IC_DROPDOWN from "@resources/icons/dropDown.png";
 import Button from "@components/button";
 import ModalSelectUnit from "@components/modalSelectUnit";
 import Modal from "react-native-modal";
+import Configs from '../../utils/configs';
 
 export default class extends Component {
 
@@ -43,11 +44,16 @@ export default class extends Component {
                     }
                 />
                 {
+                    this.props.utilities && !this.props.utilities.FAQ.success ?
+                        <View style={{ justifyContent: 'center', alignContent: 'center' }}>
+                            <ActivityIndicator size={'large'} color={Configs.colorMain} />
+                        </View> : null
+                }
+                {
                     this.props.utilities && this.props.utilities.FAQ.success ?
                         <WebView
                             originWhitelist={['*']}
                             source={{ html: this.props.utilities.FAQ.result.faqHtmlContent }}
-                        // scrollEnabled={false}
                         /> : <View />
                 }
                 <Modal
