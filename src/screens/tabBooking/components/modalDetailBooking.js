@@ -185,7 +185,7 @@ class ModalDetailBooking extends PureComponent {
     this.changeStatusBar();
     let tabIndex = this.props.navigation.getParam('index', false);
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#F6F8FD" }}>
         {this.renderHeader(reservationId)}
         <ScrollView
           scrollEventThrottle={16}
