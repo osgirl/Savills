@@ -28,7 +28,7 @@ import Loading from '@components/loading';
 import Resolution from '@utils/resolution';
 import AnimatedTitle from '@components/animatedTitle';
 import Connect from '@stores';
-
+import AlertWarning from '@components/alertWarning';
 const { width, height } = Dimensions.get('window');
 const options = {
   title: 'Select Image',
@@ -59,7 +59,9 @@ class ModalNewOrder extends PureComponent {
       isShowTitleHeader: false,
       email: this.props.userProfile.profile.result.user.emailAddress,
       sdt: this.props.userProfile.profile.result.user.phoneNumber,
-      listArea: this.props.workOrder.listArea.result
+      listArea: this.props.workOrder.listArea.result,
+      isShowModalWarning: false,
+      message: ''
     };
   }
 
@@ -382,9 +384,17 @@ class ModalNewOrder extends PureComponent {
             style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
             onPress={() => {
               if (this.state.comment.trim() === '') {
-                alert('Thiếu Comment');
+                this.setState({ isShowModalWarning: true, message: languages.WO_NEW_EMPTY_DES });
               } else {
-                this.setState({ isShowModalConfirm: true });
+                let itemArea =
+                  this.state.listArea && this.state.listArea.length > 0
+                    ? this.state.listArea.filter(item => item.isCheck == true)
+                    : [];
+                if (itemArea.length === 0) {
+                  this.setState({ isShowModalWarning: true, message: languages.WO_NEW_EMPTY_AREA });
+                } else {
+                  this.setState({ isShowModalConfirm: true });
+                }
               }
             }}
           >
@@ -392,6 +402,11 @@ class ModalNewOrder extends PureComponent {
           </TouchableOpacity>
         </View>
         {this.renderModalConfirmBooking(languages)}
+        <AlertWarning
+          isVisible={this.state.isShowModalWarning}
+          message={this.state.message}
+          clickAction={() => this.setState({ isShowModalWarning: false })}
+        />
       </View>
     );
   }
@@ -424,7 +439,8 @@ class ModalNewOrder extends PureComponent {
   renderModalConfirmBooking = languages => {
     const { fullUnitCode } = this.props.units.unitActive;
     const { displayName } = this.props.userProfile.profile.result.user;
-    let itemArea = this.state.listArea.filter(item => item.isCheck == true);
+    let itemArea =
+      this.state.listArea && this.state.listArea.length > 0 ? this.state.listArea.filter(item => item.isCheck == true) : [];
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} visible={this.state.isShowModalConfirm}>
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>

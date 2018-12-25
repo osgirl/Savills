@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   imageAvatar: {
-    width: 36,
-    height: 36,
+    width: 50,
+    height: 50,
     borderRadius: 18,
     marginVertical: 20
   },

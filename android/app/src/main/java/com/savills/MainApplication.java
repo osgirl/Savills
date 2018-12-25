@@ -3,6 +3,7 @@ package com.savills;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.microsoft.codepush.react.CodePush;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 //import io.invertase.firebase.RNFirebasePackage;
@@ -29,6 +30,11 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     @Override
+    protected String getJSBundleFile() {
+      return CodePush.getJSBundleFile();
+    }
+
+    @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
@@ -41,8 +47,8 @@ public class MainApplication extends Application implements ReactApplication {
             new LinearGradientPackage(),
             new ReactNativeWheelPickerPackage(),
             new RNViewOverflowPackage(),
-            new PayooSDKPackage()
-
+            new PayooSDKPackage(),
+      new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG)
       );
     }
 

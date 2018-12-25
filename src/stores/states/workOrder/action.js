@@ -36,7 +36,7 @@ export function getListArea(accessTokenAPI, lang = 0) {
   return {
     type: Types.GET_LIST_AREA,
     payload: {
-      api: Configs.API + `/api/services/app/WorkOrders/GetListCategory&culture=${lang == 0 ? 'en' : 'vi'}`,
+      api: Configs.API + `/api/services/app/WorkOrders/GetListCategory?culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }

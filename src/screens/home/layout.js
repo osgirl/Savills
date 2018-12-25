@@ -33,7 +33,7 @@ const imgSize = 64;
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
@@ -106,6 +106,8 @@ export default class extends Component {
           <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
             <Button
               disabled={this.state.numcolumn === 3 ? true : false}
+              code-push
+              promote
               style={Style.btnGrid}
               onPress={() => this._onChangeNumColumn('3')}
             >

@@ -1,8 +1,42 @@
 PODS:
+  - Base64 (1.1.2)
+  - boost-for-react-native (1.63.0)
+  - CodePush (5.5.1):
+    - Base64 (~> 1.1)
+    - JWT (~> 3.0.0-beta.7)
+    - React
+    - SSZipArchive (~> 2.1)
+  - DoubleConversion (1.1.5)
+  - Folly (2016.10.31.00):
+    - boost-for-react-native
+    - DoubleConversion
+    - glog
+  - glog (0.3.5)
+  - JWT (3.0.0-beta.11):
+    - Base64 (~> 1.1.2)
   - QBImagePickerController (3.4.0)
+  - React (0.57.3):
+    - React/Core (= 0.57.3)
   - React/Core (0.57.3):
     - yoga (= 0.57.3.React)
+  - React/CxxBridge (0.57.3):
+    - Folly (= 2016.10.31.00)
+    - React/Core
+    - React/cxxreact
+  - React/cxxreact (0.57.3):
+    - boost-for-react-native (= 1.63.0)
+    - Folly (= 2016.10.31.00)
+    - React/jschelpers
+    - React/jsinspector
+  - React/DevSupport (0.57.3):
+    - React/Core
+    - React/RCTWebSocket
   - React/fishhook (0.57.3)
+  - React/jschelpers (0.57.3):
+    - Folly (= 2016.10.31.00)
+    - React/PrivateDatabase
+  - React/jsinspector (0.57.3)
+  - React/PrivateDatabase (0.57.3)
   - React/RCTActionSheet (0.57.3):
     - React/Core
   - React/RCTAnimation (0.57.3):
@@ -33,10 +67,16 @@ PODS:
     - React/Core
     - RSKImageCropper
   - RSKImageCropper (2.2.0)
+  - SSZipArchive (2.1.4)
   - yoga (0.57.3.React)
 
 DEPENDENCIES:
+  - CodePush (from `../node_modules/react-native-code-push`)
+  - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
+  - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - React/Core (from `../node_modules/react-native`)
+  - React/CxxBridge (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
   - React/RCTGeolocation (from `../node_modules/react-native`)
@@ -52,10 +92,21 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Base64
+    - boost-for-react-native
+    - DoubleConversion
+    - JWT
     - QBImagePickerController
     - RSKImageCropper
+    - SSZipArchive
 
 EXTERNAL SOURCES:
+  CodePush:
+    :path: "../node_modules/react-native-code-push"
+  Folly:
+    :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
+  glog:
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
   RNImageCropPicker:
@@ -64,12 +115,20 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
 SPEC CHECKSUMS:
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
+  boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  CodePush: f6b348759cdc42c734d9c3a46ceb2997c270b12e
+  DoubleConversion: e22e0762848812a87afd67ffda3998d9ef29170c
+  Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
+  glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
+  JWT: 05028b9624591bba9681bb57df2c5f95fa258bad
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   RNImageCropPicker: 32ca4b9fef4e1b7b85ba69494242122948117e06
   RSKImageCropper: bd0bdf765b27c046c89728d65075b363a3b665c2
+  SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 4b8116b8c514555ddea5bf1525a5e58deba7e3fd
+PODFILE CHECKSUM: e561096b8015e93fe385d6c5ce2b09ea87d031f5
 
 COCOAPODS: 1.5.3

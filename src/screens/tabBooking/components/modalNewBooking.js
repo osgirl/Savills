@@ -130,15 +130,12 @@ class ModalNewBooking extends PureComponent {
     return markedDateMap;
   }
 
-  selectItem = async index => {
+  selectItem = async (index, numberSlot) => {
     let arr = this.state.listBooking.slice();
     let arrSelect = this.state.arrSelected.slice();
     let flag = arr[index].isCheck || false;
     let position = arrSelect.indexOf(index);
-    if (
-      this.state.arrSelected.length === this.props.booking.detailCategory.result.numOfExtendTimeSlot + 1 &&
-      arr[index].isCheck === false
-    ) {
+    if (this.state.arrSelected.length === numberSlot && arr[index].isCheck === false) {
       return;
     } else if (arr.length === 1) {
       arr[index].isCheck = !flag;
@@ -384,14 +381,14 @@ class ModalNewBooking extends PureComponent {
                   item.isAvailable ? (
                     <TouchableOpacity
                       activeOpacity={0.9}
-                      onPress={() => this.selectItem(index)}
+                      onPress={() => this.selectItem(index, numberSlot)}
                       key={index}
                       disabled={numberSlot == this.state.arrSelected.length && item.isCheck == false}
                       style={{
                         width: 85,
                         height: 22,
                         borderRadius: 5,
-                        backgroundColor: this.renderColorBooking(item),
+                        backgroundColor: this.renderColorBooking(item, numberSlot),
                         marginVertical: 5,
                         marginRight: 10,
                         alignItems: 'center',
@@ -571,14 +568,8 @@ class ModalNewBooking extends PureComponent {
     );
   }
 
-  renderColorBooking = item => {
-    if (
-      this.props.booking.detailCategory &&
-      this.props.booking.detailCategory.result &&
-      this.props.booking.detailCategory.result.numOfExtendTimeSlot &&
-      this.props.booking.detailCategory.result.numOfExtendTimeSlot + 1 == this.state.arrSelected.length &&
-      item.isCheck == false
-    ) {
+  renderColorBooking = (item, numberSlot) => {
+    if (numberSlot == this.state.arrSelected.length && item.isCheck == false) {
       return '#dbdee2';
     } else if (item.isCheck) {
       return '#4A89E8';

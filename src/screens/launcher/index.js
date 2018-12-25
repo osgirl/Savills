@@ -1,7 +1,7 @@
 import Connect from '@stores';
 import layout from './layout';
 import { StatusBar, Platform } from 'react-native';
-
+import CodePush from 'react-native-code-push';
 import _ from 'lodash';
 
 class Launcher extends layout {
@@ -11,6 +11,10 @@ class Launcher extends layout {
     this.state = {
       language: 0
     };
+  }
+
+  componentDidMount() {
+    CodePush.sync({ updateDialog: true, installMode: CodePush.InstallMode.IMMEDIATE });
   }
 
   async componentWillMount() {
@@ -45,4 +49,4 @@ class Launcher extends layout {
   }
 }
 
-export default Connect(Launcher);
+export default CodePush(Connect(Launcher));

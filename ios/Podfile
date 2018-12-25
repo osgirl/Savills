@@ -15,10 +15,17 @@ target 'Savills' do
     'RCTSettings',
     'RCTText',
     'RCTVibration',
-    'RCTWebSocket'
+    'RCTWebSocket',
+    'CxxBridge',
+    'BatchedBridge'
+'DevSupport',
   ]
 
   pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'	
+  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+  
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
 end
 
 target 'Savills-tvOS' do

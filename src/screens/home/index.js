@@ -189,7 +189,7 @@ class Home extends layout {
 
   componentDidMount() {
     let accessTokenAPI = this.props.account.accessTokenAPI;
-    this.props.actions.utilities.getFAQ(accessTokenAPI);
+    this.props.actions.utilities.getFAQ(accessTokenAPI, this.props.app.languegeLocal);
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
