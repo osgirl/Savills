@@ -136,7 +136,7 @@ export function getDetailCategory(accessTokenAPI, id, lang) {
   return {
     type: Types.GET_DETAIL_CATEGORY,
     payload: {
-      api: Configs.API_BOOKING + `/api/amenities/${id}&culture=${lang == 0 ? 'en' : 'vi'}`,
+      api: Configs.API_BOOKING + `/api/amenities/${id}?culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }

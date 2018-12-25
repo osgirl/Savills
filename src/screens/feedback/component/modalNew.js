@@ -136,8 +136,7 @@ class ModalNewFeedback extends Component {
     }
   }
 
-  renderHeader() {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+  renderHeader(languages) {
     return (
       <View>
         <Header
@@ -148,23 +147,22 @@ class ModalNewFeedback extends Component {
           showTitleHeader={this.state.isShowTitleHeader}
           center={
             <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FB_CREATE_TITLEHEADER}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.FB_CREATE_TITLEHEADER}</Text>
             </View>
           }
         />
-        <AnimatedTitle scrollY={this.state.scrollY} label={LG.FB_CREATE_TITLEHEADER} />
+        <AnimatedTitle scrollY={this.state.scrollY} label={languages.FB_CREATE_TITLEHEADER} />
       </View>
     );
   }
 
   render() {
     const { fullUnitCode } = this.props.units.unitActive;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     let category = this.state.listCategory.filter(o => o.id === this.state.categorySelectedId);
-
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {this.renderHeader()}
+        {this.renderHeader(languages)}
         <ScrollView
           alwaysBounceVertical={false}
           scrollEventThrottle={16}
@@ -184,7 +182,7 @@ class ModalNewFeedback extends Component {
           <KeyboardAwareScrollView extraScrollHeight={50}>
             {this.state.listTypeFeedback && this.state.listTypeFeedback.length > 0 ? (
               <ItemScorll
-                title={LG.FB_TYPE_FEEDBACK}
+                title={languages.FB_TYPE_FEEDBACK}
                 view={
                   <View
                     style={{
@@ -222,46 +220,6 @@ class ModalNewFeedback extends Component {
                 }
               />
             ) : null}
-
-            {/* <ItemScorll
-              title={'Gửi phản hồi'}
-              view={
-                <View
-                  style={{
-                    height: 110,
-                    width: null,
-                    flex: 1,
-                    borderRadius: 10,
-                    backgroundColor: '#FFF',
-                    padding: 20,
-                    justifyContent: 'space-around'
-                  }}
-                >
-                  {
-                    this.state.projectTypes && this.state.projectTypes.length > 0 ?
-                      this.state.projectTypes.map((item, index) => (
-                        <TouchableOpacity
-                          key={index}
-                          activeOpacity={1}
-                          onPress={() => this._changeProjectType(item.name)}
-                          style={{ flexDirection: 'row' }}
-                        >
-                          <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{item.name}</Text>
-                          <Image
-                            source={
-                              item.name == this.state.typeProject
-                                ? require('../../../resources/icons/checked.png')
-                                : require('../../../resources/icons/check.png')
-                            }
-                          />
-                        </TouchableOpacity>
-                      ))
-                      : null
-                  }
-                </View>
-              }
-            /> */}
-
             <Button
               onPress={() => this.setState({ isShowCategory: true })}
               style={{
@@ -279,12 +237,12 @@ class ModalNewFeedback extends Component {
                   fontFamily: 'OpenSans-SemiBold'
                 }}
               >
-                {category.length > 0 ? category[0].name : LG.FB_PROBLEM_FEEDBACK}
+                {category.length > 0 ? category[0].name : languages.FB_PROBLEM_FEEDBACK}
               </Text>
             </Button>
 
             <ItemScorll
-              title={LG.FB_PROBLEM}
+              title={languages.FB_PROBLEM}
               view={
                 <TextInput
                   style={{
@@ -306,7 +264,7 @@ class ModalNewFeedback extends Component {
                   autoCorrect={true}
                   onSubmitEditing={() => Keyboard.dismiss()}
                   multiline
-                  placeholder={'Nhập nội dung ...'}
+                  placeholder={languages.FB_CONTENT_PROBLEM}
                   onChangeText={e => this.setState({ comment: e })}
                 />
               }
@@ -328,21 +286,30 @@ class ModalNewFeedback extends Component {
           <TouchableOpacity
             style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
             onPress={() => {
+              let message = '';
               if (this.state.type.trim() === '') {
-                this._alertError(LG.FB_ALERT_NO_TYPE);
-                // alert(LG.FB_ALERT_NO_TYPE);
+                this.setState({
+                  messageWarning: languages.FB_ALERT_NO_TYPE,
+                  isModalError: true
+                });
               } else if (this.state.categorySelectedId === null) {
-                this._alertError(LG.FB_ALERT_NO_FEEDBACK);
-                // alert(LG.FB_ALERT_NO_FEEDBACK);
+                this.setState({
+                  messageWarning: languages.FB_ALERT_NO_FEEDBACK,
+                  isModalError: true
+                });
               } else if (this.state.comment.trim() === '') {
-                this._alertError(LG.FB_ALERT_NO_PROBLEM);
-                // alert(LG.FB_ALERT_NO_PROBLEM);
+                this.setState({
+                  messageWarning: languages.FB_ALERT_NO_PROBLEM,
+                  isModalError: true
+                });
               } else {
                 this.setState({ isShowModalConfirm: true });
               }
             }}
           >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>{LG.FB_CREATE_BTNSEND}</Text>
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>
+              {languages.FB_CREATE_BTNSEND}
+            </Text>
           </TouchableOpacity>
         </View>
         <AlertWarning
@@ -350,14 +317,13 @@ class ModalNewFeedback extends Component {
           isVisible={this.state.isModalError}
           message={this.state.messageWarning}
         />
-        {this.renderCategory()}
-        {this.renderModalConfirm()}
+        {this.renderCategory(languages)}
+        {this.renderModalConfirm(languages)}
       </View>
     );
   }
 
-  renderCategory() {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+  renderCategory(languages) {
     return (
       <Modal style={{ flex: 1, margin: 0, paddingTop: 20 }} isVisible={this.state.isShowCategory}>
         <View style={{ flex: 1 }}>
@@ -378,7 +344,7 @@ class ModalNewFeedback extends Component {
               <Image source={require('@resources/icons/close-black.png')} />
             </TouchableOpacity>
             <Text styl={{ color: '#505E75', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold' }}>
-              {LG.FB_PROBLEM_FEEDBACK}
+              {languages.FB_PROBLEM_FEEDBACK}
             </Text>
             <View />
           </View>
@@ -395,9 +361,8 @@ class ModalNewFeedback extends Component {
     );
   }
 
-  renderModalConfirm = () => {
+  renderModalConfirm = languages => {
     let category = this.state.listCategory.filter(o => o.id === this.state.categorySelectedId);
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} visible={this.state.isShowModalConfirm}>
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
@@ -425,7 +390,7 @@ class ModalNewFeedback extends Component {
             />
             <ScrollView style={{ flex: 1, marginBottom: Resolution.scaleHeight(100) }} showsVerticalScrollIndicator={false}>
               <ItemScorll
-                title={LG.FB_TYPE_FEEDBACK}
+                title={languages.FB_TYPE_FEEDBACK}
                 view={
                   <View
                     style={{
@@ -461,11 +426,11 @@ class ModalNewFeedback extends Component {
                 }}
               >
                 <Text style={{ padding: Resolution.scale(20), fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
-                  {category.length > 0 ? category[0].name : LG.FB_PROBLEM_FEEDBACK}
+                  {category.length > 0 ? category[0].name : languages.FB_PROBLEM_FEEDBACK}
                 </Text>
               </Button>
               <ItemScorll
-                title={LG.FB_PROBLEM}
+                title={languages.FB_PROBLEM}
                 view={
                   <View
                     style={{
@@ -502,7 +467,7 @@ class ModalNewFeedback extends Component {
                   <ActivityIndicator size={'small'} color={'#FFF'} />
                 ) : (
                   <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
-                    {LG.FB_CREATE_BTNSEND}
+                    {languages.FB_CREATE_BTNSEND}
                   </Text>
                 )}
               </LinearGradient>

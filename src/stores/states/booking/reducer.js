@@ -7,9 +7,9 @@ const INIT_STATE = {
   listBookingOption: false,
   detailBooking: false,
   changeStatusBooking: false,
-  listComplete: { items: [], pageCount: 0, success: false },
-  listOnGoing: { items: [], pageCount: 0, success: false },
-  listActive: { items: [], pageCount: 0, success: false },
+  listComplete: { items: [], totalCount: 0, success: false },
+  listOnGoing: { items: [], totalCount: 0, success: false },
+  listActive: { items: [], totalCount: 0, success: false },
   detailCategory: false,
   message: '',
 

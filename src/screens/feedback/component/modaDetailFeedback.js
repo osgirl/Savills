@@ -272,8 +272,7 @@ class ModalDetailFeedback extends Component {
     );
   };
 
-  renderFooter() {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+  renderFooter(languages) {
     let status = (this.state.data && this.state.data.commentBoxStatus.id) || 0;
     if (status === 1) {
       return (
@@ -304,7 +303,7 @@ class ModalDetailFeedback extends Component {
             }}
             onPress={() => this.setState({ showModalConfirmCancel: true })}
           >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{LG.FB_DT_BTNCANCLE}</Text>
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.FB_DT_BTNCANCLE}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -314,10 +313,9 @@ class ModalDetailFeedback extends Component {
 
   render() {
     const { data } = this.state;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     let date = moment(data && data.createdAt).format('l');
     let time = moment(data && data.createdAt).format('LT');
-
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.renderHeader()}
@@ -338,7 +336,7 @@ class ModalDetailFeedback extends Component {
           >
             {
               <ItemScorll
-                title={LG.FB_DT_DESCRIPTION}
+                title={languages.FB_DT_INFO}
                 view={
                   <View
                     style={{
@@ -355,7 +353,7 @@ class ModalDetailFeedback extends Component {
                       <Text
                         style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
                       >
-                        {LG.FB_DT_TYPE}
+                        {languages.FB_DT_TYPE}
                       </Text>
                       <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
                         {data.commentBoxType.name}
@@ -366,7 +364,7 @@ class ModalDetailFeedback extends Component {
                       <Text
                         style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
                       >
-                        {LG.FB_DT_PROBLEM}
+                        {languages.FB_DT_PROBLEM}
                       </Text>
                       <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
                         {data.commentBoxCategory.name}
@@ -377,7 +375,7 @@ class ModalDetailFeedback extends Component {
                       <Text
                         style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
                       >
-                        {LG.FB_DT_STATUS}
+                        {languages.FB_DT_STATUS}
                       </Text>
                       <View
                         style={{
@@ -403,7 +401,7 @@ class ModalDetailFeedback extends Component {
                       <Text
                         style={{ flex: 1, color: '#505E75', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}
                       >
-                        {LG.FB_DT_DAY}
+                        {languages.FB_DT_DAY}
                       </Text>
                       <View
                         style={{
@@ -445,7 +443,7 @@ class ModalDetailFeedback extends Component {
               />
             }
             <ItemScorll
-              title={LG.FB_DT_depict}
+              title={languages.FB_DT_COMMENT}
               view={
                 <View
                   style={{
@@ -467,8 +465,8 @@ class ModalDetailFeedback extends Component {
           this.renderLoading()
         )}
 
-        {this.renderFooter()}
-        {this.renderModalCancel()}
+        {this.renderFooter(languages)}
+        {this.renderModalCancel(languages)}
 
         <Button
           style={{
@@ -506,7 +504,7 @@ class ModalDetailFeedback extends Component {
     );
   }
 
-  renderContentModalChat() {
+  renderContentModalChat(languages) {
     let id = this.props.userProfile.profile.result.user.id;
     return (
       <ModalChat

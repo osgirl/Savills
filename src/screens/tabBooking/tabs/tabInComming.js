@@ -57,6 +57,7 @@ class TabInComming extends PureComponent {
             onEndReachedThreshold={0.01}
             extraData={this.state}
             legacyImplementation={false}
+            getItemLayout={(data, index) => ({ length: Resolution.scale(170), offset: Resolution.scale(170) * index, index })}
             // ListFooterComponent={() => this._FooterFlatlist()}
             refreshControl={
               <RefreshControl
@@ -88,7 +89,7 @@ class TabInComming extends PureComponent {
   }
 
   async _onEndReached() {
-    if (this.state.loadingMore || this.state.pageCount == this.props.booking.listOnGoing.pageCount) {
+    if (this.state.loadingMore || this.state.pageCount > this.props.booking.listOnGoing.totalCount / 10) {
       return;
     }
     await this.setState({ loadingMore: true, pageCount: this.state.pageCount + 1 });

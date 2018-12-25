@@ -8,7 +8,7 @@ class ItemComment extends Component {
   render() {
     const { content, creationTime, creatorUserId, fileUrl } = this.props.item;
     let id = this.props.idUser;
-    let times = moment(creationTime).format('hh:mm:ss - DD-MM-YYYY');
+    let times = moment(creationTime).format('HH:mm:ss - DD-MM-YYYY');
     let encToken = this.props.account.encToken;
     let image = `${fileUrl}&encToken=${encodeURIComponent(encToken)}`;
     if (id == creatorUserId) {

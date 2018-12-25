@@ -77,7 +77,7 @@ class Login extends layout {
                 await this.props.actions.userProfile.getCurrentLoginInformations(nextProps.account.linkedAccountAuthenticate.result.accessToken);
                 await this.props.actions.userProfile.getImageUserProfile(nextProps.account.linkedAccountAuthenticate.result.accessToken);
                 await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
-                await this.props.actions.notification.getListNotification(nextProps.account.linkedAccountAuthenticate.result.accessToken);
+                // await this.props.actions.notification.getListNotification(nextProps.account.linkedAccountAuthenticate.result.accessToken);
                 await this.props.actions.account.setIsAccessTokenAPI(true);
             }
 

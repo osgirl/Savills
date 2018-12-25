@@ -184,7 +184,7 @@ class Home extends layout {
         this.props.actions.notification.getListCountModule(accessTokenApi, this.props.units.unitActive.unitId);
       });
     }
-    await this.props.actions.notification.getListNotification(accessTokenApi);
+    // await this.props.actions.notification.getListNotification(accessTokenApi);
     await this._setData();
     await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
     await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
@@ -310,7 +310,7 @@ class Home extends layout {
     }
     await this.setState({ isRefresh: true });
     await this.props.actions.app.getModuleHome(accessTokenAPI);
-    await this.props.actions.notification.getListNotification(accessTokenAPI);
+    // await this.props.actions.notification.getListNotification(accessTokenAPI);
   }
 
   onBackButtonPressAndroid = () => {

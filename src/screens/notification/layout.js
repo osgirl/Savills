@@ -271,7 +271,6 @@ export default class extends Component {
         ) : (
           <ItemPlaceHolderH />
         )}
-
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this._closeModalSelectUnit()} />
         </Modal>

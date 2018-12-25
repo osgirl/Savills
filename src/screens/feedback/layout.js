@@ -49,9 +49,7 @@ export default class extends Component {
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
-        listener: event => {
-
-        }
+        listener: event => {}
       },
       { useNativeDriver: true }
     )(event);
@@ -73,7 +71,7 @@ export default class extends Component {
     const isShow = this.state.scrollY.interpolate({
       inputRange: [0, 15],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: 'clamp'
     });
     return (
       <View>

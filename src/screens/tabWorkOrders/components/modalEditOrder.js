@@ -140,7 +140,7 @@ class ModalEditOrder extends PureComponent {
       nextProps.actions.workOrder.setFlagUpdateWorkOrder();
       this.setState({ showModalConfirmCancel: false }, () => {
         DeviceEventEmitter.emit('UpdateListWorkOrder', {});
-        this.props.navigation.goBack();
+        this.state.detailOrder.currentStatus.id !== 11 ? this.props.navigation.goBack() : null;
       });
     }
     if (

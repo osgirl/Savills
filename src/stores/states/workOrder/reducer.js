@@ -3,8 +3,8 @@ import createReducer from '../';
 
 const INIT_STATE = {
   workOrderDetail: false,
-  listActive: { items: [], pageCount: 0, success: false },
-  listComplete: { items: [], pageCount: 0, success: false },
+  listActive: { items: [], totalCount: 0, success: false },
+  listComplete: { items: [], totalCount: 0, success: false },
   listComment: false,
   addComment: false,
   uploadImage: false,

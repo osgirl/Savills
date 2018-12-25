@@ -353,7 +353,7 @@ class ModalNewBooking extends PureComponent {
                 <Text style={{ color: '#343D4D', fontWeight: 'bold', fontSize: 15, flex: 1, marginLeft: 20 }}>
                   {item.amenityName}
                 </Text>
-                <Button onPress={() => this.props.changeCategory()}>
+                <Button style={{}} onPress={() => this.props.changeCategory()}>
                   <Text style={{ color: '#4A89E8', fontSize: 13 }}>{languages.BK_NEW_CHANGE}</Text>
                 </Button>
               </View>

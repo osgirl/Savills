@@ -57,6 +57,7 @@ class TabComplete extends PureComponent {
             renderItem={({ item, index }) => (
               <ItemWorkOrder {...this.props} item={item} key={index} action={() => this.gotoDetail(item, 0)} />
             )}
+            getItemLayout={(data, index) => ({ length: 160, offset: 160 * index, index })}
             onScroll={this.props.onScroll}
             onEndReached={() => this._onEndReached()}
             onEndReachedThreshold={0.01}
@@ -96,7 +97,7 @@ class TabComplete extends PureComponent {
   }
 
   async _onEndReached() {
-    if (this.state.loadingMore || this.state.pageCount == this.props.workOrder.listActive.pageCount) {
+    if (this.state.loadingMore || this.state.pageCount > this.props.workOrder.listActive.totalCount / 10) {
       return;
     }
     await this.setState({ loadingMore: true, pageCount: this.state.pageCount + 1 });
