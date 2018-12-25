@@ -187,14 +187,13 @@ export default class extends Component {
                 <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn nào đã gửi'}</Text>
             </View>
         } else {
-            <View style={{ alignItems: 'center', alignItems: 30 }}>
+            <View style={{ alignItems: 'center', }}>
                 <ActivityIndicator
                     size={'large'}
                     color={Configs.colorMain}
                 />
             </View>
         }
-
     }
 
     _FooterFlatlist() {

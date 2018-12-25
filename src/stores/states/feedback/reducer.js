@@ -3,6 +3,7 @@ import createReducer from '../';
 
 const INIT_STATE = {
   listFeedBack: { items: [], pageCount: 0, success: false },
+  listFeedBackCompleted: { items: [], pageCount: 0, success: false },
   listCategory: {},
   typeFeedback: {},
   createFeedback: {},
@@ -14,6 +15,47 @@ const INIT_STATE = {
 };
 
 export default createReducer(INIT_STATE, {
+  [Types.GET_LIST_FEEDBACK_COMPLETED]: (state, action) => {
+    try {
+      return {
+        ...state
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.GET_LIST_FEEDBACK_COMPLETED_SUCCESS]: (state, action) => {
+    try {
+      let tempState;
+      tempState = Object.assign(
+        {},
+        { ...state },
+        {
+          listFeedBackCompleted: {
+            items: action.response.result.items,
+            success: action.response.success,
+            pageCount: action.response.result.pageCount
+          }
+        }
+      );
+      return tempState;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.GET_LIST_FEEDBACK_COMPLETED_FAIL]: (state, action) => {
+    try {
+      return {
+        ...state,
+        listFeedBackCompleted: {}
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.GET_LIST_FEEDBACK]: (state, action) => {
     try {
       return {
