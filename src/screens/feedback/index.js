@@ -118,7 +118,8 @@ class Feedback extends layout {
   }
 
   async _onEndReached() {
-    if (this.state.loadingMore || this.state.pageCount > this.props.feedback.listFeedBack.pageCount) {
+    if (this.state.loadingMore ||
+      this.state.pageCount > this.props.feedback.listFeedBack.pageCount) {
       return;
     }
     await this.setState({ loadingMore: true, pageCount: this.state.pageCount + 1 });
@@ -126,7 +127,8 @@ class Feedback extends layout {
   }
 
   async _onEndReachedCompleted() {
-    if (this.state.loadingMoreCompleted || this.state.pageCountCompleted == this.props.feedback.listFeedBackCompleted.pageCount) {
+    if (this.state.loadingMoreCompleted ||
+      this.state.pageCountCompleted > this.props.feedback.listFeedBackCompleted.pageCount) {
       return;
     }
     await this.setState({ loadingMoreCompleted: true, pageCountCompleted: this.state.pageCountCompleted + 1 });

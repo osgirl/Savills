@@ -38,6 +38,8 @@ import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
+import IC_EMTY_FB from "../../resources/icons/Emty_feedback.png";
+
 import Language from '../../utils/language';
 
 const HEADER_MAX_HEIGHT = 60;
@@ -49,7 +51,7 @@ export default class extends Component {
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
-        listener: event => {}
+        listener: event => { }
       },
       { useNativeDriver: true }
     )(event);
@@ -63,44 +65,6 @@ export default class extends Component {
     ) : (
         <View style={{ height: Resolution.scale(40) }} />
       );
-  }
-
-  renderHeader() {
-    let unitActive = this.props.units.unitActive;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    const isShow = this.state.scrollY.interpolate({
-      inputRange: [0, 15],
-      outputRange: [0, 1],
-      extrapolate: 'clamp'
-    });
-    return (
-      <View>
-        <Header
-          LinearGradient={true}
-          leftIcon={IC_BACK}
-          leftAction={() => this.props.navigation.goBack()}
-          headercolor={'transparent'}
-          showTitleHeader={true}
-          center={
-            <Animated.View style={{ opacity: isShow }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.EVENTS_TXT_TITLE}</Text>
-            </Animated.View>
-          }
-          renderViewRight={
-            <Button
-              onPress={() => this._openModalSelectUnit()}
-              style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
-            >
-              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
-                {unitActive.fullUnitCode}
-              </Text>
-              <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
-            </Button>
-          }
-        />
-        <AnimatedTitle scrollY={this.state.scrollY} label={LG.FB_TITLEHEADER} />
-      </View>
-    );
   }
 
   render() {
@@ -137,7 +101,6 @@ export default class extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {/* {this.renderHeader()} */}
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}
@@ -220,16 +183,16 @@ export default class extends Component {
   }
 
   renderEmty(name) {
-    if (name === 'processing' && this.props.inbox.listInbox.totalCount === 0) {
-      return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-        {/* <Image source={IC_INBOXEMTY} /> */}
-        <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin góp ý'}</Text>
+    if (name === 'processing') {
+      return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, }}>
+        <Image source={IC_EMTY_FB} />
+        <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có góp ý'}</Text>
       </View>
     }
-    else if (name === 'Completed' && this.props.inbox.listInboxIsActive.totalCount === 0) {
+    else if (name === 'Completed') {
       return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-        {/* <Image source={IC_INBOXEMTY} /> */}
-        <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có tin nhắn nào đã xong'}</Text>
+        <Image source={IC_EMTY_FB} />
+        <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có góp ý nào đã hủy'}</Text>
       </View>
     } else {
       <View style={{ alignItems: 'center', }}>
@@ -285,7 +248,7 @@ export default class extends Component {
     return (
       <View tabLabel={'Completed'} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {
-          this.props.feedback.listFeedBack.success && this.props.feedback.listFeedBack.items.length === 0 ?
+          this.props.feedback.listFeedBackCompleted.success && this.props.feedback.listFeedBackCompleted.items.length === 0 ?
             this.renderEmty('Completed') :
             this.state.isLoadDataCompleted === false ?
               <SwipeListView
