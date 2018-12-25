@@ -11,16 +11,10 @@ class ItemComment extends Component {
     let times = moment(creationTime).format('hh:mm:ss - DD-MM-YYYY');
     let encToken = this.props.account.encToken;
     let image = `${fileUrl}&encToken=${encodeURIComponent(encToken)}`;
-
     if (id == creatorUserId) {
       return (
         <View style={styles.contain}>
-          <View style={styles.imageAvatar}>
-            <Image
-              style={{ flex: 1 }}
-              source={{ uri: 'http://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png' }}
-            />
-          </View>
+          <View style={styles.imageAvatar} />
           <View style={styles.viewChat}>
             <Text style={styles.textContent}>{content}</Text>
             <Text style={styles.textTime}>{times}</Text>
@@ -30,6 +24,7 @@ class ItemComment extends Component {
     } else {
       return (
         <View style={styles.containAdmin}>
+          <Image style={{ width: 50, height: 50, borderRadius: 25 }} source={{ uri: image }} />
           <View style={[styles.viewChat, { backgroundColor: '#4A89E8' }]}>
             <Text style={[styles.textContent, { color: '#FFF' }]}>{content}</Text>
             <Text style={[styles.textTime, { color: 'rgba(255,255,255,0.5)' }]}>{times}</Text>
@@ -64,7 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: 5,
     padding: 20,
-    marginLeft: 20
+    marginLeft: 10
   },
   textContent: {
     color: '#515E6D',

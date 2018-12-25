@@ -44,7 +44,7 @@ export default class extends Component {
     }
   }
 
-  _resetPassWord() {
+  _resetPassWord(languages) {
     let { status } = this.props.navigation.state.params;
     let accessToken = this.props.account.accessToken;
     this.setState({ loading: true });
@@ -54,13 +54,13 @@ export default class extends Component {
 
     if (status !== 'forgot') {
       if (this.state.currPass === this.state.newPass) {
-        this.setState({ loading: false, error: 'Current Password is not equal new password' });
+        this.setState({ loading: false, error: languages.CHANGE_PASS_NOT_EQUAL });
         return;
       }
     }
 
     if (this.state.newPass !== this.state.rePass) {
-      this.setState({ loading: false, error: 'password is not equal re-enter password' });
+      this.setState({ loading: false, error: languages.CHANGE_PASS_NOT_EQUAL_RE });
       return;
     } else {
       this.setState({ error: '' });
@@ -136,7 +136,7 @@ export default class extends Component {
             />
           </View>
           {}
-          <Button disabled={checkDisabled} onPress={() => this._resetPassWord()}>
+          <Button disabled={checkDisabled} onPress={() => this._resetPassWord(languages)}>
             <LinearGradient
               colors={checkDisabled ? ['#CCCCCC', '#EEEEEE'] : ['#4A89E8', '#8FBCFF']}
               start={{ x: 0, y: 0 }}

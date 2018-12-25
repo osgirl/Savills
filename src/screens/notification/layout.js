@@ -18,11 +18,12 @@ import HeaderTitle from '@components/headerTitle';
 import moment from 'moment';
 import ModalSelectUnit from '@components/modalSelectUnit';
 import Modal from 'react-native-modal';
+import EmptyItemList from '@components/emptyItemList';
 
 import IC_BACK from '../../resources/icons/close.png';
 import IC_CALENDAR from '../../resources/icons/calendar.png';
 import IC_CLOCK from '../../resources/icons/clock.png';
-import { } from '../';
+import {} from '../';
 
 import Configs from '../../utils/configs';
 import Button from '../../components/button';
@@ -151,8 +152,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scaleHeight(20) }} />
-      );
+      <View style={{ height: Resolution.scaleHeight(20) }} />
+    );
   }
 
   handleScroll = event => {
@@ -211,59 +212,65 @@ export default class extends Component {
   }
 
   render() {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader()}
-        {
-          this.state.data.length > 0 && this.props.notification.listNoti.items.length > 0 ?
-            (
-              <FlatList
-                data={this.state.data}
-                horizontal={false}
-                contentContainerStyle={{
-                  alignItems: 'center',
-                  paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
-                }}
-                keyExtractor={(item, index) => item.id + '__' + index}
-                renderItem={({ item, index }) => this.renderItem(item)}
-                onScroll={this.handleScroll}
-                onEndReachedThreshold={0.01}
-                scrollEventThrottle={16}
-                onEndReached={() => this._onEndReached()}
-                legacyImplementation={false}
-                extraData={this.state}
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
-                ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
-                ListHeaderComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
-                ListFooterComponent={() => this._FooterFlatlist()}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={this.state.isRefresh}
-                    onRefresh={() => this._onRefresh()}
-                    // Android offset for RefreshControl
-                    progressViewOffset={HEADER_MAX_HEIGHT}
-                  />
-                }
-                contentInset={{
-                  top: HEADER_MAX_HEIGHT
-                }}
-                contentOffset={{
-                  y: -HEADER_MAX_HEIGHT
-                }}
+        {this.state.isLoadData === false ? (
+          <FlatList
+            data={this.state.data}
+            horizontal={false}
+            contentContainerStyle={{
+              alignItems: 'center',
+              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+            }}
+            keyExtractor={(item, index) => item.id + '__' + index}
+            renderItem={({ item, index }) => this.renderItem(item)}
+            onScroll={this.handleScroll}
+            onEndReachedThreshold={0.01}
+            scrollEventThrottle={16}
+            onEndReached={() => this._onEndReached()}
+            legacyImplementation={false}
+            extraData={this.state}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
+            ListHeaderComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
+            ListFooterComponent={() => this._FooterFlatlist()}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefresh}
+                onRefresh={() => this._onRefresh()}
+                // Android offset for RefreshControl
+                progressViewOffset={HEADER_MAX_HEIGHT}
               />
-            ) :
-            this.state.data.length === 0 && this.props.notification.listNoti.items.length === 0 ?
-              (
-                <View>
-                  <Text>No Notifycation</Text>
-                </View>
-              ) :
-              (
-                <ItemPlaceHolderH />
-              )
-        }
+            }
+            ListEmptyComponent={() => {
+              return (
+                <Text
+                  style={{
+                    color: '#505E75',
+                    fontSize: 15,
+                    fontFamily: 'OpenSans-Bold',
+                    textAlign: 'center',
+                    marginTop: width / 2
+                  }}
+                >
+                  {languages.NOTI_EMPTY_LIST}
+                </Text>
+              );
+            }}
+            contentInset={{
+              top: HEADER_MAX_HEIGHT
+            }}
+            contentOffset={{
+              y: -HEADER_MAX_HEIGHT
+            }}
+          />
+        ) : (
+          <ItemPlaceHolderH />
+        )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this._closeModalSelectUnit()} />

@@ -1,7 +1,7 @@
 import Types from './';
 import Configs from '../../../utils/configs';
 
-export function getListNotification(accessTokenAPI, start = 0, maxResult = 10) {
+export function getListNotification(accessTokenAPI, start = 0, maxResult = 100) {
     return {
         type: Types.GET_LIST,
         payload: {

@@ -15,7 +15,8 @@ import {
   Platform,
   FlatList,
   KeyboardAvoidingView,
-  Keyboard, Alert
+  Keyboard,
+  Alert
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
@@ -76,14 +77,9 @@ class ModalNewFeedback extends Component {
     this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
   }
 
-  _alertError = (Title) => {
-    Alert.alert(
-      'Error',
-      Title,
-      { text: 'OK', onPress: () => { } },
-      { cancelable: false }
-    )
-  }
+  _alertError = Title => {
+    Alert.alert('Error', Title, { text: 'OK', onPress: () => {} }, { cancelable: false });
+  };
 
   handleScroll = event => {
     Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
@@ -105,11 +101,12 @@ class ModalNewFeedback extends Component {
 
   _createFeedback(commentBoxSourceId = 3, commentBoxType = '') {
     let language = Language.listLanguage[this.props.app.languegeLocal].id;
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     let accessTokenApi = this.props.account.accessTokenAPI;
     let unitActive = this.props.units.unitActive;
     let { id, username } = this.props.account.tenantActive;
-    this.props.actions.feedback.createFeedback(accessTokenApi,
+    this.props.actions.feedback.createFeedback(
+      accessTokenApi,
       language,
       commentBoxSourceId,
       unitActive.buildingId,
@@ -141,24 +138,23 @@ class ModalNewFeedback extends Component {
 
   renderHeader() {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    return <View>
-      <Header
-        LinearGradient={true}
-        leftIcon={require('../../../resources/icons/close.png')}
-        leftAction={() => this.props.onClose()}
-        headercolor={'transparent'}
-        showTitleHeader={this.state.isShowTitleHeader}
-        center={
-          <View>
-            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FB_CREATE_TITLEHEADER}</Text>
-          </View>
-        }
-      />
-      <AnimatedTitle
-        scrollY={this.state.scrollY}
-        label={LG.FB_CREATE_TITLEHEADER}
-      />
-    </View>
+    return (
+      <View>
+        <Header
+          LinearGradient={true}
+          leftIcon={require('../../../resources/icons/close.png')}
+          leftAction={() => this.props.onClose()}
+          headercolor={'transparent'}
+          showTitleHeader={this.state.isShowTitleHeader}
+          center={
+            <View>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FB_CREATE_TITLEHEADER}</Text>
+            </View>
+          }
+        />
+        <AnimatedTitle scrollY={this.state.scrollY} label={LG.FB_CREATE_TITLEHEADER} />
+      </View>
+    );
   }
 
   render() {
@@ -186,47 +182,46 @@ class ModalNewFeedback extends Component {
         >
           {/* <KeyboardAvoidingView behavior="position" enabled> */}
           <KeyboardAwareScrollView extraScrollHeight={50}>
-            {
-              this.state.listTypeFeedback && this.state.listTypeFeedback.length > 0 ?
-                <ItemScorll
-                  title={LG.FB_TYPE_FEEDBACK}
-                  view={
-                    <View
-                      style={{
-                        // height: Resolution.scaleHeight(110),
-                        width: null,
-                        flex: 1,
-                        borderRadius: 10,
-                        backgroundColor: '#FFF',
-                        padding: Resolution.scale(20),
-                        justifyContent: 'space-around'
-                      }}
-                    >
-                      {
-                        this.state.listTypeFeedback.map((item, index) => (
-                          <TouchableOpacity
-                            key={index}
-                            activeOpacity={1}
-                            onPress={() => this._changeTypeFeedback(item.typeCode)}
-                            style={{ flexDirection: 'row', marginVertical: 5 }}
-                          >
-                            <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}>{item.name}</Text>
-                            <Image
-                              source={
-                                item.typeCode == this.state.type
-                                  ? require('../../../resources/icons/checked.png')
-                                  : require('../../../resources/icons/check.png')
-                              }
-                            />
-                          </TouchableOpacity>
-                        ))
-
-                      }
-                    </View>
-                  }
-                />
-                : null
-            }
+            {this.state.listTypeFeedback && this.state.listTypeFeedback.length > 0 ? (
+              <ItemScorll
+                title={LG.FB_TYPE_FEEDBACK}
+                view={
+                  <View
+                    style={{
+                      // height: Resolution.scaleHeight(110),
+                      width: null,
+                      flex: 1,
+                      borderRadius: 10,
+                      backgroundColor: '#FFF',
+                      padding: Resolution.scale(20),
+                      justifyContent: 'space-around'
+                    }}
+                  >
+                    {this.state.listTypeFeedback.map((item, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        activeOpacity={1}
+                        onPress={() => this._changeTypeFeedback(item.typeCode)}
+                        style={{ flexDirection: 'row', marginVertical: 5 }}
+                      >
+                        <Text
+                          style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}
+                        >
+                          {item.name}
+                        </Text>
+                        <Image
+                          source={
+                            item.typeCode == this.state.type
+                              ? require('../../../resources/icons/checked.png')
+                              : require('../../../resources/icons/check.png')
+                          }
+                        />
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                }
+              />
+            ) : null}
 
             {/* <ItemScorll
               title={'Gửi phản hồi'}
@@ -269,8 +264,23 @@ class ModalNewFeedback extends Component {
 
             <Button
               onPress={() => this.setState({ isShowCategory: true })}
-              style={{ backgroundColor: '#FFF', marginVertical: Resolution.scale(20), marginHorizontal: Resolution.scale(20), borderRadius: 5 }}>
-              <Text style={{ padding: Resolution.scale(20), color: '#4A89E8', fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{category.length > 0 ? category[0].name : LG.FB_PROBLEM_FEEDBACK}</Text>
+              style={{
+                backgroundColor: '#FFF',
+                marginVertical: Resolution.scale(20),
+                marginHorizontal: Resolution.scale(20),
+                borderRadius: 5
+              }}
+            >
+              <Text
+                style={{
+                  padding: Resolution.scale(20),
+                  color: '#4A89E8',
+                  fontSize: Resolution.scale(13),
+                  fontFamily: 'OpenSans-SemiBold'
+                }}
+              >
+                {category.length > 0 ? category[0].name : LG.FB_PROBLEM_FEEDBACK}
+              </Text>
             </Button>
 
             <ItemScorll
@@ -349,10 +359,7 @@ class ModalNewFeedback extends Component {
   renderCategory() {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
-      <Modal
-        style={{ flex: 1, margin: 0, paddingTop: 20 }}
-        isVisible={this.state.isShowCategory}
-      >
+      <Modal style={{ flex: 1, margin: 0, paddingTop: 20 }} isVisible={this.state.isShowCategory}>
         <View style={{ flex: 1 }}>
           <View
             style={{
@@ -370,7 +377,9 @@ class ModalNewFeedback extends Component {
             <TouchableOpacity onPress={() => this.setState({ isShowCategory: false })}>
               <Image source={require('@resources/icons/close-black.png')} />
             </TouchableOpacity>
-            <Text styl={{ color: '#505E75', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold' }}>{LG.FB_PROBLEM_FEEDBACK}</Text>
+            <Text styl={{ color: '#505E75', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold' }}>
+              {LG.FB_PROBLEM_FEEDBACK}
+            </Text>
             <View />
           </View>
           <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
@@ -444,8 +453,16 @@ class ModalNewFeedback extends Component {
               <Button
                 disabled={true}
                 onPress={() => this.setState({ isShowCategory: true })}
-                style={{ backgroundColor: '#FFF', marginVertical: Resolution.scale(20), marginHorizontal: Resolution.scale(20), borderRadius: 5 }}>
-                <Text style={{ padding: Resolution.scale(20), fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>{category.length > 0 ? category[0].name : LG.FB_PROBLEM_FEEDBACK}</Text>
+                style={{
+                  backgroundColor: '#FFF',
+                  marginVertical: Resolution.scale(20),
+                  marginHorizontal: Resolution.scale(20),
+                  borderRadius: 5
+                }}
+              >
+                <Text style={{ padding: Resolution.scale(20), fontSize: Resolution.scale(13), fontFamily: 'OpenSans-SemiBold' }}>
+                  {category.length > 0 ? category[0].name : LG.FB_PROBLEM_FEEDBACK}
+                </Text>
               </Button>
               <ItemScorll
                 title={LG.FB_PROBLEM}
@@ -481,11 +498,13 @@ class ModalNewFeedback extends Component {
                 end={{ x: 1, y: 0 }}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
               >
-                {
-                  this.state.loading ?
-                    <ActivityIndicator size={'small'} color={'#FFF'} /> :
-                    <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>{LG.FB_CREATE_BTNSEND}</Text>
-                }
+                {this.state.loading ? (
+                  <ActivityIndicator size={'small'} color={'#FFF'} />
+                ) : (
+                  <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                    {LG.FB_CREATE_BTNSEND}
+                  </Text>
+                )}
               </LinearGradient>
             </Button>
           </View>
