@@ -41,14 +41,22 @@ function* getLanguageApp(action) {
 }
 
 function* setNotification(action) {
-  let response = yield call(API.request, action.payload);
-  yield put({ ...action, type: Types.REGISTER_NOTIFICATION_SUCCESS, response });
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.REGISTER_NOTIFICATION_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function* logoutNoti(action) {
-  // console.log('asdklasjdajsdklasjdlkasda', action);
-  let response = yield call(API.request, action.payload);
-  yield put({ ...action, type: Types.LOGOUT_NOTI_SUCCESS, response });
+  try {
+    // console.log('asdklasjdajsdklasjdlkasda', action);
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.LOGOUT_NOTI_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export default function* saga() {

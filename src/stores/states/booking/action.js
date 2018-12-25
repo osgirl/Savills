@@ -37,11 +37,11 @@ export function createNewBooking(accessTokenAPI, Booking) {
 }
 
 // chi tiết 1 booking
-export function getDetailBooking(accessTokenAPI, id) {
+export function getDetailBooking(accessTokenAPI, id, lang) {
   return {
     type: Types.GET_DETAIL_BOOKING,
     payload: {
-      api: Configs.API_BOOKING + '/api/bookings/' + id,
+      api: Configs.API_BOOKING + `/api/bookings/${id}?culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -49,11 +49,11 @@ export function getDetailBooking(accessTokenAPI, id) {
 }
 
 // lấy danh sách các category được chọn
-export function getListCategory(accessTokenAPI, id) {
+export function getListCategory(accessTokenAPI, id, lang) {
   return {
     type: Types.GET_LIST_CATEGORY,
     payload: {
-      api: Configs.API_BOOKING + `/api/amenities?isActive=true&buildingId=${id}&culture=vi`,
+      api: Configs.API_BOOKING + `/api/amenities?isActive=true&buildingId=${id}&culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -88,11 +88,15 @@ export function changeStatusBooking(accessTokenAPI, id) {
 }
 
 // lấy danh sách 3 tab
-export function getListBookingProcess(accessTokenAPI, page = 1) {
+export function getListBookingProcess(accessTokenAPI, page = 1, lang) {
   return {
     type: Types.GET_LIST_BOOKING_PROCESS,
     payload: {
-      api: Configs.API_BOOKING + `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=PROCESSING`,
+      api:
+        Configs.API_BOOKING +
+        `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=PROCESSING&culture=${
+          lang == 0 ? 'en' : 'vi'
+        }`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -100,11 +104,13 @@ export function getListBookingProcess(accessTokenAPI, page = 1) {
 }
 
 // lấy danh sách 3 tab
-export function getListBookingInComming(accessTokenAPI, page = 1) {
+export function getListBookingInComming(accessTokenAPI, page = 1, lang) {
   return {
     type: Types.GET_LIST_BOOKING_COMMING,
     payload: {
-      api: Configs.API_BOOKING + `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=ONGOING`,
+      api:
+        Configs.API_BOOKING +
+        `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=ONGOING&culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -112,11 +118,13 @@ export function getListBookingInComming(accessTokenAPI, page = 1) {
 }
 
 // lấy danh sách 3 tab
-export function getListBookingComplete(accessTokenAPI, page = 1) {
+export function getListBookingComplete(accessTokenAPI, page = 1, lang) {
   return {
     type: Types.GET_LIST_BOOKING_COMPLETE,
     payload: {
-      api: Configs.API_BOOKING + `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=HISTORY`,
+      api:
+        Configs.API_BOOKING +
+        `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=HISTORY&culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -124,11 +132,11 @@ export function getListBookingComplete(accessTokenAPI, page = 1) {
 }
 
 // lấy chi tiết category
-export function getDetailCategory(accessTokenAPI, id) {
+export function getDetailCategory(accessTokenAPI, id, lang) {
   return {
     type: Types.GET_DETAIL_CATEGORY,
     payload: {
-      api: Configs.API_BOOKING + `/api/amenities/${id}`,
+      api: Configs.API_BOOKING + `/api/amenities/${id}&culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }

@@ -114,7 +114,7 @@ class TabComplete extends PureComponent {
   _getList() {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const { id } = this.props.userProfile.profile.result.user;
-    this.props.actions.workOrder.getWorkOrderListActive(accessTokenApi, id, this.state.pageCount);
+    this.props.actions.workOrder.getWorkOrderListActive(accessTokenApi, id, this.state.pageCount, this.props.app.languegeLocal);
   }
 }
 

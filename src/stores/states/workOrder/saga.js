@@ -1,13 +1,15 @@
 import { delay } from 'redux-saga';
-import { call, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
+import { call, put, take, takeEvery, takeLatest, select } from 'redux-saga/effects';
 
 import Types from './';
 import API from '../../../utils/api';
 
+const language = state => state.app.languegeLocal;
+
 function* getWorkOrderListActive(action) {
   try {
-    let response = yield call(API.request, action.payload);
-    console.log('asdkljasdkajsdlkasjdasddasd', response);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.GET_LIST_WORKORDER_ACTIVE_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -16,7 +18,8 @@ function* getWorkOrderListActive(action) {
 
 function* getWorkOrderListComplete(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.GET_LIST_WORKORDER_COMPLETE_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -25,7 +28,8 @@ function* getWorkOrderListComplete(action) {
 
 function* getListArea(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.GET_LIST_AREA_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -34,7 +38,8 @@ function* getListArea(action) {
 
 function* deleteImageWorkOrder(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.DELETE_IMAGE_WORKORDER_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -43,7 +48,8 @@ function* deleteImageWorkOrder(action) {
 
 function* detailWorkOrder(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.DETAIL_WORK_ORDER_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -52,7 +58,8 @@ function* detailWorkOrder(action) {
 
 function* updateWorkOrder(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.UPDATE_WORK_ORDER_SUCCESS, response });
   } catch (e) {
     // console.log(e);
@@ -61,7 +68,8 @@ function* updateWorkOrder(action) {
 
 function* createlWorkOrder(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.CREATE_WORK_ORDER_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -70,7 +78,8 @@ function* createlWorkOrder(action) {
 
 function* getListCategory(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.GET_LIST_CATEGORY_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -79,7 +88,8 @@ function* getListCategory(action) {
 
 function* getListComment(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.GET_COMMENT_USER_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -88,7 +98,8 @@ function* getListComment(action) {
 
 function* addComment(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.ADD_COMMENT_USER_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -97,7 +108,8 @@ function* addComment(action) {
 
 function* uploadImage(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.UPDATE_IMAGE_WORKORDER_SUCCESS, response });
   } catch (e) {
     console.log(e);
@@ -106,7 +118,8 @@ function* uploadImage(action) {
 
 function* getCommentUnread(action) {
   try {
-    let response = yield call(API.request, action.payload);
+    const languages = yield select(language);
+    let response = yield call(API.request, action.payload, languages);
     yield put({ ...action, type: Types.GET_COMMENT_UNREAD_SUCCESS, response });
   } catch (e) {
     console.log(e);

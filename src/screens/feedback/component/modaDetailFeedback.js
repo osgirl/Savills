@@ -33,7 +33,7 @@ import Connect from '@stores';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import AnimatedHeader from '@components/animatedHeader';
 
-import ModalChat from "@components/modalChat";
+import ModalChat from '@components/modalChat';
 
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 import IC_CLOSE from '@resources/icons/close.png';
@@ -261,8 +261,8 @@ class ModalDetailFeedback extends Component {
                   {this.state.loadingUpdateStatus ? (
                     <ActivityIndicator size={'small'} color={'#FFF'} />
                   ) : (
-                      <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
-                    )}
+                    <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
+                  )}
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -270,13 +270,6 @@ class ModalDetailFeedback extends Component {
         </View>
       </Modal>
     );
-  };
-
-  changeStatusBar = () => {
-    if (this.state.showModalConfirmCancel) StatusBar.setHidden(true);
-    else {
-      StatusBar.setHidden(false);
-    }
   };
 
   renderFooter() {
@@ -327,9 +320,7 @@ class ModalDetailFeedback extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <StatusBar hidden={Platform.OS === 'ios' ? false : true} />
         {this.renderHeader()}
-        {this.changeStatusBar()}
         {this.state.data ? (
           <ScrollView
             alwaysBounceVertical={false}
@@ -473,8 +464,8 @@ class ModalDetailFeedback extends Component {
             />
           </ScrollView>
         ) : (
-            this.renderLoading()
-          )}
+          this.renderLoading()
+        )}
 
         {this.renderFooter()}
         {this.renderModalCancel()}
@@ -526,14 +517,12 @@ class ModalDetailFeedback extends Component {
         editableTextInput={this.state.data && this.state.data.statusCode !== 'SUBMITTED' ? true : false}
         disabledBtn={this.state.comment.trim().length > 0 ? false : true}
         addComment={() => this.addComment()}
-        onChangeText={(text) => this.setState({ comment: text })}
+        onChangeText={text => this.setState({ comment: text })}
         opacityBtnSend={this.state.comment.trim() == '' ? 0.5 : 1}
         onClose={() => this.setState({ isShowChat: false })}
-        refTextInout={
-          input => {
-            this.textInput = input;
-          }
-        }
+        refTextInout={input => {
+          this.textInput = input;
+        }}
       />
     );
   }

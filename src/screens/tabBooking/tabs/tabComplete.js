@@ -69,7 +69,7 @@ class TabComplete extends PureComponent {
               />
             }
             ListEmptyComponent={() => {
-              return <EmptyItemList message={"Bạn chưa có booking nào \n hãy tạo ngay cho mình \n ở đây nhé !"} />;
+              return <EmptyItemList message={'Bạn chưa có booking nào \n hãy tạo ngay cho mình \n ở đây nhé !'} />;
             }}
           />
         ) : (
@@ -107,7 +107,7 @@ class TabComplete extends PureComponent {
 
   _getList() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    this.props.actions.booking.getListBookingComplete(accessTokenApi, this.state.pageCount);
+    this.props.actions.booking.getListBookingComplete(accessTokenApi, this.state.pageCount, this.props.app.languegeLocal);
   }
 
   clickDetail = (item, tabIndex) => {

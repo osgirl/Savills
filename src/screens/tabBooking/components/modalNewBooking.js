@@ -74,12 +74,16 @@ class ModalNewBooking extends PureComponent {
       toDate: this.state.selected
     };
     this.props.actions.booking.getListBookingOption(accessTokenApi, data);
-    this.props.actions.booking.getDetailCategory(accessTokenApi, item.amenityId);
+    this.props.actions.booking.getDetailCategory(accessTokenApi, item.amenityId, this.props.app.languegeLocal);
   }
 
   componentWillReceiveProps(nextProps) {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    if (nextProps.booking.listBookingOption && nextProps.booking.listBookingOption.success) {
+    if (
+      nextProps.booking.listBookingOption &&
+      nextProps.booking.listBookingOption !== this.props.booking.listBookingOption &&
+      nextProps.booking.listBookingOption.success
+    ) {
       let arr = nextProps.booking.listBookingOption.result;
       arr.map(item => {
         (item.isCheck = false), (item.isFlag = false);
@@ -449,9 +453,7 @@ class ModalNewBooking extends PureComponent {
                   padding: 20
                 }}
                 returnKeyType="done"
-                autoCapitalize="sentences"
-                autoCorrect={true}
-                onSubmitEditing={() => Keyboard.dismiss()}
+                // onSubmitEditing={() => Keyboard.dismiss()}
                 multiline
                 placeholder={languages.BK_NEW_CONTENT}
                 onChangeText={e => this.setState({ comment: e })}

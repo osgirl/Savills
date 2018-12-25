@@ -86,8 +86,8 @@ export function getLanguageApp() {
   };
 }
 
-export function getSetting(accessTokenAPI, language = 0) {
-  let lang = language === 0 ? 'en' : 'vi';
+export function getSetting(accessTokenAPI, language) {
+  let lang = parseInt(language) === 0 ? 'en' : 'vi';
   return {
     type: Types.GET_SETTING,
     payload: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, Image, StatusBar, Dimensions, ScrollView } from 'react-native';
+import { View, Text, Animated, Image, StatusBar, Dimensions, ScrollView, DeviceEventEmitter } from 'react-native';
 import Header from '@components/header';
 import IC_BACK from '@resources/icons/close.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';

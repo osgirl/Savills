@@ -1,36 +1,42 @@
 import Types from './';
 import Configs from '../../../utils/configs';
-export function getWorkOrderListActive(accessTokenAPI, memberId, pageCount = 1) {
+import { lang } from 'moment';
+
+export function getWorkOrderListActive(accessTokenAPI, memberId, pageCount = 1, lang = 0) {
   return {
     type: Types.GET_LIST_WORKORDER_ACTIVE,
     payload: {
       api:
         Configs.API +
-        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=ACTIVE`,
+        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=ACTIVE&culture=${
+          lang == 0 ? 'en' : 'vi'
+        }`,
       method: 'GET',
       token: accessTokenAPI
     }
   };
 }
 
-export function getWorkOrderListComplete(accessTokenAPI, memberId, pageCount) {
+export function getWorkOrderListComplete(accessTokenAPI, memberId, pageCount, lang = 0) {
   return {
     type: Types.GET_LIST_WORKORDER_COMPLETE,
     payload: {
       api:
         Configs.API +
-        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=COMPLETED`,
+        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=COMPLETED&culture=${
+          lang == 0 ? 'en' : 'vi'
+        }`,
       method: 'GET',
       token: accessTokenAPI
     }
   };
 }
 
-export function getListArea(accessTokenAPI) {
+export function getListArea(accessTokenAPI, lang = 0) {
   return {
     type: Types.GET_LIST_AREA,
     payload: {
-      api: Configs.API + `/api/services/app/WorkOrders/GetListCategory`,
+      api: Configs.API + `/api/services/app/WorkOrders/GetListCategory&culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -114,22 +120,22 @@ export function updateWorkOrder(accessTokenAPI, WorkOrder) {
   };
 }
 
-export function detailWordOrder(accessTokenAPI, id) {
+export function detailWordOrder(accessTokenAPI, id, lang) {
   return {
     type: Types.DETAIL_WORK_ORDER,
     payload: {
-      api: Configs.API + '/api/services/app/WorkOrders/GetWoById?woId=' + id,
+      api: Configs.API + `/api/services/app/WorkOrders/GetWoById?woId=${id}&culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }
   };
 }
 
-export function getListCategory(accessTokenAPI) {
+export function getListCategory(accessTokenAPI, lang) {
   return {
     type: Types.GET_LIST_CATEGORY,
     payload: {
-      api: Configs.API + '/api/WorkOrders/GetListCatType',
+      api: Configs.API + `/api/WorkOrders/GetListCatType&culture=${lang == 0 ? 'en' : 'vi'}`,
       method: 'GET',
       token: accessTokenAPI
     }

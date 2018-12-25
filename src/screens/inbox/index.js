@@ -117,7 +117,6 @@ class Inbox extends layout {
     _getListInbox(page = this.state.pageInbox) {
         let languege = Language.listLanguage[this.props.app.languegeLocal].id
         let accessTokenApi = this.props.account.accessTokenAPI;
-        // this.props.actions.inbox.getListInbox(accessTokenApi, languege, page);
         this.props.actions.inbox.getInboxFromManagement(accessTokenApi, languege, page);
     }
 

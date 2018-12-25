@@ -105,7 +105,7 @@ class TabInComming extends PureComponent {
 
   _getList() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    this.props.actions.booking.getListBookingInComming(accessTokenApi, this.state.pageCount);
+    this.props.actions.booking.getListBookingInComming(accessTokenApi, this.state.pageCount,this.props.app.languegeLocal);
   }
 
   clickDetail = item => {

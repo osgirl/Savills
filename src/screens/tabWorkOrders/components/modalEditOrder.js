@@ -87,7 +87,7 @@ class ModalEditOrder extends PureComponent {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     let accessTokenAPI = this.props.account.accessTokenAPI;
     let id = this.props.navigation.getParam('id', 0);
-    await this.props.actions.workOrder.detailWordOrder(accessTokenAPI, id);
+    await this.props.actions.workOrder.detailWordOrder(accessTokenAPI, id, this.props.app.languegeLocal);
     this.props.actions.workOrder.getCommentUnread(accessTokenAPI, id, 2);
   };
 

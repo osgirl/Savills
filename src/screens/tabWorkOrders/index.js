@@ -65,7 +65,7 @@ class TabWorkOrder extends PureComponent {
   componentWillMount = async () => {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const { id } = this.props.userProfile.profile.result.user;
-    this.props.actions.workOrder.getListArea(accessTokenApi);
+    this.props.actions.workOrder.getListArea(accessTokenApi,this.props.app.languegeLocal);
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalEditOrder', { id: ida.itemtype });

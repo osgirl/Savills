@@ -69,7 +69,7 @@ class ModalDetailBooking extends PureComponent {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     let accessTokenApi = this.props.account.accessTokenAPI;
     let id = this.props.navigation.getParam('id', null);
-    this.props.actions.booking.getDetailBooking(accessTokenApi, id);
+    this.props.actions.booking.getDetailBooking(accessTokenApi, id, this.props.app.languegeLocal);
     this.props.actions.workOrder.getCommentUnread(accessTokenApi, id, 3);
   };
 
@@ -187,7 +187,7 @@ class ModalDetailBooking extends PureComponent {
     this.changeStatusBar();
     let tabIndex = this.props.navigation.getParam('index', false);
     return (
-      <View style={{ flex: 1, backgroundColor: "#F6F8FD" }}>
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.renderHeader(reservationId)}
         <ScrollView
           scrollEventThrottle={16}

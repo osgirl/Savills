@@ -55,7 +55,7 @@ class TabBooking extends Component {
   componentDidMount = () => {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const buildingID = this.props.units.unitActive.buildingId;
-    this.props.actions.booking.getListCategory(accessTokenApi, buildingID);
+    this.props.actions.booking.getListCategory(accessTokenApi, buildingID,this.props.app.languegeLocal);
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalDetailBooking', { id: ida.itemtype });

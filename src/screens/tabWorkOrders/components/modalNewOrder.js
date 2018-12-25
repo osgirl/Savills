@@ -424,6 +424,7 @@ class ModalNewOrder extends PureComponent {
   renderModalConfirmBooking = languages => {
     const { fullUnitCode } = this.props.units.unitActive;
     const { displayName } = this.props.userProfile.profile.result.user;
+    let itemArea = this.state.listArea.filter(item => item.isCheck == true);
     return (
       <Modal style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} visible={this.state.isShowModalConfirm}>
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
@@ -485,7 +486,7 @@ class ModalNewOrder extends PureComponent {
                         {languages.WO_NEW_AREA}
                       </Text>
                       <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
-                        {languages.WO_NEW_INTSITE}
+                        {itemArea && itemArea[0] && itemArea[0].name ? itemArea[0].name : ''}
                       </Text>
                     </View>
                   </View>

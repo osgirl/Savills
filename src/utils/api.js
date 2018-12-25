@@ -1,12 +1,16 @@
+import { Platform } from 'react-native';
+
 export default class {
-  static async request(action, headers = {}) {
+  static async request(action, language = 0, headers = {}) {
+    console.log('asdakjsdajksdhajksdasda', language);
     let method = action.method || 'GET';
     let request = {
       method: method,
       headers: Object.assign(
         {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          deviceTypeId: Platform.OS === 'ios' ? 1 : 2
         },
         headers
       )
@@ -17,9 +21,8 @@ export default class {
 
     if (action.file) {
       request.headers['Content-Type'] = 'multipart/form-data';
-      request['body'] = action.file
+      request['body'] = action.file;
     }
-
     let url = action.api;
     if (action.payload) {
       if (method === 'GET') {

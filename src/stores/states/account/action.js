@@ -2,8 +2,6 @@ import Types from './';
 import Configs from '../../../utils/configs';
 
 import { Platform } from 'react-native';
-let DeviceID = Platform.OS === 'ios' ? 1 : 2;
-let typeLanguage = `?culture=en&deviceTypeId="en"`;
 
 export function login(username = '', password = '') {
   return {

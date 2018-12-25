@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StatusBar, Platform, Animated, PushNotificationIOS } from 'react-native';
+import { Text, StatusBar, Platform, Animated, PushNotificationIOS, DeviceEventEmitter } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
 import _ from 'lodash';
@@ -44,7 +44,6 @@ class Home extends layout {
   }
 
   async componentWillReceiveProps(nextProps) {
-
     if (this.props.app.moduleHome !== nextProps.app.moduleHome && nextProps.app.moduleHome.success) {
       const dataTemp = this.state.DATA.slice();
       let arrMaptemp = [];
@@ -70,7 +69,7 @@ class Home extends layout {
     }
 
     if (this.props.app.languegeLocal !== nextProps.app.languegeLocal) {
-      await this._setData(nextProps.app.languegeLocal);
+      await this._setData();
       let dataGrantedPermissions = nextProps.account.userSettings.result.auth.grantedPermissions;
       let arrTemp = [];
       this.state.DATA.map(item => {
@@ -82,27 +81,28 @@ class Home extends layout {
     }
   }
 
-  _setData(language) {
+  _setData() {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     this.setState({
       DATA: [
         {
           id: 1,
           key: 'Pages.CalendarEvents',
-          title: Language.listLanguage[language].data.HOME_TXT_EVENTS,
+          title: languages.HOME_TXT_EVENTS,
           moduleName: 'Events',
           screen: 'Events'
         },
         {
           id: 2,
           key: 'Pages.Resident.Booking',
-          title: Language.listLanguage[language].data.HOME_TXT_BOOKING,
+          title: languages.HOME_TXT_BOOKINGS,
           moduleName: 'Booking',
           screen: 'Booking'
         },
         {
           id: 3,
           key: 'Pages.Resident.WorkOrder',
-          title: Language.listLanguage[language].data.HOME_TXT_WORKORDER,
+          title: languages.HOME_TXT_WORKORDER,
           moduleName: 'Work order',
           screen: 'WorkOrder'
         },
@@ -110,42 +110,42 @@ class Home extends layout {
         {
           id: 4,
           key: 'Pages.Resident.Contacts',
-          title: Language.listLanguage[language].data.HOME_TXT_CONTACTS,
+          title: languages.HOME_TXT_CONTACTS,
           moduleName: '_',
           screen: 'Contacts'
         },
         {
           id: 5,
           key: 'Pages.FAQ',
-          title: Language.listLanguage[language].data.HOME_TXT_FAQ,
+          title: languages.HOME_TXT_FAQ,
           moduleName: '_',
           screen: 'FAQ'
         },
         {
           id: 6,
           key: 'Pages.Resident.Inbox',
-          title: Language.listLanguage[language].data.HOME_TXT_INBOX,
+          title: languages.HOME_TXT_INBOX,
           moduleName: 'Inboxes',
           screen: 'Inbox'
         },
         {
           id: 7,
           key: 'invoice',
-          title: Language.listLanguage[language].data.HOME_TXT_INVOICE,
+          title: languages.HOME_TXT_INVOICE,
           moduleName: '_',
           screen: ''
         },
         {
           id: 8,
           key: 'Pages.Resident.Feedback',
-          title: Language.listLanguage[language].data.HOME_TXT_FEEDBACK,
+          title: languages.HOME_TXT_FEEDBACK,
           moduleName: 'Feedbacks',
           screen: 'Feedback'
         },
         {
           id: 9,
           key: 'Pages.Libraries',
-          title: Language.listLanguage[language].data.HOME_TXT_E_LIBARY,
+          title: languages.HOME_TXT_E_LIBARY,
           moduleName: 'Library',
           screen: 'Library'
         },
@@ -153,14 +153,14 @@ class Home extends layout {
         {
           id: 10,
           key: 'Pages.Resident.FrontDesk',
-          title: Language.listLanguage[language].data.HOME_TXT_FRONTDESK,
+          title: languages.HOME_TXT_FRONTDESK,
           moduleName: '_',
           screen: 'FrontDesk'
         },
         {
           id: 11,
           key: 'Pages.Resident.Fee',
-          title: Language.listLanguage[language].data.HOME_TXT_FREE,
+          title: languages.HOME_TXT_FREE,
           moduleName: 'Fee/Phí',
           screen: 'Fee'
         }
@@ -179,7 +179,7 @@ class Home extends layout {
       });
     }
     await this.props.actions.notification.getListNotification(accessTokenApi);
-    await this._setData(this.props.app.languegeLocal);
+    await this._setData();
     await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
     await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
     await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
@@ -212,7 +212,7 @@ class Home extends layout {
             // handleNotification(notification);
           } else {
             console.log('NOTIFICATION foreground userInteraction:', notification.userInteraction);
-            handleNotification(notification);
+            // handleNotification(notification);
           }
         } else {
           if (notification.userInteraction) {

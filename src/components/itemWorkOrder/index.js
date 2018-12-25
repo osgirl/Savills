@@ -18,6 +18,7 @@ export class ItemWorkOrder extends Component {
     let date = moment(item.dateCreate).format('l');
     let time = moment(item.dateCreate).format('LT');
     let encToken = this.props.account.encToken;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <Button
         onPress={() => action()}
@@ -54,7 +55,7 @@ export class ItemWorkOrder extends Component {
         ) : null}
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75'}}>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75' }}>
               <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
                 #{item.id}
               </Text>
@@ -89,12 +90,12 @@ export class ItemWorkOrder extends Component {
             </Text>
           </View>
         </View>
-        {this.renderViewComment(item)}
+        {this.renderViewComment(item, languages)}
       </Button>
     );
   }
 
-  renderViewComment = item => {
+  renderViewComment = (item, languages) => {
     return (
       <View
         style={{
@@ -107,7 +108,7 @@ export class ItemWorkOrder extends Component {
         }}
       >
         <Text style={{ flex: 1, color: '#FFF', fontSize: 12, fontWeight: 'bold' }} numberOfLines={1}>
-          {item.remark && item.remark.trim() !== '' ? item.remark.trim() : 'No Remark'}
+          {item.description && item.description.trim() !== '' ? item.description.trim() : languages.WO_ITEM_NO_DES}
         </Text>
       </View>
     );
