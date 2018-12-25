@@ -39,7 +39,7 @@ export default class ItemHomeComponent extends Component {
                         style={{}}>
                         <View style={Styles.container}>
                             <Image source={Utils.mapItemHome(this.props.image)} style={{ width: Resolution.scale(20), height: Resolution.scale(20) }} />
-                            <Text style={{ color: '#ACB1BC', fontSize: Resolution.scale(12), marginTop: Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
+                            <Text style={{ color: '#ACB1BC', fontSize: Resolution.scale(12), marginTop: Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold', textAlign: 'center' }}>{this.props.title}</Text>
                             {/* {
                                 moduleCountByItem && moduleCountByItem.unreadCount > 0 ?
                                     <View style={{ backgroundColor: '#FFF', borderRadius: 10, position: 'absolute', top: (width - 60) / 8, right: (width - 60) / 8 }}>

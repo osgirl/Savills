@@ -69,20 +69,26 @@ class Home extends layout {
     }
 
     if (this.props.app.languegeLocal !== nextProps.app.languegeLocal) {
-      await this._setData();
-      let dataGrantedPermissions = nextProps.account.userSettings.result.auth.grantedPermissions;
-      let arrTemp = [];
-      this.state.DATA.map(item => {
-        if (item.key in dataGrantedPermissions && dataGrantedPermissions[item.key]) {
-          arrTemp.push(item);
-        }
+      await this._setData(nextProps.app.languegeLocal);
+      const dataTemp = this.state.DATA.slice();
+      let arrMaptemp = [];
+      nextProps.app.moduleHome.result.modules.map(item => {
+        dataTemp.map(itemData => {
+          if (item === itemData.key) {
+            item = itemData;
+            arrMaptemp.push(item);
+          }
+        });
       });
-      await this.setState({ dataModule: arrTemp });
+      await this.setState({ dataModule: arrMaptemp });
+      if (this.state.isRefresh) {
+        await this.setState({ isRefresh: false });
+      }
     }
   }
 
-  _setData() {
-    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+  _setData(languegeLocal = this.props.app.languegeLocal) {
+    let languages = this.props.app.listLanguage[languegeLocal].data;
     this.setState({
       DATA: [
         {
@@ -203,7 +209,7 @@ class Home extends layout {
       onRegister: token => {
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function(notification) {
+      onNotification: function (notification) {
         console.log('NOTIFICATION:', notification);
 
         if (notification.foreground) {
