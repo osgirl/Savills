@@ -6,7 +6,6 @@ import ItemBooking from '@components/itemBooking';
 import Resolution from '@utils/resolution';
 import Configs from '@utils/configs';
 import { ItemPlaceHolderH } from '@components/placeHolderItem';
-
 class TabProcess extends PureComponent {
   constructor(props) {
     super(props);
@@ -64,6 +63,7 @@ class TabProcess extends PureComponent {
             onEndReached={() => this._onEndReached()}
             scrollEventThrottle={16}
             onEndReachedThreshold={0.01}
+            getItemLayout={(data, index) => ({ length: Resolution.scale(170), offset: Resolution.scale(170) * index, index })}
             // scrollEventThrottle={1}
             // ListFooterComponent={() => this._FooterFlatlist()}
             legacyImplementation={false}
@@ -97,7 +97,7 @@ class TabProcess extends PureComponent {
   }
 
   async _onEndReached() {
-    if (this.state.loadingMore || this.state.pageCount == this.props.booking.listActive.pageCount) {
+    if (this.state.loadingMore || this.state.pageCount > this.props.booking.listActive.totalCount / 10) {
       return;
     }
     await this.setState({ loadingMore: true, pageCount: this.state.pageCount + 1 });
@@ -114,7 +114,7 @@ class TabProcess extends PureComponent {
 
   _getList() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    this.props.actions.booking.getListBookingProcess(accessTokenApi, this.state.pageCount,this.props.app.languegeLocal);
+    this.props.actions.booking.getListBookingProcess(accessTokenApi, this.state.pageCount, this.props.app.languegeLocal);
   }
 
   renderFooter = () => {};

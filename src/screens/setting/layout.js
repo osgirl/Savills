@@ -51,6 +51,7 @@ export default class extends Component {
         selectedItem: index
       });
       this.props.actions.app.getSetting(accessTokenApi, index);
+      this.props.actions.utilities.getFAQ(accessTokenApi, index);
     } catch (error) {
       console.log(error);
     }

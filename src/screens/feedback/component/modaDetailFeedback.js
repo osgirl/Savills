@@ -336,7 +336,7 @@ class ModalDetailFeedback extends Component {
           >
             {
               <ItemScorll
-                title={languages.FB_DT_DESCRIPTION}
+                title={languages.FB_DT_INFO}
                 view={
                   <View
                     style={{

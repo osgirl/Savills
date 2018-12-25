@@ -4,9 +4,9 @@ import moment from 'moment';
 import Connect from '@stores';
 import EmptyItemList from '@components/emptyItemList';
 import ItemBooking from '@components/itemBooking';
-import Resolution from '@utils/resolution';
 import Configs from '@utils/configs';
 import { ItemPlaceHolderH } from '@components/placeHolderItem';
+import Resolution from '@utils/resolution';
 class TabComplete extends PureComponent {
   constructor(props) {
     super(props);
@@ -52,13 +52,14 @@ class TabComplete extends PureComponent {
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => item.reservationId.toString()}
             data={this.state.listData}
+            removeClippedSubviews={true}
             extraData={this.state}
             renderItem={({ item, index }) => <ItemBooking item={item} index={index} action={() => this.clickDetail(item, 2)} />}
             onScroll={this.props.onScroll}
             scrollEventThrottle={16}
+            getItemLayout={(data, index) => ({ length: Resolution.scale(170), offset: Resolution.scale(170) * index, index })}
             onEndReached={() => this._onEndReached()}
             onEndReachedThreshold={0.01}
-            // ListFooterComponent={() => this._FooterFlatlist()}
             legacyImplementation={false}
             refreshControl={
               <RefreshControl
@@ -90,7 +91,7 @@ class TabComplete extends PureComponent {
   }
 
   async _onEndReached() {
-    if (this.state.loadingMore || this.state.pageCount == this.props.booking.listComplete.pageCount) {
+    if (this.state.loadingMore || this.state.pageCount > this.props.booking.listComplete.totalCount / 10) {
       return;
     }
     await this.setState({ loadingMore: true, pageCount: this.state.pageCount + 1 });

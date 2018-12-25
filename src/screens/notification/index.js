@@ -46,7 +46,6 @@ class Notification extends layout {
       await this.setState({ data: nextProps.notification.listNoti.items });
       await this.setState({ loadingMore: false, isRefresh: false, isLoadData: false });
     }
-
     if (this.props.notification.updateRead !== nextProps.notification.updateRead && nextProps.notification.updateRead.success) {
       let unitID = this.props.units.unitActive.unitId;
       let accessTokenAPI = this.props.account.accessTokenAPI;
@@ -64,7 +63,6 @@ class Notification extends layout {
     }
     this.setState({ data: tempArr });
     this.props.actions.notification.updateRead(accessTokenAPI, item.id);
-    // this.props.onClickItem(item.notification.data.properties);
     this._handleNotification(item.notification);
   }
 
@@ -97,7 +95,6 @@ class Notification extends layout {
   }
 
   _handleNotification = notification => {
-    console.log('asdasdasdasdasdasda', notification);
     this.mapNavigateToScreen(notification);
   };
 
@@ -105,7 +102,6 @@ class Notification extends layout {
     let routeName = '';
     const type = notification.data.properties.Type ? notification.data.properties.Type : 0;
     const itemtype = notification.data.properties.Id ? notification.data.properties.Id : 0;
-    console.log('itemtype', itemtype);
     switch (parseInt(type)) {
       case 1:
         routeName = 'Fee';
