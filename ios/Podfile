@@ -17,7 +17,6 @@ target 'Savills' do
     'RCTVibration',
     'RCTWebSocket',
     'CxxBridge',
-    'BatchedBridge'
 'DevSupport',
   ]
 
