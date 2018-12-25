@@ -30,9 +30,8 @@ import Button from '@components/button';
 import Resolution from '@utils/resolution';
 import AnimatedTitle from '@components/animatedTitle';
 import IC_CHATEMTY from '@resources/icons/chat_emty.png';
-
 import ModalChat from '../../../components/modalChat';
-
+import Configs from '@utils/configs';
 const HEADER_MAX_HEIGHT = 60;
 const { width, height } = Dimensions.get('window');
 
@@ -218,10 +217,7 @@ class ModalDetailBooking extends PureComponent {
                   flexDirection: 'row'
                 }}
               >
-                <Image
-                  style={{ width: 30, height: 30 }}
-                  source={{ uri: 'https://cdn4.iconfinder.com/data/icons/sports-balls/1024/Tennis_ball.png' }}
-                />
+                <Image style={{ width: 30, height: 30 }} source={{ uri: `${Configs.API_BOOKING}${amenity.iconPath}` }} />
                 <Text style={{ color: '#343D4D', fontWeight: 'bold', fontSize: 13, flex: 1, marginLeft: 20 }}>
                   {amenity.amenityName}
                 </Text>

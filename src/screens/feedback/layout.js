@@ -46,19 +46,7 @@ export default class extends Component {
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
-        listener: event => {
-          // if (event.nativeEvent.contentOffset.y > 10) {
-          //   if (!this.showCenter) {
-          //     this.showCenter = true;
-          //     this.setState({ isShowTitleHeader: true });
-          //   }
-          // } else {
-          //   if (this.showCenter) {
-          //     this.showCenter = false;
-          //     this.setState({ isShowTitleHeader: false });
-          //   }
-          // }
-        }
+        listener: event => {}
       },
       { useNativeDriver: true }
     )(event);
@@ -80,7 +68,7 @@ export default class extends Component {
     const isShow = this.state.scrollY.interpolate({
       inputRange: [0, 15],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: 'clamp'
     });
     return (
       <View>
@@ -145,11 +133,7 @@ export default class extends Component {
                 />
               }
               ListEmptyComponent={() => {
-                return (
-                  <EmptyItemList
-                    message={`Bạn chưa có phản hồi tạo phẩn hồi \n ở đây nhé!`}
-                  />
-                );
+                return <EmptyItemList message={`Bạn chưa có phản hồi tạo phẩn hồi \n ở đây nhé!`} />;
               }}
               contentInset={{
                 top: HEADER_MAX_HEIGHT
