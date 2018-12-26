@@ -40,7 +40,7 @@ class Feedback extends layout {
     this._getList();
     this._getListCompleted();
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.props.actions.feedback.getListCategory(accessTokenApi, languege);
     this.props.actions.feedback.getTypeFeedback(accessTokenApi, languege);
     let ida = this.props.navigation.getParam('params', false);
@@ -91,13 +91,13 @@ class Feedback extends layout {
 
   _getList(pageCount = this.state.pageCount) {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.props.actions.feedback.getListFeedback(accessTokenApi, languege, pageCount);
   }
 
   _getListCompleted(pageCountCompleted = this.state.pageCountCompleted) {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.props.actions.feedback.getListFeedbackCompleted(accessTokenApi, languege, pageCountCompleted);
   }
 

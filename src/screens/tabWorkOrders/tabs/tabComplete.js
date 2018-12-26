@@ -46,6 +46,8 @@ class TabComplete extends PureComponent {
   }
 
   render() {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.state.isLoadData === false ? (
@@ -72,7 +74,7 @@ class TabComplete extends PureComponent {
               />
             }
             ListEmptyComponent={() => {
-              return <EmptyItemList message={'Bạn chưa có workOrder nào \n hãy tạo ngay cho mình \n ở đây nhé !'} />;
+              return <EmptyItemList message={languages.WO_EMPTY_LIST} />;
             }}
           />
         ) : (
@@ -114,8 +116,9 @@ class TabComplete extends PureComponent {
 
   _getList() {
     let accessTokenApi = this.props.account.accessTokenAPI;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     const { id } = this.props.userProfile.profile.result.user;
-    this.props.actions.workOrder.getWorkOrderListComplete(accessTokenApi, id, this.state.pageCount, this.props.app.languegeLocal);
+    this.props.actions.workOrder.getWorkOrderListComplete(accessTokenApi, id, this.state.pageCount, languages);
   }
 }
 

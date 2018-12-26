@@ -68,7 +68,8 @@ class ModalDetailBooking extends PureComponent {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     let accessTokenApi = this.props.account.accessTokenAPI;
     let id = this.props.navigation.getParam('id', null);
-    this.props.actions.booking.getDetailBooking(accessTokenApi, id, this.props.app.languegeLocal);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+    this.props.actions.booking.getDetailBooking(accessTokenApi, id, languages);
     this.props.actions.workOrder.getCommentUnread(accessTokenApi, id, 3);
   };
 
@@ -88,7 +89,6 @@ class ModalDetailBooking extends PureComponent {
       this.props.booking.detailBooking != nextProps.booking.detailBooking
     ) {
       this.setState({ loading: false });
-      nextProps.actions.workOrder.getCommentUser(accessTokenApi, nextProps.booking.detailBooking.result.guid);
     }
     if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
       this.setState({ listChat: nextProps.workOrder.listComment.result.items });
@@ -172,6 +172,7 @@ class ModalDetailBooking extends PureComponent {
       createdAt,
       fullUnitId,
       name,
+      guid,
       remark,
       reservationId,
       endDate,
@@ -285,13 +286,6 @@ class ModalDetailBooking extends PureComponent {
                     </View>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
-                    {languages.BK_DETAIL_CREATE_DAY}
-                  </Text>
-                  <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.calendar} />
-                  <Text style={{ color: '#C9CDD4', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{createDate}</Text>
-                </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13, marginVertical: 10 }}>
                     {languages.BK_DETAIL_TIME}
@@ -300,7 +294,13 @@ class ModalDetailBooking extends PureComponent {
                     'hh:mm'
                   )} - ${moment(endDate).format('hh:mm')}`}</Text>
                 </View>
-
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                    {languages.BK_DETAIL_CREATE_DAY}
+                  </Text>
+                  <Image style={{ marginRight: 10, width: 15, height: 15 }} source={IMAGE.calendar} />
+                  <Text style={{ color: '#C9CDD4', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>{createDate}</Text>
+                </View>
                 {paymentStatus === null ? null : (
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
@@ -342,7 +342,12 @@ class ModalDetailBooking extends PureComponent {
             bottom: tabIndex && tabIndex === 2 ? 20 : 80,
             right: 20
           }}
-          onPress={() => this.setState({ isShowChat: true })}
+          onPress={() =>
+            this.setState({ isShowChat: true }, () => {
+              let accessTokenApi = this.props.account.accessTokenAPI;
+              this.props.actions.workOrder.getCommentUser(accessTokenApi, guid);
+            })
+          }
         >
           <Image source={IMAGE.chatBig} />
           {this.props.workOrder.commentUnread &&
@@ -412,8 +417,9 @@ class ModalDetailBooking extends PureComponent {
         isVisible={this.state.isShowChat}
         title={IdBooking}
         idUser={id}
+        chatEmpty={languages.BK_DETAIL_CHAT_EMPTY}
         colors={tabIndex === 2 ? ['#dedede', '#dedede'] : ['#4A89E8', '#8FBCFF']}
-        placeHolderText={languages.BK_DETAIL_CHAT}
+        placeholder={languages.BK_DETAIL_CHAT}
         listComment={this.state.listChat}
         editableTextInput={tabIndex && tabIndex == 2 ? false : true}
         disabledBtn={this.state.chatText.trim() == '' ? true : false}

@@ -73,7 +73,7 @@ class ModalDetailFeedback extends Component {
   _getDetail() {
     const { commentBoxId } = this.props;
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     setTimeout(() => {
       this.props.actions.feedback.getDetail(accessTokenApi, languege, commentBoxId);
     }, 300);
@@ -86,7 +86,7 @@ class ModalDetailFeedback extends Component {
   componentWillReceiveProps(nextProps) {
     const { itemSelected } = this.props;
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
 
     if (
       this.props.feedback.detailFeedback &&
@@ -95,7 +95,6 @@ class ModalDetailFeedback extends Component {
     ) {
       this.setState({ data: nextProps.feedback.detailFeedback.result });
       this.props.actions.feedback.getCommentUnread(accessTokenApi, nextProps.feedback.detailFeedback.result.commentBoxId, 6);
-      this.props.actions.feedback.getCommentUser(accessTokenApi, nextProps.feedback.detailFeedback.result.guid);
     }
 
     if (this.props.feedback.listComment !== nextProps.feedback.listComment && nextProps.feedback.listComment.success) {
@@ -144,7 +143,7 @@ class ModalDetailFeedback extends Component {
   };
 
   async _updateStatus() {
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     if (this.state.loadingUpdateStatus) {
       return;
     }
@@ -475,7 +474,12 @@ class ModalDetailFeedback extends Component {
             bottom: 50,
             right: 20
           }}
-          onPress={() => this.setState({ isShowChat: true })}
+          onPress={() =>
+            this.setState({ isShowChat: true }, () => {
+              let accessTokenApi = this.props.account.accessTokenAPI;
+              this.props.actions.feedback.getCommentUser(accessTokenApi, this.props.feedback.detailFeedback.result.guid);
+            })
+          }
         >
           <Image source={require('../../../resources/icons/chat-big.png')} />
           {this.props.feedback.commentUnread.result && this.props.feedback.commentUnread.result[0].unreadCount > 0 && (
@@ -499,7 +503,7 @@ class ModalDetailFeedback extends Component {
           )}
         </Button>
 
-        {this.state.data ? this.renderContentModalChat() : null}
+        {this.state.data ? this.renderContentModalChat(languages) : null}
       </View>
     );
   }
@@ -511,6 +515,8 @@ class ModalDetailFeedback extends Component {
         isVisible={this.state.isShowChat}
         title={this.state.data && this.state.data.commentBoxId}
         idUser={id}
+        placeholde={languages.FB_DETAIL_CHAT}
+        chatEmpty={languages.FB_DETAIL_CHAT_EMPTY}
         listComment={this.state.listComment}
         editableTextInput={this.state.data && this.state.data.statusCode !== 'SUBMITTED' ? true : false}
         disabledBtn={this.state.comment.trim().length > 0 ? false : true}

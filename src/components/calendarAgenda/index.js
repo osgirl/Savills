@@ -43,7 +43,7 @@ class DateItem extends PureComponent {
         >
           <View
             style={[
-              { borderRadius: 13, width: 26, height: 26,alignItems:'center',justifyContent:'center' },
+              { borderRadius: 13, width: 26, height: 26, alignItems: 'center', justifyContent: 'center' },
               { backgroundColor: highlight ? highlightBgColor : normalBgColor }
             ]}
           >
@@ -211,12 +211,12 @@ class CalendarStrip extends Component {
   };
 
   render() {
-    const { isChinese, markedDate, onPressDate, selectedDate, showChineseLunar } = this.props;
+    const { markedDate, onPressDate, selectedDate, showChineseLunar, language } = this.props;
     const marked = markedDate.map(ds => this._stringToDate(ds));
     return (
       <View style={styles.container} {...this._panResponder.panHandlers}>
         {/* {this._renderHeader()} */}
-        <Weeks isChinese={isChinese} />
+        <Weeks language={language} />
         <FlatList
           ref={ref => (this._calendar = ref)}
           bounces={false}

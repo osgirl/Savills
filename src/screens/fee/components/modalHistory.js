@@ -46,7 +46,7 @@ class modalHistory extends Component {
   componentDidMount() {
     let unitActive = this.props.units.unitActive;
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     setTimeout(() => {
       this.props.actions.fee.getListHistory(accessTokenApi, languege, unitActive.fullUnitCode);
     }, 300);
@@ -91,7 +91,7 @@ class modalHistory extends Component {
           <FlatList
             showsVerticalScrollIndicator={false}
             data={this.state.data}
-            renderItem={({ item, index }) => this.renderItem(item)}
+            renderItem={({ item, index }) => this.renderItem(item, languages)}
             keyExtractor={(item, index) => item.id.toString()}
             onScroll={this.handleScroll}
             onEndReachedThreshold={0.01}
@@ -117,7 +117,7 @@ class modalHistory extends Component {
     );
   }
 
-  renderItem(item, index) {
+  renderItem(item, languages) {
     let date = moment(item.creationTime).format('l');
     return (
       <View style={{ width: width - 40, marginHorizontal: 20 }}>
@@ -126,7 +126,7 @@ class modalHistory extends Component {
           <View style={{ flexDirection: 'column', backgroundColor: '#FFFFFF', borderRadius: 5, padding: 20, flex: 1 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1 }}>
               <Text numberOfLines={2} style={{ fontSize: 13, flex: 0.4, fontFamily: 'OpenSans-SemiBold', color: '#BABFC8' }}>
-                {'Invoice #'}
+                {`${languages.FEE_HISTORY_INVOICE} #`}
               </Text>
               <Text
                 numberOfLines={2}

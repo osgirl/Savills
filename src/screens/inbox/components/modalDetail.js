@@ -20,8 +20,8 @@ import Resolution from '../../../utils/resolution';
 import Connect from '@stores';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import HTML from 'react-native-render-html';
-import AnimatedTitle from "@components/animatedTitle";
-import ModalChat from "@components/modalChat";
+import AnimatedTitle from '@components/animatedTitle';
+import ModalChat from '@components/modalChat';
 import Button from '@components/button';
 import _ from 'lodash';
 import Configs from '../../../utils/configs';
@@ -29,34 +29,29 @@ import Configs from '../../../utils/configs';
 const { width, height } = Dimensions.get('window');
 
 const HEADER_MAX_HEIGHT = 60;
-import Language from '../../../utils/language';
-
 class ModalDetailFeedback extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      scrollY: new Animated.Value(
-        Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
-      ),
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       imgSelected: null,
       showImage: false,
       data: null,
 
       isShowChat: false,
       comment: '',
-      listComment: [],
+      listComment: []
     };
   }
 
   handleScroll = event => {
-    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {
-    })(event);
+    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {})(event);
   };
 
   componentDidMount() {
     const { accessTokenAPI } = this.props.account;
     const { inboxId } = this.props;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     setTimeout(() => {
       this.props.actions.inbox.getDetail(accessTokenAPI, languege, inboxId);
     }, 300);
@@ -82,8 +77,6 @@ class ModalDetailFeedback extends Component {
       this.textInput.clear();
       this.props.actions.inbox.getCommentUser(accessTokenApi, nextProps.inbox.detailInbox.result.guid);
     }
-
-
   }
 
   renderLoading() {
@@ -115,12 +108,12 @@ class ModalDetailFeedback extends Component {
 
   render() {
     const { data } = this.state;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
     const isShow = this.state.scrollY.interpolate({
       inputRange: [0, 15],
       outputRange: [0, 1],
-      extrapolate: 'clamp',
+      extrapolate: 'clamp'
     });
 
     return (
@@ -133,32 +126,29 @@ class ModalDetailFeedback extends Component {
           showTitleHeader={true}
           center={
             <Animated.View style={{ opacity: isShow }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.IB_DT_TITLEHEADER}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.IB_DT_TITLEHEADER}</Text>
             </Animated.View>
           }
         />
-        <AnimatedTitle
-          scrollY={this.state.scrollY}
-          label={LG.IB_DT_TITLEHEADER}
-        />
+        <AnimatedTitle scrollY={this.state.scrollY} label={languages.IB_DT_TITLEHEADER} />
         {data ? (
           <ScrollView
             scrollEventThrottle={1}
             onScroll={this.handleScroll}
             contentContainerStyle={{
-              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
             }}
             contentInset={{
-              top: HEADER_MAX_HEIGHT,
+              top: HEADER_MAX_HEIGHT
             }}
             contentOffset={{
-              y: -HEADER_MAX_HEIGHT,
+              y: -HEADER_MAX_HEIGHT
             }}
           >
             <View>
               {data.subject && (
                 <ItemScorll
-                  title={LG.IB_DT_TITLE}
+                  title={languages.IB_DT_TITLE}
                   view={
                     <View
                       style={{
@@ -166,7 +156,7 @@ class ModalDetailFeedback extends Component {
                         flex: 1,
                         borderRadius: 10,
                         backgroundColor: '#FFF',
-                        padding: Resolution.scale(20),
+                        padding: Resolution.scale(20)
                         // justifyContent: 'space-around'
                       }}
                     >
@@ -177,7 +167,7 @@ class ModalDetailFeedback extends Component {
               )}
               {data.content && (
                 <ItemScorll
-                  title={LG.IB_DT_DESCRIPT}
+                  title={languages.IB_DT_DESCRIPT}
                   view={
                     <View
                       style={{
@@ -185,7 +175,7 @@ class ModalDetailFeedback extends Component {
                         flex: 1,
                         borderRadius: 10,
                         backgroundColor: '#FFF',
-                        padding: Resolution.scale(20),
+                        padding: Resolution.scale(20)
                         // justifyContent: 'space-around'
                       }}
                     >
@@ -197,7 +187,7 @@ class ModalDetailFeedback extends Component {
               )}
               {data.fileUrl && (
                 <ItemScorll
-                  title={LG.IB_DT_IMAGE}
+                  title={languages.IB_DT_IMAGE}
                   view={
                     <ScrollView
                       style={{
@@ -218,8 +208,8 @@ class ModalDetailFeedback extends Component {
             </View>
           </ScrollView>
         ) : (
-            this.renderLoading()
-          )}
+          this.renderLoading()
+        )}
         <Button
           style={{
             position: 'absolute',
@@ -266,14 +256,12 @@ class ModalDetailFeedback extends Component {
         editableTextInput={this.state.data ? true : false}
         disabledBtn={this.state.comment.trim().length > 0 ? false : true}
         addComment={() => this.addComment()}
-        onChangeText={(text) => this.setState({ comment: text })}
+        onChangeText={text => this.setState({ comment: text })}
         opacityBtnSend={this.state.comment.trim() == '' ? 0.5 : 1}
         onClose={() => this.setState({ isShowChat: false })}
-        refTextInout={
-          input => {
-            this.textInput = input;
-          }
-        }
+        refTextInout={input => {
+          this.textInput = input;
+        }}
       />
     );
   }

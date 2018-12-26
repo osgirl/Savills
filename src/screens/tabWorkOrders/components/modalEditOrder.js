@@ -69,6 +69,7 @@ class ModalEditOrder extends PureComponent {
       loading: true,
       vote: 0,
       description: '',
+      commentRating: '',
       comment: '',
       scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isShowTitleHeader: false,
@@ -87,7 +88,8 @@ class ModalEditOrder extends PureComponent {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     let accessTokenAPI = this.props.account.accessTokenAPI;
     let id = this.props.navigation.getParam('id', 0);
-    await this.props.actions.workOrder.detailWordOrder(accessTokenAPI, id, this.props.app.languegeLocal);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+    await this.props.actions.workOrder.detailWordOrder(accessTokenAPI, id, languages);
     this.props.actions.workOrder.getCommentUnread(accessTokenAPI, id, 2);
   };
 
@@ -127,7 +129,7 @@ class ModalEditOrder extends PureComponent {
           ? nextProps.workOrder.workOrderDetail.result.fileUrls
           : []
       });
-      this.props.actions.workOrder.getCommentUser(accessTokenAPI, nextProps.workOrder.workOrderDetail.result.guid);
+      // this.props.actions.workOrder.getCommentUser(accessTokenAPI, nextProps.workOrder.workOrderDetail.result.guid);
     }
     if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
       this.setState({ listComment: nextProps.workOrder.listComment.result.items });
@@ -264,6 +266,7 @@ class ModalEditOrder extends PureComponent {
       fullUnitCode: fullUnitCode,
       description: this.state.description,
       sourceId: 3,
+      RatingComment: this.state.commentRating,
       rating: this.state.vote,
       dateCreate: this.state.detailOrder.dateCreate,
       maintainanceTeamId: 1,
@@ -317,7 +320,7 @@ class ModalEditOrder extends PureComponent {
   }
 
   render() {
-    const { fullUnitCode, currentStatus, dateCreate, id, rating, description } = this.state.detailOrder;
+    const { fullUnitCode, currentStatus, dateCreate, id, rating, description, area, ratingComment } = this.state.detailOrder;
     let date = moment(dateCreate).format('l');
     let time = moment(dateCreate).format('LT');
     let tabIndex = this.props.navigation.getParam('tabIndex', false);
@@ -409,7 +412,7 @@ class ModalEditOrder extends PureComponent {
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_DETAIL_AREA}</Text>
-                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{languages.WO_DETAIL_APARTEMENT}</Text>
+                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{area.codeName}</Text>
                 </View>
               </View>
             }
@@ -470,7 +473,7 @@ class ModalEditOrder extends PureComponent {
             }
           />
 
-          {rating > 0 && description != '' ? (
+          {rating > 0 && ratingComment != '' ? (
             <ItemScorll
               title={languages.WO_DETAIL_REVIEWED}
               view={
@@ -490,7 +493,7 @@ class ModalEditOrder extends PureComponent {
                     <Text style={{ color: '#505E75', fontSize: 60, fontWeight: 'bold' }}>{rating}.0</Text>
                     <View style={{ flexDirection: 'row', alignSelf: 'center' }}>{this.renderStartDetail(rating)}</View>
                   </View>
-                  <Text style={{ flex: 1, marginLeft: 10 }}>{description}</Text>
+                  <Text style={{ flex: 1, marginLeft: 10 }}>{ratingComment}</Text>
                 </View>
               }
             />
@@ -587,7 +590,12 @@ class ModalEditOrder extends PureComponent {
                 : 20,
             right: 20
           }}
-          onPress={() => this.setState({ isShowChat: true })}
+          onPress={() =>
+            this.setState({ isShowChat: true }, () => {
+              let accessTokenAPI = this.props.account.accessTokenAPI;
+              this.props.actions.workOrder.getCommentUser(accessTokenAPI, this.state.detailOrder.guid);
+            })
+          }
         >
           <Image source={require('@resources/icons/chat-big.png')} />
           {this.props.workOrder.commentUnread &&
@@ -661,10 +669,8 @@ class ModalEditOrder extends PureComponent {
   }
 
   renderFooter = languages => {
-    if (
-      this.state.detailOrder.currentStatus &&
-      (this.state.detailOrder.currentStatus.id == 11 || this.state.detailOrder.currentStatus.id == 13)
-    ) {
+    let tabIndex = this.props.navigation.getParam('tabIndex', false);
+    if (tabIndex == 0) {
       return (
         <View
           style={{
@@ -812,7 +818,7 @@ class ModalEditOrder extends PureComponent {
                 autoCapitalize="sentences"
                 autoCorrect={true}
                 onSubmitEditing={() => Keyboard.dismiss()}
-                onChangeText={e => this.setState({ description: e })}
+                onChangeText={e => this.setState({ commentRating: e })}
               />
               <TouchableOpacity onPress={() => this.changeStatusWorkOrder(15)}>
                 <LinearGradient
@@ -894,7 +900,8 @@ class ModalEditOrder extends PureComponent {
         isVisible={this.state.isShowChat}
         title={IdOrder}
         idUser={id}
-        placeHolderText={languages.BK_DETAIL_CHAT}
+        chatEmpty={languages.WO_DETAIL_CHAT_EMPTY}
+        placeholder={languages.WO_DETAIL_CHAT}
         listComment={this.state.listComment}
         editableTextInput={this.state.detailOrder.currentStatus.id === 11 ? true : false}
         disabledBtn={this.state.comment.trim() == '' ? true : false}

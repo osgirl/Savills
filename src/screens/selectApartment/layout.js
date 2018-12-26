@@ -47,7 +47,7 @@ export default class extends Component {
     // }
 
     render() {
-        let LG = Language.listLanguage[this.props.app.languegeLocal].data
+        let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
         return (
             <ImageBackground
                 source={IMG_BG}
@@ -55,7 +55,7 @@ export default class extends Component {
                 style={Style.container}
             >
                 <Text style={{ color: '#505E75', fontSize: 15, marginTop: 123, fontFamily: 'OpenSans-Bold' }}>
-                    {LG.APARTMENT_TXT_CONTENT}
+                    {languages.APARTMENT_TXT_CONTENT}
                 </Text>
                 <View style={Style.viewBottom}>
                     <FlatList

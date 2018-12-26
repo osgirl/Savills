@@ -68,9 +68,8 @@ export default class extends Component {
   }
 
   render() {
-    // let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    let LG = this.props.app.listLanguage[this.props.app.languegeLocal].data;
-    let iconFlag = Language.listLanguage[this.props.app.languegeLocal].icon;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+    let iconFlag = Language.listLanguage[0].icon;
     return (
       <View style={Style.container}>
         <KeyboardAwareScrollView>
@@ -82,13 +81,13 @@ export default class extends Component {
                 haveMargin={false}
                 color={'#4A89E8'}
                 onPress={() => this._toggleModalLanguage()}
-                text={iconFlag + ' ' + LG.LOGIN_BTN_LANGUAGE}
+                text={iconFlag + ' ' + languages.LOGIN_BTN_LANGUAGE}
                 fontFamily={'OpenSans-Regular'}
               />
             </View>
             <View style={{ marginTop: Resolution.scale(105) }}>
-              <Text style={Style.txtTop}>{LG.LOGIN_TITLE_1}</Text>
-              <Text style={Style.txtTop}>{LG.LOGIN_TITLE_2}</Text>
+              <Text style={Style.txtTop}>{languages.LOGIN_TITLE_1}</Text>
+              <Text style={Style.txtTop}>{languages.LOGIN_TITLE_2}</Text>
               <Image
                 source={IMG_LOGIN}
                 style={{
@@ -114,7 +113,7 @@ export default class extends Component {
                 </Text>
               ) : null}
               <InputText
-                placeholder={LG.LOGIN_TXT_PLACEHOLDER_EMAIL}
+                placeholder={languages.LOGIN_TXT_PLACEHOLDER_EMAIL}
                 iconLeft={IC_EMAIL}
                 keyboardType="email-address"
                 onChange={data => {
@@ -123,7 +122,7 @@ export default class extends Component {
                 style={this.props.account.error ? Style.errorTextinput : null}
               />
               <InputText
-                placeholder={LG.LOGIN_TXT_PLACEHOLDER_PASSWORD}
+                placeholder={languages.LOGIN_TXT_PLACEHOLDER_PASSWORD}
                 iconLeft={IC_PASS}
                 secureTextEntry
                 marginVertical={Resolution.scale(20)}
@@ -148,7 +147,7 @@ export default class extends Component {
                       fontFamily: 'OpenSans-SemiBold'
                     }}
                   >
-                    {LG.LOGIN_BTN_LOGIN}
+                    {languages.LOGIN_BTN_LOGIN}
                   </Text>
                 </LinearGradient>
               </Button>
@@ -161,7 +160,7 @@ export default class extends Component {
                   haveMargin={false}
                   color={'#BABFC8'}
                   onPress={() => this._gotoForgotPassword()}
-                  text={LG.LOGIN_TXT_FORGOTPASSWORD + ' ?'}
+                  text={languages.LOGIN_TXT_FORGOTPASSWORD + ' ?'}
                 />
               </View>
             </View>

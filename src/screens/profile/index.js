@@ -29,7 +29,8 @@ class Profile extends Layout {
   componentDidMount() {
     let accessTokenApi = this.props.account.accessTokenAPI;
     setTimeout(() => {
-      this.props.actions.app.getSetting(accessTokenApi, this.props.app.languegeLocal);
+      let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+      this.props.actions.app.getSetting(accessTokenApi, languege);
     }, 300);
   }
 

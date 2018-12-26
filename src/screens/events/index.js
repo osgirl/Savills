@@ -35,13 +35,13 @@ class Events extends Layout {
     if (ida.itemtype) {
       setTimeout(() => {
         this._openModalDetail(ida.itemtype);
-      }, 300)
+      }, 300);
     }
   }
 
   _getEvent() {
     this.setState({ loadingFetching: true });
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     const accessTokenApi = this.props.account.accessTokenAPI;
     const buildingID = this.props.units.unitActive.buildingId;
     let date = new Date();
@@ -61,14 +61,12 @@ class Events extends Layout {
 
     //selected date
     if (this.props.events.eventsOfDate !== nextProps.events.eventsOfDate && nextProps.events.eventsOfDate.success) {
-      this.setState({ myEvent: nextProps.events.eventsOfDate.result.items, loadingFetching: false })
+      this.setState({ myEvent: nextProps.events.eventsOfDate.result.items, loadingFetching: false });
     }
 
     if (this.props.events.eventsOfDate !== nextProps.events.eventsOfDate && !nextProps.events.eventsOfDate.success) {
-      this.setState({ loadingFetching: false })
+      this.setState({ loadingFetching: false });
     }
-
-
 
     if (this.props.events.overView !== nextProps.events.overView && nextProps.events.overView.success) {
       let tempOverView = await nextProps.events.overView.result;

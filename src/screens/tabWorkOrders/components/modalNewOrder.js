@@ -30,16 +30,6 @@ import AnimatedTitle from '@components/animatedTitle';
 import Connect from '@stores';
 import AlertWarning from '@components/alertWarning';
 const { width, height } = Dimensions.get('window');
-const options = {
-  title: 'Select Image',
-  storageOptions: {
-    skipBackup: true,
-    path: 'images'
-  },
-  quality: 1,
-  maxWidth: width, // photos only
-  maxHeight: height // photos only
-};
 
 const HEADER_MAX_HEIGHT = 60;
 
@@ -129,7 +119,21 @@ class ModalNewOrder extends PureComponent {
     });
   }
 
-  getPhotos() {
+  getPhotos(languages) {
+    const options = {
+      title: languages.WO_SELECT_IMAGE,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      },
+      quality: 1,
+      maxWidth: width,
+      maxHeight: height,
+      cancelButtonTitle: languages.WO_CANCEL_SELECT_IMAGE,
+      takePhotoButtonTitle: languages.WO_TAKE_PHOTO,
+      chooseFromLibraryButtonTitle: languages.WO_CHOOSE_FROM_LIBRARY
+    };
+
     let ListImage = this.state.imageList.slice();
     let ListImageBase64 = this.state.imageListBase64.slice();
     ImagePicker.showImagePicker(options, response => {
@@ -338,7 +342,7 @@ class ModalNewOrder extends PureComponent {
                   showsHorizontalScrollIndicator={false}
                   horizontal
                 >
-                  {this.state.imageList.map((item, index) => this.renderItemImage(item, index))}
+                  {this.state.imageList.map((item, index) => this.renderItemImage(item, index, languages))}
                 </ScrollView>
               }
             />
@@ -571,11 +575,11 @@ class ModalNewOrder extends PureComponent {
     );
   };
 
-  renderItemImage = (item, index) => {
+  renderItemImage = (item, index, languages) => {
     if (index === 0) {
       return (
         <TouchableOpacity
-          onPress={() => this.getPhotos()}
+          onPress={() => this.getPhotos(languages)}
           key={index}
           style={{
             width: 90,

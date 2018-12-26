@@ -59,7 +59,18 @@ function* logoutNoti(action) {
   }
 }
 
+function* changeLanguageServer(action) {
+  try {
+    // console.log('asdklasjdajsdklasjdlkasda', action);
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.CHANGE_LANGUAGE_SERVER_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export default function* saga() {
+  yield takeLatest(Types.CHANGE_LANGUAGE_SERVER, changeLanguageServer);
   yield takeLatest(Types.LOGOUT_NOTI, logoutNoti);
   yield takeLatest(Types.GET_LANGUAGE_APP, getLanguageApp);
   yield takeLatest(Types.GET_SETTING, getSetting);

@@ -38,7 +38,7 @@ import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-import IC_EMTY_FB from "../../resources/icons/Emty_feedback.png";
+import IC_EMTY_FB from '../../resources/icons/Emty_feedback.png';
 
 import Language from '../../utils/language';
 
@@ -51,7 +51,7 @@ export default class extends Component {
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
-        listener: event => { }
+        listener: event => {}
       },
       { useNativeDriver: true }
     )(event);
@@ -63,14 +63,13 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(40) }} />
-      );
+      <View style={{ height: Resolution.scale(40) }} />
+    );
   }
 
   render() {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     let unitActive = this.props.units.unitActive;
-
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, 10, 30],
       outputRange: [60, 30, 0],
@@ -109,7 +108,7 @@ export default class extends Component {
           showTitleHeader={true}
           center={
             <Animated.View style={{ opacity: opacityTextHeader }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FB_TITLEHEADER}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.FB_TITLEHEADER}</Text>
             </Animated.View>
           }
           renderViewRight={
@@ -123,19 +122,29 @@ export default class extends Component {
           }
         />
         <StatusBar barStyle="light-content" hidden={false} />
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ width: width, zIndex: -10 }}>
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ width: width, zIndex: -10 }}
+        >
           <Animated.View
             style={{
               transform: [{ translateY: headerTranslate }],
-              height: headerHeight,
+              height: headerHeight
             }}
           >
-            <Animated.View style={{ opacity: opacityText, position: 'absolute', }}>
-              <HeaderTitle title={LG.FB_TITLEHEADER} />
+            <Animated.View style={{ opacity: opacityText, position: 'absolute' }}>
+              <HeaderTitle title={languages.FB_TITLEHEADER} />
             </Animated.View>
           </Animated.View>
         </LinearGradient>
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1, zIndex: 1 }}>
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ flex: 1, zIndex: 1 }}
+        >
           <ScrollableTabView
             ref={ScrollableTab => {
               this.ScrollableTab = ScrollableTab;
@@ -145,9 +154,8 @@ export default class extends Component {
             tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
             tabBarBackgroundColor={'transparent'}
           >
-            {this.ViewProcessing(this.state.data)}
-            {this.ViewCompleted(this.state.dataCompleted)}
-
+            {this.ViewProcessing(this.state.data, languages)}
+            {this.ViewCompleted(this.state.dataCompleted, languages)}
           </ScrollableTabView>
           <View
             style={{
@@ -169,116 +177,112 @@ export default class extends Component {
             commentBoxId={this.state.commentBoxId}
             onClose={() => this.setState({ isModalDetail: false })}
             onRefresh={() => {
-              this._onRefresh(),
-                this._onRefreshCompleted(),
-                this.ScrollableTab.goToPage(1);
+              this._onRefresh(), this._onRefreshCompleted(), this.ScrollableTab.goToPage(1);
             }}
           />
         </Modal>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNew}>
           <ModalNew onClose={() => this._onCloseModalNew()} />
         </Modal>
-      </View >
+      </View>
     );
   }
 
-  renderEmty(name) {
+  renderEmty(name, languages) {
     if (name === 'processing') {
-      return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, }}>
-        <Image source={IC_EMTY_FB} />
-        <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có góp ý'}</Text>
-      </View>
-    }
-    else if (name === 'Completed') {
-      return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-        <Image source={IC_EMTY_FB} />
-        <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có góp ý nào đã hủy'}</Text>
-      </View>
+      return (
+        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+          <Image source={IC_EMTY_FB} />
+          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+            {languages.FB_EMPTY_FEEDBACK}
+          </Text>
+        </View>
+      );
+    } else if (name === 'Completed') {
+      return (
+        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+          <Image source={IC_EMTY_FB} />
+          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+            {languages.FB_EMPTY_FEEDBACK_CANCEL}
+          </Text>
+        </View>
+      );
     } else {
-      <View style={{ alignItems: 'center', }}>
-        <ActivityIndicator
-          size={'large'}
-          color={Configs.colorMain}
-        />
-      </View>
+      <View style={{ alignItems: 'center' }}>
+        <ActivityIndicator size={'large'} color={Configs.colorMain} />
+      </View>;
     }
   }
 
-  ViewProcessing = list => {
-    // let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+  ViewProcessing = (list, languages) => {
     return (
-      <View tabLabel={'Processing'} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {
-          this.props.feedback.listFeedBack.success && this.props.feedback.listFeedBack.items.length === 0 ?
-            this.renderEmty('processing') :
-            this.state.isLoadData === false ?
-              <SwipeListView
-                useFlatList
-                alwaysBounceVertical={false}
-                showsVerticalScrollIndicator={false}
-                scrollEventThrottle={16}
-                keyExtractor={(item, index) => item.commentBoxId.toString()}
-                data={list}
-                refreshing={this.state.isRefresh}
-                onRefresh={() => this._onRefresh()}
-                // renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
-                // rightOpenValue={-80}
-                renderItem={({ item, index }) => this.renderItem(item, index)}
-                onScroll={this.handleScroll}
-                scrollEventThrottle={16}
-                onEndReachedThreshold={0.01}
-                onEndReached={() => this._onEndReached()}
-                legacyImplementation={false}
-                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                ListHeaderComponent={() => <View style={{ height: 20, }} />}
-                ListFooterComponent={() => this._FooterFlatlist()}
-              />
-              :
-              <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-                <ItemPlaceHolderH noMargin />
-              </View>
-        }
+      <View tabLabel={languages.FB_TAB_PROCESS} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {this.props.feedback.listFeedBack.success && this.props.feedback.listFeedBack.items.length === 0 ? (
+          this.renderEmty('processing', languages)
+        ) : this.state.isLoadData === false ? (
+          <SwipeListView
+            useFlatList
+            alwaysBounceVertical={false}
+            showsVerticalScrollIndicator={false}
+            scrollEventThrottle={16}
+            keyExtractor={(item, index) => item.commentBoxId.toString()}
+            data={list}
+            refreshing={this.state.isRefresh}
+            onRefresh={() => this._onRefresh()}
+            // renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
+            // rightOpenValue={-80}
+            renderItem={({ item, index }) => this.renderItem(item, index)}
+            onScroll={this.handleScroll}
+            scrollEventThrottle={16}
+            onEndReachedThreshold={0.01}
+            onEndReached={() => this._onEndReached()}
+            legacyImplementation={false}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+            ListHeaderComponent={() => <View style={{ height: 20 }} />}
+            ListFooterComponent={() => this._FooterFlatlist()}
+          />
+        ) : (
+          <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+            <ItemPlaceHolderH noMargin />
+          </View>
+        )}
       </View>
-
     );
   };
 
-  ViewCompleted = list => {
-    // let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+  ViewCompleted = (list, languages) => {
     return (
-      <View tabLabel={'Completed'} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {
-          this.props.feedback.listFeedBackCompleted.success && this.props.feedback.listFeedBackCompleted.items.length === 0 ?
-            this.renderEmty('Completed') :
-            this.state.isLoadDataCompleted === false ?
-              <SwipeListView
-                useFlatList
-                alwaysBounceVertical={false}
-                showsVerticalScrollIndicator={false}
-                scrollEventThrottle={16}
-                keyExtractor={(item, index) => item.commentBoxId.toString()}
-                data={list}
-                refreshing={this.state.isRefreshCompleted}
-                onRefresh={() => this._onRefreshCompleted()}
-                // renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
-                // rightOpenValue={-80}
-                renderItem={({ item, index }) => this.renderItem(item, index)}
-                onScroll={this.handleScroll}
-                scrollEventThrottle={16}
-                onEndReachedThreshold={0.01}
-                onEndReached={() => this._onEndReachedCompleted()}
-                legacyImplementation={false}
-                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                ListHeaderComponent={() => <View style={{ height: 20, }} />}
-                ListFooterComponent={() => this._FooterFlatlist()}
-              />
-              :
-              <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-                <ItemPlaceHolderH noMargin />
-              </View>
-        }
+      <View tabLabel={languages.FB_TAB_COMPLETE} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {this.props.feedback.listFeedBackCompleted.success && this.props.feedback.listFeedBackCompleted.items.length === 0 ? (
+          this.renderEmty('Completed', languages)
+        ) : this.state.isLoadDataCompleted === false ? (
+          <SwipeListView
+            useFlatList
+            alwaysBounceVertical={false}
+            showsVerticalScrollIndicator={false}
+            scrollEventThrottle={16}
+            keyExtractor={(item, index) => item.commentBoxId.toString()}
+            data={list}
+            refreshing={this.state.isRefreshCompleted}
+            onRefresh={() => this._onRefreshCompleted()}
+            // renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
+            // rightOpenValue={-80}
+            renderItem={({ item, index }) => this.renderItem(item, index)}
+            onScroll={this.handleScroll}
+            scrollEventThrottle={16}
+            onEndReachedThreshold={0.01}
+            onEndReached={() => this._onEndReachedCompleted()}
+            legacyImplementation={false}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+            ListHeaderComponent={() => <View style={{ height: 20 }} />}
+            ListFooterComponent={() => this._FooterFlatlist()}
+          />
+        ) : (
+          <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+            <ItemPlaceHolderH noMargin />
+          </View>
+        )}
       </View>
-
     );
   };
 

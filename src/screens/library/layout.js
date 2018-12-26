@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, FlatList, Image, StatusBar, Dimensions, ActivityIndicator, Platform, RefreshControl } from 'react-native';
+import {
+  View,
+  Text,
+  Animated,
+  FlatList,
+  Image,
+  StatusBar,
+  Dimensions,
+  ActivityIndicator,
+  Platform,
+  RefreshControl
+} from 'react-native';
 import Header from '@components/header';
 import IC_BACK from '@resources/icons/back-light.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
@@ -13,23 +24,21 @@ import ModalSelectUnit from '@components/modalSelectUnit';
 import Modal from 'react-native-modal';
 import Styles from './styles';
 
-import Utils from "../../utils";
+import Utils from '../../utils';
 
 import Resolution from '../../utils/resolution';
 
-import AnimatedTitle from "@components/animatedTitle";
+import AnimatedTitle from '@components/animatedTitle';
 import Language from '../../utils/language';
 
 import { ItemHorizontal2 } from '../../components/placeHolder';
-import { ItemPlaceHolderH } from "../../components/placeHolderItem";
-
+import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 
 const HEADER_MAX_HEIGHT = 60;
 
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
-
   handleScroll = event => {
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
@@ -58,13 +67,12 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
-      );
+      <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+    );
   }
 
-  renderHeader() {
+  renderHeader(languages) {
     let unitActive = this.props.units.unitActive;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View>
         <Header
@@ -75,7 +83,7 @@ export default class extends Component {
           showTitleHeader={this.state.isShowTitleHeader}
           center={
             <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.LB_TITLEHEADER}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.LB_TITLEHEADER}</Text>
             </View>
           }
           renderViewRight={
@@ -91,53 +99,50 @@ export default class extends Component {
           }
         />
 
-        <AnimatedTitle
-          scrollY={this.state.scrollY}
-          label={LG.LB_TITLEHEADER}
-        />
-
+        <AnimatedTitle scrollY={this.state.scrollY} label={languages.LB_TITLEHEADER} />
       </View>
     );
   }
 
   render() {
     let unitActive = this.props.units.unitActive;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
-        {this.renderHeader()}
-        {
-          this.state.data.length > 0 ?
-            // <View style={{ flex: 1 }}>
-            <FlatList
-              contentContainerStyle={{
-                paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
-              }}
-              data={this.state.data}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item, index) => item.id.toString()}
-              onScroll={this.handleScroll}
-              renderItem={({ item, index }) => this.renderItem(item, index)}
-              extraData={this.state}
-              legacyImplementation={false}
-              ListFooterComponent={() => this._FooterFlatlist()}
-
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.isRefresh}
-                  onRefresh={() => this._onRefresh()}
-                  // Android offset for RefreshControl
-                  progressViewOffset={HEADER_MAX_HEIGHT}
-                />
-              }
-              contentInset={{
-                top: HEADER_MAX_HEIGHT,
-              }}
-              contentOffset={{
-                y: -HEADER_MAX_HEIGHT,
-              }}
-            /> : <ItemPlaceHolderH />
-        }
+        {this.renderHeader(languages)}
+        {this.state.data.length > 0 ? (
+          // <View style={{ flex: 1 }}>
+          <FlatList
+            contentContainerStyle={{
+              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+            }}
+            data={this.state.data}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => item.id.toString()}
+            onScroll={this.handleScroll}
+            renderItem={({ item, index }) => this.renderItem(item, index)}
+            extraData={this.state}
+            legacyImplementation={false}
+            ListFooterComponent={() => this._FooterFlatlist()}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefresh}
+                onRefresh={() => this._onRefresh()}
+                // Android offset for RefreshControl
+                progressViewOffset={HEADER_MAX_HEIGHT}
+              />
+            }
+            contentInset={{
+              top: HEADER_MAX_HEIGHT
+            }}
+            contentOffset={{
+              y: -HEADER_MAX_HEIGHT
+            }}
+          />
+        ) : (
+          <ItemPlaceHolderH />
+        )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -163,14 +168,9 @@ export default class extends Component {
           flexDirection: 'row'
         }}
       >
-
         <View style={{ flex: 1 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text
-              style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}
-            >
-              {item.libraryName}
-            </Text>
+            <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.libraryName}</Text>
           </View>
 
           <View
@@ -189,17 +189,24 @@ export default class extends Component {
           </View>
         </View>
 
-        {
-          item.numberOfDocuments !== 0 ?
-            <View style={{ justifyContent: 'center' }}>
-              <View style={{ backgroundColor: 'red', borderRadius: 30, width: 25, height: 25, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>{item.numberOfDocuments}</Text>
-              </View>
-            </View> : null
-        }
-
-
-
+        {item.numberOfDocuments !== 0 ? (
+          <View style={{ justifyContent: 'center' }}>
+            <View
+              style={{
+                backgroundColor: 'red',
+                borderRadius: 30,
+                width: 25,
+                height: 25,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>
+                {item.numberOfDocuments}
+              </Text>
+            </View>
+          </View>
+        ) : null}
       </Button>
     );
   };

@@ -48,7 +48,7 @@ class Fee extends layout {
     _getListUserFee() {
         let unitActive = this.props.units.unitActive;
         let accessTokenApi = this.props.account.accessTokenAPI;
-        let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+        let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
         this.props.actions.fee.getListUserFees(accessTokenApi, languege, unitActive.fullUnitCode);
     }
 

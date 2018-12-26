@@ -1,10 +1,8 @@
 import React from 'react';
 import { View, Text, Dimensions } from 'react-native';
 const width = Dimensions.get('window').width;
-const WEEK = ['日', '一', '二', '三', '四', '五', '六'];
-const WEEK_en = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-export default ({ isChinese }) => {
-  const week_localized = isChinese ? WEEK : WEEK_en;
+export default ({ language }) => {
+  const week_localized = language;
   return (
     <View
       style={{

@@ -41,11 +41,13 @@ const HEADER_MAX_HEIGHT = 60;
 export default class Layout extends Component {
   constructor(props) {
     super(props);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+
+    let getDayArray = languages.EVENTS_TXT_WEEK.split(',');
+    let getMonthArray = languages.EVENTS_TXT_MONTH.split(',');
     XDate.locales['fr'] = {
-      monthNames: Language.listLanguage[this.props.app.languegeLocal].data.EVENTS_TXT_MONTH,
-      dayNamesShort: Language.listLanguage[this.props.app.languegeLocal].data.EVENTS_TXT_WEEK
-      // monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
-      // dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+      monthNames: getMonthArray,
+      dayNamesShort: getDayArray
     };
 
     XDate.defaultLocale = 'fr';
@@ -98,6 +100,7 @@ export default class Layout extends Component {
       useNativeDriver: true
     });
 
+    let getDayArray = languages.EVENTS_TXT_WEEK.split(',');
     return (
       <Animated.View style={{ zIndex: -1 }}>
         <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
@@ -150,6 +153,7 @@ export default class Layout extends Component {
                 onPressDate={date => {
                   this._onPressDay(date);
                 }}
+                language={getDayArray}
                 onPressGoToday={today => {}}
                 onSwipeDown={() => {}}
                 markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}

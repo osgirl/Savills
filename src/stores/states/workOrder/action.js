@@ -2,41 +2,37 @@ import Types from './';
 import Configs from '../../../utils/configs';
 import { lang } from 'moment';
 
-export function getWorkOrderListActive(accessTokenAPI, memberId, pageCount = 1, lang = 0) {
+export function getWorkOrderListActive(accessTokenAPI, memberId, pageCount = 1, lang) {
   return {
     type: Types.GET_LIST_WORKORDER_ACTIVE,
     payload: {
       api:
         Configs.API +
-        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=ACTIVE&culture=${
-          lang == 0 ? 'en' : 'vi'
-        }`,
+        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=ACTIVE&culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }
   };
 }
 
-export function getWorkOrderListComplete(accessTokenAPI, memberId, pageCount, lang = 0) {
+export function getWorkOrderListComplete(accessTokenAPI, memberId, pageCount, langs) {
   return {
     type: Types.GET_LIST_WORKORDER_COMPLETE,
     payload: {
       api:
         Configs.API +
-        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=COMPLETED&culture=${
-          lang == 0 ? 'en' : 'vi'
-        }`,
+        `/api/workorders?sorting=dateCreate%20desc&memberId=${memberId}&statusId=11&statusId=13&statusId=14&statusId=15&statusId=16&page=${pageCount}&pageSize=15&groupStatus=COMPLETED&culture=${langs}`,
       method: 'GET',
       token: accessTokenAPI
     }
   };
 }
 
-export function getListArea(accessTokenAPI, lang = 0) {
+export function getListArea(accessTokenAPI, lang) {
   return {
     type: Types.GET_LIST_AREA,
     payload: {
-      api: Configs.API + `/api/services/app/WorkOrders/GetListCategory?culture=${lang == 0 ? 'en' : 'vi'}`,
+      api: Configs.API + `/api/services/app/WorkOrders/GetListCategory?culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -100,6 +96,7 @@ export function updateWorkOrder(accessTokenAPI, WorkOrder) {
         createdUserFullName: WorkOrder.createdUserFullName,
         updateUserFullName: WorkOrder.updateUserFullName,
         rating: WorkOrder.rating,
+        RatingComment: WorkOrder.RatingComment,
         fullUnitId: WorkOrder.fullUnitId,
         fullUnitName: WorkOrder.fullUnitName,
         fullUnitCode: WorkOrder.fullUnitCode,
@@ -124,7 +121,7 @@ export function detailWordOrder(accessTokenAPI, id, lang) {
   return {
     type: Types.DETAIL_WORK_ORDER,
     payload: {
-      api: Configs.API + `/api/services/app/WorkOrders/GetWoById?woId=${id}&culture=${lang == 0 ? 'en' : 'vi'}`,
+      api: Configs.API + `/api/services/app/WorkOrders/GetWoById?woId=${id}&culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }

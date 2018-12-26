@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import {
-  View, VirtualizedList, TouchableOpacity,
-  Image, Text, KeyboardAvoidingView, Platform, TextInput, Dimensions
+  View,
+  VirtualizedList,
+  TouchableOpacity,
+  Image,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+  Dimensions
 } from 'react-native';
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,9 +26,19 @@ export default class ModalChat extends Component {
   }
 
   render() {
-    const { title, listComment, editableTextInput,
-      disabledBtn, opacityBtnSend, isVisible,
-      colors, refTextInout, idUser } = this.props;
+    const {
+      title,
+      listComment,
+      editableTextInput,
+      disabledBtn,
+      opacityBtnSend,
+      isVisible,
+      colors,
+      refTextInout,
+      idUser,
+      chatEmpty,
+      placeholder
+    } = this.props;
     return (
       <Modal style={{ flex: 1, margin: 0, paddingTop: 20, height: height, width: width }} isVisible={isVisible}>
         <View style={{ flex: 1, backgroundColor: '#F6F8FD', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
@@ -34,12 +51,10 @@ export default class ModalChat extends Component {
               flexDirection: 'row',
               backgroundColor: '#FFF',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}
           >
-            <TouchableOpacity
-              style={{ position: 'absolute', top: 0, left: 0, padding: 20 }}
-              onPress={() => this.props.onClose()}>
+            <TouchableOpacity style={{ position: 'absolute', top: 0, left: 0, padding: 20 }} onPress={() => this.props.onClose()}>
               <Image source={IC_CLOSE} />
             </TouchableOpacity>
             <Text>{'# ' + title}</Text>
@@ -48,11 +63,9 @@ export default class ModalChat extends Component {
             ref={ref => (this.flatList = ref)}
             ListEmptyComponent={() => {
               return (
-                <View style={{ flex: 1, alignItems: 'center', marginTop: 100, }}>
+                <View style={{ flex: 1, alignItems: 'center', marginTop: 100 }}>
                   <Image source={IC_CHATEMTY} />
-                  <Text
-                    style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10, }}
-                  >{`Chưa có tin nào, nhắn thông tin \n cần trao đổi cho chúng tôi`}</Text>
+                  <Text style={{ textAlign: 'center', color: '#BABFC8', marginTop: 10 }}>{chatEmpty}</Text>
                 </View>
               );
             }}
@@ -65,9 +78,7 @@ export default class ModalChat extends Component {
             getItem={
               (items, index) => ({ ...items[index], nextMessage: index - 1 < 0 ? {} : items[index - 1] }) //eslint-disable-line
             }
-            renderItem={({ item, index }) => (
-              <ItemComment {...this.props} index={index} item={item} idUser={idUser} />
-            )}
+            renderItem={({ item, index }) => <ItemComment {...this.props} index={index} item={item} idUser={idUser} />}
             // onEndReached={this.handleLoadMore}
             // onEndReachedThreshold={0.9}
             ListFooterComponent={() => <View style={{ height: resolution.scale(10) }} />}
@@ -76,7 +87,7 @@ export default class ModalChat extends Component {
           />
           <KeyboardAvoidingView
             enabled
-            behavior={(Platform.OS === 'ios') ? 'padding' : null}
+            behavior={Platform.OS === 'ios' ? 'padding' : null}
             keyboardVerticalOffset={Platform.select({ ios: 20, android: 0 })}
           >
             <LinearGradient
@@ -90,10 +101,9 @@ export default class ModalChat extends Component {
                   marginBottom: 20,
                   height: 50,
                   borderRadius: 10
-                },
+                }
               ]}
             >
-
               <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
                 <TextInput
                   ref={refTextInout}
@@ -103,13 +113,10 @@ export default class ModalChat extends Component {
                   onSubmitEditing={() => this.props.addComment()}
                   onChangeText={e => this.props.onChangeText(e)}
                   placeholderTextColor={'rgba(255,255,255,0.7)'}
-                  placeholder={'Nhập tin nhắn ...'}
+                  placeholder={placeholder}
                 />
                 <TouchableOpacity disabled={disabledBtn} onPress={() => this.props.addComment()}>
-                  <Image
-                    style={{ opacity: opacityBtnSend }}
-                    source={IC_SEND}
-                  />
+                  <Image style={{ opacity: opacityBtnSend }} source={IC_SEND} />
                 </TouchableOpacity>
               </View>
             </LinearGradient>

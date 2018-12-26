@@ -28,25 +28,22 @@ const { width } = Dimensions.get('window');
 import Resolution from '../../../utils/resolution';
 import Button from '@components/button';
 import Connect from '@stores';
-import Loading from "@components/loading";
+import Loading from '@components/loading';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import AnimatedTitle from "@components/animatedTitle";
+import AnimatedTitle from '@components/animatedTitle';
 import Language from '../../../utils/language';
 
 const HEADER_MAX_HEIGHT = 60;
 
 class ModalNewInbox extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       title: '',
       comment: '',
-      scrollY: new Animated.Value(
-        Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0,
-      ),
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isShowTitleHeader: false,
       isShowModalConfirm: false,
       loading: false
@@ -54,16 +51,13 @@ class ModalNewInbox extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-
     if (this.props.inbox.addInbox !== nextProps.inbox.addInbox && nextProps.inbox.addInbox.success) {
       if (this.state.isShowModalConfirm) {
-        await this.setState({ isShowModalConfirm: false })
+        await this.setState({ isShowModalConfirm: false });
       }
       await this.setState({ loading: false });
       await this.props.onClose();
     }
-
-
   }
 
   getModuleCount() {
@@ -91,59 +85,57 @@ class ModalNewInbox extends Component {
   };
 
   _createInbox = async () => {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     let accessTokenAPI = this.props.account.accessTokenAPI;
-    await this.props.actions.inbox.addInbox(accessTokenAPI, this.state.title, this.state.comment)
-  }
+    await this.props.actions.inbox.addInbox(accessTokenAPI, this.state.title, this.state.comment);
+  };
 
-  renderHeader() {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    return <View>
-      <Header
-        LinearGradient={true}
-        leftIcon={require('../../../resources/icons/close.png')}
-        leftAction={() => this.props.onClose()}
-        headercolor={'transparent'}
-        showTitleHeader={this.state.isShowTitleHeader}
-        center={
-          <View>
-            <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.IB_CR_TITLEHEADER}</Text>
-          </View>
-        }
-      />
-      <AnimatedTitle
-        scrollY={this.state.scrollY}
-        label={LG.IB_CR_TITLEHEADER}
-      />
-    </View>
+  renderHeader(languages) {
+    return (
+      <View>
+        <Header
+          LinearGradient={true}
+          leftIcon={require('../../../resources/icons/close.png')}
+          leftAction={() => this.props.onClose()}
+          headercolor={'transparent'}
+          showTitleHeader={this.state.isShowTitleHeader}
+          center={
+            <View>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.IB_CR_TITLEHEADER}</Text>
+            </View>
+          }
+        />
+        <AnimatedTitle scrollY={this.state.scrollY} label={languages.IB_CR_TITLEHEADER} />
+      </View>
+    );
   }
 
   render() {
     const { fullUnitCode } = this.props.units.unitActive;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {this.renderHeader()}
+        {this.renderHeader(languages)}
         <ScrollView
           alwaysBounceVertical={false}
           scrollEventThrottle={16}
           onScroll={this.handleScroll}
           contentContainerStyle={{
-            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0,
+            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
           }}
           contentInset={{
-            top: HEADER_MAX_HEIGHT,
+            top: HEADER_MAX_HEIGHT
           }}
           contentOffset={{
-            y: -HEADER_MAX_HEIGHT,
+            y: -HEADER_MAX_HEIGHT
           }}
           style={{ zIndex: -3 }}
         >
           {/* <KeyboardAvoidingView behavior="position" enabled> */}
           <KeyboardAwareScrollView extraScrollHeight={50}>
             <ItemScorll
-              title={LG.IB_CR_TITLE}
+              title={languages.IB_CR_TITLE}
               view={
                 <TextInput
                   style={{
@@ -161,14 +153,14 @@ class ModalNewInbox extends Component {
                   autoCorrect={true}
                   onSubmitEditing={() => Keyboard.dismiss()}
                   multiline
-                  placeholder={LG.IB_CR_ENTER_TITLE}
+                  placeholder={languages.IB_CR_ENTER_TITLE}
                   onChangeText={e => this.setState({ title: e })}
                 />
               }
             />
 
             <ItemScorll
-              title={LG.IB_CR_DESCRIPT}
+              title={languages.IB_CR_DESCRIPT}
               view={
                 <TextInput
                   style={{
@@ -190,14 +182,14 @@ class ModalNewInbox extends Component {
                   autoCorrect={true}
                   onSubmitEditing={() => Keyboard.dismiss()}
                   multiline
-                  placeholder={LG.IB_CR_ENTER_DESCRIPT}
+                  placeholder={languages.IB_CR_ENTER_DESCRIPT}
                   onChangeText={e => this.setState({ comment: e })}
                 />
               }
             />
             {/* </KeyboardAvoidingView> */}
           </KeyboardAwareScrollView>
-        </ScrollView >
+        </ScrollView>
         <View
           style={{
             width: width,
@@ -221,11 +213,11 @@ class ModalNewInbox extends Component {
               }
             }}
           >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>{LG.IB_CR_TITLE_BTN}</Text>
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>{languages.IB_CR_TITLE_BTN}</Text>
           </TouchableOpacity>
         </View>
         {this.renderModalConfirm()}
-      </View >
+      </View>
     );
   }
 
@@ -270,12 +262,11 @@ class ModalNewInbox extends Component {
                     }}
                   >
                     {
-                      <View
-                        style={{ flexDirection: 'row' }}
-                      >
-                        <Text style={{ color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}>{this.state.title}</Text>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}>
+                          {this.state.title}
+                        </Text>
                       </View>
-
                     }
                   </View>
                 }
@@ -299,7 +290,13 @@ class ModalNewInbox extends Component {
               />
             </ScrollView>
             <Button
-              style={{ position: 'absolute', bottom: Resolution.scale(20), left: Resolution.scale(20), width: width - 80, height: Resolution.scale(50) }}
+              style={{
+                position: 'absolute',
+                bottom: Resolution.scale(20),
+                left: Resolution.scale(20),
+                width: width - 80,
+                height: Resolution.scale(50)
+              }}
               onPress={() => this._createInbox()}
             >
               <LinearGradient
@@ -308,11 +305,11 @@ class ModalNewInbox extends Component {
                 end={{ x: 1, y: 0 }}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
               >
-                {
-                  this.state.loading ?
-                    <ActivityIndicator size={'small'} color={'#FFF'} /> :
-                    <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
-                }
+                {this.state.loading ? (
+                  <ActivityIndicator size={'small'} color={'#FFF'} />
+                ) : (
+                  <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Send</Text>
+                )}
               </LinearGradient>
             </Button>
           </View>
@@ -320,7 +317,6 @@ class ModalNewInbox extends Component {
       </Modal>
     );
   };
-
 }
 
 class ItemScorll extends Component {
@@ -328,7 +324,17 @@ class ItemScorll extends Component {
     const { title, view } = this.props;
     return (
       <View style={{ marginHorizontal: Resolution.scale(20) }}>
-        <Text style={{ marginTop: Resolution.scale(20), marginBottom: Resolution.scale(10), color: '#505E75', fontSize: Resolution.scale(14), fontWeight: 'bold' }}>{title}</Text>
+        <Text
+          style={{
+            marginTop: Resolution.scale(20),
+            marginBottom: Resolution.scale(10),
+            color: '#505E75',
+            fontSize: Resolution.scale(14),
+            fontWeight: 'bold'
+          }}
+        >
+          {title}
+        </Text>
         {this.props.view}
       </View>
     );

@@ -55,7 +55,8 @@ class TabBooking extends Component {
   componentDidMount = () => {
     let accessTokenApi = this.props.account.accessTokenAPI;
     const buildingID = this.props.units.unitActive.buildingId;
-    this.props.actions.booking.getListCategory(accessTokenApi, buildingID,this.props.app.languegeLocal);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+    this.props.actions.booking.getListCategory(accessTokenApi, buildingID, languages);
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalDetailBooking', { id: ida.itemtype });
@@ -218,7 +219,7 @@ class TabBooking extends Component {
         >
           <Image source={require('../../resources/icons/plush-addnew.png')} />
         </TouchableOpacity>
-        {this.renderModalCategory()}
+        {this.renderModalCategory(languages)}
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNewBooking}>
           <ModalNewBooking
             goBack={() => this.setState({ isModalNewBooking: false })}
@@ -245,7 +246,7 @@ class TabBooking extends Component {
     this.props.navigation.navigate('ModalDetailBooking');
   };
 
-  renderModalCategory() {
+  renderModalCategory(languages) {
     return (
       <Modal
         style={{ flex: 1, margin: 0, backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: isIphoneX() ? 40 : 20 }}
@@ -268,7 +269,7 @@ class TabBooking extends Component {
             <TouchableOpacity onPress={() => this.setState({ isShowCategory: false })}>
               <Image source={require('../../resources/icons/close-black.png')} />
             </TouchableOpacity>
-            <Text styl={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold' }}>Choose Amenity</Text>
+            <Text styl={{ color: '#505E75', fontSize: 14, fontFamily: 'OpenSans-Bold' }}>{languages.BK_MODAL_CHOOSE_HEADER}</Text>
             <View />
           </View>
           <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>

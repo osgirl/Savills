@@ -117,31 +117,31 @@ class Inbox extends layout {
 
   _setInboxReaded(inboxID) {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.props.actions.inbox.setInboxRead(accessTokenApi, languege, inboxID);
   }
 
   _setInboxActive(inboxID) {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.props.actions.inbox.setInboxActive(accessTokenApi, languege, inboxID);
   }
 
   _getInboxToManager(page = this.state.pageInboxToManager) {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.props.actions.inbox.getInboxToManagement(accessTokenApi, languege, page);
   }
 
   _getListInbox(page = this.state.pageInbox) {
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     let accessTokenApi = this.props.account.accessTokenAPI;
     this.props.actions.inbox.getInboxFromManagement(accessTokenApi, languege, page);
   }
 
   _getListInboxIsActive(page = this.state.pageInboxActive) {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.props.actions.inbox.getListInboxIsActive(accessTokenApi, languege, page);
   }
   async _onRefresh() {

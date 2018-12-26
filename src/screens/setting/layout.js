@@ -43,6 +43,7 @@ export default class extends Component {
   }
 
   onPickerSelect(index) {
+    let languege = this.props.app.listLanguage[index].id;
     try {
       let accessTokenApi = this.props.account.accessTokenAPI;
       this.props.actions.app.setLanguageLocal(index.toString());
@@ -50,19 +51,20 @@ export default class extends Component {
       this.setState({
         selectedItem: index
       });
-      this.props.actions.app.getSetting(accessTokenApi, index);
-      this.props.actions.utilities.getFAQ(accessTokenApi, index);
+      this.props.actions.app.getSetting(accessTokenApi, languege);
+      this.props.actions.utilities.getFAQ(accessTokenApi, languege);
+      this.props.actions.app.changeLanguageServer(accessTokenApi, languege);
     } catch (error) {
       console.log(error);
     }
   }
 
-  renderModalLanguage() {
+  renderModalLanguage(languages) {
     return (
       <View>
         <View style={Styles.modalContent}>
           <Text style={{ fontSize: Resolution.scale(13), fontFamily: 'OpenSans-Bold', marginTop: Resolution.scale(20) }}>
-            {Language.listLanguage[this.props.app.languegeLocal].data.SELECT_LANGUAGE}
+            {languages.ST_SELECT_LANGUAGE}
           </Text>
           <Picker
             style={{ width: width - Resolution.scaleWidth(20), flex: 1, justifyContent: 'center' }}
@@ -70,8 +72,8 @@ export default class extends Component {
             itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
             onValueChange={index => this.onPickerSelect(index)}
           >
-            {Language.listLanguage.map((item, index) => (
-              <PickerItem label={item.icon + ' ' + item.title} value={index} key={'id_' + index} />
+            {this.props.app.listLanguage.map((item, index) => (
+              <PickerItem label={item.title} value={index} key={'id_' + index} />
             ))}
           </Picker>
         </View>
@@ -193,7 +195,7 @@ export default class extends Component {
                 alignItems: 'center'
               }}
             >
-              <Text>{Language.listLanguage[this.state.selectedItem].title}</Text>
+              <Text>{this.props.app.listLanguage[this.props.app.languegeLocal].title}</Text>
               <Image source={IC_ARROWRIGHT} />
             </View>
           </Button>
@@ -210,7 +212,7 @@ export default class extends Component {
             margin: Resolution.scale(20)
           }}
         >
-          {this.renderModalLanguage()}
+          {this.renderModalLanguage(languages)}
         </Modal>
       </ScrollView>
     );

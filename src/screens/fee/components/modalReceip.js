@@ -61,7 +61,7 @@ class modalReceip extends Component {
   _getDetail() {
     const { idReceip } = this.props;
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     setTimeout(() => {
       this.props.actions.fee.getDetailHistory(accessTokenApi, languege, idReceip);
     }, 300);

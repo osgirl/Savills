@@ -195,7 +195,8 @@ class Home extends layout {
 
   componentDidMount() {
     let accessTokenAPI = this.props.account.accessTokenAPI;
-    this.props.actions.utilities.getFAQ(accessTokenAPI, this.props.app.languegeLocal);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+    this.props.actions.utilities.getFAQ(accessTokenAPI, languages);
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
@@ -209,7 +210,7 @@ class Home extends layout {
       onRegister: token => {
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function (notification) {
+      onNotification: function(notification) {
         console.log('NOTIFICATION:', notification);
 
         if (notification.foreground) {

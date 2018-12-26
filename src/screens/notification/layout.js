@@ -132,8 +132,7 @@ export default class extends Component {
     );
   }
 
-  _HeaderFlatlist() {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+  _HeaderFlatlist(languages) {
     return (
       <LinearGradient
         colors={['#4A89E8', '#8FBCFF']}
@@ -141,7 +140,7 @@ export default class extends Component {
         end={{ x: 1, y: 0 }}
         style={{ width: width, marginBottom: Resolution.scale(20) }}
       >
-        <HeaderTitle title={LG.NOTIFICATION_TXT_TITLE} />
+        <HeaderTitle title={languages.NOTIFICATION_TXT_TITLE} />
       </LinearGradient>
     );
   }
@@ -178,9 +177,8 @@ export default class extends Component {
     )(event);
   };
 
-  renderHeader() {
+  renderHeader(languages) {
     let unitActive = this.props.units.unitActive;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View>
         <Header
@@ -191,7 +189,7 @@ export default class extends Component {
           showTitleHeader={this.state.isShowTitleHeader}
           center={
             <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.NOTIFICATION_TXT_TITLE}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.NOTIFICATION_TXT_TITLE}</Text>
             </View>
           }
           renderViewRight={
@@ -206,7 +204,7 @@ export default class extends Component {
             </Button>
           }
         />
-        <AnimatedTitle scrollY={this.state.scrollY} label={LG.NOTIFICATION_TXT_TITLE} />
+        <AnimatedTitle scrollY={this.state.scrollY} label={languages.NOTIFICATION_TXT_TITLE} />
       </View>
     );
   }
@@ -216,7 +214,7 @@ export default class extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
-        {this.renderHeader()}
+        {this.renderHeader(languages)}
         {this.state.isLoadData === false ? (
           <FlatList
             data={this.state.data}

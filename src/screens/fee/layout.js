@@ -30,8 +30,6 @@ import Utils from '../../utils';
 
 import Styles from './styles';
 
-import Language from '../../utils/language';
-
 const { width, height } = Dimensions.get('window');
 
 export default class extends Component {
@@ -316,7 +314,9 @@ export default class extends Component {
               onPress={() => this._openModalConfirm()}
               style={[Styles.ButtonAdd, { backgroundColor: this.state.listFeeSelected.length > 0 ? '#01C772' : '#e0e0e0' }]}
             >
-              <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>Pay</Text>
+              <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
+                {languages.FEE_LIST_PAY}
+              </Text>
             </Button>
           </View>
         ) : null}

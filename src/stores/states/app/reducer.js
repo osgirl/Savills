@@ -12,6 +12,16 @@ const INIT_STATE = {
 };
 
 export default createReducer(INIT_STATE, {
+  [Types.CHANGE_LANGUAGE_SERVER_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.LOGOUT_NOTI_SUCCESS]: (state, action) => {
     try {
       return {

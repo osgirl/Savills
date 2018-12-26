@@ -38,8 +38,6 @@ import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 import { isIphoneX } from '@utils/func';
 import Styles from './styles';
 
-import Language from '../../utils/language';
-
 import ModalDetail from './components/modalDetail';
 
 const { width } = Dimensions.get('window');
@@ -61,7 +59,7 @@ export default class extends Component {
 
   render() {
     let unitActive = this.props.units.unitActive;
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, 10, 30],
@@ -108,7 +106,7 @@ export default class extends Component {
           showTitleHeader={true}
           center={
             <Animated.View style={{ opacity: opacityTextHeader }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.IB_TITLEHEADER}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.IB_TITLEHEADER}</Text>
             </Animated.View>
           }
           renderViewRight={
@@ -134,7 +132,7 @@ export default class extends Component {
             }}
           >
             <Animated.View style={{ opacity: opacityText, position: 'absolute' }}>
-              <HeaderTitle title={LG.IB_TITLEHEADER} />
+              <HeaderTitle title={languages.IB_TITLEHEADER} />
             </Animated.View>
           </Animated.View>
         </LinearGradient>
@@ -151,9 +149,9 @@ export default class extends Component {
             tabBarBackgroundColor={'transparent'}
             locked={true}
           >
-            {this.ViewInbox(this.state.data)}
+            {this.ViewInbox(this.state.data, languages)}
             {/* {this.ViewSend(this.state.dataToManager)} */}
-            {this.ViewStorage(this.state.dataIsActive)}
+            {this.ViewStorage(this.state.dataIsActive, languages)}
           </ScrollableTabView>
         </LinearGradient>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
@@ -236,10 +234,9 @@ export default class extends Component {
     );
   }
 
-  ViewInbox = list => {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+  ViewInbox = (list, languages) => {
     return (
-      <View tabLabel={LG.IB_TITLE_TAB_NEW} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+      <View tabLabel={languages.IB_TITLE_TAB_NEW} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.state.isLoadData === false ? (
           <View style={{ paddingHorizontal: 20 }}>
             <SwipeListView
@@ -279,10 +276,9 @@ export default class extends Component {
     );
   };
 
-  ViewStorage = list => {
-    let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+  ViewStorage = (list, languages) => {
     return (
-      <View tabLabel={LG.IB_TITLE_TAB_STORE} style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
+      <View tabLabel={languages.IB_TITLE_TAB_STORE} style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
         {this.state.isLoadDataActive === false ? (
           <SwipeListView
             useFlatList
@@ -319,7 +315,6 @@ export default class extends Component {
   };
 
   // ViewSend = list => {
-  //   let LG = Language.listLanguage[this.props.app.languegeLocal].data;
   //   return (
   //     <View tabLabel={LG.IB_TITLE_TAB_SEND} style={{ flex: 1, backgroundColor: '#F6F8FD', paddingHorizontal: 20 }}>
   //       {this.props.inbox.listInboxIsActive.totalCount === 0 ? (

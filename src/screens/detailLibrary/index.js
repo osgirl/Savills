@@ -41,7 +41,7 @@ class DetailLibary extends layout {
 
     _getDetail() {
         let accessTokenApi = this.props.account.accessTokenAPI;
-        let languege = Language.listLanguage[this.props.app.languegeLocal].id
+        let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
         let library = this.props.navigation.getParam('library', 'NO-ID');
         this.props.actions.library.getDetail(accessTokenApi, library.id, languege);
     }

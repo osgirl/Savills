@@ -100,7 +100,7 @@ class ModalNewFeedback extends Component {
   };
 
   _createFeedback(commentBoxSourceId = 3, commentBoxType = '') {
-    let language = Language.listLanguage[this.props.app.languegeLocal].id;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.setState({ loading: true });
     let accessTokenApi = this.props.account.accessTokenAPI;
     let unitActive = this.props.units.unitActive;

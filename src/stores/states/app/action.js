@@ -86,12 +86,23 @@ export function getLanguageApp() {
   };
 }
 
+export function changeLanguageServer(accessTokenAPI, lang) {
+  return {
+    type: Types.CHANGE_LANGUAGE_SERVER,
+    payload: {
+      api: Configs.API + '/api/services/app/Profile/ChangeLanguage',
+      method: 'POST',
+      payload: { languageName: lang },
+      token: accessTokenAPI
+    }
+  };
+}
+
 export function getSetting(accessTokenAPI, language) {
-  let lang = parseInt(language) === 0 ? 'en' : 'vi';
   return {
     type: Types.GET_SETTING,
     payload: {
-      api: Configs.API + `/api/services/app/Notification/GetNotificationSettings?culture=${lang}`,
+      api: Configs.API + `/api/services/app/Notification/GetNotificationSettings?culture=${language}`,
       method: 'GET',
       token: accessTokenAPI
     }

@@ -37,13 +37,25 @@ const HEADER_MAX_HEIGHT = Resolution.scale(isIphoneX() ? 135 : Platform.OS === '
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const { width, height } = Dimensions.get('window');
-
+import XDate from 'xdate';
 const IMAGE = {
   close: require('@resources/icons/close.png')
 };
 class ModalNewBooking extends PureComponent {
   constructor(props) {
     super(props);
+
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+
+    let getDayArray = languages.EVENTS_TXT_WEEK.split(',');
+    let getMonthArray = languages.EVENTS_TXT_MONTH.split(',');
+    XDate.locales['fr'] = {
+      monthNames: getMonthArray,
+      dayNamesShort: getDayArray
+    };
+
+    XDate.defaultLocale = 'fr';
+
     this.state = {
       area: 0,
       selectedDate: new Date(),
@@ -73,8 +85,9 @@ class ModalNewBooking extends PureComponent {
       fromDate: this.state.selected,
       toDate: this.state.selected
     };
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.props.actions.booking.getListBookingOption(accessTokenApi, data);
-    this.props.actions.booking.getDetailCategory(accessTokenApi, item.amenityId, this.props.app.languegeLocal);
+    this.props.actions.booking.getDetailCategory(accessTokenApi, item.amenityId, languages);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -251,6 +264,8 @@ class ModalNewBooking extends PureComponent {
         : 1;
 
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+    let getDayArray = languages.EVENTS_TXT_WEEK.split(',');
+
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <Header
@@ -302,6 +317,7 @@ class ModalNewBooking extends PureComponent {
               onPressDate={date => {
                 this.onPresTripDay(date);
               }}
+              language={getDayArray}
               onPressGoToday={today => {
                 this.setState({ selectedDate: today });
               }}
@@ -481,7 +497,9 @@ class ModalNewBooking extends PureComponent {
                   >{`${fullUnitCode}-${displayName}`}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>Mail</Text>
+                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                    {languages.BK_NEW_EMAIL}
+                  </Text>
                   <TextInput
                     onChangeText={e => this.setState({ email: e })}
                     value={this.state.email}

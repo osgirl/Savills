@@ -45,6 +45,8 @@ class TabComplete extends PureComponent {
   }
 
   render() {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.state.isLoadData === false ? (
@@ -70,7 +72,7 @@ class TabComplete extends PureComponent {
               />
             }
             ListEmptyComponent={() => {
-              return <EmptyItemList message={'Bạn chưa có booking nào \n hãy tạo ngay cho mình \n ở đây nhé !'} />;
+              return <EmptyItemList message={languages.BK_EMPTY_LIST_COMPLETE} />;
             }}
           />
         ) : (
@@ -108,7 +110,8 @@ class TabComplete extends PureComponent {
 
   _getList() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    this.props.actions.booking.getListBookingComplete(accessTokenApi, this.state.pageCount, this.props.app.languegeLocal);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+    this.props.actions.booking.getListBookingComplete(accessTokenApi, this.state.pageCount, languages);
   }
 
   clickDetail = (item, tabIndex) => {

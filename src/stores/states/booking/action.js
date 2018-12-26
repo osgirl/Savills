@@ -41,7 +41,7 @@ export function getDetailBooking(accessTokenAPI, id, lang) {
   return {
     type: Types.GET_DETAIL_BOOKING,
     payload: {
-      api: Configs.API_BOOKING + `/api/bookings/${id}?culture=${lang == 0 ? 'en' : 'vi'}`,
+      api: Configs.API_BOOKING + `/api/bookings/${id}?culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -53,7 +53,7 @@ export function getListCategory(accessTokenAPI, id, lang) {
   return {
     type: Types.GET_LIST_CATEGORY,
     payload: {
-      api: Configs.API_BOOKING + `/api/amenities?isActive=true&buildingId=${id}&culture=${lang == 0 ? 'en' : 'vi'}`,
+      api: Configs.API_BOOKING + `/api/amenities?isActive=true&buildingId=${id}&culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -94,9 +94,7 @@ export function getListBookingProcess(accessTokenAPI, page = 1, lang) {
     payload: {
       api:
         Configs.API_BOOKING +
-        `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=PROCESSING&culture=${
-          lang == 0 ? 'en' : 'vi'
-        }`,
+        `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=PROCESSING&culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -110,7 +108,7 @@ export function getListBookingInComming(accessTokenAPI, page = 1, lang) {
     payload: {
       api:
         Configs.API_BOOKING +
-        `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=ONGOING&culture=${lang == 0 ? 'en' : 'vi'}`,
+        `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=ONGOING&culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -124,7 +122,7 @@ export function getListBookingComplete(accessTokenAPI, page = 1, lang) {
     payload: {
       api:
         Configs.API_BOOKING +
-        `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=HISTORY&culture=${lang == 0 ? 'en' : 'vi'}`,
+        `/api/bookings/mybookings?page=${page}&pageSize=10&isActive=true&groupStatus=HISTORY&culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -136,7 +134,7 @@ export function getDetailCategory(accessTokenAPI, id, lang) {
   return {
     type: Types.GET_DETAIL_CATEGORY,
     payload: {
-      api: Configs.API_BOOKING + `/api/amenities/${id}?culture=${lang == 0 ? 'en' : 'vi'}`,
+      api: Configs.API_BOOKING + `/api/amenities/${id}?culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }

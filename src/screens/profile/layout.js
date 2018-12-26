@@ -19,8 +19,6 @@ import ModalSelectUnit from '@components/modalSelectUnit';
 import Style from './style';
 import Picker from 'react-native-wheel-picker';
 
-import Language from '../../utils/language';
-
 var PickerItem = Picker.Item;
 const { width, height } = Dimensions.get('window');
 
@@ -56,17 +54,17 @@ export default class extends Component {
     }
   }
 
-  renderModalContent = () => (
+  renderModalContent = languages => (
     <View style={[Style.modalContent, {}]}>
       <Text
         style={{ marginTop: Resolution.scale(40), fontSize: Resolution.scale(15), color: '#505E75', fontFamily: 'OpenSans-Bold' }}
       >
         {this.state.keyUpdate === 'sdt'
-          ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_PHONE
+          ? languages.PROFILE_TXT_PHONE
           : this.state.keyUpdate === 'name'
-          ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_FIRST
+          ? languages.PROFILE_TXT_FIRST
           : this.state.keyUpdate === 'surname'
-          ? Language.listLanguage[this.props.app.languegeLocal].data.PROFILE_TXT_LAST
+          ? languages.PROFILE_TXT_LAST
           : this.state.keyUpdate === 'displayName'
           ? 'Display name'
           : ''}
@@ -187,7 +185,7 @@ export default class extends Component {
   render() {
     // let avatar = this.props.imageProfile;
     let Unit = this.props.units.unitActive;
-    let LG = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={{ flex: 1, width: width, height: height }}>
         {this.modalCropsImage()}
@@ -200,15 +198,15 @@ export default class extends Component {
               <View style={{ marginVertical: 10, alignItems: 'flex-end' }}>
                 <Button onPress={() => this.selectPhotoTapped()}>
                   <Text style={{ color: '#FFF', fontFamily: 'OpenSans-Semibold', fontSize: Resolution.scale(12) }}>
-                    {LG.PROFILE_TXT_CHANGEAVATAR}
+                    {languages.PROFILE_TXT_CHANGEAVATAR}
                   </Text>
                 </Button>
               </View>
               <View style={Style.block1}>
                 <View style={{ flex: 0.55 }}>
-                  <Text style={styleTextTitle}>{LG.PROFILE_TXT_UNIT}</Text>
-                  <Text style={[styleTextTitle, { marginVertical: Resolution.scale(20) }]}>Mail</Text>
-                  <Text style={styleTextTitle}>{LG.PROFILE_TXT_PHONE}</Text>
+                  <Text style={styleTextTitle}>{languages.PROFILE_TXT_UNIT}</Text>
+                  <Text style={[styleTextTitle, { marginVertical: Resolution.scale(20) }]}>{languages.PROFILE_TXT_EMAIL}</Text>
+                  <Text style={styleTextTitle}>{languages.PROFILE_TXT_PHONE}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
                   <Button onPress={() => this._openModalSelectUnit()}>
@@ -233,9 +231,9 @@ export default class extends Component {
               </View>
               <View style={Style.block2}>
                 <View style={{ flex: 0.55 }}>
-                  <Text style={styleTextTitle}>{LG.PROFILE_TXT_FIRST}</Text>
-                  <Text style={[styleTextTitle, { marginVertical: 20 }]}>{LG.PROFILE_TXT_LAST}</Text>
-                  <Text style={styleTextTitle}>{LG.PROFILE_TXT_DISPLAY}</Text>
+                  <Text style={styleTextTitle}>{languages.PROFILE_TXT_FIRST}</Text>
+                  <Text style={[styleTextTitle, { marginVertical: 20 }]}>{languages.PROFILE_TXT_LAST}</Text>
+                  <Text style={styleTextTitle}>{languages.PROFILE_TXT_DISPLAY}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
                   <Button
@@ -272,23 +270,23 @@ export default class extends Component {
               </View>
 
               <Button onPress={() => this.props.gotoSetting()} style={Style.btnBlock}>
-                <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{LG.PROFILE_BTN_SETTING}</Text>
+                <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{languages.PROFILE_BTN_SETTING}</Text>
               </Button>
 
               <Button onPress={() => this.props.onChangePassword()} style={[Style.btnBlock, { marginVertical: 10 }]}>
-                <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{LG.PROFILE_BTN_CHANGEPASS}</Text>
+                <Text style={[Style.txtBlock, { color: '#4A89E8' }]}>{languages.PROFILE_BTN_CHANGEPASS}</Text>
               </Button>
 
               <Button
                 onPress={() => this.props.onLogOut()}
                 style={[Style.btnBlock, { marginVertical: 10, alignItems: 'center', marginBottom: 20 }]}
               >
-                <Text style={[Style.txtBlock, { color: '#FF361A' }]}>{LG.PROFILE_BTN_LOGOUT}</Text>
+                <Text style={[Style.txtBlock, { color: '#FF361A' }]}>{languages.PROFILE_BTN_LOGOUT}</Text>
               </Button>
             </View>
           </View>
           <Modal onBackdropPress={() => this.setState({ isShowModalUpdate: false })} isVisible={this.state.isShowModalUpdate}>
-            {this.renderModalContent()}
+            {this.renderModalContent(languages)}
           </Modal>
           {this.renderLoading()}
           <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
