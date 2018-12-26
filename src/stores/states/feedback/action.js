@@ -5,7 +5,18 @@ export function getListFeedback(accessTokenAPI, language = 'en', pageCount = 1, 
   return {
     type: Types.GET_LIST_FEEDBACK,
     payload: {
-      api: Configs.API_BOOKING + `/api/commentboxes/my-commentboxes?page=${pageCount}&pageSize=${pageSize}&culture=${language}`,
+      api: Configs.API_BOOKING + `/api/commentboxes/my-commentboxes?page=${pageCount}&pageSize=${pageSize}&groupstatus=PROCESSING&culture=${language}`,
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
+export function getListFeedbackCompleted(accessTokenAPI, language = 'en', pageCount = 1, pageSize = 10) {
+  return {
+    type: Types.GET_LIST_FEEDBACK_COMPLETED,
+    payload: {
+      api: Configs.API_BOOKING + `/api/commentboxes/my-commentboxes?page=${pageCount}&pageSize=${pageSize}&groupstatus=COMPLETED&culture=${language}`,
       method: 'GET',
       token: accessTokenAPI
     }

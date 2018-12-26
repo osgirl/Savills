@@ -35,6 +35,11 @@ import AnimatedTitle from '@components/animatedTitle';
 import { ItemHorizontal2 } from '../../components/placeHolder';
 import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 
+import ScrollableTabView from '@components/react-native-scrollable-tab-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
+
+import IC_EMTY_FB from "../../resources/icons/Emty_feedback.png";
+
 import Language from '../../utils/language';
 
 const HEADER_MAX_HEIGHT = 60;
@@ -46,7 +51,7 @@ export default class extends Component {
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
-        listener: event => {}
+        listener: event => { }
       },
       { useNativeDriver: true }
     )(event);
@@ -58,20 +63,44 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(40) }} />
-    );
+        <View style={{ height: Resolution.scale(40) }} />
+      );
   }
 
-  renderHeader() {
-    let unitActive = this.props.units.unitActive;
+  render() {
     let LG = Language.listLanguage[this.props.app.languegeLocal].data;
-    const isShow = this.state.scrollY.interpolate({
-      inputRange: [0, 15],
-      outputRange: [0, 1],
-      extrapolate: 'clamp'
+    let unitActive = this.props.units.unitActive;
+
+    const headerHeight = this.state.scrollY.interpolate({
+      inputRange: [0, 10, 30],
+      outputRange: [60, 30, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
     });
+
+    const headerTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, 30],
+      outputRange: [0, -50],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
+    const opacityText = this.state.scrollY.interpolate({
+      inputRange: [0, 30, 60],
+      outputRange: [1, 0.5, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
+    const opacityTextHeader = this.state.scrollY.interpolate({
+      inputRange: [0, 30],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
     return (
-      <View>
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <Header
           LinearGradient={true}
           leftIcon={IC_BACK}
@@ -79,83 +108,58 @@ export default class extends Component {
           headercolor={'transparent'}
           showTitleHeader={true}
           center={
-            <Animated.View style={{ opacity: isShow }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.EVENTS_TXT_TITLE}</Text>
+            <Animated.View style={{ opacity: opacityTextHeader }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{LG.FB_TITLEHEADER}</Text>
             </Animated.View>
           }
           renderViewRight={
             <Button
-              onPress={() => this._openModalSelectUnit()}
-              style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
+              onPress={() => this.setState({ isModalSelectUnit: true })}
+              style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
             >
-              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
-                {unitActive.fullUnitCode}
-              </Text>
-              <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
+              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: 14 }}>{unitActive.fullUnitCode}</Text>
+              <Image source={IC_DROPDOWN} style={{ marginLeft: 10 }} />
             </Button>
           }
         />
-        <AnimatedTitle scrollY={this.state.scrollY} label={LG.FB_TITLEHEADER} />
-      </View>
-    );
-  }
-
-  render() {
-    return (
-      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {this.renderHeader()}
         <StatusBar barStyle="light-content" hidden={false} />
-        {this.state.isLoadData === false ? (
-          <View style={{ flex: 1 }}>
-            <FlatList
-              data={this.state.data}
-              contentContainerStyle={{
-                paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
-              }}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item, index) => item.commentBoxId + '__' + index}
-              onScroll={this.handleScroll}
-              scrollEventThrottle={1}
-              renderItem={({ item, index }) => this.renderItem(item, index)}
-              extraData={this.state}
-              onEndReached={() => this._onEndReached()}
-              onEndReachedThreshold={0.01}
-              legacyImplementation={false}
-              ListFooterComponent={() => this._FooterFlatlist()}
-              ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-              ListHeaderComponent={() => <View style={{ height: 20 }} />}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.isRefresh}
-                  onRefresh={() => this._onRefresh()}
-                  // Android offset for RefreshControl
-                  progressViewOffset={HEADER_MAX_HEIGHT}
-                />
-              }
-              ListEmptyComponent={() => {
-                return <EmptyItemList message={`Bạn chưa có phản hồi tạo phẩn hồi \n ở đây nhé!`} />;
-              }}
-              contentInset={{
-                top: HEADER_MAX_HEIGHT
-              }}
-              contentOffset={{
-                y: -HEADER_MAX_HEIGHT
-              }}
-            />
-            <View
-              style={{
-                backgroundColor: '#FFF',
-                width: width,
-                height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
-              }}
-            />
-            <Button onPress={() => this._openModalNew()} style={[Styles.ButtonAdd, {}]}>
-              <Image source={require('../../resources/icons/plush-addnew.png')} />
-            </Button>
-          </View>
-        ) : (
-          <ItemPlaceHolderH />
-        )}
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ width: width, zIndex: -10 }}>
+          <Animated.View
+            style={{
+              transform: [{ translateY: headerTranslate }],
+              height: headerHeight,
+            }}
+          >
+            <Animated.View style={{ opacity: opacityText, position: 'absolute', }}>
+              <HeaderTitle title={LG.FB_TITLEHEADER} />
+            </Animated.View>
+          </Animated.View>
+        </LinearGradient>
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1, zIndex: 1 }}>
+          <ScrollableTabView
+            ref={ScrollableTab => {
+              this.ScrollableTab = ScrollableTab;
+            }}
+            tabBarActiveTextColor={'#FFF'}
+            tabBarInactiveTextColor={'rgba(255,255,255,0.9)'}
+            tabBarUnderlineStyle={{ backgroundColor: '#FFF' }}
+            tabBarBackgroundColor={'transparent'}
+          >
+            {this.ViewProcessing(this.state.data)}
+            {this.ViewCompleted(this.state.dataCompleted)}
+
+          </ScrollableTabView>
+          <View
+            style={{
+              backgroundColor: '#FFF',
+              width: width,
+              height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
+            }}
+          />
+          <Button onPress={() => this._openModalNew()} style={[Styles.ButtonAdd, {}]}>
+            <Image source={require('../../resources/icons/plush-addnew.png')} />
+          </Button>
+        </LinearGradient>
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -164,15 +168,119 @@ export default class extends Component {
           <ModaDetailFeedback
             commentBoxId={this.state.commentBoxId}
             onClose={() => this.setState({ isModalDetail: false })}
-            onRefresh={() => this._onRefresh()}
+            onRefresh={() => {
+              this._onRefresh(),
+                this._onRefreshCompleted(),
+                this.ScrollableTab.goToPage(1);
+            }}
           />
         </Modal>
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalNew}>
           <ModalNew onClose={() => this._onCloseModalNew()} />
         </Modal>
-      </View>
+      </View >
     );
   }
+
+  renderEmty(name) {
+    if (name === 'processing') {
+      return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, }}>
+        <Image source={IC_EMTY_FB} />
+        <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có góp ý'}</Text>
+      </View>
+    }
+    else if (name === 'Completed') {
+      return <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+        <Image source={IC_EMTY_FB} />
+        <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>{'Chưa có góp ý nào đã hủy'}</Text>
+      </View>
+    } else {
+      <View style={{ alignItems: 'center', }}>
+        <ActivityIndicator
+          size={'large'}
+          color={Configs.colorMain}
+        />
+      </View>
+    }
+  }
+
+  ViewProcessing = list => {
+    // let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+    return (
+      <View tabLabel={'Processing'} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {
+          this.props.feedback.listFeedBack.success && this.props.feedback.listFeedBack.items.length === 0 ?
+            this.renderEmty('processing') :
+            this.state.isLoadData === false ?
+              <SwipeListView
+                useFlatList
+                alwaysBounceVertical={false}
+                showsVerticalScrollIndicator={false}
+                scrollEventThrottle={16}
+                keyExtractor={(item, index) => item.commentBoxId.toString()}
+                data={list}
+                refreshing={this.state.isRefresh}
+                onRefresh={() => this._onRefresh()}
+                // renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
+                // rightOpenValue={-80}
+                renderItem={({ item, index }) => this.renderItem(item, index)}
+                onScroll={this.handleScroll}
+                scrollEventThrottle={16}
+                onEndReachedThreshold={0.01}
+                onEndReached={() => this._onEndReached()}
+                legacyImplementation={false}
+                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                ListHeaderComponent={() => <View style={{ height: 20, }} />}
+                ListFooterComponent={() => this._FooterFlatlist()}
+              />
+              :
+              <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                <ItemPlaceHolderH noMargin />
+              </View>
+        }
+      </View>
+
+    );
+  };
+
+  ViewCompleted = list => {
+    // let LG = Language.listLanguage[this.props.app.languegeLocal].data;
+    return (
+      <View tabLabel={'Completed'} style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {
+          this.props.feedback.listFeedBackCompleted.success && this.props.feedback.listFeedBackCompleted.items.length === 0 ?
+            this.renderEmty('Completed') :
+            this.state.isLoadDataCompleted === false ?
+              <SwipeListView
+                useFlatList
+                alwaysBounceVertical={false}
+                showsVerticalScrollIndicator={false}
+                scrollEventThrottle={16}
+                keyExtractor={(item, index) => item.commentBoxId.toString()}
+                data={list}
+                refreshing={this.state.isRefreshCompleted}
+                onRefresh={() => this._onRefreshCompleted()}
+                // renderHiddenItem={({ item, index }) => this.renderHiddenRow(item, index)}
+                // rightOpenValue={-80}
+                renderItem={({ item, index }) => this.renderItem(item, index)}
+                onScroll={this.handleScroll}
+                scrollEventThrottle={16}
+                onEndReachedThreshold={0.01}
+                onEndReached={() => this._onEndReachedCompleted()}
+                legacyImplementation={false}
+                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                ListHeaderComponent={() => <View style={{ height: 20, }} />}
+                ListFooterComponent={() => this._FooterFlatlist()}
+              />
+              :
+              <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                <ItemPlaceHolderH noMargin />
+              </View>
+        }
+      </View>
+
+    );
+  };
 
   renderItem = (item, index) => {
     let date = moment(item.createdAt).format('l');
