@@ -24,6 +24,8 @@ import ModalSelectUnit from '@components/modalSelectUnit';
 import Modal from 'react-native-modal';
 import Styles from './styles';
 
+import DEFAULT_LIB from "../../resources/icons/defaultLibary.png";
+
 import Utils from '../../utils';
 
 import Resolution from '../../utils/resolution';
@@ -67,8 +69,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
-    );
+        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+      );
   }
 
   renderHeader(languages) {
@@ -141,8 +143,8 @@ export default class extends Component {
             }}
           />
         ) : (
-          <ItemPlaceHolderH />
-        )}
+            <ItemPlaceHolderH />
+          )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -168,23 +170,23 @@ export default class extends Component {
           flexDirection: 'row'
         }}
       >
-        <View style={{ flex: 1 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <Image source={DEFAULT_LIB} />
+          <View style={{ flexDirection: 'column', justifyContent: 'flex-start', flex: 1, alignItems: 'flex-start', marginLeft: Resolution.scale(10) }}>
             <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.libraryName}</Text>
-          </View>
-
-          <View
-            style={{
-              flex: 1,
-              marginTop: Resolution.scale(10),
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
-              <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
+            <View
+              style={{
+                flex: 1,
+                marginTop: Resolution.scale(10),
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
+                <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
+              </View>
             </View>
           </View>
         </View>

@@ -1,7 +1,7 @@
 import Types from './';
 import Configs from '../../../utils/configs';
 
-export function getListNotification(accessTokenAPI, start = 0, maxResult = 100) {
+export function getListNotification(accessTokenAPI, start = 0, maxResult = 10) {
     return {
         type: Types.GET_LIST,
         payload: {
@@ -37,4 +37,13 @@ export function updateRead(accessTokenAPI, notyId) {
     }
 }
 
-
+export function getUnreadCount(accessTokenAPI) {
+    return {
+        type: Types.GET_UNREAD_COUNT,
+        payload: {
+            api: Configs.API + `/api/services/app/Notification/GetUserUnreadNotifications`,
+            method: 'GET',
+            token: accessTokenAPI,
+        }
+    }
+}

@@ -85,6 +85,16 @@ class Home extends layout {
         await this.setState({ isRefresh: false });
       }
     }
+
+    // reload count 
+    if (this.props.notification.updateRead !== nextProps.notification.updateRead
+      && nextProps.notification.updateRead.success) {
+      let unitID = this.props.units.unitActive.unitId;
+      let accessTokenAPI = this.props.account.accessTokenAPI;
+      await this.props.actions.notification.getListNotification(accessTokenAPI);
+      await this.props.actions.notification.getListCountModule(accessTokenAPI, unitID);
+      await this.props.actions.notification.getUnreadCount(accessTokenAPI);
+    }
   }
 
   _setData(languegeLocal = this.props.app.languegeLocal) {
@@ -186,6 +196,7 @@ class Home extends layout {
     }
     // await this.props.actions.notification.getListNotification(accessTokenApi);
     await this._setData();
+    await this.props.actions.notification.getUnreadCount(accessTokenApi);
     await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
     await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
     await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
@@ -210,7 +221,7 @@ class Home extends layout {
       onRegister: token => {
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function(notification) {
+      onNotification: function (notification) {
         console.log('NOTIFICATION:', notification);
 
         if (notification.foreground) {
@@ -311,6 +322,7 @@ class Home extends layout {
     }
     await this.setState({ isRefresh: true });
     await this.props.actions.app.getModuleHome(accessTokenAPI);
+    await this.props.actions.notification.getUnreadCount(accessTokenAPI);
     // await this.props.actions.notification.getListNotification(accessTokenAPI);
   }
 

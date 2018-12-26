@@ -28,6 +28,7 @@ class Notification extends layout {
     }, 300);
   }
 
+
   async componentWillReceiveProps(nextProps) {
     if (
       this.props.notification.listNoti.items !== nextProps.notification.listNoti.items &&
@@ -45,12 +46,6 @@ class Notification extends layout {
     ) {
       await this.setState({ data: nextProps.notification.listNoti.items });
       await this.setState({ loadingMore: false, isRefresh: false, isLoadData: false });
-    }
-    if (this.props.notification.updateRead !== nextProps.notification.updateRead && nextProps.notification.updateRead.success) {
-      let unitID = this.props.units.unitActive.unitId;
-      let accessTokenAPI = this.props.account.accessTokenAPI;
-      this.props.actions.notification.getListCountModule(accessTokenAPI, unitID);
-      this.props.actions.notification.getListNotification(accessTokenAPI);
     }
   }
 
@@ -76,11 +71,13 @@ class Notification extends layout {
   }
 
   async _onEndReached() {
-    if (this.state.loadingMore) {
+    const totalCount = this.props.notification.listNoti.totalCount;
+    const start = await this.state.data.length;
+    if (this.state.loadingMore || start >= totalCount) {
       return;
     }
     this.setState({ loadingMore: true });
-    let start = await this.state.data.length;
+    // let start = await this.state.data.length;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     await this.props.actions.notification.getListNotification(accessTokenAPI, start);
   }

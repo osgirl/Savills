@@ -2,7 +2,7 @@ import Types from './';
 import createReducer from '../';
 
 const INIT_STATE = ({
-    listNoti: { items: [], success: false },
+    listNoti: { items: [], success: false, totalCount: 0 },
     unreadCount: 0,
     listCountModule: {},
     updateRead: {}
@@ -38,9 +38,10 @@ export default createReducer(INIT_STATE, {
                     {
                         listNoti: {
                             items: action.response.result.items,
-                            success: action.response.success
+                            success: action.response.success,
+                            totalCount: action.response.result.totalCount
                         },
-                        unreadCount: action.response.result.unreadCount
+                        // unreadCount: action.response.result.unreadCount
                     },
                 );
             }
@@ -92,7 +93,6 @@ export default createReducer(INIT_STATE, {
             return {
                 ...state,
                 listNoti: { items: [], success: false },
-                unreadCount: 0
             };
         } catch (error) {
             console.log(error)
@@ -124,6 +124,41 @@ export default createReducer(INIT_STATE, {
     },
 
     [Types.UPDATE_READ_FAIL]: (state, action) => {
+        try {
+            return {
+                ...state,
+                updateRead: {},
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
+    [Types.GET_UNREAD_COUNT]: (state, action) => {
+        try {
+            return {
+                ...state
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_UNREAD_COUNT_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                unreadCount: action.response.result.unreadCount
+            };
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    [Types.GET_UNREAD_COUNT_FAIL]: (state, action) => {
         try {
             return {
                 ...state,
