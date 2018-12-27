@@ -40,10 +40,20 @@ function* getUnreadCount(action) {
   }
 }
 
+function* resetState() {
+  try {
+    yield put({ type: Types.RESET_STATE_SUCCESS });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 
 export default function* saga() {
   yield takeLatest(Types.GET_LIST, getListNotification);
   yield takeLatest(Types.GET_COUNT_MODULE, getListCountModule);
   yield takeLatest(Types.UPDATE_READ, updateRead);
   yield takeLatest(Types.GET_UNREAD_COUNT, getUnreadCount);
+
+  yield takeLatest('ACCOUNT_LOGOUT', resetState);
 }

@@ -6,4 +6,6 @@ export default keymirror({
     GET_UNREAD_COUNT: null,
     UPDATE_READ: null,
 
+    RESET_STATE: null
+
 }, "NOTIFICATION_");

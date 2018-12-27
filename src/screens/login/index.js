@@ -59,7 +59,7 @@ class Login extends layout {
                     await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, tenantList[0].tenantId, tenantList[0].id);
                 } else {
                     await this._gotoChooseProject();
-                    this.setState({ loading: false, unMount: false })
+                    this.setState({ loading: false, })
                 }
             }
 
@@ -77,7 +77,9 @@ class Login extends layout {
                 await this.props.actions.userProfile.getCurrentLoginInformations(nextProps.account.linkedAccountAuthenticate.result.accessToken);
                 await this.props.actions.userProfile.getImageUserProfile(nextProps.account.linkedAccountAuthenticate.result.accessToken);
                 await this.props.actions.units.getUnits(nextProps.account.linkedAccountAuthenticate.result.accessToken);
+                console.log('zozzozzo')
                 await this.props.actions.notification.getUnreadCount(nextProps.account.linkedAccountAuthenticate.result.accessToken);
+                console.log('quaaaaaa')
                 await this.props.actions.account.setIsAccessTokenAPI(true);
             }
 
@@ -86,7 +88,7 @@ class Login extends layout {
                     await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.result.items[0]);
                     await this.props.actions.notification.getListCountModule(nextProps.account.linkedAccountAuthenticate.result.accessToken, nextProps.units.listUnits.result.items[0].unitId);
                     await this.props.navigation.navigate('Home');
-                    this.setState({ loading: false })
+                    this.setState({ loading: false, unMount: false })
                     this.props.actions.units.setIsGetlisUnit(true);
 
                 } else {
@@ -119,6 +121,7 @@ class Login extends layout {
         }
 
     }
+
 
     onBackButtonPressAndroid = () => {
         return true;

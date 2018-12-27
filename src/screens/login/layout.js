@@ -62,7 +62,7 @@ export default class extends Component {
 
   renderLoading() {
     if (this.state.loading) {
-      return <Loading visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -85,8 +85,8 @@ export default class extends Component {
                 fontFamily={'OpenSans-Regular'}
               />
             </View>
-            <View style={{ marginTop: Resolution.scale(105) }}>
-              <Text style={Style.txtTop}>{languages.LOGIN_TITLE_1}</Text>
+            <View style={{ marginTop: Resolution.scale(105), flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={[Style.txtTop, { marginHorizontal: Resolution.scale(60), textAlign: 'center', }]}>{languages.LOGIN_TITLE_1}</Text>
               <Text style={Style.txtTop}>{languages.LOGIN_TITLE_2}</Text>
               <Image
                 source={IMG_LOGIN}
