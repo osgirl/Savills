@@ -13,7 +13,7 @@
 #import <UserNotifications/UserNotifications.h>
 #import "CodePush/CodePush.h"
 
-//@import PayooSDK;
+@import PayooSDK;
 
 @implementation AppDelegate
 
@@ -82,8 +82,8 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 
 
 // Payment
-//- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-//  return [Payoo application:app open:url options:options];
-//}
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  return [Payoo application:app open:url options:options];
+}
 
 @end
