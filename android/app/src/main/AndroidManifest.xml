@@ -18,22 +18,24 @@
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+        <!--<activity-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:name="vn.payoo.paymentsdk.ui.PayooPaymentSdkActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="adjustResize">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
+
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+
+                <!--<data-->
+                    <!--android:host="postbacksdkurl"-->
+                    <!--android:scheme="@string/payoo_protocol_scheme" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+
         <activity
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize"
-            android:name="vn.payoo.paymentsdk.ui.PayooPaymentSdkActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="postbacksdkurl"
-                    android:scheme="payoosdk799" />
-            </intent-filter>
-        </activity>
-      <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
           android:screenOrientation="portrait"
