@@ -51,8 +51,8 @@ export default class extends Component {
             itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
             onValueChange={index => this.onPickerSelect(index)}
           >
-            {Language.listLanguage.map((item, index) => (
-              <PickerItem label={item.icon + ' ' + item.title} value={index} key={'id_' + index} />
+            {this.props.app.listLanguage.map((item, index) => (
+              <PickerItem label={Language.listLanguage[index].icon + item.title} value={index} key={'id_' + index} />
             ))}
           </Picker>
         </View>
@@ -69,7 +69,7 @@ export default class extends Component {
 
   render() {
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
-    let iconFlag = Language.listLanguage[0].icon;
+    let iconFlag = Language.listLanguage[this.props.app.languegeLocal].icon;
     return (
       <View style={Style.container}>
         <KeyboardAwareScrollView>

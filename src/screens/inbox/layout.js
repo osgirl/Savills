@@ -263,7 +263,7 @@ export default class extends Component {
                 <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: width / 2 }}>
                   <Image source={IC_INBOXEMTY} />
                   <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
-                    {'Chưa có tin nhắn mới'}
+                    {languages.IB_EMPTY_NEW_INBOX}
                   </Text>
                 </View>
               )}
@@ -302,7 +302,7 @@ export default class extends Component {
               <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: width / 2 }}>
                 <Image source={IC_INBOXEMTY} />
                 <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
-                  {'Chưa có tin nhắn nào đã lưu'}
+                  {languages.IB_EMPTY_SAVE_INBOX}
                 </Text>
               </View>
             )}

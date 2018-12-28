@@ -109,7 +109,7 @@ export class ItemBooking extends Component {
             }}
           >
             <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
-              {item.status.statusCode}
+              {item.status.name}
             </Text>
           </View>
         </View>

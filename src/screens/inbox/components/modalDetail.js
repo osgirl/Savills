@@ -210,7 +210,7 @@ class ModalDetailFeedback extends Component {
         ) : (
           this.renderLoading()
         )}
-        <Button
+        {/* <Button
           style={{
             position: 'absolute',
             bottom: 50,
@@ -238,7 +238,7 @@ class ModalDetailFeedback extends Component {
               </Text>
             </View>
           )}
-        </Button>
+        </Button> */}
         {this.showDetailImage()}
         {this.renderContentModalChat()}
       </View>

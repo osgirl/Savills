@@ -73,7 +73,7 @@ export default class extends Component {
             onValueChange={index => this.onPickerSelect(index)}
           >
             {this.props.app.listLanguage.map((item, index) => (
-              <PickerItem label={item.title} value={index} key={'id_' + index} />
+              <PickerItem label={Language.listLanguage[index].icon + item.title} value={index} key={'id_' + index} />
             ))}
           </Picker>
         </View>
