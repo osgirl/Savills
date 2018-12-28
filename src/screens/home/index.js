@@ -184,11 +184,13 @@ class Home extends layout {
     });
   }
 
-  async componentWillMount() {
+  // await this.props.actions.notification.getListCountModule(accessTokenAPI, unitID);
+
+  async initData() {
     let accessTokenApi = this.props.account.accessTokenAPI;
-    let unitID = this.props.units.unitActive.unitId;
+    let unitID = await this.props.units.unitActive.unitId;
     if (unitID) {
-      this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
+      await this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
     } else {
       this.props.actions.units.getUnitLocal().then(() => {
         this.props.actions.notification.getListCountModule(accessTokenApi, this.props.units.unitActive.unitId);
@@ -205,6 +207,8 @@ class Home extends layout {
   }
 
   componentDidMount() {
+    this.initData();
+
     let accessTokenAPI = this.props.account.accessTokenAPI;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.props.actions.utilities.getFAQ(accessTokenAPI, languages);
@@ -385,12 +389,12 @@ class Home extends layout {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     await this.setState({ loading: true });
     await this.props.actions.app.logoutNoti(accessTokenAPI);
-    await this.props.actions.units.setUnitLocal({});
     await this.props.actions.account.logOut('');
-    await this.props.actions.account.setTenantLocal({});
-    await this.props.actions.account.setAccessTokenLocal('');
-    await this.props.actions.account.setAccessApiTokenLocal('');
-    await this.props.actions.account.setEncTokenLocal('');
+    await this.props.actions.units.setUnitLocal({});
+    // await this.props.actions.account.setTenantLocal({});
+    // await this.props.actions.account.setAccessTokenLocal('');
+    // await this.props.actions.account.setAccessApiTokenLocal('');
+    // await this.props.actions.account.setEncTokenLocal('');
 
     await this.setState({ loading: false });
     if (this.state.isShowProfile) await this.setState({ isShowProfile: false });

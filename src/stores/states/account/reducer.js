@@ -330,16 +330,16 @@ export default createReducer(INIT_STATE, {
 
     // ! LOGOUT
     [Types.LOGOUT_SUCCESS]: (state, action) => {
-        let tempState = Object.assign({}, { ...state },
-            {
-                accessToken: '',
-                accessTokenAPI: '',
-                tenantLocal: {},
-                encToken: '',
-                userSettings: {},
-                isGetTenant: true
-            });
-        return tempState;
+        // let tempState = Object.assign({}, { ...state },
+        //     {
+        //         accessToken: '',
+        //         accessTokenAPI: '',
+        //         tenantLocal: {},
+        //         encToken: '',
+        //         userSettings: {},
+        //         isGetTenant: true
+        //     });
+        return INIT_STATE;
     },
 
 });

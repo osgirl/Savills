@@ -2,7 +2,7 @@ import Types from './';
 import createReducer from '../';
 
 const INIT_STATE = ({
-    listNoti: { items: [], success: false, totalCount: 0 },
+    listNoti: {},
     unreadCount: 0,
     listCountModule: {},
     updateRead: {}
@@ -24,27 +24,28 @@ export default createReducer(INIT_STATE, {
     [Types.GET_LIST_SUCCESS]: (state, action) => {
         try {
             let tempState;
-            let totalCount = action.response.result.totalCount;
-            let data = [...state.listNoti.items]
-            if (data.length >= totalCount) {
-                tempState = Object.assign(
-                    {},
-                    { ...state },
-                );
-            } else {
-                tempState = Object.assign(
-                    {},
-                    { ...state },
-                    {
-                        listNoti: {
-                            items: action.response.result.items,
-                            success: action.response.success,
-                            totalCount: action.response.result.totalCount
-                        },
-                        // unreadCount: action.response.result.unreadCount
-                    },
-                );
-            }
+            // let totalCount = action.response.result.totalCount;
+            // let data = [...state.listNoti.items]
+            // if (data.length >= totalCount) {
+            //     tempState = Object.assign(
+            //         {},
+            //         { ...state },
+            //     );
+            // } else {
+            tempState = Object.assign(
+                {},
+                { ...state },
+                {
+                    listNoti: action.response
+                    // listNoti: {
+                    //     items: action.response.result.items,
+                    //     success: action.response.success,
+                    //     totalCount: action.response.result.totalCount
+                    // },
+                    // unreadCount: action.response.result.unreadCount
+                },
+            );
+            // }
             return tempState;
         } catch (error) {
             console.log(error)
@@ -168,6 +169,16 @@ export default createReducer(INIT_STATE, {
             console.log(error)
         }
     },
+
+    [Types.RESET_STATE_SUCCESS]: (state, action) => {
+        try {
+            return INIT_STATE;
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+
 
 
 

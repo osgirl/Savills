@@ -17,6 +17,7 @@ class Notification extends layout {
       isModalSelectUnit: false,
       scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isRefresh: false,
+      errorMess: '',
       isLoadData: true
     };
   }
@@ -31,22 +32,35 @@ class Notification extends layout {
 
   async componentWillReceiveProps(nextProps) {
     if (
-      this.props.notification.listNoti.items !== nextProps.notification.listNoti.items &&
+      this.props.notification.listNoti !== nextProps.notification.listNoti &&
       nextProps.notification.listNoti.success &&
       !this.state.isRefresh
     ) {
-      await this.setState({ data: this.state.data.concat(nextProps.notification.listNoti.items) });
-      await this.setState({ loadingMore: false, isLoadData: false });
+      await this.setState({ data: this.state.data.concat(nextProps.notification.listNoti.result.items) });
+      await this.setState({ loadingMore: false, isRefresh: false, isLoadData: false });
     }
 
     if (
-      this.props.notification.listNoti.items !== nextProps.notification.listNoti.items &&
+      this.props.notification.listNoti !== nextProps.notification &&
+      !nextProps.notification.listNoti.success && nextProps.notification.listNoti.error
+    ) {
+      await this.setState({ errorMess: nextProps.notification.listNoti.error.message });
+      await this.setState({ loadingMore: false, isRefresh: false, isLoadData: false });
+    }
+
+    if (
+      this.props.notification.listNoti !== nextProps.notification.listNoti &&
       nextProps.notification.listNoti.success &&
       this.state.isRefresh
     ) {
-      await this.setState({ data: nextProps.notification.listNoti.items });
+      await this.setState({ data: nextProps.notification.listNoti.result.items });
       await this.setState({ loadingMore: false, isRefresh: false, isLoadData: false });
     }
+
+    // if (this.props.notification.listNoti.result.items == nextProps.notification.listNoti.result.items && nextProps.notification.listNoti.result.items.length > 0) {
+    //   await this.setState({ data: nextProps.notification.listNoti.items });
+    //   await this.setState({ loadingMore: false, isRefresh: false });
+    // }
   }
 
   _onClickItem(item) {
@@ -66,12 +80,12 @@ class Notification extends layout {
     if (this.state.isRefresh) {
       return;
     }
-    await this.setState({ isRefresh: true, isLoadData: true });
+    await this.setState({ isRefresh: true });
     await this.props.actions.notification.getListNotification(accessTokenAPI);
   }
 
   async _onEndReached() {
-    const totalCount = this.props.notification.listNoti.totalCount;
+    const totalCount = this.props.notification.listNoti.result.totalCount;
     const start = await this.state.data.length;
     if (this.state.loadingMore || start >= totalCount) {
       return;
