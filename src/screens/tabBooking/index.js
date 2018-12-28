@@ -53,10 +53,6 @@ class TabBooking extends Component {
   }
 
   componentDidMount = () => {
-    let accessTokenApi = this.props.account.accessTokenAPI;
-    const buildingID = this.props.units.unitActive.buildingId;
-    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
-    this.props.actions.booking.getListCategory(accessTokenApi, buildingID, languages);
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalDetailBooking', { id: ida.itemtype });
@@ -64,7 +60,6 @@ class TabBooking extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    let accessTokenApi = this.props.account.accessTokenAPI;
     if (nextProps.booking.listCategory && nextProps.booking.listCategory.success) {
       this.setState({ listCategory: nextProps.booking.listCategory.result });
     }
@@ -200,7 +195,7 @@ class TabBooking extends Component {
           }}
         />
         <TouchableOpacity
-          onPress={() => this.setState({ isShowCategory: true })}
+          onPress={() => this.getListCategory(languages)}
           style={{
             borderRadius: 25,
             width: 50,
@@ -235,10 +230,20 @@ class TabBooking extends Component {
     );
   }
 
+  getListCategory = languages => {
+    this.setState({ isShowCategory: true }, () => {
+      setTimeout(() => {
+        let accessTokenApi = this.props.account.accessTokenAPI;
+        const buildingID = this.props.units.unitActive.buildingId;
+        this.props.actions.booking.getListCategory(accessTokenApi, buildingID, languages);
+      }, 200);
+    });
+  };
+
   changeCategory = () => {
     this.setState({ isModalNewBooking: false });
     setTimeout(() => {
-      this.setState({ isShowCategory: true });
+      this.getListCategory();
     }, 500);
   };
 

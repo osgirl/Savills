@@ -70,7 +70,7 @@ class ModalEditOrder extends PureComponent {
       vote: 0,
       description: '',
       commentRating: '',
-      comment: '',
+      chatText: '',
       scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isShowTitleHeader: false,
       showModalConfirmCancel: false,
@@ -163,7 +163,7 @@ class ModalEditOrder extends PureComponent {
   };
 
   addComment = () => {
-    if (this.state.comment.trim() === '') {
+    if (this.state.chatText.trim() === '') {
       return;
     } else {
       this.setState({ chatText: '' });
@@ -171,7 +171,7 @@ class ModalEditOrder extends PureComponent {
       const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
       let comment = {
         conversationId: this.props.workOrder.workOrderDetail.result.guid,
-        content: this.state.comment,
+        content: this.state.chatText,
         typeId: null,
         isPrivate: false,
         userName: displayName,
@@ -903,11 +903,11 @@ class ModalEditOrder extends PureComponent {
         chatEmpty={languages.WO_DETAIL_CHAT_EMPTY}
         placeholder={languages.WO_DETAIL_CHAT}
         listComment={this.state.listComment}
-        editableTextInput={this.state.detailOrder.currentStatus.id === 11 ? true : false}
-        disabledBtn={this.state.comment.trim() == '' ? true : false}
+        editableTextInput={tabIndex && tabIndex == 1 ? false : true}
+        disabledBtn={this.state.chatText.trim() === '' ? true : false}
         addComment={() => this.addComment()}
-        onChangeText={text => this.setState({ comment: text })}
-        opacityBtnSend={this.state.comment.trim() == '' ? 0.5 : 1}
+        onChangeText={text => this.setState({ chatText: text })}
+        opacityBtnSend={this.state.chatText.trim() == '' ? 0.5 : 1}
         colors={tabIndex && tabIndex == 1 ? ['#DEDEDE', '#DEDEDE'] : ['#4A89E8', '#8FBCFF']}
         onClose={() => this.setState({ isShowChat: false })}
         refTextInout={input => {

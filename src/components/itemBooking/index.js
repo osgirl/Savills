@@ -88,19 +88,21 @@ export class ItemBooking extends Component {
         <View
           style={{
             flex: 1,
-            marginVertical: Resolution.scale(5),
+            marginVertical: Resolution.scale(8),
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between'
           }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image style={{ marginRight: Resolution.scale(10) }} source={require('@resources/icons/clock.png')} />
-            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{`${time}-${time2}`}</Text>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image style={{ marginRight: Resolution.scale(10) }} source={require('@resources/icons/calendar.png')} />
-            <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{`(${date}-${date2})`}</Text>
+          <View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image style={{ marginRight: Resolution.scale(10) }} source={require('@resources/icons/clock.png')} />
+              <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{`${time}-${time2}`}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: Resolution.scale(5) }}>
+              <Image style={{ marginRight: Resolution.scale(10) }} source={require('@resources/icons/calendar.png')} />
+              <Text style={{ color: '#C9CDD4', fontSize: 10 }}>{`(${date}-${date2})`}</Text>
+            </View>
           </View>
           <View
             style={{

@@ -86,16 +86,8 @@ class ModalDetail extends Component {
     return (
       <View style={[styles.container, {}]}>
         {this.renderHeader()}
-        {/* <View style={{ position: 'absolute', top: 20, left: 0, zIndex: 10 }}>
-          <Button
-            onPress={() => this.props.onClose()}
-            style={{ padding: 20 }}>
-            <Image source={IC_CLOSE} />
-          </Button>
-        </View> */}
         <View style={{ flex: 1 }}>
           {file ? (
-            // <WebView automaticallyAdjustContentInsets url={file} />
             <WebView
               javaScriptEnabled={true}
               builtInZoomControls={false}
@@ -105,10 +97,10 @@ class ModalDetail extends Component {
               scalesPageToFit={true}
             />
           ) : (
-              <View>
-                <ActivityIndicator size={'large'} color={Configs.colorMain} />
-              </View>
-            )}
+            <View>
+              <ActivityIndicator size={'large'} color={Configs.colorMain} />
+            </View>
+          )}
         </View>
       </View>
     );

@@ -11,12 +11,11 @@ export class emptyItemList extends Component {
         style={{
           marginTop: height / 2 - (isIphoneX() ? 100 : 150),
           width: width - 40,
+          marginHorizontal: 20,
           alignItems: 'center'
         }}
       >
-        <Text
-          style={{ color: '#505E75', fontSize: 15, fontFamily: 'OpenSans-Bold', textAlign: 'center' }}
-        >{message}</Text>
+        <Text style={{ color: '#505E75', fontSize: 15, fontFamily: 'OpenSans-Bold', textAlign: 'center' }}>{message}</Text>
         <Image style={{ marginTop: 20, marginRight: 50 }} source={require('@resources/icons/addnew-pls.png')} />
       </View>
     );

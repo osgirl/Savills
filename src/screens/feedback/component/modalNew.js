@@ -107,7 +107,7 @@ class ModalNewFeedback extends Component {
     let { id, username } = this.props.account.tenantActive;
     this.props.actions.feedback.createFeedback(
       accessTokenApi,
-      language,
+      languege,
       commentBoxSourceId,
       unitActive.buildingId,
       id,

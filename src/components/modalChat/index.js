@@ -121,15 +121,6 @@ export default class ModalChat extends Component {
               </View>
             </LinearGradient>
           </KeyboardAvoidingView>
-          {/* {
-            Platform.OS === 'ios' ?
-              <KeyboardAvoidingView
-                enabled
-                behavior="padding"
-                keyboardVerticalOffset={50}
-              />
-              : null
-          } */}
         </View>
       </Modal>
     );
