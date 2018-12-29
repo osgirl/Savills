@@ -39,14 +39,13 @@ import android.app.Activity;
 import org.json.JSONException;
 
 
-
 public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements OnPayooPaymentCompleteListener, ActivityEventListener {
 
     private static final String KEY_AUTH_TOKEN = "app_auth_token";
 
     private static final String KEY_USER_ID = "user_id";
 
-    private AppCompatEditText editTextCash, editTextEmail, editTextPhone, editUserId, editAuthToken, editBankCode;
+    private AppCompatEditText editAuthToken;
     ReactContext reactContext;
 
     public PayooSDKAndroidModule(ReactApplicationContext reactContext) {
@@ -68,21 +67,16 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
     public void pay(ReadableMap input, Promise promise) throws JSONException {
         this.promise = promise;
 
-        Log.d("", input.toString());
         String orderXML = input.getString("PayooOrderXML");
         String merchantId = input.getString("MerchantID");
         String merchantShareKey = input.getString("MerchantShareKey");
         String checksum = input.getString("PayooOrderChecksum");
-        String email = input.getString("Email");
-        String phone = input.getString("Phone");
-        int lang = input.getInt("Lang");
+        int lang = input.getInt("Language");
         order = Order.newBuilder().checksum(checksum).orderInfo(orderXML).build();
 
         PayooMerchant payooMerchant = PayooMerchant.newBuilder().merchantId(merchantId).secretKey(merchantShareKey).isDevMode(true).build();
         PayooPaymentSDK.initialize(getReactApplicationContext(), payooMerchant);
         PaymentConfig configure = PaymentConfig.newBuilder().withLocale(LocaleHelper.getLocale(getReactApplicationContext(), lang == 0 ? PayooPaymentSDK.LOCALE_VI : PayooPaymentSDK.LOCALE_EN))
-                .withCustomerEmail(email)
-                .withCustomerPhone(phone)
                 .withStyleResId(R.style.PayooSdkTheme_Blue)
                 .build();
         PayooPaymentSDK.pay(getReactApplicationContext().getCurrentActivity(), order, configure);

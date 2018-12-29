@@ -160,7 +160,7 @@ class ModalDetailFeedback extends Component {
                         // justifyContent: 'space-around'
                       }}
                     >
-                      <HTML html={data.subject} imagesMaxWidth={width} />
+                      <HTML html={data.subject} imagesMaxWidth={width-90} />
                     </View>
                   }
                 />
@@ -179,8 +179,7 @@ class ModalDetailFeedback extends Component {
                         // justifyContent: 'space-around'
                       }}
                     >
-                      <HTML html={data.content} imagesMaxWidth={width} />
-                      {/* <WebView originWhitelist={['*']} source={{ html: data.content }} scalesPageToFit={false} /> */}
+                      <HTML html={data.content} imagesMaxWidth={width-90} />
                     </View>
                   }
                 />
@@ -210,35 +209,6 @@ class ModalDetailFeedback extends Component {
         ) : (
           this.renderLoading()
         )}
-        {/* <Button
-          style={{
-            position: 'absolute',
-            bottom: 50,
-            right: 20
-          }}
-          onPress={() => this.setState({ isShowChat: true })}
-        >
-          <Image source={require('../../../resources/icons/chat-big.png')} />
-          {this.props.inbox.commentUnread.result && this.props.inbox.commentUnread.result[0].unreadCount > 0 && (
-            <View
-              style={{
-                width: 16,
-                height: 16,
-                backgroundColor: 'red',
-                borderRadius: 8,
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 8 }}>
-                {this.props.inbox.commentUnread.result[0].unreadCount}
-              </Text>
-            </View>
-          )}
-        </Button> */}
         {this.showDetailImage()}
         {this.renderContentModalChat()}
       </View>

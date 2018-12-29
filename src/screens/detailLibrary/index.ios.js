@@ -4,7 +4,6 @@ import Connect from '@stores';
 import layout from './layout';
 
 import _ from 'lodash';
-
 class DetailLibary extends layout {
   constructor(props) {
     super(props);
@@ -62,33 +61,9 @@ class DetailLibary extends layout {
   }
 
   _openModalDetail(item) {
-    if (Platform.OS === 'ios') {
-      this.setState({ itemSelected: item });
-      this.setState({ isShowModalDetail: true });
-    } else {
-      import OpenFile from 'react-native-doc-viewer';
-      const encToken = this.props.account.encToken;
-      const file = item.file && `${item.file.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
-      OpenFile.openDoc(
-        [
-          {
-            url: file,
-            fileName: 'sample',
-            cache: false,
-            fileType: 'doc'
-          }
-        ],
-        (error, url) => {
-          if (error) {
-            this.setState({ animating: false });
-            console.error(error);
-          } else {
-            this.setState({ animating: false });
-            console.log(url);
-          }
-        }
-      );
-    }
+    console.log('asdkjasdkasjdlkjasdklasdasd', item);
+    this.setState({ itemSelected: item });
+    this.setState({ isShowModalDetail: true });
   }
 
   _openModalSelectUnit() {

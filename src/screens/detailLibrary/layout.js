@@ -33,9 +33,6 @@ import AnimatedTitle from '@components/animatedTitle';
 import { ItemHorizontal2 } from '../../components/placeHolder';
 import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 
-import OpenFile from 'react-native-doc-viewer';
-var RNFS = require('react-native-fs');
-
 const HEADER_MAX_HEIGHT = 60;
 
 const { width } = Dimensions.get('window');

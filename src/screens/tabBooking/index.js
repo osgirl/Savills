@@ -308,7 +308,6 @@ class ItemCategory extends Component {
         onPress={() => this.props.actins()}
         style={{
           width: width - 40,
-          height: 70,
           borderRadius: 10,
           backgroundColor: '#FFF',
           marginHorizontal: 20,
@@ -323,7 +322,7 @@ class ItemCategory extends Component {
           resizeMode={'cover'}
           source={{ uri: configs.API_BOOKING + iconPath }}
         />
-        <Text style={{ color: '#515E6D', fontSize: 14, fontWeight: '600' }}>{amenityName}</Text>
+        <Text style={{ color: '#515E6D', fontSize: 14, fontWeight: '600',flex:1 }}>{amenityName}</Text>
       </TouchableOpacity>
     );
   }

@@ -341,7 +341,7 @@ class ModalNewFeedback extends Component {
             }}
           >
             <TouchableOpacity onPress={() => this.setState({ isShowCategory: false })}>
-              <Image source={require('@resources/icons/close-black.png')} />
+              <Image style={{margin:10}} source={require('@resources/icons/close-black.png')} />
             </TouchableOpacity>
             <Text styl={{ color: '#505E75', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold' }}>
               {languages.FB_PROBLEM_FEEDBACK}
