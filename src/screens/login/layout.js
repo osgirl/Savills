@@ -38,6 +38,16 @@ export default class extends Component {
     }
   }
 
+  getIcon = index => {
+    let id = this.props.app.listLanguage[index];
+    let item = Language.listLanguage.filter(item => {
+      if (item.id === id.id) {
+        return item;
+      }
+    });
+    return item[0].icon;
+  };
+
   renderModalContent() {
     return (
       <View>
@@ -52,7 +62,7 @@ export default class extends Component {
             onValueChange={index => this.onPickerSelect(index)}
           >
             {this.props.app.listLanguage.map((item, index) => (
-              <PickerItem label={Language.listLanguage[index].icon + item.title} value={index} key={'id_' + index} />
+              <PickerItem label={this.getIcon(index) + item.title} value={index} key={'id_' + index} />
             ))}
           </Picker>
         </View>
@@ -62,14 +72,16 @@ export default class extends Component {
 
   renderLoading() {
     if (this.state.loading) {
-      return <Loading visible={this.state.loading} onRequestClose={() => { }} />;
+      return <Loading visible={this.state.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
 
   render() {
+    console.log('asdalsijdalisjdalsdjalksdasda', this.state.loading);
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
-    let iconFlag = Language.listLanguage[this.props.app.languegeLocal].icon;
+    // let iconFlag = Language.listLanguage[this.props.app.languegeLocal].icon;
+    let iconFlag = this.getIcon(this.props.app.languegeLocal);
     return (
       <View style={Style.container}>
         <KeyboardAwareScrollView>
@@ -86,7 +98,9 @@ export default class extends Component {
               />
             </View>
             <View style={{ marginTop: Resolution.scale(105), flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={[Style.txtTop, { marginHorizontal: Resolution.scale(60), textAlign: 'center', }]}>{languages.LOGIN_TITLE_1}</Text>
+              <Text style={[Style.txtTop, { marginHorizontal: Resolution.scale(60), textAlign: 'center' }]}>
+                {languages.LOGIN_TITLE_1}
+              </Text>
               <Text style={Style.txtTop}>{languages.LOGIN_TITLE_2}</Text>
               <Image
                 source={IMG_LOGIN}

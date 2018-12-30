@@ -3,7 +3,7 @@ import createReducer from '../';
 
 const INIT_STATE = {
   listLanguege: {},
-  languegeLocal: '',
+  languegeLocal: 0,
   notification: false,
   setting: false,
   getSetting: false,

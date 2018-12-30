@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 
 export default class {
-  static async request(action, language = 0, headers = {}) {
+  static async request(action, headers = {}) {
     let method = action.method || 'GET';
     let request = {
       method: method,

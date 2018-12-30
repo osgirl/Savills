@@ -260,7 +260,7 @@ export default class extends Component {
               ListHeaderComponent={() => <View style={{ height: 20 }} />}
               ListFooterComponent={() => this._FooterFlatlist()}
               ListEmptyComponent={() => (
-                <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: width / 2 }}>
+                <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: width / 2 - 80 }}>
                   <Image source={IC_INBOXEMTY} />
                   <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
                     {languages.IB_EMPTY_NEW_INBOX}
@@ -299,7 +299,7 @@ export default class extends Component {
             ListHeaderComponent={() => <View style={{ height: 20 }} />}
             ListFooterComponent={() => this._FooterFlatlist()}
             ListEmptyComponent={() => (
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: width / 2 }}>
+              <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginTop: width / 2 - 80 }}>
                 <Image source={IC_INBOXEMTY} />
                 <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
                   {languages.IB_EMPTY_SAVE_INBOX}

@@ -104,14 +104,15 @@ class ModalNewFeedback extends Component {
     this.setState({ loading: true });
     let accessTokenApi = this.props.account.accessTokenAPI;
     let unitActive = this.props.units.unitActive;
-    let { id, username } = this.props.account.tenantActive;
+    let { id } = this.props.account.tenantActive;
+    let { displayName } = this.props.userProfile.profile.result.user;
     this.props.actions.feedback.createFeedback(
       accessTokenApi,
       languege,
       commentBoxSourceId,
       unitActive.buildingId,
       id,
-      username,
+      displayName,
       unitActive.unitId,
       unitActive.fullUnitCode,
       this.state.categorySelectedId,
@@ -341,7 +342,7 @@ class ModalNewFeedback extends Component {
             }}
           >
             <TouchableOpacity onPress={() => this.setState({ isShowCategory: false })}>
-              <Image style={{margin:10}} source={require('@resources/icons/close-black.png')} />
+              <Image style={{ margin: 10 }} source={require('@resources/icons/close-black.png')} />
             </TouchableOpacity>
             <Text styl={{ color: '#505E75', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Bold' }}>
               {languages.FB_PROBLEM_FEEDBACK}

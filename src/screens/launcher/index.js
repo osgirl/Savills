@@ -1,6 +1,6 @@
 import Connect from '@stores';
 import layout from './layout';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform, NetInfo } from 'react-native';
 import CodePush from 'react-native-code-push';
 import _ from 'lodash';
 
@@ -24,12 +24,17 @@ class Launcher extends layout {
     await this.props.actions.account.getEncTokenLocal();
     await this.props.actions.app.getLanguageApp();
     await this.props.actions.units.getUnitLocal();
-
     await this.props.actions.app.getLanguageLocal();
     if (this.props.app.languegeLocal.length <= 0) {
       await this.props.actions.app.setLanguageLocal('0');
     }
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
   }
+
+  handleConnectionChange = isConnected => {
+    if (isConnected) {
+    } else alert(his.props.app.listLanguage[this.props.app.languegeLocal].data.NO_INTERNET);
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.state.language === 0 && nextProps.app.listLanguage && nextProps.app.listLanguage.length > 0) {

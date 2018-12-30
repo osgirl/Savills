@@ -278,7 +278,7 @@ export default class extends Component {
               </Button>
 
               <Button
-                onPress={() => this.props.onLogOut()}
+                onPress={() => this.logout()}
                 style={[Style.btnBlock, { marginVertical: 10, alignItems: 'center', marginBottom: 20 }]}
               >
                 <Text style={[Style.txtBlock, { color: '#FF361A' }]}>{languages.PROFILE_BTN_LOGOUT}</Text>

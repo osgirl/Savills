@@ -67,7 +67,7 @@ export default class extends Component {
     })(event);
   };
 
-  renderHeader() {
+  renderHeader(languages) {
     let checkEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
     const OpacityImage = this.state.scrollY.interpolate({
       inputRange: [0, 25, 50],
@@ -97,7 +97,7 @@ export default class extends Component {
             </Animated.View>
           </Avatar>
           <Line txtWidth={100} height={20} onReady={User ? true : false} animate="fade">
-            {User && <Text style={Style.displayName}>{'Hey!! ' + User.displayName}</Text>}
+            {User && <Text style={Style.displayName}>{languages.HOME_HELLO_NAME + User.displayName}</Text>}
           </Line>
 
           <Text style={Style.unitCode}>{Unit.fullUnitCode}</Text>
@@ -168,6 +168,7 @@ export default class extends Component {
     var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
     let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
     let checkScrollEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={Style.container}>
         <HeaderHome
@@ -226,7 +227,7 @@ export default class extends Component {
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => <View style={{ width: 500, height: 1000, backgroundColor: 'red' }} />}
             ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
-            ListHeaderComponent={() => this.renderHeader()}
+            ListHeaderComponent={() => this.renderHeader(languages)}
             ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(100), width: Resolution.scaleWidth(40) }} />}
           />
         </View>

@@ -34,6 +34,19 @@ class Profile extends Layout {
     }, 300);
   }
 
+  logout = () => {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+    Alert.alert(
+      languages.PROFILE_LOGOUT_TITLE,
+      languages.PROFILE_LOGOUT_CONTENT,
+      [
+        { text: languages.PROFILE_LOGOUT_OK, onPress: () => this.props.onLogOut() },
+        { text: languages.PROFILE_LOGOUT_CANCEL, onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
+      ],
+      { cancelable: false }
+    );
+  };
+
   async componentWillReceiveProps(nextProps) {
     if (
       this.props.userProfile.updateUserProfile !== nextProps.userProfile.updateUserProfile &&

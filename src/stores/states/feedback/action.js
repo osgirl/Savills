@@ -5,7 +5,9 @@ export function getListFeedback(accessTokenAPI, language = 'en', pageCount = 1, 
   return {
     type: Types.GET_LIST_FEEDBACK,
     payload: {
-      api: Configs.API_BOOKING + `/api/commentboxes/my-commentboxes?page=${pageCount}&pageSize=${pageSize}&groupstatus=PROCESSING&culture=${language}`,
+      api:
+        Configs.API_BOOKING +
+        `/api/commentboxes/my-commentboxes?page=${pageCount}&pageSize=${pageSize}&groupstatus=PROCESSING&culture=${language}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -16,7 +18,9 @@ export function getListFeedbackCompleted(accessTokenAPI, language = 'en', pageCo
   return {
     type: Types.GET_LIST_FEEDBACK_COMPLETED,
     payload: {
-      api: Configs.API_BOOKING + `/api/commentboxes/my-commentboxes?page=${pageCount}&pageSize=${pageSize}&groupstatus=COMPLETED&culture=${language}`,
+      api:
+        Configs.API_BOOKING +
+        `/api/commentboxes/my-commentboxes?page=${pageCount}&pageSize=${pageSize}&groupstatus=COMPLETED&culture=${language}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -56,7 +60,7 @@ export function getTypeFeedback(accessTokenAPI, language = 'en') {
   };
 }
 
-export function updateStatus(accessTokenAPI, id = 0, statusCode = "DELETED", language = 'en') {
+export function updateStatus(accessTokenAPI, id = 0, statusCode = 'DELETED', language = 'en') {
   return {
     type: Types.UPDATE_STATUS,
     payload: {
@@ -65,7 +69,7 @@ export function updateStatus(accessTokenAPI, id = 0, statusCode = "DELETED", lan
       token: accessTokenAPI,
       payload: {
         id,
-        statusCode,
+        statusCode
       }
     }
   };
@@ -77,7 +81,7 @@ export function createFeedback(
   commentBoxSourceId = 0,
   buildingId = 0,
   userId = 0,
-  userName = '',
+  displayName = '',
   unitId = 0,
   fullUnitCode = '',
   commentBoxCategoryId = 0,
@@ -95,7 +99,7 @@ export function createFeedback(
         commentBoxSourceId: commentBoxSourceId,
         buildingId: buildingId,
         userId: userId,
-        userName: userName,
+        userName: displayName,
         unitId: unitId,
         fullUnitCode: fullUnitCode,
         commentBoxProjectType: 'PROJECT',

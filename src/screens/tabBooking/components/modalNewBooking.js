@@ -148,6 +148,7 @@ class ModalNewBooking extends PureComponent {
     let arrSelect = this.state.arrSelected.slice();
     let flag = arr[index].isCheck || false;
     let position = arrSelect.indexOf(index);
+
     if (this.state.arrSelected.length === numberSlot && arr[index].isCheck === false) {
       return;
     } else if (arr.length === 1) {
@@ -184,7 +185,14 @@ class ModalNewBooking extends PureComponent {
         }
       }
     } else if (arrSelect.length > 0 && !flag && arr[index - 1].isCheck === false && arr[index + 1].isCheck === false) {
-      return;
+      arrSelect = [];
+      arr.map(item => ((item.isCheck = false), (item.isFlag = false)));
+      arr[index].isCheck = !flag;
+      if (position > -1) {
+        arrSelect.splice(position, 1);
+      } else {
+        arrSelect.push(index);
+      }
     } else if (arrSelect.length > 0 && flag && arr[index + 1].isCheck && arr[index - 1].isCheck) {
       return;
     } else {

@@ -245,6 +245,7 @@ class ModalNewOrder extends PureComponent {
           }}
           innerRef={ref => (this.scroll = ref)}
           keyboardShouldPersistTaps="handled"
+          extraHeight={100}
           showsVerticalScrollIndicator={false}
           onScroll={this.handleScroll}
           enableOnAndroid
@@ -272,7 +273,7 @@ class ModalNewOrder extends PureComponent {
                     >{`${fullUnitCode} - ${displayName}`}</Text>
                   </View>
                   <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>Mail</Text>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_NEW_EMAIL}</Text>
                     <TextInput
                       onChangeText={e => this.setState({ email: e })}
                       value={this.state.email}
@@ -492,7 +493,9 @@ class ModalNewOrder extends PureComponent {
                       >{`${fullUnitCode}-${displayName}`}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>Mail</Text>
+                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.WO_NEW_EMAIL}
+                      </Text>
                       <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.email}</Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
