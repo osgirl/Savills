@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, Image, StatusBar, Dimensions, ScrollView, DeviceEventEmitter } from 'react-native';
+import { View, Text, Animated, Image, StatusBar, Dimensions, ScrollView, DeviceEventEmitter, Platform } from 'react-native';
 import Header from '@components/header';
 import IC_BACK from '@resources/icons/close.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
@@ -11,7 +11,7 @@ import ButtonSwitch from '../../components/buttonSwitch';
 import HeaderTitle from '@components/headerTitle';
 import Picker from 'react-native-wheel-picker';
 import LinearGradient from 'react-native-linear-gradient';
-
+import AnimatedTitle from '@components/animatedTitle';
 import Resolution from '../../utils/resolution';
 
 import Styles from './styles';
@@ -22,8 +22,27 @@ const { width, height } = Dimensions.get('window');
 
 var PickerItem = Picker.Item;
 
+const HEADER_MAX_HEIGHT = 60;
+
 export default class extends Component {
+
+  handleScroll = event => {
+    Animated.event(
+      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+      {
+      },
+      { useNativeDriver: true }
+    )(event);
+  };
+
+
   renderHeader(languages) {
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp'
+    });
+
     let unitActive = this.props.units.unitActive;
     return (
       <View>
@@ -32,12 +51,14 @@ export default class extends Component {
           leftIcon={IC_BACK}
           leftAction={() => this.props.navigation.goBack()}
           headercolor={'transparent'}
+          showTitleHeader={true}
+          center={
+            <Animated.View style={{ opacity: isShow }}>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.PROFILE_BTN_SETTING}</Text>
+            </Animated.View>
+          }
         />
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
-          <Animated.View style={{ height: 60 }}>
-            <HeaderTitle title={languages.PROFILE_BTN_SETTING} />
-          </Animated.View>
-        </LinearGradient>
+        <AnimatedTitle scrollY={this.state.scrollY} label={languages.PROFILE_BTN_SETTING} />
       </View>
     );
   }
@@ -114,117 +135,131 @@ export default class extends Component {
 
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
-      <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        <StatusBar barStyle="light-content" />
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.renderHeader(languages)}
-        <View style={{ padding: Resolution.scale(20) }}>
-          <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginBottom: 5 }}>
-            <Text style={Styles.titleHeader}>{languages.ST_DETAIL_NOTI}</Text>
-            <Image source={require('@resources/icons/notify_setting.png')} />
-            <Image style={{ marginHorizontal: 30 }} source={require('@resources/icons/mail_setting.png')} />
-          </View>
-          <View
-            style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 20, paddingBottom: 0, justifyContent: 'space-between' }}
-          >
-            {/* Fee */}
-            <ViewSwitch
-              text={setting[0].displayName}
-              noti={fee}
-              email={emailFee}
-              onToggleEmail={tugle => this.changeNoti('emailFee', tugle)}
-              onToggle={tugle => this.changeNoti('fee', tugle)}
-            />
-            {/* WorkOrder */}
-            <ViewSwitch
-              text={setting[1].displayName}
-              noti={workOrder}
-              email={emailWorkOrder}
-              onToggle={tugle => this.changeNoti('workOrder', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailWorkOrder', tugle)}
-            />
-            {/* Booking */}
-            <ViewSwitch
-              text={setting[2].displayName}
-              noti={booking}
-              email={emailBooking}
-              onToggle={tugle => this.changeNoti('booking', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailBooking', tugle)}
-            />
-            {/* event */}
-            <ViewSwitch
-              text={setting[3].displayName}
-              noti={event}
-              email={emailEvent}
-              onToggle={tugle => this.changeNoti('event', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailEvent', tugle)}
-            />
-            {/* FeedBack */}
-            <ViewSwitch
-              text={setting[5].displayName}
-              noti={feedback}
-              email={emailFeedback}
-              onToggle={tugle => this.changeNoti('feedback', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailFeedback', tugle)}
-            />
-            {/* Communication ===> chat */}
-            <ViewSwitch
-              text={setting[6].displayName}
-              noti={communication}
-              email={emailCommunication}
-              onToggle={tugle => this.changeNoti('communication', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailCommunication', tugle)}
-            />
-            {/* Delivery */}
-            <ViewSwitch
-              text={setting[7].displayName}
-              noti={delivery}
-              email={emailDelivery}
-              onToggle={tugle => this.changeNoti('delivery', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailDelivery', tugle)}
-            />
-            {/* Inbox */}
-            <ViewSwitch
-              text={setting[8].displayName}
-              noti={inbox}
-              email={emailInbox}
-              onToggle={tugle => this.changeNoti('inbox', tugle)}
-              onToggleEmail={tugle => this.changeNoti('emailInbox', tugle)}
-            />
-          </View>
-        </View>
-
-        {/* ====== Thông báo chi tiết ======= */}
-        <View style={{ padding: Resolution.scale(20) }}>
-          <Text style={Styles.titleHeader}>{languages.ST_LANGUAGE}</Text>
-          <Button onPress={() => this._toggleModalLanguage()} style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
-            <View
-              style={{
-                padding: Resolution.scale(20),
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                alignItems: 'center'
-              }}
-            >
-              <Text>{this.props.app.listLanguage[this.props.app.languegeLocal].title}</Text>
-              <Image source={IC_ARROWRIGHT} />
-            </View>
-          </Button>
-        </View>
-
-        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
-          <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
-        </Modal>
-        <Modal
-          onBackdropPress={() => this._toggleModalLanguage()}
-          isVisible={this.state.isModalLanguage}
-          style={{
-            justifyContent: 'flex-end',
-            margin: Resolution.scale(20)
+        <ScrollView
+          onScroll={this.handleScroll}
+          scrollEventThrottle={16}
+          contentContainerStyle={{
+            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+          }}
+          contentInset={{
+            top: HEADER_MAX_HEIGHT
+          }}
+          contentOffset={{
+            y: -HEADER_MAX_HEIGHT
           }}
         >
-          {this.renderModalLanguage(languages)}
-        </Modal>
-      </ScrollView>
+          <StatusBar barStyle="light-content" />
+          <View style={{ padding: Resolution.scale(20), paddingBottom: 0 }}>
+            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginBottom: Resolution.scale(10) }}>
+              <Text style={Styles.titleHeader}>{languages.ST_DETAIL_NOTI}</Text>
+              <Image source={require('@resources/icons/notify_setting.png')} />
+              <Image style={{ marginHorizontal: 30 }} source={require('@resources/icons/mail_setting.png')} />
+            </View>
+            <View
+              style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 20, paddingBottom: 0, justifyContent: 'space-between' }}
+            >
+              {/* Fee */}
+              <ViewSwitch
+                text={setting[0].displayName}
+                noti={fee}
+                email={emailFee}
+                onToggleEmail={tugle => this.changeNoti('emailFee', tugle)}
+                onToggle={tugle => this.changeNoti('fee', tugle)}
+              />
+              {/* WorkOrder */}
+              <ViewSwitch
+                text={setting[1].displayName}
+                noti={workOrder}
+                email={emailWorkOrder}
+                onToggle={tugle => this.changeNoti('workOrder', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailWorkOrder', tugle)}
+              />
+              {/* Booking */}
+              <ViewSwitch
+                text={setting[2].displayName}
+                noti={booking}
+                email={emailBooking}
+                onToggle={tugle => this.changeNoti('booking', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailBooking', tugle)}
+              />
+              {/* event */}
+              <ViewSwitch
+                text={setting[3].displayName}
+                noti={event}
+                email={emailEvent}
+                onToggle={tugle => this.changeNoti('event', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailEvent', tugle)}
+              />
+              {/* FeedBack */}
+              <ViewSwitch
+                text={setting[5].displayName}
+                noti={feedback}
+                email={emailFeedback}
+                onToggle={tugle => this.changeNoti('feedback', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailFeedback', tugle)}
+              />
+              {/* Communication ===> chat */}
+              <ViewSwitch
+                text={setting[6].displayName}
+                noti={communication}
+                email={emailCommunication}
+                onToggle={tugle => this.changeNoti('communication', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailCommunication', tugle)}
+              />
+              {/* Delivery */}
+              <ViewSwitch
+                text={setting[7].displayName}
+                noti={delivery}
+                email={emailDelivery}
+                onToggle={tugle => this.changeNoti('delivery', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailDelivery', tugle)}
+              />
+              {/* Inbox */}
+              <ViewSwitch
+                text={setting[8].displayName}
+                noti={inbox}
+                email={emailInbox}
+                onToggle={tugle => this.changeNoti('inbox', tugle)}
+                onToggleEmail={tugle => this.changeNoti('emailInbox', tugle)}
+              />
+            </View>
+          </View>
+
+          {/* ====== Thông báo chi tiết ======= */}
+          <View style={{ padding: Resolution.scale(20), marginBottom: Resolution.scale(40) }}>
+            <Text style={[Styles.titleHeader, { marginBottom: 10 }]}>{languages.ST_LANGUAGE}</Text>
+            <Button onPress={() => this._toggleModalLanguage()} style={{ backgroundColor: '#FFF', borderRadius: 5 }}>
+              <View
+                style={{
+                  padding: Resolution.scale(20),
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}
+              >
+                <Text>{this.props.app.listLanguage[this.props.app.languegeLocal].title}</Text>
+                <Image source={IC_ARROWRIGHT} />
+              </View>
+            </Button>
+          </View>
+
+          <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
+            <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
+          </Modal>
+          <Modal
+            onBackdropPress={() => this._toggleModalLanguage()}
+            isVisible={this.state.isModalLanguage}
+            style={{
+              justifyContent: 'flex-end',
+              margin: Resolution.scale(20)
+            }}
+          >
+            {this.renderModalLanguage(languages)}
+          </Modal>
+        </ScrollView>
+      </View>
     );
   }
 

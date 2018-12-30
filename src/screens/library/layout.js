@@ -126,6 +126,7 @@ export default class extends Component {
             renderItem={({ item, index }) => this.renderItem(item, index)}
             extraData={this.state}
             legacyImplementation={false}
+            scrollEventThrottle={16}
             ListFooterComponent={() => this._FooterFlatlist()}
             refreshControl={
               <RefreshControl
