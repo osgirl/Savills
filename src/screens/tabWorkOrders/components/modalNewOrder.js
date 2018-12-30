@@ -11,8 +11,8 @@ import {
   PixelRatio,
   Animated,
   Platform,
-  Keyboard,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  Keyboard
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -51,8 +51,11 @@ class ModalNewOrder extends PureComponent {
       sdt: this.props.userProfile.profile.result.user.phoneNumber,
       listArea: this.props.workOrder.listArea.result,
       isShowModalWarning: false,
-      message: ''
+      message: '',
+      keyboardMarginBottom: 0
     };
+    this._keyboardDidHide = this._keyboardDidHide.bind(this);
+    this._keyboardDidShow = this._keyboardDidShow.bind(this);
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -78,6 +81,24 @@ class ModalNewOrder extends PureComponent {
       DeviceEventEmitter.emit('UpdateListWorkOrder', {});
       await this.props.navigation.goBack();
     }
+  }
+
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow() {
+    this.setState({ keyboardMarginBottom: 200 });
+  }
+
+  _keyboardDidHide() {
+    this.setState({ keyboardMarginBottom: 0 });
   }
 
   actionCreateWorkOrder = () => {
@@ -245,12 +266,11 @@ class ModalNewOrder extends PureComponent {
           }}
           innerRef={ref => (this.scroll = ref)}
           keyboardShouldPersistTaps="handled"
-          extraHeight={100}
           showsVerticalScrollIndicator={false}
           onScroll={this.handleScroll}
           enableOnAndroid
         >
-          <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+          <ScrollView style={{ flex: 1, backgroundColor: '#F6F8FD', marginBottom: this.state.keyboardMarginBottom }}>
             <ItemScorll
               title={languages.WO_NEW_INFO}
               view={
@@ -353,7 +373,6 @@ class ModalNewOrder extends PureComponent {
               view={
                 <TextInput
                   style={{
-                    flex: 1,
                     backgroundColor: '#FFF',
                     borderRadius: 5,
                     height: 100,
@@ -363,9 +382,6 @@ class ModalNewOrder extends PureComponent {
                     marginBottom: 20
                   }}
                   returnKeyType="done"
-                  autoCapitalize="sentences"
-                  autoCorrect={true}
-                  onSubmitEditing={() => Keyboard.dismiss()}
                   multiline
                   placeholder={languages.WO_NEW_CONTENT}
                   onChangeText={e => this.setState({ comment: e })}
