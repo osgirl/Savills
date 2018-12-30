@@ -59,7 +59,7 @@ class Login extends layout {
                     await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, tenantList[0].tenantId, tenantList[0].id);
                 } else {
                     await this._gotoChooseProject();
-                    this.setState({ loading: false, })
+                    await this.setState({ loading: false, })
                 }
             }
 
@@ -88,8 +88,9 @@ class Login extends layout {
                     await this.props.actions.units.setUnitLocal(nextProps.units.listUnits.result.items[0]);
                     await this.props.actions.notification.getListCountModule(nextProps.account.linkedAccountAuthenticate.result.accessToken, nextProps.units.listUnits.result.items[0].unitId);
                     await this.props.navigation.navigate('Home');
-                    this.setState({ loading: false, unMount: false })
+                    await this.setState({ loading: false, unMount: false })
                     this.props.actions.units.setIsGetlisUnit(true);
+                    console.log('zozzozzo111')
 
                 } else {
                     let arrTemp = nextProps.units.listUnits.result.items;
@@ -102,20 +103,22 @@ class Login extends layout {
                     if (unitTemp && unitTemp !== null) {
                         this.props.actions.units.setUnitLocal(unitTemp);
                         this.props.actions.notification.getListCountModule(nextProps.account.linkedAccountAuthenticate.result.accessToken, unitTemp.unitId);
+                        await this.setState({ loading: false, unMount: false })
                         this.props.navigation.navigate('Home');
                         this.props.actions.units.setIsGetlisUnit(true);
-                        this.setState({ loading: false, unMount: false })
+                        console.log('zozzozzo222')
                     } else {
-                        this._gotoChooseApartment(this.props.account.tenantLocal);
+                        await this.setState({ loading: false, unMount: false })
                         this.props.actions.units.setIsGetlisUnit(true);
-                        this.setState({ loading: false, unMount: false })
+                        this._gotoChooseApartment(this.props.account.tenantLocal);
+                        console.log('zozzozzo333')
                     }
                 }
             }
 
             if (this.props.account.error !== nextProps.account.error) {
                 if (nextProps.account.error) {
-                    this.setState({ loading: false })
+                    await this.setState({ loading: false })
                 }
             }
         }
