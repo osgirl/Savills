@@ -30,12 +30,12 @@ export default class extends Component {
                 </View>
 
                 <View>
-                    <Line
+                    {/* <Line
                         txtWidth={150}
                         height={20}
                         onReady={false}
                         animate="fade"
-                    />
+                    /> */}
                     <Line
                         txtWidth={90}
                         height={15}
