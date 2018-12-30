@@ -206,7 +206,7 @@ export default class extends Component {
         />
         <View style={{ flex: 1 }}>
           {
-            this.state.dataModule && this.state.dataModule.length == 0 ?
+            this.state.dataModule && this.state.dataModule.length > 0 ?
               <FlatList
                 data={data}
                 scrollEnabled={checkScrollEnabled}
