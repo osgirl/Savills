@@ -59,6 +59,16 @@ export default class extends Component {
     }
   }
 
+  getIcon = index => {
+    let id = this.props.app.listLanguage[index];
+    let item = Language.listLanguage.filter(item => {
+      if (item.id === id.id) {
+        return item;
+      }
+    });
+    return item[0].icon;
+  };
+
   renderModalLanguage(languages) {
     return (
       <View>
@@ -73,7 +83,7 @@ export default class extends Component {
             onValueChange={index => this.onPickerSelect(index)}
           >
             {this.props.app.listLanguage.map((item, index) => (
-              <PickerItem label={Language.listLanguage[index].icon + item.title} value={index} key={'id_' + index} />
+              <PickerItem label={this.getIcon(index) + item.title} value={index} key={'id_' + index} />
             ))}
           </Picker>
         </View>

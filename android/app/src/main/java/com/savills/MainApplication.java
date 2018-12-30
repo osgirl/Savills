@@ -2,21 +2,22 @@ package com.savills;
 
 import android.app.Application;
 
-import com.facebook.react.ReactApplication;
-import com.microsoft.codepush.react.CodePush;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-//import io.invertase.firebase.RNFirebasePackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.zyu.ReactNativeWheelPickerPackage;
+import com.entria.views.RNViewOverflowPackage;
+import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.entria.views.RNViewOverflowPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.microsoft.codepush.react.CodePush;
+import com.reactlibrary.RNReactNativeDocViewerPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.rnfs.RNFSPackage;
+import com.zyu.ReactNativeWheelPickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +49,9 @@ public class MainApplication extends Application implements ReactApplication {
             new ReactNativeWheelPickerPackage(),
             new RNViewOverflowPackage(),
             new PayooSDKPackage(),
-      new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG)
+      new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
+              new RNReactNativeDocViewerPackage(),
+              new RNFSPackage()
       );
     }
 

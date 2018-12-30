@@ -163,7 +163,7 @@ class modalReceip extends Component {
               </View>
 
               <Text
-                style={{ fontFamily: 'OpenSans-Bold', fontSize: 15, color: '#BABFC8', marginHorizontal: 20, marginBottom: 20 }}
+                style={{ fontFamily: 'OpenSans-Bold', fontSize: 15, color: '#505E75', marginHorizontal: 20, marginBottom: 20 }}
               >
                 {languages.FEE_RECEIPT_TITLE_DETAIL}
               </Text>

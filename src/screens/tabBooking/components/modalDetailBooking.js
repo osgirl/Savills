@@ -307,8 +307,17 @@ class ModalDetailBooking extends PureComponent {
                       {languages.BK_DETAIL_PAY}
                     </Text>
                     <View style={{ backgroundColor: paymentStatus.colorCode, borderRadius: 5 }}>
-                      <Text style={{ marginVertical: 4, marginHorizontal: 15, color: '#FFF', fontWeight: 'bold', fontSize: 10 }}>
-                        {paymentStatus && paymentStatus.name ? paymentStatus.name : 'paid'}
+                      <Text
+                        style={{
+                          color: '#FFF',
+                          paddingVertical: 5,
+                          fontFamily: 'OpenSans-SemiBold',
+                          paddingHorizontal: 15,
+                          fontSize: 13,
+                          flex: 1
+                        }}
+                      >
+                        {paymentStatus && paymentStatus.name ? paymentStatus.name : 'Expired'}
                       </Text>
                     </View>
                   </View>

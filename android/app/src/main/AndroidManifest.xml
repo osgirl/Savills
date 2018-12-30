@@ -20,8 +20,9 @@
       android:theme="@style/AppTheme">
         <activity
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize"
-            android:name="vn.payoo.paymentsdk.ui.PayooPaymentSdkActivity">
+            android:name="vn.payoo.paymentsdk.ui.PayooPaymentSdkActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -30,10 +31,11 @@
 
                 <data
                     android:host="postbacksdkurl"
-                    android:scheme="payoosdk799" />
+                    android:scheme="@string/payoo_protocol_scheme" />
             </intent-filter>
         </activity>
-      <activity
+
+        <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
           android:screenOrientation="portrait"

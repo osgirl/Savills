@@ -451,7 +451,6 @@ class ModalEditOrder extends PureComponent {
               ) : (
                 <View
                   style={{
-                    height: 90,
                     width: null,
                     flex: 1,
                     borderRadius: 10,
@@ -484,7 +483,6 @@ class ModalEditOrder extends PureComponent {
                     borderRadius: 5,
                     width: null,
                     padding: 20,
-                    height: 113,
                     flexDirection: 'row',
                     alignItems: 'center'
                   }}

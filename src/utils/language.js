@@ -3,7 +3,7 @@
 export default class {
   static listLanguage = [
     {
-      id: 'cn',
+      id: 'zh-CN',
       icon: '🇭🇰',
       title: 'China',
       data: {}
