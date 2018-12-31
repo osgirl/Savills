@@ -282,7 +282,7 @@ export default class extends Component {
         ) : this.state.data.length > 0 ? (
           <FlatList
             alwaysBounceVertical={false}
-            data={this.state.data.reverse()}
+            data={this.state.data}
             refreshControl={<RefreshControl refreshing={this.state.isRefesh} onRefresh={() => this._onRefresh()} />}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => item[0].id + '__' + index}
@@ -295,7 +295,6 @@ export default class extends Component {
         ) : (
           <PlaceHolderItemH noMargin />
         )}
-
         {this.state.data.length > 0 ? (
           <View>
             <View

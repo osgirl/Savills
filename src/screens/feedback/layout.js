@@ -170,7 +170,9 @@ export default class extends Component {
       return (
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <Image source={IC_EMTY_FB} />
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+          <Text
+            style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D', width: width - 120 }}
+          >
             {languages.FB_EMPTY_FEEDBACK}
           </Text>
         </View>
@@ -179,7 +181,9 @@ export default class extends Component {
       return (
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <Image source={IC_EMTY_FB} />
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+          <Text
+            style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D', width: width - 120 }}
+          >
             {languages.FB_EMPTY_FEEDBACK_CANCEL}
           </Text>
         </View>

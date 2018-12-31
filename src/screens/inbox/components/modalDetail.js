@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
 
-import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, Animated, Platform, ActivityIndicator } from 'react-native';
-import { Header, AnimatedTitle, ModalChat } from '@components';
-import Connect from '@stores';
-
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Animated,
+  Platform,
+  WebView,
+  ActivityIndicator
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
+import Header from '@components/header';
+import HeaderTitle from '@components/headerTitle';
+import Resolution from '../../../utils/resolution';
+import Connect from '@stores';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import HTML from 'react-native-render-html';
+import AnimatedTitle from '@components/animatedTitle';
+import ModalChat from '@components/modalChat';
+import Button from '@components/button';
 import _ from 'lodash';
+import Configs from '../../../utils/configs';
 
-import Resolution from '@utils/resolution';
-import Configs from '@utils/configs';
-
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const HEADER_MAX_HEIGHT = 60;
 class ModalDetailFeedback extends Component {
@@ -67,7 +81,7 @@ class ModalDetailFeedback extends Component {
 
   renderLoading() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#F6F8FD', justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ backgroundColor: '#F6F8FD', justifyContent: 'center', alignItems: 'center', marginTop: HEADER_MAX_HEIGHT }}>
         <ActivityIndicator size={'large'} color={Configs.colorMain} />
       </View>
     );
@@ -92,18 +106,14 @@ class ModalDetailFeedback extends Component {
     }
   };
 
-  render() {
-    const { data } = this.state;
-    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
-
+  renderHeader = (languages) => {
     const isShow = this.state.scrollY.interpolate({
       inputRange: [0, 15],
       outputRange: [0, 1],
       extrapolate: 'clamp'
     });
-
     return (
-      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+      <View>
         <Header
           LinearGradient={true}
           leftIcon={require('../../../resources/icons/close.png')}
@@ -117,84 +127,97 @@ class ModalDetailFeedback extends Component {
           }
         />
         <AnimatedTitle scrollY={this.state.scrollY} label={languages.IB_DT_TITLEHEADER} />
-        {data ? (
-          <ScrollView
-            scrollEventThrottle={1}
-            onScroll={this.handleScroll}
-            contentContainerStyle={{
-              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
-            }}
-            contentInset={{
-              top: HEADER_MAX_HEIGHT
-            }}
-            contentOffset={{
-              y: -HEADER_MAX_HEIGHT
-            }}
-          >
-            <View>
-              {data.subject && (
-                <ItemScorll
-                  title={languages.IB_DT_TITLE}
-                  view={
-                    <View
-                      style={{
-                        width: null,
-                        flex: 1,
-                        borderRadius: 10,
-                        backgroundColor: '#FFF',
-                        padding: Resolution.scale(20)
-                        // justifyContent: 'space-around'
-                      }}
-                    >
-                      <HTML html={data.subject} imagesMaxWidth={width - 90} />
-                    </View>
-                  }
-                />
-              )}
-              {data.content && (
-                <ItemScorll
-                  title={languages.IB_DT_DESCRIPT}
-                  view={
-                    <View
-                      style={{
-                        width: null,
-                        flex: 1,
-                        borderRadius: 10,
-                        backgroundColor: '#FFF',
-                        padding: Resolution.scale(20)
-                        // justifyContent: 'space-around'
-                      }}
-                    >
-                      <HTML html={data.content} imagesMaxWidth={width - 90} />
-                    </View>
-                  }
-                />
-              )}
-              {data.fileUrl && (
-                <ItemScorll
-                  title={languages.IB_DT_IMAGE}
-                  view={
-                    <ScrollView
-                      style={{
-                        borderRadius: 10,
-                        paddingTop: 20,
-                        marginBottom: 40,
-                        // height: Resolution.scaleHeight(1000),
-                        backgroundColor: '#FFF'
-                      }}
-                      showsHorizontalScrollIndicator={false}
-                      horizontal
-                    >
-                      {this.renderItemImage(data.fileUrl)}
-                    </ScrollView>
-                  }
-                />
-              )}
-            </View>
-          </ScrollView>
-        ) : (
-          this.renderLoading()
-        )}
+      </View>
+    )
+  }
+
+  render() {
+    const { data } = this.state;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+
+    return (
+      <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+        {this.renderHeader(languages)}
+        {
+          data ? (
+            <ScrollView
+              scrollEventThrottle={1}
+              onScroll={this.handleScroll}
+              contentContainerStyle={{
+                paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+              }}
+              contentInset={{
+                top: HEADER_MAX_HEIGHT
+              }}
+              contentOffset={{
+                y: -HEADER_MAX_HEIGHT
+              }}
+            >
+              <View>
+                {data.subject && (
+                  <ItemScorll
+                    title={languages.IB_DT_TITLE}
+                    view={
+                      <View
+                        style={{
+                          width: null,
+                          flex: 1,
+                          borderRadius: 10,
+                          backgroundColor: '#FFF',
+                          padding: Resolution.scale(20)
+                          // justifyContent: 'space-around'
+                        }}
+                      >
+                        <HTML html={data.subject} imagesMaxWidth={width - 90} />
+                      </View>
+                    }
+                  />
+                )}
+                {data.content && (
+                  <ItemScorll
+                    title={languages.IB_DT_DESCRIPT}
+                    view={
+                      <View
+                        style={{
+                          width: null,
+                          flex: 1,
+                          borderRadius: 10,
+                          backgroundColor: '#FFF',
+                          padding: Resolution.scale(20)
+                          // justifyContent: 'space-around'
+                        }}
+                      >
+                        <HTML html={data.content} imagesMaxWidth={width - 90} />
+                      </View>
+                    }
+                  />
+                )}
+                {data.fileUrl && (
+                  <ItemScorll
+                    title={languages.IB_DT_IMAGE}
+                    view={
+                      <ScrollView
+                        style={{
+                          borderRadius: 10,
+                          paddingTop: 20,
+                          marginBottom: 40,
+                          // height: Resolution.scaleHeight(1000),
+                          backgroundColor: '#FFF'
+                        }}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal
+                      >
+                        {this.renderItemImage(data.fileUrl)}
+                      </ScrollView>
+                    }
+                  />
+                )}
+              </View>
+            </ScrollView>
+          ) : (
+              this.renderLoading()
+            )
+        }
         {this.showDetailImage()}
         {this.renderContentModalChat()}
       </View>

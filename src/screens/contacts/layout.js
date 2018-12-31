@@ -188,6 +188,7 @@ export default class extends Component {
               />
             }
             onScroll={this.handleScroll}
+            scrollEventThrottle={16}
             legacyImplementation={false}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
