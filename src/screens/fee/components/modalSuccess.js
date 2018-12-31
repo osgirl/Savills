@@ -20,7 +20,6 @@ class modalSuccessOrder extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.fee.orderDetail !== nextProps.fee.orderDetail && nextProps.fee.orderDetail.success) {
-      console.log('xong =-=--=-=-=-=-');
       this.setState({ loading: false, idReceip: nextProps.fee.orderDetail.result.feeIncoming.id });
       return;
     }

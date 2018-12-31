@@ -61,7 +61,6 @@ class DetailLibary extends layout {
   }
 
   _openModalDetail(item) {
-    console.log('asdkjasdkasjdlkjasdklasdasd', item);
     this.setState({ itemSelected: item });
     this.setState({ isShowModalDetail: true });
   }

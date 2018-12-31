@@ -154,7 +154,6 @@ class modalSelectUnit extends Component {
     await this.props.actions.units.setUnitDefault(accessTokenApi, unit.unitId);
     await this.props.actions.notification.getListCountModule(accessTokenApi, unit.unitId);
     this.setState({ loading: false });
-    console.log('_______', unit);
     this.props.onClose();
   }
 

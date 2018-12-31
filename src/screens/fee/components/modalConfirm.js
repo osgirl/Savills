@@ -67,7 +67,6 @@ class modalConfirm extends Component {
             this._openModalFaild();
           }, 300);
         }
-        console.log('response__________', response);
       });
     }
   }
@@ -229,7 +228,7 @@ class modalConfirm extends Component {
             height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
           }}
         />
-        <Button
+        {/* <Button
           disabled={this.state.loading}
           onPress={() => this._createOrder()}
           style={[styles.ButtonAdd, { backgroundColor: this.state.loading ? '#e0e0e0' : '#01C772' }]}
@@ -241,7 +240,7 @@ class modalConfirm extends Component {
               {languages.FEE_CONFIRM_PAY}
             </Text>
           )}
-        </Button>
+        </Button> */}
         <ModalFaild
           isVisible={this.state.isShowModalFaild}
           onClose={() => this.setState({ isShowModalFaild: false })}

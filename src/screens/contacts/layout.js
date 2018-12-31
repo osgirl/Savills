@@ -98,7 +98,6 @@ export default class extends Component {
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     let abc = 123123;
     // server không update code phải làm sudo killall -9 node
-    console.log('asdkljasdklasdjklasdjasd', abc);
     return (
       <View>
         <Header

@@ -255,6 +255,7 @@ class ModalEditOrder extends PureComponent {
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
+    console.log('asdkjasdasdjaklsdjaklsdjaklsda', this.state.detailOrder);
     let WorkOrder = {
       id: this.state.detailOrder.id,
       guid: this.state.detailOrder.guid,
@@ -270,8 +271,7 @@ class ModalEditOrder extends PureComponent {
       rating: this.state.vote,
       dateCreate: this.state.detailOrder.dateCreate,
       maintainanceTeamId: 1,
-      areaId: 50,
-      categoryId: 90,
+      areaId: this.state.detailOrder.area.id,
       isPrivate: true,
       contact: {
         email: emailAddress,
@@ -410,10 +410,12 @@ class ModalEditOrder extends PureComponent {
                     </View>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_DETAIL_AREA}</Text>
-                  <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{area.codeName}</Text>
-                </View>
+                {area && area.codeName ? (
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_DETAIL_AREA}</Text>
+                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{area.codeName}</Text>
+                  </View>
+                ) : null}
               </View>
             }
           />

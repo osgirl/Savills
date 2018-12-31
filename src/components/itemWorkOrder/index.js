@@ -54,13 +54,20 @@ export class ItemWorkOrder extends Component {
           </View>
         ) : null}
         <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View>
-            <View style={{ borderRadius: 5, backgroundColor: '#505E75' }}>
-              <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', marginVertical: 5, marginHorizontal: 15 }}>
+          <View style={{}}>
+            <View style={{ borderRadius: 5, backgroundColor: '#505E75', paddingVertical: 5, paddingHorizontal: 10 }}>
+              <Text
+                style={{
+                  color: '#FFF',
+                  fontSize: 12,
+                  fontWeight: 'bold'
+                }}
+              >
                 #{item.id}
               </Text>
             </View>
-            <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: 13, marginTop: 12 }}>{item.fullUnitCode}</Text>
+
+            <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: 13,marginTop:12 }}>{item.fullUnitCode}</Text>
           </View>
           {item.fileUrls && item.fileUrls.length > 0 ? (
             <Image

@@ -80,7 +80,6 @@ class ModalDetail extends Component {
 
   render() {
     const { itemSelected } = this.props;
-    console.log(itemSelected);
     const encToken = this.props.account.encToken;
     const file = itemSelected.file && `${itemSelected.file.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
     return (

@@ -33,7 +33,6 @@ class Login extends layout {
     }
 
     componentWillMount() {
-        // console.log('____', this.props)
     }
 
     componentDidMount() {
@@ -141,7 +140,6 @@ class Login extends layout {
                     this.props.actions.units.setIsGetlisUnit(true);
                     await this.setState({ loading: false, unMount: false })
                     await this.props.navigation.navigate('Home');
-                    console.log('zozzozzo111')
 
                 } else {
                     let arrTemp = nextProps.units.listUnits.result.items;
@@ -157,12 +155,10 @@ class Login extends layout {
                         await this.setState({ loading: false, unMount: false })
                         this.props.navigation.navigate('Home');
                         this.props.actions.units.setIsGetlisUnit(true);
-                        console.log('zozzozzo222')
                     } else {
                         await this.setState({ loading: false, unMount: false })
                         this.props.actions.units.setIsGetlisUnit(true);
                         this._gotoChooseApartment(this.props.account.tenantLocal);
-                        console.log('zozzozzo333')
                     }
                 }
             }

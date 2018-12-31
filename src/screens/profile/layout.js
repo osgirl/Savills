@@ -114,7 +114,7 @@ export default class extends Component {
     this.setState({ modalSelectImage: true });
   }
 
-  modalCropsImage = () => {
+  modalCropsImage = languages => {
     return (
       <Modal onBackdropPress={() => this.setState({ modalSelectImage: false })} isVisible={this.state.modalSelectImage}>
         <View
@@ -127,10 +127,14 @@ export default class extends Component {
           }}
         >
           <Button onPress={() => this.selectFromCamera()}>
-            <Text style={{ color: '#505E75', fontFamily: 'OpenSans-Bold', fontSize: 15, margin: 10 }}>Chọn từ máy ảnh</Text>
+            <Text style={{ color: '#505E75', fontFamily: 'OpenSans-Bold', fontSize: 15, margin: 10 }}>
+              {languages.PROFILE_SELECT_IMAGE_FORM_CAMERA}
+            </Text>
           </Button>
           <Button onPress={() => this.selectFromStorage()}>
-            <Text style={{ color: '#505E75', fontFamily: 'OpenSans-Bold', fontSize: 15, margin: 10 }}>Chọn từ bộ nhớ máy</Text>
+            <Text style={{ color: '#505E75', fontFamily: 'OpenSans-Bold', fontSize: 15, margin: 10 }}>
+              {languages.PROFILE_SELECT_IMAGE_FORM_STORAGE}
+            </Text>
           </Button>
         </View>
       </Modal>
@@ -188,7 +192,7 @@ export default class extends Component {
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={{ flex: 1, width: width, height: height }}>
-        {this.modalCropsImage()}
+        {this.modalCropsImage(languages)}
         <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
           <View style={Style.container}>
             <View style={{ position: 'absolute', top: 0 }}>

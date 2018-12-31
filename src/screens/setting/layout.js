@@ -25,16 +25,9 @@ var PickerItem = Picker.Item;
 const HEADER_MAX_HEIGHT = 60;
 
 export default class extends Component {
-
   handleScroll = event => {
-    Animated.event(
-      [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-      {
-      },
-      { useNativeDriver: true }
-    )(event);
+    Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }], {}, { useNativeDriver: true })(event);
   };
-
 
   renderHeader(languages) {
     const isShow = this.state.scrollY.interpolate({
@@ -139,6 +132,7 @@ export default class extends Component {
         {this.renderHeader(languages)}
         <ScrollView
           onScroll={this.handleScroll}
+          showsVerticalScrollIndicator={false}
           scrollEventThrottle={16}
           contentContainerStyle={{
             paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0

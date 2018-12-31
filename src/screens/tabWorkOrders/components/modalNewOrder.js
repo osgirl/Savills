@@ -118,8 +118,6 @@ class ModalNewOrder extends PureComponent {
       sourceId: 3,
       maintainanceTeamId: 1,
       areaId: indexArea[0].id,
-      categoryId: null,
-      subCategoryId: null,
       contact: {
         fullName: name,
         phoneNumber: this.state.sdt,

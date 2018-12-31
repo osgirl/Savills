@@ -67,8 +67,6 @@ export function createWorkOrder(accessTokenAPI, WorkOrder) {
         sourceId: WorkOrder.sourceId,
         maintainanceTeamId: WorkOrder.maintainanceTeamId,
         areaId: WorkOrder.areaId,
-        categoryId: WorkOrder.categoryId,
-        subCategoryId: WorkOrder.subCategoryId,
         contact: {
           fullName: WorkOrder.contact.fullName,
           phoneNumber: WorkOrder.contact.phoneNumber,
@@ -104,8 +102,7 @@ export function updateWorkOrder(accessTokenAPI, WorkOrder) {
         sourceId: 3,
         dateCreate: WorkOrder.dateCreate,
         maintainanceTeamId: 1,
-        areaId: 50,
-        categoryId: 90,
+        areaId: WorkOrder.areaId,
         isPrivate: true,
         contact: {
           email: WorkOrder.contact.email,
