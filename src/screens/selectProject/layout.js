@@ -5,7 +5,7 @@ import IMG_BG from '@resources/image/ChooseProject.png';
 import ItemProjectApartment from '@components/itemProjectApartment';
 import Utils from '@utils';
 import { Loading } from '@components';
-
+import Configs from '@utils/configs';
 import Style from './style';
 import resolution from '@utils/resolution';
 
@@ -39,7 +39,7 @@ export default class extends Component {
                 <ItemProjectApartment
                   onPressItem={() => this._gotoChooseApartment(item)}
                   title={item.tenancyName}
-                  image={`https://uat.spms.asia/core/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`}
+                  image={`${Configs.API}/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`}
                   loading={this.props.account.tenant && this.props.account.tenant.length > 0 ? true : false}
                 />
               );

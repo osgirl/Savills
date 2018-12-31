@@ -92,7 +92,7 @@ class modalSelectUnit extends Component {
   }
 
   renderItemProject(item) {
-    let image = `https://uat.spms.asia/core/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`;
+    let image = `${Configs.API}/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`;
     let check = item.tenantId === this.state.projectActive.tenantId ? true : false;
     return (
       <View style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}>
