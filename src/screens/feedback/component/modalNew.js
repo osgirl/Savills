@@ -65,7 +65,7 @@ class ModalNewFeedback extends Component {
   }
 
   _alertError = Title => {
-    Alert.alert('Error', Title, { text: 'OK', onPress: () => {} }, { cancelable: false });
+    Alert.alert('Error', Title, { text: 'OK', onPress: () => { } }, { cancelable: false });
   };
 
   handleScroll = event => {
@@ -240,6 +240,7 @@ class ModalNewFeedback extends Component {
                     height: Resolution.scaleHeight(100),
                     width: null,
                     padding: Resolution.scale(10),
+                    paddingLeft: Resolution.scale(20),
                     paddingTop: Resolution.scale(20),
                     marginBottom: Resolution.scale(170),
                     // borderWidth: 1,
@@ -426,6 +427,7 @@ class ModalNewFeedback extends Component {
                       borderRadius: 5,
                       width: null,
                       padding: Resolution.scale(10),
+                      paddingLeft: Resolution.scale(20),
                       minHeight: Resolution.scale(100),
                       marginBottom: Resolution.scale(20)
                     }}
@@ -454,10 +456,10 @@ class ModalNewFeedback extends Component {
                 {this.state.loading ? (
                   <ActivityIndicator size={'small'} color={'#FFF'} />
                 ) : (
-                  <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
-                    {languages.FB_CREATE_BTNSEND}
-                  </Text>
-                )}
+                    <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                      {languages.FB_CREATE_BTNSEND}
+                    </Text>
+                  )}
               </LinearGradient>
             </Button>
           </View>
