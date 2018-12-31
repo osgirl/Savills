@@ -83,6 +83,7 @@ class ModalEditOrder extends PureComponent {
   };
 
   componentWillUnmount() {
+    StatusBar.setHidden(false);
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
@@ -118,7 +119,6 @@ class ModalEditOrder extends PureComponent {
           ? nextProps.workOrder.workOrderDetail.result.fileUrls
           : []
       });
-      // this.props.actions.workOrder.getCommentUser(accessTokenAPI, nextProps.workOrder.workOrderDetail.result.guid);
     }
     if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
       this.setState({ listComment: nextProps.workOrder.listComment.result.items });
