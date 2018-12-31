@@ -11,33 +11,21 @@ import {
   Platform,
   RefreshControl
 } from 'react-native';
-import Header from '@components/header';
+
+import { Header, Button, ModalSelectUnit, AnimatedTitle } from '@components';
+
+import moment from 'moment';
+import Modal from 'react-native-modal';
+
 import IC_BACK from '@resources/icons/back-light.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
-import LinearGradient from 'react-native-linear-gradient';
-import Button from '@components/button';
-import HeaderTitle from '@components/headerTitle';
-import { isIphoneX } from '@utils/func';
-import moment from 'moment';
-import Configs from '../../utils/configs';
-import ModalSelectUnit from '@components/modalSelectUnit';
-import Modal from 'react-native-modal';
-import Styles from './styles';
+import DEFAULT_LIB from '@resources/icons/defaultLibary.png';
 
-import DEFAULT_LIB from "../../resources/icons/defaultLibary.png";
-
-import Utils from '../../utils';
-
-import Resolution from '../../utils/resolution';
-
-import AnimatedTitle from '@components/animatedTitle';
-import Language from '../../utils/language';
-
-import { ItemHorizontal2 } from '../../components/placeHolder';
-import { ItemPlaceHolderH } from '../../components/placeHolderItem';
+import Resolution from '@utils/resolution';
+import Configs from '@utils/configs';
+import { ItemPlaceHolderH } from '@components/placeHolderItem';
 
 const HEADER_MAX_HEIGHT = 60;
-
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -69,8 +57,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
-      );
+      <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+    );
   }
 
   renderHeader(languages) {
@@ -144,8 +132,8 @@ export default class extends Component {
             }}
           />
         ) : (
-            <ItemPlaceHolderH />
-          )}
+          <ItemPlaceHolderH />
+        )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -173,7 +161,15 @@ export default class extends Component {
       >
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <Image source={DEFAULT_LIB} />
-          <View style={{ flexDirection: 'column', justifyContent: 'flex-start', flex: 1, alignItems: 'flex-start', marginLeft: Resolution.scale(10) }}>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              flex: 1,
+              alignItems: 'flex-start',
+              marginLeft: Resolution.scale(10)
+            }}
+          >
             <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.libraryName}</Text>
             <View
               style={{

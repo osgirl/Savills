@@ -1,35 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text, Platform, Image, FlatList, RefreshControl, Dimensions, StatusBar, Animated } from 'react-native';
+import { Button, FastImage, ModalSelectUnit, Header, AnimatedTitle, PlaceHolderItemH } from '@components';
 
-import Button from '@components/button';
-import InputText from '@components/inputText';
-import LinearGradient from 'react-native-linear-gradient';
-import Loading from '@components/loading';
-import HeaderTitle from '@components/headerTitle';
-import FastImage from '../../components/fastImage';
 import call from 'react-native-phone-call';
-
-import ModalSelectUnit from '@components/modalSelectUnit';
 import Modal from 'react-native-modal';
 
 import IC_CALL from '@resources/icons/Call-button.png';
-import Header from '@components/header';
 import IC_BACK from '@resources/icons/back-light.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
-import IC_AVATARDF from '../../resources/icons/avatar-default.png';
-
-import AnimatedTitle from '@components/animatedTitle';
-
-const { width, height } = Dimensions.get('window');
+import IC_AVATARDF from '@resources/icons/avatar-default.png';
 
 import Style from './style';
-import Resolution from '../../utils/resolution';
-
-import Language from '../../utils/language';
-
-import { ItemPlaceHolderH } from '../../components/placeHolderItem';
+import Resolution from '@utils/resolution';
 
 const HEADER_MAX_HEIGHT = 60;
+const { width } = Dimensions.get('window');
 
 export default class extends Component {
   constructor(props) {
@@ -96,8 +81,6 @@ export default class extends Component {
   renderHeader() {
     let unitActive = this.props.units.unitActive;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
-    let abc = 123123;
-    // server không update code phải làm sudo killall -9 node
     return (
       <View>
         <Header
@@ -219,7 +202,7 @@ export default class extends Component {
             }}
           />
         ) : (
-          <ItemPlaceHolderH />
+          <PlaceHolderItemH />
         )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>

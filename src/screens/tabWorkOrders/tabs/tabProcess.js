@@ -1,12 +1,9 @@
 import React, { PureComponent } from 'react';
-import { View, FlatList, RefreshControl, ActivityIndicator, StatusBar, DeviceEventEmitter } from 'react-native';
-import moment from 'moment';
+import { View, FlatList, RefreshControl, ActivityIndicator, DeviceEventEmitter } from 'react-native';
 import Connect from '@stores';
-import EmptyItemList from '@components/emptyItemList';
-import ItemWorkOrder from '@components/itemWorkOrder';
+import { EmptyItemList, ItemWorkOrder, PlaceHolderItemH } from '@components';
 import Resolution from '@utils/resolution';
 import Configs from '@utils/configs';
-import { ItemPlaceHolderH } from '@components/placeHolderItem';
 class TabComplete extends PureComponent {
   constructor(props) {
     super(props);
@@ -78,7 +75,7 @@ class TabComplete extends PureComponent {
             }}
           />
         ) : (
-          <ItemPlaceHolderH noMargin />
+          <PlaceHolderItemH noMargin />
         )}
       </View>
     );

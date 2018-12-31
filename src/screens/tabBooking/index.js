@@ -12,33 +12,24 @@ import {
   Animated,
   Platform
 } from 'react-native';
+
+import { Button, ModalSelectUnit, HeaderTitle, Header } from '@components';
+
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
-import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
-import Header from '@components/header';
-import IC_BACK from '@resources/icons/back-light.png';
 
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
+import IC_BACK from '@resources/icons/back-light.png';
+import IC_DROPDOWN from '../../resources/icons/dropDown.png';
 
 import TabComplete from './tabs/tabComplete';
 import TabInComming from './tabs/tabInComming';
 import TabProcess from './tabs/tabProcess';
-import configs from '../../utils/configs';
-const { width } = Dimensions.get('window');
-import { isIphoneX } from '../../utils/func';
-import ModalSelectUnit from '../../components/modalSelectUnit';
+import configs from '@utils/configs';
+import { isIphoneX } from '@utils/func';
 import ModalNewBooking from './components/modalNewBooking';
-import Resolution from '@utils/resolution';
 
-import Button from '../../components/button';
-
-import IC_DROPDOWN from '../../resources/icons/dropDown.png';
-
-const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-
+const { width } = Dimensions.get('window');
 class TabBooking extends Component {
   constructor(props) {
     super(props);
@@ -322,7 +313,7 @@ class ItemCategory extends Component {
           resizeMode={'cover'}
           source={{ uri: configs.API_BOOKING + iconPath }}
         />
-        <Text style={{ color: '#515E6D', fontSize: 14, fontWeight: '600',flex:1 }}>{amenityName}</Text>
+        <Text style={{ color: '#515E6D', fontSize: 14, fontWeight: '600', flex: 1 }}>{amenityName}</Text>
       </TouchableOpacity>
     );
   }

@@ -1,43 +1,29 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, StatusBar, TouchableOpacity } from 'react-native';
-
-import LinearGradient from 'react-native-linear-gradient';
-import HeaderTitle from '@components/headerTitle';
-
-import Button from '@components/button';
-import FastImage from '../../components/fastImage';
-import { Calendar } from '../../components/calendars';
-
-const { width, height } = Dimensions.get('window');
-
-import IC_CALENDAR from '../../resources/icons/calendar.png';
-import IC_CLOCK from '../../resources/icons/clock.png';
-import IMG_CALENDAR_PH from '../../resources/icons/calendar-placehoder.png';
-import IC_CALENDAR_ARROR from '../../resources/icons/arrow_calendar.png';
-import IC_CALENDAR_ARROR_UP from '../../resources/icons/arrow_up_calendar.png';
-import IC_DROPDOWN from '../../resources/icons/dropDown.png';
-import IC_EVENTEMTY from '../../resources/icons/Events_emty.png';
-import { ItemHorizontal } from '../../components/placeHolder';
-import Utils from '../../utils';
-
-import Header from '@components/header';
-import IC_BACK from '@resources/icons/back-light.png';
-
-import Modal from 'react-native-modal';
-import Resolution from '../../utils/resolution';
-
-import ModalDetail from './components/modalDetail';
-import ModalFull from './components/modalFull';
-import ModalSelectUnit from '../../components/modalSelectUnit';
-import { ItemPlaceHolderH } from '../../components/placeHolderItem';
-import CalendarStrip from '@components/calendarAgenda';
-import Language from '../../utils/language';
+import { HeaderTitle, Button, FastImage, Header, ModalSelectUnit, PlaceHolderItemH } from '@components';
 
 import moment from 'moment';
 import XDate from 'xdate';
+import Modal from 'react-native-modal';
+import LinearGradient from 'react-native-linear-gradient';
 
-const HEADER_MAX_HEIGHT = 60;
+import IC_CALENDAR from '@resources/icons/calendar.png';
+import IC_CLOCK from '@resources/icons/clock.png';
+import IC_CALENDAR_ARROR from '@resources/icons/arrow_calendar.png';
+import IC_CALENDAR_ARROR_UP from '@resources/icons/arrow_up_calendar.png';
+import IC_DROPDOWN from '@resources/icons/dropDown.png';
+import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
+import IC_BACK from '@resources/icons/back-light.png';
 
+import Utils from '@utils';
+import Resolution from '@utils/resolution';
+import { Calendar } from '@components/calendars';
+import ModalDetail from './components/modalDetail';
+import { ItemHorizontal } from '@components/placeHolder';
+import ModalFull from './components/modalFull';
+import CalendarStrip from '@components/calendarAgenda';
+
+const { width } = Dimensions.get('window');
 export default class Layout extends Component {
   constructor(props) {
     super(props);
@@ -62,8 +48,6 @@ export default class Layout extends Component {
     let tempOverView = await this.props.events.overView.result;
     let objectOverview = this.mapObjectSelected(tempOverView, date);
     this.setState({ overViewDate: objectOverview });
-
-    // this._openModalFull();
   }
 
   onScroll = e => {
@@ -229,7 +213,7 @@ export default class Layout extends Component {
         {this.renderHeader(languages)}
 
         {this.state.loadingFetching ? (
-          <ItemPlaceHolderH noMargin />
+          <PlaceHolderItemH noMargin />
         ) : !this.state.loadingFetching && this.state.myEvent.length <= 0 ? (
           this.renderEmty(languages)
         ) : (

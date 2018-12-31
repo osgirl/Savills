@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ActivityIndicator } from 'react-native';
+
+import { Button } from '@components';
 
 import Connect from '@stores';
-import LinearGradient from 'react-native-linear-gradient';
-import Resolution from '../../../utils/resolution';
-import Button from '../../../components/button';
+import moment from 'moment';
+
+import Configs from '@utils/configs';
+import Resolution from '@utils/resolution';
+
 import IC_CLOSE from '@resources/icons/close-black.png';
 import IC_CALENDAR from '@resources/icons/calendar.png';
 import IC_CLOCK from '@resources/icons/clock.png';
 import IC_LOCATION from '@resources/icons/location.png';
-import Configs from '../../../utils/configs';
 
-import moment from 'moment';
-
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class modalDetail extends Component {
   constructor(props) {
@@ -96,7 +97,7 @@ class modalDetail extends Component {
                   </View>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image source={IC_CALENDAR} style={{}} />
                     <Text style={{ marginLeft: 10, fontSize: 12, color: '#C9CDD4', fontFamily: 'OpenSans-Regular' }}>
                       {'(' + startDate + ' - ' + endDate + ')'}

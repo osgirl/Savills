@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, Platform, TextInput, KeyboardAvoidingView } from 'react-native';
 
-import Modal from 'react-native-modal';
-import Button from '@components/button';
-import InputText from '@components/inputText';
-import LinearGradient from 'react-native-linear-gradient';
-import Loading from '@components/loading';
-import IC_EMAIL from '@resources/icons/ID.png';
-import Resolution from '../../utils/resolution';
-import Style from './style';
+import { Button, InputText, Loading } from '@components/button';
 
-import Language from '../../utils/language';
+import LinearGradient from 'react-native-linear-gradient';
+import IC_EMAIL from '@resources/icons/ID.png';
+import Resolution from '@utils/resolution';
+import Style from './style';
 
 export default class extends Component {
   renderLoading() {

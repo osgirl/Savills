@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
 
-import Button from '@components/button';
-import InputText from '@components/inputText';
+import { Button, InputText, Loading } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
-import Loading from '@components/loading';
 import Resolution from '../../utils/resolution';
 
 import IC_EMAIL from '@resources/icons/ID.png';

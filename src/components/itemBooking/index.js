@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, memo } from 'react';
 import { Text, View, Dimensions, Image } from 'react-native';
 import moment from 'moment';
 import Buttom from '@components/button';

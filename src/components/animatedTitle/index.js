@@ -1,12 +1,9 @@
 /** @format */
 
 import React, { Component } from 'react';
-import { Animated, View, Dimensions, Image, StyleSheet, Platform } from 'react-native';
+import { Animated, StyleSheet, Platform } from 'react-native';
 import HeaderTitle from '@components/headerTitle';
-import Button from '@components/button';
 import LinearGradient from 'react-native-linear-gradient';
-const { width } = Dimensions.get('window');
-
 const HEADER_MAX_HEIGHT = 60;
 const HEADER_MIN_HEIGHT = 0;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -15,10 +12,7 @@ export default class AnimatedTitle extends Component {
   render() {
     const { scrollY, label } = this.props;
 
-    const scroll = Animated.add(
-      scrollY,
-      Platform.OS === 'ios' ? HEADER_MAX_HEIGHT : 0,
-    );
+    const scroll = Animated.add(scrollY, Platform.OS === 'ios' ? HEADER_MAX_HEIGHT : 0);
 
     const headerTranslate = scroll.interpolate({
       inputRange: [0, HEADER_SCROLL_DISTANCE],
@@ -35,15 +29,8 @@ export default class AnimatedTitle extends Component {
     });
 
     return (
-      <Animated.View style={[Style.headerTitle,
-      { transform: [{ translateY: headerTranslate }] }
-      ]}>
-        <LinearGradient
-          colors={['#4A89E8', '#8FBCFF']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={{ flex: 1 }}
-        >
+      <Animated.View style={[Style.headerTitle, { transform: [{ translateY: headerTranslate }] }]}>
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
           <Animated.View style={{ opacity: opacity }}>
             <HeaderTitle title={label} />
           </Animated.View>
@@ -61,6 +48,6 @@ const Style = StyleSheet.create({
     right: 0,
     overflow: 'hidden',
     height: HEADER_MAX_HEIGHT,
-    zIndex: -1,
-  },
-})
+    zIndex: -1
+  }
+});

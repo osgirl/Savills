@@ -30,6 +30,5 @@ export default function* sagaRoot() {
     fee(),
     feedback(),
     library(),
-
   ]);
 }

@@ -1,36 +1,11 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Animated,
-  Dimensions,
-  ScrollView,
-  Image,
-  FlatList,
-  WebView,
-  Platform,
-  StatusBar,
-  ActivityIndicator
-} from 'react-native';
+import { StyleSheet, Text, View, Animated, Dimensions, WebView, Platform, ActivityIndicator } from 'react-native';
+import { Header } from '@components';
 
 import Connect from '@stores';
-import LinearGradient from 'react-native-linear-gradient';
-import Resolution from '@utils/resolution';
-import Button from '@components/button';
-import IC_CLOSE from '../../../resources/icons/close.png';
-import IC_CALENDAR from '@resources/icons/calendar.png';
-import IC_CLOCK from '@resources/icons/clock.png';
-import Modal from 'react-native-modal';
-import HeaderTitle from '@components/headerTitle';
 
-import Header from '@components/header';
-import AnimatedTitle from '@components/animatedTitle';
-import HTML from 'react-native-render-html';
-
-import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
-import Configs from '../../../utils/configs';
-const { width, height } = Dimensions.get('window');
+import IC_CLOSE from '@resources/icons/close.png';
+import Configs from '@utils/configs';
 
 class ModalDetail extends Component {
   constructor(props) {
@@ -69,11 +44,6 @@ class ModalDetail extends Component {
             </View>
           }
         />
-        {/* 
-        <AnimatedTitle
-          scrollY={this.state.scrollY}
-          label={'Detail'}
-        /> */}
       </View>
     );
   }

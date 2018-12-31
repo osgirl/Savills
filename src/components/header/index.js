@@ -84,8 +84,8 @@ class Header extends Component {
                 icon={this.props.leftIcon}
               />
             ) : (
-                <View />
-              )}
+              <View />
+            )}
           </View>
           <Animated.View style={[{ width: width / 3, alignItems: 'center' }, Opacity]}>
             {this.props.center ? this.props.center : <View />}
@@ -94,8 +94,8 @@ class Header extends Component {
             {this.props.renderViewRight ? (
               <View style={{ flexDirection: 'row', flex: 1 }}>{this.props.renderViewRight}</View>
             ) : (
-                <View style={{ width: 60 }} />
-              )}
+              <View style={{ width: 60 }} />
+            )}
           </View>
         </View>
       </View>

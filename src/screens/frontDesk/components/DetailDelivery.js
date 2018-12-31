@@ -12,21 +12,19 @@ import {
   Animated,
   Platform
 } from 'react-native';
+import { Header, ItemComment, HeaderTitle } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import Connect from '@stores';
 import moment from 'moment';
-import Header from '@components/header';
-import ItemComment from '@components/itemComment';
-import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
-import Resolution from '@utils/resolution';
-import Configs from '@utils/configs';
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
-const STAR_ON = require('../../../resources/icons/Star-big.png');
-const STAR_OFF = require('../../../resources/icons/Star.png');
+import Resolution from '@utils/resolution';
+import Configs from '@utils/configs';
+
+const STAR_ON = require('@resources/icons/Star-big.png');
+const STAR_OFF = require('@resources/icons/Star.png');
 
 const HEADER_MAX_HEIGHT = Resolution.scale(140);
 const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);

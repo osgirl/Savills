@@ -1,32 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text, WebView, Image, Dimensions, StatusBar, Animated, FlatList, Platform, RefreshControl } from 'react-native';
-import Header from '@components/header';
-import IC_BACK from '@resources/icons/back-light.png';
-import IC_DROPDOWN from '@resources/icons/dropDown.png';
-import Button from '@components/button';
-import ModalSelectUnit from '@components/modalSelectUnit';
+import { View, Text, Image, Dimensions, StatusBar, Animated, FlatList, Platform, RefreshControl } from 'react-native';
+import { Header, Button, ModalSelectUnit, HeaderTitle, PlaceHolderItemH } from '@components';
+
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
-import HeaderTitle from '@components/headerTitle';
+
+import IC_CHECK_BLUE from '@resources/icons/check_blue_fee.png';
+import IC_CHECKED from '@resources/icons/checked_fee.png';
+import IC_HISTORY from '@resources/icons/history_fee.png';
+import IC_BACK from '@resources/icons/back-light.png';
+import IC_DROPDOWN from '@resources/icons/dropDown.png';
+import IC_CHECK_WHITE from '@resources/icons/check_fee.png';
+import IC_CHECKED_WHITE from '@resources/icons/checked_white_fee.png';
+import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
+
 import ModalConfirm from './components/modalConfirm';
 import ModalHistory from './components/modalHistory';
-
-import IC_CHECK_BLUE from '../../resources/icons/check_blue_fee.png';
-import IC_CHECKED from '../../resources/icons/checked_fee.png';
-import IC_HISTORY from '../../resources/icons/history_fee.png';
-
-import IC_CHECK_WHITE from '../../resources/icons/check_fee.png';
-import IC_CHECKED_WHITE from '../../resources/icons/checked_white_fee.png';
-import Resolution from '../../utils/resolution';
-import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
+import Resolution from '@utils/resolution';
 import ModalSuccess from './components/modalSuccess';
 import ModalReceip from './components/modalReceip';
 
-import { ItemPlaceHolderH } from '../../components/placeHolderItem';
-
 import { isIphoneX } from '@utils/func';
 
-import Utils from '../../utils';
+import Utils from '@utils';
 
 import Styles from './styles';
 
@@ -297,7 +293,7 @@ export default class extends Component {
             extraData={this.state}
           />
         ) : (
-          <ItemPlaceHolderH noMargin />
+          <PlaceHolderItemH noMargin />
         )}
 
         {this.state.data.length > 0 ? (

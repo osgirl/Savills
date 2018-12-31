@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, ActivityIndicator } from 'react-native';
+import { Button } from '@components/button';
 
 import Connect from '@stores';
 import LinearGradient from 'react-native-linear-gradient';
-import Resolution from '@utils/resolution';
-import Button from '@components/button';
-import Configs from '../../../utils/configs';
 
-const { width, height } = Dimensions.get('window');
+import Configs from '@utils/configs';
+
+const { width } = Dimensions.get('window');
 
 class modalSuccessOrder extends Component {
   constructor(props) {

@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react';
 import { View, FlatList, RefreshControl, ActivityIndicator, Platform, StatusBar } from 'react-native';
 
 import Connect from '@stores';
-import EmptyItemList from '@components/emptyItemList';
-import ItemBooking from '@components/itemBooking';
+import { EmptyItemList, ItemBooking, PlaceHolderItemH } from '@components';
+
 import Resolution from '@utils/resolution';
 import Configs from '@utils/configs';
-import { ItemPlaceHolderH } from '@components/placeHolderItem';
 class TabInComming extends PureComponent {
   constructor(props) {
     super(props);
@@ -74,7 +73,7 @@ class TabInComming extends PureComponent {
             }}
           />
         ) : (
-          <ItemPlaceHolderH noMargin />
+          <PlaceHolderItemH noMargin />
         )}
       </View>
     );

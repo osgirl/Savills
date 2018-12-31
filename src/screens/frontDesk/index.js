@@ -1,24 +1,11 @@
 import React, { Component } from 'react';
 import Connect from '@stores';
-import {
-  View,
-  Text,
-  Dimensions,
-  FlatList,
-  ActivityIndicator,
-  Image,
-  Animated,
-  RefreshControl,
-  StatusBar,
-  StyleSheet,
-  Platform
-} from 'react-native';
+import { View, Text, Dimensions, FlatList, Image, Animated, RefreshControl, StatusBar, StyleSheet, Platform } from 'react-native';
 
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 
-import Configs from '@utils/configs';
 import Header from '@components/header';
 import { isIphoneX } from '@utils/func';
 
@@ -26,7 +13,6 @@ import Button from '@components/button';
 import EmptyItemList from '@components/emptyItemList';
 
 import IC_BACK from '@resources/icons/back-light.png';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 const { width } = Dimensions.get('window');
 import Resolution from '@utils/resolution';
 import Modal from 'react-native-modal';

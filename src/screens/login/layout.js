@@ -1,26 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Image, Dimensions } from 'react-native';
 
-import ButtonCustom from '@components/buttonCustom';
-import Button from '@components/button';
-import InputText from '@components/inputText';
+import { ButtonCustom, Button, InputText, Loading } from '@components';
+
 import LinearGradient from 'react-native-linear-gradient';
 import Picker from 'react-native-wheel-picker';
 import Modal from 'react-native-modal';
-import Resolution from '@utils/resolution';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import IC_EMAIL from '@resources/icons/ID.png';
 import IC_PASS from '@resources/icons/password.png';
-
 import IMG_LOGIN from '@resources/image/imgLogin.png';
 
-import Loading from '@components/loading';
-import Configs from '../../utils/configs';
+import Configs from '@utils/configs';
 import Style from './style';
-
-import Language from '../../utils/language';
-
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Resolution from '@utils/resolution';
+import Language from '@utils/language';
 
 const { width, height } = Dimensions.get('window');
 

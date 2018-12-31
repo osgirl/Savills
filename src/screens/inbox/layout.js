@@ -1,43 +1,24 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  StatusBar,
-  Image,
-  RefreshControl,
-  FlatList,
-  Dimensions,
-  Animated,
-  ActivityIndicator,
-  Platform
-} from 'react-native';
+import { View, Text, StatusBar, Image, Dimensions, Animated, ActivityIndicator, Platform } from 'react-native';
 
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import LinearGradient from 'react-native-linear-gradient';
-import Header from '@components/header';
-import Button from '@components/button';
-import HeaderTitle from '@components/headerTitle';
 import moment from 'moment';
+
+import { Header, Button, HeaderTitle, FastImage, ModalSelectUnit, PlaceHolderItemH } from '@components';
+
 import Resolution from '@utils/resolution';
-import FastImage from '@components/fastImage';
-import ModalSelectUnit from '@components/modalSelectUnit';
 import Modal from 'react-native-modal';
 
 import IC_BACK from '@resources/icons/back-light.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
 import IC_STORAGE_GREEN from '@resources/icons/Storage_green.png';
-import IC_DEL from '@resources/icons/del.png';
-import IC_STORAGE from '@resources/icons/Storage.png';
 import IC_AVATAR_DF from '@resources/icons/avatar-default.png';
-import IC_NO_INBOX from '@resources/icons/inbox.png';
 import IC_INBOXEMTY from '@resources/icons/inbox_emty.png';
-import Configs from '.././../utils/configs';
-import ModalNew from './components/modalNew';
-import { ItemPlaceHolderH } from '../../components/placeHolderItem';
-import { isIphoneX } from '@utils/func';
-import Styles from './styles';
 
+import Configs from '@utils/configs';
+import ModalNew from './components/modalNew';
 import ModalDetail from './components/modalDetail';
 
 const { width } = Dimensions.get('window');
@@ -270,7 +251,7 @@ export default class extends Component {
             />
           </View>
         ) : (
-          <ItemPlaceHolderH noMargin />
+          <PlaceHolderItemH noMargin />
         )}
       </View>
     );
@@ -308,7 +289,7 @@ export default class extends Component {
             )}
           />
         ) : (
-          <ItemPlaceHolderH noMargin />
+          <PlaceHolderItemH noMargin />
         )}
       </View>
     );
@@ -343,7 +324,7 @@ export default class extends Component {
   //         />
   //       ) : (
   //         <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-  //           <ItemPlaceHolderH noMargin />
+  //           <PlaceHolderItemH noMargin />
   //         </View>
   //       )}
   //       <View

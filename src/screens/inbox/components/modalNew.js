@@ -9,32 +9,20 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
-  PixelRatio,
-  // Modal,
   Animated,
   Platform,
-  FlatList,
-  KeyboardAvoidingView,
   Keyboard
 } from 'react-native';
+import { Header, Button, AnimatedTitle } from '@components';
+
 import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-picker';
 import Modal from 'react-native-modal';
-import Header from '@components/header';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
-import ImageViewer from 'react-native-image-zoom-viewer';
-import HeaderTitle from '@components/headerTitle';
-const { width } = Dimensions.get('window');
-import Resolution from '../../../utils/resolution';
-import Button from '@components/button';
-import Connect from '@stores';
-import Loading from '@components/loading';
-import { isIphoneX } from 'react-native-iphone-x-helper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import AnimatedTitle from '@components/animatedTitle';
-import Language from '../../../utils/language';
+import Resolution from '@utils/resolution';
+import Connect from '@stores';
 
+const { width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = 60;
 
 class ModalNewInbox extends Component {

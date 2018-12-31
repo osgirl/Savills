@@ -1,32 +1,20 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Animated, Dimensions, Image, FlatList, Platform, ScrollView } from 'react-native';
+import { Button, AnimatedTitle, PlaceHolderItemH, Header } from '@components';
 
 import Connect from '@stores';
-import LinearGradient from 'react-native-linear-gradient';
-import Resolution from '@utils/resolution';
-import Button from '@components/button';
-import IC_CLOSE from '@resources/icons/close.png';
-import IC_CALENDAR from '@resources/icons/calendar.png';
-import IC_CLOCK from '@resources/icons/clock.png';
 import moment from 'moment';
-import Modal from 'react-native-modal';
-import HeaderTitle from '@components/headerTitle';
-import { isIphoneX } from '@utils/func';
-import Utils from '@utils';
 
+import Modal from 'react-native-modal';
+
+import IC_CLOSE from '@resources/icons/close.png';
 import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
 
-import Header from '@components/header';
-
-import { ItemPlaceHolderH } from '@components/placeHolderItem';
-
+import Resolution from '@utils/resolution';
+import Utils from '@utils';
 import ModalReceip from './modalReceip';
 
 const { width, height } = Dimensions.get('window');
-import AnimatedTitle from '@components/animatedTitle';
-
-import Language from '../../../utils/language';
-
 const HEADER_MAX_HEIGHT = 60;
 
 class modalHistory extends Component {
@@ -108,7 +96,7 @@ class modalHistory extends Component {
             ListFooterComponent={() => <View style={{ height: 20 }} />}
           />
         ) : (
-          <ItemPlaceHolderH />
+          <PlaceHolderItemH />
         )}
         <Modal isVisible={this.state.isShowModalDetail} style={{ flex: 1, margin: 0, height: height }}>
           <ModalReceip idReceip={this.state.idReceip} onClose={() => this.setState({ isShowModalDetail: false })} />

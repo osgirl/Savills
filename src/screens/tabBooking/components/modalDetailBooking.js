@@ -7,33 +7,23 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
-  TextInput,
-  PixelRatio,
-  FlatList,
   Animated,
   Platform,
   Keyboard,
   StyleSheet,
-  KeyboardAvoidingView,
   DeviceEventEmitter
 } from 'react-native';
+
 import LinearGradient from 'react-native-linear-gradient';
-import { isIphoneX } from 'react-native-iphone-x-helper';
 import moment from 'moment';
 import Modal from 'react-native-modal';
 
 import Connect from '@stores';
-import ItemComment from '@components/itemComment';
-import Header from '@components/header';
-import HeaderTitle from '@components/headerTitle';
-import Button from '@components/button';
-import Resolution from '@utils/resolution';
-import AnimatedTitle from '@components/animatedTitle';
-import IC_CHATEMTY from '@resources/icons/chat_emty.png';
-import ModalChat from '../../../components/modalChat';
+import { Header, Button, AnimatedTitle, ModalChat } from '@components';
+
 import Configs from '@utils/configs';
 const HEADER_MAX_HEIGHT = 60;
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const IMAGE = {
   calendar: require('@resources/icons/calendar.png'),

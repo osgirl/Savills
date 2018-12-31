@@ -12,30 +12,20 @@ import {
   StatusBar,
   RefreshControl
 } from 'react-native';
-import Header from '@components/header';
+
+import { Header, HeaderTitle, ModalSelectUnit, AnimatedTitle, PlaceHolderItemH, Button } from '@components';
+
 import LinearGradient from 'react-native-linear-gradient';
-import HeaderTitle from '@components/headerTitle';
 import moment from 'moment';
-import ModalSelectUnit from '@components/modalSelectUnit';
 import Modal from 'react-native-modal';
-import EmptyItemList from '@components/emptyItemList';
 
-import IC_BACK from '../../resources/icons/close.png';
-import IC_CALENDAR from '../../resources/icons/calendar.png';
-import IC_CLOCK from '../../resources/icons/clock.png';
-import { } from '../';
-
-import Configs from '../../utils/configs';
-import Button from '../../components/button';
-
+import IC_BACK from '@resources/icons/close.png';
+import IC_CALENDAR from '@resources/icons/calendar.png';
+import IC_CLOCK from '@resources/icons/clock.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
-import IC_DEFAULT from '@resources/icons/default.png';
 
-import Language from '../../utils/language';
-import Resolution from '../../utils/resolution';
-
-import AnimatedTitle from '@components/animatedTitle';
-import { ItemPlaceHolderH } from '../../components/placeHolderItem';
+import Resolution from '@utils/resolution';
+import Configs from '@utils/configs';
 
 const HEADER_MAX_HEIGHT = 60;
 
@@ -151,8 +141,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scaleHeight(20) }} />
-      );
+      <View style={{ height: Resolution.scaleHeight(20) }} />
+    );
   }
 
   handleScroll = event => {
@@ -267,8 +257,8 @@ export default class extends Component {
             }}
           />
         ) : (
-            <ItemPlaceHolderH />
-          )}
+          <PlaceHolderItemH />
+        )}
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this._closeModalSelectUnit()} />
         </Modal>

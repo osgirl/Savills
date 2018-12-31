@@ -79,5 +79,20 @@ export default StyleSheet.create({
         top: 54
       }
     })
+  },
+  LinerTop: {
+    position: 'absolute',
+    top: 0,
+    width: width,
+    height: 80
+  },
+  Button: {
+    position: 'absolute',
+    top: 30,
+    left: 10,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });

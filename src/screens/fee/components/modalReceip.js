@@ -1,45 +1,20 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Animated,
-  Dimensions,
-  Image,
-  FlatList,
-  Platform,
-  ScrollView,
-  ActivityIndicator
-} from 'react-native';
+import { StyleSheet, Text, View, Animated, Dimensions, Platform, ScrollView, ActivityIndicator } from 'react-native';
 
 import Connect from '@stores';
-import LinearGradient from 'react-native-linear-gradient';
-import Resolution from '@utils/resolution';
-import Button from '@components/button';
-import IC_CLOSE from '@resources/icons/close.png';
-import IC_CALENDAR from '@resources/icons/calendar.png';
-import IC_CLOCK from '@resources/icons/clock.png';
-import moment from 'moment';
-import Modal from 'react-native-modal';
-import HeaderTitle from '@components/headerTitle';
-import { isIphoneX } from '@utils/func';
-import Utils from '@utils';
 import _ from 'lodash';
 
-import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
+import { Header } from '@components';
 
-import Header from '@components/header';
+import IC_CLOSE from '@resources/icons/close.png';
 
-import { ItemPlaceHolderH } from '@components/placeHolderItem';
-
-const { width, height } = Dimensions.get('window');
+import Resolution from '@utils/resolution';
 import AnimatedTitle from '@components/animatedTitle';
-import Configs from '../../../utils/configs';
-
-import Language from '../../../utils/language';
+import Configs from '@utils/configs';
+import Utils from '@utils';
 
 const HEADER_MAX_HEIGHT = 60;
-
+const { width } = Dimensions.get('window');
 class modalReceip extends Component {
   constructor(props) {
     super(props);

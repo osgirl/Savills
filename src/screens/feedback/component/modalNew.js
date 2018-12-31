@@ -9,36 +9,23 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
-  PixelRatio,
-  // Modal,
   Animated,
   Platform,
   FlatList,
-  KeyboardAvoidingView,
   Keyboard,
   Alert
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-picker';
-import Modal from 'react-native-modal';
-import Header from '@components/header';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
-import ImageViewer from 'react-native-image-zoom-viewer';
-import HeaderTitle from '@components/headerTitle';
-const { width } = Dimensions.get('window');
-import Resolution from '../../../utils/resolution';
-import Button from '@components/button';
 import Connect from '@stores';
-import Loading from '@components/loading';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+import { Header, Button, AlertWarning, AnimatedTitle } from '@components';
+
+import LinearGradient from 'react-native-linear-gradient';
+import Modal from 'react-native-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import AlertWarning from '@components/alertWarning';
 
-import AnimatedTitle from '@components/animatedTitle';
+import Resolution from '@utils/resolution';
 
+const { width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = 60;
-
-import Language from '../../../utils/language';
 
 class ModalNewFeedback extends Component {
   constructor(props) {

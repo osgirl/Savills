@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Dimensions, Image, FlatList } from 'react-native';
 
+import { Button, HeaderTitle, Header } from '@components/button';
+
 import Connect from '@stores';
 import LinearGradient from 'react-native-linear-gradient';
-import Resolution from '../../../utils/resolution';
-import Button from '../../../components/button';
+import Modal from 'react-native-modal';
+import moment from 'moment';
+
+import ModalDetail from './modalDetail';
+import Resolution from '@utils/resolution';
+
 import IC_CLOSE from '@resources/icons/close.png';
 import IC_CALENDAR from '@resources/icons/calendar.png';
 import IC_CLOCK from '@resources/icons/clock.png';
-import ModalDetail from './modalDetail';
-import Modal from 'react-native-modal';
-import HeaderTitle from '@components/headerTitle';
-
-import Header from '@components/header';
-
 import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
-const { width, height } = Dimensions.get('window');
-import moment from 'moment';
+
+const { width } = Dimensions.get('window');
 
 class modalFull extends Component {
   constructor(props) {

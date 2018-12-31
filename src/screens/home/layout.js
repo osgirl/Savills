@@ -1,32 +1,25 @@
 import React, { Component } from 'react';
 import { View, Text, Image, FlatList, Animated, StatusBar, Dimensions } from 'react-native';
 
-import ItemHome from '@components/itemHome';
-import ItemListViewHome from '@components/itemListViewHome';
+import { ItemHome, ItemListViewHome, Loading, Button, HeaderHome, PlaceHolderItem3 } from '@components';
 import Modal from 'react-native-modal';
-import Loading from '@components/loading';
-import Profile from '../profile';
-import Style from './style';
-import Button from '../../components/button';
-import Utils from '../../utils';
-import HeaderHome from '@components/headerHome';
+
 import IC_EDIT from '@resources/icons/edit-profile.png';
 import IC_NOTIFY from '@resources/icons/notify.png';
+import IC_GRIDVIEW_ACTIVE from '@resources/icons/Grid-view-active.png';
+import IC_GRIDVIEW from '@resources/icons/Grid-view.png';
+import IC_LISTVIEW_ACTIVE from '@resources/icons/list-view-active.png';
+import IC_LISTVIEW from '@resources/icons/list-view.png';
+import IMG_AVATAR_DEFAULT from '@resources/icons/avatar-default.png';
+import Resolution from '@utils/resolution';
 
-import IC_GRIDVIEW_ACTIVE from '../../resources/icons/Grid-view-active.png';
-import IC_GRIDVIEW from '../../resources/icons/Grid-view.png';
-import IC_LISTVIEW_ACTIVE from '../../resources/icons/list-view-active.png';
-import IC_LISTVIEW from '../../resources/icons/list-view.png';
-import IMG_AVATAR_DEFAULT from '../../resources/icons/avatar-default.png';
-import Resolution from '../../utils/resolution';
-
-import FastImage from '../../components/fastImage';
-import Placeholder from 'rn-placeholder';
-import FAQ from '../../screens/faq';
+import FastImage from '@components/fastImage';
+import FAQ from '@screens/faq';
 import Notification from '../notification';
-import { Avatar, Line } from '../../components/placeHolder';
-
-import { ItemHome3 } from "../../components/placeHolderItem";
+import { Avatar, Line } from '@components/placeHolder';
+import Profile from '../profile';
+import Style from './style';
+import Utils from '../../utils';
 
 const { width } = Dimensions.get('window');
 
@@ -35,7 +28,7 @@ const imgSize = 64;
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
@@ -205,41 +198,40 @@ export default class extends Component {
           rightAction={() => this._openNoti()}
         />
         <View style={{ flex: 1 }}>
-          {
-            this.state.dataModule && this.state.dataModule.length > 0 ?
-              <FlatList
-                data={data}
-                scrollEnabled={checkScrollEnabled}
-                horizontal={false}
-                key={this.state.numcolumn === 3 ? 'h' : 'v'}
-                contentContainerStyle={{ alignItems: 'flex-start', width: width, marginHorizontal: 20 }}
-                keyExtractor={item => item.id + ''}
-                numColumns={this.state.numcolumn || 3}
-                renderItem={({ item, index }) =>
-                  this.renderItem(
-                    item,
-                    index,
-                    this.state.dataModule && this.state.dataModule.length > 0 ? true : false,
-                    this.state.moduleCount
-                  )
-                }
-                onEndReachedThreshold={0.01}
-                refreshing={this.state.isRefresh}
-                onRefresh={() => this._onRefresh()}
-                onScroll={this.handleScroll}
-                legacyImplementation={false}
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
-                ListEmptyComponent={() => <View style={{ width: 500, height: 1000, backgroundColor: 'red' }} />}
-                ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
-                ListHeaderComponent={() => this.renderHeader(languages)}
-                ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(100), width: Resolution.scaleWidth(40) }} />}
-              /> :
-              <ItemHome3
-                onReady={false}
-              />
-          }
-
+          {this.state.dataModule && this.state.dataModule.length > 0 ? (
+            <FlatList
+              data={data}
+              scrollEnabled={checkScrollEnabled}
+              horizontal={false}
+              key={this.state.numcolumn === 3 ? 'h' : 'v'}
+              contentContainerStyle={{ alignItems: 'flex-start', width: width, marginHorizontal: 20 }}
+              keyExtractor={item => item.id + ''}
+              numColumns={this.state.numcolumn || 3}
+              renderItem={({ item, index }) =>
+                this.renderItem(
+                  item,
+                  index,
+                  this.state.dataModule && this.state.dataModule.length > 0 ? true : false,
+                  this.state.moduleCount
+                )
+              }
+              onEndReachedThreshold={0.01}
+              refreshing={this.state.isRefresh}
+              onRefresh={() => this._onRefresh()}
+              onScroll={this.handleScroll}
+              legacyImplementation={false}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={() => <View style={{ width: 500, height: 1000, backgroundColor: 'red' }} />}
+              ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
+              ListHeaderComponent={() => this.renderHeader(languages)}
+              ListFooterComponent={() => (
+                <View style={{ height: Resolution.scaleHeight(100), width: Resolution.scaleWidth(40) }} />
+              )}
+            />
+          ) : (
+            <PlaceHolderItem3 onReady={false} />
+          )}
         </View>
         <Modal style={{ flex: 1, margin: 0, backgroundColor: '#F6F8FD' }} isVisible={this.state.isShowProfile}>
           <Profile

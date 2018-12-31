@@ -4,7 +4,6 @@ import Connect from '@stores';
 import layout from './layout';
 
 import _ from "lodash";
-import Language from '../../utils/language';
 
 class Fee extends layout {
 

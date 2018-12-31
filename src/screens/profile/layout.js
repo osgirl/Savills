@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text, Platform, TextInput, Image, Dimensions, ScrollView } from 'react-native';
+import { View, Text, TextInput, Dimensions, ScrollView } from 'react-native';
 
 import ImagePicker from 'react-native-image-crop-picker';
-
 import Modal from 'react-native-modal';
-import ButtonCustom from '@components/buttonCustom';
-import Button from '@components/button';
-import InputText from '@components/inputText';
+import Picker from 'react-native-wheel-picker';
 import LinearGradient from 'react-native-linear-gradient';
-import Loading from '@components/loading';
-import IC_EMAIL from '@resources/icons/ID.png';
-import Resolution from '../../utils/resolution';
-import FastImage from '../../components/fastImage';
+
+import { ButtonCustom, Button, Loading, FastImage, ModalSelectUnit } from '@components';
+
 import IC_CLOSE from '@resources/icons/close.png';
 import IC_SETTING from '@resources/icons/setting.png';
-import IMG_AVATAR_DEFAULT from '../../resources/icons/avatar-default.png';
-import ModalSelectUnit from '@components/modalSelectUnit';
+
+import Resolution from '@utils/resolution';
 import Style from './style';
-import Picker from 'react-native-wheel-picker';
 
 var PickerItem = Picker.Item;
 const { width, height } = Dimensions.get('window');

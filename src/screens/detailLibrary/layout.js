@@ -11,30 +11,21 @@ import {
   Platform,
   RefreshControl
 } from 'react-native';
-import Header from '@components/header';
+import { Header, Button, ModalSelectUnit, AnimatedTitle, PlaceHolderItemH } from '@components';
+
+import Modal from 'react-native-modal';
+import moment from 'moment';
+
+import Configs from '@utils/configs';
+import Utils from '@utils';
+
 import IC_BACK from '@resources/icons/back-light.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
-import LinearGradient from 'react-native-linear-gradient';
-import Button from '@components/button';
-import HeaderTitle from '@components/headerTitle';
-import { isIphoneX } from '@utils/func';
-import moment from 'moment';
-import Configs from '../../utils/configs';
-import ModalSelectUnit from '@components/modalSelectUnit';
-import Modal from 'react-native-modal';
-import Styles from './styles';
 
-import Utils from '../../utils';
-
-import Resolution from '../../utils/resolution';
+import Resolution from '@utils/resolution';
 import ModalDetail from './component/modalDetail';
-import AnimatedTitle from '@components/animatedTitle';
-
-import { ItemHorizontal2 } from '../../components/placeHolder';
-import { ItemPlaceHolderH } from '../../components/placeHolderItem';
 
 const HEADER_MAX_HEIGHT = 60;
-
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -141,7 +132,7 @@ export default class extends Component {
             }}
           />
         ) : (
-          <ItemPlaceHolderH />
+          <PlaceHolderItemH />
         )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>

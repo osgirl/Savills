@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import Connect from '@stores';
 import layout from './layout';
 import { StatusBar } from 'react-native';

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { Button } from '@components';
+
+import LinearGradient from 'react-native-linear-gradient';
+import Modal from 'react-native-modal';
 
 import Connect from '@stores';
-import LinearGradient from 'react-native-linear-gradient';
-import Resolution from "@utils/resolution";
-import Button from "@components/button";
-import Modal from "react-native-modal";
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class modalFaildOrder extends Component {
-
   render() {
     const { isVisible, message } = this.props;
     return (
@@ -23,12 +22,10 @@ class modalFaildOrder extends Component {
               backgroundColor: '#FFF',
               marginHorizontal: 20,
               alignItems: 'center',
-              padding: 20,
+              padding: 20
             }}
           >
-            <Button
-              onPress={() => this.props.onClose()}
-              style={{ padding: 20, position: 'absolute', top: 0, left: 0 }}>
+            <Button onPress={() => this.props.onClose()} style={{ padding: 20, position: 'absolute', top: 0, left: 0 }}>
               <Text>x</Text>
             </Button>
             <Image source={require('@resources/icons/warning.png')} />
@@ -55,16 +52,15 @@ class modalFaildOrder extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, margin: 0
+    flex: 1,
+    margin: 0
   },
   wallper: {
     flex: 1,
     backgroundColor: 'transparent',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   }
-
 });
-
 
 export default Connect(modalFaildOrder);

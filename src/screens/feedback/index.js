@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
 import { Animated, Platform } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
-import Resolution from '@utils/resolution';
 import _ from 'lodash';
-
-import Language from '../../utils/language';
 
 const HEADER_MAX_HEIGHT = 60;
 

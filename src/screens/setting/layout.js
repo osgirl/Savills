@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, Image, StatusBar, Dimensions, ScrollView, DeviceEventEmitter, Platform } from 'react-native';
-import Header from '@components/header';
-import IC_BACK from '@resources/icons/close.png';
-import IC_DROPDOWN from '@resources/icons/dropDown.png';
-import IC_ARROWRIGHT from '../../resources/icons/arrow_seemore.png';
-import Button from '@components/button';
-import ModalSelectUnit from '@components/modalSelectUnit';
+import { View, Text, Animated, Image, StatusBar, Dimensions, ScrollView, Platform } from 'react-native';
 import Modal from 'react-native-modal';
-import ButtonSwitch from '../../components/buttonSwitch';
-import HeaderTitle from '@components/headerTitle';
 import Picker from 'react-native-wheel-picker';
-import LinearGradient from 'react-native-linear-gradient';
-import AnimatedTitle from '@components/animatedTitle';
+
+import { Header, Button, ModalSelectUnit, ButtonSwitch, AnimatedTitle } from '@components';
+
+import IC_BACK from '@resources/icons/close.png';
+import IC_ARROWRIGHT from '@resources/icons/arrow_seemore.png';
 import Resolution from '../../utils/resolution';
 
 import Styles from './styles';
 
 import Language from '@utils/language';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 var PickerItem = Picker.Item;
 

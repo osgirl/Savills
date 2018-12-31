@@ -7,44 +7,24 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  TextInput,
-  PixelRatio,
-  // Modal,
   Animated,
   Platform,
-  FlatList,
-  Keyboard,
-  VirtualizedList,
-  KeyboardAvoidingView,
   ActivityIndicator,
-  StyleSheet,
-  StatusBar
+  StyleSheet
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-picker';
-import Modal from 'react-native-modal';
-import Header from '@components/header';
-import moment from 'moment';
-import ItemComment from '@components/itemComment';
-import HeaderTitle from '@components/headerTitle';
-import Resolution from '../../../utils/resolution';
-import Button from '@components/button';
 import Connect from '@stores';
-import { isIphoneX } from 'react-native-iphone-x-helper';
-import AnimatedHeader from '@components/animatedHeader';
+import { Header, Button, ModalChat, AnimatedTitle } from '@components';
 
-import ModalChat from '@components/modalChat';
+import LinearGradient from 'react-native-linear-gradient';
+import Modal from 'react-native-modal';
+import moment from 'moment';
 
-import IC_CHATEMTY from '@resources/icons/chat_emty.png';
 import IC_CLOSE from '@resources/icons/close.png';
-import Configs from '../../../utils/configs';
 
-const { width, height } = Dimensions.get('window');
+import Configs from '@utils/configs';
+import Resolution from '@utils/resolution';
 
-import AnimatedTitle from '@components/animatedTitle';
-
-import Language from '../../../utils/language';
-
+const { width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = 60;
 
 class ModalDetailFeedback extends Component {

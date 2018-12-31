@@ -1,6 +1,4 @@
-// import MainTab from "./mainTab";
 import Launcher from './launcher';
-// import Drawer from './drawer';
 import Login from './login';
 import SelectProject from './selectProject';
 import SelectApartment from './selectApartment';
@@ -39,9 +37,7 @@ export {
   ModalEditOrder,
   ModalNewBooking,
   ModalWorkOrder,
-  // MainTab,
   Launcher,
-  // Drawer,
   WorkOrder,
   Login,
   SelectProject,

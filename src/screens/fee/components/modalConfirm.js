@@ -1,30 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Image, Animated, Platform, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, Animated, Platform } from 'react-native';
+import { Header, AnimatedTitle } from '@components';
 
 import Connect from '@stores';
-import LinearGradient from 'react-native-linear-gradient';
-import Resolution from '../../../utils/resolution';
-import Button from '../../../components/button';
+
 import IC_CLOSE from '@resources/icons/close.png';
-import IC_CALENDAR from '@resources/icons/calendar.png';
-import IC_CLOCK from '@resources/icons/clock.png';
-// import ModalDetail from "./modalDetail";
-import Modal from 'react-native-modal';
-import HeaderTitle from '@components/headerTitle';
+
+import Resolution from '@utils/resolution';
 import { isIphoneX } from '@utils/func';
-import Utils from '../../../utils';
-import Payoo from '../../../utils/payoo';
-
-import Header from '@components/header';
-import AnimatedTitle from '@components/animatedTitle';
-import Loading from '@components/loading';
-
+import Utils from '@utils';
+import Payoo from '@utils/payoo';
 import ModalFaild from './modalFaild';
-import Configs from '../../../utils/configs';
 
 const HEADER_MAX_HEIGHT = 60;
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 class modalConfirm extends Component {
   constructor(props) {

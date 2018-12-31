@@ -1,7 +1,5 @@
-/** @format */
-
-import React, { Component } from 'react';
-import { Animated, View, Dimensions, Image } from 'react-native';
+import React, { Component, memo } from 'react';
+import { Animated, View, Dimensions, Image, StyleSheet } from 'react-native';
 import styles from './styles';
 import Button from '@components/button';
 import LinearGradient from 'react-native-linear-gradient';
@@ -33,21 +31,9 @@ export default class AnimatedHeader extends Component {
       outputRange: [0, 1],
       extrapolate: 'clamp'
     });
-
-    const headerHeight = scrollY.interpolate({
-      inputRange: [0, headerMinHeight * 1.5],
-      outputRange: [180, 50],
-      extrapolate: 'clamp'
-    });
-
     return (
       <View style={styles.body}>
-        <LinearGradient
-          style={{ position: 'absolute', top: 0, width: width, height: 80 }}
-          colors={['#4A89E8', '#8FBCFF']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        />
+        <LinearGradient style={styles.LinerTop} colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} />
         <Animated.View style={[styles.headerView, { opacity: navbarOpacity }]} />
 
         {label && (
@@ -63,18 +49,7 @@ export default class AnimatedHeader extends Component {
           </Animated.Text>
         )}
         {typeof goBack != 'undefined' ? (
-          <Button
-            onPress={() => goBackAction()}
-            style={{
-              position: 'absolute',
-              top: 30,
-              left: 10,
-              width: 40,
-              height: 40,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
+          <Button onPress={() => goBackAction()} style={styles.Button}>
             <Image source={require('@resources/icons/close.png')} />
           </Button>
         ) : (

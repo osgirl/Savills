@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import {
   View,
   Text,
@@ -9,24 +8,20 @@ import {
   TouchableOpacity,
   TextInput,
   PixelRatio,
-  // Modal,
   Animated,
   Platform,
   FlatList
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
-import Modal from 'react-native-modal';
-import Header from '@components/header';
-import IC_MENU from '@resources/icons/icon_tabbar_active.png';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import HeaderTitle from '@components/headerTitle';
-const { width } = Dimensions.get('window');
-import Resolution from '../../../utils/resolution';
-import Button from '@components/button';
-import Connect from '@stores';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+import Modal from 'react-native-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+import { Header, HeaderTitle, Button } from '@components';
+const { width } = Dimensions.get('window');
+import Resolution from '@utils/resolution';
+import Connect from '@stores';
 
 const options = {
   title: 'Select Image',

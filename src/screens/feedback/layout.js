@@ -1,46 +1,23 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  Animated,
-  FlatList,
-  Image,
-  StatusBar,
-  Dimensions,
-  ActivityIndicator,
-  Platform,
-  RefreshControl,
-  StyleSheet
-} from 'react-native';
-import Header from '@components/header';
-import IC_BACK from '@resources/icons/back-light.png';
-import IC_DROPDOWN from '@resources/icons/dropDown.png';
-import LinearGradient from 'react-native-linear-gradient';
-import Button from '@components/button';
-import HeaderTitle from '@components/headerTitle';
-import { isIphoneX } from '@utils/func';
-import moment from 'moment';
-import Configs from '../../utils/configs';
-import ModalSelectUnit from '@components/modalSelectUnit';
-import ModaDetailFeedback from './component/modaDetailFeedback';
-import Modal from 'react-native-modal';
-import ModalNew from './component/modalNew';
-import Styles from './styles';
-import EmptyItemList from '@components/emptyItemList';
-import Utils from '../../utils';
-
-import Resolution from '@utils/resolution';
-import AnimatedTitle from '@components/animatedTitle';
-
-import { ItemHorizontal2 } from '../../components/placeHolder';
-import { ItemPlaceHolderH } from '../../components/placeHolderItem';
-
+import { View, Text, Animated, Image, StatusBar, Dimensions, ActivityIndicator, StyleSheet } from 'react-native';
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import LinearGradient from 'react-native-linear-gradient';
+import Modal from 'react-native-modal';
+import moment from 'moment';
 
-import IC_EMTY_FB from '../../resources/icons/Emty_feedback.png';
+import { Header, HeaderTitle, Button, ModalSelectUnit, PlaceHolderItemH } from '@components';
 
-import Language from '../../utils/language';
+import IC_BACK from '@resources/icons/back-light.png';
+import IC_DROPDOWN from '@resources/icons/dropDown.png';
+import IC_EMTY_FB from '@resources/icons/Emty_feedback.png';
+
+import { isIphoneX } from '@utils/func';
+import Configs from '@utils/configs';
+import ModaDetailFeedback from './component/modaDetailFeedback';
+import ModalNew from './component/modalNew';
+import Styles from './styles';
+import Resolution from '@utils/resolution';
 
 const HEADER_MAX_HEIGHT = 60;
 
@@ -243,7 +220,7 @@ export default class extends Component {
           />
         ) : (
           <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            <ItemPlaceHolderH noMargin />
+            <PlaceHolderItemH noMargin />
           </View>
         )}
       </View>
@@ -279,7 +256,7 @@ export default class extends Component {
           />
         ) : (
           <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            <ItemPlaceHolderH noMargin />
+            <PlaceHolderItemH noMargin />
           </View>
         )}
       </View>

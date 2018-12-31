@@ -1,14 +1,6 @@
-import React, { Component } from 'react';
-import { Animated, View, StatusBar } from 'react-native';
+import { Animated } from 'react-native';
 import Connect from '@stores';
-import Header from '@components/header';
-import IC_BACK from '@resources/icons/back-light.png';
-
-import LinearGradient from 'react-native-linear-gradient';
-import { Calendar } from '../../components/calendars';
 import Layout from './layout';
-
-import Language from '../../utils/language';
 
 class Events extends Layout {
   constructor(props) {
@@ -106,7 +98,6 @@ class Events extends Layout {
     let markedDateMap = {};
     let tempEvents = [];
     let currDate = this.timeToString(new Date());
-    console.log(currDate);
     arrDate.map(item => {
       if (item.isEvent) {
         tempEvents.push(item);

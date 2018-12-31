@@ -1,37 +1,18 @@
 import React, { PureComponent } from 'react';
 import Connect from '@stores';
-import {
-  View,
-  Text,
-  Dimensions,
-  FlatList,
-  ActivityIndicator,
-  Image,
-  Animated,
-  RefreshControl,
-  StatusBar,
-  StyleSheet,
-  Platform
-} from 'react-native';
+import { View, Text, Dimensions, Image, Animated, StatusBar, StyleSheet, Platform } from 'react-native';
+import { ModalSelectUnit, Header, HeaderTitle } from '@components';
 
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
-import moment from 'moment';
-import HeaderTitle from '@components/headerTitle';
-import Header from '@components/header';
 import { isIphoneX } from '@utils/func';
 
 import Button from '@components/button';
-import EmptyItemList from '@components/emptyItemList';
 
-import IC_BACK from '@resources/icons/back-light.png';
 const { width } = Dimensions.get('window');
-import Resolution from '@utils/resolution';
 import Modal from 'react-native-modal';
 
-import ModalSelectUnit from '@components/modalSelectUnit';
-import { ItemPlaceHolderH } from '@components/placeHolderItem';
-
+import IC_BACK from '@resources/icons/back-light.png';
 const IMAGE = {
   dropDown: require('@resources/icons/dropDown.png'),
   bt_addNew: require('@resources/icons/plush-addnew.png'),
@@ -41,10 +22,6 @@ const IMAGE = {
 
 import TabProcess from './tabs/tabProcess';
 import TabComplete from './tabs/tabComplete';
-
-const HEADER_MAX_HEIGHT = Resolution.scale(Platform.OS === 'ios' ? 70 : 50);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 class TabWorkOrder extends PureComponent {
   constructor(props) {
@@ -71,7 +48,7 @@ class TabWorkOrder extends PureComponent {
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalEditOrder', { id: ida.itemtype });
     }
-    this.fetchList()
+    this.fetchList();
   };
 
   fetchList = () => {

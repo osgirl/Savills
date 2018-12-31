@@ -7,11 +7,9 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  PixelRatio,
   Modal,
   Animated,
   ActivityIndicator,
-  Keyboard,
   Platform,
   DeviceEventEmitter
 } from 'react-native';
@@ -20,24 +18,17 @@ import LinearGradient from 'react-native-linear-gradient';
 import CalendarStrip from '@components/calendarAgenda';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Calendar } from '@components/calendars';
+import XDate from 'xdate';
 
-import Header from '@components/header';
-import HeaderTitle from '@components/headerTitle';
+import { Header, Button, AlertWarning, Loading } from '@components';
 import configs from '@utils/configs';
-import Button from '@components/button';
 import moment from 'moment';
 import Connect from '@stores';
-import Resolution from '@utils/resolution';
-import AlertWarning from '@components/alertWarning';
-import { isIphoneX } from '@utils/func';
-import Loading from '@components/loading';
+
 import IC_CALENDAR_ARROR from '@resources/icons/arrow_calendar.png';
 import IC_CALENDAR_ARROR_UP from '@resources/icons/arrow_up_calendar.png';
-const HEADER_MAX_HEIGHT = Resolution.scale(isIphoneX() ? 135 : Platform.OS === 'ios' ? 120 : 120);
-const HEADER_MIN_HEIGHT = Resolution.scale(Platform.OS === 'android' ? 50 : 70);
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-const { width, height } = Dimensions.get('window');
-import XDate from 'xdate';
+
+const { width } = Dimensions.get('window');
 const IMAGE = {
   close: require('@resources/icons/close.png')
 };
@@ -724,7 +715,9 @@ class ModalNewBooking extends PureComponent {
                       >{`${fullUnitCode}-${displayName}`}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{languages.BK_NEW_EMAIL}</Text>
+                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.BK_NEW_EMAIL}
+                      </Text>
                       <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.email}</Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>

@@ -11,37 +11,26 @@ import {
   FlatList,
   Animated,
   Platform,
-  PixelRatio,
   Keyboard,
-  KeyboardAvoidingView,
   StatusBar,
   Linking,
   DeviceEventEmitter
 } from 'react-native';
+
+import { ModalChat, Header, AnimatedTitle } from '@components';
+
 import LinearGradient from 'react-native-linear-gradient';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { isIphoneX } from 'react-native-iphone-x-helper';
 import ImagePicker from 'react-native-image-picker';
-import ViewOverflow from 'react-native-view-overflow';
-
 import Connect from '@stores';
 import moment from 'moment';
-import Header from '@components/header';
-import ItemComment from '@components/itemComment';
-import HeaderTitle from '@components/headerTitle';
 import Modal from 'react-native-modal';
-import Resolution from '@utils/resolution';
-import AnimatedHeader from '@components/animatedHeader';
-import Configs from '@utils/configs';
 
-import ModalChat from '../../../components/modalChat';
-import IC_CHATEMTY from '@resources/icons/chat_emty.png';
-import AnimatedTitle from '@components/animatedTitle';
+import Configs from '@utils/configs';
 
 const STAR_ON = require('@resources/icons/Star-big.png');
 const STAR_OFF = require('@resources/icons/Star.png');
-
 const HEADER_MAX_HEIGHT = 60;
 
 const { width, height } = Dimensions.get('window');

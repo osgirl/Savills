@@ -1,32 +1,18 @@
 import React, { Component } from 'react';
 
-import {
-  View,
-  Text,
-  Dimensions,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  Animated,
-  Platform,
-  WebView,
-  ActivityIndicator
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import Modal from 'react-native-modal';
-import Header from '@components/header';
-import HeaderTitle from '@components/headerTitle';
-import Resolution from '../../../utils/resolution';
+import { View, Text, Dimensions, Image, ScrollView, TouchableOpacity, Animated, Platform, ActivityIndicator } from 'react-native';
+import { Header, AnimatedTitle, ModalChat } from '@components';
 import Connect from '@stores';
+
+import Modal from 'react-native-modal';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import HTML from 'react-native-render-html';
-import AnimatedTitle from '@components/animatedTitle';
-import ModalChat from '@components/modalChat';
-import Button from '@components/button';
 import _ from 'lodash';
-import Configs from '../../../utils/configs';
 
-const { width, height } = Dimensions.get('window');
+import Resolution from '@utils/resolution';
+import Configs from '@utils/configs';
+
+const { width } = Dimensions.get('window');
 
 const HEADER_MAX_HEIGHT = 60;
 class ModalDetailFeedback extends Component {
@@ -160,7 +146,7 @@ class ModalDetailFeedback extends Component {
                         // justifyContent: 'space-around'
                       }}
                     >
-                      <HTML html={data.subject} imagesMaxWidth={width-90} />
+                      <HTML html={data.subject} imagesMaxWidth={width - 90} />
                     </View>
                   }
                 />
@@ -179,7 +165,7 @@ class ModalDetailFeedback extends Component {
                         // justifyContent: 'space-around'
                       }}
                     >
-                      <HTML html={data.content} imagesMaxWidth={width-90} />
+                      <HTML html={data.content} imagesMaxWidth={width - 90} />
                     </View>
                   }
                 />

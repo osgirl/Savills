@@ -21,14 +21,8 @@ import ImagePicker from 'react-native-image-picker';
 import Modal from 'react-native-modal';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
-import Header from '@components/header';
-import HeaderTitle from '@components/headerTitle';
-import Button from '@components/button';
-import Loading from '@components/loading';
-import Resolution from '@utils/resolution';
-import AnimatedTitle from '@components/animatedTitle';
+import { Header, Button, Loading, AnimatedTitle, AlertWarning } from '@components';
 import Connect from '@stores';
-import AlertWarning from '@components/alertWarning';
 const { width, height } = Dimensions.get('window');
 
 const HEADER_MAX_HEIGHT = 60;
