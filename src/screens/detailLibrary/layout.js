@@ -160,9 +160,9 @@ export default class extends Component {
           flexDirection: 'row'
         }}
       >
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <Image source={Utils.mapImageLibary(item.file.mimeType)} style={{ flex: 0.2 }} />
-          <View style={{ marginLeft: 20 }}>
+        <View style={{ flex: 1, flexDirection: 'row',alignItems:'center' }}>
+          <Image source={Utils.mapImageLibary(item.file.mimeType)} />
+          <View style={{ marginHorizontal: 20 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.documentName}</Text>
             </View>
