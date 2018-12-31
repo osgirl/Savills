@@ -134,7 +134,7 @@ export default class extends Component {
     return (
       <Button
         activeOpacity={1}
-        onPress={() => {}}
+        onPress={() => { }}
         style={[
           {
             marginHorizontal: Resolution.scale(20),
@@ -205,6 +205,7 @@ export default class extends Component {
               />
             }
             onScroll={this.handleScroll}
+            scrollEventThrottle={16}
             legacyImplementation={false}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
@@ -219,8 +220,8 @@ export default class extends Component {
             }}
           />
         ) : (
-          <ItemPlaceHolderH />
-        )}
+            <ItemPlaceHolderH />
+          )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />

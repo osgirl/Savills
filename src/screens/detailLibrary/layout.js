@@ -66,8 +66,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
-    );
+        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+      );
   }
 
   renderHeader() {
@@ -141,8 +141,8 @@ export default class extends Component {
             }}
           />
         ) : (
-          <ItemPlaceHolderH />
-        )}
+            <ItemPlaceHolderH />
+          )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -169,16 +169,15 @@ export default class extends Component {
           flexDirection: 'row'
         }}
       >
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <Image source={Utils.mapImageLibary(item.file.mimeType)} style={{ flex: 0.2 }} />
-          <View style={{ marginLeft: 20 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.documentName}</Text>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+          <Image source={Utils.mapImageLibary(item.file.mimeType)} style={{}} />
+          <View style={{ marginLeft: 20, flex: 1, }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+              <Text numberOfLines={2} style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.documentName}</Text>
             </View>
 
             <View
               style={{
-                flex: 1,
                 marginTop: Resolution.scale(10),
                 flexDirection: 'row',
                 alignItems: 'center',

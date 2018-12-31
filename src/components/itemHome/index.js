@@ -27,20 +27,32 @@ export default class ItemHomeComponent extends Component {
         let moduleCountByItem = moduleCount && moduleCount.length > 0 ? moduleCount.find(e => e.moduleName === moduleName) : {}
         return (
             <View style={[Styles.container, { ...Configs.Shadow, marginLeft: this.props.index === 0 || this.props.index % 3 === 0 ? 0 : Resolution.scale(5) }]}>
-                <ItemHome
-                    txtWidth={70}
-                    onReady={this.props.loading}
-                    bgColor={'#FFF'}
-                    animate='fade'>
-                    <Button
-                        disabled={this.props.loading ? false : true}
-                        activeOpacity={0.6}
-                        onPress={() => this.props.onPressItem()}
-                        style={{}}>
-                        <View style={Styles.container}>
-                            <Image source={Utils.mapItemHome(this.props.image)} style={{ width: Resolution.scale(20), height: Resolution.scale(20) }} />
-                            <Text style={{ color: '#ACB1BC', fontSize: Resolution.scale(12), marginTop: Resolution.scaleHeight(10), fontFamily: 'OpenSans-Bold', textAlign: 'center' }}>{this.props.title}</Text>
-                            {/* {
+                <Button
+                    disabled={this.props.loading ? false : true}
+                    activeOpacity={0.6}
+                    onPress={() => this.props.onPressItem()}
+                    style={{}}>
+                    <View style={Styles.container}>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
+                            <Image
+                                source={Utils.mapItemHome(this.props.image)}
+                                style={{ width: Resolution.scale(20), height: Resolution.scale(20) }}
+                            />
+                        </View>
+                        <Text
+                            numberOfLines={2}
+                            style={{
+                                color: '#ACB1BC',
+                                fontSize: Resolution.scale(12),
+                                marginTop: Resolution.scaleHeight(10),
+                                fontFamily: 'OpenSans-Bold',
+                                textAlign: 'center',
+                                height: Resolution.scale(40)
+                            }}
+                        >
+                            {this.props.title}
+                        </Text>
+                        {/* {
                                 moduleCountByItem && moduleCountByItem.unreadCount > 0 ?
                                     <View style={{ backgroundColor: '#FFF', borderRadius: 10, position: 'absolute', top: (width - 60) / 8, right: (width - 60) / 8 }}>
                                         <View style={{ backgroundColor: '#FF361A', borderRadius: 10, margin: Resolution.scale(3) }}>
@@ -58,27 +70,26 @@ export default class ItemHomeComponent extends Component {
                                     </View> : null
                             } */}
 
-                            {
-                                moduleCountByItem && moduleCountByItem.unreadCount > 0 ?
-                                    <View style={{ backgroundColor: '#FFF', borderRadius: 10, position: 'absolute', top: 10, right: 10 }}>
-                                        <View style={{ backgroundColor: '#FF361A', borderRadius: 10, margin: Resolution.scale(3) }}>
-                                            <View style={{ justifyContent: 'center', alignItems: 'center', width: Resolution.scale(30) }}>
-                                                <Text style={{ color: '#FFFFFF', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(12) }}>{moduleCountByItem.unreadCount}</Text>
-                                            </View>
+                        {
+                            moduleCountByItem && moduleCountByItem.unreadCount > 0 ?
+                                <View style={{ backgroundColor: '#FFF', borderRadius: 10, position: 'absolute', top: 15, right: 10 }}>
+                                    <View style={{ backgroundColor: '#FF361A', borderRadius: 10, margin: Resolution.scale(3) }}>
+                                        <View style={{ justifyContent: 'center', alignItems: 'center', width: Resolution.scale(30) }}>
+                                            <Text style={{ color: '#FFFFFF', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(12) }}>{moduleCountByItem.unreadCount}</Text>
                                         </View>
-                                    </View> : null
-                            }
+                                    </View>
+                                </View> : null
+                        }
 
 
-                            {/* <View style={{ backgroundColor: '#FF361A', borderRadius: 16, position: 'absolute', right: 10, top: 10}}>
+                        {/* <View style={{ backgroundColor: '#FF361A', borderRadius: 16, position: 'absolute', right: 10, top: 10}}>
                                 <View style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 15,  marginVertical: 1}}>
                                     <Text style={{ color: '#FFFFFF', fontFamily: 'OpenSans-Bold', fontSize: 13 }}>9s</Text>
                                 </View>
                             </View> */}
-                        </View>
+                    </View>
 
-                    </Button>
-                </ItemHome>
+                </Button>
             </View>
         );
     }

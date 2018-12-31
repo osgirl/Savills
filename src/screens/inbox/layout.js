@@ -172,7 +172,7 @@ export default class extends Component {
       return (
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <Image source={IC_INBOXEMTY} />
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D', width: width - 120, }}>
             {'Chưa có tin nhắn mới'}
           </Text>
         </View>
@@ -181,7 +181,7 @@ export default class extends Component {
       return (
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <Image source={IC_INBOXEMTY} />
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D', width: width - 120, }}>
             {'Chưa có tin nhắn nào đã lưu'}
           </Text>
         </View>
@@ -190,7 +190,7 @@ export default class extends Component {
       return (
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <Image source={IC_INBOXEMTY} />
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D', width: width - 120, }}>
             {'Chưa có tin nhắn nào đã gửi'}
           </Text>
         </View>
@@ -208,8 +208,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: 20 }} />
-    );
+        <View style={{ height: 20 }} />
+      );
   }
 
   renderHiddenRow(item, index) {
@@ -270,8 +270,8 @@ export default class extends Component {
             />
           </View>
         ) : (
-          <ItemPlaceHolderH noMargin />
-        )}
+            <ItemPlaceHolderH noMargin />
+          )}
       </View>
     );
   };
@@ -308,8 +308,8 @@ export default class extends Component {
             )}
           />
         ) : (
-          <ItemPlaceHolderH noMargin />
-        )}
+            <ItemPlaceHolderH noMargin />
+          )}
       </View>
     );
   };

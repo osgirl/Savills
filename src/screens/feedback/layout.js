@@ -51,7 +51,7 @@ export default class extends Component {
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
-        listener: event => {}
+        listener: event => { }
       },
       { useNativeDriver: true }
     )(event);
@@ -63,8 +63,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(40) }} />
-    );
+        <View style={{ height: Resolution.scale(40) }} />
+      );
   }
 
   render() {
@@ -193,7 +193,7 @@ export default class extends Component {
       return (
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <Image source={IC_EMTY_FB} />
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D', width: width - 120 }}>
             {languages.FB_EMPTY_FEEDBACK}
           </Text>
         </View>
@@ -202,7 +202,7 @@ export default class extends Component {
       return (
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <Image source={IC_EMTY_FB} />
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
+          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D', width: width - 120 }}>
             {languages.FB_EMPTY_FEEDBACK_CANCEL}
           </Text>
         </View>
@@ -242,10 +242,10 @@ export default class extends Component {
             ListFooterComponent={() => this._FooterFlatlist()}
           />
         ) : (
-          <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            <ItemPlaceHolderH noMargin />
-          </View>
-        )}
+              <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                <ItemPlaceHolderH noMargin />
+              </View>
+            )}
       </View>
     );
   };
@@ -278,10 +278,10 @@ export default class extends Component {
             ListFooterComponent={() => this._FooterFlatlist()}
           />
         ) : (
-          <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            <ItemPlaceHolderH noMargin />
-          </View>
-        )}
+              <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                <ItemPlaceHolderH noMargin />
+              </View>
+            )}
       </View>
     );
   };

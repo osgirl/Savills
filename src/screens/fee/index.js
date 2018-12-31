@@ -41,7 +41,7 @@ class Fee extends layout {
         if (this.props.fee.listUserFee !== nextProps.fee.listUserFee && nextProps.fee.listUserFee.success) {
             let items = nextProps.fee.listUserFee.result.items || [];
             const dataMap = _.groupBy(items, 'package.period' && 'package.year');
-            this.setState({ data: _.toArray(dataMap), isRefesh: false });
+            this.setState({ data: _.toArray(dataMap).reverse(), isRefesh: false });
         }
     }
 

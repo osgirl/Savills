@@ -147,31 +147,31 @@ export default class Layout extends Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={{}}>
-              <CalendarStrip
-                selectedDate={this.state.dateSelected ? this.state.dateSelected : new Date()}
-                onPressDate={date => {
-                  this._onPressDay(date);
-                }}
-                language={getDayArray}
-                onPressGoToday={today => {}}
-                onSwipeDown={() => {}}
-                markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
-              />
-              <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
-                <View
-                  style={{
-                    alignSelf: 'center',
-                    alignItems: 'center',
-                    marginBottom: 10,
-                    width: 100
+              <View style={{}}>
+                <CalendarStrip
+                  selectedDate={this.state.dateSelected ? this.state.dateSelected : new Date()}
+                  onPressDate={date => {
+                    this._onPressDay(date);
                   }}
-                >
-                  <Image source={IC_CALENDAR_ARROR} />
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
+                  language={getDayArray}
+                  onPressGoToday={today => { }}
+                  onSwipeDown={() => { }}
+                  markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
+                />
+                <TouchableOpacity onPress={() => this.setState({ openFullCalendar: true })}>
+                  <View
+                    style={{
+                      alignSelf: 'center',
+                      alignItems: 'center',
+                      marginBottom: 10,
+                      width: 100
+                    }}
+                  >
+                    <Image source={IC_CALENDAR_ARROR} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
         </LinearGradient>
       </Animated.View>
     );
@@ -179,7 +179,7 @@ export default class Layout extends Component {
 
   renderEmty(languages) {
     return (
-      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60) }}>
+      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: Resolution.scale(60), zIndex: -20 }}>
         <Image source={IC_EVENTEMTY} />
         <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'OpenSans-SemiBold', color: '#343D4D' }}>
           {languages.EVENT_EMPTY_EVENT_1}
@@ -233,38 +233,38 @@ export default class Layout extends Component {
         ) : !this.state.loadingFetching && this.state.myEvent.length <= 0 ? (
           this.renderEmty(languages)
         ) : (
-          <FlatList
-            alwaysBounceVertical={false}
-            data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
-            keyExtractor={item => item.eventId + ''}
-            renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
-            onScroll={this.onScroll}
-            contentContainerStyle={{ zIndex: 1 }}
-            style={{ zIndex: 200 }}
-            legacyImplementation={false}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
-            ListHeaderComponent={() => (
-              <View
-                style={{
-                  marginTop: Resolution.scale(20),
-                  marginBottom: Resolution.scale(10),
-                  marginHorizontal: Resolution.scale(20)
-                }}
-              >
-                <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
-                  {this.state.dateSelected
-                    ? moment(this.state.dateSelected)
-                        .format('DD-MM-YYYY')
-                        .toString()
-                    : languages.EVENTS_TXT_ALLTITLE}
-                </Text>
-              </View>
+              <FlatList
+                alwaysBounceVertical={false}
+                data={this.state.myEvent.length > 0 ? this.state.myEvent : Utils.dataPlaceholderEvents}
+                keyExtractor={item => item.eventId + ''}
+                renderItem={({ item, index }) => this.renderItem(item, index, this.state.myEvent.length > 0 ? true : false)}
+                onScroll={this.onScroll}
+                contentContainerStyle={{ zIndex: 1 }}
+                style={{ zIndex: 200 }}
+                legacyImplementation={false}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+                ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleHeight(10) }} />}
+                ListHeaderComponent={() => (
+                  <View
+                    style={{
+                      marginTop: Resolution.scale(20),
+                      marginBottom: Resolution.scale(10),
+                      marginHorizontal: Resolution.scale(20)
+                    }}
+                  >
+                    <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
+                      {this.state.dateSelected
+                        ? moment(this.state.dateSelected)
+                          .format('DD-MM-YYYY')
+                          .toString()
+                        : languages.EVENTS_TXT_ALLTITLE}
+                    </Text>
+                  </View>
+                )}
+                ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
+              />
             )}
-            ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(20) }} />}
-          />
-        )}
 
         <Modal
           style={{ flex: 1, marginTop: Resolution.scale(50), marginLeft: 0, marginRight: 0, marginBottom: 0 }}
