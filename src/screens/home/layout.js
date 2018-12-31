@@ -26,6 +26,8 @@ import FAQ from '../../screens/faq';
 import Notification from '../notification';
 import { Avatar, Line } from '../../components/placeHolder';
 
+import { ItemHome3 } from "../../components/placeHolderItem";
+
 const { width } = Dimensions.get('window');
 
 const imgSize = 64;
@@ -33,7 +35,7 @@ const imgSize = 64;
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -169,6 +171,7 @@ export default class extends Component {
     let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
     let checkScrollEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+
     return (
       <View style={Style.container}>
         <HeaderHome
@@ -202,34 +205,41 @@ export default class extends Component {
           rightAction={() => this._openNoti()}
         />
         <View style={{ flex: 1 }}>
-          <FlatList
-            data={data}
-            scrollEnabled={checkScrollEnabled}
-            horizontal={false}
-            key={this.state.numcolumn === 3 ? 'h' : 'v'}
-            contentContainerStyle={{ alignItems: 'flex-start', width: width, marginHorizontal: 20 }}
-            keyExtractor={item => item.id + ''}
-            numColumns={this.state.numcolumn || 3}
-            renderItem={({ item, index }) =>
-              this.renderItem(
-                item,
-                index,
-                this.state.dataModule && this.state.dataModule.length > 0 ? true : false,
-                this.state.moduleCount
-              )
-            }
-            onEndReachedThreshold={0.01}
-            refreshing={this.state.isRefresh}
-            onRefresh={() => this._onRefresh()}
-            onScroll={this.handleScroll}
-            legacyImplementation={false}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={() => <View style={{ width: 500, height: 1000, backgroundColor: 'red' }} />}
-            ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
-            ListHeaderComponent={() => this.renderHeader(languages)}
-            ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(100), width: Resolution.scaleWidth(40) }} />}
-          />
+          {
+            this.state.dataModule && this.state.dataModule.length > 0 ?
+              <FlatList
+                data={data}
+                scrollEnabled={checkScrollEnabled}
+                horizontal={false}
+                key={this.state.numcolumn === 3 ? 'h' : 'v'}
+                contentContainerStyle={{ alignItems: 'flex-start', width: width, marginHorizontal: 20 }}
+                keyExtractor={item => item.id + ''}
+                numColumns={this.state.numcolumn || 3}
+                renderItem={({ item, index }) =>
+                  this.renderItem(
+                    item,
+                    index,
+                    this.state.dataModule && this.state.dataModule.length > 0 ? true : false,
+                    this.state.moduleCount
+                  )
+                }
+                onEndReachedThreshold={0.01}
+                refreshing={this.state.isRefresh}
+                onRefresh={() => this._onRefresh()}
+                onScroll={this.handleScroll}
+                legacyImplementation={false}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={() => <View style={{ width: 500, height: 1000, backgroundColor: 'red' }} />}
+                ItemSeparatorComponent={() => <View style={{ width: Resolution.scaleWidth(20) }} />}
+                ListHeaderComponent={() => this.renderHeader(languages)}
+                ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(100), width: Resolution.scaleWidth(40) }} />}
+              /> :
+              <ItemHome3
+                onReady={false}
+              />
+          }
+
         </View>
         <Modal style={{ flex: 1, margin: 0, backgroundColor: '#F6F8FD' }} isVisible={this.state.isShowProfile}>
           <Profile

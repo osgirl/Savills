@@ -10,7 +10,7 @@ const itemHome = props => {
     return (
         <View style={[style, { padding: 5, borderRadius: 5, alignItems: 'center' }]}>
             <View style={{}}>
-                <FastImage source={IC_DF} style={{ width: 70, height: 70 }} resizeMode={'contain'} />
+                <FastImage source={IC_DF} style={{ width: 50, height: 50 }} resizeMode={'contain'} />
             </View>
             <View style={{ width: props.txtWidth || 40, height: 10, backgroundColor: '#DEDEDE', borderRadius: 5 }} />
         </View>
