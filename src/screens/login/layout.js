@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, Dimensions } from 'react-native';
 
 import { ButtonCustom, Button, InputText, Loading } from '@components';
-
+import _ from "lodash";
 import LinearGradient from 'react-native-linear-gradient';
 import Picker from 'react-native-wheel-picker';
 import Modal from 'react-native-modal';
@@ -67,7 +67,7 @@ export default class extends Component {
 
   renderLoading() {
     if (this.state.loading) {
-      return <Loading visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -80,7 +80,7 @@ export default class extends Component {
     return (
       <View style={Style.container}>
         <KeyboardAwareScrollView>
-          <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column', height: height }}>
+          <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column', height: height, flex: 1, }}>
             <View style={[Style.btnLanguage]}>
               <ButtonCustom
                 background={'transparent'}
@@ -101,14 +101,15 @@ export default class extends Component {
                 source={IMG_LOGIN}
                 style={{
                   marginTop: Resolution.scale(31),
-                  width: Resolution.scaleWidth(206),
-                  height: Resolution.scaleHeight(146)
+                  flex: 1
+                  // width: Resolution.scaleWidth(206),
+                  // height: Resolution.scaleHeight(146)
                 }}
                 resizeMode={'contain'}
               />
             </View>
-            <View>
-              {this.props.account.error ? (
+            {
+              this.props.account.error ? (
                 <Text
                   style={{
                     color: '#FF361A',
@@ -120,7 +121,24 @@ export default class extends Component {
                 >
                   {this.props.account.error.message + '\n' + this.props.account.error.details}
                 </Text>
-              ) : null}
+              ) : null
+            }
+            {
+              this.props.account.tenant.error ? (
+                <Text
+                  style={{
+                    color: '#FF361A',
+                    fontSize: Resolution.scale(10),
+                    alignSelf: 'center',
+                    marginBottom: Resolution.scale(6),
+                    textAlign: 'center'
+                  }}
+                >
+                  {this.props.account.tenant.error.message + '\n' + this.props.account.tenant.error.details}
+                </Text>
+              ) : null
+            }
+            <View style={{ width: width - Resolution.scaleWidth(120) }}>
               <InputText
                 placeholder={languages.LOGIN_TXT_PLACEHOLDER_EMAIL}
                 iconLeft={IC_EMAIL}

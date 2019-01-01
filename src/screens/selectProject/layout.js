@@ -12,7 +12,7 @@ import resolution from '@utils/resolution';
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -27,8 +27,8 @@ export default class extends Component {
         <View style={Style.viewBottom}>
           <FlatList
             data={
-              this.props.account.tenant && this.props.account.tenant.length > 0
-                ? this.props.account.tenant
+              this.props.account.tenant.result && this.props.account.tenant.result.length > 0
+                ? this.props.account.tenant.result
                 : Utils.dataPlaceholder
             }
             horizontal
@@ -40,7 +40,7 @@ export default class extends Component {
                   onPressItem={() => this._gotoChooseApartment(item)}
                   title={item.tenancyName}
                   image={`${Configs.API}/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`}
-                  loading={this.props.account.tenant && this.props.account.tenant.length > 0 ? true : false}
+                  loading={this.props.account.tenant.result && this.props.account.tenant.result.length > 0 ? true : false}
                 />
               );
             }}

@@ -24,7 +24,7 @@ export default class extends Component {
       <View>
         <TextInput placeholder={'YOURCODE'} style={{ fontSize: 22, fontFamily: 'OpenSans-Regular', color: '#505E75' }} />
       </View>
-      <Button style={{ width: Resolution.scaleWidth(255), marginBottom: Resolution.scaleHeight(40) }} onPress={() => {}}>
+      <Button style={{ width: Resolution.scaleWidth(255), marginBottom: Resolution.scaleHeight(40) }} onPress={() => { }}>
         <LinearGradient
           colors={['#4A89E8', '#8FBCFF']}
           start={{ x: 0, y: 0 }}
@@ -57,6 +57,21 @@ export default class extends Component {
           behavior={Platform.OS === 'android' ? 'height' : 'padding'}
           style={{ alignItems: 'center', marginBottom: Resolution.scaleHeight(100) }}
         >
+          {
+            this.props.account.sendCodeVerify.error ? (
+              <Text
+                style={{
+                  color: '#FF361A',
+                  fontSize: Resolution.scale(10),
+                  alignSelf: 'center',
+                  marginBottom: Resolution.scale(6),
+                  textAlign: 'center'
+                }}
+              >
+                {this.props.account.sendCodeVerify.error.message}
+              </Text>
+            ) : null
+          }
           <InputText
             placeholder={languages.FORGOT_TXT_PLACEHOLDER}
             keyboardType="email-address"
