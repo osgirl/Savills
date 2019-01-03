@@ -1,4 +1,4 @@
-package com.savills;
+package com.savills.spms;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
@@ -14,7 +14,7 @@ public class PayooSDKPackage implements ReactPackage{
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new PayooSDKAndroidModule(reactContext));
+        modules.add(new com.savills.spms.PayooSDKAndroidModule(reactContext));
         return modules;
     }
 

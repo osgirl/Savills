@@ -1,4 +1,4 @@
-package com.savills;
+package com.savills.spms;
 
 import android.app.Application;
 
@@ -9,6 +9,7 @@ import com.entria.views.RNViewOverflowPackage;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.imagepicker.ImagePickerPackage;
@@ -17,6 +18,7 @@ import com.microsoft.codepush.react.CodePush;
 import com.reactlibrary.RNReactNativeDocViewerPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.rnfs.RNFSPackage;
+import com.savills.spms.PayooSDKPackage;
 import com.zyu.ReactNativeWheelPickerPackage;
 
 import java.util.Arrays;

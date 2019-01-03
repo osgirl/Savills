@@ -1,4 +1,4 @@
-package com.savills;
+package com.savills.spms;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,7 +30,7 @@ import vn.payoo.paymentsdk.data.model.Order;
 import vn.payoo.paymentsdk.data.model.response.ResponseObject;
 import vn.payoo.paymentsdk.data.model.type.GroupType;
 
-import com.savills.MainApplication;
+import com.savills.spms.MainApplication;
 
 
 import android.content.Intent;
@@ -76,7 +76,7 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
 
         PayooMerchant payooMerchant = PayooMerchant.newBuilder().merchantId(merchantId).secretKey(merchantShareKey).isDevMode(true).build();
         PayooPaymentSDK.initialize(getReactApplicationContext(), payooMerchant);
-        PaymentConfig configure = PaymentConfig.newBuilder().withLocale(LocaleHelper.getLocale(getReactApplicationContext(), lang == 0 ? PayooPaymentSDK.LOCALE_VI : PayooPaymentSDK.LOCALE_EN))
+        PaymentConfig configure = PaymentConfig.newBuilder().withLocale(com.savills.spms.LocaleHelper.getLocale(getReactApplicationContext(), lang == 0 ? PayooPaymentSDK.LOCALE_VI : PayooPaymentSDK.LOCALE_EN))
                 .withStyleResId(R.style.PayooSdkTheme_Blue)
                 .build();
         PayooPaymentSDK.pay(getReactApplicationContext().getCurrentActivity(), order, configure);

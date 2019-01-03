@@ -1,4 +1,4 @@
-package com.savills;
+package com.savills.spms;
 
 import android.annotation.TargetApi;
 import android.content.Context;
