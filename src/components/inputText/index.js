@@ -23,7 +23,7 @@ class InputText extends Component {
           {
             // width: Resolution.scaleWidth(255),
             ...this.props.style,
-            width: width - 120,
+            width: width - Resolution.scale(120),
             marginTop: this.props.margintop,
             marginHorizontal: this.props.marginHorizontal,
             marginVertical: this.props.marginVertical

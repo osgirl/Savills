@@ -68,7 +68,8 @@ export default createReducer(INIT_STATE, {
     [Types.GET_TENANT_SUCCESS]: (state, action) => {
         return {
             ...state,
-            tenant: action.response.result && action.response.result || [],
+            // tenant: action.response.result && action.response.result || [],
+            tenant: action.response,
             isGetTenant: false
         };
     },

@@ -47,9 +47,15 @@ class Login extends layout {
                 await this.props.actions.account.setAccessTokenLocal(nextProps.account.accessToken);
                 await this.props.actions.account.getTenant(nextProps.account.accessToken);
             }
+
+            //check eror get tanent
+            if (this.props.account.tenant !== nextProps.account.tenant && !nextProps.account.tenant.success) {
+                await this.setState({ loading: false });
+            }
+
             if (
-                this.props.account.tenant !== nextProps.account.tenant &&
-                nextProps.account.tenant.length > 0 &&
+                this.props.account.tenant.result !== nextProps.account.tenant.result &&
+                nextProps.account.tenant.result.length > 0 &&
                 !nextProps.account.isGetTenant
             ) {
                 await this.props.actions.account.setTenantLocal(nextProps.account.tenant);

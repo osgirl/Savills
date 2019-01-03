@@ -240,8 +240,8 @@ class ModalDetailFeedback extends Component {
                   {this.state.loadingUpdateStatus ? (
                     <ActivityIndicator size={'small'} color={'#FFF'} />
                   ) : (
-                    <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
-                  )}
+                      <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
+                    )}
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -300,7 +300,7 @@ class ModalDetailFeedback extends Component {
         {this.renderHeader()}
         {this.state.data ? (
           <ScrollView
-            alwaysBounceVertical={false}
+            // alwaysBounceVertical={false}
             scrollEventThrottle={16}
             onScroll={this.handleScroll}
             contentContainerStyle={{
@@ -430,7 +430,8 @@ class ModalDetailFeedback extends Component {
                     backgroundColor: '#FFF',
                     borderRadius: 5,
                     width: null,
-                    padding: 10,
+                    padding: Resolution.scale(10),
+                    paddingLeft: Resolution.scale(20),
                     minHeight: 100
                     // marginBottom: rating > 0 && description != '' ? 0 : 200
                   }}
@@ -441,8 +442,8 @@ class ModalDetailFeedback extends Component {
             />
           </ScrollView>
         ) : (
-          this.renderLoading()
-        )}
+            this.renderLoading()
+          )}
 
         {this.renderFooter(languages)}
         {this.renderModalCancel(languages)}

@@ -72,7 +72,7 @@ export default class ItemHomeComponent extends Component {
 
                         {
                             moduleCountByItem && moduleCountByItem.unreadCount > 0 ?
-                                <View style={{ backgroundColor: '#FFF', borderRadius: 10, position: 'absolute', top: 15, right: 10 }}>
+                                <View style={{ backgroundColor: '#FFF', borderRadius: 10, position: 'absolute', top: Resolution.scale(10), right: Resolution.scale(10) }}>
                                     <View style={{ backgroundColor: '#FF361A', borderRadius: 10, margin: Resolution.scale(3) }}>
                                         <View style={{ justifyContent: 'center', alignItems: 'center', width: Resolution.scale(30) }}>
                                             <Text style={{ color: '#FFFFFF', fontFamily: 'OpenSans-Bold', fontSize: Resolution.scale(12) }}>{moduleCountByItem.unreadCount}</Text>
