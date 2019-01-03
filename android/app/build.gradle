@@ -99,10 +99,10 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "com.savills"
+        applicationId "com.savills.spms"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1
+        versionCode 13
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"

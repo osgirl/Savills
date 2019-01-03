@@ -215,14 +215,16 @@ class ModalDetailFeedback extends Component {
             }}
           >
             <Text style={{ marginBottom: 20, color: '#BABFC8', fontFamily: 'Opensans-SemiBold', fontSize: 14 }}>
-              Bạn muốn hủy feedback này
+              {languages.FB_TITLE_CACEL}
             </Text>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() => this.setState({ showModalConfirmCancel: false })}
                 style={{ flex: 1, backgroundColor: '#FFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
               >
-                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>Quay Lại</Text>
+                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>
+                  {languages.FB_TITLE_CACEL_BACK}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this._updateStatus()}
@@ -240,8 +242,11 @@ class ModalDetailFeedback extends Component {
                   {this.state.loadingUpdateStatus ? (
                     <ActivityIndicator size={'small'} color={'#FFF'} />
                   ) : (
-                      <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Đồng ý</Text>
-                    )}
+                    <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                      {' '}
+                      {languages.FB_TITLE_CACEL_AGREE}
+                    </Text>
+                  )}
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -442,8 +447,8 @@ class ModalDetailFeedback extends Component {
             />
           </ScrollView>
         ) : (
-            this.renderLoading()
-          )}
+          this.renderLoading()
+        )}
 
         {this.renderFooter(languages)}
         {this.renderModalCancel(languages)}
