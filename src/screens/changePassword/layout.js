@@ -5,7 +5,7 @@ import { Button, InputText, Loading } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import Resolution from '../../utils/resolution';
 
-import IC_EMAIL from '@resources/icons/ID.png';
+import IC_PASS from '@resources/icons/password.png';
 
 import Style from './style';
 
@@ -108,32 +108,31 @@ export default class extends Component {
               <InputText
                 placeholder={languages.CHANGE_PASS_VERIFY}
                 onChange={text => this.setState({ verifyCode: text })}
-                iconLeft={IC_EMAIL}
+                iconLeft={IC_PASS}
               />
             ) : status == 'change' ? (
               <InputText
                 placeholder={languages.CHANGE_PASS_CURRENT_PASS}
                 onChange={text => this.setState({ currPass: text })}
-                iconLeft={IC_EMAIL}
+                iconLeft={IC_PASS}
                 secureTextEntry
               />
             ) : null}
           </View>
           <InputText
             placeholder={languages.CHANGE_PASS_NEW_PASS}
-            iconLeft={IC_EMAIL}
+            iconLeft={IC_PASS}
             onChange={text => this.setState({ newPass: text })}
             secureTextEntry
           />
           <View style={{ marginVertical: Resolution.scaleHeight(20) }}>
             <InputText
               placeholder={languages.CHANGE_PASS_RETYPE_PASS}
-              iconLeft={IC_EMAIL}
+              iconLeft={IC_PASS}
               onChange={text => this.setState({ rePass: text })}
               secureTextEntry
             />
           </View>
-          {}
           <Button disabled={checkDisabled} onPress={() => this._resetPassWord(languages)}>
             <LinearGradient
               colors={checkDisabled ? ['#CCCCCC', '#EEEEEE'] : ['#4A89E8', '#8FBCFF']}

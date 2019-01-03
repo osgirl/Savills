@@ -11,11 +11,11 @@ import Configs from '@utils/configs';
 
 export default class extends Component {
   render() {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     let unitActive = this.props.units.unitActive;
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <StatusBar
-          // hidden={true}
           barStyle="light-content"
         />
         <Header
@@ -26,7 +26,7 @@ export default class extends Component {
           showTitleHeader={true}
           center={
             <View>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>FAQ</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.FAQ_HEADER_TEXT}</Text>
             </View>
           }
           renderViewRight={
