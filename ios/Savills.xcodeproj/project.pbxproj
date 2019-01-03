@@ -965,7 +965,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = H9UV4AK63R;
+						DevelopmentTeam = RKWT2743AJ;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1719,11 +1719,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = H9UV4AK63R;
+				DEVELOPMENT_TEAM = RKWT2743AJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"${SRCROOT}/**",
+					"${SRCROOT}",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1746,7 +1746,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.savills.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.spms;
 				PRODUCT_NAME = Savills;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1764,11 +1764,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				"DEAD_CODE_STRIPPING[arch=*]" = YES;
-				DEVELOPMENT_TEAM = H9UV4AK63R;
+				DEVELOPMENT_TEAM = RKWT2743AJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"${SRCROOT}/**",
+					"${SRCROOT}",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1791,7 +1791,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.savills.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.spms;
 				PRODUCT_NAME = Savills;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";

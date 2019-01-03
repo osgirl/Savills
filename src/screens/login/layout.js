@@ -73,9 +73,7 @@ export default class extends Component {
   }
 
   render() {
-    console.log('asdalsijdalisjdalsdjalksdasda', this.state.loading);
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
-    // let iconFlag = Language.listLanguage[this.props.app.languegeLocal].icon;
     let iconFlag = this.getIcon(this.props.app.languegeLocal);
     return (
       <View style={Style.container}>
