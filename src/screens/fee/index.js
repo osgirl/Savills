@@ -56,7 +56,7 @@ class Fee extends layout {
         if (this.state.isRefesh) {
             return;
         }
-        this.setState({ isRefesh: true });
+        this.setState({ isRefesh: true, listFeeSelected: [] });
         this._getListUserFee();
     }
 
@@ -108,14 +108,19 @@ class Fee extends layout {
         this._calTotalPay();
     }
 
-    _openDetailOrder(id) {
-        this.setState({ idReceip: id })
-        if (this.state.isShowModalSuccess) {
-            this.setState({ isShowModalSuccess: false });
+    async _openDetailOrder(id, isPay = false) {
+        if (!id || id.length <= 0) {
+            alert('NO ID');
+            return;
         }
+        await this.setState({ idReceip: id });
+
+        this._closeModalSuccess();
+
         setTimeout(() => {
             this.setState({ isShowModalDetail: true });
-        }, 200);
+        }, isPay ? 400 : 200);
+
     }
 
     _openModalSuccess() {
