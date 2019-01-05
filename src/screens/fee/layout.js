@@ -293,8 +293,8 @@ export default class extends Component {
             extraData={this.state}
           />
         ) : (
-          <PlaceHolderItemH noMargin />
-        )}
+              <PlaceHolderItemH noMargin />
+            )}
         {this.state.data.length > 0 ? (
           <View>
             <View
@@ -330,15 +330,15 @@ export default class extends Component {
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowModalHistory}>
           <ModalHistory onClose={() => this._closeModalHistory()} />
         </Modal>
+        <Modal isVisible={this.state.isShowModalDetail} style={{ flex: 1, margin: 0, height: height }}>
+          <ModalReceip idReceip={this.state.idReceip} onClose={() => this.setState({ isShowModalDetail: false })} />
+        </Modal>
         <Modal isVisible={this.state.isShowModalSuccess} style={{ flex: 1, margin: 0, height: height }}>
           <ModalSuccess
             onClose={() => this._closeModalSuccess()}
-            goDetail={id => this._openDetailOrder(id)}
+            goDetail={(id) => this._openDetailOrder(id, true)}
             message="Thanh  toán thành công ."
           />
-        </Modal>
-        <Modal isVisible={this.state.isShowModalDetail} style={{ flex: 1, margin: 0, height: height }}>
-          <ModalReceip idReceip={this.state.idReceip} onClose={() => this.setState({ isShowModalDetail: false })} />
         </Modal>
       </View>
     );
@@ -384,7 +384,7 @@ export default class extends Component {
                     </Text>
                   </View>
                 </View>
-                <View style={{ flex: 0.5, alignItems: 'flex-end' }}>
+                <View style={{ flex: 0.7, alignItems: 'flex-end', }}>
                   <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
                     {Utils.convertNumber(data.totalAmount) + 'đ'}
                   </Text>

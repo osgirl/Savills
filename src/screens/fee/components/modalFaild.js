@@ -5,6 +5,8 @@ import { Button } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 
+import IC_CLOSE from "@resources/icons/close.png";
+
 import Connect from '@stores';
 
 const { width } = Dimensions.get('window');
@@ -26,7 +28,7 @@ class modalFaildOrder extends Component {
             }}
           >
             <Button onPress={() => this.props.onClose()} style={{ padding: 20, position: 'absolute', top: 0, left: 0 }}>
-              <Text>x</Text>
+              <Image source={IC_CLOSE} />
             </Button>
             <Image source={require('@resources/icons/warning.png')} />
             <Text style={{ marginVertical: 10, color: '#505E75', fontSize: 13, fontFamily: 'OpenSans-Bold' }}>Sorry !</Text>
