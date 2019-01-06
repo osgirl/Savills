@@ -161,7 +161,7 @@ export default class extends Component {
       this.props.userProfile.imageProfile.result &&
       this.props.userProfile.imageProfile.result.profilePicture;
     var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
-    let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : Utils.dataPlaceholder;
+    let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : [];
     let checkScrollEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
@@ -204,7 +204,7 @@ export default class extends Component {
               scrollEnabled={checkScrollEnabled}
               horizontal={false}
               key={this.state.numcolumn === 3 ? 'h' : 'v'}
-              contentContainerStyle={{ alignItems: 'flex-start', width: width, marginHorizontal: 20 }}
+              contentContainerStyle={{ alignItems: 'flex-start',flex: 1, width: width - Resolution.scale(40), marginHorizontal: Resolution.scale(20) }}
               keyExtractor={item => item.id + ''}
               numColumns={this.state.numcolumn || 3}
               renderItem={({ item, index }) =>
