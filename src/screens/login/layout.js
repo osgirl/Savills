@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, Dimensions } from 'react-native';
 
 import { ButtonCustom, Button, InputText, Loading } from '@components';
-import _ from "lodash";
+import _ from 'lodash';
 import LinearGradient from 'react-native-linear-gradient';
 import Picker from 'react-native-wheel-picker';
 import Modal from 'react-native-modal';
@@ -11,6 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import IC_EMAIL from '@resources/icons/ID.png';
 import IC_PASS from '@resources/icons/password.png';
 import IMG_LOGIN from '@resources/image/imgLogin.png';
+import LOGO from '@resources/icons/logo.png';
 
 import Configs from '@utils/configs';
 import Style from './style';
@@ -67,7 +68,7 @@ export default class extends Component {
 
   renderLoading() {
     if (this.state.loading) {
-      return <Loading visible={this.state.loading} onRequestClose={() => { }} />;
+      return <Loading visible={this.state.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
@@ -78,7 +79,9 @@ export default class extends Component {
     return (
       <View style={Style.container}>
         <KeyboardAwareScrollView>
-          <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column', height: height, flex: 1, }}>
+          <View
+            style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column', height: height, flex: 1 }}
+          >
             <View style={[Style.btnLanguage]}>
               <ButtonCustom
                 background={'transparent'}
@@ -90,11 +93,25 @@ export default class extends Component {
                 fontFamily={'OpenSans-Regular'}
               />
             </View>
-            <View style={{ marginTop: Resolution.scale(105), flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View
+              style={{
+                marginTop: Resolution.scale(105),
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
               <Text style={[Style.txtTop, { marginHorizontal: Resolution.scale(60), textAlign: 'center' }]}>
                 {languages.LOGIN_TITLE_1}
               </Text>
               <Text style={Style.txtTop}>{languages.LOGIN_TITLE_2}</Text>
+              <Image
+                source={LOGO}
+                style={{
+                  marginTop: Resolution.scale(10)
+                }}
+                resizeMode={'contain'}
+              />
               <Image
                 source={IMG_LOGIN}
                 style={{
@@ -106,36 +123,32 @@ export default class extends Component {
                 resizeMode={'contain'}
               />
             </View>
-            {
-              this.props.account.error ? (
-                <Text
-                  style={{
-                    color: '#FF361A',
-                    fontSize: Resolution.scale(10),
-                    alignSelf: 'center',
-                    marginBottom: Resolution.scale(6),
-                    textAlign: 'center'
-                  }}
-                >
-                  {this.props.account.error.message + '\n' + this.props.account.error.details}
-                </Text>
-              ) : null
-            }
-            {
-              this.props.account.tenant.error ? (
-                <Text
-                  style={{
-                    color: '#FF361A',
-                    fontSize: Resolution.scale(10),
-                    alignSelf: 'center',
-                    marginBottom: Resolution.scale(6),
-                    textAlign: 'center'
-                  }}
-                >
-                  {this.props.account.tenant.error.message + '\n' + this.props.account.tenant.error.details}
-                </Text>
-              ) : null
-            }
+            {this.props.account.error ? (
+              <Text
+                style={{
+                  color: '#FF361A',
+                  fontSize: Resolution.scale(10),
+                  alignSelf: 'center',
+                  marginBottom: Resolution.scale(6),
+                  textAlign: 'center'
+                }}
+              >
+                {this.props.account.error.message + '\n' + this.props.account.error.details}
+              </Text>
+            ) : null}
+            {this.props.account.tenant.error ? (
+              <Text
+                style={{
+                  color: '#FF361A',
+                  fontSize: Resolution.scale(10),
+                  alignSelf: 'center',
+                  marginBottom: Resolution.scale(6),
+                  textAlign: 'center'
+                }}
+              >
+                {this.props.account.tenant.error.message + '\n' + this.props.account.tenant.error.details}
+              </Text>
+            ) : null}
             <View style={{ width: width - Resolution.scaleWidth(120) }}>
               <InputText
                 placeholder={languages.LOGIN_TXT_PLACEHOLDER_EMAIL}

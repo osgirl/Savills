@@ -16,7 +16,7 @@ export default class HeaderTitle extends Component {
     return (
       <Text
         style={{
-          fontSize: Resolution.scale(35),
+          fontSize: Resolution.scale(28),
           fontFamily: 'OpenSans-Bold',
           color: '#FFF',
           marginTop: this.props.margintop,

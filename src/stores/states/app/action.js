@@ -77,7 +77,6 @@ export function logoutNoti(accessTokenAPI) {
 }
 
 export function getLanguageApp() {
-  console.log('asdkjasdkjasdlasjdklasdas', 'vao day');
   return {
     type: Types.GET_LANGUAGE_APP,
     payload: {

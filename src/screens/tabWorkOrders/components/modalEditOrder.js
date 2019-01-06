@@ -244,7 +244,6 @@ class ModalEditOrder extends PureComponent {
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
-    console.log('asdkjasdasdjaklsdjaklsdjaklsda', this.state.detailOrder);
     let WorkOrder = {
       id: this.state.detailOrder.id,
       guid: this.state.detailOrder.guid,
@@ -260,7 +259,7 @@ class ModalEditOrder extends PureComponent {
       rating: this.state.vote,
       dateCreate: this.state.detailOrder.dateCreate,
       maintainanceTeamId: 1,
-      areaId: this.state.detailOrder.area.id,
+      areaId: this.state.detailOrder && this.state.detailOrder.area ? this.state.detailOrder.area.id : 0,
       isPrivate: true,
       contact: {
         email: emailAddress,

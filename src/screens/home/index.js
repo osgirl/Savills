@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StatusBar, Platform, Animated, PushNotificationIOS, DeviceEventEmitter } from 'react-native';
+import { Text, StatusBar, Platform, Animated, PushNotificationIOS, DeviceEventEmitter, NetInfo } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
 import _ from 'lodash';
@@ -86,9 +86,8 @@ class Home extends layout {
       }
     }
 
-    // reload count 
-    if (this.props.notification.updateRead !== nextProps.notification.updateRead
-      && nextProps.notification.updateRead.success) {
+    // reload count
+    if (this.props.notification.updateRead !== nextProps.notification.updateRead && nextProps.notification.updateRead.success) {
       let unitID = this.props.units.unitActive.unitId;
       let accessTokenAPI = this.props.account.accessTokenAPI;
       await this.props.actions.notification.getListNotification(accessTokenAPI);
@@ -225,7 +224,7 @@ class Home extends layout {
       onRegister: token => {
         this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
       },
-      onNotification: function (notification) {
+      onNotification: function(notification) {
         console.log('NOTIFICATION:', notification);
 
         if (notification.foreground) {
@@ -326,6 +325,7 @@ class Home extends layout {
     }
     await this.setState({ isRefresh: true });
     await this.props.actions.app.getModuleHome(accessTokenAPI);
+    await this.props.actions.notification.getListCountModule(accessTokenAPI, unitID);
     await this.props.actions.notification.getUnreadCount(accessTokenAPI);
     // await this.props.actions.notification.getListNotification(accessTokenAPI);
   }
