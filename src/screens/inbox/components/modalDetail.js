@@ -10,7 +10,7 @@ import {
   Animated,
   Platform,
   WebView,
-  ActivityIndicator
+  ActivityIndicator, StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
@@ -28,7 +28,7 @@ import Configs from '../../../utils/configs';
 
 const { width, height } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 class ModalDetailFeedback extends Component {
   constructor(props) {
     super(props);

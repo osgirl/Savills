@@ -21,6 +21,8 @@ import Configs from '@utils/configs';
 import ModalNew from './components/modalNew';
 import ModalDetail from './components/modalDetail';
 
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
+
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -43,34 +45,28 @@ export default class extends Component {
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 10, 30],
-      outputRange: [60, 30, 0],
+      inputRange: [0, HEADER_MAX_HEIGHT / 2],
+      outputRange: [HEADER_MAX_HEIGHT, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const headerTranslate = this.state.scrollY.interpolate({
-      inputRange: [0, 30],
-      outputRange: [0, -50],
+      inputRange: [0, HEADER_MAX_HEIGHT / 2],
+      outputRange: [0, -HEADER_MAX_HEIGHT ],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
-    const fontSize = this.state.scrollY.interpolate({
-      inputRange: [0, 0, 100],
-      outputRange: [30, 30, 0],
-      extrapolate: 'clamp',
-      useNativeDriver: true
-    });
     const opacityText = this.state.scrollY.interpolate({
-      inputRange: [0, 30, 60],
-      outputRange: [1, 0.5, 0],
+      inputRange: [0, HEADER_MAX_HEIGHT],
+      outputRange: [1, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const opacityTextHeader = this.state.scrollY.interpolate({
-      inputRange: [0, 30],
+      inputRange: [0, HEADER_MAX_HEIGHT / 3],
       outputRange: [0, 1],
       extrapolate: 'clamp',
       useNativeDriver: true
@@ -195,8 +191,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: 20 }} />
-    );
+        <View style={{ height: 20 }} />
+      );
   }
 
   renderHiddenRow(item, index) {
@@ -230,7 +226,6 @@ export default class extends Component {
               useFlatList
               alwaysBounceVertical={false}
               showsVerticalScrollIndicator={false}
-              scrollEventThrottle={16}
               keyExtractor={(item, index) => item.id.toString()}
               data={list}
               refreshing={this.state.isRefresh}
@@ -257,8 +252,8 @@ export default class extends Component {
             />
           </View>
         ) : (
-          <PlaceHolderItemH noMargin />
-        )}
+            <PlaceHolderItemH noMargin />
+          )}
       </View>
     );
   };
@@ -295,8 +290,8 @@ export default class extends Component {
             )}
           />
         ) : (
-          <PlaceHolderItemH noMargin />
-        )}
+            <PlaceHolderItemH noMargin />
+          )}
       </View>
     );
   };

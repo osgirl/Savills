@@ -25,7 +25,7 @@ import IC_DROPDOWN from '@resources/icons/dropDown.png';
 import Resolution from '@utils/resolution';
 import ModalDetail from './component/modalDetail';
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -57,8 +57,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
-    );
+        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+      );
   }
 
   renderHeader() {
@@ -132,8 +132,10 @@ export default class extends Component {
             }}
           />
         ) : (
-          <PlaceHolderItemH />
-        )}
+            <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
+              <PlaceHolderItemH noMargin />
+            </View>
+          )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
@@ -160,7 +162,7 @@ export default class extends Component {
           flexDirection: 'row'
         }}
       >
-        <View style={{ flex: 1, flexDirection: 'row',alignItems:'center' }}>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
           <Image source={Utils.mapImageLibary(item.file.mimeType)} />
           <View style={{ marginHorizontal: 20 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

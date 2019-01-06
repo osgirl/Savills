@@ -28,23 +28,18 @@ import Styles from './styles';
 
 const { width, height } = Dimensions.get('window');
 
+const HEADER_MAX_HEIGHT = Resolution.scale(50);
+
 export default class extends Component {
+
   handleScroll = event => {
+    const scrollSensitivity = 4;
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          if (event.nativeEvent.contentOffset.y > 50) {
-            if (!this.showCenter) {
-              this.showCenter = true;
-              this.setState({ isShowTitleHeader: true });
-            }
-          } else {
-            if (this.showCenter) {
-              this.showCenter = false;
-              this.setState({ isShowTitleHeader: false });
-            }
-          }
+          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity;
+          this.state.scrollY.setValue(offset);
         }
       },
       { useNativeDriver: true }
@@ -75,48 +70,48 @@ export default class extends Component {
     let unitActive = this.props.units.unitActive;
 
     const headertitleHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 20],
-      outputRange: [50, 0],
+      inputRange: [0, HEADER_MAX_HEIGHT / 3],
+      outputRange: [HEADER_MAX_HEIGHT, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const headertitleHeightTranslate = this.state.scrollY.interpolate({
-      inputRange: [0, 20],
-      outputRange: [0, -50],
+      inputRange: [0, HEADER_MAX_HEIGHT / 3],
+      outputRange: [0, -HEADER_MAX_HEIGHT],
       extrapolate: 'clamp'
     });
 
     const opacityTextTitle = this.state.scrollY.interpolate({
-      inputRange: [0, 20],
+      inputRange: [0, Resolution.scale(20)],
       outputRange: [1, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const opacityView1 = this.state.scrollY.interpolate({
-      inputRange: [20, 40],
+      inputRange: [Resolution.scale(20), Resolution.scale(40)],
       outputRange: [1, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const opacityView2 = this.state.scrollY.interpolate({
-      inputRange: [0, 39, 40],
+      inputRange: [0, Resolution.scale(39), Resolution.scale(40)],
       outputRange: [0, 0, 1],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const headerHeightContentTop = this.state.scrollY.interpolate({
-      inputRange: [20, 40],
-      outputRange: [120, Platform.OS === 'ios' ? 60 : 50],
+      inputRange: [Resolution.scale(20), Resolution.scale(40)],
+      outputRange: [Resolution.scale(60), 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const opacityTextHeader = this.state.scrollY.interpolate({
-      inputRange: [0, 20],
+      inputRange: [0, Resolution.scale(20)],
       outputRange: [0, 1],
       extrapolate: 'clamp'
     });
@@ -169,15 +164,21 @@ export default class extends Component {
           </Animated.View>
         </LinearGradient>
 
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ zIndex: -2 }}>
-          <Animated.View
+        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ zIndex: -2, justifyContent: 'center' }}>
+          {/* <Animated.View
             style={{
-              height: headerHeightContentTop
               // transform: [{ translateY: headerContentTopTranslate }],
-              // backgroundColor: 'red'
+              backgroundColor: 'blue'
             }}
-          >
-            <Animated.View style={{ marginTop: Resolution.scale(20), alignItems: 'center', opacity: opacityView1 }}>
+          > */}
+            <Animated.View
+              style={{
+                marginTop: Resolution.scale(20),
+                alignItems: 'center',
+                opacity: opacityView1,
+                height: headerHeightContentTop,
+              }}
+            >
               {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold' }}>October / 2018</Text> */}
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ fontSize: Resolution.scale(35), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
@@ -200,7 +201,7 @@ export default class extends Component {
               </Text>
             </Animated.View>
 
-            <Animated.View style={{ opacity: opacityView2, position: 'absolute', left: 0, right: 0 }}>
+            <Animated.View style={{ opacity: opacityView2, }}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -243,10 +244,8 @@ export default class extends Component {
                 </View>
               </View>
             </Animated.View>
-          </Animated.View>
-        </LinearGradient>
+          {/* </Animated.View> */}
 
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{}}>
           <View
             style={{
               flexDirection: 'row',
@@ -277,6 +276,7 @@ export default class extends Component {
           </View>
         </LinearGradient>
 
+
         {this.props.fee.listUserFee.result && this.props.fee.listUserFee.result.totalCount === 0 ? (
           this.renderEmty(languages)
         ) : this.state.data.length > 0 ? (
@@ -286,8 +286,8 @@ export default class extends Component {
             refreshControl={<RefreshControl refreshing={this.state.isRefesh} onRefresh={() => this._onRefresh()} />}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => item[0].id + '__' + index}
-            // onScroll={this.handleScroll}
-            onScroll={this.onScroll}
+            onScroll={this.handleScroll}
+            // onScroll={this.onScroll}
             scrollEventThrottle={16}
             renderItem={({ item, index }) => this.renderItem(item, index)}
             extraData={this.state}

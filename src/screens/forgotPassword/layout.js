@@ -18,11 +18,11 @@ export default class extends Component {
 
   renderModalContent = () => (
     <View style={[Style.modalContent, {}]}>
-      <Text style={{ marginTop: Resolution.scaleHeight(40), fontSize: 15, color: '#505E75', fontFamily: 'OpenSans-Bold' }}>
+      <Text style={{ marginTop: Resolution.scaleHeight(40), fontSize: Resolution.scale(15), color: '#505E75', fontFamily: 'OpenSans-Bold' }}>
         Verify Your Code
       </Text>
       <View>
-        <TextInput placeholder={'YOURCODE'} style={{ fontSize: 22, fontFamily: 'OpenSans-Regular', color: '#505E75' }} />
+        <TextInput placeholder={'YOURCODE'} style={{ fontSize: Resolution.scale(22), fontFamily: 'OpenSans-Regular', color: '#505E75' }} />
       </View>
       <Button style={{ width: Resolution.scaleWidth(255), marginBottom: Resolution.scaleHeight(40) }} onPress={() => { }}>
         <LinearGradient

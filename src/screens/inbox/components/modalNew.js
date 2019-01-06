@@ -23,7 +23,7 @@ import Resolution from '@utils/resolution';
 import Connect from '@stores';
 
 const { width } = Dimensions.get('window');
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 class ModalNewInbox extends Component {
   constructor(props) {

@@ -16,6 +16,7 @@ export default class extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         <StatusBar
+          backgroundColor='black'
           barStyle="light-content"
         />
         <Header
@@ -47,8 +48,8 @@ export default class extends Component {
         {this.props.utilities && this.props.utilities.FAQ.success ? (
           <WebView originWhitelist={['*']} source={{ html: this.props.utilities.FAQ.result.faqHtmlContent }} />
         ) : (
-          <View />
-        )}
+            <View />
+          )}
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
         </Modal>

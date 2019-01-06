@@ -91,17 +91,17 @@ export default class extends Component {
           (status == 'change' && this.state.currPass.length <= 0) ||
           this.state.newPass.length <= 0 ||
           this.state.rePass.length <= 0
-        ? true
-        : false;
+          ? true
+          : false;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={Style.container}>
         <View style={{ marginTop: Platform.OS === 'ios' ? 100 : 80 }}>
           <Text style={Style.txtTop}>{languages.CHANGE_PASS}</Text>
         </View>
-        <KeyboardAvoidingView behavior="padding" enabled style={{ marginBottom: Resolution.scaleHeight(100) }}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : null} enabled style={{ marginBottom: Resolution.scaleHeight(100) }}>
           {this.state.error.length > 0 ? (
-            <Text style={{ color: '#FF361A', fontSize: 10, alignSelf: 'center' }}>{this.state.error}</Text>
+            <Text style={{ color: '#FF361A', fontSize: Resolution.scale(10), alignSelf: 'center' }}>{this.state.error}</Text>
           ) : null}
           <View style={{ marginVertical: Resolution.scaleHeight(20) }}>
             {status == 'forgot' ? (

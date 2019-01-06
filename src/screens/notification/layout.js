@@ -27,7 +27,7 @@ import IC_DROPDOWN from '@resources/icons/dropDown.png';
 import Resolution from '@utils/resolution';
 import Configs from '@utils/configs';
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 const { width } = Dimensions.get('window');
 
@@ -141,8 +141,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scaleHeight(20) }} />
-    );
+        <View style={{ height: Resolution.scaleHeight(20) }} />
+      );
   }
 
   handleScroll = event => {
@@ -257,8 +257,11 @@ export default class extends Component {
             }}
           />
         ) : (
-          <PlaceHolderItemH />
-        )}
+            <View style={{marginTop: HEADER_MAX_HEIGHT}}>
+              <PlaceHolderItemH noMargin />
+            </View>
+
+          )}
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this._closeModalSelectUnit()} />
         </Modal>

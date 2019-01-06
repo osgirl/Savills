@@ -23,9 +23,10 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 
 import { Header, Button, Loading, AnimatedTitle, AlertWarning } from '@components';
 import Connect from '@stores';
+import Resolution from '@utils/resolution';
 const { width, height } = Dimensions.get('window');
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 class ModalNewOrder extends PureComponent {
   constructor(props) {

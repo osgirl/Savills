@@ -20,9 +20,9 @@ import Modal from 'react-native-modal';
 
 import Connect from '@stores';
 import { Header, Button, AnimatedTitle, ModalChat } from '@components';
-
 import Configs from '@utils/configs';
-const HEADER_MAX_HEIGHT = 60;
+import Resolution from '@utils/resolution';
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
 
 const IMAGE = {

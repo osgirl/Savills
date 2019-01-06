@@ -13,7 +13,7 @@ import AnimatedTitle from '@components/animatedTitle';
 import Configs from '@utils/configs';
 import Utils from '@utils';
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
 class modalReceip extends Component {
   constructor(props) {
