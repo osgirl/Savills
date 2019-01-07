@@ -23,6 +23,8 @@ import { ItemHorizontal } from '@components/placeHolder';
 import ModalFull from './components/modalFull';
 import CalendarStrip from '@components/calendarAgenda';
 
+const HEADER_MAX_HEIGHT =  Resolution.scale(50);
+
 const { width } = Dimensions.get('window');
 export default class Layout extends Component {
   constructor(props) {
@@ -66,13 +68,13 @@ export default class Layout extends Component {
   renderHeader(languages) {
     const headerTranslate = this.state.scrollY.interpolate({
       inputRange: [0, 20],
-      outputRange: [0, -50],
+      outputRange: [0, -HEADER_MAX_HEIGHT],
       extrapolate: 'clamp'
     });
 
     const testheight = this.state.scrollY.interpolate({
       inputRange: [0, 20],
-      outputRange: [50, 0],
+      outputRange: [HEADER_MAX_HEIGHT, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
@@ -225,6 +227,7 @@ export default class Layout extends Component {
                 onScroll={this.onScroll}
                 contentContainerStyle={{ zIndex: 1 }}
                 style={{ zIndex: 200 }}
+                scrollEventThrottle={16}
                 legacyImplementation={false}
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}

@@ -15,7 +15,7 @@ import Utils from '@utils';
 import ModalReceip from './modalReceip';
 
 const { width, height } = Dimensions.get('window');
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 class modalHistory extends Component {
   constructor(props) {
@@ -96,7 +96,9 @@ class modalHistory extends Component {
             ListFooterComponent={() => <View style={{ height: 20 }} />}
           />
         ) : (
-          <PlaceHolderItemH />
+          <View style={{marginTop: HEADER_MAX_HEIGHT}}>
+              <PlaceHolderItemH noMargin />
+            </View>
         )}
         <Modal isVisible={this.state.isShowModalDetail} style={{ flex: 1, margin: 0, height: height }}>
           <ModalReceip idReceip={this.state.idReceip} onClose={() => this.setState({ isShowModalDetail: false })} />

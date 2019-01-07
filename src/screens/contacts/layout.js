@@ -13,7 +13,7 @@ import IC_AVATARDF from '@resources/icons/avatar-default.png';
 import Style from './style';
 import Resolution from '@utils/resolution';
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
@@ -57,21 +57,13 @@ export default class extends Component {
   }
 
   handleScroll = event => {
+    const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          if (event.nativeEvent.contentOffset.y > 10) {
-            if (!this.showCenter) {
-              this.showCenter = true;
-              this.setState({ isShowTitleHeader: true });
-            }
-          } else {
-            if (this.showCenter) {
-              this.showCenter = false;
-              this.setState({ isShowTitleHeader: false });
-            }
-          }
+          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity;
+          this.state.scrollY.setValue(offset);
         }
       },
       { useNativeDriver: true }
@@ -81,6 +73,11 @@ export default class extends Component {
   renderHeader() {
     let unitActive = this.props.units.unitActive;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp'
+    });
     return (
       <View>
         <Header
@@ -88,11 +85,11 @@ export default class extends Component {
           leftIcon={IC_BACK}
           leftAction={() => this.props.navigation.goBack()}
           headercolor={'transparent'}
-          showTitleHeader={this.state.isShowTitleHeader}
+          showTitleHeader={true}
           center={
-            <View>
+            <Animated.View style={{ opacity: isShow }}>
               <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.CONTACTS_TXT_TITLE}</Text>
-            </View>
+            </Animated.View>
           }
           renderViewRight={
             <Button
@@ -117,7 +114,7 @@ export default class extends Component {
     return (
       <Button
         activeOpacity={1}
-        onPress={() => {}}
+        onPress={() => { }}
         style={[
           {
             marginHorizontal: Resolution.scale(20),
@@ -203,8 +200,10 @@ export default class extends Component {
             }}
           />
         ) : (
-          <PlaceHolderItemH />
-        )}
+            <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
+              <PlaceHolderItemH noMargin />
+            </View>
+          )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />

@@ -26,7 +26,12 @@ export default class ItemHomeComponent extends Component {
         let moduleName = this.props.moduleName;
         let moduleCountByItem = moduleCount && moduleCount.length > 0 ? moduleCount.find(e => e.moduleName === moduleName) : {}
         return (
-            <View style={[Styles.container, { ...Configs.Shadow, marginLeft: this.props.index === 0 || this.props.index % 3 === 0 ? 0 : Resolution.scale(5) }]}>
+            <View style={[Styles.container,
+            {
+                ...Configs.Shadow,
+                marginLeft: this.props.index === 0 || this.props.index % 3 === 0 ? 0 : Resolution.scale(10),
+                // marginLeft: this.props.index === 0 || this.props.index % 3 === 0 ? 0 : Resolution.scale(5),
+            }]}>
                 <Button
                     disabled={this.props.loading ? false : true}
                     activeOpacity={0.6}
@@ -100,12 +105,9 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        // width: (width - 60) / 2,
-        // height: (width - 60) / 2,
-        width: (width - 60) / 3,
-        height: (width - 60) / 3,
-        backgroundColor: '#FFFFFF',
-        marginRight: Resolution.scale(5),
+        width: (width - Resolution.scale(60)) / 3,
+        height: (width - Resolution.scale(60)) / 3,
+        backgroundColor: '#FFF',
         marginTop: Resolution.scale(5),
         marginBottom: Resolution.scale(5),
     }

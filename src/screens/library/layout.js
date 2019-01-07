@@ -23,33 +23,26 @@ import DEFAULT_LIB from '@resources/icons/defaultLibary.png';
 
 import Resolution from '@utils/resolution';
 import Configs from '@utils/configs';
-import { ItemPlaceHolderH } from '@components/placeHolderItem';
+import { PlaceHolderItemH } from '@components';
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
   handleScroll = event => {
+    const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          if (event.nativeEvent.contentOffset.y > 10) {
-            if (!this.showCenter) {
-              this.showCenter = true;
-              this.setState({ isShowTitleHeader: true });
-            }
-          } else {
-            if (this.showCenter) {
-              this.showCenter = false;
-              this.setState({ isShowTitleHeader: false });
-            }
-          }
+          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity;
+          this.state.scrollY.setValue(offset);
         }
       },
       { useNativeDriver: true }
     )(event);
   };
+
 
   _FooterFlatlist() {
     return this.state.loadingMore ? (
@@ -57,12 +50,17 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
-    );
+        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+      );
   }
 
   renderHeader(languages) {
     let unitActive = this.props.units.unitActive;
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp'
+    });
     return (
       <View>
         <Header
@@ -70,15 +68,15 @@ export default class extends Component {
           leftIcon={IC_BACK}
           leftAction={() => this.props.navigation.goBack()}
           headercolor={'transparent'}
-          showTitleHeader={this.state.isShowTitleHeader}
+          showTitleHeader={true}
           center={
-            <View>
+            <Animated.View style={{ opacity: isShow }}>
               <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.LB_TITLEHEADER}</Text>
-            </View>
+            </Animated.View>
           }
           renderViewRight={
             <Button
-              onPress={() => this._openModalSelectUnit()}
+              onPress={() => this._onpenModalSelectUnit()}
               style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
             >
               <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
@@ -88,7 +86,6 @@ export default class extends Component {
             </Button>
           }
         />
-
         <AnimatedTitle scrollY={this.state.scrollY} label={languages.LB_TITLEHEADER} />
       </View>
     );
@@ -132,8 +129,10 @@ export default class extends Component {
             }}
           />
         ) : (
-          <ItemPlaceHolderH />
-        )}
+            <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
+              <PlaceHolderItemH noMargin />
+            </View>
+          )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />

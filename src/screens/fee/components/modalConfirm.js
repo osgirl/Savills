@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Animated, Platform } from 'react-native';
+import {
+  StyleSheet, Text,
+  View, ScrollView,
+  Dimensions, Animated, Platform,
+  ActivityIndicator, Alert
+} from 'react-native';
 import { Header, AnimatedTitle } from '@components';
 
 import Connect from '@stores';
@@ -11,8 +16,10 @@ import { isIphoneX } from '@utils/func';
 import Utils from '@utils';
 import Payoo from '@utils/payoo';
 import ModalFaild from './modalFaild';
+import Button from "@components/button";
+import Configs from "@utils/configs";
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 const { width } = Dimensions.get('window');
 
@@ -24,7 +31,8 @@ class modalConfirm extends Component {
       scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isShowTitleHeader: false,
       isShowModalFaild: false,
-      loading: false
+      loading: false,
+      errorPay: ''
     };
   }
 
@@ -43,22 +51,26 @@ class modalConfirm extends Component {
       this.setState({ loading: false });
       let orderXML = nextProps.fee.createOrder.result.orderXml;
       let orderChecksum = nextProps.fee.createOrder.result.orderChecksum;
-      let accessTokenApi = nextProps.account.accessTokenAPI;
-      let orderId = nextProps.fee.createOrder.result.orderId;
-      this._payment(orderXML, orderChecksum, response => {
-        this.props.actions.fee.getOrderId(accessTokenApi, orderId);
-        if (response.status === 0) {
-          this.props.onClose();
-          setTimeout(() => {
-            this.props.onSuccess();
-          }, 300);
-        } else {
-          setTimeout(() => {
-            this._openModalFaild();
-          }, 300);
-        }
-      });
+      let accessTokenApi = nextProps.account.accessTokenAPI || '';
+      let orderId = nextProps.fee.createOrder.result.orderId || '';
+      this._payment(orderXML, orderChecksum);
+      this.props.actions.fee.getOrderId(accessTokenApi, orderId);
     }
+
+    if (this.props.fee.createOrder !== nextProps.fee.createOrder && !nextProps.fee.createOrder.success) {
+      this.setState({ loading: false });
+
+      if (nextProps.fee.createOrder.error && nextProps.fee.createOrder.error.message.length > 0)
+        Alert.alert(
+          'Comming soon',
+          nextProps.fee.createOrder.error.message,
+          [
+            { text: 'OK', onPress: () => { } },
+          ],
+          { cancelable: false }
+        )
+    }
+
   }
 
   _createOrder = async () => {
@@ -73,9 +85,29 @@ class modalConfirm extends Component {
     await this.props.actions.fee.createOrder(accessTokenApi, deviceID, listID);
   };
 
-  _payment = (orderXML, orderChecksum, callback) => {
-    Payoo.pay(orderXML, orderChecksum, callback);
+  _payment = async (orderXML, orderChecksum) => {
+    const { languegeLocal } = this.props.app;
+    await Payoo.pay(languegeLocal, orderXML, orderChecksum, response => {
+      console.log('-----=-=-=-', response);
+      if (response.status === 0) {
+        this.props.onClose();
+        setTimeout(() => {
+          this.props.onSuccess();
+        }, 300);
+      } else {
+        this.handleErrorMess(response.code || 0)
+        setTimeout(() => {
+          this._openModalFaild();
+        }, 300);
+      }
+    });
   };
+
+  handleErrorMess = async (code) => {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+    let errorString = await Payoo.handleErrorMess(code, languages);
+    await this.setState({ errorPay: errorString })
+  }
 
   render() {
     let data = this.props.listFeeSelected || [];
@@ -218,7 +250,8 @@ class modalConfirm extends Component {
             height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
           }}
         />
-        {/* <Button
+
+        <Button
           disabled={this.state.loading}
           onPress={() => this._createOrder()}
           style={[styles.ButtonAdd, { backgroundColor: this.state.loading ? '#e0e0e0' : '#01C772' }]}
@@ -226,15 +259,16 @@ class modalConfirm extends Component {
           {this.state.loading ? (
             <ActivityIndicator size="small" color={Configs.colorMain} />
           ) : (
-            <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
-              {languages.FEE_CONFIRM_PAY}
-            </Text>
-          )}
-        </Button> */}
+              <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
+                {languages.FEE_CONFIRM_PAY}
+              </Text>
+            )}
+        </Button>
+
         <ModalFaild
           isVisible={this.state.isShowModalFaild}
           onClose={() => this.setState({ isShowModalFaild: false })}
-          message="thanh toán không thành công !"
+          message={this.state.errorPay}
         />
       </View>
     );

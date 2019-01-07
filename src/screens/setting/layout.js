@@ -17,7 +17,7 @@ const { width } = Dimensions.get('window');
 
 var PickerItem = Picker.Item;
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 export default class extends Component {
   handleScroll = event => {

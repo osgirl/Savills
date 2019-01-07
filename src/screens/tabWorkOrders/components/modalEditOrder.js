@@ -28,10 +28,11 @@ import moment from 'moment';
 import Modal from 'react-native-modal';
 
 import Configs from '@utils/configs';
-
+import Resolution from '@utils/resolution';
 const STAR_ON = require('@resources/icons/Star-big.png');
 const STAR_OFF = require('@resources/icons/Star.png');
-const HEADER_MAX_HEIGHT = 60;
+
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 const { width, height } = Dimensions.get('window');
 

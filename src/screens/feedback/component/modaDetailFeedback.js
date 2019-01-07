@@ -25,7 +25,7 @@ import Configs from '@utils/configs';
 import Resolution from '@utils/resolution';
 
 const { width } = Dimensions.get('window');
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 class ModalDetailFeedback extends Component {
   constructor(props) {
