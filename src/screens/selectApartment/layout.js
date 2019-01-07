@@ -14,9 +14,9 @@ import resolution from '../../utils/resolution';
 export default class extends Component {
   componentWillMount() {
     const { project } = this.props.navigation.state.params;
-
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     let accessToken = this.props.account.accessToken;
-    this.props.actions.account.switchToUserAccount(accessToken, project.tenantId, project.id);
+    this.props.actions.account.switchToUserAccount(accessToken, project.tenantId, project.id, languages);
   }
 
   // componentWillReceiveProps(nextProps) {

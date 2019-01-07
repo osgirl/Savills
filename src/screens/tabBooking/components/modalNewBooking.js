@@ -109,7 +109,7 @@ class ModalNewBooking extends PureComponent {
     }
     if (nextProps.booking.createNewBooking && !nextProps.booking.createNewBooking.success && !nextProps.booking.isCreateBooking) {
       this.props.actions.booking.setFlagCreateBooking();
-      this.setState({ isModalError: true, arrSelected: [] });
+      this.setState({ isModalError: true });
     }
   }
 
@@ -820,7 +820,7 @@ class ModalNewBooking extends PureComponent {
     let listSelect = this.state.listBooking.filter(e => e.isCheck == true);
     let startTime = listSelect[0].startTime;
     let endTime = listSelect[listSelect.length - 1].endTime;
-    // let item = this.props.navigation.getParam('item', null);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     let item = this.props.item;
     let accessTokenApi = this.props.account.accessTokenAPI;
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
@@ -850,7 +850,7 @@ class ModalNewBooking extends PureComponent {
       tenantId: tenantId
     };
     this.setState({ loading: true, isShowModalConfirm: false });
-    this.props.actions.booking.createNewBooking(accessTokenApi, Booking);
+    this.props.actions.booking.createNewBooking(accessTokenApi, Booking, languages);
   };
 }
 

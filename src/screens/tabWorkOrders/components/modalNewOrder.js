@@ -102,6 +102,7 @@ class ModalNewOrder extends PureComponent {
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
     let indexArea = this.state.listArea.filter(item => item.isCheck == true);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     let WorkOrder = {
       currentStatusId: 11,
       fullUnitName: `${fullUnitCode} - ${displayName}`,
@@ -121,7 +122,7 @@ class ModalNewOrder extends PureComponent {
       },
       isPrivate: true
     };
-    this.props.actions.workOrder.createWorkOrder(accessTokenAPI, WorkOrder);
+    this.props.actions.workOrder.createWorkOrder(accessTokenAPI, WorkOrder, languages);
   };
 
   changeArea(index) {

@@ -37,11 +37,11 @@ export function getLanguageLocal() {
   };
 }
 
-export function registerNotification(accessTokenAPI, deviceTypeId, deviceToken, deviceCode) {
+export function registerNotification(accessTokenAPI, deviceTypeId, deviceToken, deviceCode, lang) {
   return {
     type: Types.REGISTER_NOTIFICATION,
     payload: {
-      api: Configs.API + '/api/services/app/DevicesAppServices/InsertOrUpdateDevices',
+      api: Configs.API + `/api/services/app/DevicesAppServices/InsertOrUpdateDevices?culture=${lang}`,
       method: 'POST',
       token: accessTokenAPI,
       payload: {
@@ -53,11 +53,11 @@ export function registerNotification(accessTokenAPI, deviceTypeId, deviceToken, 
   };
 }
 
-export function getModuleHome(accessTokenAPI) {
+export function getModuleHome(accessTokenAPI, lang) {
   return {
     type: Types.GET_MODULE_HOME,
     payload: {
-      api: Configs.API + '/api/services/app/UserSetting/GetUserAuthConfig',
+      api: Configs.API + `/api/services/app/UserSetting/GetUserAuthConfig?culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }
@@ -90,7 +90,7 @@ export function changeLanguageServer(accessTokenAPI, lang) {
   return {
     type: Types.CHANGE_LANGUAGE_SERVER,
     payload: {
-      api: Configs.API + '/api/services/app/Profile/ChangeLanguage',
+      api: Configs.API + `/api/services/app/Profile/ChangeLanguage?culture=${lang}`,
       method: 'POST',
       payload: { languageName: lang },
       token: accessTokenAPI
@@ -98,22 +98,22 @@ export function changeLanguageServer(accessTokenAPI, lang) {
   };
 }
 
-export function getSetting(accessTokenAPI, language) {
+export function getSetting(accessTokenAPI, lang) {
   return {
     type: Types.GET_SETTING,
     payload: {
-      api: Configs.API + `/api/services/app/Notification/GetNotificationSettings?culture=${language}`,
+      api: Configs.API + `/api/services/app/Notification/GetNotificationSettings?culture=${lang}`,
       method: 'GET',
       token: accessTokenAPI
     }
   };
 }
 
-export function updateSetting(accessTokenAPI, dataSetting) {
+export function updateSetting(accessTokenAPI, dataSetting, lang) {
   return {
     type: Types.UPDATE_SETTINGS,
     payload: {
-      api: Configs.API + '/api/services/app/Notification/UpdateNotificationSettings',
+      api: Configs.API + `/api/services/app/Notification/UpdateNotificationSettings?culture=${lang}`,
       method: 'PUT',
       token: accessTokenAPI,
       payload: {

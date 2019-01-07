@@ -45,6 +45,7 @@ export default class extends Component {
   _resetPassWord(languages) {
     let { status } = this.props.navigation.state.params;
     let accessToken = this.props.account.accessToken;
+    let languageId = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.setState({ loading: true });
     if (!this.state.flag) {
       this.setState({ flag: true });
@@ -65,9 +66,9 @@ export default class extends Component {
     }
 
     if (status === 'forgot') {
-      this.props.actions.account.resetPassword(this.state.verifyCode, this.state.newPass);
+      this.props.actions.account.resetPassword(this.state.verifyCode, this.state.newPass, languageId);
     } else {
-      this.props.actions.account.ChangePassword(accessToken, this.state.currPass, this.state.newPass);
+      this.props.actions.account.ChangePassword(accessToken, this.state.currPass, this.state.newPass, languageId);
     }
   }
 
@@ -91,15 +92,19 @@ export default class extends Component {
           (status == 'change' && this.state.currPass.length <= 0) ||
           this.state.newPass.length <= 0 ||
           this.state.rePass.length <= 0
-          ? true
-          : false;
+        ? true
+        : false;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={Style.container}>
         <View style={{ marginTop: Platform.OS === 'ios' ? 100 : 80 }}>
           <Text style={Style.txtTop}>{languages.CHANGE_PASS}</Text>
         </View>
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "padding" : null} enabled style={{ marginBottom: Resolution.scaleHeight(100) }}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          enabled
+          style={{ marginBottom: Resolution.scaleHeight(100) }}
+        >
           {this.state.error.length > 0 ? (
             <Text style={{ color: '#FF361A', fontSize: Resolution.scale(10), alignSelf: 'center' }}>{this.state.error}</Text>
           ) : null}

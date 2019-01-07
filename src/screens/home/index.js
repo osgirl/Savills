@@ -188,6 +188,7 @@ class Home extends layout {
   async initData() {
     let accessTokenApi = this.props.account.accessTokenAPI;
     let unitID = await this.props.units.unitActive.unitId;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     if (unitID) {
       await this.props.actions.notification.getListCountModule(accessTokenApi, unitID);
     } else {
@@ -201,7 +202,7 @@ class Home extends layout {
     await this.props.navigation.setParams({ openProfileHome: this._openProfile.bind(this) });
     await this.props.actions.userProfile.getCurrentLoginInformations(accessTokenApi);
     await this.props.actions.userProfile.getImageUserProfile(accessTokenApi);
-    await this.props.actions.app.getModuleHome(accessTokenApi);
+    await this.props.actions.app.getModuleHome(accessTokenApi, languages);
     await this.props.actions.account.getTenantActive();
   }
 
@@ -219,10 +220,17 @@ class Home extends layout {
 
   setupPushNotification = async handleNotification => {
     let accessTokenAPI = this.props.account.accessTokenAPI;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     const uniqueId = DeviceInfo.getUniqueID();
     await PushNotification.configure({
       onRegister: token => {
-        this.props.actions.app.registerNotification(accessTokenAPI, Platform.OS === 'ios' ? 1 : 2, token.token, uniqueId);
+        this.props.actions.app.registerNotification(
+          accessTokenAPI,
+          Platform.OS === 'ios' ? 1 : 2,
+          token.token,
+          uniqueId,
+          languages
+        );
       },
       onNotification: function(notification) {
         console.log('NOTIFICATION:', notification);
@@ -320,11 +328,12 @@ class Home extends layout {
   async _onRefresh() {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     let unitID = this.props.units.unitActive.unitId;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     if (this.state.isRefresh) {
       return;
     }
     await this.setState({ isRefresh: true });
-    await this.props.actions.app.getModuleHome(accessTokenAPI);
+    await this.props.actions.app.getModuleHome(accessTokenAPI, languages);
     await this.props.actions.notification.getListCountModule(accessTokenAPI, unitID);
     await this.props.actions.notification.getUnreadCount(accessTokenAPI);
     // await this.props.actions.notification.getListNotification(accessTokenAPI);

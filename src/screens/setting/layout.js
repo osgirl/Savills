@@ -253,6 +253,7 @@ export default class extends Component {
   }
 
   changeNoti = (key, value) => {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     clearTimeout(this.timeOut);
     let accessTokenApi = this.props.account.accessTokenAPI;
     let temptUser = Object.assign({}, this.state.dataSetting);
@@ -261,7 +262,7 @@ export default class extends Component {
       dataSetting: temptUser
     });
     this.timeOut = setTimeout(() => {
-      this.props.actions.app.updateSetting(accessTokenApi, this.state.dataSetting);
+      this.props.actions.app.updateSetting(accessTokenApi, this.state.dataSetting, languages);
     }, 1000);
   };
 

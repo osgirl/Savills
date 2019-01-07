@@ -43,8 +43,9 @@ class Login extends layout {
   async componentWillReceiveProps(nextProps) {
     if (this.state.unMount) {
       if (nextProps.account.accessToken && nextProps.account.accessToken.length > 0 && !nextProps.account.isGetAccessToken) {
+        let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
         await this.props.actions.account.setAccessTokenLocal(nextProps.account.accessToken);
-        await this.props.actions.account.getTenant(nextProps.account.accessToken);
+        await this.props.actions.account.getTenant(nextProps.account.accessToken, languages);
       }
 
       //check eror get tanent
@@ -59,11 +60,12 @@ class Login extends layout {
       ) {
         await this.props.actions.account.setTenantLocal(nextProps.account.tenant.result);
         let tenantList = nextProps.account.tenant.result;
+        let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
         if (tenantList && tenantList.length === 1) {
           await this.props.actions.account.switchToUserAccount(
             this.props.account.accessToken,
             tenantList[0].tenantId,
-            tenantList[0].id
+            tenantList[0].id,languages
           );
         } else {
           await this._gotoChooseProject();
@@ -199,8 +201,8 @@ class Login extends layout {
   };
 
   _login(username, password) {
-    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
-    this.props.actions.account.login(username, password);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+    this.props.actions.account.login(username, password, languages);
     if (!this.state.unMount) {
       this.setState({ unMount: true });
     }

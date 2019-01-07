@@ -104,7 +104,7 @@ class ModalNewFeedback extends Component {
       unitActive.fullUnitCode,
       this.state.categorySelectedId,
       this.state.comment,
-      this.state.type
+      this.state.type.typeCode
     );
   }
 
@@ -185,7 +185,7 @@ class ModalNewFeedback extends Component {
                       <TouchableOpacity
                         key={index}
                         activeOpacity={1}
-                        onPress={() => this._changeTypeFeedback(item.name)}
+                        onPress={() => this._changeTypeFeedback(item)}
                         style={{ flexDirection: 'row', marginVertical: 5 }}
                       >
                         <Text
@@ -195,7 +195,7 @@ class ModalNewFeedback extends Component {
                         </Text>
                         <Image
                           source={
-                            item.name == this.state.type
+                            item.name == this.state.type.name
                               ? require('@resources/icons/checked.png')
                               : require('@resources/icons/check.png')
                           }
@@ -274,7 +274,7 @@ class ModalNewFeedback extends Component {
             style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
             onPress={() => {
               let message = '';
-              if (this.state.type.trim() === '') {
+              if (this.state.type.name.trim() === '') {
                 this.setState({
                   messageWarning: languages.FB_ALERT_NO_TYPE,
                   isModalError: true
@@ -394,7 +394,7 @@ class ModalNewFeedback extends Component {
                         <Text
                           style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}
                         >
-                          {this.state.type}
+                          {this.state.type.name}
                         </Text>
                         <Image source={require('@resources/icons/checked.png')} />
                       </View>

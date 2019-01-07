@@ -2,11 +2,11 @@ import Types from './';
 import Configs from '../../../utils/configs';
 
 // Tạo mới 1 booking
-export function createNewBooking(accessTokenAPI, Booking) {
+export function createNewBooking(accessTokenAPI, Booking, lang) {
   return {
     type: Types.CREATE_NEW_BOOKING,
     payload: {
-      api: Configs.API_BOOKING + '/api/bookings/create',
+      api: Configs.API_BOOKING + `/api/bookings/create?culture=${lang}`,
       method: 'POST',
       payload: {
         startDate: Booking.startDate,
@@ -74,12 +74,11 @@ export function getListBookingOption(accessTokenApi, data) {
   };
 }
 
-// lấy danh sách thời gian được booking trong này
-export function changeStatusBooking(accessTokenAPI, id) {
+export function changeStatusBooking(accessTokenAPI, id, lang) {
   return {
     type: Types.CHANGE_STATUS_BOOKING,
     payload: {
-      api: Configs.API_BOOKING + '/api/bookings/resident',
+      api: Configs.API_BOOKING + `/api/bookings/resident?culture=${lang}`,
       method: 'PUT',
       payload: { reservationId: id, status: 'CANCELED' },
       token: accessTokenAPI

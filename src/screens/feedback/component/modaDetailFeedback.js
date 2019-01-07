@@ -81,7 +81,6 @@ class ModalDetailFeedback extends Component {
     if (this.props.feedback.listComment !== nextProps.feedback.listComment && nextProps.feedback.listComment.success) {
       this.setState({ listComment: nextProps.feedback.listComment.result.items });
     }
-
     if (
       nextProps.feedback.addComment &&
       nextProps.feedback.addComment.success &&
@@ -90,7 +89,6 @@ class ModalDetailFeedback extends Component {
       this.textInput.clear();
       this.props.actions.feedback.getCommentUser(accessTokenApi, nextProps.feedback.detailFeedback.result.guid);
     }
-
     if (this.props.feedback.updateStatus !== nextProps.feedback.updateStatus && nextProps.feedback.updateStatus.success) {
       this._getDetail();
       this.setState({ loadingUpdateStatus: false, showModalConfirmCancel: false });
@@ -284,8 +282,7 @@ class ModalDetailFeedback extends Component {
               backgroundColor: '#343D4D',
               borderRadius: 5,
               alignItems: 'center',
-              justifyContent: 'center',
-              marginLeft: 20
+              justifyContent: 'center'
             }}
             onPress={() => this.setState({ showModalConfirmCancel: true })}
           >
