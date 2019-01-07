@@ -191,7 +191,7 @@ export default class extends Component {
           <View style={{ justifyContent: 'center' }}>
             <View
               style={{
-                backgroundColor: 'red',
+                backgroundColor: 'green',
                 borderRadius: 30,
                 width: 25,
                 height: 25,

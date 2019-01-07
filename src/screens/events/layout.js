@@ -240,7 +240,7 @@ export default class Layout extends Component {
                       marginHorizontal: Resolution.scale(20)
                     }}
                   >
-                    <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
+                    <Text style={{ fontSize: Resolution.scale(18), fontFamily: 'OpenSans-Bold', color: '#505E75' }}>
                       {this.state.dateSelected
                         ? moment(this.state.dateSelected)
                           .format('DD-MM-YYYY')
