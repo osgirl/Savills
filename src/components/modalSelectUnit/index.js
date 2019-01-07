@@ -101,21 +101,21 @@ class modalSelectUnit extends Component {
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <Image
               source={{ uri: image }}
-              style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
+              style={{ width: Resolution.scaleWidth(65), height: Resolution.scaleHeight(65), borderRadius: 10 }}
               resizeMode={'contain'}
             />
             <Text style={{ color: '#FFF', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
           </View>
         ) : (
-          <Button onPress={() => this._onPressProject(item)} style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Image
-              source={{ uri: image }}
-              style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
-              resizeMode={'contain'}
-            />
-            <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
-          </Button>
-        )}
+            <Button onPress={() => this._onPressProject(item)} style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Image
+                source={{ uri: image }}
+                style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
+                resizeMode={'contain'}
+              />
+              <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
+            </Button>
+          )}
       </View>
     );
   }
@@ -126,8 +126,14 @@ class modalSelectUnit extends Component {
       <View style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}>
         {
           <Button onPress={() => this.seletUnits(item)} style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={IC_APARTMENT} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
-            <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>
+            <Image source={check ? IC_APARTMENT_ACTIVE : IC_APARTMENT} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
+            <Text style={{
+              color: check ? '#FFF' : '#505E75',
+              fontSize: 12,
+              marginTop: 10,
+              fontFamily: 'OpenSans-Bold'
+            }}
+            >
               {item.fullUnitCode}
             </Text>
           </Button>
@@ -138,7 +144,7 @@ class modalSelectUnit extends Component {
 
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }

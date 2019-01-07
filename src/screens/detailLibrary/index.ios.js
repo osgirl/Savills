@@ -4,6 +4,8 @@ import Connect from '@stores';
 import layout from './layout';
 
 import _ from 'lodash';
+import Resolution from '@utils/resolution';
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 class DetailLibary extends layout {
   constructor(props) {
     super(props);
@@ -13,7 +15,7 @@ class DetailLibary extends layout {
       loadingMore: false,
       isShowModalDetail: false,
       itemSelected: null,
-      scrollY: new Animated.Value(Platform.OS === 'ios' ? -60 : 0)
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0)
     };
   }
 

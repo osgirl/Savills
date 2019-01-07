@@ -56,6 +56,19 @@ class ModalNewFeedback extends Component {
       await this.props.onClose();
       this.getModuleCount();
     }
+
+    if (this.props.feedback.createFeedback !== nextProps.feedback.createFeedback && !nextProps.feedback.createFeedback.success) {
+      await this.setState({ loading: false });
+      if (nextProps.feedback.createFeedback.error) {
+        console.log(nextProps.feedback.createFeedback.error)
+        if (nextProps.feedback.createFeedback.error.message.length > 0) {
+          this._alertError(nextProps.feedback.createFeedback.error.message);
+        }
+      } else {
+        this._alertError('Create feedback faild !');
+      }
+    }
+
   }
 
   getModuleCount() {
@@ -65,7 +78,14 @@ class ModalNewFeedback extends Component {
   }
 
   _alertError = Title => {
-    Alert.alert('Error', Title, { text: 'OK', onPress: () => {} }, { cancelable: false });
+    Alert.alert(
+      Title,
+      '',
+      [
+        {text: 'OK', onPress: () => {}},
+      ],
+      { cancelable: false }
+    )
   };
 
   handleScroll = event => {
@@ -454,10 +474,10 @@ class ModalNewFeedback extends Component {
                 {this.state.loading ? (
                   <ActivityIndicator size={'small'} color={'#FFF'} />
                 ) : (
-                  <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
-                    {languages.FB_CREATE_BTNSEND}
-                  </Text>
-                )}
+                    <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                      {languages.FB_CREATE_BTNSEND}
+                    </Text>
+                  )}
               </LinearGradient>
             </Button>
           </View>

@@ -24,18 +24,19 @@ import DEFAULT_LIB from '@resources/icons/defaultLibary.png';
 import Resolution from '@utils/resolution';
 import Configs from '@utils/configs';
 import { PlaceHolderItemH } from '@components';
+import LinearGradient from 'react-native-linear-gradient';
+import HeaderTitle from '@components/headerTitle';
 
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
 
-export default class extends Component {
+export default class Layou2 extends Component {
   handleScroll = event => {
-    const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity;
+          const offset = event.nativeEvent.contentOffset.y + (Platform.OS === 'ios' ? HEADER_MAX_HEIGHT : 0);
           this.state.scrollY.setValue(offset);
         }
       },
@@ -43,14 +44,13 @@ export default class extends Component {
     )(event);
   };
 
-
   _FooterFlatlist() {
     return this.state.loadingMore ? (
-      <View style={{ height: Resolution.scaleHeight(HEADER_MAX_HEIGHT + 30), justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ height: Resolution.scaleHeight(50), justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+        <View style={{ height: Resolution.scaleHeight(20) }} />
       );
   }
 
@@ -61,6 +61,21 @@ export default class extends Component {
       outputRange: [0, 1],
       extrapolate: 'clamp'
     });
+
+    const headerTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT],
+      outputRange: [0, -HEADER_MAX_HEIGHT],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
+    const opacity = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
     return (
       <View>
         <Header
@@ -76,7 +91,7 @@ export default class extends Component {
           }
           renderViewRight={
             <Button
-              onPress={() => this._onpenModalSelectUnit()}
+              onPress={() => this._openModalSelectUnit()}
               style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
             >
               <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
@@ -86,7 +101,21 @@ export default class extends Component {
             </Button>
           }
         />
-        <AnimatedTitle scrollY={this.state.scrollY} label={languages.LB_TITLEHEADER} />
+        <Animated.View style={[{
+          position: 'absolute',
+          top: Resolution.scale(80),
+          left: 0,
+          right: 0,
+          overflow: 'hidden',
+          height: Resolution.scale(60),
+          zIndex: -1
+        }, { transform: [{ translateY: headerTranslate }] }]}>
+          <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
+            <Animated.View style={{ opacity: opacity }}>
+              <HeaderTitle title={languages.LB_TITLEHEADER} />
+            </Animated.View>
+          </LinearGradient>
+        </Animated.View>
       </View>
     );
   }
@@ -102,6 +131,7 @@ export default class extends Component {
           // <View style={{ flex: 1 }}>
           <FlatList
             contentContainerStyle={{
+              alignItems: 'center',
               paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
             }}
             data={this.state.data}
@@ -112,6 +142,7 @@ export default class extends Component {
             extraData={this.state}
             legacyImplementation={false}
             scrollEventThrottle={16}
+            ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleWidth(10) }} />}
             ListFooterComponent={() => this._FooterFlatlist()}
             refreshControl={
               <RefreshControl
@@ -142,7 +173,7 @@ export default class extends Component {
   }
 
   renderItem = (item, index) => {
-    let date = moment(item.creationTime).format('l');
+    let date = moment(item.creationTime).format('l') || '';
     let checkOnpress = item.numberOfDocuments > 0 ? false : true;
     return (
       <Button
@@ -191,7 +222,7 @@ export default class extends Component {
           <View style={{ justifyContent: 'center' }}>
             <View
               style={{
-                backgroundColor: 'red',
+                backgroundColor: 'green',
                 borderRadius: 30,
                 width: 25,
                 height: 25,

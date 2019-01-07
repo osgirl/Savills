@@ -5,7 +5,7 @@ import { Animated, StyleSheet, Platform } from 'react-native';
 import HeaderTitle from '@components/headerTitle';
 import LinearGradient from 'react-native-linear-gradient';
 import Resolution from "../../utils/resolution";
-const HEADER_MAX_HEIGHT =  Resolution.scale(60);
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const HEADER_MIN_HEIGHT = 0;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -24,7 +24,7 @@ export default class AnimatedTitle extends Component {
 
     const opacity = scroll.interpolate({
       inputRange: [0, HEADER_MAX_HEIGHT],
-      outputRange: [1,  0],
+      outputRange: [1, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
@@ -44,7 +44,7 @@ export default class AnimatedTitle extends Component {
 const Style = StyleSheet.create({
   headerTitle: {
     position: 'absolute',
-    top: 80,
+    top: Resolution.scale(80),
     left: 0,
     right: 0,
     overflow: 'hidden',

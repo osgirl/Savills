@@ -81,6 +81,7 @@ class ModalDetailFeedback extends Component {
     if (this.props.feedback.listComment !== nextProps.feedback.listComment && nextProps.feedback.listComment.success) {
       this.setState({ listComment: nextProps.feedback.listComment.result.items });
     }
+
     if (
       nextProps.feedback.addComment &&
       nextProps.feedback.addComment.success &&
@@ -89,6 +90,7 @@ class ModalDetailFeedback extends Component {
       this.textInput.clear();
       this.props.actions.feedback.getCommentUser(accessTokenApi, nextProps.feedback.detailFeedback.result.guid);
     }
+
     if (this.props.feedback.updateStatus !== nextProps.feedback.updateStatus && nextProps.feedback.updateStatus.success) {
       this._getDetail();
       this.setState({ loadingUpdateStatus: false, showModalConfirmCancel: false });
@@ -177,7 +179,11 @@ class ModalDetailFeedback extends Component {
 
   renderHeader() {
     const { commentBoxId } = this.props;
-
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp'
+    });
     return (
       <View>
         <Header
@@ -186,11 +192,11 @@ class ModalDetailFeedback extends Component {
           leftIcon={IC_CLOSE}
           leftAction={() => this.props.onClose()}
           headercolor={'transparent'}
-          showTitleHeader={this.state.isShowTitleHead}
+          showTitleHeader={true}
           center={
-            <View>
+            <Animated.View style={{ opacity: isShow }}>
               <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'# ' + commentBoxId}</Text>
-            </View>
+            </Animated.View>
           }
         />
 
@@ -206,15 +212,15 @@ class ModalDetailFeedback extends Component {
           <View
             style={{
               width: width - 40,
-              height: 120,
+              height: Resolution.scale(120),
               borderRadius: 10,
               backgroundColor: '#FFF',
-              marginHorizontal: 20,
+              marginHorizontal: Resolution.scale(20),
               alignItems: 'center',
-              padding: 20
+              padding: Resolution.scale(20)
             }}
           >
-            <Text style={{ marginBottom: 20, color: '#BABFC8', fontFamily: 'Opensans-SemiBold', fontSize: 14 }}>
+            <Text style={{ marginBottom: Resolution.scale(20), color: '#BABFC8', fontFamily: 'Opensans-SemiBold', fontSize: Resolution.scale(14) }}>
               {languages.FB_TITLE_CACEL}
             </Text>
             <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -222,7 +228,11 @@ class ModalDetailFeedback extends Component {
                 onPress={() => this.setState({ showModalConfirmCancel: false })}
                 style={{ flex: 1, backgroundColor: '#FFF', borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
               >
-                <Text style={{ fontSize: 12, color: '#404040', fontFamily: 'Opensans-SemiBold' }}>
+                <Text style={{
+                  fontSize: Resolution.scale(12),
+                  color: '#404040', fontFamily: 'Opensans-SemiBold'
+                }}
+                >
                   {languages.FB_TITLE_CACEL_BACK}
                 </Text>
               </TouchableOpacity>
@@ -230,7 +240,7 @@ class ModalDetailFeedback extends Component {
                 onPress={() => this._updateStatus()}
                 style={{
                   flex: 1,
-                  marginLeft: 20
+                  marginLeft: Resolution.scale(20)
                 }}
               >
                 <LinearGradient
@@ -242,11 +252,11 @@ class ModalDetailFeedback extends Component {
                   {this.state.loadingUpdateStatus ? (
                     <ActivityIndicator size={'small'} color={'#FFF'} />
                   ) : (
-                    <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
-                      {' '}
-                      {languages.FB_TITLE_CACEL_AGREE}
-                    </Text>
-                  )}
+                      <Text style={{ fontSize: 12, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                        {' '}
+                        {languages.FB_TITLE_CACEL_AGREE}
+                      </Text>
+                    )}
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -263,30 +273,26 @@ class ModalDetailFeedback extends Component {
         <View
           style={{
             width: width,
-            height: 80,
+            height: Resolution.scale(80),
             backgroundColor: '#FFF',
-            padding: 20,
+            padding: Resolution.scale(20),
             flexDirection: 'row',
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 1 },
             shadowOpacity: 0.16,
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0
           }}
         >
           <TouchableOpacity
             style={{
-              flex: 1,
               backgroundColor: '#343D4D',
               borderRadius: 5,
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              flex: 1
             }}
             onPress={() => this.setState({ showModalConfirmCancel: true })}
           >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.FB_DT_BTNCANCLE}</Text>
+            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>{languages.FB_DT_BTNCANCLE}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -445,8 +451,8 @@ class ModalDetailFeedback extends Component {
             />
           </ScrollView>
         ) : (
-          this.renderLoading()
-        )}
+            this.renderLoading()
+          )}
 
         {this.renderFooter(languages)}
         {this.renderModalCancel(languages)}
@@ -455,8 +461,8 @@ class ModalDetailFeedback extends Component {
           style={{
             position: 'absolute',
             // bottom: this.state.detailOrder.currentStatus && this.state.detailOrder.currentStatus.id !== 11 ? 20 : 100,
-            bottom: 50,
-            right: 20
+            bottom: Resolution.scale(100),
+            right: Resolution.scale(20)
           }}
           onPress={() =>
             this.setState({ isShowChat: true }, () => {
@@ -469,8 +475,8 @@ class ModalDetailFeedback extends Component {
           {this.props.feedback.commentUnread.result && this.props.feedback.commentUnread.result[0].unreadCount > 0 && (
             <View
               style={{
-                width: 16,
-                height: 16,
+                width: Resolution.scale(16),
+                height: Resolution.scale(16),
                 backgroundColor: 'red',
                 borderRadius: 8,
                 position: 'absolute',

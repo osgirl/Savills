@@ -20,7 +20,7 @@ export default class ItemProjectApartment extends Component {
             <Image
               source={typeof this.props.image === 'number' ? this.props.image : { uri: this.props.image }}
               resizeMode={'contain'}
-              style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
+              style={{ width: Resolution.scaleWidth(65), height: Resolution.scaleHeight(65), borderRadius: 10 }}
             />
             <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{this.props.title}</Text>
           </Button>

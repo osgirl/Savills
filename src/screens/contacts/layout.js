@@ -9,7 +9,8 @@ import IC_CALL from '@resources/icons/Call-button.png';
 import IC_BACK from '@resources/icons/back-light.png';
 import IC_DROPDOWN from '@resources/icons/dropDown.png';
 import IC_AVATARDF from '@resources/icons/avatar-default.png';
-
+import HeaderTitle from '@components/headerTitle';
+import LinearGradient from 'react-native-linear-gradient';
 import Style from './style';
 import Resolution from '@utils/resolution';
 
@@ -57,12 +58,13 @@ export default class extends Component {
   }
 
   handleScroll = event => {
-    const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
+    // const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
         listener: event => {
-          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity;
+          const offset = event.nativeEvent.contentOffset.y + (Platform.OS === 'ios' ? HEADER_MAX_HEIGHT : 0);
+          console.log(offset)
           this.state.scrollY.setValue(offset);
         }
       },
@@ -78,6 +80,21 @@ export default class extends Component {
       outputRange: [0, 1],
       extrapolate: 'clamp'
     });
+
+    const headerTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT],
+      outputRange: [0, -HEADER_MAX_HEIGHT],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
+    const opacity = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_MAX_HEIGHT],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+      useNativeDriver: true
+    });
+
     return (
       <View>
         <Header
@@ -103,12 +120,18 @@ export default class extends Component {
             </Button>
           }
         />
-        <AnimatedTitle scrollY={this.state.scrollY} label={languages.CONTACTS_TXT_TITLE} />
+        <Animated.View style={[Style.headerTitle, { transform: [{ translateY: headerTranslate }] }]}>
+          <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
+            <Animated.View style={{ opacity: opacity }}>
+              <HeaderTitle title={languages.CONTACTS_TXT_TITLE} />
+            </Animated.View>
+          </LinearGradient>
+        </Animated.View>
       </View>
     );
   }
 
-  renderItem(item) {
+  renderItem(item, index) {
     let encToken = this.props.account.encToken;
     let image = item.user.fileUrl ? `${item.user.fileUrl}&encToken=${encodeURIComponent(encToken)}` : IC_AVATARDF;
     return (
@@ -120,7 +143,8 @@ export default class extends Component {
             marginHorizontal: Resolution.scale(20),
             width: width - Resolution.scale(40),
             backgroundColor: '#FFF',
-            borderRadius: 5
+            borderRadius: 5,
+            marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10)
           }
         ]}
       >
@@ -169,13 +193,12 @@ export default class extends Component {
         {this.renderHeader()}
         {this.props.units.employeesByOu && this.props.units.employeesByOu.success ? (
           <FlatList
-            alwaysBounceVertical={false}
             data={this.state.data || []}
             contentContainerStyle={{
               paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
             }}
             keyExtractor={item => item.user.id + ''}
-            renderItem={({ item, index }) => this.renderItem(item)}
+            renderItem={({ item, index }) => this.renderItem(item, index)}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.isRefresh}
@@ -189,9 +212,6 @@ export default class extends Component {
             legacyImplementation={false}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            ItemSeparatorComponent={() => <View style={{ height: Resolution.scale(10) }} />}
-            ListHeaderComponent={() => <View style={{ height: Resolution.scale(20) }} />}
-            ListFooterComponent={() => <View style={{ height: Resolution.scale(20) }} />}
             contentInset={{
               top: HEADER_MAX_HEIGHT
             }}
