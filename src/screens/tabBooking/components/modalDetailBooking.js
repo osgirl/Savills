@@ -20,9 +20,9 @@ import Modal from 'react-native-modal';
 
 import Connect from '@stores';
 import { Header, Button, AnimatedTitle, ModalChat } from '@components';
-
 import Configs from '@utils/configs';
-const HEADER_MAX_HEIGHT = 60;
+import Resolution from '@utils/resolution';
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
 
 const IMAGE = {
@@ -243,7 +243,8 @@ class ModalDetailBooking extends PureComponent {
                   <View
                     style={{
                       borderRadius: 5,
-                      backgroundColor: status.colorCode
+                      backgroundColor: status.colorCode,
+                      height: 30
                     }}
                   >
                     <Text
@@ -296,7 +297,7 @@ class ModalDetailBooking extends PureComponent {
                     <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
                       {languages.BK_DETAIL_PAY}
                     </Text>
-                    <View style={{ backgroundColor: paymentStatus.colorCode, borderRadius: 5 }}>
+                    <View style={{ backgroundColor: paymentStatus.colorCode, borderRadius: 5, height: 30 }}>
                       <Text
                         style={{
                           color: '#FFF',

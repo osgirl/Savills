@@ -2,8 +2,9 @@ import { Animated, Platform } from 'react-native';
 import Connect from '@stores';
 import layout from './layout';
 import _ from 'lodash';
+import Resolution from "../../utils/resolution";
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT =  Resolution.scale(60);
 
 class Feedback extends layout {
   constructor(props) {

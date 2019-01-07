@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, Image, StatusBar, Dimensions, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, Animated, Image, StatusBar, Dimensions, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import ScrollableTabView from '@components/react-native-scrollable-tab-view';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,20 +19,25 @@ import ModalNew from './component/modalNew';
 import Styles from './styles';
 import Resolution from '@utils/resolution';
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 const { width } = Dimensions.get('window');
 
 export default class extends Component {
   handleScroll = event => {
+    const scrollSensitivity = Platform.OS === 'ios' ? 1.5 : 5;
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
-        listener: event => {}
+        listener: event => {
+          const offset = event.nativeEvent.contentOffset.y / scrollSensitivity;
+          this.state.scrollY.setValue(offset);
+        }
       },
       { useNativeDriver: true }
     )(event);
   };
+
 
   _FooterFlatlist() {
     return this.state.loadingMore ? (
@@ -40,36 +45,36 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scale(40) }} />
-    );
+        <View style={{ height: Resolution.scale(40) }} />
+      );
   }
 
   render() {
     let unitActive = this.props.units.unitActive;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 10, 30],
-      outputRange: [60, 30, 0],
+      inputRange: [0, HEADER_MAX_HEIGHT / 3],
+      outputRange: [HEADER_MAX_HEIGHT, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const headerTranslate = this.state.scrollY.interpolate({
-      inputRange: [0, 30],
-      outputRange: [0, -50],
+      inputRange: [0, HEADER_MAX_HEIGHT / 3],
+      outputRange: [0, -HEADER_MAX_HEIGHT],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const opacityText = this.state.scrollY.interpolate({
-      inputRange: [0, 30, 60],
-      outputRange: [1, 0.5, 0],
+      inputRange: [0, HEADER_MAX_HEIGHT],
+      outputRange: [1, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const opacityTextHeader = this.state.scrollY.interpolate({
-      inputRange: [0, 30],
+      inputRange: [0, HEADER_MAX_HEIGHT / 3],
       outputRange: [0, 1],
       extrapolate: 'clamp',
       useNativeDriver: true
@@ -214,7 +219,6 @@ export default class extends Component {
             // rightOpenValue={-80}
             renderItem={({ item, index }) => this.renderItem(item, index)}
             onScroll={this.handleScroll}
-            scrollEventThrottle={16}
             onEndReachedThreshold={0.01}
             onEndReached={() => this._onEndReached()}
             legacyImplementation={false}
@@ -223,10 +227,10 @@ export default class extends Component {
             ListFooterComponent={() => this._FooterFlatlist()}
           />
         ) : (
-          <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            <PlaceHolderItemH noMargin />
-          </View>
-        )}
+              <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                <PlaceHolderItemH noMargin />
+              </View>
+            )}
       </View>
     );
   };
@@ -250,7 +254,6 @@ export default class extends Component {
             // rightOpenValue={-80}
             renderItem={({ item, index }) => this.renderItem(item, index)}
             onScroll={this.handleScroll}
-            scrollEventThrottle={16}
             onEndReachedThreshold={0.01}
             onEndReached={() => this._onEndReachedCompleted()}
             legacyImplementation={false}
@@ -259,10 +262,10 @@ export default class extends Component {
             ListFooterComponent={() => this._FooterFlatlist()}
           />
         ) : (
-          <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-            <PlaceHolderItemH noMargin />
-          </View>
-        )}
+              <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
+                <PlaceHolderItemH noMargin />
+              </View>
+            )}
       </View>
     );
   };

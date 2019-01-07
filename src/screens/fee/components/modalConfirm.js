@@ -19,7 +19,7 @@ import ModalFaild from './modalFaild';
 import Button from "@components/button";
 import Configs from "@utils/configs";
 
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 const { width } = Dimensions.get('window');
 

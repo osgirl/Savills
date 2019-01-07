@@ -28,10 +28,11 @@ import moment from 'moment';
 import Modal from 'react-native-modal';
 
 import Configs from '@utils/configs';
-
+import Resolution from '@utils/resolution';
 const STAR_ON = require('@resources/icons/Star-big.png');
 const STAR_OFF = require('@resources/icons/Star.png');
-const HEADER_MAX_HEIGHT = 60;
+
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 const { width, height } = Dimensions.get('window');
 
@@ -244,7 +245,6 @@ class ModalEditOrder extends PureComponent {
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
-    console.log('asdkjasdasdjaklsdjaklsdjaklsda', this.state.detailOrder);
     let WorkOrder = {
       id: this.state.detailOrder.id,
       guid: this.state.detailOrder.guid,
@@ -260,7 +260,7 @@ class ModalEditOrder extends PureComponent {
       rating: this.state.vote,
       dateCreate: this.state.detailOrder.dateCreate,
       maintainanceTeamId: 1,
-      areaId: this.state.detailOrder.area.id,
+      areaId: this.state.detailOrder && this.state.detailOrder.area ? this.state.detailOrder.area.id : 0,
       isPrivate: true,
       contact: {
         email: emailAddress,

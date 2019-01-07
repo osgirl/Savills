@@ -19,10 +19,10 @@ export default class extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, marginTop: 20, alignItems: 'center' }}>
+            <View style={{ flex: 1, marginTop: Resolution.scale(20), alignItems: 'center' }}>
                 <View style={{ alignItems: 'center' }}>
                     <Avatar
-                        size={64}
+                        size={Resolution.scale(64)}
                         onReady={false}
                         bgColor={'#FFF'}
                         animate="fade"
@@ -31,7 +31,7 @@ export default class extends Component {
 
                 <View>
                     <Line
-                        txtWidth={90}
+                        txtWidth={Resolution.scale(90)}
                         height={15}
                         onReady={false}
                         animate="fade"
@@ -42,13 +42,16 @@ export default class extends Component {
                     <FlatList
                         scrollEnabled={false}
                         horizontal={false}
-                        contentContainerStyle={{ alignItems: 'center', marginTop: 20 }}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ alignItems: 'flex-start', flex: 1, width: width - Resolution.scale(40), marginHorizontal: Resolution.scale(20) }}
                         numColumns={3}
                         data={['1', '2', '3', '4', '5',
                             '6', '7', '8', '9', '10', '11', '12',]}
                         keyExtractor={item => item}
-                        renderItem={(item) => (
-                            <View style={Styles.container}>
+                        renderItem={({ item, index }) => (
+                            <View style={[Styles.container, {
+                                marginLeft: index === 0 || index % 3 === 0 ? 0 : Resolution.scale(10),
+                            }]}>
                                 <ItemHome
                                     onReady={false}
                                     bgColor={'#FFF'}
@@ -69,10 +72,9 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        width: (width - 60) / 3,
-        height: (width - 60) / 3,
-        backgroundColor: '#FFFFFF',
-        marginHorizontal: Resolution.scale(5),
+        width: (width - Resolution.scale(60)) / 3,
+        height: (width - Resolution.scale(60)) / 3,
+        backgroundColor: '#FFF',
         marginTop: Resolution.scale(5),
         marginBottom: Resolution.scale(5),
     }

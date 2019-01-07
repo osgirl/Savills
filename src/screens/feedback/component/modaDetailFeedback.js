@@ -25,13 +25,14 @@ import Configs from '@utils/configs';
 import Resolution from '@utils/resolution';
 
 const { width } = Dimensions.get('window');
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 class ModalDetailFeedback extends Component {
   constructor(props) {
     super(props);
     this.state = {
       comment: '',
+      chatText: '',
       scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isShowTitleHeader: false,
       showModalConfirmCancel: false,
@@ -134,14 +135,15 @@ class ModalDetailFeedback extends Component {
   }
 
   addComment = () => {
-    if (this.state.comment.trim() === '' || this.state.data === null) {
+    if (this.state.chatText.trim() === '' || this.state.data === null) {
       return;
     } else {
+      this.setState({ chatText: '' });
       let accessTokenAPI = this.props.account.accessTokenAPI;
       const { displayName, profilePictureId } = this.props.userProfile.profile.result.user;
       let comment = {
         conversationId: this.state.data.guid,
-        content: this.state.comment,
+        content: this.state.chatText,
         typeId: null,
         isPrivate: false,
         userName: displayName,
@@ -199,7 +201,7 @@ class ModalDetailFeedback extends Component {
     );
   }
 
-  renderModalCancel = () => {
+  renderModalCancel = languages => {
     return (
       <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.showModalConfirmCancel}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -305,7 +307,6 @@ class ModalDetailFeedback extends Component {
         {this.renderHeader()}
         {this.state.data ? (
           <ScrollView
-            // alwaysBounceVertical={false}
             scrollEventThrottle={16}
             onScroll={this.handleScroll}
             contentContainerStyle={{
@@ -501,14 +502,14 @@ class ModalDetailFeedback extends Component {
         isVisible={this.state.isShowChat}
         title={this.state.data && this.state.data.commentBoxId}
         idUser={id}
-        placeholde={languages.FB_DETAIL_CHAT}
         chatEmpty={languages.FB_DETAIL_CHAT_EMPTY}
+        placeholder={languages.FB_DETAIL_CHAT}
         listComment={this.state.listComment}
         editableTextInput={this.state.data && this.state.data.statusCode !== 'SUBMITTED' ? true : false}
-        disabledBtn={this.state.comment.trim().length > 0 ? false : true}
+        disabledBtn={this.state.chatText.trim() === '' ? true : false}
         addComment={() => this.addComment()}
-        onChangeText={text => this.setState({ comment: text })}
-        opacityBtnSend={this.state.comment.trim() == '' ? 0.5 : 1}
+        onChangeText={text => this.setState({ chatText: text })}
+        opacityBtnSend={this.state.chatText.trim() == '' ? 0.5 : 1}
         onClose={() => this.setState({ isShowChat: false })}
         refTextInout={input => {
           this.textInput = input;

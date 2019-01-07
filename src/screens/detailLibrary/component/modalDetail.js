@@ -21,15 +21,8 @@ class ModalDetail extends Component {
     this.state.scrollY.setValue(offset);
   };
 
-  renderHeader() {
+  renderHeader(languages) {
     const { itemSelected } = this.props;
-
-    const opacityTextHeader = this.state.scrollY.interpolate({
-      inputRange: [0, 30],
-      outputRange: [0, 1],
-      extrapolate: 'clamp'
-    });
-
     return (
       <View>
         <Header
@@ -40,7 +33,7 @@ class ModalDetail extends Component {
           showTitleHeader={true}
           center={
             <View style={{}}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'Detail'}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.LIBRARY_HEADER_DETAIL}</Text>
             </View>
           }
         />
@@ -52,9 +45,10 @@ class ModalDetail extends Component {
     const { itemSelected } = this.props;
     const encToken = this.props.account.encToken;
     const file = itemSelected.file && `${itemSelected.file.fileUrl}&encToken=${encodeURIComponent(encToken)}`;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={[styles.container, {}]}>
-        {this.renderHeader()}
+        {this.renderHeader(languages)}
         <View style={{ flex: 1 }}>
           {file ? (
             <WebView

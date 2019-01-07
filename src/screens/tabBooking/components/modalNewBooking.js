@@ -353,7 +353,7 @@ class ModalNewBooking extends PureComponent {
                   height: 70,
                   width: null,
                   flex: 1,
-                  borderRadius: 10,
+                  borderRadius: 5,
                   backgroundColor: '#FFF',
                   padding: 20,
                   alignItems: 'center',
@@ -384,7 +384,7 @@ class ModalNewBooking extends PureComponent {
                 style={{
                   width: null,
                   flex: 1,
-                  borderRadius: 10,
+                  borderRadius: 5,
                   backgroundColor: '#FFF',
                   padding: 20,
                   paddingVertical: 15,
@@ -480,7 +480,7 @@ class ModalNewBooking extends PureComponent {
                   height: 130,
                   width: null,
                   flex: 1,
-                  borderRadius: 10,
+                  borderRadius: 5,
                   backgroundColor: '#FFF',
                   padding: 20,
                   justifyContent: 'space-around',
@@ -496,15 +496,19 @@ class ModalNewBooking extends PureComponent {
                   >{`${fullUnitCode}-${displayName}`}</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
-                    {languages.BK_NEW_EMAIL}
-                  </Text>
-                  <TextInput
-                    onChangeText={e => this.setState({ email: e })}
-                    value={this.state.email}
-                    underlineColorAndroid={'transparent'}
-                    style={{ paddingTop: 0, color: '#4A89E8' }}
-                  />
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
+                      {languages.BK_NEW_EMAIL}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2, alignItems: 'flex-end' }}>
+                    <TextInput
+                      onChangeText={e => this.setState({ email: e })}
+                      value={this.state.email}
+                      underlineColorAndroid={'transparent'}
+                      style={{ paddingTop: 0, color: '#4A89E8' }}
+                    />
+                  </View>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
@@ -607,7 +611,7 @@ class ModalNewBooking extends PureComponent {
         }}
       >
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', paddingVertical: 70, paddingHorizontal: 20 }}>
-          <View style={{ flex: 1, borderRadius: 10, paddingTop: 40, backgroundColor: '#FFF', paddingHorizontal: 20 }}>
+          <View style={{ flex: 1, borderRadius: 5, paddingTop: 40, backgroundColor: '#FFF', paddingHorizontal: 20 }}>
             <TouchableOpacity
               style={{ position: 'absolute', top: 20, left: 20 }}
               onPress={() => this.setState({ isShowRegulations: false })}
@@ -715,10 +719,16 @@ class ModalNewBooking extends PureComponent {
                       >{`${fullUnitCode}-${displayName}`}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-                      <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
-                        {languages.BK_NEW_EMAIL}
-                      </Text>
-                      <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>{this.state.email}</Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                          {languages.BK_NEW_EMAIL}
+                        </Text>
+                      </View>
+                      <View style={{ flex: 2, alignItems: 'flex-end' }}>
+                        <Text style={{ color: '#4A89E8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }} numberOfLines={1}>
+                          {this.state.email}
+                        </Text>
+                      </View>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                       <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
@@ -735,32 +745,31 @@ class ModalNewBooking extends PureComponent {
                   <View
                     style={{
                       width: null,
-                      borderRadius: 10,
-                      backgroundColor: '#FFF',
+                      borderRadius: 5,
                       padding: 20,
+                      backgroundColor: '#FFF',
                       justifyContent: 'space-around',
-                      flexDirection: 'row',
                       flexWrap: 'wrap'
                     }}
                   >
-                    <TouchableOpacity
-                      style={{
-                        width: 85,
-                        height: 22,
-                        borderRadius: 5,
-                        backgroundColor: '#4A89E8',
-                        marginVertical: 5,
-                        marginRight: 10,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      {startTime && startTime != undefined && endTime && endTime != undefined ? (
-                        <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>{`${moment(
-                          startTime
-                        ).format('HH:mm')}-${moment(endTime).format('HH:mm')}`}</Text>
-                      ) : null}
-                    </TouchableOpacity>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Text style={{ color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.BK_MODAL_CONFIM_DAY}
+                      </Text>
+                      <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {moment(this.state.selectedDate).format('DD/MM/YYYY')}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+                      <Text style={{ color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {languages.BK_MODAL_CONFIM_TIME}
+                      </Text>
+                      <Text style={{ color: '#BABFC8', fontFamily: 'OpenSans-SemiBold', fontSize: 12 }}>
+                        {startTime && startTime != undefined && endTime && endTime != undefined
+                          ? `${moment(startTime).format('HH:mm')}-${moment(endTime).format('HH:mm')}`
+                          : ''}
+                      </Text>
+                    </View>
                   </View>
                 }
               />

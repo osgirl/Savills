@@ -25,7 +25,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Resolution from '@utils/resolution';
 
 const { width } = Dimensions.get('window');
-const HEADER_MAX_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 class ModalNewFeedback extends Component {
   constructor(props) {
@@ -65,7 +65,7 @@ class ModalNewFeedback extends Component {
   }
 
   _alertError = Title => {
-    Alert.alert('Error', Title, { text: 'OK', onPress: () => { } }, { cancelable: false });
+    Alert.alert('Error', Title, { text: 'OK', onPress: () => {} }, { cancelable: false });
   };
 
   handleScroll = event => {
@@ -109,7 +109,6 @@ class ModalNewFeedback extends Component {
   }
 
   _changeTypeFeedback(type) {
-    console.log(type);
     this.setState({ type: type });
   }
 
@@ -129,7 +128,7 @@ class ModalNewFeedback extends Component {
       <View>
         <Header
           LinearGradient={true}
-          leftIcon={require('../../../resources/icons/close.png')}
+          leftIcon={require('@resources/icons/close.png')}
           leftAction={() => this.props.onClose()}
           headercolor={'transparent'}
           showTitleHeader={this.state.isShowTitleHeader}
@@ -174,7 +173,6 @@ class ModalNewFeedback extends Component {
                 view={
                   <View
                     style={{
-                      // height: Resolution.scaleHeight(110),
                       width: null,
                       flex: 1,
                       borderRadius: 10,
@@ -187,7 +185,7 @@ class ModalNewFeedback extends Component {
                       <TouchableOpacity
                         key={index}
                         activeOpacity={1}
-                        onPress={() => this._changeTypeFeedback(item.typeCode)}
+                        onPress={() => this._changeTypeFeedback(item.name)}
                         style={{ flexDirection: 'row', marginVertical: 5 }}
                       >
                         <Text
@@ -197,9 +195,9 @@ class ModalNewFeedback extends Component {
                         </Text>
                         <Image
                           source={
-                            item.typeCode == this.state.type
-                              ? require('../../../resources/icons/checked.png')
-                              : require('../../../resources/icons/check.png')
+                            item.name == this.state.type
+                              ? require('@resources/icons/checked.png')
+                              : require('@resources/icons/check.png')
                           }
                         />
                       </TouchableOpacity>
@@ -369,7 +367,7 @@ class ModalNewFeedback extends Component {
               style={{ position: 'absolute', top: Resolution.scale(20), left: Resolution.scale(20), zIndex: 1 }}
               onPress={() => this.setState({ isShowModalConfirm: false })}
             >
-              <Image source={require('../../../resources/icons/close.png')} />
+              <Image source={require('@resources/icons/close.png')} />
             </TouchableOpacity>
             <LinearGradient
               colors={['#4A89E8', '#8FBCFF']}
@@ -398,7 +396,7 @@ class ModalNewFeedback extends Component {
                         >
                           {this.state.type}
                         </Text>
-                        <Image source={require('../../../resources/icons/checked.png')} />
+                        <Image source={require('@resources/icons/checked.png')} />
                       </View>
                     }
                   </View>
@@ -456,10 +454,10 @@ class ModalNewFeedback extends Component {
                 {this.state.loading ? (
                   <ActivityIndicator size={'small'} color={'#FFF'} />
                 ) : (
-                    <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
-                      {languages.FB_CREATE_BTNSEND}
-                    </Text>
-                  )}
+                  <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                    {languages.FB_CREATE_BTNSEND}
+                  </Text>
+                )}
               </LinearGradient>
             </Button>
           </View>

@@ -56,7 +56,7 @@ class TabComplete extends PureComponent {
             data={this.state.listData}
             extraData={this.state}
             renderItem={({ item, index }) => (
-              <ItemWorkOrder {...this.props} item={item} key={index} action={() => this.gotoDetail(item, 1)} />
+              <ItemWorkOrder {...this.props} item={item} index={index} action={() => this.gotoDetail(item, 1)} />
             )}
             getItemLayout={(data, index) => ({ length: 160, offset: 160 * index, index })}
             onScroll={this.props.onScroll}

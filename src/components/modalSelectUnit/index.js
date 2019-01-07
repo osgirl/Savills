@@ -98,12 +98,20 @@ class modalSelectUnit extends Component {
       <View style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}>
         {check ? (
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={{ uri: image }} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
+            <Image
+              source={{ uri: image }}
+              style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
+              resizeMode={'contain'}
+            />
             <Text style={{ color: '#FFF', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
           </View>
         ) : (
           <Button onPress={() => this._onPressProject(item)} style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={{ uri: image }} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
+            <Image
+              source={{ uri: image }}
+              style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
+              resizeMode={'contain'}
+            />
             <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
           </Button>
         )}

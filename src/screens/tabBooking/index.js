@@ -29,6 +29,9 @@ import configs from '@utils/configs';
 import { isIphoneX } from '@utils/func';
 import ModalNewBooking from './components/modalNewBooking';
 
+import Resolution from '@utils/resolution';
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
+
 const { width } = Dimensions.get('window');
 class TabBooking extends Component {
   constructor(props) {
@@ -81,34 +84,28 @@ class TabBooking extends Component {
     let unitActive = this.props.units.unitActive;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     const headerHeight = this.state.scrollY.interpolate({
-      inputRange: [0, 10, 30],
-      outputRange: [60, 30, 0],
+      inputRange: [0, HEADER_MAX_HEIGHT / 3],
+      outputRange: [HEADER_MAX_HEIGHT, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const headerTranslate = this.state.scrollY.interpolate({
-      inputRange: [0, 30],
-      outputRange: [0, -50],
+      inputRange: [0, HEADER_MAX_HEIGHT / 2],
+      outputRange: [0, -HEADER_MAX_HEIGHT],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
-    const fontSize = this.state.scrollY.interpolate({
-      inputRange: [0, 0, 100],
-      outputRange: [30, 30, 0],
-      extrapolate: 'clamp',
-      useNativeDriver: true
-    });
     const opacityText = this.state.scrollY.interpolate({
-      inputRange: [0, 30, 60],
-      outputRange: [1, 0.5, 0],
+      inputRange: [0, HEADER_MAX_HEIGHT],
+      outputRange: [1, 0],
       extrapolate: 'clamp',
       useNativeDriver: true
     });
 
     const opacityTextHeader = this.state.scrollY.interpolate({
-      inputRange: [0, 30],
+      inputRange: [0, HEADER_MAX_HEIGHT / 2],
       outputRange: [0, 1],
       extrapolate: 'clamp',
       useNativeDriver: true

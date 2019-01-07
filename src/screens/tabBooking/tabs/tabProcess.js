@@ -82,7 +82,7 @@ class TabProcess extends PureComponent {
             }}
           />
         ) : (
-          <PlaceHolderItemH noMargin />
+           <PlaceHolderItemH noMargin />
         )}
       </View>
     );
