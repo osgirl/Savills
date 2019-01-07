@@ -95,7 +95,7 @@ export default class extends Component {
             </View>
             <View
               style={{
-                marginTop: Resolution.scale(105),
+                marginTop: Resolution.scale(70),
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center'
@@ -108,6 +108,8 @@ export default class extends Component {
               <Image
                 source={LOGO}
                 style={{
+                  width: Resolution.scale(200),
+                  height: Resolution.scale(50),
                   marginTop: Resolution.scale(10)
                 }}
                 resizeMode={'contain'}
@@ -115,10 +117,8 @@ export default class extends Component {
               <Image
                 source={IMG_LOGIN}
                 style={{
-                  marginTop: Resolution.scale(31),
+                  marginTop: Resolution.scale(5),
                   flex: 1
-                  // width: Resolution.scaleWidth(206),
-                  // height: Resolution.scaleHeight(146)
                 }}
                 resizeMode={'contain'}
               />
