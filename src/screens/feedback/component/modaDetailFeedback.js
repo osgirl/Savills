@@ -179,7 +179,11 @@ class ModalDetailFeedback extends Component {
 
   renderHeader() {
     const { commentBoxId } = this.props;
-
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp'
+    });
     return (
       <View>
         <Header
@@ -188,11 +192,11 @@ class ModalDetailFeedback extends Component {
           leftIcon={IC_CLOSE}
           leftAction={() => this.props.onClose()}
           headercolor={'transparent'}
-          showTitleHeader={this.state.isShowTitleHead}
+          showTitleHeader={true}
           center={
-            <View>
+            <Animated.View style={{ opacity: isShow }}>
               <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{'# ' + commentBoxId}</Text>
-            </View>
+            </Animated.View>
           }
         />
 

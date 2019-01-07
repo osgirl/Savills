@@ -2,7 +2,7 @@ import {
     StyleSheet,
     Platform
 } from 'react-native';
-
+import Resolution from '@utils/resolution';
 const style = StyleSheet.create({
     container: {
         flex: 1,
@@ -22,7 +22,17 @@ const style = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 33,
         marginBottom: 100,
+    },
+    headerTitle: {
+        position: 'absolute',
+        top: Resolution.scale(80),
+        left: 0,
+        right: 0,
+        overflow: 'hidden',
+        height: Resolution.scale(60),
+        zIndex: -1
     }
+
 })
 
 export default style;

@@ -122,19 +122,6 @@ export default class extends Component {
     );
   }
 
-  _HeaderFlatlist(languages) {
-    return (
-      <LinearGradient
-        colors={['#4A89E8', '#8FBCFF']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={{ width: width, marginBottom: Resolution.scale(20) }}
-      >
-        <HeaderTitle title={languages.NOTIFICATION_TXT_TITLE} />
-      </LinearGradient>
-    );
-  }
-
   _FooterFlatlist() {
     return this.state.loadingMore ? (
       <View style={{ height: Resolution.scaleHeight(50), justifyContent: 'center', alignItems: 'center' }}>
@@ -149,19 +136,7 @@ export default class extends Component {
     Animated.event(
       [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
       {
-        listener: event => {
-          if (event.nativeEvent.contentOffset.y > 10) {
-            if (!this.showCenter) {
-              this.showCenter = true;
-              this.setState({ isShowTitleHeader: true });
-            }
-          } else {
-            if (this.showCenter) {
-              this.showCenter = false;
-              this.setState({ isShowTitleHeader: false });
-            }
-          }
-        }
+        listener: event => { }
       },
       { useNativeDriver: true }
     )(event);
@@ -169,6 +144,11 @@ export default class extends Component {
 
   renderHeader(languages) {
     let unitActive = this.props.units.unitActive;
+    const isShow = this.state.scrollY.interpolate({
+      inputRange: [0, 15],
+      outputRange: [0, 1],
+      extrapolate: 'clamp'
+    });
     return (
       <View>
         <Header
@@ -176,11 +156,11 @@ export default class extends Component {
           leftIcon={IC_BACK}
           leftAction={() => this.props.onclose()}
           headercolor={'transparent'}
-          showTitleHeader={this.state.isShowTitleHeader}
+          showTitleHeader={true}
           center={
-            <View>
+            <Animated.View style={{ opacity: isShow }}>
               <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{languages.NOTIFICATION_TXT_TITLE}</Text>
-            </View>
+            </Animated.View>
           }
           renderViewRight={
             <Button
@@ -257,7 +237,7 @@ export default class extends Component {
             }}
           />
         ) : (
-            <View style={{marginTop: HEADER_MAX_HEIGHT}}>
+            <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
               <PlaceHolderItemH noMargin />
             </View>
 
@@ -278,11 +258,5 @@ const Styles = StyleSheet.create({
     marginHorizontal: Resolution.scale(20),
     marginVertical: Resolution.scale(5)
   },
-  header: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    overflow: 'hidden'
-  }
+
 });

@@ -6,6 +6,9 @@ import layout from './layout';
 import _ from 'lodash';
 
 import Language from '../../utils/language';
+import Resolution from '@utils/resolution';
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
+
 class Libary extends layout {
   constructor(props) {
     super(props);
@@ -13,7 +16,7 @@ class Libary extends layout {
       data: [],
       isRefresh: false,
       loadingMore: false,
-      scrollY: new Animated.Value(Platform.OS === 'ios' ? -60 : 0)
+      scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0)
     };
   }
 
