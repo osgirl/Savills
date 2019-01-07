@@ -23,7 +23,7 @@ import { ItemHorizontal } from '@components/placeHolder';
 import ModalFull from './components/modalFull';
 import CalendarStrip from '@components/calendarAgenda';
 
-const HEADER_MAX_HEIGHT =  Resolution.scale(50);
+const HEADER_MAX_HEIGHT = Resolution.scale(50);
 
 const { width } = Dimensions.get('window');
 export default class Layout extends Component {
@@ -45,7 +45,7 @@ export default class Layout extends Component {
   async _onPressDay(data) {
     let date = moment(data).format('YYYY-MM-DD');
     await this.setState({ dateSelected: date });
-    await this._getEventsToDate(date);
+    await this._getEventsToDate(new Date(date).toISOString());
 
     let tempOverView = await this.props.events.overView.result;
     let objectOverview = this.mapObjectSelected(tempOverView, date);
