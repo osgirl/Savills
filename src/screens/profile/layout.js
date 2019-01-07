@@ -34,7 +34,7 @@ let styleTextRight = {
 export default class extends Component {
   renderLoading() {
     if (this.props.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.props.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.props.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -57,12 +57,12 @@ export default class extends Component {
         {this.state.keyUpdate === 'sdt'
           ? languages.PROFILE_TXT_PHONE
           : this.state.keyUpdate === 'name'
-          ? languages.PROFILE_TXT_FIRST
-          : this.state.keyUpdate === 'surname'
-          ? languages.PROFILE_TXT_LAST
-          : this.state.keyUpdate === 'displayName'
-          ? 'Display name'
-          : ''}
+            ? languages.PROFILE_TXT_FIRST
+            : this.state.keyUpdate === 'surname'
+              ? languages.PROFILE_TXT_LAST
+              : this.state.keyUpdate === 'displayName'
+                ? 'Display name'
+                : ''}
       </Text>
       {this.state.keyUpdate !== 'displayName' ? (
         <View>
@@ -80,17 +80,17 @@ export default class extends Component {
           />
         </View>
       ) : (
-        <Picker
-          style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
-          selectedValue={this.state.itemSelectDisplay}
-          itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
-          onValueChange={value => this.onPickerSelect(value)}
-        >
-          {this.state.dataDisplayname.map((item, index) => (
-            <PickerItem label={item} value={index} key={'id_' + index} />
-          ))}
-        </Picker>
-      )}
+          <Picker
+            style={{ width: width - 40, justifyContent: 'center', height: Resolution.scaleHeight(100) }}
+            selectedValue={this.state.itemSelectDisplay}
+            itemStyle={{ color: '#333333', fontSize: Resolution.scale(20), fontWeight: 'bold' }}
+            onValueChange={value => this.onPickerSelect(value)}
+          >
+            {this.state.dataDisplayname.map((item, index) => (
+              <PickerItem label={item} value={index} key={'id_' + index} />
+            ))}
+          </Picker>
+        )}
 
       <Button style={{ width: Resolution.scaleWidth(255), marginBottom: 40 }} onPress={() => this._updateProfile()}>
         <LinearGradient
@@ -188,7 +188,7 @@ export default class extends Component {
     return (
       <View style={{ flex: 1, width: width, height: height }}>
         {this.modalCropsImage(languages)}
-        <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
+        <ScrollView bounces={false} alwaysBounceVertical={false} showsVerticalScrollIndicator={false}>
           <View style={Style.container}>
             <View style={{ position: 'absolute', top: 0 }}>
               <FastImage style={Style.imgAvatar} source={this.state.avatar} resizeMode={'cover'} />

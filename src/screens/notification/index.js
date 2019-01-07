@@ -4,8 +4,8 @@ import Connect from '@stores';
 import layout from './layout';
 
 import _ from 'lodash';
-
-const HEADER_MAX_HEIGHT = 60;
+import Resolution from '@utils/resolution';
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 class Notification extends layout {
   constructor(props) {
