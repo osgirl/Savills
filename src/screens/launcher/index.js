@@ -19,7 +19,7 @@ class Launcher extends layout {
 
   handleConnectionChange = async isConnected => {
     if (isConnected) {
-      // CodePush.sync({ updateDialog: true, installMode: CodePush.InstallMode.IMMEDIATE });
+      CodePush.sync({ updateDialog: true, installMode: CodePush.InstallMode.IMMEDIATE });
       await this.props.actions.account.getAccessTokenLocal();
       await this.props.actions.account.getTenantLocal();
       await this.props.actions.account.getAccessApiTokenLocal();
@@ -61,5 +61,5 @@ class Launcher extends layout {
   }
 }
 
-// export default CodePush(Connect(Launcher));
-export default Connect(Launcher);
+export default CodePush(Connect(Launcher));
+// export default Connect(Launcher);

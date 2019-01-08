@@ -327,7 +327,6 @@ class ModalEditOrder extends PureComponent {
       this.changeStatusBar();
     }
 
-    console.log('asdaksjdaksldjalskdjaslkdasd', this.state.loading);
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
     return (
@@ -625,7 +624,7 @@ class ModalEditOrder extends PureComponent {
       outputRange: [0, 1],
       extrapolate: 'clamp'
     });
-    let { id } = this.state.detailOrder;
+    let { id, currentStatus } = this.state.detailOrder;
 
     return (
       <View>
@@ -637,7 +636,7 @@ class ModalEditOrder extends PureComponent {
           renderViewRight={
             tabIndex == 0 ? (
               <TouchableOpacity
-                onPress={() => this.changeStatusWorkOrder(id ? id : 0)}
+                onPress={() => this.changeStatusWorkOrder(currentStatus ? currentStatus.id : 11)}
                 style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}
               >
                 <Text style={{ color: '#FFF', fontSize: 15, fontWeight: 'bold', marginRight: 20 }}>

@@ -84,7 +84,7 @@ export function updateWorkOrder(accessTokenAPI, WorkOrder, lang) {
   return {
     type: Types.UPDATE_WORK_ORDER,
     payload: {
-      api: Configs.API + `/api/services/app/WorkOrders/UpdateWorkorders?id=${WorkOrder.id}}&culture=${lang}`,
+      api: Configs.API + `/api/services/app/WorkOrders/UpdateWorkorders?id=${WorkOrder.id}&culture=${lang}`,
       method: 'PUT',
       token: accessTokenAPI,
       payload: {
