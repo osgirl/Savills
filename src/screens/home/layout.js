@@ -28,7 +28,7 @@ const imgSize = 64;
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -162,7 +162,7 @@ export default class extends Component {
       this.props.userProfile.imageProfile.result.profilePicture;
     var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
     let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : [];
-    let checkScrollEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
+    // let checkScrollEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
     return (
@@ -201,10 +201,10 @@ export default class extends Component {
           {this.state.dataModule && this.state.dataModule.length > 0 ? (
             <FlatList
               data={data}
-              scrollEnabled={checkScrollEnabled}
+              // scrollEnabled={checkScrollEnabled}
               horizontal={false}
               key={this.state.numcolumn === 3 ? 'h' : 'v'}
-              contentContainerStyle={{ alignItems: 'flex-start',flex: 1, width: width - Resolution.scale(40), marginHorizontal: Resolution.scale(20) }}
+              contentContainerStyle={{ alignItems: 'flex-start', flex: 1, width: width - Resolution.scale(40), marginHorizontal: Resolution.scale(20) }}
               keyExtractor={item => item.id + ''}
               numColumns={this.state.numcolumn || 3}
               renderItem={({ item, index }) =>
@@ -230,8 +230,8 @@ export default class extends Component {
               )}
             />
           ) : (
-            <PlaceHolderItem3 onReady={false} />
-          )}
+              <PlaceHolderItem3 onReady={false} />
+            )}
         </View>
         <Modal style={{ flex: 1, margin: 0, backgroundColor: '#F6F8FD' }} isVisible={this.state.isShowProfile}>
           <Profile
