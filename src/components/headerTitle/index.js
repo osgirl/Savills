@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
 
 import Resolution from '../../utils/resolution';
-
+const { width } = Dimensions.get('window');
 export default class HeaderTitle extends Component {
   static defaultProps = {
     marginHorizontal: Resolution.scale(20),
@@ -13,10 +13,12 @@ export default class HeaderTitle extends Component {
   };
 
   render() {
+    let fontSize = Math.sqrt(((width - 40) * 50) / this.props.title.length);
     return (
       <Text
+        adjustsFontSizeToFit={true}
         style={{
-          fontSize: Resolution.scale(28),
+          fontSize: Resolution.scale(Platform.OS === 'ios' ? 28 : fontSize),
           fontFamily: 'OpenSans-Bold',
           color: '#FFF',
           marginTop: this.props.margintop,

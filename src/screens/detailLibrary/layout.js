@@ -57,8 +57,8 @@ export default class extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
-      );
+      <View style={{ height: Resolution.scale(HEADER_MAX_HEIGHT + 30) }} />
+    );
   }
 
   renderHeader() {
@@ -132,10 +132,10 @@ export default class extends Component {
             }}
           />
         ) : (
-            <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
-              <PlaceHolderItemH noMargin />
-            </View>
-          )}
+          <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
+            <PlaceHolderItemH noMargin />
+          </View>
+        )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />

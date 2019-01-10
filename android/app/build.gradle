@@ -102,7 +102,7 @@ android {
         applicationId "com.savills.spms"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 13
+        versionCode 15
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
