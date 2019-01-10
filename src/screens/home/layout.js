@@ -28,7 +28,7 @@ const imgSize = 64;
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
@@ -204,7 +204,11 @@ export default class extends Component {
               // scrollEnabled={checkScrollEnabled}
               horizontal={false}
               key={this.state.numcolumn === 3 ? 'h' : 'v'}
-              contentContainerStyle={{ alignItems: 'flex-start', flex: 1, width: width - Resolution.scale(40), marginHorizontal: Resolution.scale(20) }}
+              contentContainerStyle={{
+                alignItems: 'flex-start',
+                width: width - Resolution.scale(40),
+                marginHorizontal: Resolution.scale(20)
+              }}
               keyExtractor={item => item.id + ''}
               numColumns={this.state.numcolumn || 3}
               renderItem={({ item, index }) =>
@@ -230,8 +234,8 @@ export default class extends Component {
               )}
             />
           ) : (
-              <PlaceHolderItem3 onReady={false} />
-            )}
+            <PlaceHolderItem3 onReady={false} />
+          )}
         </View>
         <Modal style={{ flex: 1, margin: 0, backgroundColor: '#F6F8FD' }} isVisible={this.state.isShowProfile}>
           <Profile

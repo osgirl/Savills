@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet, Text,
-  View, ScrollView,
-  Dimensions, Animated, Platform,
-  ActivityIndicator, Alert
-} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, Animated, Platform, ActivityIndicator, Alert } from 'react-native';
 import { Header, AnimatedTitle } from '@components';
 
 import Connect from '@stores';
@@ -16,8 +11,8 @@ import { isIphoneX } from '@utils/func';
 import Utils from '@utils';
 import Payoo from '@utils/payoo';
 import ModalFaild from './modalFaild';
-import Button from "@components/button";
-import Configs from "@utils/configs";
+import Button from '@components/button';
+import Configs from '@utils/configs';
 
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
@@ -61,16 +56,10 @@ class modalConfirm extends Component {
       this.setState({ loading: false });
 
       if (nextProps.fee.createOrder.error && nextProps.fee.createOrder.error.message.length > 0)
-        Alert.alert(
-          'Comming soon',
-          nextProps.fee.createOrder.error.message,
-          [
-            { text: 'OK', onPress: () => { } },
-          ],
-          { cancelable: false }
-        )
+        Alert.alert('Comming soon', nextProps.fee.createOrder.error.message, [{ text: 'OK', onPress: () => {} }], {
+          cancelable: false
+        });
     }
-
   }
 
   _createOrder = async () => {
@@ -88,14 +77,13 @@ class modalConfirm extends Component {
   _payment = async (orderXML, orderChecksum) => {
     const { languegeLocal } = this.props.app;
     await Payoo.pay(languegeLocal, orderXML, orderChecksum, response => {
-      console.log('-----=-=-=-', response);
       if (response.status === 0) {
         this.props.onClose();
         setTimeout(() => {
           this.props.onSuccess();
         }, 300);
       } else {
-        this.handleErrorMess(response.code || 0)
+        this.handleErrorMess(response.code || 0);
         setTimeout(() => {
           this._openModalFaild();
         }, 300);
@@ -103,11 +91,11 @@ class modalConfirm extends Component {
     });
   };
 
-  handleErrorMess = async (code) => {
+  handleErrorMess = async code => {
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     let errorString = await Payoo.handleErrorMess(code, languages);
-    await this.setState({ errorPay: errorString })
-  }
+    await this.setState({ errorPay: errorString });
+  };
 
   render() {
     let data = this.props.listFeeSelected || [];
@@ -259,10 +247,10 @@ class modalConfirm extends Component {
           {this.state.loading ? (
             <ActivityIndicator size="small" color={Configs.colorMain} />
           ) : (
-              <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
-                {languages.FEE_CONFIRM_PAY}
-              </Text>
-            )}
+            <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
+              {languages.FEE_CONFIRM_PAY}
+            </Text>
+          )}
         </Button>
 
         <ModalFaild
