@@ -19,14 +19,14 @@ const style = StyleSheet.create({
         fontSize: Resolution.scale(15),
         color: '#505E75',
         textAlign: 'center',
-        marginHorizontal: Resolution.scale(60),
+        marginHorizontal: Resolution.scale(20),
         fontFamily: 'OpenSans-Bold',
         lineHeight: Resolution.scale(28)
     },
     btnSent: {
         // position: 'absolute',
         // bottom: Resolution.scaleHeight(100),
-        // marginBottom: 100,
+        // marginBottom: Resolution.scale(100),
         marginTop: Resolution.scale(20),
         width: width - Resolution.scaleWidth(120),
         marginHorizontal: Resolution.scale(60)

@@ -49,14 +49,13 @@ export default class extends Component {
   render() {
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
-      <View style={Style.container}>
-        <View style={{ marginTop: Platform.OS === 'ios' ? Resolution.scale(100) : Resolution.scale(80) }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'android' ? null : 'padding'}
+        style={Style.container}
+      >
+        <View style={{ flex: 1, marginTop: Platform.OS === 'ios' ? Resolution.scale(100) : Resolution.scale(80) }}>
           <Text style={Style.txtTop}>{languages.FORGOT_TXT_CONTENT}</Text>
-        </View>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'android' ? 'height' : 'padding'}
-          style={{ alignItems: 'center', marginBottom: Resolution.scaleHeight(100) }}
-        >
+
           {
             this.props.account.sendCodeVerify.error ? (
               <Text
@@ -72,6 +71,8 @@ export default class extends Component {
               </Text>
             ) : null
           }
+        </View>
+        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <InputText
             placeholder={languages.FORGOT_TXT_PLACEHOLDER}
             keyboardType="email-address"
@@ -100,9 +101,9 @@ export default class extends Component {
               </Text>
             </LinearGradient>
           </Button>
-        </KeyboardAvoidingView>
+        </View>
         {this.renderLoading()}
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
