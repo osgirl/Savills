@@ -3,11 +3,11 @@ import Configs from '../../../utils/configs';
 
 import { Platform } from 'react-native';
 
-export function login(username = '', password = '') {
+export function login(username = '', password = '', lang) {
   return {
     type: Types.LOGIN,
     payload: {
-      api: Configs.API_ACCOUNT + '/TokenAuth/Authenticate',
+      api: Configs.API_ACCOUNT + `/TokenAuth/Authenticate?culture=${lang}`,
       method: 'POST',
       payload: {
         userNameOrEmailAddress: username,
@@ -30,22 +30,22 @@ export function logOut(data = '') {
   };
 }
 
-export function getTenant(accessToken = '', MaxResultCount = 10, SkipCount = 0) {
+export function getTenant(accessToken = '', MaxResultCount = 10, SkipCount = 0, lang) {
   return {
     type: Types.GET_TENANT,
     payload: {
-      api: Configs.API + `/api/UserLink/GetLinkedAccount?MaxResultCount=${MaxResultCount}&SkipCount=${SkipCount}`,
+      api: Configs.API + `/api/UserLink/GetLinkedAccount?MaxResultCount=${MaxResultCount}&SkipCount=${SkipCount}&culture=${lang}`,
       method: 'GET',
       token: accessToken
     }
   };
 }
 
-export function switchToUserAccount(accessToken = '', TenantId = '', UserId = '') {
+export function switchToUserAccount(accessToken = '', TenantId = '', UserId = '', lang) {
   return {
     type: Types.GET_SWITCHTOUSERACCOUNT,
     payload: {
-      api: Configs.API + `/api/UserLink/SwitchToUserAccount?targetTenantId=${TenantId}&targetUserId=${UserId}`,
+      api: Configs.API + `/api/UserLink/SwitchToUserAccount?targetTenantId=${TenantId}&targetUserId=${UserId}&culture=${lang}`,
       method: 'GET',
       token: accessToken
     }
@@ -73,11 +73,11 @@ export function setIsAccessTokenAPI(bool = true) {
   };
 }
 
-export function sendPasswordResetCode(email) {
+export function sendPasswordResetCode(email, lang) {
   return {
     type: Types.SENDCODERESETPASS,
     payload: {
-      api: Configs.API_ACCOUNT + '/services/app/Account/SendPasswordResetCode',
+      api: Configs.API_ACCOUNT + `/services/app/Account/SendPasswordResetCode?culture=${lang}`,
       method: 'POST',
       payload: {
         emailAddress: email
@@ -86,11 +86,11 @@ export function sendPasswordResetCode(email) {
   };
 }
 
-export function resetPassword(codeVerify = '', pass = '') {
+export function resetPassword(codeVerify = '', pass = '', lang) {
   return {
     type: Types.RESETPASSWORD,
     payload: {
-      api: Configs.API_ACCOUNT + '/services/app/Account/AppResetPassword',
+      api: Configs.API_ACCOUNT + `/services/app/Account/AppResetPassword?culture=${lang}`,
       method: 'POST',
       payload: {
         resetCode: codeVerify,
@@ -100,22 +100,22 @@ export function resetPassword(codeVerify = '', pass = '') {
   };
 }
 
-export function getUserSettings(accessToken = '') {
+export function getUserSettings(accessToken = '', lang) {
   return {
     type: Types.USER_SETTING,
     payload: {
-      api: Configs.API + '/AbpUserConfiguration/GetAll',
+      api: Configs.API + `/AbpUserConfiguration/GetAll?culture=${lang}`,
       method: 'GET',
       token: accessToken
     }
   };
 }
 
-export function ChangePassword(accessTokenApi = '', currentPassword = '', newPassword = '') {
+export function ChangePassword(accessTokenApi = '', currentPassword = '', newPassword = '', lang) {
   return {
     type: Types.CHANGE_PASSWORD,
     payload: {
-      api: Configs.API_ACCOUNT + '/services/app/Account/ChangePassword',
+      api: Configs.API_ACCOUNT + `/services/app/Account/ChangePassword?culture=${lang}`,
       method: 'POST',
       token: accessTokenApi,
       payload: {

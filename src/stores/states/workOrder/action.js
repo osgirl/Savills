@@ -50,11 +50,11 @@ export function deleteImageWorkOrder(accessTokenAPI, id) {
   };
 }
 
-export function createWorkOrder(accessTokenAPI, WorkOrder) {
+export function createWorkOrder(accessTokenAPI, WorkOrder, lang) {
   return {
     type: Types.CREATE_WORK_ORDER,
     payload: {
-      api: Configs.API + '/api/services/app/WorkOrders/CreateWorkOrders',
+      api: Configs.API + `/api/services/app/WorkOrders/CreateWorkOrders?culture=${lang}`,
       method: 'POST',
       payload: {
         currentStatusId: WorkOrder.currentStatusId,
@@ -80,11 +80,11 @@ export function createWorkOrder(accessTokenAPI, WorkOrder) {
   };
 }
 
-export function updateWorkOrder(accessTokenAPI, WorkOrder) {
+export function updateWorkOrder(accessTokenAPI, WorkOrder, lang) {
   return {
     type: Types.UPDATE_WORK_ORDER,
     payload: {
-      api: Configs.API + '/api/services/app/WorkOrders/UpdateWorkorders?id=' + WorkOrder.id,
+      api: Configs.API + `/api/services/app/WorkOrders/UpdateWorkorders?id=${WorkOrder.id}&culture=${lang}`,
       method: 'PUT',
       token: accessTokenAPI,
       payload: {

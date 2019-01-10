@@ -29,7 +29,8 @@ class modalSelectUnit extends Component {
 
   async _onPressProject(project) {
     await this.setState({ projectActive: project, loading: true });
-    await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, project.tenantId, project.id);
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+    await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, project.tenantId, project.id,languages);
     await this.props.actions.account.setTenantActive(project);
   }
 

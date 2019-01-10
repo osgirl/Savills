@@ -17,7 +17,7 @@ import {
   DeviceEventEmitter
 } from 'react-native';
 
-import { ModalChat, Header, AnimatedTitle } from '@components';
+import { ModalChat, Header, AnimatedTitle, Loading } from '@components';
 
 import LinearGradient from 'react-native-linear-gradient';
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -105,7 +105,6 @@ class ModalEditOrder extends PureComponent {
   };
 
   componentWillReceiveProps = async nextProps => {
-    const { id } = this.props.userProfile.profile.result.user;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     if (
       nextProps.workOrder.workOrderDetail &&
@@ -121,7 +120,7 @@ class ModalEditOrder extends PureComponent {
           : []
       });
     }
-    if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
+    if (this.props.workOrder.listComment !== nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
       this.setState({ listComment: nextProps.workOrder.listComment.result.items });
     }
     if (
@@ -130,10 +129,9 @@ class ModalEditOrder extends PureComponent {
       !nextProps.workOrder.isUpdateWorkOrder
     ) {
       nextProps.actions.workOrder.setFlagUpdateWorkOrder();
-      this.setState({ showModalConfirmCancel: false }, () => {
-        DeviceEventEmitter.emit('UpdateListWorkOrder', {});
-        this.props.navigation.goBack();
-      });
+      this.setState({ loading: false });
+      DeviceEventEmitter.emit('UpdateListWorkOrder', {});
+      this.props.navigation.goBack();
     }
     if (
       nextProps.workOrder.addComment &&
@@ -242,9 +240,11 @@ class ModalEditOrder extends PureComponent {
   };
 
   changeStatusWorkOrder = idStatus => {
+    this.setState({ loading: true, showModalConfirmCancel: false, isShowRating: false });
     const { fullUnitCode, buildingId, floorId, unitId } = this.props.units.unitActive;
     let accessTokenAPI = this.props.account.accessTokenAPI;
     const { name, id, phoneNumber, emailAddress, displayName } = this.props.userProfile.profile.result.user;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     let WorkOrder = {
       id: this.state.detailOrder.id,
       guid: this.state.detailOrder.guid,
@@ -268,7 +268,7 @@ class ModalEditOrder extends PureComponent {
         memberId: id
       }
     };
-    this.props.actions.workOrder.updateWorkOrder(accessTokenAPI, WorkOrder);
+    this.props.actions.workOrder.updateWorkOrder(accessTokenAPI, WorkOrder, languages);
   };
 
   renderStartDetail = number => {
@@ -309,7 +309,17 @@ class ModalEditOrder extends PureComponent {
   }
 
   render() {
-    const { fullUnitCode, currentStatus, dateCreate, id, rating, description, area, ratingComment } = this.state.detailOrder;
+    const {
+      fullUnitCode,
+      currentStatus,
+      dateCreate,
+      rating,
+      description,
+      guid,
+      area,
+      ratingComment,
+      employee
+    } = this.state.detailOrder;
     let date = moment(dateCreate).format('l');
     let time = moment(dateCreate).format('LT');
     let tabIndex = this.props.navigation.getParam('tabIndex', false);
@@ -319,13 +329,9 @@ class ModalEditOrder extends PureComponent {
 
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
 
-    return this.state.loading ? (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size={'large'} color={Configs.colorMain} />
-      </View>
-    ) : (
+    return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
-        {this.renderHeader(id, languages, tabIndex)}
+        {this.renderHeader(languages, tabIndex)}
         <KeyboardAwareScrollView
           scrollEventThrottle={16}
           contentContainerStyle={{
@@ -366,11 +372,11 @@ class ModalEditOrder extends PureComponent {
                   <View
                     style={{
                       borderRadius: 5,
-                      backgroundColor: currentStatus.colorCode
+                      backgroundColor: currentStatus ? currentStatus.colorCode : '#fff'
                     }}
                   >
                     <Text style={{ color: '#FFF', fontSize: 10, paddingVertical: 5, fontWeight: 'bold', paddingHorizontal: 15 }}>
-                      {currentStatus.codeName}
+                      {currentStatus ? currentStatus.codeName : ''}
                     </Text>
                   </View>
                 </View>
@@ -388,21 +394,21 @@ class ModalEditOrder extends PureComponent {
                         style={{ marginRight: 10, width: 15, height: 15 }}
                         source={require('../../../resources/icons/clock.png')}
                       />
-                      <Text style={{ color: '#C9CDD4' }}>{time}</Text>
+                      <Text style={{ color: '#C9CDD4' }}>{time || ''}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Image
                         style={{ marginRight: 10, width: 15, height: 15 }}
                         source={require('../../../resources/icons/calendar.png')}
                       />
-                      <Text style={{ color: '#C9CDD4' }}>{date}</Text>
+                      <Text style={{ color: '#C9CDD4' }}>{date || ''}</Text>
                     </View>
                   </View>
                 </View>
                 {area && area.codeName ? (
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={{ flex: 1, color: '#505E75', fontWeight: '500' }}>{languages.WO_DETAIL_AREA}</Text>
-                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{area.codeName}</Text>
+                    <Text style={{ color: '#BABFC8', fontWeight: '500' }}>{area.codeName || ''}</Text>
                   </View>
                 ) : null}
               </View>
@@ -411,7 +417,7 @@ class ModalEditOrder extends PureComponent {
           <ItemScorll
             title={languages.WO_DETAIL_PERSON}
             view={
-              this.state.detailOrder && this.state.detailOrder.employee ? (
+              employee ? (
                 <View
                   style={{
                     height: 90,
@@ -430,12 +436,10 @@ class ModalEditOrder extends PureComponent {
                     source={require('../../../resources/icons/avatar-default.png')}
                   />
                   <View style={{ flex: 1, alignItems: 'center' }}>
-                    <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>{this.state.detailOrder.employee.fullName}</Text>
-                    <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>
-                      {this.state.detailOrder.employee.phoneNumber}
-                    </Text>
+                    <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>{employee.fullName}</Text>
+                    <Text style={{ flex: 1, marginLeft: 20, color: '#BABFC8' }}>{employee.phoneNumber}</Text>
                   </View>
-                  <TouchableOpacity onPress={() => Linking.openURL(`tel:${this.state.detailOrder.employee.phoneNumber}`)}>
+                  <TouchableOpacity onPress={() => Linking.openURL(`tel:${employee.phoneNumber}`)}>
                     <Image source={require('../../../resources/icons/Call-button.png')} />
                   </TouchableOpacity>
                 </View>
@@ -568,21 +572,18 @@ class ModalEditOrder extends PureComponent {
           />
           {/* </Animated.ScrollView> */}
         </KeyboardAwareScrollView>
+        <Loading style={{ zIndex: 0 }} visible={this.state.loading} onRequestClose={() => {}} />
         {this.renderFooter(languages)}
         <TouchableOpacity
           style={{
             position: 'absolute',
-            bottom:
-              this.state.detailOrder.currentStatus &&
-              (this.state.detailOrder.currentStatus.id == 11 || this.state.detailOrder.currentStatus.id == 13)
-                ? 100
-                : 20,
+            bottom: currentStatus && (currentStatus.id == 11 || currentStatus.id == 13) ? 100 : 20,
             right: 20
           }}
           onPress={() =>
             this.setState({ isShowChat: true }, () => {
               let accessTokenAPI = this.props.account.accessTokenAPI;
-              this.props.actions.workOrder.getCommentUser(accessTokenAPI, this.state.detailOrder.guid);
+              this.props.actions.workOrder.getCommentUser(accessTokenAPI, guid);
             })
           }
         >
@@ -609,21 +610,21 @@ class ModalEditOrder extends PureComponent {
             </View>
           ) : null}
         </TouchableOpacity>
-        {this.renderContentModalChat(languages)}
-        {this.renderModalRating(languages)}
-        {this.renderModalCancel(languages)}
-        {this.showDetailImage()}
+        {this.state.loading ? null : this.renderContentModalChat(languages)}
+        {this.state.loading ? null : this.renderModalRating(languages)}
+        {this.state.loading ? null : this.renderModalCancel(languages)}
+        {this.state.loading ? null : this.showDetailImage()}
       </View>
     );
   }
 
-  renderHeader(id, languages, tabIndex) {
+  renderHeader(languages, tabIndex) {
     const isShow = this.state.scrollY.interpolate({
       inputRange: [0, 60],
       outputRange: [0, 1],
       extrapolate: 'clamp'
     });
-    let currentStatus = this.state.detailOrder.currentStatus;
+    let { id, currentStatus } = this.state.detailOrder;
 
     return (
       <View>
@@ -635,7 +636,7 @@ class ModalEditOrder extends PureComponent {
           renderViewRight={
             tabIndex == 0 ? (
               <TouchableOpacity
-                onPress={() => this.changeStatusWorkOrder(currentStatus.id)}
+                onPress={() => this.changeStatusWorkOrder(currentStatus ? currentStatus.id : 11)}
                 style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}
               >
                 <Text style={{ color: '#FFF', fontSize: 15, fontWeight: 'bold', marginRight: 20 }}>
@@ -648,17 +649,18 @@ class ModalEditOrder extends PureComponent {
           showTitleHeader={true}
           center={
             <Animated.View style={{ opacity: isShow }}>
-              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`# ${id}`}</Text>
+              <Text style={{ color: '#fFFF', fontFamily: 'OpenSans-Bold' }}>{`# ${id ? id : ''}`}</Text>
             </Animated.View>
           }
         />
-        <AnimatedTitle scrollY={this.state.scrollY} label={'# ' + id} />
+        <AnimatedTitle scrollY={this.state.scrollY} label={`#${id ? id : ''}`} />
       </View>
     );
   }
 
   renderFooter = languages => {
     let tabIndex = this.props.navigation.getParam('tabIndex', false);
+    let { currentStatus } = this.state.detailOrder;
     if (tabIndex == 0) {
       return (
         <View
@@ -679,7 +681,7 @@ class ModalEditOrder extends PureComponent {
           >
             <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.WO_DETAIL_COMPLETE}</Text>
           </TouchableOpacity>
-          {this.state.detailOrder.currentStatus.id == 11 ? (
+          {currentStatus && currentStatus.id == 11 ? (
             <TouchableOpacity
               style={{
                 flex: 1,
@@ -879,7 +881,6 @@ class ModalEditOrder extends PureComponent {
   }
 
   renderContentModalChat(languages) {
-    let focusChat = {};
     let id = this.props.userProfile.profile.result.user.id;
     let tabIndex = this.props.navigation.getParam('tabIndex', false);
     let IdOrder = this.state.detailOrder.id;

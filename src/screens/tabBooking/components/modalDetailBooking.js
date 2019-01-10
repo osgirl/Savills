@@ -80,7 +80,7 @@ class ModalDetailBooking extends PureComponent {
     ) {
       this.setState({ loading: false });
     }
-    if (nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
+    if (this.props.workOrder.listComment !== nextProps.workOrder.listComment && nextProps.workOrder.listComment.success) {
       this.setState({ listChat: nextProps.workOrder.listComment.result.items });
     }
     if (
@@ -244,14 +244,15 @@ class ModalDetailBooking extends PureComponent {
                     style={{
                       borderRadius: 5,
                       backgroundColor: status.colorCode,
-                      height: 30
+                      height: 25,
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     <Text
                       style={{
                         color: '#FFF',
                         fontSize: 13,
-                        paddingVertical: 5,
                         fontFamily: 'OpenSans-SemiBold',
                         paddingHorizontal: 15
                       }}
@@ -297,7 +298,15 @@ class ModalDetailBooking extends PureComponent {
                     <Text style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: 13 }}>
                       {languages.BK_DETAIL_PAY}
                     </Text>
-                    <View style={{ backgroundColor: paymentStatus.colorCode, borderRadius: 5, height: 30 }}>
+                    <View
+                      style={{
+                        backgroundColor: paymentStatus.colorCode,
+                        borderRadius: 5,
+                        height: 25,
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
                       <Text
                         style={{
                           color: '#FFF',
@@ -503,9 +512,10 @@ class ModalDetailBooking extends PureComponent {
   cancelBooking = () => {
     let id = this.props.navigation.getParam('id', null);
     let accessTokenApi = this.props.account.accessTokenAPI;
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.setState({ isShowModalCancel: false }, () =>
       setTimeout(() => {
-        this.props.actions.booking.changeStatusBooking(accessTokenApi, id);
+        this.props.actions.booking.changeStatusBooking(accessTokenApi, id, languages);
       }, 500)
     );
   };

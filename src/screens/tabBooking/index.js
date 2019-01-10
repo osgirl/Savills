@@ -218,7 +218,8 @@ class TabBooking extends Component {
     );
   }
 
-  getListCategory = languages => {
+  getListCategory = () => {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
     this.setState({ isShowCategory: true }, () => {
       setTimeout(() => {
         let accessTokenApi = this.props.account.accessTokenAPI;
