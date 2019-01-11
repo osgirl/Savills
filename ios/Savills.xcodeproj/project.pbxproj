@@ -15,6 +15,101 @@
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* SavillsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SavillsTests.m */; };
 		0414E56221AD299A00460EAB /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
+		0443C48421E7FA1A007A3384 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		0443C48521E7FA1A007A3384 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		0443C48621E7FA1A007A3384 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
+		0443C48921E7FA1A007A3384 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
+		0443C48A21E7FA1A007A3384 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
+		0443C48B21E7FA1A007A3384 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54C2186AB4000F635EB /* OpenSans-BoldItalic.ttf */; };
+		0443C48C21E7FA1A007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5472186AB4000F635EB /* OpenSans-ExtraBoldItalic.ttf */; };
+		0443C48D21E7FA1A007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54B2186AB4000F635EB /* OpenSans-SemiBoldItalic.ttf */; };
+		0443C48E21E7FA1A007A3384 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5482186AB4000F635EB /* OpenSans-LightItalic.ttf */; };
+		0443C48F21E7FA1A007A3384 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		0443C49021E7FA1A007A3384 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5452186AB3F00F635EB /* OpenSans-Bold.ttf */; };
+		0443C49121E7FA1A007A3384 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5462186AB4000F635EB /* OpenSans-Light.ttf */; };
+		0443C49221E7FA1A007A3384 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54D2186AB4000F635EB /* OpenSans-Regular.ttf */; };
+		0443C49321E7FA1A007A3384 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */; };
+		0443C49421E7FA1A007A3384 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1051FF6D8AA473FB042C5A6 /* OpenSans-Bold.ttf */; };
+		0443C49521E7FA1A007A3384 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E3B12823C9D4B17A3F1112B /* OpenSans-BoldItalic.ttf */; };
+		0443C49621E7FA1A007A3384 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11EDEB2857E041C6B533F44A /* OpenSans-ExtraBold.ttf */; };
+		0443C49721E7FA1A007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF0B0BB311E443E6860A251E /* OpenSans-ExtraBoldItalic.ttf */; };
+		0443C49821E7FA1A007A3384 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FC4EE5B57464C35849BD11B /* OpenSans-Italic.ttf */; };
+		0443C49921E7FA1A007A3384 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDF7E3BFD615476B83B31299 /* OpenSans-Light.ttf */; };
+		0443C49A21E7FA1A007A3384 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28253AA0625648E9996F528C /* OpenSans-LightItalic.ttf */; };
+		0443C49B21E7FA1A007A3384 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71B4E0DD023D40C088B89453 /* OpenSans-Regular.ttf */; };
+		0443C49C21E7FA1A007A3384 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 811272F1D91C432B83F88C53 /* OpenSans-SemiBold.ttf */; };
+		0443C49D21E7FA1A007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6B038E8382644BBB27FF747 /* OpenSans-SemiBoldItalic.ttf */; };
+		0443C49F21E7FA1A007A3384 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
+		0443C4A021E7FA1A007A3384 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
+		0443C4A121E7FA1A007A3384 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		0443C4A221E7FA1A007A3384 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
+		0443C4A321E7FA1A007A3384 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		0443C4A421E7FA1A007A3384 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		0443C4A521E7FA1A007A3384 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		0443C4A621E7FA1A007A3384 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		0443C4A721E7FA1A007A3384 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		0443C4A821E7FA1A007A3384 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		0443C4A921E7FA1A007A3384 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		0443C4AA21E7FA1A007A3384 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		0443C4AB21E7FA1A007A3384 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		0443C4AC21E7FA1A007A3384 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		0443C4AD21E7FA1A007A3384 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		0443C4AE21E7FA1A007A3384 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F53C22ACDE44CFB956B9786 /* libRNImagePicker.a */; };
+		0443C4AF21E7FA1A007A3384 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71101D688AD4C6F8A7E1E7E /* libFastImage.a */; };
+		0443C4B021E7FA1A007A3384 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104C2ABCAF24449842B21D8 /* libRNDeviceInfo.a */; };
+		0443C4B121E7FA1A007A3384 /* libPods-Savills.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */; };
+		0443C4B521E7FA1A007A3384 /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0443C4FD21E7FAE5007A3384 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0443C4FB21E7FAE5007A3384 /* Images.xcassets */; };
+		0443C4FE21E7FC33007A3384 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0443C4BB21E7FA1A007A3384 /* Info.plist */; };
+		0443C4FF21E7FD48007A3384 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
+		0443C54621E80394007A3384 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		0443C54721E80394007A3384 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		0443C54821E80394007A3384 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
+		0443C54B21E80394007A3384 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
+		0443C54C21E80394007A3384 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
+		0443C54D21E80394007A3384 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54C2186AB4000F635EB /* OpenSans-BoldItalic.ttf */; };
+		0443C54E21E80394007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5472186AB4000F635EB /* OpenSans-ExtraBoldItalic.ttf */; };
+		0443C54F21E80394007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54B2186AB4000F635EB /* OpenSans-SemiBoldItalic.ttf */; };
+		0443C55021E80394007A3384 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5482186AB4000F635EB /* OpenSans-LightItalic.ttf */; };
+		0443C55221E80394007A3384 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		0443C55321E80394007A3384 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5452186AB3F00F635EB /* OpenSans-Bold.ttf */; };
+		0443C55421E80394007A3384 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5462186AB4000F635EB /* OpenSans-Light.ttf */; };
+		0443C55521E80394007A3384 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54D2186AB4000F635EB /* OpenSans-Regular.ttf */; };
+		0443C55621E80394007A3384 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */; };
+		0443C55721E80394007A3384 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1051FF6D8AA473FB042C5A6 /* OpenSans-Bold.ttf */; };
+		0443C55821E80394007A3384 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E3B12823C9D4B17A3F1112B /* OpenSans-BoldItalic.ttf */; };
+		0443C55921E80394007A3384 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11EDEB2857E041C6B533F44A /* OpenSans-ExtraBold.ttf */; };
+		0443C55A21E80394007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF0B0BB311E443E6860A251E /* OpenSans-ExtraBoldItalic.ttf */; };
+		0443C55B21E80394007A3384 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FC4EE5B57464C35849BD11B /* OpenSans-Italic.ttf */; };
+		0443C55C21E80394007A3384 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDF7E3BFD615476B83B31299 /* OpenSans-Light.ttf */; };
+		0443C55D21E80394007A3384 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28253AA0625648E9996F528C /* OpenSans-LightItalic.ttf */; };
+		0443C55E21E80394007A3384 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71B4E0DD023D40C088B89453 /* OpenSans-Regular.ttf */; };
+		0443C55F21E80394007A3384 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 811272F1D91C432B83F88C53 /* OpenSans-SemiBold.ttf */; };
+		0443C56021E80394007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6B038E8382644BBB27FF747 /* OpenSans-SemiBoldItalic.ttf */; };
+		0443C56221E80394007A3384 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
+		0443C56321E80394007A3384 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
+		0443C56421E80394007A3384 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		0443C56521E80394007A3384 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
+		0443C56621E80394007A3384 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		0443C56721E80394007A3384 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		0443C56821E80394007A3384 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		0443C56921E80394007A3384 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		0443C56A21E80394007A3384 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		0443C56B21E80394007A3384 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		0443C56C21E80394007A3384 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		0443C56D21E80394007A3384 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		0443C56E21E80394007A3384 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		0443C56F21E80394007A3384 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		0443C57021E80394007A3384 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		0443C57121E80394007A3384 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F53C22ACDE44CFB956B9786 /* libRNImagePicker.a */; };
+		0443C57221E80394007A3384 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71101D688AD4C6F8A7E1E7E /* libFastImage.a */; };
+		0443C57321E80394007A3384 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104C2ABCAF24449842B21D8 /* libRNDeviceInfo.a */; };
+		0443C57421E80394007A3384 /* libPods-Savills.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */; };
+		0443C57821E80394007A3384 /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0443C58121E803E8007A3384 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0443C58021E803E8007A3384 /* Images.xcassets */; };
+		0443C58221E803E8007A3384 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0443C58021E803E8007A3384 /* Images.xcassets */; };
+		0443C58321E803E8007A3384 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0443C58021E803E8007A3384 /* Images.xcassets */; };
+		0443C58421E8046A007A3384 /* Savills copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0443C57E21E80394007A3384 /* Savills copy-Info.plist */; };
 		04D05C2821E45AA800CB16D3 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
 		04D05C2B21E45ADE00CB16D3 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
 		04D05C2C21E45AFD00CB16D3 /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -28,20 +123,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */; };
-		2D02E4C41E0B4AEC006451C7 /* libRCTLinking-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E881DF850E9000B6D8A /* libRCTLinking-tvOS.a */; };
-		2D02E4C51E0B4AEC006451C7 /* libRCTNetwork-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E8C1DF850E9000B6D8A /* libRCTNetwork-tvOS.a */; };
-		2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E901DF850E9000B6D8A /* libRCTSettings-tvOS.a */; };
-		2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E941DF850E9000B6D8A /* libRCTText-tvOS.a */; };
-		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
-		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
-		2DCD954D1E0B4F2C00145EB5 /* SavillsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SavillsTests.m */; };
-		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
-		30D37294047FCD8119832393 /* libPods-Savills-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB39D779FAB8F93366CFAA00 /* libPods-Savills-tvOSTests.a */; };
 		3D08853321831F4000CE67A6 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
 		3D9FC54E2186AB4000F635EB /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */; };
 		3D9FC54F2186AB4000F635EB /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5452186AB3F00F635EB /* OpenSans-Bold.ttf */; };
@@ -54,7 +135,6 @@
 		3D9FC5562186AB4000F635EB /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54C2186AB4000F635EB /* OpenSans-BoldItalic.ttf */; };
 		3D9FC5572186AB4000F635EB /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54D2186AB4000F635EB /* OpenSans-Regular.ttf */; };
 		440BF7E4EB740E82A9364B85 /* libPods-Savills.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */; };
-		7433708B4032EB45602DFD9F /* libPods-Savills-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5813C83995CF87F43A96D031 /* libPods-Savills-tvOS.a */; };
 		74C11B23897F4CBB89B1660D /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28253AA0625648E9996F528C /* OpenSans-LightItalic.ttf */; };
 		7EFAEC2E22B74569B995864A /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11EDEB2857E041C6B533F44A /* OpenSans-ExtraBold.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -68,7 +148,6 @@
 		CA2A683191A6403AB1DDE600 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 811272F1D91C432B83F88C53 /* OpenSans-SemiBold.ttf */; };
 		CC1BDFB44FFF4BEBB85726B2 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1051FF6D8AA473FB042C5A6 /* OpenSans-Bold.ttf */; };
 		D861C42554F245CF82D8EE17 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FC4EE5B57464C35849BD11B /* OpenSans-Italic.ttf */; };
-		E1B197F0F9014889947A276F /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4F05DD2C2B343FDA91465F8 /* libRNDeviceInfo-tvOS.a */; };
 		F0F85A6EA4D5430A82D34407 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71101D688AD4C6F8A7E1E7E /* libFastImage.a */; };
 /* End PBXBuildFile section */
 
@@ -170,13 +249,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
-		};
-		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "Savills-tvOS";
 		};
 		2D16E6711FA4F8DC00B85C8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -405,6 +477,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0443C4B421E7FA1A007A3384 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0443C4B521E7FA1A007A3384 /* PayooSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0443C57721E80394007A3384 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0443C57821E80394007A3384 /* PayooSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3D03F59E21C778F0008A3B91 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -430,6 +524,12 @@
 		00E356F21AD99517003FC87E /* SavillsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SavillsTests.m; sourceTree = "<group>"; };
 		0414E55821ACFB0300460EAB /* Savills.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Savills.entitlements; path = Savills/Savills.entitlements; sourceTree = "<group>"; };
 		0414E55921AD283F00460EAB /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
+		0443C4BA21E7FA1A007A3384 /* SavillsUat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavillsUat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0443C4BB21E7FA1A007A3384 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = /Users/mac/Desktop/OutSource/Savills/ios/Info.plist; sourceTree = "<absolute>"; };
+		0443C4FB21E7FAE5007A3384 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Savills/Images.xcassets; sourceTree = "<group>"; };
+		0443C57D21E80394007A3384 /* SavillsHK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavillsHK.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0443C57E21E80394007A3384 /* Savills copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Savills copy-Info.plist"; path = "/Users/mac/Desktop/OutSource/Savills/ios/Savills copy-Info.plist"; sourceTree = "<absolute>"; };
+		0443C58021E803E8007A3384 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Savills/Images.xcassets; sourceTree = "<group>"; };
 		04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PayooSDK.framework; path = ../../../PayooSDK.framework; sourceTree = "<group>"; };
 		04D05C2921E45ADE00CB16D3 /* PayooSDKiOSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayooSDKiOSManager.h; path = ../../../../Downloads/Nhan_ios/PayooSDKiOSManager.h; sourceTree = "<group>"; };
 		04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayooSDKiOSManager.m; path = ../../../../Downloads/Nhan_ios/PayooSDKiOSManager.m; sourceTree = "<group>"; };
@@ -451,8 +551,6 @@
 		264BFF674A22420B8161E6A4 /* libRNAWSCognito.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNAWSCognito.a; sourceTree = "<group>"; };
 		28253AA0625648E9996F528C /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-LightItalic.ttf"; path = "../assets/fonts/OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		2BE57DDF3A4A49F480AC63ED /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* Savills-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Savills-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* Savills-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Savills-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		36530F1E556675A4FEFF0A5D /* Pods-Savills-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savills-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Savills-tvOS/Pods-Savills-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-ExtraBold.ttf"; path = "../../assets/fonts/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -501,6 +599,58 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0443C49E21E7FA1A007A3384 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0443C49F21E7FA1A007A3384 /* libRCTPushNotification.a in Frameworks */,
+				0443C4A021E7FA1A007A3384 /* libBVLinearGradient.a in Frameworks */,
+				0443C4A121E7FA1A007A3384 /* libRCTBlob.a in Frameworks */,
+				0443C4A221E7FA1A007A3384 /* PayooSDK.framework in Frameworks */,
+				0443C4A321E7FA1A007A3384 /* libRCTAnimation.a in Frameworks */,
+				0443C4A421E7FA1A007A3384 /* libReact.a in Frameworks */,
+				0443C4A521E7FA1A007A3384 /* libRCTActionSheet.a in Frameworks */,
+				0443C4A621E7FA1A007A3384 /* libRCTGeolocation.a in Frameworks */,
+				0443C4A721E7FA1A007A3384 /* libRCTImage.a in Frameworks */,
+				0443C4A821E7FA1A007A3384 /* libRCTLinking.a in Frameworks */,
+				0443C4A921E7FA1A007A3384 /* libRCTNetwork.a in Frameworks */,
+				0443C4AA21E7FA1A007A3384 /* libRCTSettings.a in Frameworks */,
+				0443C4AB21E7FA1A007A3384 /* libRCTText.a in Frameworks */,
+				0443C4AC21E7FA1A007A3384 /* libRCTVibration.a in Frameworks */,
+				0443C4AD21E7FA1A007A3384 /* libRCTWebSocket.a in Frameworks */,
+				0443C4AE21E7FA1A007A3384 /* libRNImagePicker.a in Frameworks */,
+				0443C4AF21E7FA1A007A3384 /* libFastImage.a in Frameworks */,
+				0443C4B021E7FA1A007A3384 /* libRNDeviceInfo.a in Frameworks */,
+				0443C4B121E7FA1A007A3384 /* libPods-Savills.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0443C56121E80394007A3384 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0443C56221E80394007A3384 /* libRCTPushNotification.a in Frameworks */,
+				0443C56321E80394007A3384 /* libBVLinearGradient.a in Frameworks */,
+				0443C56421E80394007A3384 /* libRCTBlob.a in Frameworks */,
+				0443C56521E80394007A3384 /* PayooSDK.framework in Frameworks */,
+				0443C56621E80394007A3384 /* libRCTAnimation.a in Frameworks */,
+				0443C56721E80394007A3384 /* libReact.a in Frameworks */,
+				0443C56821E80394007A3384 /* libRCTActionSheet.a in Frameworks */,
+				0443C56921E80394007A3384 /* libRCTGeolocation.a in Frameworks */,
+				0443C56A21E80394007A3384 /* libRCTImage.a in Frameworks */,
+				0443C56B21E80394007A3384 /* libRCTLinking.a in Frameworks */,
+				0443C56C21E80394007A3384 /* libRCTNetwork.a in Frameworks */,
+				0443C56D21E80394007A3384 /* libRCTSettings.a in Frameworks */,
+				0443C56E21E80394007A3384 /* libRCTText.a in Frameworks */,
+				0443C56F21E80394007A3384 /* libRCTVibration.a in Frameworks */,
+				0443C57021E80394007A3384 /* libRCTWebSocket.a in Frameworks */,
+				0443C57121E80394007A3384 /* libRNImagePicker.a in Frameworks */,
+				0443C57221E80394007A3384 /* libFastImage.a in Frameworks */,
+				0443C57321E80394007A3384 /* libRNDeviceInfo.a in Frameworks */,
+				0443C57421E80394007A3384 /* libPods-Savills.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -524,32 +674,6 @@
 				F0F85A6EA4D5430A82D34407 /* libFastImage.a in Frameworks */,
 				968E9930BBAA4C37B74F45BE /* libRNDeviceInfo.a in Frameworks */,
 				440BF7E4EB740E82A9364B85 /* libPods-Savills.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E4781E0B4A5D006451C7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */,
-				2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */,
-				2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */,
-				2D02E4C41E0B4AEC006451C7 /* libRCTLinking-tvOS.a in Frameworks */,
-				2D02E4C51E0B4AEC006451C7 /* libRCTNetwork-tvOS.a in Frameworks */,
-				2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */,
-				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
-				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
-				E1B197F0F9014889947A276F /* libRNDeviceInfo-tvOS.a in Frameworks */,
-				7433708B4032EB45602DFD9F /* libPods-Savills-tvOS.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E48D1E0B4A5D006451C7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */,
-				30D37294047FCD8119832393 /* libPods-Savills-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,6 +755,24 @@
 				0414E74821AF97D500460EAB /* libRNDeviceInfo-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0443C4FA21E7FA96007A3384 /* SavillsUat */ = {
+			isa = PBXGroup;
+			children = (
+				0443C4BB21E7FA1A007A3384 /* Info.plist */,
+				0443C4FB21E7FAE5007A3384 /* Images.xcassets */,
+			);
+			name = SavillsUat;
+			sourceTree = "<group>";
+		};
+		0443C57F21E803BC007A3384 /* SavillsHK */ = {
+			isa = PBXGroup;
+			children = (
+				0443C57E21E80394007A3384 /* Savills copy-Info.plist */,
+				0443C58021E803E8007A3384 /* Images.xcassets */,
+			);
+			name = SavillsHK;
 			sourceTree = "<group>";
 		};
 		045B93E0218BE3D800945541 /* Products */ = {
@@ -826,6 +968,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				0443C57F21E803BC007A3384 /* SavillsHK */,
+				0443C4FA21E7FA96007A3384 /* SavillsUat */,
 				04D05C2921E45ADE00CB16D3 /* PayooSDKiOSManager.h */,
 				04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */,
 				3D9FC51C2186AB2000F635EB /* fonts */,
@@ -848,8 +992,8 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* Savills.app */,
 				00E356EE1AD99517003FC87E /* SavillsTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* Savills-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* Savills-tvOSTests.xctest */,
+				0443C4BA21E7FA1A007A3384 /* SavillsUat.app */,
+				0443C57D21E80394007A3384 /* SavillsHK.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -901,6 +1045,50 @@
 			productReference = 00E356EE1AD99517003FC87E /* SavillsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		0443C48121E7FA1A007A3384 /* SavillsUat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0443C4B721E7FA1A007A3384 /* Build configuration list for PBXNativeTarget "SavillsUat" */;
+			buildPhases = (
+				0443C48221E7FA1A007A3384 /* [CP] Check Pods Manifest.lock */,
+				0443C48321E7FA1A007A3384 /* Sources */,
+				0443C48721E7FA1A007A3384 /* Resources */,
+				0443C49E21E7FA1A007A3384 /* Frameworks */,
+				0443C4B221E7FA1A007A3384 /* Bundle React Native code and images */,
+				0443C4B321E7FA1A007A3384 /* [CP] Copy Pods Resources */,
+				0443C4B421E7FA1A007A3384 /* Embed Frameworks */,
+				0443C4B621E7FA1A007A3384 /* Run Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SavillsUat;
+			productName = "Hello World";
+			productReference = 0443C4BA21E7FA1A007A3384 /* SavillsUat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0443C54321E80394007A3384 /* SavillsHK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0443C57A21E80394007A3384 /* Build configuration list for PBXNativeTarget "SavillsHK" */;
+			buildPhases = (
+				0443C54421E80394007A3384 /* [CP] Check Pods Manifest.lock */,
+				0443C54521E80394007A3384 /* Sources */,
+				0443C54921E80394007A3384 /* Resources */,
+				0443C56121E80394007A3384 /* Frameworks */,
+				0443C57521E80394007A3384 /* Bundle React Native code and images */,
+				0443C57621E80394007A3384 /* [CP] Copy Pods Resources */,
+				0443C57721E80394007A3384 /* Embed Frameworks */,
+				0443C57921E80394007A3384 /* Run Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SavillsHK;
+			productName = "Hello World";
+			productReference = 0443C57D21E80394007A3384 /* SavillsHK.app */;
+			productType = "com.apple.product-type.application";
+		};
 		13B07F861A680F5B00A75B9A /* Savills */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Savills" */;
@@ -923,44 +1111,6 @@
 			productReference = 13B07F961A680F5B00A75B9A /* Savills.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* Savills-tvOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Savills-tvOS" */;
-			buildPhases = (
-				434A24E45FDC1149046EFFCB /* [CP] Check Pods Manifest.lock */,
-				2D02E4771E0B4A5D006451C7 /* Sources */,
-				2D02E4781E0B4A5D006451C7 /* Frameworks */,
-				2D02E4791E0B4A5D006451C7 /* Resources */,
-				2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Savills-tvOS";
-			productName = "Savills-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* Savills-tvOS.app */;
-			productType = "com.apple.product-type.application";
-		};
-		2D02E48F1E0B4A5D006451C7 /* Savills-tvOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Savills-tvOSTests" */;
-			buildPhases = (
-				DEE75030677525C581D584E6 /* [CP] Check Pods Manifest.lock */,
-				2D02E48C1E0B4A5D006451C7 /* Sources */,
-				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
-				2D02E48E1E0B4A5D006451C7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
-			);
-			name = "Savills-tvOSTests";
-			productName = "Savills-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* Savills-tvOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -976,6 +1126,14 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					0443C48121E7FA1A007A3384 = {
+						DevelopmentTeam = RKWT2743AJ;
+						ProvisioningStyle = Automatic;
+					};
+					0443C54321E80394007A3384 = {
+						DevelopmentTeam = RKWT2743AJ;
+						ProvisioningStyle = Automatic;
+					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = RKWT2743AJ;
 						ProvisioningStyle = Automatic;
@@ -987,16 +1145,6 @@
 								enabled = 1;
 							};
 						};
-					};
-					2D02E47A1E0B4A5D006451C7 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Manual;
-					};
-					2D02E48F1E0B4A5D006451C7 = {
-						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 23978TS258;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
 				};
 			};
@@ -1085,8 +1233,8 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* Savills */,
 				00E356ED1AD99517003FC87E /* SavillsTests */,
-				2D02E47A1E0B4A5D006451C7 /* Savills-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* Savills-tvOSTests */,
+				0443C48121E7FA1A007A3384 /* SavillsUat */,
+				0443C54321E80394007A3384 /* SavillsHK */,
 			);
 		};
 /* End PBXProject section */
@@ -1417,6 +1565,67 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0443C48721E7FA1A007A3384 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0443C4FD21E7FAE5007A3384 /* Images.xcassets in Resources */,
+				0443C48921E7FA1A007A3384 /* OpenSans-SemiBold.ttf in Resources */,
+				0443C48A21E7FA1A007A3384 /* OpenSans-Italic.ttf in Resources */,
+				0443C48B21E7FA1A007A3384 /* OpenSans-BoldItalic.ttf in Resources */,
+				0443C48C21E7FA1A007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				0443C48D21E7FA1A007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				0443C48E21E7FA1A007A3384 /* OpenSans-LightItalic.ttf in Resources */,
+				0443C4FE21E7FC33007A3384 /* Info.plist in Resources */,
+				0443C48F21E7FA1A007A3384 /* LaunchScreen.xib in Resources */,
+				0443C58221E803E8007A3384 /* Images.xcassets in Resources */,
+				0443C49021E7FA1A007A3384 /* OpenSans-Bold.ttf in Resources */,
+				0443C49121E7FA1A007A3384 /* OpenSans-Light.ttf in Resources */,
+				0443C49221E7FA1A007A3384 /* OpenSans-Regular.ttf in Resources */,
+				0443C49321E7FA1A007A3384 /* OpenSans-ExtraBold.ttf in Resources */,
+				0443C49421E7FA1A007A3384 /* OpenSans-Bold.ttf in Resources */,
+				0443C49521E7FA1A007A3384 /* OpenSans-BoldItalic.ttf in Resources */,
+				0443C49621E7FA1A007A3384 /* OpenSans-ExtraBold.ttf in Resources */,
+				0443C49721E7FA1A007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				0443C49821E7FA1A007A3384 /* OpenSans-Italic.ttf in Resources */,
+				0443C49921E7FA1A007A3384 /* OpenSans-Light.ttf in Resources */,
+				0443C49A21E7FA1A007A3384 /* OpenSans-LightItalic.ttf in Resources */,
+				0443C49B21E7FA1A007A3384 /* OpenSans-Regular.ttf in Resources */,
+				0443C49C21E7FA1A007A3384 /* OpenSans-SemiBold.ttf in Resources */,
+				0443C49D21E7FA1A007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0443C54921E80394007A3384 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0443C54B21E80394007A3384 /* OpenSans-SemiBold.ttf in Resources */,
+				0443C58321E803E8007A3384 /* Images.xcassets in Resources */,
+				0443C54C21E80394007A3384 /* OpenSans-Italic.ttf in Resources */,
+				0443C54D21E80394007A3384 /* OpenSans-BoldItalic.ttf in Resources */,
+				0443C54E21E80394007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				0443C54F21E80394007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				0443C55021E80394007A3384 /* OpenSans-LightItalic.ttf in Resources */,
+				0443C55221E80394007A3384 /* LaunchScreen.xib in Resources */,
+				0443C55321E80394007A3384 /* OpenSans-Bold.ttf in Resources */,
+				0443C55421E80394007A3384 /* OpenSans-Light.ttf in Resources */,
+				0443C58421E8046A007A3384 /* Savills copy-Info.plist in Resources */,
+				0443C55521E80394007A3384 /* OpenSans-Regular.ttf in Resources */,
+				0443C55621E80394007A3384 /* OpenSans-ExtraBold.ttf in Resources */,
+				0443C55721E80394007A3384 /* OpenSans-Bold.ttf in Resources */,
+				0443C55821E80394007A3384 /* OpenSans-BoldItalic.ttf in Resources */,
+				0443C55921E80394007A3384 /* OpenSans-ExtraBold.ttf in Resources */,
+				0443C55A21E80394007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				0443C55B21E80394007A3384 /* OpenSans-Italic.ttf in Resources */,
+				0443C55C21E80394007A3384 /* OpenSans-Light.ttf in Resources */,
+				0443C55D21E80394007A3384 /* OpenSans-LightItalic.ttf in Resources */,
+				0443C55E21E80394007A3384 /* OpenSans-Regular.ttf in Resources */,
+				0443C55F21E80394007A3384 /* OpenSans-SemiBold.ttf in Resources */,
+				0443C56021E80394007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		13B07F8E1A680F5B00A75B9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1428,7 +1637,9 @@
 				3D9FC5512186AB4000F635EB /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				3D9FC5552186AB4000F635EB /* OpenSans-SemiBoldItalic.ttf in Resources */,
 				3D9FC5522186AB4000F635EB /* OpenSans-LightItalic.ttf in Resources */,
+				0443C4FF21E7FD48007A3384 /* Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				0443C58121E803E8007A3384 /* Images.xcassets in Resources */,
 				3D9FC54F2186AB4000F635EB /* OpenSans-Bold.ttf in Resources */,
 				3D9FC5502186AB4000F635EB /* OpenSans-Light.ttf in Resources */,
 				3D9FC5572186AB4000F635EB /* OpenSans-Regular.ttf in Resources */,
@@ -1443,21 +1654,6 @@
 				8BD94CE11A5840B3878A0E92 /* OpenSans-Regular.ttf in Resources */,
 				CA2A683191A6403AB1DDE600 /* OpenSans-SemiBold.ttf in Resources */,
 				A91D464A53604BF5A8AB1908 /* OpenSans-SemiBoldItalic.ttf in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E4791E0B4A5D006451C7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E48E1E0B4A5D006451C7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1478,7 +1674,59 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		04D05C2D21E45B9500CB16D3 /* Run Script */ = {
+		0443C48221E7FA1A007A3384 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Savills-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0443C4B221E7FA1A007A3384 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		0443C4B321E7FA1A007A3384 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
+				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RSKImageCropperStrings.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0443C4B621E7FA1A007A3384 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1496,21 +1744,7 @@
 			shellPath = /bin/sh;
 			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/PayooSDK.framework/strip-frameworks.sh\"\n";
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		434A24E45FDC1149046EFFCB /* [CP] Check Pods Manifest.lock */ = {
+		0443C54421E80394007A3384 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1521,12 +1755,82 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Savills-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Savills-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		0443C57521E80394007A3384 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		0443C57621E80394007A3384 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
+				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RSKImageCropperStrings.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0443C57921E80394007A3384 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/PayooSDK.framework/strip-frameworks.sh\"\n";
+		};
+		04D05C2D21E45B9500CB16D3 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/PayooSDK.framework/strip-frameworks.sh\"\n";
 		};
 		4487023BC243D28424211DF2 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1566,24 +1870,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DEE75030677525C581D584E6 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Savills-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1592,6 +1878,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* SavillsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0443C48321E7FA1A007A3384 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0443C48421E7FA1A007A3384 /* AppDelegate.m in Sources */,
+				0443C48521E7FA1A007A3384 /* main.m in Sources */,
+				0443C48621E7FA1A007A3384 /* PayooSDKiOSManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0443C54521E80394007A3384 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0443C54621E80394007A3384 /* AppDelegate.m in Sources */,
+				0443C54721E80394007A3384 /* main.m in Sources */,
+				0443C54821E80394007A3384 /* PayooSDKiOSManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1605,23 +1911,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2D02E4771E0B4A5D006451C7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */,
-				2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D02E48C1E0B4A5D006451C7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2DCD954D1E0B4F2C00145EB5 /* SavillsTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1629,11 +1918,6 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* Savills */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
-		};
-		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* Savills-tvOS */;
-			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1739,6 +2023,190 @@
 			};
 			name = Release;
 		};
+		0443C4B821E7FA1A007A3384 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Savills/Savills.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = RKWT2743AJ;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"${SRCROOT}",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
+					"$(SRCROOT)/../node_modules/amazon-cognito-identity-js/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.uat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		0443C4B921E7FA1A007A3384 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EFCF097D2B4EB81A2083CBC /* Pods-Savills.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Savills/Savills.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				"DEAD_CODE_STRIPPING[arch=*]" = YES;
+				DEVELOPMENT_TEAM = RKWT2743AJ;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"${SRCROOT}",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
+					"$(SRCROOT)/../node_modules/amazon-cognito-identity-js/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.uat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		0443C57B21E80394007A3384 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Savills/Savills.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = RKWT2743AJ;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"${SRCROOT}",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
+					"$(SRCROOT)/../node_modules/amazon-cognito-identity-js/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+				);
+				INFOPLIST_FILE = "Savills copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.spms.hk;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		0443C57C21E80394007A3384 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EFCF097D2B4EB81A2083CBC /* Pods-Savills.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Savills/Savills.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				"DEAD_CODE_STRIPPING[arch=*]" = YES;
+				DEVELOPMENT_TEAM = RKWT2743AJ;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"${SRCROOT}",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
+					"$(SRCROOT)/../node_modules/amazon-cognito-identity-js/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+				);
+				INFOPLIST_FILE = "Savills copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.spms.hk;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */;
@@ -1828,204 +2296,6 @@
 				PRODUCT_NAME = Savills;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Release;
-		};
-		2D02E4971E0B4A5E006451C7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36530F1E556675A4FEFF0A5D /* Pods-Savills-tvOS.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
-					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
-					"$(SRCROOT)/../node_modules/amazon-cognito-identity-js/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
-					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
-				);
-				INFOPLIST_FILE = "Savills-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Savills-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = appletvos;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-			};
-			name = Debug;
-		};
-		2D02E4981E0B4A5E006451C7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 970B8CEBE03FC92BAA4FFB19 /* Pods-Savills-tvOS.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
-					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
-					"$(SRCROOT)/../node_modules/amazon-cognito-identity-js/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
-					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
-				);
-				INFOPLIST_FILE = "Savills-tvOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Savills-tvOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = appletvos;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
-			};
-			name = Release;
-		};
-		2D02E4991E0B4A5E006451C7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C9D1C636D46D739B43132BE /* Pods-Savills-tvOSTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 23978TS258;
-				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
-					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
-					"$(SRCROOT)/../node_modules/amazon-cognito-identity-js/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
-					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
-				);
-				INFOPLIST_FILE = "Savills-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Savills-tvOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Savills-tvOS.app/Savills-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
-			};
-			name = Debug;
-		};
-		2D02E49A1E0B4A5E006451C7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D2226FD33B22AA0B8254AF5 /* Pods-Savills-tvOSTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 23978TS258;
-				GCC_NO_COMMON_BLOCKS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
-					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
-					"$(SRCROOT)/../node_modules/amazon-cognito-identity-js/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
-					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
-				);
-				INFOPLIST_FILE = "Savills-tvOSTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Savills-tvOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Savills-tvOS.app/Savills-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
 		};
@@ -2140,29 +2410,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		0443C4B721E7FA1A007A3384 /* Build configuration list for PBXNativeTarget "SavillsUat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0443C4B821E7FA1A007A3384 /* Debug */,
+				0443C4B921E7FA1A007A3384 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0443C57A21E80394007A3384 /* Build configuration list for PBXNativeTarget "SavillsHK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0443C57B21E80394007A3384 /* Debug */,
+				0443C57C21E80394007A3384 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Savills" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Savills-tvOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D02E4971E0B4A5E006451C7 /* Debug */,
-				2D02E4981E0B4A5E006451C7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Savills-tvOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D02E4991E0B4A5E006451C7 /* Debug */,
-				2D02E49A1E0B4A5E006451C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
