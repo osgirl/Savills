@@ -13,7 +13,7 @@ class Libary extends layout {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: this.props.library.listLibary.result || [],
       isRefresh: false,
       loadingMore: false,
       scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0)
