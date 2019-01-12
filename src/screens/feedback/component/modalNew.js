@@ -13,7 +13,7 @@ import {
   Platform,
   FlatList,
   Keyboard,
-  Alert
+  Alert,
 } from 'react-native';
 import Connect from '@stores';
 import { Header, Button, AlertWarning, AnimatedTitle } from '@components';
@@ -23,6 +23,7 @@ import Modal from 'react-native-modal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Resolution from '@utils/resolution';
+import configs from '../../../utils/configs';
 
 const { width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
@@ -43,11 +44,54 @@ class ModalNewFeedback extends Component {
       categorySelectedId: null,
       isShowModalConfirm: false,
       isModalError: false,
-      messageWarning: ''
+      isReady: false,
+      messageWarning: '',
+
+      fetchingType: true,
+      fetchingCategory: true,
+      errorMessage: '',
     };
   }
 
+  componentDidMount = () => {
+    let accessTokenApi = this.props.account.accessTokenAPI;
+    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+    setTimeout(() => {
+      this.props.actions.feedback.getListCategory(accessTokenApi, languege);
+      this.props.actions.feedback.getTypeFeedback(accessTokenApi, languege);
+    }, 300);
+  }
+
   async componentWillReceiveProps(nextProps) {
+
+    if (this.props.feedback.listCategory !== nextProps.feedback.listCategory &&
+      nextProps.feedback.listCategory.success
+    ) {
+      this.setState({ listCategory: nextProps.feedback.listCategory.result, fetchingCategory: false });
+    }
+
+    if (this.props.feedback.typeFeedback !== nextProps.feedback.typeFeedback &&
+      nextProps.feedback.typeFeedback.success
+    ) {
+      this.setState({ listTypeFeedback: nextProps.feedback.typeFeedback.result, fetchingType: false });
+    }
+
+
+
+    if (this.props.feedback.listCategory !== nextProps.feedback.listCategory &&
+      !nextProps.feedback.listCategory.success
+    ) {
+      this.setState({ fetchingCategory: false, errorMessage: 'cannot get list category' });
+    }
+
+    if (this.props.feedback.typeFeedback !== nextProps.feedback.typeFeedback &&
+      !nextProps.feedback.typeFeedback.success
+    ) {
+      this.setState({ fetchingType: false, errorMessage: 'cannot get type category' });
+    }
+
+
+
     if (this.props.feedback.createFeedback !== nextProps.feedback.createFeedback && nextProps.feedback.createFeedback.success) {
       if (this.state.isShowModalConfirm) {
         await this.setState({ isShowModalConfirm: false });
@@ -77,7 +121,7 @@ class ModalNewFeedback extends Component {
   }
 
   _alertError = Title => {
-    Alert.alert(Title, '', [{ text: 'OK', onPress: () => {} }], { cancelable: false });
+    Alert.alert(Title, '', [{ text: 'OK', onPress: () => { } }], { cancelable: false });
   };
 
   handleScroll = event => {
@@ -155,167 +199,186 @@ class ModalNewFeedback extends Component {
     );
   }
 
+  renderContent = (category, languages) => (
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        alwaysBounceVertical={false}
+        scrollEventThrottle={16}
+        onScroll={this.handleScroll}
+        contentContainerStyle={{
+          paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+        }}
+        contentInset={{
+          top: HEADER_MAX_HEIGHT
+        }}
+        contentOffset={{
+          y: -HEADER_MAX_HEIGHT
+        }}
+        style={{ zIndex: -3 }}
+      >
+        {/* <KeyboardAvoidingView behavior="position" enabled> */}
+        <KeyboardAwareScrollView extraScrollHeight={50}>
+          {this.state.listTypeFeedback && this.state.listTypeFeedback.length > 0 ? (
+            <ItemScorll
+              title={languages.FB_TYPE_FEEDBACK}
+              view={
+                <View
+                  style={{
+                    width: null,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: '#FFF',
+                    padding: Resolution.scale(20),
+                    justifyContent: 'space-around'
+                  }}
+                >
+                  {this.state.listTypeFeedback.map((item, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      activeOpacity={1}
+                      onPress={() => this._changeTypeFeedback(item)}
+                      style={{ flexDirection: 'row', marginVertical: 5 }}
+                    >
+                      <Text
+                        style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}
+                      >
+                        {item.name}
+                      </Text>
+                      <Image
+                        source={
+                          item.name == this.state.type.name
+                            ? require('@resources/icons/checked.png')
+                            : require('@resources/icons/check.png')
+                        }
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              }
+            />
+          ) : null}
+          <Button
+            onPress={() => this.setState({ isShowCategory: true })}
+            style={{
+              backgroundColor: '#FFF',
+              marginVertical: Resolution.scale(20),
+              marginHorizontal: Resolution.scale(20),
+              borderRadius: 5
+            }}
+          >
+            <Text
+              style={{
+                padding: Resolution.scale(20),
+                color: '#4A89E8',
+                fontSize: Resolution.scale(13),
+                fontFamily: 'OpenSans-SemiBold'
+              }}
+            >
+              {category.length > 0 ? category[0].name : languages.FB_PROBLEM_FEEDBACK}
+            </Text>
+          </Button>
+
+          <ItemScorll
+            title={languages.FB_PROBLEM}
+            view={
+              <TextInput
+                style={{
+                  flex: 1,
+                  backgroundColor: '#FFF',
+                  borderRadius: 5,
+                  height: Resolution.scaleHeight(100),
+                  width: null,
+                  padding: Resolution.scale(10),
+                  paddingLeft: Resolution.scale(20),
+                  paddingTop: Resolution.scale(20),
+                  marginBottom: Resolution.scale(170),
+                  // borderWidth: 1,
+                  // borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF',
+                  fontSize: Resolution.scale(14),
+                  fontFamily: 'OpenSans-Regular'
+                }}
+                returnKeyType={'done'}
+                autoCapitalize="sentences"
+                autoCorrect={true}
+                onSubmitEditing={() => Keyboard.dismiss()}
+                multiline
+                placeholder={languages.FB_CONTENT_PROBLEM}
+                onChangeText={e => this.setState({ comment: e })}
+              />
+            }
+          />
+          {/* </KeyboardAvoidingView> */}
+        </KeyboardAwareScrollView>
+      </ScrollView>
+      <View
+        style={{
+          width: width,
+          height: Resolution.scale(70),
+          backgroundColor: '#FFF',
+          padding: Resolution.scale(20),
+          shadowColor: '#000',
+          shadowOpacity: 0.2,
+          shadowOffset: { width: 0, height: 7 }
+        }}
+      >
+        <TouchableOpacity
+          style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
+          onPress={() => {
+            let message = '';
+            if (this.state.type &&  this.state.type.name.trim() === '') {
+              this.setState({
+                messageWarning: languages.FB_ALERT_NO_TYPE,
+                isModalError: true
+              });
+            } else if (this.state.categorySelectedId === null) {
+              this.setState({
+                messageWarning: languages.FB_ALERT_NO_FEEDBACK,
+                isModalError: true
+              });
+            } else if (this.state.comment.trim() === '') {
+              this.setState({
+                messageWarning: languages.FB_ALERT_NO_PROBLEM,
+                isModalError: true
+              });
+            } else {
+              this.setState({ isShowModalConfirm: true });
+            }
+          }}
+        >
+          <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>
+            {languages.FB_CREATE_BTNSEND}
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <AlertWarning
+        clickAction={() => this.setState({ isModalError: false })}
+        isVisible={this.state.isModalError}
+        message={this.state.messageWarning}
+      />
+    </View>
+  )
+
   render() {
-    const { fullUnitCode } = this.props.units.unitActive;
+    const { fetchingType, fetchingCategory, errorMessage } = this.state;
     let category = this.state.listCategory.filter(o => o.id === this.state.categorySelectedId);
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         {this.renderHeader(languages)}
-        <ScrollView
-          alwaysBounceVertical={false}
-          scrollEventThrottle={16}
-          onScroll={this.handleScroll}
-          contentContainerStyle={{
-            paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
-          }}
-          contentInset={{
-            top: HEADER_MAX_HEIGHT
-          }}
-          contentOffset={{
-            y: -HEADER_MAX_HEIGHT
-          }}
-          style={{ zIndex: -3 }}
-        >
-          {/* <KeyboardAvoidingView behavior="position" enabled> */}
-          <KeyboardAwareScrollView extraScrollHeight={50}>
-            {this.state.listTypeFeedback && this.state.listTypeFeedback.length > 0 ? (
-              <ItemScorll
-                title={languages.FB_TYPE_FEEDBACK}
-                view={
-                  <View
-                    style={{
-                      width: null,
-                      flex: 1,
-                      borderRadius: 10,
-                      backgroundColor: '#FFF',
-                      padding: Resolution.scale(20),
-                      justifyContent: 'space-around'
-                    }}
-                  >
-                    {this.state.listTypeFeedback.map((item, index) => (
-                      <TouchableOpacity
-                        key={index}
-                        activeOpacity={1}
-                        onPress={() => this._changeTypeFeedback(item)}
-                        style={{ flexDirection: 'row', marginVertical: 5 }}
-                      >
-                        <Text
-                          style={{ flex: 1, color: '#505E75', fontFamily: 'OpenSans-SemiBold', fontSize: Resolution.scale(13) }}
-                        >
-                          {item.name}
-                        </Text>
-                        <Image
-                          source={
-                            item.name == this.state.type.name
-                              ? require('@resources/icons/checked.png')
-                              : require('@resources/icons/check.png')
-                          }
-                        />
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                }
-              />
-            ) : null}
-            <Button
-              onPress={() => this.setState({ isShowCategory: true })}
-              style={{
-                backgroundColor: '#FFF',
-                marginVertical: Resolution.scale(20),
-                marginHorizontal: Resolution.scale(20),
-                borderRadius: 5
-              }}
-            >
-              <Text
-                style={{
-                  padding: Resolution.scale(20),
-                  color: '#4A89E8',
-                  fontSize: Resolution.scale(13),
-                  fontFamily: 'OpenSans-SemiBold'
-                }}
-              >
-                {category.length > 0 ? category[0].name : languages.FB_PROBLEM_FEEDBACK}
-              </Text>
-            </Button>
+        {
+          fetchingType || fetchingCategory ?
+            <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: HEADER_MAX_HEIGHT + Resolution.scale(50) }}>
+              <ActivityIndicator size={'large'} color={configs.colorMain} />
+            </View> :
+            !fetchingType && !fetchingCategory && errorMessage.length > 0 ?
+              <View style={{ paddingTop: HEADER_MAX_HEIGHT + Resolution.scale(50), alignItems: 'center', justifyContent: 'center' }}>
+                <Text>
+                  {errorMessage}
+                </Text>
+              </View> :
+              this.renderContent(category, languages)
+        }
 
-            <ItemScorll
-              title={languages.FB_PROBLEM}
-              view={
-                <TextInput
-                  style={{
-                    flex: 1,
-                    backgroundColor: '#FFF',
-                    borderRadius: 5,
-                    height: Resolution.scaleHeight(100),
-                    width: null,
-                    padding: Resolution.scale(10),
-                    paddingLeft: Resolution.scale(20),
-                    paddingTop: Resolution.scale(20),
-                    marginBottom: Resolution.scale(170),
-                    // borderWidth: 1,
-                    // borderColor: this.state.comment.trim() === '' ? 'red' : '#FFF',
-                    fontSize: Resolution.scale(14),
-                    fontFamily: 'OpenSans-Regular'
-                  }}
-                  returnKeyType={'done'}
-                  autoCapitalize="sentences"
-                  autoCorrect={true}
-                  onSubmitEditing={() => Keyboard.dismiss()}
-                  multiline
-                  placeholder={languages.FB_CONTENT_PROBLEM}
-                  onChangeText={e => this.setState({ comment: e })}
-                />
-              }
-            />
-            {/* </KeyboardAvoidingView> */}
-          </KeyboardAwareScrollView>
-        </ScrollView>
-        <View
-          style={{
-            width: width,
-            height: Resolution.scale(70),
-            backgroundColor: '#FFF',
-            padding: Resolution.scale(20),
-            shadowColor: '#000',
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 0, height: 7 }
-          }}
-        >
-          <TouchableOpacity
-            style={{ flex: 1, backgroundColor: '#01C772', borderRadius: 5, alignItems: 'center', justifyContent: 'center' }}
-            onPress={() => {
-              let message = '';
-              if (this.state.type.name.trim() === '') {
-                this.setState({
-                  messageWarning: languages.FB_ALERT_NO_TYPE,
-                  isModalError: true
-                });
-              } else if (this.state.categorySelectedId === null) {
-                this.setState({
-                  messageWarning: languages.FB_ALERT_NO_FEEDBACK,
-                  isModalError: true
-                });
-              } else if (this.state.comment.trim() === '') {
-                this.setState({
-                  messageWarning: languages.FB_ALERT_NO_PROBLEM,
-                  isModalError: true
-                });
-              } else {
-                this.setState({ isShowModalConfirm: true });
-              }
-            }}
-          >
-            <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: Resolution.scale(14) }}>
-              {languages.FB_CREATE_BTNSEND}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <AlertWarning
-          clickAction={() => this.setState({ isModalError: false })}
-          isVisible={this.state.isModalError}
-          message={this.state.messageWarning}
-        />
         {this.renderCategory(languages)}
         {this.renderModalConfirm(languages)}
       </View>
@@ -466,10 +529,10 @@ class ModalNewFeedback extends Component {
                 {this.state.loading ? (
                   <ActivityIndicator size={'small'} color={'#FFF'} />
                 ) : (
-                  <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
-                    {languages.FB_CREATE_BTNSEND}
-                  </Text>
-                )}
+                    <Text style={{ fontSize: Resolution.scale(15), color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                      {languages.FB_CREATE_BTNSEND}
+                    </Text>
+                  )}
               </LinearGradient>
             </Button>
           </View>

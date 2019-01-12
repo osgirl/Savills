@@ -27,20 +27,10 @@ class Libary extends layout {
   async componentWillReceiveProps(nextProps) {
     if (
       this.props.library.listLibary.result !== nextProps.library.listLibary.result &&
-      nextProps.library.listLibary.success &&
-      this.state.isRefresh
+      nextProps.library.listLibary.success 
     ) {
       await this.setState({ data: nextProps.library.listLibary.result });
       await this.setState({ isRefresh: false });
-    }
-
-    if (
-      this.props.library.listLibary.result !== nextProps.library.listLibary.result &&
-      nextProps.library.listLibary.success &&
-      !this.state.isRefresh
-    ) {
-      await this.setState({ data: this.state.data.concat(nextProps.library.listLibary.result) });
-      await this.setState({ loadingMore: false, isRefresh: false });
     }
   }
 
@@ -57,14 +47,6 @@ class Libary extends layout {
     await this.setState({ isRefresh: true });
     await this._getList();
   }
-
-  // async _onEndReached() {
-  //     if (this.state.loadingMore || this.state.pageCount == this.props.feedback.listFeedBack.pageCount) {
-  //         return;
-  //     }
-  //     await this.setState({ loadingMore: true, pageCount: this.state.pageCount + 1 })
-  //     await this._getList(this.state.pageCount);
-  // }
 
   _openModalSelectUnit() {
     this.setState({ isModalSelectUnit: true });
