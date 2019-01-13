@@ -3,7 +3,7 @@ import { Text, View, Dimensions, Image } from 'react-native';
 import moment from 'moment';
 import Buttom from '@components/button';
 const { width } = Dimensions.get('window');
-import configs from '@utils/configs';
+import LinkApi from '@utils/linkApi';
 import Resolution from '@utils/resolution';
 
 export class ItemBooking extends Component {
@@ -79,7 +79,7 @@ export class ItemBooking extends Component {
           </View>
           <Image
             style={{ width: Resolution.scale(40), height: Resolution.scale(40), borderRadius: 5 }}
-            source={{ uri: configs.API_BOOKING + item.amenity.iconPath }}
+            source={{ uri: LinkApi.API_BOOKING + item.amenity.iconPath }}
           />
         </View>
         <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13), marginTop: Resolution.scale(5) }}>

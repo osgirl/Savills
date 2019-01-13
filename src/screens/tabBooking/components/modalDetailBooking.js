@@ -20,7 +20,7 @@ import Modal from 'react-native-modal';
 
 import Connect from '@stores';
 import { Header, Button, AnimatedTitle, ModalChat } from '@components';
-import Configs from '@utils/configs';
+import LinkApi from '@utils/linkApi';
 import Resolution from '@utils/resolution';
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
@@ -208,7 +208,7 @@ class ModalDetailBooking extends PureComponent {
                   flexDirection: 'row'
                 }}
               >
-                <Image style={{ width: 30, height: 30 }} source={{ uri: `${Configs.API_BOOKING}${amenity.iconPath}` }} />
+                <Image style={{ width: 30, height: 30 }} source={{ uri: `${LinkApi.API_BOOKING}${amenity.iconPath}` }} />
                 <Text style={{ color: '#343D4D', fontWeight: 'bold', fontSize: 13, flex: 1, marginLeft: 20 }}>
                   {amenity.amenityName}
                 </Text>

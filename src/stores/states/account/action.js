@@ -1,5 +1,5 @@
 import Types from './';
-import Configs from '../../../utils/configs';
+import Configs from '../../../utils/linkApi';
 
 import { Platform } from 'react-native';
 

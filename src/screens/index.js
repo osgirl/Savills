@@ -27,7 +27,6 @@ import Setting from './setting';
 import Library from './library';
 import DetailLibrary from './detailLibrary';
 
-
 export {
   DetailDelivery,
   NewIntrustion,

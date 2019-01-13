@@ -3,13 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>AppRegisterJS</key>
-	<string>com.savills.spms</string>
-	<key>JsCodeLocation</key>
-	<string>src/app/Savills/index</string>
+	<string>com.savills.spms.hk</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Savills</string>
+	<string>SavillsHK</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -21,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -36,7 +34,9 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>3</string>
+	<key>JsCodeLocation</key>
+	<string>src/app/SavillsHK/index</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

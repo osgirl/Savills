@@ -1,5 +1,5 @@
 import Types from './';
-import Configs from '../../../utils/configs';
+import Configs from '../../../utils/linkApi';
 
 export function getListFeedback(accessTokenAPI, language = 'en', pageCount = 1, pageSize = 10) {
   return {

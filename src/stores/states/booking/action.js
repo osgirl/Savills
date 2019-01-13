@@ -1,5 +1,5 @@
 import Types from './';
-import Configs from '../../../utils/configs';
+import Configs from '../../../utils/linkApi';
 
 // Tạo mới 1 booking
 export function createNewBooking(accessTokenAPI, Booking, lang) {

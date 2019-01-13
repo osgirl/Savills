@@ -5,14 +5,14 @@ import IMG_BG from '@resources/image/ChooseProject.png';
 import ItemProjectApartment from '@components/itemProjectApartment';
 import Utils from '@utils';
 import { Loading } from '@components';
-import Configs from '@utils/configs';
+import LinkApi from '@utils/linkApi';
 import Style from './style';
 import resolution from '@utils/resolution';
 
 export default class extends Component {
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
@@ -39,7 +39,7 @@ export default class extends Component {
                 <ItemProjectApartment
                   onPressItem={() => this._gotoChooseApartment(item)}
                   title={item.tenancyName}
-                  image={`${Configs.API}/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`}
+                  image={`${LinkApi.API}/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`}
                   loading={this.props.account.tenant.result && this.props.account.tenant.result.length > 0 ? true : false}
                 />
               );

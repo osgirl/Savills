@@ -21,7 +21,7 @@ import { Calendar } from '@components/calendars';
 import XDate from 'xdate';
 
 import { Header, Button, AlertWarning, Loading } from '@components';
-import configs from '@utils/configs';
+import LinkApi from '@utils/linkApi';
 import moment from 'moment';
 import Connect from '@stores';
 
@@ -363,7 +363,7 @@ class ModalNewBooking extends PureComponent {
                 <Image
                   style={{ width: 30, height: 30 }}
                   resizeMode={'cover'}
-                  source={{ uri: configs.API_BOOKING + item.iconPath }}
+                  source={{ uri: LinkApi.API_BOOKING + item.iconPath }}
                 />
                 <Text style={{ color: '#343D4D', fontWeight: 'bold', fontSize: 15, flex: 1, marginLeft: 20 }}>
                   {item.amenityName}

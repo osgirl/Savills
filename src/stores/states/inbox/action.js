@@ -1,5 +1,5 @@
 import Types from './';
-import Configs from '../../../utils/configs';
+import Configs from '../../../utils/linkApi';
 
 export function getListInbox(accessTokenAPI, language = 'en', page = 1, pageSize = 10) {
     return {

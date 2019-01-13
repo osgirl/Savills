@@ -1,5 +1,5 @@
 import Types from './';
-import Configs from '../../../utils/configs';
+import Configs from '../../../utils/linkApi';
 
 export function getMyEvents(accessTokenAPI, buildingId, language = vi) {
     return {

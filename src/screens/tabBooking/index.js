@@ -25,7 +25,7 @@ import IC_DROPDOWN from '../../resources/icons/dropDown.png';
 import TabComplete from './tabs/tabComplete';
 import TabInComming from './tabs/tabInComming';
 import TabProcess from './tabs/tabProcess';
-import configs from '@utils/configs';
+import LinkApi from '@utils/linkApi';
 import { isIphoneX } from '@utils/func';
 import ModalNewBooking from './components/modalNewBooking';
 
@@ -309,7 +309,7 @@ class ItemCategory extends Component {
         <Image
           style={{ width: 30, height: 30, marginRight: 10 }}
           resizeMode={'cover'}
-          source={{ uri: configs.API_BOOKING + iconPath }}
+          source={{ uri: LinkApi.API_BOOKING + iconPath }}
         />
         <Text style={{ color: '#515E6D', fontSize: 14, fontWeight: '600', flex: 1 }}>{amenityName}</Text>
       </TouchableOpacity>

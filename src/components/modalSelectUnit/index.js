@@ -8,6 +8,7 @@ import Button from '../../components/button';
 import Loading from '@components/loading';
 import Utils from '../../utils';
 import Configs from '../../utils/configs';
+import LinkApi from '../../utils/linkApi';
 import IC_APARTMENT from '@resources/icons/Apartment.png';
 import IC_APARTMENT_ACTIVE from '@resources/icons/unit-active.png';
 import IC_CLOSE from '@resources/icons/close-black.png';
@@ -30,7 +31,7 @@ class modalSelectUnit extends Component {
   async _onPressProject(project) {
     await this.setState({ projectActive: project, loading: true });
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
-    await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, project.tenantId, project.id,languages);
+    await this.props.actions.account.switchToUserAccount(this.props.account.accessToken, project.tenantId, project.id, languages);
     await this.props.actions.account.setTenantActive(project);
   }
 
@@ -93,7 +94,7 @@ class modalSelectUnit extends Component {
   }
 
   renderItemProject(item) {
-    let image = `${Configs.API}/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`;
+    let image = `${LinkApi.API}/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`;
     let check = item.tenantId === this.state.projectActive.tenantId ? true : false;
     return (
       <View style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}>
@@ -107,15 +108,15 @@ class modalSelectUnit extends Component {
             <Text style={{ color: '#FFF', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
           </View>
         ) : (
-            <Button onPress={() => this._onPressProject(item)} style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <Image
-                source={{ uri: image }}
-                style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
-                resizeMode={'contain'}
-              />
-              <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
-            </Button>
-          )}
+          <Button onPress={() => this._onPressProject(item)} style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Image
+              source={{ uri: image }}
+              style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
+              resizeMode={'contain'}
+            />
+            <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
+          </Button>
+        )}
       </View>
     );
   }
@@ -126,13 +127,17 @@ class modalSelectUnit extends Component {
       <View style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}>
         {
           <Button onPress={() => this.seletUnits(item)} style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={check ? IC_APARTMENT_ACTIVE : IC_APARTMENT} style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }} />
-            <Text style={{
-              color: check ? '#FFF' : '#505E75',
-              fontSize: 12,
-              marginTop: 10,
-              fontFamily: 'OpenSans-Bold'
-            }}
+            <Image
+              source={check ? IC_APARTMENT_ACTIVE : IC_APARTMENT}
+              style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }}
+            />
+            <Text
+              style={{
+                color: check ? '#FFF' : '#505E75',
+                fontSize: 12,
+                marginTop: 10,
+                fontFamily: 'OpenSans-Bold'
+              }}
             >
               {item.fullUnitCode}
             </Text>
@@ -144,7 +149,7 @@ class modalSelectUnit extends Component {
 
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
     }
     return null;
   }
