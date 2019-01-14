@@ -85,7 +85,7 @@ class modalConfirm extends Component {
         setTimeout(() => {
           this.props.onSuccess();
         }, 300);
-      } else {
+      } else if (response.status !== 3) {
         this.handleErrorMess(response.code || 0);
         setTimeout(() => {
           this._openModalFaild();
