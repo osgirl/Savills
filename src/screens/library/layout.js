@@ -27,6 +27,8 @@ import { PlaceHolderItemH } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
 
+import IMG_EMTY from "../../resources/image/libary-emty.png";
+
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
 
@@ -119,6 +121,12 @@ export default class Layou2 extends Component {
       </View>
     );
   }
+  
+  renderEmty = () => (
+    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: HEADER_MAX_HEIGHT}}>
+      <Image source={IMG_EMTY} />
+    </View>
+  )
 
   render() {
     let unitActive = this.props.units.unitActive;
@@ -127,7 +135,7 @@ export default class Layou2 extends Component {
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader(languages)}
-        {this.state.data.length > 0 ? (
+        { this.props.library.listLibary.success ? (
           // <View style={{ flex: 1 }}>
           <FlatList
             contentContainerStyle={{
@@ -141,6 +149,7 @@ export default class Layou2 extends Component {
             renderItem={({ item, index }) => this.renderItem(item, index)}
             extraData={this.state}
             legacyImplementation={false}
+            ListEmptyComponent={this.renderEmty()}
             scrollEventThrottle={16}
             ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleWidth(10) }} />}
             ListFooterComponent={() => this._FooterFlatlist()}

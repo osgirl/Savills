@@ -36,10 +36,6 @@ class Feedback extends layout {
   componentDidMount = () => {
     this._getList();
     this._getListCompleted();
-    let accessTokenApi = this.props.account.accessTokenAPI;
-    let languege = this.props.app.listLanguage[this.props.app.languegeLocal].id;
-    this.props.actions.feedback.getListCategory(accessTokenApi, languege);
-    this.props.actions.feedback.getTypeFeedback(accessTokenApi, languege);
     let ida = this.props.navigation.getParam('params', false);
     if (ida.itemtype) {
       setTimeout(() => {
