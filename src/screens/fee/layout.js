@@ -291,6 +291,7 @@ export default class extends Component {
             // onScroll={this.onScroll}
             scrollEventThrottle={16}
             renderItem={({ item, index }) => this.renderItem(item, index)}
+            ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(30) }} />}
             extraData={this.state}
           />
         ) : (
