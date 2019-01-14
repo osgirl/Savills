@@ -123,8 +123,12 @@ class Fee extends layout {
 
     }
 
-    _openModalSuccess() {
-        this.setState({ isShowModalSuccess: true, listFeeSelected: [] })
+    async _openModalSuccess() {
+        let unitID = this.props.units.unitActive.unitId;
+        let accessTokenAPI = this.props.account.accessTokenAPI;
+        await this.setState({ isShowModalSuccess: true, listFeeSelected: [], totalPay: 0 });
+        await this.props.actions.notification.getListCountModule(accessTokenAPI, unitID);
+        await this.props.actions.notification.getUnreadCount(accessTokenAPI);
         setTimeout(() => {
             this._onRefresh();
         }, 300)
@@ -151,7 +155,7 @@ class Fee extends layout {
     }
 
     _closeModalSelectUnit() {
-        this.setState({ isModalSelectUnit: false, listFeeSelected: [] });
+        this.setState({ isModalSelectUnit: false, listFeeSelected: [], totalPay: 0 });
         this._getListUserFee();
     }
 

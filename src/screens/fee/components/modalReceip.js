@@ -149,17 +149,17 @@ class modalReceip extends Component {
                       console.log(data);
                       return (
                         <View
-                          key={data.incomingId + '__'}
+                          key={data.feeDetailId + '__'}
                           style={{ padding: 20, backgroundColor: '#FFFFFF', borderRadius: 5, marginBottom: 10 }}
                         >
                           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                               <View style={{ width: width - 165 }}>
                                 <Text numberOfLines={2} style={{ fontSize: 12, color: '#343D4D', fontFamily: 'OpenSans-SemiBold' }}>
-                                  {data.feeDetail.description}
+                                  {data.feeDetail && data.feeDetail.feeType && data.feeDetail.feeType.typeName || ''}
                                 </Text>
                                 <Text numberOfLines={1} style={{ fontSize: 13, color: '#DEDEDE', fontFamily: 'OpenSans-SemiBold' }}>
-                                  {data.feeDetail.fullUnitCode}
+                                  {data.feeDetail && data.feeDetail.description}
                                 </Text>
                               </View>
                             </View>
