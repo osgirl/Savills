@@ -220,6 +220,7 @@ export default class extends Component {
                 )
               }
               onEndReachedThreshold={0.01}
+              scrollEventThrottle={16}
               refreshing={this.state.isRefresh}
               onRefresh={() => this._onRefresh()}
               onScroll={this.handleScroll}

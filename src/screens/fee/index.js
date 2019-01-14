@@ -124,7 +124,7 @@ class Fee extends layout {
     }
 
     _openModalSuccess() {
-        this.setState({ isShowModalSuccess: true })
+        this.setState({ isShowModalSuccess: true, listFeeSelected: [] })
         setTimeout(() => {
             this._onRefresh();
         }, 300)
@@ -151,7 +151,7 @@ class Fee extends layout {
     }
 
     _closeModalSelectUnit() {
-        this.setState({ isModalSelectUnit: false });
+        this.setState({ isModalSelectUnit: false, listFeeSelected: [] });
         this._getListUserFee();
     }
 
