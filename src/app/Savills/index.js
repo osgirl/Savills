@@ -29,6 +29,7 @@ const Stack = createStackNavigator(stacks, {
 
 class App extends Component {
   render() {
+    alert('S');
     return (
       <Provider store={Stores}>
         <Stack />
@@ -38,4 +39,3 @@ class App extends Component {
 }
 
 AppRegistry.registerComponent('com.savills.spms', () => App);
-

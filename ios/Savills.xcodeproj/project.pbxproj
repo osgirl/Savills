@@ -16,104 +16,101 @@
 		00E356F31AD99517003FC87E /* SavillsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SavillsTests.m */; };
 		0414E56221AD299A00460EAB /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
 		041A25E121EAE36400F48731 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
-		041A25F321EAE5B600F48731 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0443C4BB21E7FA1A007A3384 /* Info.plist */; };
-		041A260521EAF11500F48731 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		041A260621EAF11600F48731 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		041A265E21EB42CF00F48731 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041A265D21EB42CF00F48731 /* Images.xcassets */; };
-		041A265F21EB42CF00F48731 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041A265D21EB42CF00F48731 /* Images.xcassets */; };
-		041A266021EB42CF00F48731 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041A265D21EB42CF00F48731 /* Images.xcassets */; };
-		041A266221EB42DD00F48731 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041A266121EB42DD00F48731 /* Images.xcassets */; };
-		041A266321EB42DD00F48731 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041A266121EB42DD00F48731 /* Images.xcassets */; };
-		041A266421EB42DD00F48731 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041A266121EB42DD00F48731 /* Images.xcassets */; };
-		0443C48421E7FA1A007A3384 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		0443C48521E7FA1A007A3384 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		0443C48621E7FA1A007A3384 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
-		0443C48921E7FA1A007A3384 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
-		0443C48A21E7FA1A007A3384 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
-		0443C48B21E7FA1A007A3384 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54C2186AB4000F635EB /* OpenSans-BoldItalic.ttf */; };
-		0443C48C21E7FA1A007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5472186AB4000F635EB /* OpenSans-ExtraBoldItalic.ttf */; };
-		0443C48D21E7FA1A007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54B2186AB4000F635EB /* OpenSans-SemiBoldItalic.ttf */; };
-		0443C48E21E7FA1A007A3384 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5482186AB4000F635EB /* OpenSans-LightItalic.ttf */; };
-		0443C48F21E7FA1A007A3384 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		0443C49021E7FA1A007A3384 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5452186AB3F00F635EB /* OpenSans-Bold.ttf */; };
-		0443C49121E7FA1A007A3384 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5462186AB4000F635EB /* OpenSans-Light.ttf */; };
-		0443C49221E7FA1A007A3384 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54D2186AB4000F635EB /* OpenSans-Regular.ttf */; };
-		0443C49321E7FA1A007A3384 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */; };
-		0443C49421E7FA1A007A3384 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1051FF6D8AA473FB042C5A6 /* OpenSans-Bold.ttf */; };
-		0443C49521E7FA1A007A3384 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E3B12823C9D4B17A3F1112B /* OpenSans-BoldItalic.ttf */; };
-		0443C49621E7FA1A007A3384 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11EDEB2857E041C6B533F44A /* OpenSans-ExtraBold.ttf */; };
-		0443C49721E7FA1A007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF0B0BB311E443E6860A251E /* OpenSans-ExtraBoldItalic.ttf */; };
-		0443C49821E7FA1A007A3384 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FC4EE5B57464C35849BD11B /* OpenSans-Italic.ttf */; };
-		0443C49921E7FA1A007A3384 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDF7E3BFD615476B83B31299 /* OpenSans-Light.ttf */; };
-		0443C49A21E7FA1A007A3384 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28253AA0625648E9996F528C /* OpenSans-LightItalic.ttf */; };
-		0443C49B21E7FA1A007A3384 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71B4E0DD023D40C088B89453 /* OpenSans-Regular.ttf */; };
-		0443C49C21E7FA1A007A3384 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 811272F1D91C432B83F88C53 /* OpenSans-SemiBold.ttf */; };
-		0443C49D21E7FA1A007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6B038E8382644BBB27FF747 /* OpenSans-SemiBoldItalic.ttf */; };
-		0443C49F21E7FA1A007A3384 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
-		0443C4A021E7FA1A007A3384 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
-		0443C4A121E7FA1A007A3384 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		0443C4A221E7FA1A007A3384 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
-		0443C4A321E7FA1A007A3384 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		0443C4A421E7FA1A007A3384 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		0443C4A521E7FA1A007A3384 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		0443C4A621E7FA1A007A3384 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		0443C4A721E7FA1A007A3384 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		0443C4A821E7FA1A007A3384 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		0443C4A921E7FA1A007A3384 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		0443C4AA21E7FA1A007A3384 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		0443C4AB21E7FA1A007A3384 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		0443C4AC21E7FA1A007A3384 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		0443C4AD21E7FA1A007A3384 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
-		0443C4AE21E7FA1A007A3384 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F53C22ACDE44CFB956B9786 /* libRNImagePicker.a */; };
-		0443C4AF21E7FA1A007A3384 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71101D688AD4C6F8A7E1E7E /* libFastImage.a */; };
-		0443C4B021E7FA1A007A3384 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104C2ABCAF24449842B21D8 /* libRNDeviceInfo.a */; };
-		0443C4B121E7FA1A007A3384 /* libPods-Savills.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */; };
-		0443C4B521E7FA1A007A3384 /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0443C54621E80394007A3384 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		0443C54721E80394007A3384 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		0443C54821E80394007A3384 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
-		0443C54B21E80394007A3384 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
-		0443C54C21E80394007A3384 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
-		0443C54D21E80394007A3384 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54C2186AB4000F635EB /* OpenSans-BoldItalic.ttf */; };
-		0443C54E21E80394007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5472186AB4000F635EB /* OpenSans-ExtraBoldItalic.ttf */; };
-		0443C54F21E80394007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54B2186AB4000F635EB /* OpenSans-SemiBoldItalic.ttf */; };
-		0443C55021E80394007A3384 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5482186AB4000F635EB /* OpenSans-LightItalic.ttf */; };
-		0443C55221E80394007A3384 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		0443C55321E80394007A3384 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5452186AB3F00F635EB /* OpenSans-Bold.ttf */; };
-		0443C55421E80394007A3384 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5462186AB4000F635EB /* OpenSans-Light.ttf */; };
-		0443C55521E80394007A3384 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54D2186AB4000F635EB /* OpenSans-Regular.ttf */; };
-		0443C55621E80394007A3384 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */; };
-		0443C55721E80394007A3384 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1051FF6D8AA473FB042C5A6 /* OpenSans-Bold.ttf */; };
-		0443C55821E80394007A3384 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E3B12823C9D4B17A3F1112B /* OpenSans-BoldItalic.ttf */; };
-		0443C55921E80394007A3384 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11EDEB2857E041C6B533F44A /* OpenSans-ExtraBold.ttf */; };
-		0443C55A21E80394007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF0B0BB311E443E6860A251E /* OpenSans-ExtraBoldItalic.ttf */; };
-		0443C55B21E80394007A3384 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FC4EE5B57464C35849BD11B /* OpenSans-Italic.ttf */; };
-		0443C55C21E80394007A3384 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDF7E3BFD615476B83B31299 /* OpenSans-Light.ttf */; };
-		0443C55D21E80394007A3384 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28253AA0625648E9996F528C /* OpenSans-LightItalic.ttf */; };
-		0443C55E21E80394007A3384 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71B4E0DD023D40C088B89453 /* OpenSans-Regular.ttf */; };
-		0443C55F21E80394007A3384 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 811272F1D91C432B83F88C53 /* OpenSans-SemiBold.ttf */; };
-		0443C56021E80394007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6B038E8382644BBB27FF747 /* OpenSans-SemiBoldItalic.ttf */; };
-		0443C56221E80394007A3384 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
-		0443C56321E80394007A3384 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
-		0443C56421E80394007A3384 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		0443C56521E80394007A3384 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
-		0443C56621E80394007A3384 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		0443C56721E80394007A3384 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		0443C56821E80394007A3384 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
-		0443C56921E80394007A3384 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
-		0443C56A21E80394007A3384 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
-		0443C56B21E80394007A3384 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		0443C56C21E80394007A3384 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
-		0443C56D21E80394007A3384 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
-		0443C56E21E80394007A3384 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		0443C56F21E80394007A3384 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		0443C57021E80394007A3384 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
-		0443C57121E80394007A3384 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F53C22ACDE44CFB956B9786 /* libRNImagePicker.a */; };
-		0443C57221E80394007A3384 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71101D688AD4C6F8A7E1E7E /* libFastImage.a */; };
-		0443C57321E80394007A3384 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104C2ABCAF24449842B21D8 /* libRNDeviceInfo.a */; };
-		0443C57421E80394007A3384 /* libPods-Savills.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */; };
-		0443C57821E80394007A3384 /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0443C58421E8046A007A3384 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0443C57E21E80394007A3384 /* Info.plist */; };
+		049B224421EB90F900CBE33D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		049B224521EB90F900CBE33D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		049B224621EB90F900CBE33D /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
+		049B224821EB90F900CBE33D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		049B224921EB90F900CBE33D /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
+		049B224A21EB90F900CBE33D /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
+		049B224B21EB90F900CBE33D /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54C2186AB4000F635EB /* OpenSans-BoldItalic.ttf */; };
+		049B224C21EB90F900CBE33D /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5472186AB4000F635EB /* OpenSans-ExtraBoldItalic.ttf */; };
+		049B224D21EB90F900CBE33D /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54B2186AB4000F635EB /* OpenSans-SemiBoldItalic.ttf */; };
+		049B224E21EB90F900CBE33D /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5482186AB4000F635EB /* OpenSans-LightItalic.ttf */; };
+		049B224F21EB90F900CBE33D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		049B225121EB90F900CBE33D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5452186AB3F00F635EB /* OpenSans-Bold.ttf */; };
+		049B225221EB90F900CBE33D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5462186AB4000F635EB /* OpenSans-Light.ttf */; };
+		049B225321EB90F900CBE33D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54D2186AB4000F635EB /* OpenSans-Regular.ttf */; };
+		049B225421EB90F900CBE33D /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */; };
+		049B225521EB90F900CBE33D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1051FF6D8AA473FB042C5A6 /* OpenSans-Bold.ttf */; };
+		049B225621EB90F900CBE33D /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E3B12823C9D4B17A3F1112B /* OpenSans-BoldItalic.ttf */; };
+		049B225721EB90F900CBE33D /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11EDEB2857E041C6B533F44A /* OpenSans-ExtraBold.ttf */; };
+		049B225821EB90F900CBE33D /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF0B0BB311E443E6860A251E /* OpenSans-ExtraBoldItalic.ttf */; };
+		049B225921EB90F900CBE33D /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FC4EE5B57464C35849BD11B /* OpenSans-Italic.ttf */; };
+		049B225A21EB90F900CBE33D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDF7E3BFD615476B83B31299 /* OpenSans-Light.ttf */; };
+		049B225B21EB90F900CBE33D /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28253AA0625648E9996F528C /* OpenSans-LightItalic.ttf */; };
+		049B225C21EB90F900CBE33D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71B4E0DD023D40C088B89453 /* OpenSans-Regular.ttf */; };
+		049B225D21EB90F900CBE33D /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 811272F1D91C432B83F88C53 /* OpenSans-SemiBold.ttf */; };
+		049B225E21EB90F900CBE33D /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6B038E8382644BBB27FF747 /* OpenSans-SemiBoldItalic.ttf */; };
+		049B226021EB90F900CBE33D /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
+		049B226121EB90F900CBE33D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
+		049B226221EB90F900CBE33D /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		049B226321EB90F900CBE33D /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
+		049B226421EB90F900CBE33D /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		049B226521EB90F900CBE33D /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		049B226621EB90F900CBE33D /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		049B226721EB90F900CBE33D /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		049B226821EB90F900CBE33D /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		049B226921EB90F900CBE33D /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		049B226A21EB90F900CBE33D /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		049B226B21EB90F900CBE33D /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		049B226C21EB90F900CBE33D /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		049B226D21EB90F900CBE33D /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		049B226E21EB90F900CBE33D /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		049B226F21EB90F900CBE33D /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F53C22ACDE44CFB956B9786 /* libRNImagePicker.a */; };
+		049B227021EB90F900CBE33D /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71101D688AD4C6F8A7E1E7E /* libFastImage.a */; };
+		049B227121EB90F900CBE33D /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104C2ABCAF24449842B21D8 /* libRNDeviceInfo.a */; };
+		049B227221EB90F900CBE33D /* libPods-Savills.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */; };
+		049B227621EB90F900CBE33D /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		049B228021EB910400CBE33D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		049B228121EB910400CBE33D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		049B228221EB910400CBE33D /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
+		049B228421EB910400CBE33D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		049B228521EB910400CBE33D /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
+		049B228621EB910400CBE33D /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
+		049B228721EB910400CBE33D /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54C2186AB4000F635EB /* OpenSans-BoldItalic.ttf */; };
+		049B228821EB910400CBE33D /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5472186AB4000F635EB /* OpenSans-ExtraBoldItalic.ttf */; };
+		049B228921EB910400CBE33D /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54B2186AB4000F635EB /* OpenSans-SemiBoldItalic.ttf */; };
+		049B228A21EB910400CBE33D /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5482186AB4000F635EB /* OpenSans-LightItalic.ttf */; };
+		049B228B21EB910400CBE33D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		049B228D21EB910400CBE33D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5452186AB3F00F635EB /* OpenSans-Bold.ttf */; };
+		049B228E21EB910400CBE33D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5462186AB4000F635EB /* OpenSans-Light.ttf */; };
+		049B228F21EB910400CBE33D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54D2186AB4000F635EB /* OpenSans-Regular.ttf */; };
+		049B229021EB910400CBE33D /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */; };
+		049B229121EB910400CBE33D /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1051FF6D8AA473FB042C5A6 /* OpenSans-Bold.ttf */; };
+		049B229221EB910400CBE33D /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E3B12823C9D4B17A3F1112B /* OpenSans-BoldItalic.ttf */; };
+		049B229321EB910400CBE33D /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11EDEB2857E041C6B533F44A /* OpenSans-ExtraBold.ttf */; };
+		049B229421EB910400CBE33D /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF0B0BB311E443E6860A251E /* OpenSans-ExtraBoldItalic.ttf */; };
+		049B229521EB910400CBE33D /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FC4EE5B57464C35849BD11B /* OpenSans-Italic.ttf */; };
+		049B229621EB910400CBE33D /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDF7E3BFD615476B83B31299 /* OpenSans-Light.ttf */; };
+		049B229721EB910400CBE33D /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28253AA0625648E9996F528C /* OpenSans-LightItalic.ttf */; };
+		049B229821EB910400CBE33D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71B4E0DD023D40C088B89453 /* OpenSans-Regular.ttf */; };
+		049B229921EB910400CBE33D /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 811272F1D91C432B83F88C53 /* OpenSans-SemiBold.ttf */; };
+		049B229A21EB910400CBE33D /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6B038E8382644BBB27FF747 /* OpenSans-SemiBoldItalic.ttf */; };
+		049B229C21EB910400CBE33D /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
+		049B229D21EB910400CBE33D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
+		049B229E21EB910400CBE33D /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		049B229F21EB910400CBE33D /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
+		049B22A021EB910400CBE33D /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		049B22A121EB910400CBE33D /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		049B22A221EB910400CBE33D /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		049B22A321EB910400CBE33D /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
+		049B22A421EB910400CBE33D /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		049B22A521EB910400CBE33D /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		049B22A621EB910400CBE33D /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		049B22A721EB910400CBE33D /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		049B22A821EB910400CBE33D /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		049B22A921EB910400CBE33D /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		049B22AA21EB910400CBE33D /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		049B22AB21EB910400CBE33D /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F53C22ACDE44CFB956B9786 /* libRNImagePicker.a */; };
+		049B22AC21EB910400CBE33D /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71101D688AD4C6F8A7E1E7E /* libFastImage.a */; };
+		049B22AD21EB910400CBE33D /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104C2ABCAF24449842B21D8 /* libRNDeviceInfo.a */; };
+		049B22AE21EB910400CBE33D /* libPods-Savills.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */; };
+		049B22B221EB910400CBE33D /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		049B22BD21EB929300CBE33D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 049B22BB21EB91A400CBE33D /* Info.plist */; };
+		049B22BE21EB929600CBE33D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 049B22BC21EB91A900CBE33D /* Info.plist */; };
+		049B22C021EB9D0800CBE33D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		049B22C121EB9D0800CBE33D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		049B22C221EB9D0900CBE33D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		04D05C2821E45AA800CB16D3 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
 		04D05C2B21E45ADE00CB16D3 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
 		04D05C2C21E45AFD00CB16D3 /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -481,24 +478,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0443C4B421E7FA1A007A3384 /* Embed Frameworks */ = {
+		049B227521EB90F900CBE33D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0443C4B521E7FA1A007A3384 /* PayooSDK.framework in Embed Frameworks */,
+				049B227621EB90F900CBE33D /* PayooSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0443C57721E80394007A3384 /* Embed Frameworks */ = {
+		049B22B121EB910400CBE33D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0443C57821E80394007A3384 /* PayooSDK.framework in Embed Frameworks */,
+				049B22B221EB910400CBE33D /* PayooSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -528,12 +525,10 @@
 		00E356F21AD99517003FC87E /* SavillsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SavillsTests.m; sourceTree = "<group>"; };
 		0414E55821ACFB0300460EAB /* Savills.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Savills.entitlements; path = Savills/Savills.entitlements; sourceTree = "<group>"; };
 		0414E55921AD283F00460EAB /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
-		041A265D21EB42CF00F48731 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Savills/Images.xcassets; sourceTree = SOURCE_ROOT; };
-		041A266121EB42DD00F48731 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Savills/Images.xcassets; sourceTree = SOURCE_ROOT; };
-		0443C4BA21E7FA1A007A3384 /* SavillsUat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavillsUat.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0443C4BB21E7FA1A007A3384 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = /Users/mac/Desktop/OutSource/Savills/ios/SavillsUat/Info.plist; sourceTree = "<absolute>"; };
-		0443C57D21E80394007A3384 /* SavillsHK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavillsHK.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0443C57E21E80394007A3384 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = /Users/mac/Desktop/OutSource/Savills/ios/SavillsHK/Info.plist; sourceTree = "<absolute>"; };
+		049B227B21EB90F900CBE33D /* SavillsHK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavillsHK.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		049B22B721EB910400CBE33D /* SavillsUat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavillsUat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		049B22BB21EB91A400CBE33D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SavillsUat/Info.plist; sourceTree = SOURCE_ROOT; };
+		049B22BC21EB91A900CBE33D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SavillsHK/Info.plist; sourceTree = SOURCE_ROOT; };
 		04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PayooSDK.framework; path = ../../../PayooSDK.framework; sourceTree = "<group>"; };
 		04D05C2921E45ADE00CB16D3 /* PayooSDKiOSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayooSDKiOSManager.h; path = ../../../../Downloads/Nhan_ios/PayooSDKiOSManager.h; sourceTree = "<group>"; };
 		04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayooSDKiOSManager.m; path = ../../../../Downloads/Nhan_ios/PayooSDKiOSManager.m; sourceTree = "<group>"; };
@@ -603,55 +598,55 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0443C49E21E7FA1A007A3384 /* Frameworks */ = {
+		049B225F21EB90F900CBE33D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0443C49F21E7FA1A007A3384 /* libRCTPushNotification.a in Frameworks */,
-				0443C4A021E7FA1A007A3384 /* libBVLinearGradient.a in Frameworks */,
-				0443C4A121E7FA1A007A3384 /* libRCTBlob.a in Frameworks */,
-				0443C4A221E7FA1A007A3384 /* PayooSDK.framework in Frameworks */,
-				0443C4A321E7FA1A007A3384 /* libRCTAnimation.a in Frameworks */,
-				0443C4A421E7FA1A007A3384 /* libReact.a in Frameworks */,
-				0443C4A521E7FA1A007A3384 /* libRCTActionSheet.a in Frameworks */,
-				0443C4A621E7FA1A007A3384 /* libRCTGeolocation.a in Frameworks */,
-				0443C4A721E7FA1A007A3384 /* libRCTImage.a in Frameworks */,
-				0443C4A821E7FA1A007A3384 /* libRCTLinking.a in Frameworks */,
-				0443C4A921E7FA1A007A3384 /* libRCTNetwork.a in Frameworks */,
-				0443C4AA21E7FA1A007A3384 /* libRCTSettings.a in Frameworks */,
-				0443C4AB21E7FA1A007A3384 /* libRCTText.a in Frameworks */,
-				0443C4AC21E7FA1A007A3384 /* libRCTVibration.a in Frameworks */,
-				0443C4AD21E7FA1A007A3384 /* libRCTWebSocket.a in Frameworks */,
-				0443C4AE21E7FA1A007A3384 /* libRNImagePicker.a in Frameworks */,
-				0443C4AF21E7FA1A007A3384 /* libFastImage.a in Frameworks */,
-				0443C4B021E7FA1A007A3384 /* libRNDeviceInfo.a in Frameworks */,
-				0443C4B121E7FA1A007A3384 /* libPods-Savills.a in Frameworks */,
+				049B226021EB90F900CBE33D /* libRCTPushNotification.a in Frameworks */,
+				049B226121EB90F900CBE33D /* libBVLinearGradient.a in Frameworks */,
+				049B226221EB90F900CBE33D /* libRCTBlob.a in Frameworks */,
+				049B226321EB90F900CBE33D /* PayooSDK.framework in Frameworks */,
+				049B226421EB90F900CBE33D /* libRCTAnimation.a in Frameworks */,
+				049B226521EB90F900CBE33D /* libReact.a in Frameworks */,
+				049B226621EB90F900CBE33D /* libRCTActionSheet.a in Frameworks */,
+				049B226721EB90F900CBE33D /* libRCTGeolocation.a in Frameworks */,
+				049B226821EB90F900CBE33D /* libRCTImage.a in Frameworks */,
+				049B226921EB90F900CBE33D /* libRCTLinking.a in Frameworks */,
+				049B226A21EB90F900CBE33D /* libRCTNetwork.a in Frameworks */,
+				049B226B21EB90F900CBE33D /* libRCTSettings.a in Frameworks */,
+				049B226C21EB90F900CBE33D /* libRCTText.a in Frameworks */,
+				049B226D21EB90F900CBE33D /* libRCTVibration.a in Frameworks */,
+				049B226E21EB90F900CBE33D /* libRCTWebSocket.a in Frameworks */,
+				049B226F21EB90F900CBE33D /* libRNImagePicker.a in Frameworks */,
+				049B227021EB90F900CBE33D /* libFastImage.a in Frameworks */,
+				049B227121EB90F900CBE33D /* libRNDeviceInfo.a in Frameworks */,
+				049B227221EB90F900CBE33D /* libPods-Savills.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0443C56121E80394007A3384 /* Frameworks */ = {
+		049B229B21EB910400CBE33D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0443C56221E80394007A3384 /* libRCTPushNotification.a in Frameworks */,
-				0443C56321E80394007A3384 /* libBVLinearGradient.a in Frameworks */,
-				0443C56421E80394007A3384 /* libRCTBlob.a in Frameworks */,
-				0443C56521E80394007A3384 /* PayooSDK.framework in Frameworks */,
-				0443C56621E80394007A3384 /* libRCTAnimation.a in Frameworks */,
-				0443C56721E80394007A3384 /* libReact.a in Frameworks */,
-				0443C56821E80394007A3384 /* libRCTActionSheet.a in Frameworks */,
-				0443C56921E80394007A3384 /* libRCTGeolocation.a in Frameworks */,
-				0443C56A21E80394007A3384 /* libRCTImage.a in Frameworks */,
-				0443C56B21E80394007A3384 /* libRCTLinking.a in Frameworks */,
-				0443C56C21E80394007A3384 /* libRCTNetwork.a in Frameworks */,
-				0443C56D21E80394007A3384 /* libRCTSettings.a in Frameworks */,
-				0443C56E21E80394007A3384 /* libRCTText.a in Frameworks */,
-				0443C56F21E80394007A3384 /* libRCTVibration.a in Frameworks */,
-				0443C57021E80394007A3384 /* libRCTWebSocket.a in Frameworks */,
-				0443C57121E80394007A3384 /* libRNImagePicker.a in Frameworks */,
-				0443C57221E80394007A3384 /* libFastImage.a in Frameworks */,
-				0443C57321E80394007A3384 /* libRNDeviceInfo.a in Frameworks */,
-				0443C57421E80394007A3384 /* libPods-Savills.a in Frameworks */,
+				049B229C21EB910400CBE33D /* libRCTPushNotification.a in Frameworks */,
+				049B229D21EB910400CBE33D /* libBVLinearGradient.a in Frameworks */,
+				049B229E21EB910400CBE33D /* libRCTBlob.a in Frameworks */,
+				049B229F21EB910400CBE33D /* PayooSDK.framework in Frameworks */,
+				049B22A021EB910400CBE33D /* libRCTAnimation.a in Frameworks */,
+				049B22A121EB910400CBE33D /* libReact.a in Frameworks */,
+				049B22A221EB910400CBE33D /* libRCTActionSheet.a in Frameworks */,
+				049B22A321EB910400CBE33D /* libRCTGeolocation.a in Frameworks */,
+				049B22A421EB910400CBE33D /* libRCTImage.a in Frameworks */,
+				049B22A521EB910400CBE33D /* libRCTLinking.a in Frameworks */,
+				049B22A621EB910400CBE33D /* libRCTNetwork.a in Frameworks */,
+				049B22A721EB910400CBE33D /* libRCTSettings.a in Frameworks */,
+				049B22A821EB910400CBE33D /* libRCTText.a in Frameworks */,
+				049B22A921EB910400CBE33D /* libRCTVibration.a in Frameworks */,
+				049B22AA21EB910400CBE33D /* libRCTWebSocket.a in Frameworks */,
+				049B22AB21EB910400CBE33D /* libRNImagePicker.a in Frameworks */,
+				049B22AC21EB910400CBE33D /* libFastImage.a in Frameworks */,
+				049B22AD21EB910400CBE33D /* libRNDeviceInfo.a in Frameworks */,
+				049B22AE21EB910400CBE33D /* libPods-Savills.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -761,24 +756,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0443C4FA21E7FA96007A3384 /* SavillsUat */ = {
-			isa = PBXGroup;
-			children = (
-				041A266121EB42DD00F48731 /* Images.xcassets */,
-				0443C4BB21E7FA1A007A3384 /* Info.plist */,
-			);
-			path = SavillsUat;
-			sourceTree = "<group>";
-		};
-		0443C57F21E803BC007A3384 /* SavillsHK */ = {
-			isa = PBXGroup;
-			children = (
-				041A265D21EB42CF00F48731 /* Images.xcassets */,
-				0443C57E21E80394007A3384 /* Info.plist */,
-			);
-			path = SavillsHK;
-			sourceTree = "<group>";
-		};
 		045B93E0218BE3D800945541 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -786,6 +763,24 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		049B22B921EB911300CBE33D /* SavillsHK */ = {
+			isa = PBXGroup;
+			children = (
+				049B22BC21EB91A900CBE33D /* Info.plist */,
+			);
+			name = SavillsHK;
+			path = /Users/mac/Desktop/OutSource/Savills/ios/SavillsHK;
+			sourceTree = "<absolute>";
+		};
+		049B22BA21EB911F00CBE33D /* SavillsUat */ = {
+			isa = PBXGroup;
+			children = (
+				049B22BB21EB91A400CBE33D /* Info.plist */,
+			);
+			name = SavillsUat;
+			path = /Users/mac/Desktop/OutSource/Savills/ios/SavillsUat;
+			sourceTree = "<absolute>";
 		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
 			isa = PBXGroup;
@@ -972,8 +967,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				0443C57F21E803BC007A3384 /* SavillsHK */,
-				0443C4FA21E7FA96007A3384 /* SavillsUat */,
+				049B22BA21EB911F00CBE33D /* SavillsUat */,
+				049B22B921EB911300CBE33D /* SavillsHK */,
 				04D05C2921E45ADE00CB16D3 /* PayooSDKiOSManager.h */,
 				04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */,
 				3D9FC51C2186AB2000F635EB /* fonts */,
@@ -996,8 +991,8 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* Savills.app */,
 				00E356EE1AD99517003FC87E /* SavillsTests.xctest */,
-				0443C4BA21E7FA1A007A3384 /* SavillsUat.app */,
-				0443C57D21E80394007A3384 /* SavillsHK.app */,
+				049B227B21EB90F900CBE33D /* SavillsHK.app */,
+				049B22B721EB910400CBE33D /* SavillsUat.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1049,40 +1044,18 @@
 			productReference = 00E356EE1AD99517003FC87E /* SavillsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		0443C48121E7FA1A007A3384 /* SavillsUat */ = {
+		049B224121EB90F900CBE33D /* SavillsHK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0443C4B721E7FA1A007A3384 /* Build configuration list for PBXNativeTarget "SavillsUat" */;
+			buildConfigurationList = 049B227821EB90F900CBE33D /* Build configuration list for PBXNativeTarget "SavillsHK" */;
 			buildPhases = (
-				0443C48221E7FA1A007A3384 /* [CP] Check Pods Manifest.lock */,
-				0443C48321E7FA1A007A3384 /* Sources */,
-				0443C48721E7FA1A007A3384 /* Resources */,
-				0443C49E21E7FA1A007A3384 /* Frameworks */,
-				0443C4B221E7FA1A007A3384 /* Bundle React Native code and images */,
-				0443C4B321E7FA1A007A3384 /* [CP] Copy Pods Resources */,
-				0443C4B421E7FA1A007A3384 /* Embed Frameworks */,
-				0443C4B621E7FA1A007A3384 /* Run Script */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SavillsUat;
-			productName = "Hello World";
-			productReference = 0443C4BA21E7FA1A007A3384 /* SavillsUat.app */;
-			productType = "com.apple.product-type.application";
-		};
-		0443C54321E80394007A3384 /* SavillsHK */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0443C57A21E80394007A3384 /* Build configuration list for PBXNativeTarget "SavillsHK" */;
-			buildPhases = (
-				0443C54421E80394007A3384 /* [CP] Check Pods Manifest.lock */,
-				0443C54521E80394007A3384 /* Sources */,
-				0443C54921E80394007A3384 /* Resources */,
-				0443C56121E80394007A3384 /* Frameworks */,
-				0443C57521E80394007A3384 /* Bundle React Native code and images */,
-				0443C57621E80394007A3384 /* [CP] Copy Pods Resources */,
-				0443C57721E80394007A3384 /* Embed Frameworks */,
-				0443C57921E80394007A3384 /* Run Script */,
+				049B224221EB90F900CBE33D /* [CP] Check Pods Manifest.lock */,
+				049B224321EB90F900CBE33D /* Sources */,
+				049B224721EB90F900CBE33D /* Resources */,
+				049B225F21EB90F900CBE33D /* Frameworks */,
+				049B227321EB90F900CBE33D /* Bundle React Native code and images */,
+				049B227421EB90F900CBE33D /* [CP] Copy Pods Resources */,
+				049B227521EB90F900CBE33D /* Embed Frameworks */,
+				049B227721EB90F900CBE33D /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -1090,7 +1063,29 @@
 			);
 			name = SavillsHK;
 			productName = "Hello World";
-			productReference = 0443C57D21E80394007A3384 /* SavillsHK.app */;
+			productReference = 049B227B21EB90F900CBE33D /* SavillsHK.app */;
+			productType = "com.apple.product-type.application";
+		};
+		049B227D21EB910400CBE33D /* SavillsUat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 049B22B421EB910400CBE33D /* Build configuration list for PBXNativeTarget "SavillsUat" */;
+			buildPhases = (
+				049B227E21EB910400CBE33D /* [CP] Check Pods Manifest.lock */,
+				049B227F21EB910400CBE33D /* Sources */,
+				049B228321EB910400CBE33D /* Resources */,
+				049B229B21EB910400CBE33D /* Frameworks */,
+				049B22AF21EB910400CBE33D /* Bundle React Native code and images */,
+				049B22B021EB910400CBE33D /* [CP] Copy Pods Resources */,
+				049B22B121EB910400CBE33D /* Embed Frameworks */,
+				049B22B321EB910400CBE33D /* Run Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SavillsUat;
+			productName = "Hello World";
+			productReference = 049B22B721EB910400CBE33D /* SavillsUat.app */;
 			productType = "com.apple.product-type.application";
 		};
 		13B07F861A680F5B00A75B9A /* Savills */ = {
@@ -1130,11 +1125,11 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
-					0443C48121E7FA1A007A3384 = {
+					049B224121EB90F900CBE33D = {
 						DevelopmentTeam = RKWT2743AJ;
 						ProvisioningStyle = Automatic;
 					};
-					0443C54321E80394007A3384 = {
+					049B227D21EB910400CBE33D = {
 						DevelopmentTeam = RKWT2743AJ;
 						ProvisioningStyle = Automatic;
 					};
@@ -1237,8 +1232,8 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* Savills */,
 				00E356ED1AD99517003FC87E /* SavillsTests */,
-				0443C48121E7FA1A007A3384 /* SavillsUat */,
-				0443C54321E80394007A3384 /* SavillsHK */,
+				049B224121EB90F900CBE33D /* SavillsHK */,
+				049B227D21EB910400CBE33D /* SavillsUat */,
 			);
 		};
 /* End PBXProject section */
@@ -1569,67 +1564,65 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0443C48721E7FA1A007A3384 /* Resources */ = {
+		049B224721EB90F900CBE33D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0443C48921E7FA1A007A3384 /* OpenSans-SemiBold.ttf in Resources */,
-				041A266321EB42DD00F48731 /* Images.xcassets in Resources */,
-				041A260521EAF11500F48731 /* Images.xcassets in Resources */,
-				0443C48A21E7FA1A007A3384 /* OpenSans-Italic.ttf in Resources */,
-				0443C48B21E7FA1A007A3384 /* OpenSans-BoldItalic.ttf in Resources */,
-				0443C48C21E7FA1A007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				0443C48D21E7FA1A007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */,
-				0443C48E21E7FA1A007A3384 /* OpenSans-LightItalic.ttf in Resources */,
-				0443C48F21E7FA1A007A3384 /* LaunchScreen.xib in Resources */,
-				0443C49021E7FA1A007A3384 /* OpenSans-Bold.ttf in Resources */,
-				041A265F21EB42CF00F48731 /* Images.xcassets in Resources */,
-				0443C49121E7FA1A007A3384 /* OpenSans-Light.ttf in Resources */,
-				0443C49221E7FA1A007A3384 /* OpenSans-Regular.ttf in Resources */,
-				0443C49321E7FA1A007A3384 /* OpenSans-ExtraBold.ttf in Resources */,
-				0443C49421E7FA1A007A3384 /* OpenSans-Bold.ttf in Resources */,
-				0443C49521E7FA1A007A3384 /* OpenSans-BoldItalic.ttf in Resources */,
-				0443C49621E7FA1A007A3384 /* OpenSans-ExtraBold.ttf in Resources */,
-				0443C49721E7FA1A007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				0443C49821E7FA1A007A3384 /* OpenSans-Italic.ttf in Resources */,
-				0443C49921E7FA1A007A3384 /* OpenSans-Light.ttf in Resources */,
-				0443C49A21E7FA1A007A3384 /* OpenSans-LightItalic.ttf in Resources */,
-				0443C49B21E7FA1A007A3384 /* OpenSans-Regular.ttf in Resources */,
-				0443C49C21E7FA1A007A3384 /* OpenSans-SemiBold.ttf in Resources */,
-				041A25F321EAE5B600F48731 /* Info.plist in Resources */,
-				0443C49D21E7FA1A007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				049B224821EB90F900CBE33D /* Images.xcassets in Resources */,
+				049B224921EB90F900CBE33D /* OpenSans-SemiBold.ttf in Resources */,
+				049B224A21EB90F900CBE33D /* OpenSans-Italic.ttf in Resources */,
+				049B224B21EB90F900CBE33D /* OpenSans-BoldItalic.ttf in Resources */,
+				049B224C21EB90F900CBE33D /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				049B224D21EB90F900CBE33D /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				049B224E21EB90F900CBE33D /* OpenSans-LightItalic.ttf in Resources */,
+				049B224F21EB90F900CBE33D /* LaunchScreen.xib in Resources */,
+				049B22BE21EB929600CBE33D /* Info.plist in Resources */,
+				049B225121EB90F900CBE33D /* OpenSans-Bold.ttf in Resources */,
+				049B225221EB90F900CBE33D /* OpenSans-Light.ttf in Resources */,
+				049B225321EB90F900CBE33D /* OpenSans-Regular.ttf in Resources */,
+				049B225421EB90F900CBE33D /* OpenSans-ExtraBold.ttf in Resources */,
+				049B225521EB90F900CBE33D /* OpenSans-Bold.ttf in Resources */,
+				049B225621EB90F900CBE33D /* OpenSans-BoldItalic.ttf in Resources */,
+				049B22C021EB9D0800CBE33D /* main.jsbundle in Resources */,
+				049B225721EB90F900CBE33D /* OpenSans-ExtraBold.ttf in Resources */,
+				049B225821EB90F900CBE33D /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				049B225921EB90F900CBE33D /* OpenSans-Italic.ttf in Resources */,
+				049B225A21EB90F900CBE33D /* OpenSans-Light.ttf in Resources */,
+				049B225B21EB90F900CBE33D /* OpenSans-LightItalic.ttf in Resources */,
+				049B225C21EB90F900CBE33D /* OpenSans-Regular.ttf in Resources */,
+				049B225D21EB90F900CBE33D /* OpenSans-SemiBold.ttf in Resources */,
+				049B225E21EB90F900CBE33D /* OpenSans-SemiBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0443C54921E80394007A3384 /* Resources */ = {
+		049B228321EB910400CBE33D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0443C54B21E80394007A3384 /* OpenSans-SemiBold.ttf in Resources */,
-				041A266421EB42DD00F48731 /* Images.xcassets in Resources */,
-				041A260621EAF11600F48731 /* Images.xcassets in Resources */,
-				0443C54C21E80394007A3384 /* OpenSans-Italic.ttf in Resources */,
-				0443C54D21E80394007A3384 /* OpenSans-BoldItalic.ttf in Resources */,
-				0443C54E21E80394007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				0443C54F21E80394007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */,
-				0443C55021E80394007A3384 /* OpenSans-LightItalic.ttf in Resources */,
-				0443C55221E80394007A3384 /* LaunchScreen.xib in Resources */,
-				0443C55321E80394007A3384 /* OpenSans-Bold.ttf in Resources */,
-				041A266021EB42CF00F48731 /* Images.xcassets in Resources */,
-				0443C55421E80394007A3384 /* OpenSans-Light.ttf in Resources */,
-				0443C58421E8046A007A3384 /* Info.plist in Resources */,
-				0443C55521E80394007A3384 /* OpenSans-Regular.ttf in Resources */,
-				0443C55621E80394007A3384 /* OpenSans-ExtraBold.ttf in Resources */,
-				0443C55721E80394007A3384 /* OpenSans-Bold.ttf in Resources */,
-				0443C55821E80394007A3384 /* OpenSans-BoldItalic.ttf in Resources */,
-				0443C55921E80394007A3384 /* OpenSans-ExtraBold.ttf in Resources */,
-				0443C55A21E80394007A3384 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
-				0443C55B21E80394007A3384 /* OpenSans-Italic.ttf in Resources */,
-				0443C55C21E80394007A3384 /* OpenSans-Light.ttf in Resources */,
-				0443C55D21E80394007A3384 /* OpenSans-LightItalic.ttf in Resources */,
-				0443C55E21E80394007A3384 /* OpenSans-Regular.ttf in Resources */,
-				0443C55F21E80394007A3384 /* OpenSans-SemiBold.ttf in Resources */,
-				0443C56021E80394007A3384 /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				049B228421EB910400CBE33D /* Images.xcassets in Resources */,
+				049B228521EB910400CBE33D /* OpenSans-SemiBold.ttf in Resources */,
+				049B228621EB910400CBE33D /* OpenSans-Italic.ttf in Resources */,
+				049B228721EB910400CBE33D /* OpenSans-BoldItalic.ttf in Resources */,
+				049B228821EB910400CBE33D /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				049B228921EB910400CBE33D /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				049B228A21EB910400CBE33D /* OpenSans-LightItalic.ttf in Resources */,
+				049B228B21EB910400CBE33D /* LaunchScreen.xib in Resources */,
+				049B22BD21EB929300CBE33D /* Info.plist in Resources */,
+				049B228D21EB910400CBE33D /* OpenSans-Bold.ttf in Resources */,
+				049B228E21EB910400CBE33D /* OpenSans-Light.ttf in Resources */,
+				049B228F21EB910400CBE33D /* OpenSans-Regular.ttf in Resources */,
+				049B229021EB910400CBE33D /* OpenSans-ExtraBold.ttf in Resources */,
+				049B229121EB910400CBE33D /* OpenSans-Bold.ttf in Resources */,
+				049B229221EB910400CBE33D /* OpenSans-BoldItalic.ttf in Resources */,
+				049B22C121EB9D0800CBE33D /* main.jsbundle in Resources */,
+				049B229321EB910400CBE33D /* OpenSans-ExtraBold.ttf in Resources */,
+				049B229421EB910400CBE33D /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				049B229521EB910400CBE33D /* OpenSans-Italic.ttf in Resources */,
+				049B229621EB910400CBE33D /* OpenSans-Light.ttf in Resources */,
+				049B229721EB910400CBE33D /* OpenSans-LightItalic.ttf in Resources */,
+				049B229821EB910400CBE33D /* OpenSans-Regular.ttf in Resources */,
+				049B229921EB910400CBE33D /* OpenSans-SemiBold.ttf in Resources */,
+				049B229A21EB910400CBE33D /* OpenSans-SemiBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1638,7 +1631,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				041A266221EB42DD00F48731 /* Images.xcassets in Resources */,
 				3D9FC5542186AB4000F635EB /* OpenSans-SemiBold.ttf in Resources */,
 				3D9FC5532186AB4000F635EB /* OpenSans-Italic.ttf in Resources */,
 				3D9FC5562186AB4000F635EB /* OpenSans-BoldItalic.ttf in Resources */,
@@ -1647,13 +1639,13 @@
 				3D9FC5522186AB4000F635EB /* OpenSans-LightItalic.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				041A25E121EAE36400F48731 /* Info.plist in Resources */,
-				041A265E21EB42CF00F48731 /* Images.xcassets in Resources */,
 				3D9FC54F2186AB4000F635EB /* OpenSans-Bold.ttf in Resources */,
 				3D9FC5502186AB4000F635EB /* OpenSans-Light.ttf in Resources */,
 				3D9FC5572186AB4000F635EB /* OpenSans-Regular.ttf in Resources */,
 				3D9FC54E2186AB4000F635EB /* OpenSans-ExtraBold.ttf in Resources */,
 				CC1BDFB44FFF4BEBB85726B2 /* OpenSans-Bold.ttf in Resources */,
 				BE765F38A2B54887B86760DC /* OpenSans-BoldItalic.ttf in Resources */,
+				049B22C221EB9D0900CBE33D /* main.jsbundle in Resources */,
 				7EFAEC2E22B74569B995864A /* OpenSans-ExtraBold.ttf in Resources */,
 				90D195BE306440DAB0B4345A /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				D861C42554F245CF82D8EE17 /* OpenSans-Italic.ttf in Resources */,
@@ -1682,7 +1674,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		0443C48221E7FA1A007A3384 /* [CP] Check Pods Manifest.lock */ = {
+		049B224221EB90F900CBE33D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1700,7 +1692,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0443C4B221E7FA1A007A3384 /* Bundle React Native code and images */ = {
+		049B227321EB90F900CBE33D /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1714,7 +1706,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		0443C4B321E7FA1A007A3384 /* [CP] Copy Pods Resources */ = {
+		049B227421EB90F900CBE33D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1734,7 +1726,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0443C4B621E7FA1A007A3384 /* Run Script */ = {
+		049B227721EB90F900CBE33D /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1752,7 +1744,7 @@
 			shellPath = /bin/sh;
 			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/PayooSDK.framework/strip-frameworks.sh\"\n";
 		};
-		0443C54421E80394007A3384 /* [CP] Check Pods Manifest.lock */ = {
+		049B227E21EB910400CBE33D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1770,7 +1762,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0443C57521E80394007A3384 /* Bundle React Native code and images */ = {
+		049B22AF21EB910400CBE33D /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1782,9 +1774,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh ./src/app/SavillsUat/index.js\n";
 		};
-		0443C57621E80394007A3384 /* [CP] Copy Pods Resources */ = {
+		049B22B021EB910400CBE33D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1804,7 +1796,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0443C57921E80394007A3384 /* Run Script */ = {
+		049B22B321EB910400CBE33D /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1889,23 +1881,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0443C48321E7FA1A007A3384 /* Sources */ = {
+		049B224321EB90F900CBE33D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0443C48421E7FA1A007A3384 /* AppDelegate.m in Sources */,
-				0443C48521E7FA1A007A3384 /* main.m in Sources */,
-				0443C48621E7FA1A007A3384 /* PayooSDKiOSManager.m in Sources */,
+				049B224421EB90F900CBE33D /* AppDelegate.m in Sources */,
+				049B224521EB90F900CBE33D /* main.m in Sources */,
+				049B224621EB90F900CBE33D /* PayooSDKiOSManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0443C54521E80394007A3384 /* Sources */ = {
+		049B227F21EB910400CBE33D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0443C54621E80394007A3384 /* AppDelegate.m in Sources */,
-				0443C54721E80394007A3384 /* main.m in Sources */,
-				0443C54821E80394007A3384 /* PayooSDKiOSManager.m in Sources */,
+				049B228021EB910400CBE33D /* AppDelegate.m in Sources */,
+				049B228121EB910400CBE33D /* main.m in Sources */,
+				049B228221EB910400CBE33D /* PayooSDKiOSManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2031,7 +2023,7 @@
 			};
 			name = Release;
 		};
-		0443C4B821E7FA1A007A3384 /* Debug */ = {
+		049B227921EB90F900CBE33D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */;
 			buildSettings = {
@@ -2058,7 +2050,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 				);
-				INFOPLIST_FILE = SavillsUat/Info.plist;
+				INFOPLIST_FILE = SavillsHK/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2070,14 +2062,14 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.savills.uat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.spms.hk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
-		0443C4B921E7FA1A007A3384 /* Release */ = {
+		049B227A21EB90F900CBE33D /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6EFCF097D2B4EB81A2083CBC /* Pods-Savills.release.xcconfig */;
 			buildSettings = {
@@ -2104,7 +2096,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 				);
-				INFOPLIST_FILE = SavillsUat/Info.plist;
+				INFOPLIST_FILE = SavillsHK/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2116,14 +2108,14 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.savills.uat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.spms.hk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
-		0443C57B21E80394007A3384 /* Debug */ = {
+		049B22B521EB910400CBE33D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */;
 			buildSettings = {
@@ -2150,7 +2142,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/SavillsHK/Info.plist";
+				INFOPLIST_FILE = SavillsUat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2162,14 +2154,14 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.savills.spms.hk;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.uat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
-		0443C57C21E80394007A3384 /* Release */ = {
+		049B22B621EB910400CBE33D /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6EFCF097D2B4EB81A2083CBC /* Pods-Savills.release.xcconfig */;
 			buildSettings = {
@@ -2196,7 +2188,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/SavillsHK/Info.plist";
+				INFOPLIST_FILE = SavillsUat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2208,7 +2200,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.savills.spms.hk;
+				PRODUCT_BUNDLE_IDENTIFIER = com.savills.uat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2418,20 +2410,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0443C4B721E7FA1A007A3384 /* Build configuration list for PBXNativeTarget "SavillsUat" */ = {
+		049B227821EB90F900CBE33D /* Build configuration list for PBXNativeTarget "SavillsHK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0443C4B821E7FA1A007A3384 /* Debug */,
-				0443C4B921E7FA1A007A3384 /* Release */,
+				049B227921EB90F900CBE33D /* Debug */,
+				049B227A21EB90F900CBE33D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0443C57A21E80394007A3384 /* Build configuration list for PBXNativeTarget "SavillsHK" */ = {
+		049B22B421EB910400CBE33D /* Build configuration list for PBXNativeTarget "SavillsUat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0443C57B21E80394007A3384 /* Debug */,
-				0443C57C21E80394007A3384 /* Release */,
+				049B22B521EB910400CBE33D /* Debug */,
+				049B22B621EB910400CBE33D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

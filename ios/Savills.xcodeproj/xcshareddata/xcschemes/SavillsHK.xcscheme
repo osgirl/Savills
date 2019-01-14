@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0443C54321E80394007A3384"
+               BlueprintIdentifier = "049B224121EB90F900CBE33D"
                BuildableName = "SavillsHK.app"
                BlueprintName = "SavillsHK"
                ReferencedContainer = "container:Savills.xcodeproj">
@@ -60,7 +60,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0443C54321E80394007A3384"
+            BlueprintIdentifier = "049B224121EB90F900CBE33D"
             BuildableName = "SavillsHK.app"
             BlueprintName = "SavillsHK"
             ReferencedContainer = "container:Savills.xcodeproj">
@@ -70,7 +70,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -83,7 +83,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0443C54321E80394007A3384"
+            BlueprintIdentifier = "049B224121EB90F900CBE33D"
             BuildableName = "SavillsHK.app"
             BlueprintName = "SavillsHK"
             ReferencedContainer = "container:Savills.xcodeproj">
@@ -102,7 +102,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0443C54321E80394007A3384"
+            BlueprintIdentifier = "049B224121EB90F900CBE33D"
             BuildableName = "SavillsHK.app"
             BlueprintName = "SavillsHK"
             ReferencedContainer = "container:Savills.xcodeproj">

@@ -4,8 +4,6 @@
 <dict>
 	<key>AppRegisterJS</key>
 	<string>com.savills.spms</string>
-	<key>JsCodeLocation</key>
-	<string>src/app/Savills/index</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -36,7 +34,9 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>11</string>
+	<key>JsCodeLocation</key>
+	<string>src/app/Savills/index</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

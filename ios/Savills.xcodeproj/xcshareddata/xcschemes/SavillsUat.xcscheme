@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0443C48121E7FA1A007A3384"
+               BlueprintIdentifier = "049B227D21EB910400CBE33D"
                BuildableName = "SavillsUat.app"
                BlueprintName = "SavillsUat"
                ReferencedContainer = "container:Savills.xcodeproj">
@@ -60,7 +60,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0443C48121E7FA1A007A3384"
+            BlueprintIdentifier = "049B227D21EB910400CBE33D"
             BuildableName = "SavillsUat.app"
             BlueprintName = "SavillsUat"
             ReferencedContainer = "container:Savills.xcodeproj">
@@ -83,7 +83,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0443C48121E7FA1A007A3384"
+            BlueprintIdentifier = "049B227D21EB910400CBE33D"
             BuildableName = "SavillsUat.app"
             BlueprintName = "SavillsUat"
             ReferencedContainer = "container:Savills.xcodeproj">
@@ -102,7 +102,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0443C48121E7FA1A007A3384"
+            BlueprintIdentifier = "049B227D21EB910400CBE33D"
             BuildableName = "SavillsUat.app"
             BlueprintName = "SavillsUat"
             ReferencedContainer = "container:Savills.xcodeproj">

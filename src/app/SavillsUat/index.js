@@ -1,6 +1,6 @@
- import React, { Component } from 'react';
-import { Animated, Easing } from 'react-native';
-import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
+import React, { Component } from 'react';
+import { Animated, AppRegistry } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import Stores from '../../stores/store';
 import * as Screens from '../../screens';
@@ -29,6 +29,7 @@ const Stack = createStackNavigator(stacks, {
 
 class App extends Component {
   render() {
+    alert('Uat');
     return (
       <Provider store={Stores}>
         <Stack />

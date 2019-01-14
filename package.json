@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "build": "cd android && ./gradlew clean &&  ./gradlew assembleRelease",
@@ -12,7 +13,6 @@
     "build-HK": "rm -rf /Users/mac/Desktop/OutSource/Savills/src/utils/linkApi.js && cp /Users/mac/Desktop/OutSource/Savills/src/app/SavillsHK/linkApi.js /Users/mac/Desktop/OutSource/Savills/src/utils/linkApi.js",
     "build-UAT": "rm -rf /Users/mac/Desktop/OutSource/Savills/src/utils/linkApi.js && cp /Users/mac/Desktop/OutSource/Savills/src/app/SavillsUat/linkApi.js /Users/mac/Desktop/OutSource/Savills/src/utils/linkApi.js",
     "build-S": "rm -rf /Users/mac/Desktop/OutSource/Savills/src/utils/linkApi.js && cp /Users/mac/Desktop/OutSource/Savills/src/app/Savills/linkApi.js /Users/mac/Desktop/OutSource/Savills/src/utils/linkApi.js"
-
   },
   "dependencies": {
     "date-fns": "^1.29.0",
