@@ -114,6 +114,18 @@ class modalReceip extends Component {
                         {detailHistory.paymentChanel && detailHistory.paymentChanel.name}
                       </Text>
                     </View>
+                    {
+                      detailHistory.serviceFee && detailHistory.serviceFee > 0 ?
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                          <Text style={{ flex: 0.5, fontFamily: 'OpenSans-SemiBold', fontSize: 13, color: '#BABFC8' }}>
+                            {languages.FEE_RECEIPT_SERVICEFEE || '' + ' :'}
+                          </Text>
+                          <Text style={{ flex: 1, fontFamily: 'OpenSans-Bold', fontSize: 14, textAlign: 'right', color: '#505E75' }}>
+                            {Utils.convertNumber(detailHistory.serviceFee) + ' VND'}
+                          </Text>
+                        </View> : null
+                    }
+
 
                     <View
                       style={{
