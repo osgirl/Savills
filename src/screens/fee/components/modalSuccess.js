@@ -67,7 +67,7 @@ class modalSuccessOrder extends Component {
             padding: 20
           }}
         >
-          <Button onPress={() => this.props.onClose()} style={{ padding: 20, position: 'absolute', top: 0, left: 0 }}>
+          <Button onPress={() => this.props.onClose()} style={{ padding: 20, position: 'absolute', top: 0, left: 0, zIndex: 2 }}>
             <Image source={require('@resources/icons/close-black.png')} />
           </Button>
           {this.state.loading ? (

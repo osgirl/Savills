@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Animated, Platform, ActivityIndicator, Alert } from 'react-native';
+import {
+  StyleSheet, Text, View, ScrollView, Dimensions, Image,
+  Animated, Platform, ActivityIndicator, Alert
+} from 'react-native';
 import { Header, AnimatedTitle } from '@components';
 
 import Connect from '@stores';
@@ -13,7 +16,7 @@ import Payoo from '@utils/payoo';
 import ModalFaild from './modalFaild';
 import Button from '@components/button';
 import Configs from '@utils/configs';
-
+import IC_PAY from '@resources/icons/pay.png';
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 const { width } = Dimensions.get('window');
@@ -56,7 +59,7 @@ class modalConfirm extends Component {
       this.setState({ loading: false });
 
       if (nextProps.fee.createOrder.error && nextProps.fee.createOrder.error.message.length > 0)
-        Alert.alert('Comming soon', nextProps.fee.createOrder.error.message, [{ text: 'OK', onPress: () => {} }], {
+        Alert.alert('Comming soon', nextProps.fee.createOrder.error.message, [{ text: 'OK', onPress: () => { } }], {
           cancelable: false
         });
     }
@@ -82,7 +85,7 @@ class modalConfirm extends Component {
         setTimeout(() => {
           this.props.onSuccess();
         }, 300);
-      } else {
+      } else if (response.status !== 3) {
         this.handleErrorMess(response.code || 0);
         setTimeout(() => {
           this._openModalFaild();
@@ -247,10 +250,8 @@ class modalConfirm extends Component {
           {this.state.loading ? (
             <ActivityIndicator size="small" color={Configs.colorMain} />
           ) : (
-            <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
-              {languages.FEE_CONFIRM_PAY}
-            </Text>
-          )}
+              <Image source={IC_PAY} />
+            )}
         </Button>
 
         <ModalFaild

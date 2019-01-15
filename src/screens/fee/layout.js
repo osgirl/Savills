@@ -13,6 +13,7 @@ import IC_DROPDOWN from '@resources/icons/dropDown.png';
 import IC_CHECK_WHITE from '@resources/icons/check_fee.png';
 import IC_CHECKED_WHITE from '@resources/icons/checked_white_fee.png';
 import IC_EVENTEMTY from '@resources/icons/Events_emty.png';
+import IC_PAY from '@resources/icons/pay.png';
 
 import ModalConfirm from './components/modalConfirm';
 import ModalHistory from './components/modalHistory';
@@ -171,79 +172,79 @@ export default class extends Component {
               backgroundColor: 'blue'
             }}
           > */}
-            <Animated.View
+          <Animated.View
+            style={{
+              marginTop: Resolution.scale(20),
+              alignItems: 'center',
+              opacity: opacityView1,
+              height: headerHeightContentTop,
+            }}
+          >
+            {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold' }}>October / 2018</Text> */}
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ fontSize: Resolution.scale(35), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
+                {Utils.convertNumber(this.state.totalPay)}
+              </Text>
+              <Text
+                style={{
+                  fontSize: Resolution.scale(20),
+                  fontFamily: 'OpenSans-Semibold',
+                  color: '#FFF',
+                  textAlign: 'right',
+                  marginLeft: Resolution.scale(10)
+                }}
+              >
+                VND
+                </Text>
+            </View>
+            <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5 }}>
+              {unitActive.fullUnitCode}
+            </Text>
+          </Animated.View>
+
+          <Animated.View style={{ opacity: opacityView2, }}>
+            <View
               style={{
-                marginTop: Resolution.scale(20),
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                opacity: opacityView1,
-                height: headerHeightContentTop,
+                paddingHorizontal: Resolution.scale(20),
+                height: 60
               }}
             >
-              {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold' }}>October / 2018</Text> */}
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ fontSize: Resolution.scale(35), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
-                  {Utils.convertNumber(this.state.totalPay)}
-                </Text>
+              <View style={{ justifyContent: 'center', alignSelf: 'center' }}>
+                {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text> */}
                 <Text
                   style={{
-                    fontSize: Resolution.scale(20),
+                    fontSize: Resolution.scale(12),
+                    fontFamily: 'OpenSans-Semibold',
+                    color: '#FFF',
+                    opacity: 1,
+                    textAlign: 'left'
+                  }}
+                >
+                  {unitActive.fullUnitCode}
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', alignSelf: 'center' }}>
+                <Text
+                  style={{
+                    fontSize: Resolution.scale(12),
                     fontFamily: 'OpenSans-Semibold',
                     color: '#FFF',
                     textAlign: 'right',
-                    marginLeft: Resolution.scale(10)
+                    marginRight: Resolution.scale(10),
+                    paddingBottom: Resolution.scale(5)
                   }}
                 >
                   VND
+                  </Text>
+                <Text style={{ fontSize: Resolution.scale(22), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
+                  {Utils.convertNumber(this.state.totalPay)}
                 </Text>
               </View>
-              <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5 }}>
-                {unitActive.fullUnitCode}
-              </Text>
-            </Animated.View>
-
-            <Animated.View style={{ opacity: opacityView2, }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingHorizontal: Resolution.scale(20),
-                  height: 60
-                }}
-              >
-                <View style={{ justifyContent: 'center', alignSelf: 'center' }}>
-                  {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text> */}
-                  <Text
-                    style={{
-                      fontSize: Resolution.scale(12),
-                      fontFamily: 'OpenSans-Semibold',
-                      color: '#FFF',
-                      opacity: 1,
-                      textAlign: 'left'
-                    }}
-                  >
-                    {unitActive.fullUnitCode}
-                  </Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', alignSelf: 'center' }}>
-                  <Text
-                    style={{
-                      fontSize: Resolution.scale(12),
-                      fontFamily: 'OpenSans-Semibold',
-                      color: '#FFF',
-                      textAlign: 'right',
-                      marginRight: Resolution.scale(10),
-                      paddingBottom: Resolution.scale(5)
-                    }}
-                  >
-                    VND
-                  </Text>
-                  <Text style={{ fontSize: Resolution.scale(22), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
-                    {Utils.convertNumber(this.state.totalPay)}
-                  </Text>
-                </View>
-              </View>
-            </Animated.View>
+            </View>
+          </Animated.View>
           {/* </Animated.View> */}
 
           <View
@@ -290,6 +291,7 @@ export default class extends Component {
             // onScroll={this.onScroll}
             scrollEventThrottle={16}
             renderItem={({ item, index }) => this.renderItem(item, index)}
+            ListFooterComponent={() => <View style={{ height: Resolution.scaleHeight(30) }} />}
             extraData={this.state}
           />
         ) : (
@@ -309,9 +311,10 @@ export default class extends Component {
               onPress={() => this._openModalConfirm()}
               style={[Styles.ButtonAdd, { backgroundColor: this.state.listFeeSelected.length > 0 ? '#01C772' : '#e0e0e0' }]}
             >
-              <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
+              {/* <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
                 {languages.FEE_LIST_PAY}
-              </Text>
+              </Text> */}
+              <Image source={IC_PAY} />
             </Button>
           </View>
         ) : null}
