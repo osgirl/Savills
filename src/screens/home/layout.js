@@ -11,6 +11,8 @@ import IC_GRIDVIEW from '@resources/icons/Grid-view.png';
 import IC_LISTVIEW_ACTIVE from '@resources/icons/list-view-active.png';
 import IC_LISTVIEW from '@resources/icons/list-view.png';
 import IMG_AVATAR_DEFAULT from '@resources/icons/avatar-default.png';
+import LOGO from '@resources/icons/logo.png';
+
 import Resolution from '@utils/resolution';
 
 import FastImage from '@components/fastImage';
@@ -86,16 +88,23 @@ export default class extends Component {
           }}
           style={{ flexDirection: 'column', alignItems: 'center', marginBottom: Resolution.scale(10) }}
         >
-          <Avatar size={imgSize} onReady={this.props.userProfile.imageProfile.success} bgColor={'#FFF'} animate="fade">
+          <FastImage
+            style={{
+              width: Resolution.scale(200),
+              height: Resolution.scale(50),
+              marginVertical: Resolution.scale(30)
+            }}
+            source={LOGO}
+          />
+          {/* <Avatar size={imgSize} onReady={this.props.userProfile.imageProfile.success} bgColor={'#FFF'} animate="fade">
             <Animated.View style={{ opacity: OpacityImage }}>
               <FastImage style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }} source={avatar} />
             </Animated.View>
-          </Avatar>
-          <Line txtWidth={100} height={20} onReady={User ? true : false} animate="fade">
+          </Avatar> */}
+          {/* <Line txtWidth={100} height={20} onReady={User ? true : false} animate="fade">
             {User && <Text style={Style.displayName}>{languages.HOME_HELLO_NAME + User.displayName}</Text>}
-          </Line>
-
-          <Text style={Style.unitCode}>{Unit.fullUnitCode}</Text>
+          </Line> */}
+          {/* <Text style={Style.unitCode}>{Unit.fullUnitCode}</Text> */}
         </Button>
         {checkEnabled ? (
           <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>

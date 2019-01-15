@@ -28,7 +28,7 @@ const style = StyleSheet.create({
         // bottom: Resolution.scaleHeight(100),
         // marginBottom: Resolution.scale(100),
         marginTop: Resolution.scale(20),
-        width: width - Resolution.scaleWidth(120),
+        width: width - Resolution.scaleWidth(80),
         marginHorizontal: Resolution.scale(60)
     },
     modalContent: {

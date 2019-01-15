@@ -149,7 +149,7 @@ export default class extends Component {
                 {this.props.account.tenant.error.message + '\n' + this.props.account.tenant.error.details}
               </Text>
             ) : null}
-            <View style={{ width: width - Resolution.scaleWidth(120) }}>
+            <View style={{ width: width - Resolution.scaleWidth(80) }}>
               <InputText
                 placeholder={languages.LOGIN_TXT_PLACEHOLDER_EMAIL}
                 iconLeft={IC_EMAIL}

@@ -17,7 +17,7 @@ include ':react-native-wheel-picker'
 project(':react-native-wheel-picker').projectDir = new File(settingsDir, '../node_modules/react-native-wheel-picker/android')
 
 include ':react-native-view-overflow'
-project(':react-native-view-overflow').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-view-overflow/android')
+project(':react-native-view-overflow').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-view-overflow/android')
 
 include ':react-native-code-push'
 project(':react-native-code-push').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-code-push/android/app')

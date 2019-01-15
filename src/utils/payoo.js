@@ -1,13 +1,11 @@
 import { NativeModules, Platform } from 'react-native';
 
 export default class Payoo {
-
   static payooSdk = Platform.OS == 'ios' ? NativeModules.PayooSDKiOSManager : NativeModules.PayooSDKAndroidModule;
 
   static async pay(language = 0, OrderXML, OrderChecksum, callback) {
-
-    let sdkInfo = {}
-    sdkInfo.Environment = 0 // 0: DEV, 1: PROD
+    let sdkInfo = {};
+    sdkInfo.Environment = 0; // 0: DEV, 1: PROD
     sdkInfo.Language = language === 0 ? 1 : 0;
     sdkInfo.MerchantID = '799';
     sdkInfo.MerchantShareKey = '3b15455cf91c99a224ff32b43f0b5dc0';
@@ -24,21 +22,17 @@ export default class Payoo {
         }
       }
     } else {
-      alert('ERROR PAYOO')
+      alert('ERROR PAYOO');
     }
   }
 
   static handleErrorMess(code, languageData = {}) {
-    let mess = 'Thanh toán không thành công'
-    Object.entries(languageData).forEach(
-      ([key, value]) => {
-        if (key === `PAYOOCODE_${code}`) {
-          mess = value;
-        }
+    let mess = 'Thanh toán không thành công';
+    Object.entries(languageData).forEach(([key, value]) => {
+      if (key === `PAYOOCODE_${code}`) {
+        mess = value;
       }
-    );
+    });
     return mess;
   }
-
-
 }

@@ -5,7 +5,7 @@ import { Button } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 
-import IC_CLOSE from "@resources/icons/close.png";
+import IC_CLOSE from '@resources/icons/close.png';
 
 import Connect from '@stores';
 
@@ -13,6 +13,7 @@ const { width } = Dimensions.get('window');
 
 class modalFaildOrder extends Component {
   render() {
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
     const { isVisible, message } = this.props;
     return (
       <Modal style={styles.container} isVisible={isVisible}>
@@ -31,7 +32,9 @@ class modalFaildOrder extends Component {
               <Image source={IC_CLOSE} />
             </Button>
             <Image source={require('@resources/icons/warning.png')} />
-            <Text style={{ marginVertical: 10, color: '#505E75', fontSize: 13, fontFamily: 'OpenSans-Bold' }}>Sorry !</Text>
+            <Text style={{ marginVertical: 10, color: '#505E75', fontSize: 13, fontFamily: 'OpenSans-Bold' }}>
+              {languages.FEE_MODAL_FAIL_TITLE}
+            </Text>
             <Text style={{ marginBottom: 20, color: '#BABFC8', fontFamily: 'OpenSans-Regular', textAlign: 'center' }}>
               {message}
             </Text>
@@ -42,7 +45,9 @@ class modalFaildOrder extends Component {
                 end={{ x: 1, y: 0 }}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}
               >
-                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>Close</Text>
+                <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                  {languages.FEE_MODAL_FAIL_CLOSE}
+                </Text>
               </LinearGradient>
             </Button>
           </View>
