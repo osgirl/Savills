@@ -340,7 +340,7 @@ export default class extends Component {
           <ModalSuccess
             onClose={() => this._closeModalSuccess()}
             goDetail={(id) => this._openDetailOrder(id, true)}
-            message={languages.FEE_TXT_SUCCESS}
+            message="Thanh  toán thành công ."
           />
         </Modal>
       </View>
