@@ -145,122 +145,122 @@ export default class Layou2 extends Component {
 
         {
           this.props.library.listLibary.success && this.state.data.length <= 0
-            ? this.renderEmty();
-        : !this.props.library.listLibary.success && this.props.library.listLibary.error
-          ? this.renderItem(this.props.library.listLibary.error.message || 'ERROR SERVER')
-          : this.props.library.listLibary.success && this.state.data.length > 0
-            ? (
+            ? this.renderEmty()
+            : !this.props.library.listLibary.success && this.props.library.listLibary.error
+              ? this.renderItem(this.props.library.listLibary.error.message || 'ERROR SERVER')
+              : this.props.library.listLibary.success && this.state.data.length > 0
+                ? (
                   // <View style={{ flex: 1 }}>
-          <FlatList
-            contentContainerStyle={{
-              alignItems: 'center',
-              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
-            }}
-            data={this.state.data}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => item.id.toString()}
-            onScroll={this.handleScroll}
-            renderItem={({ item, index }) => this.renderItem(item, index)}
-            extraData={this.state}
-            legacyImplementation={false}
-            // ListEmptyComponent={this.renderEmty()}
-            scrollEventThrottle={16}
-            ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleWidth(10) }} />}
-            ListFooterComponent={() => this._FooterFlatlist()}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.isRefresh}
-                onRefresh={() => this._onRefresh()}
-                // Android offset for RefreshControl
-                progressViewOffset={HEADER_MAX_HEIGHT}
-              />
-            }
-            contentInset={{
-              top: HEADER_MAX_HEIGHT
-            }}
-            contentOffset={{
-              y: -HEADER_MAX_HEIGHT
-            }}
-          />
-          )
-          : (
+                  <FlatList
+                    contentContainerStyle={{
+                      alignItems: 'center',
+                      paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+                    }}
+                    data={this.state.data}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={(item, index) => item.id.toString()}
+                    onScroll={this.handleScroll}
+                    renderItem={({ item, index }) => this.renderItem(item, index)}
+                    extraData={this.state}
+                    legacyImplementation={false}
+                    // ListEmptyComponent={this.renderEmty()}
+                    scrollEventThrottle={16}
+                    ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleWidth(10) }} />}
+                    ListFooterComponent={() => this._FooterFlatlist()}
+                    refreshControl={
+                      <RefreshControl
+                        refreshing={this.state.isRefresh}
+                        onRefresh={() => this._onRefresh()}
+                        // Android offset for RefreshControl
+                        progressViewOffset={HEADER_MAX_HEIGHT}
+                      />
+                    }
+                    contentInset={{
+                      top: HEADER_MAX_HEIGHT
+                    }}
+                    contentOffset={{
+                      y: -HEADER_MAX_HEIGHT
+                    }}
+                  />
+                )
+                : (
                   <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
-            <PlaceHolderItemH noMargin />
-          </View>
-          )}
+                    <PlaceHolderItemH noMargin />
+                  </View>
+                )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
-            <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
-          </Modal>
-        </View>
-        );
-      }
-    
+          <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
+        </Modal>
+      </View>
+    );
+  }
+
   renderItem = (item, index) => {
-          let date = moment(item.creationTime).format('l') || '';
-        let checkOnpress = item.numberOfDocuments > 0 ? false : true;
-        return (
+    let date = moment(item.creationTime).format('l') || '';
+    let checkOnpress = item.numberOfDocuments > 0 ? false : true;
+    return (
       <Button
-          onPress={() => this._goDetail(item)}
-          disabled={checkOnpress}
-          style={{
-            width: width - Resolution.scale(40),
-            borderRadius: 10,
-            marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10),
-            backgroundColor: '#FFF',
-            padding: Resolution.scale(20),
-            marginHorizontal: Resolution.scale(20),
-            flexDirection: 'row'
-          }}
-        >
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <Image source={DEFAULT_LIB} />
+        onPress={() => this._goDetail(item)}
+        disabled={checkOnpress}
+        style={{
+          width: width - Resolution.scale(40),
+          borderRadius: 10,
+          marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10),
+          backgroundColor: '#FFF',
+          padding: Resolution.scale(20),
+          marginHorizontal: Resolution.scale(20),
+          flexDirection: 'row'
+        }}
+      >
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <Image source={DEFAULT_LIB} />
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              flex: 1,
+              alignItems: 'flex-start',
+              marginLeft: Resolution.scale(10)
+            }}
+          >
+            <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.libraryName}</Text>
             <View
               style={{
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
                 flex: 1,
-                alignItems: 'flex-start',
-                marginLeft: Resolution.scale(10)
+                marginTop: Resolution.scale(10),
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between'
               }}
             >
-              <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.libraryName}</Text>
-              <View
-                style={{
-                  flex: 1,
-                  marginTop: Resolution.scale(10),
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
-                  <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
-                </View>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
+                <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
               </View>
             </View>
           </View>
+        </View>
 
-          {item.numberOfDocuments !== 0 ? (
-            <View style={{ justifyContent: 'center' }}>
-              <View
-                style={{
-                  backgroundColor: 'green',
-                  borderRadius: 30,
-                  width: 25,
-                  height: 25,
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>
-                  {item.numberOfDocuments}
-                </Text>
-              </View>
+        {item.numberOfDocuments !== 0 ? (
+          <View style={{ justifyContent: 'center' }}>
+            <View
+              style={{
+                backgroundColor: 'green',
+                borderRadius: 30,
+                width: 25,
+                height: 25,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>
+                {item.numberOfDocuments}
+              </Text>
             </View>
-          ) : null}
-        </Button>
-        );
-      };
-    }
+          </View>
+        ) : null}
+      </Button>
+    );
+  };
+}
