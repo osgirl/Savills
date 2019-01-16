@@ -121,10 +121,17 @@ export default class Layou2 extends Component {
       </View>
     );
   }
-  
-  renderEmty = () => (
-    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: HEADER_MAX_HEIGHT}}>
+
+  renderEmty = (text) => (
+    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: HEADER_MAX_HEIGHT }}>
       <Image source={IMG_EMTY} />
+      {
+        text && text.length > 0 ?
+          <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>
+            {text}
+          </Text> : null
+      }
+
     </View>
   )
 
@@ -135,8 +142,15 @@ export default class Layou2 extends Component {
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader(languages)}
-        { this.props.library.listLibary.success ? (
-          // <View style={{ flex: 1 }}>
+
+        {
+          this.props.library.listLibary.success && this.state.data.length <= 0
+            ? this.renderEmty();
+        : !this.props.library.listLibary.success && this.props.library.listLibary.error
+          ? this.renderItem(this.props.library.listLibary.error.message || 'ERROR SERVER')
+          : this.props.library.listLibary.success && this.state.data.length > 0
+            ? (
+                  // <View style={{ flex: 1 }}>
           <FlatList
             contentContainerStyle={{
               alignItems: 'center',
@@ -149,7 +163,7 @@ export default class Layou2 extends Component {
             renderItem={({ item, index }) => this.renderItem(item, index)}
             extraData={this.state}
             legacyImplementation={false}
-            ListEmptyComponent={this.renderEmty()}
+            // ListEmptyComponent={this.renderEmty()}
             scrollEventThrottle={16}
             ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleWidth(10) }} />}
             ListFooterComponent={() => this._FooterFlatlist()}
@@ -168,84 +182,85 @@ export default class Layou2 extends Component {
               y: -HEADER_MAX_HEIGHT
             }}
           />
-        ) : (
-            <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
-              <PlaceHolderItemH noMargin />
-            </View>
+          )
+          : (
+                  <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
+            <PlaceHolderItemH noMargin />
+          </View>
           )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
-          <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
-        </Modal>
-      </View>
-    );
-  }
-
+            <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
+          </Modal>
+        </View>
+        );
+      }
+    
   renderItem = (item, index) => {
-    let date = moment(item.creationTime).format('l') || '';
-    let checkOnpress = item.numberOfDocuments > 0 ? false : true;
-    return (
+          let date = moment(item.creationTime).format('l') || '';
+        let checkOnpress = item.numberOfDocuments > 0 ? false : true;
+        return (
       <Button
-        onPress={() => this._goDetail(item)}
-        disabled={checkOnpress}
-        style={{
-          width: width - Resolution.scale(40),
-          borderRadius: 10,
-          marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10),
-          backgroundColor: '#FFF',
-          padding: Resolution.scale(20),
-          marginHorizontal: Resolution.scale(20),
-          flexDirection: 'row'
-        }}
-      >
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <Image source={DEFAULT_LIB} />
-          <View
-            style={{
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              flex: 1,
-              alignItems: 'flex-start',
-              marginLeft: Resolution.scale(10)
-            }}
-          >
-            <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.libraryName}</Text>
+          onPress={() => this._goDetail(item)}
+          disabled={checkOnpress}
+          style={{
+            width: width - Resolution.scale(40),
+            borderRadius: 10,
+            marginTop: index === 0 ? Resolution.scale(20) : Resolution.scale(10),
+            backgroundColor: '#FFF',
+            padding: Resolution.scale(20),
+            marginHorizontal: Resolution.scale(20),
+            flexDirection: 'row'
+          }}
+        >
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <Image source={DEFAULT_LIB} />
             <View
               style={{
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
                 flex: 1,
-                marginTop: Resolution.scale(10),
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between'
+                alignItems: 'flex-start',
+                marginLeft: Resolution.scale(10)
               }}
             >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
-                <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
+              <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{item.libraryName}</Text>
+              <View
+                style={{
+                  flex: 1,
+                  marginTop: Resolution.scale(10),
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image style={{ marginRight: Resolution.scale(10) }} source={require('../../resources/icons/calendar.png')} />
+                  <Text style={{ color: '#C9CDD4', fontSize: Resolution.scale(12) }}>{date}</Text>
+                </View>
               </View>
             </View>
           </View>
-        </View>
 
-        {item.numberOfDocuments !== 0 ? (
-          <View style={{ justifyContent: 'center' }}>
-            <View
-              style={{
-                backgroundColor: 'green',
-                borderRadius: 30,
-                width: 25,
-                height: 25,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>
-                {item.numberOfDocuments}
-              </Text>
+          {item.numberOfDocuments !== 0 ? (
+            <View style={{ justifyContent: 'center' }}>
+              <View
+                style={{
+                  backgroundColor: 'green',
+                  borderRadius: 30,
+                  width: 25,
+                  height: 25,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Text style={{ color: '#FFF', fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Bold' }}>
+                  {item.numberOfDocuments}
+                </Text>
+              </View>
             </View>
-          </View>
-        ) : null}
-      </Button>
-    );
-  };
-}
+          ) : null}
+        </Button>
+        );
+      };
+    }
