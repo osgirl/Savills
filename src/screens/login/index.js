@@ -65,7 +65,8 @@ class Login extends layout {
           await this.props.actions.account.switchToUserAccount(
             this.props.account.accessToken,
             tenantList[0].tenantId,
-            tenantList[0].id,languages
+            tenantList[0].id,
+            languages
           );
         } else {
           await this._gotoChooseProject();
@@ -182,11 +183,6 @@ class Login extends layout {
       if (this.props.account.error !== nextProps.account.error) {
         if (nextProps.account.error) {
           await this.setState({ loading: false });
-        }
-      }
-      if (this.props.account.error !== nextProps.account.error) {
-        if (nextProps.account.error) {
-          this.setState({ loading: false });
         }
       }
     }

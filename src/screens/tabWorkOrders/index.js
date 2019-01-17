@@ -24,7 +24,7 @@ import TabProcess from './tabs/tabProcess';
 import TabComplete from './tabs/tabComplete';
 
 import Resolution from '@utils/resolution';
-const HEADER_MAX_HEIGHT =  Resolution.scale(60);
+const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 class TabWorkOrder extends PureComponent {
   constructor(props) {
@@ -51,27 +51,6 @@ class TabWorkOrder extends PureComponent {
     if (ida.itemtype) {
       this.props.navigation.navigate('ModalEditOrder', { id: ida.itemtype });
     }
-    this.fetchList();
-  };
-
-  fetchList = () => {
-    fetch('https://savills.spms.asia/core/api/services/app/WorkOrders/GetListCategory?culture=en', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg5NDc0IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6Ijg0NTA0ZWE4Y2VjMDQ5YzVhYjMzYTkxYjkyMjc0MTJmIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiIzTkIyS1M2UTJQTkVRT0NMMlBWVURYTkxRS0M0NTNYSCIsIkdlbmRlciI6Ik1hbGUiLCJVbmlxdWVJZCI6ImEyYjJmZmRkLThlMDgtNDk0YS1iZjQ4LTg4NjBkMTIwMzhiOSIsIkVtZXJnZW5jeUNvbnRhY3QiOiIxIiwiRGF0ZU9mQmlydGgiOiIwNi8xMS8yMDE4IDg6NDM6NTMgU0EgKzAwOjAwIiwiQ291bnRyeUNvZGUiOiJWTiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJVc2VyIiwiQk9DIl0sImh0dHA6Ly93d3cuYXNwbmV0Ym9pbGVycGxhdGUuY29tL2lkZW50aXR5L2NsYWltcy90ZW5hbnRJZCI6IjQiLCJzdWIiOiI4OTQ3NCIsImp0aSI6IjZkMzljZmU3LTc4YjAtNGE2NC1iM2ZiLWZhZjA0NmQyNjM0ZiIsImlhdCI6MTU0NjE4NzUyOSwiU2Vzc2lvbklkIjoiMTA3NzQiLCJTZXNzaW9uVHlwZUlkIjoiMSIsIm5iZiI6MTU0NjE4NzUyOSwiZXhwIjoxNTQ4Nzc5NTI5LCJpc3MiOiJTUE1TLVZpZXRuYW0iLCJhdWQiOiJTUE1TLVZpZXRuYW0ifQ.a49Buis4cBgZJ4KUxZIq0ClmtNANVoQ6MU658mbtecc'
-      }
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log('asdlakjsdklasdjalksdjaskldjaskdjaskldasda', responseJson);
-        return responseJson;
-      })
-      .catch(error => {
-        console.error(error);
-      });
   };
 
   componentWillReceiveProps = nextProps => {};

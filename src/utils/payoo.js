@@ -5,12 +5,18 @@ export default class Payoo {
 
   static async pay(language = 0, OrderXML, OrderChecksum, callback) {
     let sdkInfo = {};
-    sdkInfo.Environment = 0; // 0: DEV, 1: PROD
+    sdkInfo.Environment = 1; // 0: DEV, 1: PROD
     sdkInfo.Language = language === 0 ? 1 : 0;
-    sdkInfo.MerchantID = '799';
-    sdkInfo.MerchantShareKey = '3b15455cf91c99a224ff32b43f0b5dc0';
-    // sdkInfo.MerchantID = '813';
-    // sdkInfo.MerchantShareKey = '5754f8a5f373aa955ccf3a8f69f75b25';
+
+    // uat
+    // sdkInfo.MerchantID = '799';
+    // sdkInfo.MerchantShareKey = '3b15455cf91c99a224ff32b43f0b5dc0';
+
+    //prod
+    h
+    sdkInfo.MerchantID = '1608';
+    sdkInfo.MerchantShareKey = 'cd5dc10571cf2f740a484815cf53eb9b';
+
     sdkInfo.PayooOrderChecksum = OrderChecksum;
     sdkInfo.PayooOrderXML = OrderXML;
 

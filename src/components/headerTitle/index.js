@@ -18,7 +18,7 @@ export default class HeaderTitle extends Component {
       <Text
         adjustsFontSizeToFit={true}
         style={{
-          fontSize: Resolution.scale(Platform.OS === 'ios' ? 28 : fontSize),
+          fontSize: Resolution.scale(Platform.OS === 'ios' ? 28 : fontSize > 28 ? 28 : fontSize),
           fontFamily: 'OpenSans-Bold',
           color: '#FFF',
           marginTop: this.props.margintop,
@@ -32,14 +32,3 @@ export default class HeaderTitle extends Component {
     );
   }
 }
-
-const style = StyleSheet.create({
-  container: {
-    // marginBottom: Resolution.scale(20),
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    zIndex: 10
-  }
-});

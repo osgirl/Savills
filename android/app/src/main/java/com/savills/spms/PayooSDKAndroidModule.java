@@ -74,7 +74,7 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
         int lang = input.getInt("Language");
         order = Order.newBuilder().checksum(checksum).orderInfo(orderXML).build();
 
-        PayooMerchant payooMerchant = PayooMerchant.newBuilder().merchantId(merchantId).secretKey(merchantShareKey).isDevMode(true).build();
+        PayooMerchant payooMerchant = PayooMerchant.newBuilder().merchantId(merchantId).secretKey(merchantShareKey).isDevMode(false).build();
         PayooPaymentSDK.initialize(getReactApplicationContext(), payooMerchant);
         PaymentConfig configure = PaymentConfig.newBuilder().withLocale(com.savills.spms.LocaleHelper.getLocale(getReactApplicationContext(), lang == 0 ? PayooPaymentSDK.LOCALE_VI : PayooPaymentSDK.LOCALE_EN))
                 .withStyleResId(R.style.PayooSdkTheme_Blue)

@@ -770,7 +770,7 @@
 				049B22BC21EB91A900CBE33D /* Info.plist */,
 			);
 			name = SavillsHK;
-			path = /Users/mac/Desktop/OutSource/Savills/ios/SavillsHK;
+			path = /Users/mac/Desktop/OS/Savills/ios/SavillsHK;
 			sourceTree = "<absolute>";
 		};
 		049B22BA21EB911F00CBE33D /* SavillsUat */ = {
@@ -779,7 +779,7 @@
 				049B22BB21EB91A400CBE33D /* Info.plist */,
 			);
 			name = SavillsUat;
-			path = /Users/mac/Desktop/OutSource/Savills/ios/SavillsUat;
+			path = /Users/mac/Desktop/OS/Savills/ios/SavillsUat;
 			sourceTree = "<absolute>";
 		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {

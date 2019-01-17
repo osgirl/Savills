@@ -27,7 +27,7 @@ import { PlaceHolderItemH } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
 
-import IMG_EMTY from "../../resources/image/libary-emty.png";
+import IMG_EMTY from '../../resources/image/libary-emty.png';
 
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
@@ -52,8 +52,8 @@ export default class Layou2 extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-        <View style={{ height: Resolution.scaleHeight(20) }} />
-      );
+      <View style={{ height: Resolution.scaleHeight(20) }} />
+    );
   }
 
   renderHeader(languages) {
@@ -103,15 +103,20 @@ export default class Layou2 extends Component {
             </Button>
           }
         />
-        <Animated.View style={[{
-          position: 'absolute',
-          top: Resolution.scale(80),
-          left: 0,
-          right: 0,
-          overflow: 'hidden',
-          height: Resolution.scale(60),
-          zIndex: -1
-        }, { transform: [{ translateY: headerTranslate }] }]}>
+        <Animated.View
+          style={[
+            {
+              position: 'absolute',
+              top: Resolution.scale(80),
+              left: 0,
+              right: 0,
+              overflow: 'hidden',
+              height: Resolution.scale(60),
+              zIndex: -1
+            },
+            { transform: [{ translateY: headerTranslate }] }
+          ]}
+        >
           <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
             <Animated.View style={{ opacity: opacity }}>
               <HeaderTitle title={languages.LB_TITLEHEADER} />
@@ -121,12 +126,12 @@ export default class Layou2 extends Component {
       </View>
     );
   }
-  
+
   renderEmty = () => (
-    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: HEADER_MAX_HEIGHT}}>
+    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: HEADER_MAX_HEIGHT }}>
       <Image source={IMG_EMTY} />
     </View>
-  )
+  );
 
   render() {
     let unitActive = this.props.units.unitActive;
@@ -135,8 +140,7 @@ export default class Layou2 extends Component {
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader(languages)}
-        { this.props.library.listLibary.success ? (
-          // <View style={{ flex: 1 }}>
+        {this.props.library.listLibary.success ? (
           <FlatList
             contentContainerStyle={{
               alignItems: 'center',
@@ -169,10 +173,10 @@ export default class Layou2 extends Component {
             }}
           />
         ) : (
-            <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
-              <PlaceHolderItemH noMargin />
-            </View>
-          )}
+          <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
+            <PlaceHolderItemH noMargin />
+          </View>
+        )}
 
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />

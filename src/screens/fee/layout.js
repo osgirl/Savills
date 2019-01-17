@@ -32,7 +32,6 @@ const { width, height } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = Resolution.scale(50);
 
 export default class extends Component {
-
   handleScroll = event => {
     const scrollSensitivity = 4;
     Animated.event(
@@ -165,7 +164,12 @@ export default class extends Component {
           </Animated.View>
         </LinearGradient>
 
-        <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ zIndex: -2, justifyContent: 'center' }}>
+        <LinearGradient
+          colors={['#4A89E8', '#8FBCFF']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{ zIndex: -2, justifyContent: 'center' }}
+        >
           {/* <Animated.View
             style={{
               // transform: [{ translateY: headerContentTopTranslate }],
@@ -177,7 +181,7 @@ export default class extends Component {
               marginTop: Resolution.scale(20),
               alignItems: 'center',
               opacity: opacityView1,
-              height: headerHeightContentTop,
+              height: headerHeightContentTop
             }}
           >
             {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold' }}>October / 2018</Text> */}
@@ -195,14 +199,14 @@ export default class extends Component {
                 }}
               >
                 VND
-                </Text>
+              </Text>
             </View>
             <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5 }}>
               {unitActive.fullUnitCode}
             </Text>
           </Animated.View>
 
-          <Animated.View style={{ opacity: opacityView2, }}>
+          <Animated.View style={{ opacity: opacityView2 }}>
             <View
               style={{
                 flexDirection: 'row',
@@ -238,7 +242,7 @@ export default class extends Component {
                   }}
                 >
                   VND
-                  </Text>
+                </Text>
                 <Text style={{ fontSize: Resolution.scale(22), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
                   {Utils.convertNumber(this.state.totalPay)}
                 </Text>
@@ -277,7 +281,6 @@ export default class extends Component {
           </View>
         </LinearGradient>
 
-
         {this.props.fee.listUserFee.result && this.props.fee.listUserFee.result.totalCount === 0 ? (
           this.renderEmty(languages)
         ) : this.state.data.length > 0 ? (
@@ -295,8 +298,8 @@ export default class extends Component {
             extraData={this.state}
           />
         ) : (
-              <PlaceHolderItemH noMargin />
-            )}
+          <PlaceHolderItemH noMargin />
+        )}
         {this.state.data.length > 0 ? (
           <View>
             <View
@@ -339,8 +342,8 @@ export default class extends Component {
         <Modal isVisible={this.state.isShowModalSuccess} style={{ flex: 1, margin: 0, height: height }}>
           <ModalSuccess
             onClose={() => this._closeModalSuccess()}
-            goDetail={(id) => this._openDetailOrder(id, true)}
-            message="Thanh  toán thành công ."
+            goDetail={id => this._openDetailOrder(id, true)}
+            message={languages.FEE_MODAL_SUCCESS_TITLE}
           />
         </Modal>
       </View>
@@ -387,7 +390,7 @@ export default class extends Component {
                     </Text>
                   </View>
                 </View>
-                <View style={{ flex: 0.7, alignItems: 'flex-end', }}>
+                <View style={{ flex: 0.7, alignItems: 'flex-end' }}>
                   <Text style={{ color: '#BABFC8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
                     {Utils.convertNumber(data.totalAmount) + 'đ'}
                   </Text>
