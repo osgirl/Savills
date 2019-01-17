@@ -33,7 +33,7 @@ export default class Payoo {
   }
 
   static handleErrorMess(code, languageData = {}) {
-    let mess = 'Thanh toán không thành công';
+    let mess = languageData.PAYOOCODE_ERROR_DEFAULT || 'ERROR !!';
     Object.entries(languageData).forEach(([key, value]) => {
       if (key === `PAYOOCODE_${code}`) {
         mess = value;

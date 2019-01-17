@@ -15,21 +15,21 @@ const configs = {
   Shadow:
     Platform.OS === 'ios'
       ? {
-          shadowColor: '#4A89E8',
-          shadowOffset: { width: 0, height: 10 },
-          shadowOpacity: 0.15,
-          shadowRadius: 15
-        }
+        shadowColor: '#4A89E8',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.15,
+        shadowRadius: 15
+      }
       : {},
 
   ShadowButton:
     Platform.OS === 'ios'
       ? {
-          shadowColor: '#4A89E8',
-          shadowOffset: { width: 0, height: 10 },
-          shadowOpacity: 0.3,
-          shadowRadius: 15
-        }
+        shadowColor: '#4A89E8',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.3,
+        shadowRadius: 15
+      }
       : {}
 };
 

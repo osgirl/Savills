@@ -131,7 +131,7 @@ class Fee extends layout {
         await this.props.actions.notification.getUnreadCount(accessTokenAPI);
         setTimeout(() => {
             this._onRefresh();
-        }, 300)
+        }, 500)
     }
 
     _closeModalSuccess() {
