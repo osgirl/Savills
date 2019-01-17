@@ -27,10 +27,10 @@ export default class Payoo {
   }
 
   static handleErrorMess(code, languageData = {}) {
-    let mess = languageData.PAYOOCODE_ERROR_DEFAULT || 'ERROR !!';
+    let mess = languageData.PAYOOCODE_ERROR_DEFAULT + code || 'ERROR + !!' + code;
     Object.entries(languageData).forEach(([key, value]) => {
       if (key === `PAYOOCODE_${code}`) {
-        mess = value;
+        mess = value + code;
       }
     });
     return mess;
