@@ -144,8 +144,8 @@ export default class Layou2 extends Component {
         {this.renderHeader(languages)}
 
         {
-          this.props.library.listLibary.success && this.state.data.length > 0
-            ? this.renderEmty(languages.LB_TXT_EMTY || 'EMTY')
+          this.props.library.listLibary.success && this.state.data.length <= 0
+            ? this.renderEmty(languages.LB_TXT_EMTY || 'LB_TXT_EMTY')
             : this.props.library.listLibary.error && this.props.library.listLibary.error.message.length > 0
               ? this.renderEmty(this.props.library.listLibary.error.message || 'ERROR SERVER')
               : this.props.library.listLibary.success && this.state.data.length > 0
