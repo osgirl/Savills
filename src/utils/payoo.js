@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-
+import DeviceInfo from 'react-native-device-info';
 export default class Payoo {
   static payooSdk = Platform.OS == 'ios' ? NativeModules.PayooSDKiOSManager : NativeModules.PayooSDKAndroidModule;
 
@@ -13,7 +13,6 @@ export default class Payoo {
     // sdkInfo.MerchantShareKey = '3b15455cf91c99a224ff32b43f0b5dc0';
 
     //prod
-    h
     sdkInfo.MerchantID = '1608';
     sdkInfo.MerchantShareKey = 'cd5dc10571cf2f740a484815cf53eb9b';
 

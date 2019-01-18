@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, ScrollView, Dimensions, Image,
-  Animated, Platform, ActivityIndicator, Alert
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Image,
+  Animated,
+  Platform,
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 import { Header, AnimatedTitle } from '@components';
 
@@ -59,7 +67,7 @@ class modalConfirm extends Component {
       this.setState({ loading: false });
 
       if (nextProps.fee.createOrder.error && nextProps.fee.createOrder.error.message.length > 0)
-        Alert.alert('Comming soon', nextProps.fee.createOrder.error.message, [{ text: 'OK', onPress: () => { } }], {
+        Alert.alert('Comming soon', nextProps.fee.createOrder.error.message, [{ text: 'OK', onPress: () => {} }], {
           cancelable: false
         });
     }
@@ -247,11 +255,7 @@ class modalConfirm extends Component {
           onPress={() => this._createOrder()}
           style={[styles.ButtonAdd, { backgroundColor: this.state.loading ? '#e0e0e0' : '#01C772' }]}
         >
-          {this.state.loading ? (
-            <ActivityIndicator size="small" color={Configs.colorMain} />
-          ) : (
-              <Image source={IC_PAY} />
-            )}
+          {this.state.loading ? <ActivityIndicator size="small" color={Configs.colorMain} /> : <Image source={IC_PAY} />}
         </Button>
 
         <ModalFaild

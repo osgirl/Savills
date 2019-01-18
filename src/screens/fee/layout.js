@@ -314,9 +314,6 @@ export default class extends Component {
               onPress={() => this._openModalConfirm()}
               style={[Styles.ButtonAdd, { backgroundColor: this.state.listFeeSelected.length > 0 ? '#01C772' : '#e0e0e0' }]}
             >
-              {/* <Text style={{ color: '#F8F8F8', fontSize: Resolution.scale(14), fontFamily: 'OpenSans-SemiBold' }}>
-                {languages.FEE_LIST_PAY}
-              </Text> */}
               <Image source={IC_PAY} />
             </Button>
           </View>

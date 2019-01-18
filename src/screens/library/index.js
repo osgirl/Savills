@@ -25,10 +25,7 @@ class Libary extends layout {
   }
 
   async componentWillReceiveProps(nextProps) {
-    if (
-      this.props.library.listLibary.result !== nextProps.library.listLibary.result &&
-      nextProps.library.listLibary.success 
-    ) {
+    if (this.props.library.listLibary.result !== nextProps.library.listLibary.result && nextProps.library.listLibary.success) {
       await this.setState({ data: nextProps.library.listLibary.result });
       await this.setState({ isRefresh: false });
     }
