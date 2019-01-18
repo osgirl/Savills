@@ -27,7 +27,7 @@ import { PlaceHolderItemH } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderTitle from '@components/headerTitle';
 
-import IMG_EMTY from '../../resources/image/libary-emty.png';
+import IMG_EMTY from "../../resources/image/libary-emty.png";
 
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
@@ -52,8 +52,8 @@ export default class Layou2 extends Component {
         <ActivityIndicator size="large" color={Configs.colorMain} />
       </View>
     ) : (
-      <View style={{ height: Resolution.scaleHeight(20) }} />
-    );
+        <View style={{ height: Resolution.scaleHeight(20) }} />
+      );
   }
 
   renderHeader(languages) {
@@ -103,20 +103,15 @@ export default class Layou2 extends Component {
             </Button>
           }
         />
-        <Animated.View
-          style={[
-            {
-              position: 'absolute',
-              top: Resolution.scale(80),
-              left: 0,
-              right: 0,
-              overflow: 'hidden',
-              height: Resolution.scale(60),
-              zIndex: -1
-            },
-            { transform: [{ translateY: headerTranslate }] }
-          ]}
-        >
+        <Animated.View style={[{
+          position: 'absolute',
+          top: Resolution.scale(80),
+          left: 0,
+          right: 0,
+          overflow: 'hidden',
+          height: Resolution.scale(60),
+          zIndex: -1
+        }, { transform: [{ translateY: headerTranslate }] }]}>
           <LinearGradient colors={['#4A89E8', '#8FBCFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }}>
             <Animated.View style={{ opacity: opacity }}>
               <HeaderTitle title={languages.LB_TITLEHEADER} />
@@ -127,14 +122,18 @@ export default class Layou2 extends Component {
     );
   }
 
-  renderEmty = text => (
+  renderEmty = (text) => (
     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: HEADER_MAX_HEIGHT }}>
-      <Image style={{ marginTop: Resolution.scale(width / 2 - 100) }} source={IMG_EMTY} />
-      {text && text.length > 0 ? (
-        <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{text}</Text>
-      ) : null}
+      <Image source={IMG_EMTY} />
+      {
+        text && text.length > 0 ?
+          <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>
+            {text}
+          </Text> : null
+      }
+
     </View>
-  );
+  )
 
   render() {
     let unitActive = this.props.units.unitActive;
@@ -144,45 +143,52 @@ export default class Layou2 extends Component {
         <StatusBar barStyle="light-content" />
         {this.renderHeader(languages)}
 
-        {this.props.library.listLibary.success && this.state.data.length == 0 ? (
-          this.renderEmty(languages.LB_TXT_EMTY || 'LB_TXT_EMTY')
-        ) : this.props.library.listLibary.error && this.props.library.listLibary.error.message.length > 0 ? (
-          this.renderEmty(this.props.library.listLibary.error.message || 'ERROR SERVER')
-        ) : this.props.library.listLibary.success && this.state.data.length > 0 ? (
-          <FlatList
-            contentContainerStyle={{
-              alignItems: 'center',
-              paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
-            }}
-            data={this.state.data}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => item.id.toString()}
-            onScroll={this.handleScroll}
-            renderItem={({ item, index }) => this.renderItem(item, index)}
-            extraData={this.state}
-            legacyImplementation={false}
-            scrollEventThrottle={16}
-            ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleWidth(10) }} />}
-            ListFooterComponent={() => this._FooterFlatlist()}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.isRefresh}
-                onRefresh={() => this._onRefresh()}
-                progressViewOffset={HEADER_MAX_HEIGHT}
-              />
-            }
-            contentInset={{
-              top: HEADER_MAX_HEIGHT
-            }}
-            contentOffset={{
-              y: -HEADER_MAX_HEIGHT
-            }}
-          />
-        ) : (
-          <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
-            <PlaceHolderItemH noMargin />
-          </View>
-        )}
+        {
+          this.props.library.listLibary.success && this.state.data.length <= 0
+            ? this.renderEmty(languages.LB_TXT_EMTY || 'LB_TXT_EMTY')
+            : this.props.library.listLibary.error && this.props.library.listLibary.error.message.length > 0
+              ? this.renderEmty(this.props.library.listLibary.error.message || 'ERROR SERVER')
+              : this.props.library.listLibary.success && this.state.data.length > 0
+                ? (
+                  // <View style={{ flex: 1 }}>
+                  <FlatList
+                    contentContainerStyle={{
+                      alignItems: 'center',
+                      paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
+                    }}
+                    data={this.state.data}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={(item, index) => item.id.toString()}
+                    onScroll={this.handleScroll}
+                    renderItem={({ item, index }) => this.renderItem(item, index)}
+                    extraData={this.state}
+                    legacyImplementation={false}
+                    // ListEmptyComponent={this.renderEmty()}
+                    scrollEventThrottle={16}
+                    ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleWidth(10) }} />}
+                    ListFooterComponent={() => this._FooterFlatlist()}
+                    refreshControl={
+                      <RefreshControl
+                        refreshing={this.state.isRefresh}
+                        onRefresh={() => this._onRefresh()}
+                        // Android offset for RefreshControl
+                        progressViewOffset={HEADER_MAX_HEIGHT}
+                      />
+                    }
+                    contentInset={{
+                      top: HEADER_MAX_HEIGHT
+                    }}
+                    contentOffset={{
+                      y: -HEADER_MAX_HEIGHT
+                    }}
+                  />
+                )
+                : (
+                  <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
+                    <PlaceHolderItemH noMargin />
+                  </View>
+                )}
+
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
         </Modal>
