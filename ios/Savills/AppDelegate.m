@@ -11,7 +11,7 @@
 #import <React/RCTRootView.h>
 #import <React/RCTPushNotificationManager.h>
 #import <UserNotifications/UserNotifications.h>
-#import "CodePush/CodePush.h"
+//#import "CodePush/CodePush.h"
 
 @import PayooSDK;
 @implementation AppDelegate
@@ -26,10 +26,10 @@
 #ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:mainBundle[@"JsCodeLocation"] fallbackResource:nil];
 #else
-  jsCodeLocation = [CodePush bundleURL];
+//  jsCodeLocation = [CodePush bundleURL];
 #endif
 
-//  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:mainBundle[@"JsCodeLocation"] fallbackResource:nil];
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:mainBundle[@"JsCodeLocation"] fallbackResource:nil];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:mainBundle[@"AppRegisterJS"]
                                                initialProperties:nil

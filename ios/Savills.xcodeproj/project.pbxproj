@@ -18,7 +18,6 @@
 		041A25E121EAE36400F48731 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
 		049B224421EB90F900CBE33D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		049B224521EB90F900CBE33D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		049B224621EB90F900CBE33D /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
 		049B224821EB90F900CBE33D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		049B224921EB90F900CBE33D /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
 		049B224A21EB90F900CBE33D /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
@@ -44,7 +43,6 @@
 		049B226021EB90F900CBE33D /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
 		049B226121EB90F900CBE33D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
 		049B226221EB90F900CBE33D /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		049B226321EB90F900CBE33D /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
 		049B226421EB90F900CBE33D /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		049B226521EB90F900CBE33D /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		049B226621EB90F900CBE33D /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -59,11 +57,8 @@
 		049B226F21EB90F900CBE33D /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F53C22ACDE44CFB956B9786 /* libRNImagePicker.a */; };
 		049B227021EB90F900CBE33D /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71101D688AD4C6F8A7E1E7E /* libFastImage.a */; };
 		049B227121EB90F900CBE33D /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104C2ABCAF24449842B21D8 /* libRNDeviceInfo.a */; };
-		049B227221EB90F900CBE33D /* libPods-Savills.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */; };
-		049B227621EB90F900CBE33D /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		049B228021EB910400CBE33D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		049B228121EB910400CBE33D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		049B228221EB910400CBE33D /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
 		049B228421EB910400CBE33D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		049B228521EB910400CBE33D /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
 		049B228621EB910400CBE33D /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
@@ -89,7 +84,6 @@
 		049B229C21EB910400CBE33D /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0414E55F21AD283F00460EAB /* libRCTPushNotification.a */; };
 		049B229D21EB910400CBE33D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
 		049B229E21EB910400CBE33D /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		049B229F21EB910400CBE33D /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
 		049B22A021EB910400CBE33D /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		049B22A121EB910400CBE33D /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		049B22A221EB910400CBE33D /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -104,8 +98,6 @@
 		049B22AB21EB910400CBE33D /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F53C22ACDE44CFB956B9786 /* libRNImagePicker.a */; };
 		049B22AC21EB910400CBE33D /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71101D688AD4C6F8A7E1E7E /* libFastImage.a */; };
 		049B22AD21EB910400CBE33D /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104C2ABCAF24449842B21D8 /* libRNDeviceInfo.a */; };
-		049B22AE21EB910400CBE33D /* libPods-Savills.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */; };
-		049B22B221EB910400CBE33D /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		049B22BD21EB929300CBE33D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 049B22BB21EB91A400CBE33D /* Info.plist */; };
 		049B22BE21EB929600CBE33D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 049B22BC21EB91A900CBE33D /* Info.plist */; };
 		049B22C021EB9D0800CBE33D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
@@ -343,6 +335,20 @@
 			remoteGlobalIDString = 64AA15081EF7F30100718508;
 			remoteInfo = "BVLinearGradient-tvOS";
 		};
+		3D0DCED521EF54F100DEAB78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D0DCED021EF54F100DEAB78 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = CodePush;
+		};
+		3D0DCED721EF54F100DEAB78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D0DCED021EF54F100DEAB78 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F886647B1F4ADB500036D01B;
+			remoteInfo = "CodePush-tvOS";
+		};
 		3D15242D2191D84B00827344 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6850440A501E4E21862B04D9 /* FastImage.xcodeproj */;
@@ -485,7 +491,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				049B227621EB90F900CBE33D /* PayooSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -496,7 +501,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				049B22B221EB910400CBE33D /* PayooSDK.framework in Embed Frameworks */,
+				3D0E643C21EF6CAF0060BC6F /* PayooSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -507,7 +512,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3D9D302321EC5BED00499165 /* PayooSDK.framework in Embed Frameworks */,
+				3D0DCEDC21EF61C500DEAB78 /* PayooSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -530,9 +535,6 @@
 		049B22B721EB910400CBE33D /* SavillsUat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavillsUat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		049B22BB21EB91A400CBE33D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SavillsUat/Info.plist; sourceTree = SOURCE_ROOT; };
 		049B22BC21EB91A900CBE33D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SavillsHK/Info.plist; sourceTree = SOURCE_ROOT; };
-		04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PayooSDK.framework; path = ../../../PayooSDK.framework; sourceTree = "<group>"; };
-		04D05C2921E45ADE00CB16D3 /* PayooSDKiOSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayooSDKiOSManager.h; path = ../../../../Downloads/Nhan_ios/PayooSDKiOSManager.h; sourceTree = "<group>"; };
-		04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayooSDKiOSManager.m; path = ../../../../Downloads/Nhan_ios/PayooSDKiOSManager.m; sourceTree = "<group>"; };
 		0E3B12823C9D4B17A3F1112B /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-BoldItalic.ttf"; path = "../assets/fonts/OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		0FC4EE5B57464C35849BD11B /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Italic.ttf"; path = "../assets/fonts/OpenSans-Italic.ttf"; sourceTree = "<group>"; };
 		11EDEB2857E041C6B533F44A /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBold.ttf"; path = "../assets/fonts/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -564,12 +566,12 @@
 		3D9FC54B2186AB4000F635EB /* OpenSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-SemiBoldItalic.ttf"; path = "../../assets/fonts/OpenSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		3D9FC54C2186AB4000F635EB /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-BoldItalic.ttf"; path = "../../assets/fonts/OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		3D9FC54D2186AB4000F635EB /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "../../assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		42129894B328B61B740CEE40 /* Pods-Savills.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savills.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Savills/Pods-Savills.debug.xcconfig"; sourceTree = "<group>"; };
 		5813C83995CF87F43A96D031 /* libPods-Savills-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Savills-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CD21113DF7345B78AE9CCAC /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6850440A501E4E21862B04D9 /* FastImage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		696827BFA6C8415096875932 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
-		6EFCF097D2B4EB81A2083CBC /* Pods-Savills.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savills.release.xcconfig"; path = "Pods/Target Support Files/Pods-Savills/Pods-Savills.release.xcconfig"; sourceTree = "<group>"; };
 		71B4E0DD023D40C088B89453 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Regular.ttf"; path = "../assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7C9D1C636D46D739B43132BE /* Pods-Savills-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savills-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Savills-tvOSTests/Pods-Savills-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		970B8CEBE03FC92BAA4FFB19 /* Pods-Savills-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savills-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Savills-tvOS/Pods-Savills-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		A71101D688AD4C6F8A7E1E7E /* libFastImage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libFastImage.a; sourceTree = "<group>"; };
+		A8E57EC709900AACEE6EB481 /* Pods-Savills.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savills.release.xcconfig"; path = "Pods/Target Support Files/Pods-Savills/Pods-Savills.release.xcconfig"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AFB693BD8C994419A448CCAC /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		AFBC28EA9ABA411E89D037E8 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -586,7 +589,6 @@
 		DB39D779FAB8F93366CFAA00 /* libPods-Savills-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Savills-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6B038E8382644BBB27FF747 /* OpenSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-SemiBoldItalic.ttf"; path = "../assets/fonts/OpenSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		F1051FF6D8AA473FB042C5A6 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Bold.ttf"; path = "../assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savills.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Savills/Pods-Savills.debug.xcconfig"; sourceTree = "<group>"; };
 		FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Savills.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF0B0BB311E443E6860A251E /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBoldItalic.ttf"; path = "../assets/fonts/OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -607,7 +609,6 @@
 				049B226021EB90F900CBE33D /* libRCTPushNotification.a in Frameworks */,
 				049B226121EB90F900CBE33D /* libBVLinearGradient.a in Frameworks */,
 				049B226221EB90F900CBE33D /* libRCTBlob.a in Frameworks */,
-				049B226321EB90F900CBE33D /* PayooSDK.framework in Frameworks */,
 				049B226421EB90F900CBE33D /* libRCTAnimation.a in Frameworks */,
 				049B226521EB90F900CBE33D /* libReact.a in Frameworks */,
 				049B226621EB90F900CBE33D /* libRCTActionSheet.a in Frameworks */,
@@ -622,7 +623,6 @@
 				049B226F21EB90F900CBE33D /* libRNImagePicker.a in Frameworks */,
 				049B227021EB90F900CBE33D /* libFastImage.a in Frameworks */,
 				049B227121EB90F900CBE33D /* libRNDeviceInfo.a in Frameworks */,
-				049B227221EB90F900CBE33D /* libPods-Savills.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -633,12 +633,12 @@
 				049B229C21EB910400CBE33D /* libRCTPushNotification.a in Frameworks */,
 				049B229D21EB910400CBE33D /* libBVLinearGradient.a in Frameworks */,
 				049B229E21EB910400CBE33D /* libRCTBlob.a in Frameworks */,
-				049B229F21EB910400CBE33D /* PayooSDK.framework in Frameworks */,
 				049B22A021EB910400CBE33D /* libRCTAnimation.a in Frameworks */,
 				049B22A121EB910400CBE33D /* libReact.a in Frameworks */,
 				049B22A221EB910400CBE33D /* libRCTActionSheet.a in Frameworks */,
 				049B22A321EB910400CBE33D /* libRCTGeolocation.a in Frameworks */,
 				049B22A421EB910400CBE33D /* libRCTImage.a in Frameworks */,
+				3D0E643B21EF6CAF0060BC6F /* PayooSDK.framework in Frameworks */,
 				049B22A521EB910400CBE33D /* libRCTLinking.a in Frameworks */,
 				049B22A621EB910400CBE33D /* libRCTNetwork.a in Frameworks */,
 				049B22A721EB910400CBE33D /* libRCTSettings.a in Frameworks */,
@@ -648,7 +648,6 @@
 				049B22AB21EB910400CBE33D /* libRNImagePicker.a in Frameworks */,
 				049B22AC21EB910400CBE33D /* libFastImage.a in Frameworks */,
 				049B22AD21EB910400CBE33D /* libRNDeviceInfo.a in Frameworks */,
-				049B22AE21EB910400CBE33D /* libPods-Savills.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,8 +655,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D9D302221EC5BED00499165 /* PayooSDK.framework in Frameworks */,
-				3D9D302121EC5BCA00499165 /* PayooSDK.framework in Frameworks */,
+				3D0DCEDD21EF62E100DEAB78 /* PayooSDK.framework in Frameworks */,
 				0414E56221AD299A00460EAB /* libRCTPushNotification.a in Frameworks */,
 				3D08853321831F4000CE67A6 /* libBVLinearGradient.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -846,12 +844,12 @@
 		15BC99C767658DA0575D94A3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */,
-				6EFCF097D2B4EB81A2083CBC /* Pods-Savills.release.xcconfig */,
 				36530F1E556675A4FEFF0A5D /* Pods-Savills-tvOS.debug.xcconfig */,
 				970B8CEBE03FC92BAA4FFB19 /* Pods-Savills-tvOS.release.xcconfig */,
 				7C9D1C636D46D739B43132BE /* Pods-Savills-tvOSTests.debug.xcconfig */,
 				1D2226FD33B22AA0B8254AF5 /* Pods-Savills-tvOSTests.release.xcconfig */,
+				42129894B328B61B740CEE40 /* Pods-Savills.debug.xcconfig */,
+				A8E57EC709900AACEE6EB481 /* Pods-Savills.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -859,7 +857,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3D9D302021EC5BCA00499165 /* PayooSDK.framework */,
+				3D0DCED921EF61B900DEAB78 /* PayooSDK.framework */,
+				3D0DCE8F21EF4EDF00DEAB78 /* libCodePush.a */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */,
 				5813C83995CF87F43A96D031 /* libPods-Savills-tvOS.a */,
@@ -888,6 +887,15 @@
 			children = (
 				3D08853021831F2500CE67A6 /* libBVLinearGradient.a */,
 				3D08853221831F2500CE67A6 /* libBVLinearGradient.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3D0DCED121EF54F100DEAB78 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3D0DCED621EF54F100DEAB78 /* libCodePush.a */,
+				3D0DCED821EF54F100DEAB78 /* libCodePush.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -938,6 +946,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3D0DCED021EF54F100DEAB78 /* CodePush.xcodeproj */,
 				0414E55921AD283F00460EAB /* RCTPushNotification.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -971,10 +980,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3D0DCE4C21EF4DB900DEAB78 /* PayooSDKiOSManager.h */,
+				3D0DCE4B21EF4DB800DEAB78 /* PayooSDKiOSManager.m */,
 				049B22BA21EB911F00CBE33D /* SavillsUat */,
 				049B22B921EB911300CBE33D /* SavillsHK */,
-				04D05C2921E45ADE00CB16D3 /* PayooSDKiOSManager.h */,
-				04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */,
 				3D9FC51C2186AB2000F635EB /* fonts */,
 				13B07FAE1A68108700A75B9A /* Savills */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -989,6 +998,7 @@
 			sourceTree = "<group>";
 			tabWidth = 2;
 			usesTabs = 0;
+			wrapsLines = 0;
 		};
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
@@ -1052,12 +1062,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 049B227821EB90F900CBE33D /* Build configuration list for PBXNativeTarget "SavillsHK" */;
 			buildPhases = (
-				049B224221EB90F900CBE33D /* [CP] Check Pods Manifest.lock */,
 				049B224321EB90F900CBE33D /* Sources */,
 				049B224721EB90F900CBE33D /* Resources */,
 				049B225F21EB90F900CBE33D /* Frameworks */,
 				049B227321EB90F900CBE33D /* Bundle React Native code and images */,
-				049B227421EB90F900CBE33D /* [CP] Copy Pods Resources */,
 				049B227521EB90F900CBE33D /* Embed Frameworks */,
 				049B227721EB90F900CBE33D /* Run Script */,
 			);
@@ -1074,12 +1082,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 049B22B421EB910400CBE33D /* Build configuration list for PBXNativeTarget "SavillsUat" */;
 			buildPhases = (
-				049B227E21EB910400CBE33D /* [CP] Check Pods Manifest.lock */,
 				049B227F21EB910400CBE33D /* Sources */,
 				049B228321EB910400CBE33D /* Resources */,
 				049B229B21EB910400CBE33D /* Frameworks */,
 				049B22AF21EB910400CBE33D /* Bundle React Native code and images */,
-				049B22B021EB910400CBE33D /* [CP] Copy Pods Resources */,
 				049B22B121EB910400CBE33D /* Embed Frameworks */,
 				049B22B321EB910400CBE33D /* Run Script */,
 			);
@@ -1166,6 +1172,10 @@
 				{
 					ProductGroup = 3D08852B21831F2500CE67A6 /* Products */;
 					ProjectRef = 5CD21113DF7345B78AE9CCAC /* BVLinearGradient.xcodeproj */;
+				},
+				{
+					ProductGroup = 3D0DCED121EF54F100DEAB78 /* Products */;
+					ProjectRef = 3D0DCED021EF54F100DEAB78 /* CodePush.xcodeproj */;
 				},
 				{
 					ProductGroup = 3D15242A2191D84B00827344 /* Products */;
@@ -1425,6 +1435,20 @@
 			remoteRef = 3D08853121831F2500CE67A6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		3D0DCED621EF54F100DEAB78 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = 3D0DCED521EF54F100DEAB78 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D0DCED821EF54F100DEAB78 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = 3D0DCED721EF54F100DEAB78 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		3D15242E2191D84B00827344 /* libFastImage.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1678,24 +1702,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		049B224221EB90F900CBE33D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Savills-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		049B227321EB90F900CBE33D /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1709,26 +1715,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		049B227421EB90F900CBE33D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
-				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RSKImageCropperStrings.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		049B227721EB90F900CBE33D /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1748,24 +1734,6 @@
 			shellPath = /bin/sh;
 			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/PayooSDK.framework/strip-frameworks.sh\"\n";
 		};
-		049B227E21EB910400CBE33D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Savills-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		049B22AF21EB910400CBE33D /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1780,29 +1748,9 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh ./src/app/SavillsUat/index.js\n";
 		};
-		049B22B021EB910400CBE33D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
-				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RSKImageCropperStrings.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Savills/Pods-Savills-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		049B22B321EB910400CBE33D /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -1889,9 +1837,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D0DCE4E21EF4DB900DEAB78 /* PayooSDKiOSManager.m in Sources */,
 				049B224421EB90F900CBE33D /* AppDelegate.m in Sources */,
 				049B224521EB90F900CBE33D /* main.m in Sources */,
-				049B224621EB90F900CBE33D /* PayooSDKiOSManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1899,9 +1847,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D0DCE4F21EF4DB900DEAB78 /* PayooSDKiOSManager.m in Sources */,
 				049B228021EB910400CBE33D /* AppDelegate.m in Sources */,
 				049B228121EB910400CBE33D /* main.m in Sources */,
-				049B228221EB910400CBE33D /* PayooSDKiOSManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1909,9 +1857,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D0DCE4D21EF4DB900DEAB78 /* PayooSDKiOSManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				04D05C2B21E45ADE00CB16D3 /* PayooSDKiOSManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2029,7 +1977,6 @@
 		};
 		049B227921EB90F900CBE33D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2075,7 +2022,6 @@
 		};
 		049B227A21EB90F900CBE33D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6EFCF097D2B4EB81A2083CBC /* Pods-Savills.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2121,7 +2067,6 @@
 		};
 		049B22B521EB910400CBE33D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2167,7 +2112,6 @@
 		};
 		049B22B621EB910400CBE33D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6EFCF097D2B4EB81A2083CBC /* Pods-Savills.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2213,7 +2157,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F53BD9A84D5915BBD5259E77 /* Pods-Savills.debug.xcconfig */;
+			baseConfigurationReference = 42129894B328B61B740CEE40 /* Pods-Savills.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2259,7 +2203,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6EFCF097D2B4EB81A2083CBC /* Pods-Savills.release.xcconfig */;
+			baseConfigurationReference = A8E57EC709900AACEE6EB481 /* Pods-Savills.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
