@@ -6,12 +6,12 @@ export default class Payoo {
   static EnviProd = DeviceInfo.getBundleId() === 'com.savills.spms' || 'com.savills.spms.hk' ? true : false;
   static async pay(language = 0, OrderXML, OrderChecksum, callback) {
     let sdkInfo = {};
-    sdkInfo.Environment = EnviProd ? 1 : 0; // 0: DEV, 1: PROD
+    sdkInfo.Environment = this.EnviProd ? 1 : 0; // 0: DEV, 1: PROD
     sdkInfo.Language = language === 0 ? 1 : 0;
 
     //prod
-    sdkInfo.MerchantID = EnviProd ? '1608' : '799';
-    sdkInfo.MerchantShareKey = EnviProd ? 'cd5dc10571cf2f740a484815cf53eb9b' : '3b15455cf91c99a224ff32b43f0b5dc0';
+    sdkInfo.MerchantID = this.EnviProd ? '1608' : '799';
+    sdkInfo.MerchantShareKey = this.EnviProd ? 'cd5dc10571cf2f740a484815cf53eb9b' : '3b15455cf91c99a224ff32b43f0b5dc0';
 
     sdkInfo.PayooOrderChecksum = OrderChecksum;
     sdkInfo.PayooOrderXML = OrderXML;
