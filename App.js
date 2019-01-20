@@ -5,12 +5,6 @@ import { Provider } from 'react-redux';
 import Stores from './src/stores/store';
 import * as Screens from './src/screens';
 import Resolution from './src/utils/resolution';
-// YellowBox.ignoreWarnings([
-//     'Warning: isMounted',
-//     'Module RCTImageLoader',
-//     'Module RNGoogleSignin'
-// ])
-
 let stacks = {};
 Object.keys(Screens).forEach(name => {
   stacks[name] = {

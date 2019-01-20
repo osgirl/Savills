@@ -123,7 +123,6 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		3D08853321831F4000CE67A6 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
-		3D9D302121EC5BCA00499165 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9D302021EC5BCA00499165 /* PayooSDK.framework */; };
 		3D9D302221EC5BED00499165 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9D302021EC5BCA00499165 /* PayooSDK.framework */; };
 		3D9D302321EC5BED00499165 /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9D302021EC5BCA00499165 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D9FC54E2186AB4000F635EB /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */; };
@@ -657,7 +656,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D9D302221EC5BED00499165 /* PayooSDK.framework in Frameworks */,
-				3D9D302121EC5BCA00499165 /* PayooSDK.framework in Frameworks */,
 				0414E56221AD299A00460EAB /* libRCTPushNotification.a in Frameworks */,
 				3D08853321831F4000CE67A6 /* libBVLinearGradient.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
