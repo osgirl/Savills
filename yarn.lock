@@ -4698,9 +4698,9 @@ react-native-calendars@^1.21.0:
     prop-types "^15.5.10"
     xdate "^0.8.0"
 
-react-native-code-push@^5.5.1:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-5.5.1.tgz#3c46eadc568f520c9f2ba0f6bf464855ae47d5a0"
+react-native-code-push@^5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-5.5.2.tgz#b394e8f92f8bc4d184d73ff8d066406def24c1e8"
   dependencies:
     code-push "2.0.6"
     glob "^5.0.15"

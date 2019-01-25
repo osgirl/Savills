@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-  Image,
-  Animated,
-  Platform,
-  ActivityIndicator,
-  Alert
+  StyleSheet, Text, View, ScrollView, Dimensions, Image,
+  Animated, Platform, ActivityIndicator, Alert, TouchableOpacity, WebView,
 } from 'react-native';
 import { Header, AnimatedTitle } from '@components';
 
@@ -24,10 +16,12 @@ import Payoo from '@utils/payoo';
 import ModalFaild from './modalFaild';
 import Button from '@components/button';
 import Configs from '@utils/configs';
+import Modal from 'react-native-modal';
+import LinearGradient from 'react-native-linear-gradient';
 import IC_PAY from '@resources/icons/pay.png';
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
-
 const { width } = Dimensions.get('window');
+
 
 class modalConfirm extends Component {
   constructor(props) {
@@ -38,7 +32,9 @@ class modalConfirm extends Component {
       isShowTitleHeader: false,
       isShowModalFaild: false,
       loading: false,
-      errorPay: ''
+      errorPay: '',
+      isAccept: true,
+      isShowTerm: false,
     };
   }
 
@@ -67,7 +63,7 @@ class modalConfirm extends Component {
       this.setState({ loading: false });
 
       if (nextProps.fee.createOrder.error && nextProps.fee.createOrder.error.message.length > 0)
-        Alert.alert('Comming soon', nextProps.fee.createOrder.error.message, [{ text: 'OK', onPress: () => {} }], {
+        Alert.alert('Comming soon', nextProps.fee.createOrder.error.message, [{ text: 'OK', onPress: () => { } }], {
           cancelable: false
         });
     }
@@ -242,30 +238,119 @@ class modalConfirm extends Component {
             </View>
           </View>
         </ScrollView>
+
         <View
           style={{
-            backgroundColor: '#FFF',
             width: width,
-            height: isIphoneX() ? Resolution.scaleHeight(60) : Resolution.scaleHeight(40)
+            height: 100,
+            backgroundColor: '#FFF',
+            paddingTop: 5,
+            paddingBottom: 20,
+            paddingHorizontal: 20
           }}
-        />
-
-        <Button
-          disabled={this.state.loading}
-          onPress={() => this._createOrder()}
-          style={[styles.ButtonAdd, { backgroundColor: this.state.loading ? '#e0e0e0' : '#01C772' }]}
         >
-          {this.state.loading ? <ActivityIndicator size="small" color={Configs.colorMain} /> : <Image source={IC_PAY} />}
-        </Button>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <TouchableOpacity
+              disabled={this.state.loading}
+              style={{ flex: 1 }} onPress={() => this.setState({ isShowTerm: true })}>
+              <Text style={{ color: '#4A89E8', fontSize: 12, textDecorationLine: 'underline', fontFamily: 'OpenSans-Italic' }}>
+                {languages.FEE_DO_BTN_TITLE_TERM || 'FEE_DO_BTN_TITLE_TERM'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.setState({ isAccept: !this.state.isAccept })}
+              style={{ flexDirection: 'row', alignItems: 'center' }}
+            >
+              <Text style={{ color: '#505E75', fontSize: 12, fontFamily: 'OpenSans-SemiBold' }}>
+                {languages.FEE_DO_BTN_TITLE_ACCEPT || 'FEE_DO_BTN_TITLE_ACCEPT'}
+              </Text>
+              <Image
+                style={{ marginLeft: 5, width: 17, height: 17 }}
+                source={
+                  this.state.isAccept
+                    ? require('../../../resources/icons/checked.png')
+                    : require('../../../resources/icons/check.png')
+                }
+              />
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            disabled={!this.state.isAccept || this.state.loading}
+            onPress={() => this._createOrder()}
+            style={{
+              width: width - 40,
+              height: 30,
+              backgroundColor: this.state.isAccept && !this.state.loading ? '#01C772' : '#DEDEDE',
+              borderRadius: 5,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            {
+              this.state.loading ?
+                (
+                  <ActivityIndicator size="small" color={Configs.colorMain} />
+                ) :
+                (
+                  <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.FEE_DO_BTN_TITLE_PAY || 'FEE_DO_BTN_TITLE_PAY'}</Text>
+                )
+            }
+
+          </TouchableOpacity>
+        </View>
 
         <ModalFaild
           isVisible={this.state.isShowModalFaild}
           onClose={() => this.setState({ isShowModalFaild: false })}
           message={this.state.errorPay}
         />
+        {this.renderModalRegulations(languages)}
       </View>
     );
   }
+
+  renderModalRegulations = languages => {
+    return (
+      <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowTerm}>
+        <View style={{ flex: 1, borderRadius: 5, paddingTop: 40, backgroundColor: '#FFF', marginVertical: Resolution.scale(20), marginHorizontal: Resolution.scale(20) }}>
+          <TouchableOpacity
+            style={{ position: 'absolute', top: 20, left: 20 }}
+            onPress={() => this.setState({ isShowTerm: false })}
+          >
+            <Image source={require('../../../resources/icons/close-black.png')} />
+          </TouchableOpacity>
+          <View style={{ flex: 1 }}>
+            <WebView
+              source={{ uri: 'https://savills.spms.asia/termsandconditions/privacy-policy.html#third-party-and-fee' }}
+              scalesPageToFit={Platform.OS === 'android' ? true : false}
+              automaticallyAdjustContentInsets={false}
+            />
+          </View>
+          <Button
+            style={{
+              height: 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#FFF',
+              paddingVertical: Resolution.scale(10),
+            }}
+            onPress={() => this.setState({ isShowTerm: false, isAccept: true })}
+          >
+            <LinearGradient
+              colors={['#4A89E8', '#8FBCFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50, width: width - 80, }}
+            >
+              <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                {languages.FEE_DO_BTN_TITLE_ACCEPT_CONFIRM || 'FEE_DO_BTN_TITLE_ACCEPT_CONFIRM'}
+              </Text>
+            </LinearGradient>
+          </Button>
+        </View>
+      </Modal>
+    );
+  };
 
   renderItem(item, index) {
     return (
@@ -355,7 +440,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#01C772',
     // backgroundColor: '#e0e0e0',
     // shadowColor: '#4DD49A',
-    // shadowOffset: { width: 3, height: 6 },
+    // shadowOffset: {width: 3, height: 6 },
     // shadowOpacity: 0.3,
     alignItems: 'center',
     justifyContent: 'center'

@@ -178,7 +178,6 @@ export default class extends Component {
           > */}
           <Animated.View
             style={{
-              marginTop: Resolution.scale(20),
               alignItems: 'center',
               opacity: opacityView1,
               height: headerHeightContentTop

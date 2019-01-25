@@ -9,10 +9,7 @@
     "build": "cd android && ./gradlew clean &&  ./gradlew assembleRelease",
     "update-ios": "code-push release-react savills-ios ios -m --description \"Modified the header color\" && code-push promote savills-ios Staging Production",
     "update-android": "code-push release-react savills-android android -m --description \"Modified the header color\" && code-push promote savills-android Staging Production",
-    "update-all": "code-push release-react savills-ios ios -m --description \"Modified the header color\" && code-push promote savills-ios Staging Production && code-push release-react savills-android android -m --description \"Modified the header color\" && code-push promote savills-android Staging Production",
-    "build-HK": "rm -rf /Users/mac/Desktop/OS/Savills/src/utils/linkApi.js && cp /Users/mac/Desktop/OS/Savills/src/app/SavillsHK/linkApi.js /Users/mac/Desktop/OS/Savills/src/utils/linkApi.js",
-    "build-UAT": "rm -rf /Users/mac/Desktop/OS/Savills/src/utils/linkApi.js && cp /Users/mac/Desktop/OS/Savills/src/app/SavillsUat/linkApi.js /Users/mac/Desktop/OS/Savills/src/utils/linkApi.js",
-    "build-S": "rm -rf /Users/mac/Desktop/OS/Savills/src/utils/linkApi.js && cp /Users/mac/Desktop/OS/Savills/src/app/Savills/linkApi.js /Users/mac/Desktop/OS/Savills/src/utils/linkApi.js"
+    "update-all": "code-push release-react savills-ios ios -m --description \"Modified the header color\" && code-push promote savills-ios Staging Production && code-push release-react savills-android android -m --description \"Modified the header color\" && code-push promote savills-android Staging Production"
   },
   "dependencies": {
     "date-fns": "^1.29.0",
@@ -21,7 +18,7 @@
     "react": "16.6.0",
     "react-native": "0.57.3",
     "react-native-calendars": "^1.21.0",
-    "react-native-code-push": "^5.5.1",
+    "react-native-code-push": "^5.5.2",
     "react-native-device-info": "^0.24.3",
     "react-native-doc-viewer": "^2.7.8",
     "react-native-fast-image": "^5.1.0",
