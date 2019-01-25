@@ -127,9 +127,12 @@ export default class Layou2 extends Component {
     );
   }
 
-  renderEmty = () => (
+  renderEmty = text => (
     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: HEADER_MAX_HEIGHT }}>
-      <Image source={IMG_EMTY} />
+      <Image style={{ marginTop: Resolution.scale(width / 2 - 100) }} source={IMG_EMTY} />
+      {text && text.length > 0 ? (
+        <Text style={{ color: '#505E75', fontWeight: 'bold', fontSize: Resolution.scale(13) }}>{text}</Text>
+      ) : null}
     </View>
   );
 
@@ -140,7 +143,12 @@ export default class Layou2 extends Component {
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader(languages)}
-        {this.props.library.listLibary.success ? (
+
+        {this.props.library.listLibary.success && this.state.data.length == 0 ? (
+          this.renderEmty(languages.LB_TXT_EMTY || 'LB_TXT_EMTY')
+        ) : this.props.library.listLibary.error && this.props.library.listLibary.error.message.length > 0 ? (
+          this.renderEmty(this.props.library.listLibary.error.message || 'ERROR SERVER')
+        ) : this.props.library.listLibary.success && this.state.data.length > 0 ? (
           <FlatList
             contentContainerStyle={{
               alignItems: 'center',
@@ -153,7 +161,6 @@ export default class Layou2 extends Component {
             renderItem={({ item, index }) => this.renderItem(item, index)}
             extraData={this.state}
             legacyImplementation={false}
-            ListEmptyComponent={this.renderEmty()}
             scrollEventThrottle={16}
             ItemSeparatorComponent={() => <View style={{ height: Resolution.scaleWidth(10) }} />}
             ListFooterComponent={() => this._FooterFlatlist()}
@@ -161,7 +168,6 @@ export default class Layou2 extends Component {
               <RefreshControl
                 refreshing={this.state.isRefresh}
                 onRefresh={() => this._onRefresh()}
-                // Android offset for RefreshControl
                 progressViewOffset={HEADER_MAX_HEIGHT}
               />
             }
@@ -177,7 +183,6 @@ export default class Layou2 extends Component {
             <PlaceHolderItemH noMargin />
           </View>
         )}
-
         <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this.setState({ isModalSelectUnit: false })} />
         </Modal>

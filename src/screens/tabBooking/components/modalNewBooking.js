@@ -866,7 +866,8 @@ class ItemScorll extends PureComponent {
           {renderLeft ? (
             <Text style={{ marginTop: 20, marginBottom: 10, color: '#505E75', fontSize: 10 }}>
               {languages.BK_NEW_SELECTED}
-              <Text style={{ color: '#FF361A', fontSize: 14, fontSize: 14, fontWeight: 'bold' }}>{` ${number} `}</Text> Slot
+              <Text style={{ color: '#FF361A', fontSize: 14, fontSize: 14, fontWeight: 'bold' }}>{` ${number} `}</Text>{' '}
+              {languages.BK_NEW_SLOT || 'slot'}
             </Text>
           ) : null}
         </View>

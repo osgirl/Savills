@@ -29,7 +29,6 @@ const Stack = createStackNavigator(stacks, {
 
 class App extends Component {
   render() {
-    alert('HK');
     return (
       <Provider store={Stores}>
         <Stack />

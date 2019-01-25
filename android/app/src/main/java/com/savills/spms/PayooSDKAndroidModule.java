@@ -66,7 +66,7 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
     @ReactMethod
     public void pay(ReadableMap input, Promise promise) throws JSONException {
         this.promise = promise;
-
+        Log.d("======================","Vao day");
         String orderXML = input.getString("PayooOrderXML");
         String merchantId = input.getString("MerchantID");
         String merchantShareKey = input.getString("MerchantShareKey");
@@ -94,7 +94,13 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
                 }
             }
         }
-        showMessage(groupType, responseObject);
+
+        WritableMap result = new WritableNativeMap();
+        result.putInt("status", groupType);
+        result.putString("data", new Gson().toJson(responseObject));
+        promise.resolve(result);
+        Log.d("======================","onPayooPaymentComplete");
+//        showMessage(groupType, responseObject);
     }
 
     @Override
@@ -119,6 +125,4 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
                 })
                 .show();
     }
-
-
 }

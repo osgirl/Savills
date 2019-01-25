@@ -18,7 +18,6 @@
 		041A25E121EAE36400F48731 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
 		049B224421EB90F900CBE33D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		049B224521EB90F900CBE33D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		049B224621EB90F900CBE33D /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
 		049B224821EB90F900CBE33D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		049B224921EB90F900CBE33D /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
 		049B224A21EB90F900CBE33D /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
@@ -63,7 +62,6 @@
 		049B227621EB90F900CBE33D /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		049B228021EB910400CBE33D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		049B228121EB910400CBE33D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		049B228221EB910400CBE33D /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
 		049B228421EB910400CBE33D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		049B228521EB910400CBE33D /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC54A2186AB4000F635EB /* OpenSans-SemiBold.ttf */; };
 		049B228621EB910400CBE33D /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5492186AB4000F635EB /* OpenSans-Italic.ttf */; };
@@ -111,9 +109,9 @@
 		049B22C021EB9D0800CBE33D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		049B22C121EB9D0800CBE33D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		049B22C221EB9D0900CBE33D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
-		04D05C2821E45AA800CB16D3 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; };
-		04D05C2B21E45ADE00CB16D3 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */; };
-		04D05C2C21E45AFD00CB16D3 /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04DA534621F00EED00EC5E33 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DA534421F00EEC00EC5E33 /* PayooSDKiOSManager.m */; };
+		04DA534721F00EED00EC5E33 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DA534421F00EEC00EC5E33 /* PayooSDKiOSManager.m */; };
+		04DA534821F00EED00EC5E33 /* PayooSDKiOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DA534421F00EEC00EC5E33 /* PayooSDKiOSManager.m */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
@@ -125,6 +123,9 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		3D08853321831F4000CE67A6 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D08853021831F2500CE67A6 /* libBVLinearGradient.a */; };
+		3D9D302121EC5BCA00499165 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9D302021EC5BCA00499165 /* PayooSDK.framework */; };
+		3D9D302221EC5BED00499165 /* PayooSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9D302021EC5BCA00499165 /* PayooSDK.framework */; };
+		3D9D302321EC5BED00499165 /* PayooSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9D302021EC5BCA00499165 /* PayooSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D9FC54E2186AB4000F635EB /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */; };
 		3D9FC54F2186AB4000F635EB /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5452186AB3F00F635EB /* OpenSans-Bold.ttf */; };
 		3D9FC5502186AB4000F635EB /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D9FC5462186AB4000F635EB /* OpenSans-Light.ttf */; };
@@ -506,7 +507,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04D05C2C21E45AFD00CB16D3 /* PayooSDK.framework in Embed Frameworks */,
+				3D9D302321EC5BED00499165 /* PayooSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -530,8 +531,8 @@
 		049B22BB21EB91A400CBE33D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SavillsUat/Info.plist; sourceTree = SOURCE_ROOT; };
 		049B22BC21EB91A900CBE33D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = SavillsHK/Info.plist; sourceTree = SOURCE_ROOT; };
 		04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PayooSDK.framework; path = ../../../PayooSDK.framework; sourceTree = "<group>"; };
-		04D05C2921E45ADE00CB16D3 /* PayooSDKiOSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayooSDKiOSManager.h; path = ../../../../Downloads/Nhan_ios/PayooSDKiOSManager.h; sourceTree = "<group>"; };
-		04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayooSDKiOSManager.m; path = ../../../../Downloads/Nhan_ios/PayooSDKiOSManager.m; sourceTree = "<group>"; };
+		04DA534421F00EEC00EC5E33 /* PayooSDKiOSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayooSDKiOSManager.m; path = ../../../PayooSDKiOSManager.m; sourceTree = "<group>"; };
+		04DA534521F00EEC00EC5E33 /* PayooSDKiOSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayooSDKiOSManager.h; path = ../../../PayooSDKiOSManager.h; sourceTree = "<group>"; };
 		0E3B12823C9D4B17A3F1112B /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-BoldItalic.ttf"; path = "../assets/fonts/OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		0FC4EE5B57464C35849BD11B /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Italic.ttf"; path = "../assets/fonts/OpenSans-Italic.ttf"; sourceTree = "<group>"; };
 		11EDEB2857E041C6B533F44A /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBold.ttf"; path = "../assets/fonts/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -552,6 +553,7 @@
 		2BE57DDF3A4A49F480AC63ED /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		36530F1E556675A4FEFF0A5D /* Pods-Savills-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savills-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Savills-tvOS/Pods-Savills-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		3D9D302021EC5BCA00499165 /* PayooSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PayooSDK.framework; path = ../../../Documents/PayooSDK.framework; sourceTree = "<group>"; };
 		3D9FC5442186AB3F00F635EB /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-ExtraBold.ttf"; path = "../../assets/fonts/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		3D9FC5452186AB3F00F635EB /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "../../assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		3D9FC5462186AB4000F635EB /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "../../assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
@@ -654,10 +656,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D9D302221EC5BED00499165 /* PayooSDK.framework in Frameworks */,
+				3D9D302121EC5BCA00499165 /* PayooSDK.framework in Frameworks */,
 				0414E56221AD299A00460EAB /* libRCTPushNotification.a in Frameworks */,
 				3D08853321831F4000CE67A6 /* libBVLinearGradient.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
-				04D05C2821E45AA800CB16D3 /* PayooSDK.framework in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -856,7 +859,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */,
+				3D9D302021EC5BCA00499165 /* PayooSDK.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				FECBD123F7F05A80B0D10F2B /* libPods-Savills.a */,
 				5813C83995CF87F43A96D031 /* libPods-Savills-tvOS.a */,
@@ -875,6 +878,7 @@
 				2BE57DDF3A4A49F480AC63ED /* libRNFIRMessaging.a */,
 				8104C2ABCAF24449842B21D8 /* libRNDeviceInfo.a */,
 				D4F05DD2C2B343FDA91465F8 /* libRNDeviceInfo-tvOS.a */,
+				04D05BFA21E45AA800CB16D3 /* PayooSDK.framework */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -967,10 +971,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				04DA534521F00EEC00EC5E33 /* PayooSDKiOSManager.h */,
+				04DA534421F00EEC00EC5E33 /* PayooSDKiOSManager.m */,
 				049B22BA21EB911F00CBE33D /* SavillsUat */,
 				049B22B921EB911300CBE33D /* SavillsHK */,
-				04D05C2921E45ADE00CB16D3 /* PayooSDKiOSManager.h */,
-				04D05C2A21E45ADE00CB16D3 /* PayooSDKiOSManager.m */,
 				3D9FC51C2186AB2000F635EB /* fonts */,
 				13B07FAE1A68108700A75B9A /* Savills */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1885,9 +1889,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DA534721F00EED00EC5E33 /* PayooSDKiOSManager.m in Sources */,
 				049B224421EB90F900CBE33D /* AppDelegate.m in Sources */,
 				049B224521EB90F900CBE33D /* main.m in Sources */,
-				049B224621EB90F900CBE33D /* PayooSDKiOSManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1895,9 +1899,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DA534821F00EED00EC5E33 /* PayooSDKiOSManager.m in Sources */,
 				049B228021EB910400CBE33D /* AppDelegate.m in Sources */,
 				049B228121EB910400CBE33D /* main.m in Sources */,
-				049B228221EB910400CBE33D /* PayooSDKiOSManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1905,9 +1909,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DA534621F00EED00EC5E33 /* PayooSDKiOSManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				04D05C2B21E45ADE00CB16D3 /* PayooSDKiOSManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
