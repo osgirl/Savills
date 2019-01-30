@@ -13,7 +13,7 @@ import {
   RefreshControl
 } from 'react-native';
 
-import { Header, HeaderTitle, ModalSelectUnit, AnimatedTitle, PlaceHolderItemH, Button } from '@components';
+import { Header, HeaderTitle, ModalSelectUnit, AnimatedTitle, PlaceHolderItemH, Button, ActionSheet } from '@components';
 
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
@@ -22,16 +22,19 @@ import Modal from 'react-native-modal';
 import IC_BACK from '@resources/icons/close.png';
 import IC_CALENDAR from '@resources/icons/calendar.png';
 import IC_CLOCK from '@resources/icons/clock.png';
-import IC_DROPDOWN from '@resources/icons/dropDown.png';
+import IC_MORE from '../../resources/icons/more.png';
 
 import Resolution from '@utils/resolution';
 import Configs from '@utils/configs';
 
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
+const PICKER_OPTIONS = ['Quay lại', 'Xem tất cả'];
+
+
 const { width } = Dimensions.get('window');
 
-export default class extends Component {
+export default class Layout extends Component {
   renderItem(item) {
     let state = item.state;
     let times = moment(item.notification.creationTime).format('LT');
@@ -143,9 +146,8 @@ export default class extends Component {
   };
 
   renderHeader(languages) {
-    let unitActive = this.props.units.unitActive;
     const isShow = this.state.scrollY.interpolate({
-      inputRange: [0, 15],
+      inputRange: [0, 10],
       outputRange: [0, 1],
       extrapolate: 'clamp'
     });
@@ -164,13 +166,10 @@ export default class extends Component {
           }
           renderViewRight={
             <Button
-              onPress={() => this._openModalSelectUnit()}
+              onPress={() => this.showActionSheet()}
               style={{ flexDirection: 'row', alignItems: 'center', marginRight: Resolution.scale(20) }}
             >
-              <Text style={{ fontFamily: 'OpenSans-Bold', color: '#FFF', fontSize: Resolution.scale(14) }}>
-                {unitActive.fullUnitCode}
-              </Text>
-              <Image source={IC_DROPDOWN} style={{ marginLeft: Resolution.scale(10) }} />
+              <Image source={IC_MORE} style={{ marginLeft: Resolution.scale(10) }} />
             </Button>
           }
         />
@@ -181,14 +180,15 @@ export default class extends Component {
 
   render() {
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+    console.log(this.state.scrollY);
     return (
       <View style={{ flex: 1, backgroundColor: '#F6F8FD' }}>
         <StatusBar barStyle="light-content" />
         {this.renderHeader(languages)}
         {this.state.isLoadData === false ? (
           <FlatList
+            style={{ flex: 1 }}
             data={this.state.data}
-            horizontal={false}
             contentContainerStyle={{
               alignItems: 'center',
               paddingTop: Platform.OS !== 'ios' ? HEADER_MAX_HEIGHT : 0
@@ -242,9 +242,16 @@ export default class extends Component {
             </View>
 
           )}
-        <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
+        {/* <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isModalSelectUnit}>
           <ModalSelectUnit onClose={() => this._closeModalSelectUnit()} />
-        </Modal>
+        </Modal> */}
+        <ActionSheet
+          ref={this.actionSheetRef}
+          options={PICKER_OPTIONS}
+          cancelButtonIndex={0}
+          onPress={this.handlePressActionSheet}
+          destructiveButtonIndex={-1}
+        />
       </View>
     );
   }

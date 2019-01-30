@@ -5,7 +5,8 @@ const INIT_STATE = ({
     listNoti: {},
     unreadCount: 0,
     listCountModule: {},
-    updateRead: {}
+    updateRead: {},
+    setAllNotify: {}
 });
 
 export default createReducer(INIT_STATE, {
@@ -177,6 +178,29 @@ export default createReducer(INIT_STATE, {
             console.log(error)
         }
     },
+
+
+    [Types.SET_ALL_AS_READ]: (state, action) => {
+        try {
+            return {
+                ...state,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+    [Types.SET_ALL_AS_READ_SUCCESS]: (state, action) => {
+        try {
+            return {
+                ...state,
+                setAllNotify: action.response,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
 
 
 

@@ -47,3 +47,14 @@ export function getUnreadCount(accessTokenAPI) {
         }
     }
 }
+
+export function setAllNotificationsAsRead(accessTokenAPI) {
+    return {
+        type: Types.SET_ALL_AS_READ,
+        payload: {
+            api: Configs.API + `/api/services/app/Notification/SetAllNotificationsAsRead`,
+            method: 'POST',
+            token: accessTokenAPI,
+        }
+    }
+}
