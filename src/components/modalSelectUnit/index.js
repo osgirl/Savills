@@ -16,6 +16,9 @@ import Header from '@components/header';
 
 const { width, height } = Dimensions.get('window');
 
+const ITEM_WIDTH = 136;
+const ITEM_HEIGHT = 136;
+
 class modalSelectUnit extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +29,35 @@ class modalSelectUnit extends Component {
       dataUnits: [],
       loading: false
     };
+    this.flatListUnit = React.createRef();
+  }
+
+  scrollToItemUnits = (list = [], activeItemId = {}) => {
+    const findItemIndex = list.findIndex(item => item.unitId === activeItemId.unitId);
+    if (list.length === 1) {
+      return;
+    }
+    if (findItemIndex === list.length - 1) {
+      this.flatListRef.scrollToIndex({ index: findItemIndex, viewOffset: (width / 2 - ITEM_WIDTH / 2) - 40 })
+      return;
+    }
+    if (activeItemId && findItemIndex > 0) {
+      this.flatListRef.scrollToIndex({ index: findItemIndex, viewOffset: (width / 2 - ITEM_WIDTH / 2) - ((findItemIndex + 1) * 20) })
+    }
+  }
+
+  scrollToItemProject = () => {
+    const findItemIndex = this.state.dataProject.findIndex(item => item.tenantId === this.state.projectActive.tenantId);
+    if (this.state.dataProject.length === 1) {
+      return;
+    }
+    if (findItemIndex === this.state.dataProject.length - 1) {
+      this.flatListProjectRef.scrollToIndex({ index: findItemIndex, viewOffset: (width / 2 - ITEM_WIDTH / 2) - 40 })
+      return;
+    }
+    if (projectActive && findItemIndex > 0) {
+      this.flatListProjectRef.scrollToIndex({ index: findItemIndex, viewOffset: (width / 2 - ITEM_WIDTH / 2) - ((findItemIndex + 1) * 20) })
+    }
   }
 
   async _onPressProject(project) {
@@ -35,11 +67,10 @@ class modalSelectUnit extends Component {
     await this.props.actions.account.setTenantActive(project);
   }
 
-  componentWillMount() {
+  componentDidMount = () => {
     let accessTokenAPI = this.props.account.accessTokenAPI;
     this.props.actions.units.getUnits(accessTokenAPI);
-
-    // this.flatListRef.scrollToIndex({animated: true, index: "" + 4});
+    this.scrollToItemProject(this.state.dataProject, this.state.projectActive);
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -90,6 +121,7 @@ class modalSelectUnit extends Component {
     if (this.props.units.listUnits !== nextProps.units.listUnits && nextProps.units.listUnits.success) {
       await this.setState({ dataUnits: nextProps.units.listUnits.result.items });
       await this.setState({ loading: false });
+      await this.scrollToItemUnits(this.state.dataUnits, this.state.unitActive);
     }
   }
 
@@ -97,7 +129,10 @@ class modalSelectUnit extends Component {
     let image = `${LinkApi.API}/TenantCustomization/GetTenantLogo?tenantId=${item.tenantId}`;
     let check = item.tenantId === this.state.projectActive.tenantId ? true : false;
     return (
-      <View style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}>
+      <Button
+        onPress={() => this._onPressProject(item)}
+        style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}
+      >
         {check ? (
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <Image
@@ -108,25 +143,27 @@ class modalSelectUnit extends Component {
             <Text style={{ color: '#FFF', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
           </View>
         ) : (
-          <Button onPress={() => this._onPressProject(item)} style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Image
-              source={{ uri: image }}
-              style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
-              resizeMode={'contain'}
-            />
-            <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
-          </Button>
-        )}
-      </View>
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Image
+                source={{ uri: image }}
+                style={{ width: Resolution.scaleWidth(70), height: Resolution.scaleHeight(70) }}
+                resizeMode={'contain'}
+              />
+              <Text style={{ color: '#505E75', fontSize: 12, marginTop: 10, fontFamily: 'OpenSans-Bold' }}>{item.tenancyName}</Text>
+            </View>
+          )}
+      </Button>
     );
   }
 
-  renderItemUnits(item) {
+  renderItemUnits = (item) => {
     let check = item.fullUnitCode === this.state.unitActive.fullUnitCode ? true : false;
     return (
-      <View style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}>
+      <Button
+        onPress={() => this.seletUnits(item)}
+        style={[styles.item, { ...Configs.Shadow, backgroundColor: check ? Configs.colorMain : '#FFFFFF' }]}>
         {
-          <Button onPress={() => this.seletUnits(item)} style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <Image
               source={check ? IC_APARTMENT_ACTIVE : IC_APARTMENT}
               style={{ width: Resolution.scaleWidth(30), height: Resolution.scaleHeight(30) }}
@@ -141,15 +178,15 @@ class modalSelectUnit extends Component {
             >
               {item.fullUnitCode}
             </Text>
-          </Button>
+          </View>
         }
-      </View>
+      </Button>
     );
   }
 
   renderLoading() {
     if (this.state.loading) {
-      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => {}} />;
+      return <Loading style={{ zIndex: 30 }} visible={this.state.loading} onRequestClose={() => { }} />;
     }
     return null;
   }
@@ -158,6 +195,11 @@ class modalSelectUnit extends Component {
     const date = new Date(time);
     return date.toISOString().split('T')[0];
   }
+
+  getItemLayout = (data, index) => (
+    { length: ITEM_WIDTH, offset: ITEM_WIDTH * index, index }
+  )
+
 
   async seletUnits(unit) {
     this.setState({ loading: true });
@@ -182,13 +224,18 @@ class modalSelectUnit extends Component {
     return (
       <View style={[styles.container, {}]}>
         <Header leftIcon={IC_CLOSE} leftAction={() => this.props.onClose()} headercolor={'#F6F8FD'} />
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: 'center', flex: 1 }}>
           <Text style={{ color: '#505E75', fontSize: 15, marginTop: 20, fontFamily: 'OpenSans-Bold' }}>
             {languages.MODAL_SELECT_UNIT_PROJECT}
           </Text>
           <FlatList
             data={this.state.dataProject || []}
             horizontal
+            style={{ flex: 1, }}
+            ref={ref => {
+              this.flatListProjectRef = ref;
+            }}
+            getItemLayout={this.getItemLayout}
             contentContainerStyle={{ paddingVertical: Resolution.scaleHeight(40) }}
             keyExtractor={(item, index) => 'itenmProject__' + index}
             renderItem={({ item, index }) => this.renderItemProject(item)}
@@ -199,15 +246,16 @@ class modalSelectUnit extends Component {
           />
         </View>
 
-        <View style={{ alignItems: 'center', position: 'absolute', bottom: 50, alignSelf: 'center' }}>
-          <Text style={{ color: '#505E75', fontSize: 15, marginTop: 50, fontFamily: 'OpenSans-Bold' }}>
+        <View style={{ alignItems: 'center', alignSelf: 'center', flex: 1 }}>
+          <Text style={{ color: '#505E75', fontSize: 15, fontFamily: 'OpenSans-Bold' }}>
             {languages.MODAL_SELECT_UNIT_APARTMENT}
           </Text>
           <FlatList
             ref={ref => {
               this.flatListRef = ref;
             }}
-            // initialScrollIndex={3}
+            getItemLayout={this.getItemLayout}
+            extraData={this.state}
             data={this.state.dataUnits.length > 0 ? this.state.dataUnits : Utils.dataPlaceholder}
             horizontal
             contentContainerStyle={{ paddingVertical: Resolution.scaleHeight(40) }}
@@ -234,9 +282,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    width: 136,
-    height: 136
-    // backgroundColor: '#FFFFFF',
+    width: ITEM_WIDTH,
+    height: ITEM_HEIGHT,
   }
 });
 
