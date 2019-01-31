@@ -8,10 +8,34 @@ const INIT_STATE = {
   setting: false,
   getSetting: false,
   moduleHome: false,
-  listLanguage: false
+  listLanguage: false,
+  announCements: [],
+  ignoreMe: false
 };
 
 export default createReducer(INIT_STATE, {
+  [Types.IGNORE_ME_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        ignoreMe: action.response
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.GET_ANNOUNCEMENT_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        announCements: action.response.result
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   [Types.CHANGE_LANGUAGE_SERVER_SUCCESS]: (state, action) => {
     try {
       return {
@@ -26,6 +50,17 @@ export default createReducer(INIT_STATE, {
     try {
       return {
         ...state
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.GET_LANGUAGE_PROJECT_SUCCESS]: (state, action) => {
+    try {
+      return {
+        ...state,
+        listLanguage: action.response.result
       };
     } catch (error) {
       console.log(error);

@@ -69,7 +69,40 @@ function* changeLanguageServer(action) {
   }
 }
 
+function* getLanguageProject(action) {
+  try {
+    // console.log('asdklasjdajsdklasjdlkasda', action);
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_LANGUAGE_PROJECT_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+function* getAnoument(action) {
+  try {
+    // console.log('asdklasjdajsdklasjdlkasda', action);
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.GET_ANNOUNCEMENT_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+function* IgnoreMe(action) {
+  try {
+    // console.log('asdklasjdajsdklasjdlkasda', action);
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.IGNORE_ME_SUCCESS, response });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export default function* saga() {
+  yield takeLatest(Types.IGNORE_ME, IgnoreMe);
+  yield takeLatest(Types.GET_ANNOUNCEMENT, getAnoument);
+  yield takeLatest(Types.GET_LANGUAGE_PROJECT, getLanguageProject);
   yield takeLatest(Types.CHANGE_LANGUAGE_SERVER, changeLanguageServer);
   yield takeLatest(Types.LOGOUT_NOTI, logoutNoti);
   yield takeLatest(Types.GET_LANGUAGE_APP, getLanguageApp);

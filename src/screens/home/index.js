@@ -25,7 +25,9 @@ class Home extends layout {
       numcolumn: 3,
       moduleCount: [],
       DATA: [],
-      isRefresh: false
+      isRefresh: false,
+      isAnnountMent: false,
+      listAnnoument: []
     };
     this.showCenter = false;
     if (Platform.OS === 'android') {
@@ -93,6 +95,23 @@ class Home extends layout {
       await this.props.actions.notification.getListNotification(accessTokenAPI);
       await this.props.actions.notification.getListCountModule(accessTokenAPI, unitID);
       await this.props.actions.notification.getUnreadCount(accessTokenAPI);
+    }
+    if (nextProps.app.listLanguage && nextProps.app.listLanguage != this.props.app.listLanguage) {
+      this.initData();
+      let accessTokenAPI = this.props.account.accessTokenAPI;
+      let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
+      this.props.actions.utilities.getFAQ(accessTokenAPI, languages);
+    }
+    if (
+      nextProps.app.announCements &&
+      nextProps.app.announCements.length > 0 &&
+      this.props.app.announCements != nextProps.app.announCements
+    ) {
+      this.setState({ listAnnoument: nextProps.app.announCements }, () => {
+        setTimeout(() => {
+          this.setState({ isAnnountMent: true });
+        }, 500);
+      });
     }
   }
 
@@ -207,11 +226,10 @@ class Home extends layout {
   }
 
   componentDidMount() {
-    this.initData();
-
     let accessTokenAPI = this.props.account.accessTokenAPI;
-    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].id;
-    this.props.actions.utilities.getFAQ(accessTokenAPI, languages);
+    this.props.actions.app.getLanguageProject(accessTokenAPI);
+    const version = DeviceInfo.getVersion();
+    this.props.actions.app.GetAnnouncement(accessTokenAPI, version);
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
@@ -277,10 +295,6 @@ class Home extends layout {
     }
     const { navigate } = this.props.navigation;
     this.mapNavigateToScreen(navigate, notis);
-    // }
-    // } catch (error) {
-    //   Alert.alert('error', error);
-    // }
   };
 
   mapNavigateToScreen = (navigate, notification) => {
@@ -407,7 +421,7 @@ class Home extends layout {
 
     await this.setState({ loading: false });
     if (this.state.isShowProfile) await this.setState({ isShowProfile: false });
-    await this.props.navigation.navigate('Login');
+    await this.props.navigation.replace('Login');
   }
 }
 

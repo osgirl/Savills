@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name" translatable="false">Savills Uat</string>
+    <string name="merchant_name" translatable="false">Payoo</string>
+
+    <string name="pay">Thanh toán</string>
+    <string name="vietnamese">Vietnamese</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="enter_cyber_cash">Nhập số tiền</string>
+    <string name="settings">Thiết lập</string>
+    <string name="merchant_info">Thông tin Merchant</string>
+    <string name="customer_email">Email khách hàng</string>
+    <string name="customer_phone">Số điện thoại khách hàng</string>
+    <string name="payoo_protocol_scheme" translatable="false">payoosdk799</string>
+    <string name="reactNativeCodePush_androidDeploymentKey">QqCimDuQUsTypx0xL6oaksD5IjJjcaa7ff0c-9f90-48a1-97e6-66136252e48b</string>
+</resources>

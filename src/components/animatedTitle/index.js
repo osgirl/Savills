@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Animated, StyleSheet, Platform } from 'react-native';
 import HeaderTitle from '@components/headerTitle';
 import LinearGradient from 'react-native-linear-gradient';
-import Resolution from "../../utils/resolution";
+import Resolution from '../../utils/resolution';
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const HEADER_MIN_HEIGHT = 0;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;

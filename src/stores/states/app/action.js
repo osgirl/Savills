@@ -76,6 +76,19 @@ export function logoutNoti(accessTokenAPI) {
   };
 }
 
+export function getLanguageProject(accessTokenAPI) {
+  return {
+    type: Types.GET_LANGUAGE_PROJECT,
+    payload: {
+      api:
+        Configs.API +
+        '/api/services/app/Language/GetTenantClientSourceLanguageTexts?filterText=&targetValueFilter=&sourceName=MobileSource',
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
 export function getLanguageApp() {
   return {
     type: Types.GET_LANGUAGE_APP,
@@ -104,6 +117,29 @@ export function getSetting(accessTokenAPI, lang) {
     payload: {
       api: Configs.API + `/api/services/app/Notification/GetNotificationSettings?culture=${lang}`,
       method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
+export function GetAnnouncement(accessTokenAPI, version) {
+  return {
+    type: Types.GET_ANNOUNCEMENT,
+    payload: {
+      api: Configs.API + `/api/services/app/Announcements/GetAnnouncements?version=${version}`,
+      method: 'GET',
+      token: accessTokenAPI
+    }
+  };
+}
+
+export function IgnoreMe(accessTokenAPI, id) {
+  return {
+    type: Types.IGNORE_ME,
+    payload: {
+      api: Configs.API + `/api/services/app/Announcements/IgnoreMe`,
+      method: 'POST',
+      payload: { id },
       token: accessTokenAPI
     }
   };

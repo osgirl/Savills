@@ -3,7 +3,8 @@ import DeviceInfo from 'react-native-device-info';
 
 export default class Payoo {
   static payooSdk = Platform.OS == 'ios' ? NativeModules.PayooSDKiOSManager : NativeModules.PayooSDKAndroidModule;
-  static EnviProd = DeviceInfo.getBundleId() === 'com.savills.spms' || 'com.savills.spms.hk' ? true : false;
+  static EnviProd =
+    DeviceInfo.getBundleId() === 'com.savills.spms' || DeviceInfo.getBundleId() === 'com.savills.spms.hk' ? true : false;
   static async pay(language = 0, OrderXML, OrderChecksum, callback) {
     let sdkInfo = {};
     sdkInfo.Environment = this.EnviProd ? 1 : 0; // 0: DEV, 1: PROD
@@ -22,6 +23,7 @@ export default class Payoo {
         if (Platform.OS == 'ios') {
           callback(response);
         }
+        callback(response);
       }
     } else {
       alert('ERROR PAYOO');

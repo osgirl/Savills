@@ -170,12 +170,6 @@ export default class extends Component {
           end={{ x: 1, y: 0 }}
           style={{ zIndex: -2, justifyContent: 'center' }}
         >
-          {/* <Animated.View
-            style={{
-              // transform: [{ translateY: headerContentTopTranslate }],
-              backgroundColor: 'blue'
-            }}
-          > */}
           <Animated.View
             style={{
               alignItems: 'center',
@@ -200,8 +194,11 @@ export default class extends Component {
                 VND
               </Text>
             </View>
+            <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
+              {languages.FEE_SAVILLS_PAYMENT_CODE ? languages.FEE_SAVILLS_PAYMENT_CODE : 'FEE_SAVILLS_PAYMENT_CODE'}
+            </Text>
             <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5 }}>
-              {unitActive.fullUnitCode}
+              {unitActive.tenantUnitCode ? unitActive.tenantUnitCode : ''}
             </Text>
           </Animated.View>
 
@@ -216,7 +213,6 @@ export default class extends Component {
               }}
             >
               <View style={{ justifyContent: 'center', alignSelf: 'center' }}>
-                {/* <Text style={{ color: '#FFFFFF', fontSize: Resolution.scale(10), fontFamily: 'OpenSans-Semibold', textAlign: 'left' }}>October / 2018</Text> */}
                 <Text
                   style={{
                     fontSize: Resolution.scale(12),
@@ -226,7 +222,7 @@ export default class extends Component {
                     textAlign: 'left'
                   }}
                 >
-                  {unitActive.fullUnitCode}
+                  {unitActive.tenantUnitCode ? unitActive.tenantUnitCode : ''}
                 </Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', alignSelf: 'center' }}>

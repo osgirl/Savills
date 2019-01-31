@@ -23,8 +23,8 @@ class Setting extends layout {
         emailEvent: setting[12].isSubscribed,
         emailFeedback: setting[13].isSubscribed,
         emailCommunication: setting[14].isSubscribed,
-        emailDelivery: setting[15].isSubscribed,
-        emailInbox: setting[16].isSubscribed,
+        // emailDelivery: setting[15].isSubscribed,
+        // emailInbox: setting[16].isSubscribed,
 
         // notification
         fee: setting[0].isSubscribed,

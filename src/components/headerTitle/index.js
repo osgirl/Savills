@@ -13,7 +13,7 @@ export default class HeaderTitle extends Component {
   };
 
   render() {
-    let fontSize = Math.sqrt(((width - 40) * 50) / this.props.title.length);
+    let fontSize = Math.sqrt(((width - 80) * 50) / this.props.title.length);
     return (
       <Text
         adjustsFontSizeToFit={true}

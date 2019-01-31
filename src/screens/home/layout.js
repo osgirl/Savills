@@ -1,8 +1,23 @@
 import React, { Component } from 'react';
-import { View, Text, Image, FlatList, Animated, StatusBar, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  Animated,
+  StatusBar,
+  Dimensions,
+  TouchableOpacity,
+  Linking,
+  Platform,
+  ScrollView
+} from 'react-native';
 
 import { ItemHome, ItemListViewHome, Loading, Button, HeaderHome, PlaceHolderItem3 } from '@components';
+import DeviceInfo from 'react-native-device-info';
+import HTML from 'react-native-render-html';
 import Modal from 'react-native-modal';
+import LinearGradient from 'react-native-linear-gradient';
 
 import IC_EDIT from '@resources/icons/edit-profile.png';
 import IC_NOTIFY from '@resources/icons/notify.png';
@@ -12,7 +27,7 @@ import IC_LISTVIEW_ACTIVE from '@resources/icons/list-view-active.png';
 import IC_LISTVIEW from '@resources/icons/list-view.png';
 import IMG_AVATAR_DEFAULT from '@resources/icons/avatar-default.png';
 import LOGO from '@resources/icons/logo.png';
-
+import Carousel from 'react-native-snap-carousel';
 import Resolution from '@utils/resolution';
 
 import FastImage from '@components/fastImage';
@@ -23,7 +38,7 @@ import Profile from '../profile';
 import Style from './style';
 import Utils from '../../utils';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const imgSize = 64;
 
@@ -56,7 +71,7 @@ export default class extends Component {
           }
         } else {
           if (this.showCenter) {
-            this.showCenter = false;
+            this.showCenter = true;
             this.props.navigation.setParams({ isHidenHeaderHome: false });
           }
         }
@@ -96,15 +111,6 @@ export default class extends Component {
             }}
             source={LOGO}
           />
-          {/* <Avatar size={imgSize} onReady={this.props.userProfile.imageProfile.success} bgColor={'#FFF'} animate="fade">
-            <Animated.View style={{ opacity: OpacityImage }}>
-              <FastImage style={{ width: imgSize, height: imgSize, borderRadius: imgSize / 2 }} source={avatar} />
-            </Animated.View>
-          </Avatar> */}
-          {/* <Line txtWidth={100} height={20} onReady={User ? true : false} animate="fade">
-            {User && <Text style={Style.displayName}>{languages.HOME_HELLO_NAME + User.displayName}</Text>}
-          </Line> */}
-          {/* <Text style={Style.unitCode}>{Unit.fullUnitCode}</Text> */}
         </Button>
         {checkEnabled ? (
           <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
@@ -162,6 +168,132 @@ export default class extends Component {
     }
   }
 
+  renderModalAnnoument = languages => {
+    return (
+      <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isAnnountMent}>
+        <Carousel
+          ref={c => {
+            this._carousel = c;
+          }}
+          data={this.state.listAnnoument}
+          renderItem={({ item, index }) => this._renderItem(item, index)}
+          sliderWidth={width}
+          itemWidth={width - 60}
+        />
+        <TouchableOpacity
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 80,
+            fontFamily: 'OpenSans-Bold',
+            fontSize: 15
+          }}
+          onPress={() => this.setState({ isAnnountMent: false })}
+        >
+          <Text style={{ color: '#FFF' }}>{languages.HOME_MODAL_CLOSE_ALL || 'HOME_MODAL_CLOSE_ALL'}</Text>
+        </TouchableOpacity>
+      </Modal>
+    );
+  };
+
+  _renderItem(item, index) {
+    let encToken = this.props.account.encToken;
+    let image = item.banner
+      ? { uri: `${item.banner.fileUrl}&encToken=${encodeURIComponent(encToken)}` }
+      : require('../../resources/image/savillsBanner.png');
+    let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+    console.log(
+      'asdlkajsdklasdjklasdjklasdjasdasda',
+      item.banner && `${item.banner.fileUrl}&encToken=${encodeURIComponent(encToken)}`
+    );
+    return (
+      <View
+        style={{ width: width - 60, flex: 1, marginVertical: 150, backgroundColor: '#FFF', borderRadius: 10, overflow: 'hidden' }}
+      >
+        <Image style={{ flex: 1, width: width - 60 }} source={image} />
+        <View style={{ flex: 1, padding: 20 }}>
+          <ScrollView style={{ flex: 1 }}>
+            <HTML html={item.message} />
+          </ScrollView>
+        </View>
+        <View
+          style={{
+            flex: 0.2,
+            margin: 20,
+            borderTopColor: '#F0f0f0',
+            borderTopWidth: 1,
+            flexDirection: 'row',
+            paddingTop: 20
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => this.clickIgnoreMe(item, 0, index)}
+            style={{
+              flex: 1,
+              backgroundColor: '#FFF',
+              shadowColor: '#4A89E8',
+              shadowOffset: { width: 1, height: 1 },
+              shadowOpacity: 0.16,
+              borderRadius: 20,
+              marginRight: 20,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Text style={{ fontSize: 14, color: '#505E75' }}>{languages.HOME_MODAL_BUTTON_SKIP || 'HOME_MODAL_BUTTON_SKIP'}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              backgroundColor: '#FFF',
+              shadowColor: '#4A89E8',
+              shadowOffset: { width: 1, height: 1 },
+              shadowOpacity: 0.16,
+              borderRadius: 20,
+              overflow: 'hidden'
+            }}
+            onPress={() => this.clickIgnoreMe(item, 1, index)}
+          >
+            <LinearGradient
+              colors={['#4A89E8', '#8FBCFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ color: '#ffF', fontSize: 14 }}>
+                {languages.HOME_MODAL_BUTTON_ACCEPT || 'HOME_MODAL_BUTTON_ACCEPT'}
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  clickIgnoreMe(item, index, pos) {
+    if (index === 1 && item.typeId === 1) {
+      let link = 'https://play.google.com/store/apps/details?id=' + DeviceInfo.getBundleId();
+      if (Platform.OS == 'ios') {
+        link = 'itms-apps://itunes.apple.com/app/id' + DeviceInfo.getBundleId();
+      }
+      Linking.openURL(link);
+      this.props.actions.app.IgnoreMe(this.props.account.accessTokenAPI, item.guid);
+    } else {
+      let arr = this.state.listAnnoument.slice();
+      arr.splice(pos, 1);
+      this.setState({ listAnnoument: arr }, () => {
+        if (this.state.listAnnoument.length === 0) {
+          this.setState({ isAnnountMent: false });
+        }
+      });
+      this.props.actions.app.IgnoreMe(this.props.account.accessTokenAPI, item.guid);
+    }
+  }
+
   render() {
     let User =
       this.props.userProfile.profile && this.props.userProfile.profile.result && this.props.userProfile.profile.result.user;
@@ -171,9 +303,8 @@ export default class extends Component {
       this.props.userProfile.imageProfile.result.profilePicture;
     var avatar = imageProfile.length > 0 ? `data:image/png;base64,${imageProfile}` : IMG_AVATAR_DEFAULT;
     let data = this.state.dataModule && this.state.dataModule.length > 0 ? this.state.dataModule : [];
-    // let checkScrollEnabled = this.state.dataModule && this.state.dataModule.length > 0 ? true : false;
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
-
+    let Unit = this.props.units.unitActive;
     return (
       <View style={Style.container}>
         <HeaderHome
@@ -181,7 +312,7 @@ export default class extends Component {
           headercolor={'#F6F8FD'}
           leftIcon={IC_EDIT}
           leftAction={this.props.navigation.getParam('openProfileHome')}
-          customViewLeft={this.props.navigation.getParam('isHidenHeaderHome')}
+          customViewLeft={true}
           renderViewLeft={
             <Button
               onPress={this.props.navigation.getParam('openProfileHome')}
@@ -189,15 +320,15 @@ export default class extends Component {
             >
               <FastImage
                 style={{ width: Resolution.scale(30), height: Resolution.scale(30), borderRadius: Resolution.scale(30) / 2 }}
-                source={this.props.navigation.getParam('userAvatar')}
+                source={avatar}
               />
 
               <View style={{ flexDirection: 'column', marginLeft: Resolution.scale(10) }}>
                 <Text style={{ fontSize: Resolution.scale(15), fontFamily: 'OpenSans-Bold' }}>
-                  {this.props.navigation.getParam('userDisplayname')}
+                  {User ? User.displayName : 'User'}
                 </Text>
                 <Text style={{ fontSize: Resolution.scale(12), fontFamily: 'OpenSans-Regular', color: '#BABFC8' }}>
-                  {this.props.navigation.getParam('userFullUnitCode')}
+                  {Unit.fullUnitCode}
                 </Text>
               </View>
             </Button>
@@ -210,7 +341,6 @@ export default class extends Component {
           {this.state.dataModule && this.state.dataModule.length > 0 ? (
             <FlatList
               data={data}
-              // scrollEnabled={checkScrollEnabled}
               horizontal={false}
               key={this.state.numcolumn === 3 ? 'h' : 'v'}
               contentContainerStyle={{
@@ -268,7 +398,7 @@ export default class extends Component {
           <Notification navigation={this.props.navigation} onclose={() => this._closeNoti()} />
         </Modal>
 
-        {/* {this.renderLoading()} */}
+        {this.renderModalAnnoument(languages)}
       </View>
     );
   }

@@ -30,6 +30,8 @@ import vn.payoo.paymentsdk.data.model.Order;
 import vn.payoo.paymentsdk.data.model.response.ResponseObject;
 import vn.payoo.paymentsdk.data.model.type.GroupType;
 
+import com.savills.spms.MainActivity;
+import com.savills.spms.R;
 import com.savills.spms.MainApplication;
 
 
@@ -39,7 +41,7 @@ import android.app.Activity;
 import org.json.JSONException;
 
 
-public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements OnPayooPaymentCompleteListener, ActivityEventListener {
+public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements OnPayooPaymentCompleteListener {
 
     private static final String KEY_AUTH_TOKEN = "app_auth_token";
 
@@ -51,7 +53,7 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
     public PayooSDKAndroidModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        reactContext.addActivityEventListener(this);
+        //reactContext.addActivityEventListener(this);
     }
 
     public static Order order;
@@ -65,8 +67,8 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
 
     @ReactMethod
     public void pay(ReadableMap input, Promise promise) throws JSONException {
+        MainActivity.getInstance().setPromise(promise);
         this.promise = promise;
-        Log.d("======================","Vao day");
         String orderXML = input.getString("PayooOrderXML");
         String merchantId = input.getString("MerchantID");
         String merchantShareKey = input.getString("MerchantShareKey");
@@ -75,11 +77,11 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
         order = Order.newBuilder().checksum(checksum).orderInfo(orderXML).build();
 
         PayooMerchant payooMerchant = PayooMerchant.newBuilder().merchantId(merchantId).secretKey(merchantShareKey).isDevMode(false).build();
-        PayooPaymentSDK.initialize(getReactApplicationContext(), payooMerchant);
+        PayooPaymentSDK.initialize(reactContext, payooMerchant);
         PaymentConfig configure = PaymentConfig.newBuilder().withLocale(com.savills.spms.LocaleHelper.getLocale(getReactApplicationContext(), lang == 0 ? PayooPaymentSDK.LOCALE_VI : PayooPaymentSDK.LOCALE_EN))
                 .withStyleResId(R.style.PayooSdkTheme_Blue)
                 .build();
-        PayooPaymentSDK.pay(getReactApplicationContext().getCurrentActivity(), order, configure);
+        PayooPaymentSDK.pay(reactContext.getCurrentActivity(), order, configure);
     }
 
 
@@ -94,24 +96,9 @@ public class PayooSDKAndroidModule extends ReactContextBaseJavaModule implements
                 }
             }
         }
-
-        WritableMap result = new WritableNativeMap();
-        result.putInt("status", groupType);
-        result.putString("data", new Gson().toJson(responseObject));
-        promise.resolve(result);
-        Log.d("======================","onPayooPaymentComplete");
 //        showMessage(groupType, responseObject);
     }
 
-    @Override
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-
-    }
-
-    @Override
-    public void onNewIntent(Intent intent) {
-
-    }
 
     private void showMessage(@GroupType int groupType, ResponseObject responseObject) {
         new android.support.v7.app.AlertDialog.Builder(getReactApplicationContext())

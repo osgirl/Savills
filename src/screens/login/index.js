@@ -16,7 +16,8 @@ class Login extends layout {
       password: '',
       flag: true,
       loading: false,
-      unMount: true
+      unMount: true,
+      modalTerms: false
     };
     if (Platform.OS === 'android') {
       StatusBar.setHidden(false);
@@ -35,6 +36,7 @@ class Login extends layout {
   componentWillMount() {}
 
   componentDidMount() {
+    this.props.actions.app.getLanguageApp();
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
@@ -113,6 +115,7 @@ class Login extends layout {
             nextProps.account.linkedAccountAuthenticate.result.accessToken,
             nextProps.units.listUnits.result.items[0].unitId
           );
+          await nextProps.actions.app.setLanguageLocal('0');
           await this.setState({ loading: false, unMount: false });
           this.props.actions.units.setIsGetlisUnit(true);
           await this.props.navigation.navigate('Home');
@@ -130,6 +133,7 @@ class Login extends layout {
               nextProps.account.linkedAccountAuthenticate.result.accessToken,
               unitTemp.unitId
             );
+            await nextProps.actions.app.setLanguageLocal('0');
             await this.setState({ loading: false, unMount: false });
             this.props.actions.units.setIsGetlisUnit(true);
             this.props.navigation.navigate('Home');
@@ -152,6 +156,7 @@ class Login extends layout {
             nextProps.account.linkedAccountAuthenticate.result.accessToken,
             nextProps.units.listUnits.result.items[0].unitId
           );
+          await nextProps.actions.app.setLanguageLocal('0');
           this.props.actions.units.setIsGetlisUnit(true);
           await this.setState({ loading: false, unMount: false });
           await this.props.navigation.navigate('Home');
@@ -169,6 +174,7 @@ class Login extends layout {
               nextProps.account.linkedAccountAuthenticate.result.accessToken,
               unitTemp.unitId
             );
+            await nextProps.actions.app.setLanguageLocal('0');
             await this.setState({ loading: false, unMount: false });
             this.props.navigation.navigate('Home');
             this.props.actions.units.setIsGetlisUnit(true);

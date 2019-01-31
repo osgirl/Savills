@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, ScrollView, Dimensions, Image,
-  Animated, Platform, ActivityIndicator, Alert, TouchableOpacity, WebView,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Image,
+  Animated,
+  Platform,
+  ActivityIndicator,
+  Alert,
+  TouchableOpacity,
+  WebView
 } from 'react-native';
 import { Header, AnimatedTitle } from '@components';
 
@@ -22,7 +32,6 @@ import IC_PAY from '@resources/icons/pay.png';
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 const { width } = Dimensions.get('window');
 
-
 class modalConfirm extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +43,7 @@ class modalConfirm extends Component {
       loading: false,
       errorPay: '',
       isAccept: true,
-      isShowTerm: false,
+      isShowTerm: false
     };
   }
 
@@ -63,7 +72,7 @@ class modalConfirm extends Component {
       this.setState({ loading: false });
 
       if (nextProps.fee.createOrder.error && nextProps.fee.createOrder.error.message.length > 0)
-        Alert.alert('Comming soon', nextProps.fee.createOrder.error.message, [{ text: 'OK', onPress: () => { } }], {
+        Alert.alert('Comming soon', nextProps.fee.createOrder.error.message, [{ text: 'OK', onPress: () => {} }], {
           cancelable: false
         });
     }
@@ -100,6 +109,9 @@ class modalConfirm extends Component {
 
   handleErrorMess = async code => {
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
+    let accessTokenApi = this.props.account.accessTokenAPI || '';
+    let orderId = this.props.fee.createOrder.result.orderId || '';
+    await this.props.actions.fee.getOrderId(accessTokenApi, orderId);
     let errorString = await Payoo.handleErrorMess(code, languages);
     await this.setState({ errorPay: errorString });
   };
@@ -252,7 +264,9 @@ class modalConfirm extends Component {
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity
               disabled={this.state.loading}
-              style={{ flex: 1 }} onPress={() => this.setState({ isShowTerm: true })}>
+              style={{ flex: 1 }}
+              onPress={() => this.setState({ isShowTerm: true })}
+            >
               <Text style={{ color: '#4A89E8', fontSize: 12, textDecorationLine: 'underline', fontFamily: 'OpenSans-Italic' }}>
                 {languages.FEE_DO_BTN_TITLE_TERM || 'FEE_DO_BTN_TITLE_TERM'}
               </Text>
@@ -286,16 +300,13 @@ class modalConfirm extends Component {
               justifyContent: 'center'
             }}
           >
-            {
-              this.state.loading ?
-                (
-                  <ActivityIndicator size="small" color={Configs.colorMain} />
-                ) :
-                (
-                  <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>{languages.FEE_DO_BTN_TITLE_PAY || 'FEE_DO_BTN_TITLE_PAY'}</Text>
-                )
-            }
-
+            {this.state.loading ? (
+              <ActivityIndicator size="small" color={Configs.colorMain} />
+            ) : (
+              <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 14 }}>
+                {languages.FEE_DO_BTN_TITLE_PAY || 'FEE_DO_BTN_TITLE_PAY'}
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
 
@@ -312,7 +323,16 @@ class modalConfirm extends Component {
   renderModalRegulations = languages => {
     return (
       <Modal style={{ flex: 1, margin: 0 }} isVisible={this.state.isShowTerm}>
-        <View style={{ flex: 1, borderRadius: 5, paddingTop: 40, backgroundColor: '#FFF', marginVertical: Resolution.scale(20), marginHorizontal: Resolution.scale(20) }}>
+        <View
+          style={{
+            flex: 1,
+            borderRadius: 5,
+            paddingTop: 40,
+            backgroundColor: '#FFF',
+            marginVertical: Resolution.scale(20),
+            marginHorizontal: Resolution.scale(20)
+          }}
+        >
           <TouchableOpacity
             style={{ position: 'absolute', top: 20, left: 20 }}
             onPress={() => this.setState({ isShowTerm: false })}
@@ -332,7 +352,7 @@ class modalConfirm extends Component {
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: '#FFF',
-              paddingVertical: Resolution.scale(10),
+              paddingVertical: Resolution.scale(10)
             }}
             onPress={() => this.setState({ isShowTerm: false, isAccept: true })}
           >
@@ -340,7 +360,7 @@ class modalConfirm extends Component {
               colors={['#4A89E8', '#8FBCFF']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50, width: width - 80, }}
+              style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 50, width: width - 80 }}
             >
               <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
                 {languages.FEE_DO_BTN_TITLE_ACCEPT_CONFIRM || 'FEE_DO_BTN_TITLE_ACCEPT_CONFIRM'}

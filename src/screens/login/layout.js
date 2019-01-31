@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity, WebView, Platform } from 'react-native';
 
 import { ButtonCustom, Button, InputText, Loading } from '@components';
 import _ from 'lodash';
@@ -65,6 +65,44 @@ export default class extends Component {
       </View>
     );
   }
+
+  renderModalTermsAndCondition = languages => {
+    return (
+      <Modal
+        style={{ margin: 0 }}
+        onBackButtonPress={() => this.setState({ modalTerms: false })}
+        isVisible={this.state.modalTerms}
+      >
+        <View style={{ flex: 1, margin: 20, padding: 20, backgroundColor: '#FFF', borderRadius: 10, overflow: 'hidden' }}>
+          <WebView
+            style={{ flex: 1 }}
+            source={{ uri: 'https://savills.spms.asia/termsandconditions/privacy-policy.html' }}
+            scalesPageToFit={Platform.OS === 'android' ? true : false}
+            automaticallyAdjustContentInsets={false}
+          />
+          <Button onPress={() => this.setState({ modalTerms: false })}>
+            <LinearGradient
+              colors={['#4A89E8', '#8FBCFF']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{
+                height: 50,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 50,
+                width: width - 80,
+                alignSelf: 'center'
+              }}
+            >
+              <Text style={{ fontSize: 15, color: '#FFFFFF', fontFamily: 'Opensans-SemiBold' }}>
+                {languages.LOGIN_TEXT_MODAL_TERMS || 'LOGIN_TEXT_MODAL_TERMS'}
+              </Text>
+            </LinearGradient>
+          </Button>
+        </View>
+      </Modal>
+    );
+  };
 
   renderLoading() {
     if (this.state.loading) {
@@ -189,8 +227,12 @@ export default class extends Component {
                   </Text>
                 </LinearGradient>
               </Button>
-
-              <View style={{ alignItems: 'center', marginVertical: Resolution.scale(30) }}>
+              <Button style={{ marginTop: Resolution.scale(30) }} onPress={() => this.setState({ modalTerms: true })}>
+                <Text style={{ alignSelf: 'center', color: '#7CAEF8', fontSize: 12 }}>
+                  {languages.LOGIN_TXT_TERMS_AND_CONDITION || 'LOGIN_TXT_TERMS_AND_CONDITION'}
+                </Text>
+              </Button>
+              <View style={{ alignItems: 'center' }}>
                 <ButtonCustom
                   background={'transparent'}
                   display="text"
@@ -214,6 +256,7 @@ export default class extends Component {
         >
           {this.renderModalContent()}
         </Modal>
+        {this.renderModalTermsAndCondition(languages)}
         {this.renderLoading()}
       </View>
     );
