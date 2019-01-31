@@ -40,6 +40,15 @@ function* getUnreadCount(action) {
   }
 }
 
+function* setAllNotificationsAsRead(action) {
+  try {
+    let response = yield call(API.request, action.payload);
+    yield put({ ...action, type: Types.SET_ALL_AS_READ_SUCCESS, response });
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 function* resetState() {
   try {
     yield put({ type: Types.RESET_STATE_SUCCESS });
@@ -54,6 +63,7 @@ export default function* saga() {
   yield takeLatest(Types.GET_COUNT_MODULE, getListCountModule);
   yield takeLatest(Types.UPDATE_READ, updateRead);
   yield takeLatest(Types.GET_UNREAD_COUNT, getUnreadCount);
+  yield takeLatest(Types.SET_ALL_AS_READ, setAllNotificationsAsRead);
 
   yield takeLatest('ACCOUNT_LOGOUT', resetState);
 }

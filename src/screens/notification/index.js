@@ -8,18 +8,20 @@ import Resolution from '@utils/resolution';
 const HEADER_MAX_HEIGHT = Resolution.scale(60);
 
 class Notification extends layout {
+  actionSheetRef: any;
   constructor(props) {
     super(props);
     this.state = {
       data: [],
       loadingMore: false,
       isShowTitleHeader: false,
-      isModalSelectUnit: false,
+      // isModalSelectUnit: false,
       scrollY: new Animated.Value(Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0),
       isRefresh: false,
       errorMess: '',
       isLoadData: true
     };
+    this.actionSheetRef = React.createRef();
   }
 
   componentDidMount() {
@@ -57,10 +59,25 @@ class Notification extends layout {
       await this.setState({ loadingMore: false, isRefresh: false, isLoadData: false });
     }
 
+    if (
+      this.props.notification.setAllNotify !== nextProps.notification.setAllNotify &&
+      nextProps.notification.setAllNotify.success
+    ) {
+      this._onRefresh();
+      this.state.scrollY.setValue(Platform.OS === 'ios' ? HEADER_MAX_HEIGHT : 0)
+    }
+
     // if (this.props.notification.listNoti.result.items == nextProps.notification.listNoti.result.items && nextProps.notification.listNoti.result.items.length > 0) {
     //   await this.setState({ data: nextProps.notification.listNoti.items });
     //   await this.setState({ loadingMore: false, isRefresh: false });
     // }
+  }
+
+  handlePressActionSheet = (selectedIndex) => {
+    let accessTokenAPI = this.props.account.accessTokenAPI;
+    if (selectedIndex === 1) {
+      this.props.actions.notification.setAllNotificationsAsRead(accessTokenAPI);
+    }
   }
 
   _onClickItem(item) {
@@ -100,14 +117,18 @@ class Notification extends layout {
     this.setState({ isModalSelectUnit: true });
   }
 
-  _closeModalSelectUnit() {
-    this.setState({ isModalSelectUnit: false });
-    this._onRefresh();
-  }
+  // _closeModalSelectUnit() {
+  //   this.setState({ isModalSelectUnit: false });
+  //   this._onRefresh();
+  // }
 
   _handleNotification = notification => {
     this.mapNavigateToScreen(notification);
   };
+
+  showActionSheet = () => {
+    this.actionSheetRef.current.show();
+  }
 
   mapNavigateToScreen = notification => {
     let routeName = '';

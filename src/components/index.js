@@ -23,6 +23,7 @@ import PlaceHolderItemH from './placeHolderItem/itemH';
 import PlaceHolderItem3 from './placeHolderItem/itemHome3';
 import AlertWarning from './alertWarning';
 import EmptyItemList from './emptyItemList';
+import ActionSheet from './ActionSheet';
 module.exports = {
   EmptyItemList,
   AlertWarning,
@@ -48,5 +49,6 @@ module.exports = {
   ButtonCustom,
   Button,
   AnimatedTitle,
-  AnimatedHeader
+  AnimatedHeader,
+  ActionSheet
 };
