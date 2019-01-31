@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>18</string>
 	<key>JsCodeLocation</key>
 	<string>src/app/SavillsUat/index</string>
 	<key>LSRequiresIPhoneOS</key>

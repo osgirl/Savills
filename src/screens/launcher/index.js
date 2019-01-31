@@ -9,7 +9,8 @@ class Launcher extends layout {
     super(props);
     StatusBar.setHidden(true);
     this.state = {
-      language: 0
+      language: 0,
+      popupMaintenance: false
     };
   }
 
@@ -57,6 +58,13 @@ class Launcher extends layout {
       } else {
         this.props.navigation.navigate('Login');
       }
+    }
+    if (
+      nextProps.app.messageErrorAll &&
+      nextProps.app.messageErrorAll.trim() !== '' &&
+      this.props.app.messageErrorAll != nextProps.app.messageErrorAll
+    ) {
+      this.setState({ popupMaintenance: true });
     }
   }
 }

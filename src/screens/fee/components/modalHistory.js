@@ -96,9 +96,9 @@ class modalHistory extends Component {
             ListFooterComponent={() => <View style={{ height: 20 }} />}
           />
         ) : (
-          <View style={{marginTop: HEADER_MAX_HEIGHT}}>
-              <PlaceHolderItemH noMargin />
-            </View>
+          <View style={{ marginTop: HEADER_MAX_HEIGHT }}>
+            <PlaceHolderItemH noMargin />
+          </View>
         )}
         <Modal isVisible={this.state.isShowModalDetail} style={{ flex: 1, margin: 0, height: height }}>
           <ModalReceip idReceip={this.state.idReceip} onClose={() => this.setState({ isShowModalDetail: false })} />
@@ -133,7 +133,7 @@ class modalHistory extends Component {
                 numberOfLines={2}
                 style={{ fontSize: 14, fontFamily: 'OpenSans-Bold', color: '#BABFC8', flex: 1, textAlign: 'right' }}
               >
-                {Utils.convertNumber(item.paidAmount) + ' VND'}
+                {Utils.convertNumber(item.totalAmount) + ' VND'}
               </Text>
             </View>
           </View>

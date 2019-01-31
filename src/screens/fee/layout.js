@@ -197,7 +197,15 @@ export default class extends Component {
             <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold', color: '#FFF' }}>
               {languages.FEE_SAVILLS_PAYMENT_CODE ? languages.FEE_SAVILLS_PAYMENT_CODE : 'FEE_SAVILLS_PAYMENT_CODE'}
             </Text>
-            <Text style={{ fontSize: Resolution.scale(14), fontFamily: 'OpenSans-Semibold', color: '#FFF', opacity: 0.5 }}>
+            <Text
+              style={{
+                fontSize: Resolution.scale(14),
+                letterSpacing: 2,
+                fontFamily: 'OpenSans-Bold',
+                color: '#FFF',
+                opacity: 0.9
+              }}
+            >
               {unitActive.tenantUnitCode ? unitActive.tenantUnitCode : ''}
             </Text>
           </Animated.View>

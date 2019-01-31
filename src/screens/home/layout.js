@@ -202,32 +202,33 @@ export default class extends Component {
       ? { uri: `${item.banner.fileUrl}&encToken=${encodeURIComponent(encToken)}` }
       : require('../../resources/image/savillsBanner.png');
     let languages = this.props.app.listLanguage[this.props.app.languegeLocal].data;
-    console.log(
-      'asdlkajsdklasdjklasdjklasdjasdasda',
-      item.banner && `${item.banner.fileUrl}&encToken=${encodeURIComponent(encToken)}`
-    );
+    let textButton =
+      item.typeId === 1
+        ? languages.HOME_MODAL_BUTTON_ACCEPT || 'HOME_MODAL_BUTTON_ACCEPT'
+        : languages.HOME_MODAL_BUTTON_NEXT || 'HOME_MODAL_BUTTON_NEXT';
     return (
       <View
-        style={{ width: width - 60, flex: 1, marginVertical: 150, backgroundColor: '#FFF', borderRadius: 10, overflow: 'hidden' }}
+        style={{ width: width - 60, flex: 1, marginVertical: 100, backgroundColor: '#FFF', borderRadius: 10, overflow: 'hidden' }}
       >
         <Image style={{ flex: 1, width: width - 60 }} source={image} />
-        <View style={{ flex: 1, padding: 20 }}>
-          <ScrollView style={{ flex: 1 }}>
+        <View style={{ flex: 1, paddingTop: 20, paddingHorizontal: 20 }}>
+          <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
             <HTML html={item.message} />
           </ScrollView>
         </View>
         <View
           style={{
-            flex: 0.2,
-            margin: 20,
+            flex: 0.3,
+            paddingTop: Resolution.scale(20),
+            paddingBottom: Resolution.scale(20),
+            marginHorizontal: Resolution.scale(20),
             borderTopColor: '#F0f0f0',
             borderTopWidth: 1,
-            flexDirection: 'row',
-            paddingTop: 20
+            flexDirection: 'row'
           }}
         >
           <TouchableOpacity
-            onPress={() => this.clickIgnoreMe(item, 0, index)}
+            onPress={() => this.clickClose(item, 0, index)}
             style={{
               flex: 1,
               backgroundColor: '#FFF',
@@ -264,14 +265,23 @@ export default class extends Component {
                 justifyContent: 'center'
               }}
             >
-              <Text style={{ color: '#ffF', fontSize: 14 }}>
-                {languages.HOME_MODAL_BUTTON_ACCEPT || 'HOME_MODAL_BUTTON_ACCEPT'}
-              </Text>
+              <Text style={{ color: '#ffF', fontSize: 14 }}>{textButton}</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
       </View>
     );
+  }
+
+  clickClose(item, index, pos) {
+    let arr = this.state.listAnnoument.slice();
+    arr.splice(pos, 1);
+    this.setState({ listAnnoument: arr }, () => {
+      if (this.state.listAnnoument.length === 0) {
+        this.setState({ isAnnountMent: false });
+      }
+    });
+    this.props.actions.app.IgnoreMe(this.props.account.accessTokenAPI, item.guid);
   }
 
   clickIgnoreMe(item, index, pos) {
@@ -283,14 +293,7 @@ export default class extends Component {
       Linking.openURL(link);
       this.props.actions.app.IgnoreMe(this.props.account.accessTokenAPI, item.guid);
     } else {
-      let arr = this.state.listAnnoument.slice();
-      arr.splice(pos, 1);
-      this.setState({ listAnnoument: arr }, () => {
-        if (this.state.listAnnoument.length === 0) {
-          this.setState({ isAnnountMent: false });
-        }
-      });
-      this.props.actions.app.IgnoreMe(this.props.account.accessTokenAPI, item.guid);
+      this._carousel.snapToNext();
     }
   }
 

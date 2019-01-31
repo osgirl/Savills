@@ -10,7 +10,8 @@ const INIT_STATE = {
   moduleHome: false,
   listLanguage: false,
   announCements: [],
-  ignoreMe: false
+  ignoreMe: false,
+  messageErrorAll: ''
 };
 
 export default createReducer(INIT_STATE, {
@@ -72,6 +73,17 @@ export default createReducer(INIT_STATE, {
       return {
         ...state,
         listLanguage: action.response.result
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  [Types.APP_ERROR]: (state, action) => {
+    try {
+      return {
+        ...state,
+        messageErrorAll: action.response.error.message
       };
     } catch (error) {
       console.log(error);

@@ -14,7 +14,8 @@ export default keymirror(
     CHANGE_LANGUAGE_SERVER: null,
     GET_LANGUAGE_PROJECT: null,
     GET_ANNOUNCEMENT: null,
-    IGNORE_ME: null
+    IGNORE_ME: null,
+    APP_ERROR: null
   },
   'APP_'
 );

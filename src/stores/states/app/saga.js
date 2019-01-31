@@ -7,7 +7,11 @@ import API from '../../../utils/api';
 function* updateSetting(action) {
   try {
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.UPDATE_SETTINGS_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.UPDATE_SETTINGS_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
@@ -16,7 +20,11 @@ function* updateSetting(action) {
 function* getSetting(action) {
   try {
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.GET_SETTING_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.GET_SETTING_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
@@ -25,7 +33,11 @@ function* getSetting(action) {
 function* getModuleHome(action) {
   try {
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.GET_MODULE_HOME_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.GET_MODULE_HOME_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
@@ -34,7 +46,11 @@ function* getModuleHome(action) {
 function* getLanguageApp(action) {
   try {
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.GET_LANGUAGE_APP_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.GET_LANGUAGE_APP_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
@@ -43,7 +59,11 @@ function* getLanguageApp(action) {
 function* setNotification(action) {
   try {
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.REGISTER_NOTIFICATION_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.REGISTER_NOTIFICATION_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
@@ -51,9 +71,12 @@ function* setNotification(action) {
 
 function* logoutNoti(action) {
   try {
-    // console.log('asdklasjdajsdklasjdlkasda', action);
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.LOGOUT_NOTI_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.LOGOUT_NOTI_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
@@ -61,9 +84,12 @@ function* logoutNoti(action) {
 
 function* changeLanguageServer(action) {
   try {
-    // console.log('asdklasjdajsdklasjdlkasda', action);
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.CHANGE_LANGUAGE_SERVER_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.CHANGE_LANGUAGE_SERVER_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
@@ -71,9 +97,12 @@ function* changeLanguageServer(action) {
 
 function* getLanguageProject(action) {
   try {
-    // console.log('asdklasjdajsdklasjdlkasda', action);
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.GET_LANGUAGE_PROJECT_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.GET_LANGUAGE_PROJECT_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
@@ -81,9 +110,12 @@ function* getLanguageProject(action) {
 
 function* getAnoument(action) {
   try {
-    // console.log('asdklasjdajsdklasjdlkasda', action);
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.GET_ANNOUNCEMENT_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.GET_ANNOUNCEMENT_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
@@ -91,9 +123,12 @@ function* getAnoument(action) {
 
 function* IgnoreMe(action) {
   try {
-    // console.log('asdklasjdajsdklasjdlkasda', action);
     let response = yield call(API.request, action.payload);
-    yield put({ ...action, type: Types.IGNORE_ME_SUCCESS, response });
+    if (response.success) {
+      yield put({ ...action, type: Types.IGNORE_ME_SUCCESS, response });
+    } else {
+      yield put({ ...action, type: Types.APP_ERROR, response });
+    }
   } catch (e) {
     console.log(e);
   }
