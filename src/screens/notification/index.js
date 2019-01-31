@@ -63,8 +63,10 @@ class Notification extends layout {
       this.props.notification.setAllNotify !== nextProps.notification.setAllNotify &&
       nextProps.notification.setAllNotify.success
     ) {
+      let accessTokenAPI = this.props.account.accessTokenAPI;
       this._onRefresh();
       this.state.scrollY.setValue(Platform.OS === 'ios' ? HEADER_MAX_HEIGHT : 0)
+      this.props.actions.notification.getUnreadCount(accessTokenApi);
     }
 
     // if (this.props.notification.listNoti.result.items == nextProps.notification.listNoti.result.items && nextProps.notification.listNoti.result.items.length > 0) {
